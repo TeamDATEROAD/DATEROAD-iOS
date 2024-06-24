@@ -21,6 +21,9 @@
 		CA3D0D002C29A62D00735097 /* KakaoSDKCert in Frameworks */ = {isa = PBXBuildFile; productRef = CA3D0CFF2C29A62D00735097 /* KakaoSDKCert */; };
 		CA3D0D022C29A62D00735097 /* KakaoSDKCertCore in Frameworks */ = {isa = PBXBuildFile; productRef = CA3D0D012C29A62D00735097 /* KakaoSDKCertCore */; };
 		CA3D0D042C29A62D00735097 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = CA3D0D032C29A62D00735097 /* KakaoSDKCommon */; };
+		CA3D0D0F2C29A97300735097 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = CA3D0D0E2C29A97300735097 /* .gitkeep */; };
+		CA3D0D112C29A98400735097 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = CA3D0D102C29A98400735097 /* .gitkeep */; };
+		CA3D0D152C29A9ED00735097 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = CA3D0D142C29A9ED00735097 /* .gitkeep */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,7 +33,10 @@
 		CA3D0CDE2C29A2F300735097 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		CA3D0CE32C29A2F500735097 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA3D0CE62C29A2F500735097 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		CA3D0CE82C29A2F500735097 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA3D0CE82C29A2F500735097 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "DATEROAD-iOS/Global/Settings/Info.plist"; sourceTree = SOURCE_ROOT; };
+		CA3D0D0E2C29A97300735097 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
+		CA3D0D102C29A98400735097 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
+		CA3D0D142C29A9ED00735097 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,14 +78,105 @@
 		CA3D0CD92C29A2F300735097 /* DATEROAD-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				CA3D0CDA2C29A2F300735097 /* AppDelegate.swift */,
-				CA3D0CDC2C29A2F300735097 /* SceneDelegate.swift */,
-				CA3D0CDE2C29A2F300735097 /* ViewController.swift */,
-				CA3D0CE32C29A2F500735097 /* Assets.xcassets */,
-				CA3D0CE52C29A2F500735097 /* LaunchScreen.storyboard */,
-				CA3D0CE82C29A2F500735097 /* Info.plist */,
+				CA3D0D122C29A9BB00735097 /* Network */,
+				CA3D0D092C29A75600735097 /* Scene */,
+				CA3D0D062C29A68C00735097 /* Global */,
+				CA3D0D052C29A67000735097 /* Application */,
 			);
 			path = "DATEROAD-iOS";
+			sourceTree = "<group>";
+		};
+		CA3D0D052C29A67000735097 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				CA3D0CE52C29A2F500735097 /* LaunchScreen.storyboard */,
+				CA3D0CDC2C29A2F300735097 /* SceneDelegate.swift */,
+				CA3D0CDA2C29A2F300735097 /* AppDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		CA3D0D062C29A68C00735097 /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				CA3D0D082C29A6A700735097 /* Settings */,
+				CA3D0D072C29A69500735097 /* Resources */,
+			);
+			path = Global;
+			sourceTree = "<group>";
+		};
+		CA3D0D072C29A69500735097 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CA3D0CE32C29A2F500735097 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		CA3D0D082C29A6A700735097 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				CA3D0CE82C29A2F500735097 /* Info.plist */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		CA3D0D092C29A75600735097 /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				CA3D0D0A2C29A7D800735097 /* Login */,
+			);
+			path = Scene;
+			sourceTree = "<group>";
+		};
+		CA3D0D0A2C29A7D800735097 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				CA3D0D0D2C29A80500735097 /* Models */,
+				CA3D0D0C2C29A7FE00735097 /* ViewModels */,
+				CA3D0D0B2C29A7EC00735097 /* Views */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		CA3D0D0B2C29A7EC00735097 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CA3D0CDE2C29A2F300735097 /* ViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CA3D0D0C2C29A7FE00735097 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CA3D0D0E2C29A97300735097 /* .gitkeep */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CA3D0D0D2C29A80500735097 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CA3D0D102C29A98400735097 /* .gitkeep */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CA3D0D122C29A9BB00735097 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				CA3D0D132C29A9C500735097 /* Base */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		CA3D0D132C29A9C500735097 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				CA3D0D142C29A9ED00735097 /* .gitkeep */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,8 +255,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA3D0D0F2C29A97300735097 /* .gitkeep in Resources */,
 				CA3D0CE42C29A2F500735097 /* Assets.xcassets in Resources */,
+				CA3D0D152C29A9ED00735097 /* .gitkeep in Resources */,
 				CA3D0CE72C29A2F500735097 /* Base in Resources */,
+				CA3D0D112C29A98400735097 /* .gitkeep in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,7 +418,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 72B557RJ7S;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "DATEROAD-iOS/Info.plist";
+				INFOPLIST_FILE = "DATEROAD-iOS/Global/Settings/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -345,7 +445,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 72B557RJ7S;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "DATEROAD-iOS/Info.plist";
+				INFOPLIST_FILE = "DATEROAD-iOS/Global/Settings/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
