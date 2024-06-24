@@ -24,6 +24,9 @@
 		CA3D0D0F2C29A97300735097 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = CA3D0D0E2C29A97300735097 /* .gitkeep */; };
 		CA3D0D112C29A98400735097 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = CA3D0D102C29A98400735097 /* .gitkeep */; };
 		CA3D0D152C29A9ED00735097 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = CA3D0D142C29A9ED00735097 /* .gitkeep */; };
+		CA3D0D182C29AA7A00735097 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0D172C29AA7A00735097 /* UITextField+.swift */; };
+		CA3D0D1A2C29AAAC00735097 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0D192C29AAAC00735097 /* UIView+.swift */; };
+		CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0D1B2C29AACD00735097 /* UIStackView+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +40,9 @@
 		CA3D0D0E2C29A97300735097 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		CA3D0D102C29A98400735097 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		CA3D0D142C29A9ED00735097 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
+		CA3D0D172C29AA7A00735097 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
+		CA3D0D192C29AAAC00735097 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
+		CA3D0D1B2C29AACD00735097 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +105,7 @@
 		CA3D0D062C29A68C00735097 /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				CA3D0D162C29AA5E00735097 /* Extensions */,
 				CA3D0D082C29A6A700735097 /* Settings */,
 				CA3D0D072C29A69500735097 /* Resources */,
 			);
@@ -177,6 +184,16 @@
 				CA3D0D142C29A9ED00735097 /* .gitkeep */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		CA3D0D162C29AA5E00735097 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CA3D0D172C29AA7A00735097 /* UITextField+.swift */,
+				CA3D0D192C29AAAC00735097 /* UIView+.swift */,
+				CA3D0D1B2C29AACD00735097 /* UIStackView+.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,8 +288,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA3D0CDF2C29A2F300735097 /* ViewController.swift in Sources */,
+				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
 				CA3D0CDD2C29A2F300735097 /* SceneDelegate.swift in Sources */,
+				CA3D0D182C29AA7A00735097 /* UITextField+.swift in Sources */,
+				CA3D0D1A2C29AAAC00735097 /* UIView+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
