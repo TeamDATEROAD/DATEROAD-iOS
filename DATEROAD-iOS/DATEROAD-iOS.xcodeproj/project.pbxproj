@@ -27,6 +27,8 @@
 		CA3D0D182C29AA7A00735097 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0D172C29AA7A00735097 /* UITextField+.swift */; };
 		CA3D0D1A2C29AAAC00735097 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0D192C29AAAC00735097 /* UIView+.swift */; };
 		CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0D1B2C29AACD00735097 /* UIStackView+.swift */; };
+		CA3D0D1E2C2ACE3900735097 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0D1D2C2ACE3900735097 /* UIButton+.swift */; };
+		CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0D1F2C2ACEB100735097 /* UILabel+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +45,8 @@
 		CA3D0D172C29AA7A00735097 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		CA3D0D192C29AAAC00735097 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		CA3D0D1B2C29AACD00735097 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
+		CA3D0D1D2C2ACE3900735097 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
+		CA3D0D1F2C2ACEB100735097 /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +196,8 @@
 				CA3D0D172C29AA7A00735097 /* UITextField+.swift */,
 				CA3D0D192C29AAAC00735097 /* UIView+.swift */,
 				CA3D0D1B2C29AACD00735097 /* UIStackView+.swift */,
+				CA3D0D1D2C2ACE3900735097 /* UIButton+.swift */,
+				CA3D0D1F2C2ACEB100735097 /* UILabel+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -288,6 +294,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA3D0CDF2C29A2F300735097 /* ViewController.swift in Sources */,
+				CA3D0D1E2C2ACE3900735097 /* UIButton+.swift in Sources */,
+				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
 				CA3D0CDD2C29A2F300735097 /* SceneDelegate.swift in Sources */,
