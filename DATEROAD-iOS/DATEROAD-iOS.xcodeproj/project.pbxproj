@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A963D2C2B131300F39EBE /* BaseViewController.swift */; };
 		CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0CDA2C29A2F300735097 /* AppDelegate.swift */; };
 		CA3D0CDD2C29A2F300735097 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0CDC2C29A2F300735097 /* SceneDelegate.swift */; };
 		CA3D0CDF2C29A2F300735097 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0CDE2C29A2F300735097 /* ViewController.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CA0A963D2C2B131300F39EBE /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CA3D0CD72C29A2F300735097 /* DATEROAD-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DATEROAD-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA3D0CDA2C29A2F300735097 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA3D0CDC2C29A2F300735097 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +71,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CA0A963C2C2B12FC00F39EBE /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				CA0A963D2C2B131300F39EBE /* BaseViewController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
 		CA3D0CCE2C29A2F300735097 = {
 			isa = PBXGroup;
 			children = (
@@ -89,7 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				CA3D0D122C29A9BB00735097 /* Network */,
-				CA3D0D092C29A75600735097 /* Scene */,
+				CA3D0D092C29A75600735097 /* Presentation */,
 				CA3D0D062C29A68C00735097 /* Global */,
 				CA3D0D052C29A67000735097 /* Application */,
 			);
@@ -132,12 +142,13 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		CA3D0D092C29A75600735097 /* Scene */ = {
+		CA3D0D092C29A75600735097 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				CA0A963C2C2B12FC00F39EBE /* Base */,
 				CA3D0D0A2C29A7D800735097 /* Login */,
 			);
-			path = Scene;
+			path = Presentation;
 			sourceTree = "<group>";
 		};
 		CA3D0D0A2C29A7D800735097 /* Login */ = {
@@ -298,6 +309,7 @@
 				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
+				CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */,
 				CA3D0CDD2C29A2F300735097 /* SceneDelegate.swift in Sources */,
 				CA3D0D182C29AA7A00735097 /* UITextField+.swift in Sources */,
 				CA3D0D1A2C29AAAC00735097 /* UIView+.swift in Sources */,
