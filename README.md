@@ -1,5 +1,6 @@
 # DATEROAD-iOS
-더미데이터 쌓으러 더미데이트하러 갈래?
+더미데이터 쌓으러 더미데이트하러 갈래? 👩‍❤️‍👨
+
 <br/><br/>
 
 ## 💘 Date Road
@@ -8,14 +9,15 @@
 유저가 직접 공유한 생생한 데이트 코스를 통해 특별한 데이트를 계획할 수 있어요
 
 </aside>
+
 <br/><br/>
 
 ## 👩‍💻 About Developers
 | [윤희슬](https://github.com/seuriseuljjeok) | [박신영](https://github.com/ParkSY0919) | [김민서](https://github.com/kms0233) | [이수민](https://github.com/cirtuare) | 
 | --- | --- | --- | --- |
 | <img src = "https://github.com/TeamDATEROAD/DATEROAD-iOS/assets/105407130/72952319-f86b-4d67-8e5b-5e13a3846d9d" width = "250" align='center'>| <img src = "https://github.com/TeamDATEROAD/DATEROAD-iOS/assets/105407130/2758c6cf-3171-4c6d-8064-a45fb29f13d7" width = "250" align='center'> | <img src = "https://github.com/TeamDATEROAD/DATEROAD-iOS/assets/105407130/c4d9a4ac-d593-4a57-8a5f-115f3f56089a" width = "250" align='center'> | <img src = "https://github.com/TeamDATEROAD/DATEROAD-iOS/assets/105407130/44841104-0522-4aff-9cdd-9264fbe21b93" width = "250" align='center'> |
-|<p align = "center">`온보딩/로그인`|<p align = "center">`일정 등록/수정`|<p align = "center">`코스 상세/둘러보기`|<p align = "center">`데이트 일정`|
-|<p align = "center">`메인 화면 & 마이페이지`|<p align = "center">`코스 등록/수정`|<p align = "center">`네비바`|<p align = "center">`포인트 내역 & 본인 열람 코스`|
+|<p align = "center">`온보딩/로그인`|<p align = "center">`일정 등록/수정`|<p align = "center">`코스 상세/둘러보기`|<p align = "center">`내가 열람한 코스`|
+|<p align = "center">`메인 화면 & 마이페이지`|<p align = "center">`코스 등록/수정`|<p align = "center">`탭바 & 데이트 찾기 엠티뷰`|<p align = "center">`포인트 내역 & 데이트 일정`|
 
 <br/><br/>
 
@@ -30,7 +32,7 @@
 - [Chore]: 그 이외의 잡일/ 버전 코드 수정, 패키지 구조 변경, 파일 이동, 파일이름 변경
 - [Docs]: README나 WIKI 등의 문서 개정
 - [Setting] : 세팅 관련
-  
+
 <br/><br/>
 
 ## ✏️ Library
@@ -89,6 +91,7 @@
 │   │   ├── 🗂️ ViewModel
 
 ```
+[Team DATEROAD iOS의 Foldering](https://hooooooni.notion.site/Foldering-129544a28c2048f08e5c19d590f3ff70?pvs=4)  
 
 <br/><br/>
 
