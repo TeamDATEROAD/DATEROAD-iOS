@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A963D2C2B131300F39EBE /* BaseViewController.swift */; };
+		CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96422C2C60E800F39EBE /* LoginModel.swift */; };
+		CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96442C2C610900F39EBE /* LoginViewModel.swift */; };
+		CA0A96472C2C62C200F39EBE /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = CA0A96462C2C62C200F39EBE /* .gitkeep */; };
 		CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0CDA2C29A2F300735097 /* AppDelegate.swift */; };
 		CA3D0CDD2C29A2F300735097 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0CDC2C29A2F300735097 /* SceneDelegate.swift */; };
 		CA3D0CDF2C29A2F300735097 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0CDE2C29A2F300735097 /* ViewController.swift */; };
@@ -22,9 +25,6 @@
 		CA3D0D002C29A62D00735097 /* KakaoSDKCert in Frameworks */ = {isa = PBXBuildFile; productRef = CA3D0CFF2C29A62D00735097 /* KakaoSDKCert */; };
 		CA3D0D022C29A62D00735097 /* KakaoSDKCertCore in Frameworks */ = {isa = PBXBuildFile; productRef = CA3D0D012C29A62D00735097 /* KakaoSDKCertCore */; };
 		CA3D0D042C29A62D00735097 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = CA3D0D032C29A62D00735097 /* KakaoSDKCommon */; };
-		CA3D0D0F2C29A97300735097 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = CA3D0D0E2C29A97300735097 /* .gitkeep */; };
-		CA3D0D112C29A98400735097 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = CA3D0D102C29A98400735097 /* .gitkeep */; };
-		CA3D0D152C29A9ED00735097 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = CA3D0D142C29A9ED00735097 /* .gitkeep */; };
 		CA3D0D182C29AA7A00735097 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0D172C29AA7A00735097 /* UITextField+.swift */; };
 		CA3D0D1A2C29AAAC00735097 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0D192C29AAAC00735097 /* UIView+.swift */; };
 		CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0D1B2C29AACD00735097 /* UIStackView+.swift */; };
@@ -34,6 +34,9 @@
 
 /* Begin PBXFileReference section */
 		CA0A963D2C2B131300F39EBE /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		CA0A96422C2C60E800F39EBE /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		CA0A96442C2C610900F39EBE /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		CA0A96462C2C62C200F39EBE /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		CA3D0CD72C29A2F300735097 /* DATEROAD-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DATEROAD-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA3D0CDA2C29A2F300735097 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA3D0CDC2C29A2F300735097 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,9 +44,6 @@
 		CA3D0CE32C29A2F500735097 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA3D0CE62C29A2F500735097 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CA3D0CE82C29A2F500735097 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "DATEROAD-iOS/Global/Settings/Info.plist"; sourceTree = SOURCE_ROOT; };
-		CA3D0D0E2C29A97300735097 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
-		CA3D0D102C29A98400735097 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
-		CA3D0D142C29A9ED00735097 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		CA3D0D172C29AA7A00735097 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		CA3D0D192C29AAAC00735097 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		CA3D0D1B2C29AACD00735097 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
@@ -172,7 +172,7 @@
 		CA3D0D0C2C29A7FE00735097 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				CA3D0D0E2C29A97300735097 /* .gitkeep */,
+				CA0A96442C2C610900F39EBE /* LoginViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -180,7 +180,7 @@
 		CA3D0D0D2C29A80500735097 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				CA3D0D102C29A98400735097 /* .gitkeep */,
+				CA0A96422C2C60E800F39EBE /* LoginModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -196,7 +196,7 @@
 		CA3D0D132C29A9C500735097 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				CA3D0D142C29A9ED00735097 /* .gitkeep */,
+				CA0A96462C2C62C200F39EBE /* .gitkeep */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -289,11 +289,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA3D0D0F2C29A97300735097 /* .gitkeep in Resources */,
+				CA0A96472C2C62C200F39EBE /* .gitkeep in Resources */,
 				CA3D0CE42C29A2F500735097 /* Assets.xcassets in Resources */,
-				CA3D0D152C29A9ED00735097 /* .gitkeep in Resources */,
 				CA3D0CE72C29A2F500735097 /* Base in Resources */,
-				CA3D0D112C29A98400735097 /* .gitkeep in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,9 +304,11 @@
 			files = (
 				CA3D0CDF2C29A2F300735097 /* ViewController.swift in Sources */,
 				CA3D0D1E2C2ACE3900735097 /* UIButton+.swift in Sources */,
+				CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */,
 				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
+				CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */,
 				CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */,
 				CA3D0CDD2C29A2F300735097 /* SceneDelegate.swift in Sources */,
 				CA3D0D182C29AA7A00735097 /* UITextField+.swift in Sources */,
