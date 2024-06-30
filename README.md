@@ -41,7 +41,7 @@
 | Kingfisher          | 쉬운 이미지 처리              | ![Kingfisher](https://img.shields.io/badge/Kingfisher-7.12.0-yellow) |
 | SnapKit             | Auto Layout을 쉽고 간결하게 작성하기 위함 & 가독성 향상| ![Kingfisher](https://img.shields.io/badge/SnapKit-5.7.1-black) |
 | Then                | 짧고 간결한 코드 처리           | ![Kingfisher](https://img.shields.io/badge/Then-3.0.0-white) |
-| KakaoSDK          | 카카오톡 소셜 로그인     | ![lottie-ios](https://img.shields.io/badge/KakaoSDK-2.22.3-green) |
+| KakaoSDK          | 카카오톡 소셜 로그인 & 카카오톡 공유하기   | ![lottie-ios](https://img.shields.io/badge/KakaoSDK-2.22.3-green) |
 
 <br/><br/>
 
