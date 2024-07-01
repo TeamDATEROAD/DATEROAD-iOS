@@ -11,29 +11,22 @@ import UIKit
 import SnapKit
 import Then
 
-enum CourseDetailSection {
-    case imageCarousel
-    case mainContents
-    case timelineInfo
-    case coastInfo
-    case tagInfo
-    case like
-    
-    static let dataSource: [CourseDetailSection] = [
-        CourseDetailSection.imageCarousel,
-        CourseDetailSection.mainContents,
-        CourseDetailSection.timelineInfo,
-        CourseDetailSection.coastInfo,
-        CourseDetailSection.tagInfo,
-        CourseDetailSection.like
-    ]
-}
 
 class CourseDetailViewController: UIViewController {
     
     private lazy var mainCollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
     
-    private let dataSource: [CourseDetailSection] = CourseDetailSection.dataSource
+    private let viewModel: CourseDetailViewModel
+    
+    init(viewModel: CourseDetailViewModel = CourseDetailViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Life Cycle
     
@@ -76,7 +69,9 @@ class CourseDetailViewController: UIViewController {
     
     private func makeFlowLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { section, _ -> NSCollectionLayoutSection? in
-            switch self.dataSource[section] {
+            let sectionType = self.viewModel.section(at: section)
+            
+            switch sectionType {
             case .imageCarousel: return self.makeImageCarouselLayout()
             case .mainContents: return self.makeMainContentsLayout()
             case .timelineInfo: return self.makeTimelineInfoLayout()
@@ -86,8 +81,8 @@ class CourseDetailViewController: UIViewController {
             }
         }
     }
-    
-    // 레이아웃들
+
+    // 섹션 레이아웃들
     private func makeImageCarouselLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -175,35 +170,43 @@ class CourseDetailViewController: UIViewController {
 
 extension CourseDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return dataSource.count
+        return viewModel.numberOfSections
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return viewModel.numberOfItemsInSection(section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: UICollectionViewCell
         
-        switch self.dataSource[indexPath.section] {
+        let sectionType = viewModel.section(at: indexPath.section)
+        
+        switch sectionType {
         case .imageCarousel:
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCarouselCell.identifier, for: indexPath) as! ImageCarouselCell
-            cell.backgroundColor = .red
+            let imageCarouselCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCarouselCell.identifier, for: indexPath) as! ImageCarouselCell
+            imageCarouselCell.backgroundColor = .red
+            cell = imageCarouselCell
         case .mainContents:
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.identifier, for: indexPath) as! MainContentsCell
-            cell.backgroundColor = .green
+            let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.identifier, for: indexPath) as! MainContentsCell
+            mainContentsCell.backgroundColor = .green
+            cell = mainContentsCell
         case .timelineInfo:
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.identifier, for: indexPath) as! TimelineInfoCell
-            cell.backgroundColor = .blue
+            let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.identifier, for: indexPath) as! TimelineInfoCell
+            timelineInfoCell.backgroundColor = .blue
+            cell = timelineInfoCell
         case .coastInfo:
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.identifier, for: indexPath) as! CoastInfoCell
-            cell.backgroundColor = .yellow
+            let coastInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.identifier, for: indexPath) as! CoastInfoCell
+            coastInfoCell.backgroundColor = .yellow
+            cell = coastInfoCell
         case .tagInfo:
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCell.identifier, for: indexPath) as! TagInfoCell
-            cell.backgroundColor = .purple
+            let tagInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCell.identifier, for: indexPath) as! TagInfoCell
+            tagInfoCell.backgroundColor = .purple
+            cell = tagInfoCell
         case .like:
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCell.identifier, for: indexPath) as! LikeCell
-            cell.backgroundColor = .orange
+            let likeCell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCell.identifier, for: indexPath) as! LikeCell
+            likeCell.backgroundColor = .orange
+            cell = likeCell
         }
         
         return cell
