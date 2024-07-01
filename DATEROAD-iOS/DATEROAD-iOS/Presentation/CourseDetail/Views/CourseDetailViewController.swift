@@ -11,7 +11,6 @@ import UIKit
 import SnapKit
 import Then
 
-
 class CourseDetailViewController: UIViewController {
     
     private lazy var mainCollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
@@ -20,9 +19,8 @@ class CourseDetailViewController: UIViewController {
     
     init(viewModel: CourseDetailViewModel = CourseDetailViewModel()) {
         self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
+        super.init(nibName:ㄴ nil, bundle: nil)
     }
-
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -63,9 +61,13 @@ class CourseDetailViewController: UIViewController {
         mainCollectionView.register(TagInfoCell.self, forCellWithReuseIdentifier: TagInfoCell.identifier)
         mainCollectionView.register(LikeCell.self, forCellWithReuseIdentifier: LikeCell.identifier)
         
+        // Register supplementary view (header)
+        mainCollectionView.register(InfoHeaderView.self, forSupplementaryViewOfKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier)
+        
         mainCollectionView.delegate = self
         mainCollectionView.dataSource = self
     }
+
     
     private func makeFlowLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { section, _ -> NSCollectionLayoutSection? in
@@ -81,7 +83,7 @@ class CourseDetailViewController: UIViewController {
             }
         }
     }
-
+    
     // 섹션 레이아웃들
     private func makeImageCarouselLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
@@ -122,6 +124,9 @@ class CourseDetailViewController: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         
+        let header = makeHeaderView()
+        section.boundarySupplementaryItems = [header]
+        
         return section
     }
     
@@ -136,6 +141,9 @@ class CourseDetailViewController: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         
+        let header = makeHeaderView()
+        section.boundarySupplementaryItems = [header]
+        
         return section
     }
     
@@ -149,6 +157,9 @@ class CourseDetailViewController: UIViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
+        
+        let header = makeHeaderView()
+        section.boundarySupplementaryItems = [header]
         
         return section
     }
@@ -165,6 +176,12 @@ class CourseDetailViewController: UIViewController {
         section.orthogonalScrollingBehavior = .groupPaging
         
         return section
+    }
+    
+    private func makeHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(25))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: InfoHeaderView.elementKinds, alignment: .top)
+        return header
     }
 }
 
@@ -210,5 +227,24 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         }
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == InfoHeaderView.elementKinds {
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoHeaderView.identifier, for: indexPath) as? InfoHeaderView else { return UICollectionReusableView() }
+            switch viewModel.section(at: indexPath.section) {
+            case .timelineInfo:
+                header.bindTitle(headerTitle: "코스 타임라인")
+            case .coastInfo:
+                header.bindTitle(headerTitle: "총 비용")
+            case .tagInfo:
+                header.bindTitle(headerTitle: "태그")
+            default:
+                break
+            }
+            return header
+        } else {
+            return UICollectionReusableView()
+        }
     }
 }
