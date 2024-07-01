@@ -94,18 +94,8 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential
         else { return }
         
-        guard let userIdentifier = credential.identityToken,
-                   let token = String(data: userIdentifier, encoding: .utf8)
-        else { return }
-        
-        
-        print("user identifier : \(String(describing: credential.fullName)), \(String(describing: credential.email))")
-        guard let token = String(data: userIdentifier, encoding: .utf8) else { return }
-        
-        self.loginViewModel.isKaKaoLogin.value = false
-        self.loginViewModel.socialType.value = .apple
-        
-        self.loginViewModel.setToken(token: token)
+        self.loginViewModel.loginWithApple(userInfo: credential)
+
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: any Error) {
