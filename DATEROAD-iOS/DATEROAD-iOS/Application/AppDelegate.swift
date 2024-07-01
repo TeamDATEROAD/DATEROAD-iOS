@@ -7,13 +7,17 @@
 
 import UIKit
 
+import KakaoSDKCommon
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // 네이티브 앱 키를 사용해 iOS SDK를 초기화하는 과정
+        let kakaoNativeAppKey = Config.kakaoNativeAppKey
+        KakaoSDK.initSDK(appKey: kakaoNativeAppKey)
         return true
     }
 

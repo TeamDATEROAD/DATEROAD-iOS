@@ -1,0 +1,12 @@
+//
+//  Development.xcconfig
+//  DATEROAD-iOS
+//
+//  Created by 윤희슬 on 7/1/24.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+// key
+KAKAO_NATIVE_APP_KEY = 88a3ac99ca375540b12b24516c36751a
