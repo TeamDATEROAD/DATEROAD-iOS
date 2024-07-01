@@ -37,13 +37,13 @@ class CustomBarViewController: UIViewController {
 
 }
 
-private extension CustomBarViewController {
-    func setHierarchy() {
+extension CustomBarViewController {
+    private func setHierarchy() {
         self.view.addSubviews(topInsetView, navigationBarView, contentView)
-        self.navigationBarView.addSubviews(leftButton, titleLabel, titleLabel)
+        self.navigationBarView.addSubviews(leftButton, titleLabel, rightButton)
     }
     
-    func setLayout() {
+    private func setLayout() {
         topInsetView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -92,21 +92,15 @@ private extension CustomBarViewController {
         }
     }
     
-    func setLeftBackButton() {
-        leftButton.do {
-            $0.isHidden = false
-            $0.setImage(UIImage(named: "leftArrow"), for: .normal)
-        }
-    }
-    
-    func setLeftCustomButton(image: UIImage) {
+    func setLeftButtonStyle(image: UIImage?) {
         leftButton.do {
             $0.isHidden = false
             $0.setImage(image, for: .normal)
+            setLeftButtonAction(target: self, action: #selector(backButtonTapped))
         }
     }
     
-    func setRightCustomButton(image: UIImage) {
+    func setRightButtonStyle(image: UIImage?) {
         rightButton.do {
             $0.isHidden = false
             $0.setImage(image, for: .normal)
@@ -119,5 +113,23 @@ private extension CustomBarViewController {
     
     func setRightButtonAction(target: Any, action: Selector) {
         rightButton.addTarget(target, action: action, for: .touchUpInside)
+    }
+    
+    func setLeftBackButton() {
+        setLeftButtonStyle(image: UIImage(named: "leftArrow"))
+        setLeftButtonAction(target: self, action: #selector(backButtonTapped))
+    }
+    
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func setTitleLabelStyle(title: String?) {
+        titleLabel.do {
+            $0.isHidden = false
+            $0.text = title
+            $0.font = UIFont(name: "SUIT-Bold", size: 20)
+            $0.textColor = .black
+        }
     }
 }
