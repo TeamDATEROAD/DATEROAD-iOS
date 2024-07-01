@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D9497B22C327D2D0004B442 /* CourseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497B12C327D2D0004B442 /* CourseDetailViewController.swift */; };
+		0D9497B42C327D620004B442 /* CourseDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497B32C327D620004B442 /* CourseDetailViewModel.swift */; };
+		0D9497B62C327D750004B442 /* CourseDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497B52C327D750004B442 /* CourseDetailModel.swift */; };
 		CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A963D2C2B131300F39EBE /* BaseViewController.swift */; };
 		CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96422C2C60E800F39EBE /* LoginModel.swift */; };
 		CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96442C2C610900F39EBE /* LoginViewModel.swift */; };
@@ -33,6 +36,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D9497B12C327D2D0004B442 /* CourseDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailViewController.swift; sourceTree = "<group>"; };
+		0D9497B32C327D620004B442 /* CourseDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailViewModel.swift; sourceTree = "<group>"; };
+		0D9497B52C327D750004B442 /* CourseDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailModel.swift; sourceTree = "<group>"; };
 		CA0A963D2C2B131300F39EBE /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CA0A96422C2C60E800F39EBE /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		CA0A96442C2C610900F39EBE /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -72,6 +78,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D9497AD2C327C660004B442 /* CourseDetail */ = {
+			isa = PBXGroup;
+			children = (
+				0D9497AE2C327CB80004B442 /* Models */,
+				0D9497AF2C327CC00004B442 /* ViewModels */,
+				0D9497B02C327CE50004B442 /* Views */,
+			);
+			path = CourseDetail;
+			sourceTree = "<group>";
+		};
+		0D9497AE2C327CB80004B442 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0D9497B52C327D750004B442 /* CourseDetailModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0D9497AF2C327CC00004B442 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				0D9497B32C327D620004B442 /* CourseDetailViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		0D9497B02C327CE50004B442 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0D9497B12C327D2D0004B442 /* CourseDetailViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		CA0A963C2C2B12FC00F39EBE /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +187,7 @@
 		CA3D0D092C29A75600735097 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				0D9497AD2C327C660004B442 /* CourseDetail */,
 				CA0A963C2C2B12FC00F39EBE /* Base */,
 				CA3D0D0A2C29A7D800735097 /* Login */,
 			);
@@ -307,8 +348,11 @@
 				CA3D0CDF2C29A2F300735097 /* ViewController.swift in Sources */,
 				CA3D0D1E2C2ACE3900735097 /* UIButton+.swift in Sources */,
 				CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */,
+				0D9497B42C327D620004B442 /* CourseDetailViewModel.swift in Sources */,
 				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
+				0D9497B22C327D2D0004B442 /* CourseDetailViewController.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
+				0D9497B62C327D750004B442 /* CourseDetailModel.swift in Sources */,
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
 				CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */,
 				CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */,
