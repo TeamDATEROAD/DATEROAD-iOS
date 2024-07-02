@@ -99,6 +99,7 @@
 		CA0A963C2C2B12FC00F39EBE /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				74BC16592C3284A90084E832 /* CustomBarViewController.swift */,
 				CA0A963D2C2B131300F39EBE /* BaseViewController.swift */,
 			);
 			path = Base;
@@ -148,7 +149,6 @@
 				CA3D0D162C29AA5E00735097 /* Extensions */,
 				CA3D0D082C29A6A700735097 /* Settings */,
 				CA3D0D072C29A69500735097 /* Resources */,
-				74BC16592C3284A90084E832 /* CustomBarViewController.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
