@@ -7,23 +7,41 @@
 
 import UIKit
 
-class PointDetailsViewController: UIViewController {
+import SnapKit
+import Then
 
+class PointDetailsViewController: BaseNavBarViewController {
+
+    // MARK: - UI Properties
+    
+    private let pointView = UIView()
+    
+    private var namePointLabel = UILabel()
+    
+    private var totalPointLabel = UILabel()
+    
+    private let segmentControl = UISegmentedControl()
+    
+    private var pointCollectionView = UICollectionView()
+    
+    // MARK: - LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setLeftBackButton()
+        setTitleLabelStyle(title: "포인트 내역")
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func setHierarchy() {
+        // self.contentView.addSubviews(pointView, segmentControl, pointCollectionView)
+        self.pointView.addSubviews(namePointLabel, totalPointLabel)
     }
-    */
+    
+    override func setLayout() {
+    }
+    
+    
+
+   
 
 }
