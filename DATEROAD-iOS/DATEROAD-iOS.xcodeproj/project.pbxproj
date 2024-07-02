@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */; };
+		74A70BFA2C329A9600855E61 /* SUIT-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF82C329A6900855E61 /* SUIT-SemiBold.otf */; };
+		74A70BFC2C329A9C00855E61 /* SUIT-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF72C329A6700855E61 /* SUIT-Regular.otf */; };
+		74A70BFD2C329A9E00855E61 /* SUIT-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF62C329A6400855E61 /* SUIT-Medium.otf */; };
+		74A70C012C329AB000855E61 /* SUIT-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF22C329A5B00855E61 /* SUIT-ExtraBold.otf */; };
+		74A70C022C329AB200855E61 /* SUIT-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74BC16652C329A110084E832 /* SUIT-Bold.otf */; };
+		74BC165A2C3284A90084E832 /* BaseNavBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BC16592C3284A90084E832 /* BaseNavBarViewController.swift */; };
 		CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A963D2C2B131300F39EBE /* BaseViewController.swift */; };
 		CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96422C2C60E800F39EBE /* LoginModel.swift */; };
 		CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96442C2C610900F39EBE /* LoginViewModel.swift */; };
@@ -35,6 +41,12 @@
 
 /* Begin PBXFileReference section */
 		74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointDetailsViewController.swift; sourceTree = "<group>"; };
+		74A70BF22C329A5B00855E61 /* SUIT-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-ExtraBold.otf"; sourceTree = "<group>"; };
+		74A70BF62C329A6400855E61 /* SUIT-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Medium.otf"; sourceTree = "<group>"; };
+		74A70BF72C329A6700855E61 /* SUIT-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Regular.otf"; sourceTree = "<group>"; };
+		74A70BF82C329A6900855E61 /* SUIT-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-SemiBold.otf"; sourceTree = "<group>"; };
+		74BC16592C3284A90084E832 /* BaseNavBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavBarViewController.swift; sourceTree = "<group>"; };
+		74BC16652C329A110084E832 /* SUIT-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Bold.otf"; sourceTree = "<group>"; };
 		CA0A963D2C2B131300F39EBE /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CA0A96422C2C60E800F39EBE /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		CA0A96442C2C610900F39EBE /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -106,9 +118,22 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		74BC165B2C3299E10084E832 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				74A70BF82C329A6900855E61 /* SUIT-SemiBold.otf */,
+				74A70BF72C329A6700855E61 /* SUIT-Regular.otf */,
+				74A70BF62C329A6400855E61 /* SUIT-Medium.otf */,
+				74A70BF22C329A5B00855E61 /* SUIT-ExtraBold.otf */,
+				74BC16652C329A110084E832 /* SUIT-Bold.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		CA0A963C2C2B12FC00F39EBE /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				74BC16592C3284A90084E832 /* BaseNavBarViewController.swift */,
 				CA0A963D2C2B131300F39EBE /* BaseViewController.swift */,
 			);
 			path = Base;
@@ -165,6 +190,7 @@
 		CA3D0D072C29A69500735097 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				74BC165B2C3299E10084E832 /* Fonts */,
 				CA3D0CE32C29A2F500735097 /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -327,6 +353,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA0A96472C2C62C200F39EBE /* .gitkeep in Resources */,
+				74A70C012C329AB000855E61 /* SUIT-ExtraBold.otf in Resources */,
+				74A70C022C329AB200855E61 /* SUIT-Bold.otf in Resources */,
+				74A70BFC2C329A9C00855E61 /* SUIT-Regular.otf in Resources */,
+				74A70BFD2C329A9E00855E61 /* SUIT-Medium.otf in Resources */,
+				74A70BFA2C329A9600855E61 /* SUIT-SemiBold.otf in Resources */,
 				CA3D0CE42C29A2F500735097 /* Assets.xcassets in Resources */,
 				CA3D0CE72C29A2F500735097 /* Base in Resources */,
 			);
@@ -342,6 +373,7 @@
 				CA3D0CDF2C29A2F300735097 /* ViewController.swift in Sources */,
 				CA3D0D1E2C2ACE3900735097 /* UIButton+.swift in Sources */,
 				CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */,
+				74BC165A2C3284A90084E832 /* BaseNavBarViewController.swift in Sources */,
 				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
 				74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
