@@ -20,6 +20,14 @@
 		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SUIT-SemiBold.otf</string>
+		<string>SUIT-Regular.otf</string>
+		<string>SUIT-Medium.otf</string>
+		<string>SUIT-ExtraBold.otf</string>
+		<string>SUIT-Bold.otf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
