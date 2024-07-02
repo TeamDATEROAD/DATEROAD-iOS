@@ -34,9 +34,9 @@ extension LoginViewModel {
     // Kakao 로그인
     
     func checkKakaoInstallation(completion: @escaping (Bool) -> Void) {
+        self.socialType.value = .kakao
+        self.isKaKaoLogin.value = true
         if UserApi.isKakaoTalkLoginAvailable() {
-            self.socialType.value = .kakao
-            self.isKaKaoLogin.value = true
             completion(true)
         } else {
             completion(false)
