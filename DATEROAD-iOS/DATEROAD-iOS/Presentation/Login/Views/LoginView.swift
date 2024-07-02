@@ -39,7 +39,7 @@ final class LoginView: BaseView {
         }
         
         logoLabel.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
+            $0.center.equalToSuperview()
         }
         
         buttonStackView.snp.makeConstraints {

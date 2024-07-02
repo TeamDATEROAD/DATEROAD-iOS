@@ -23,7 +23,7 @@ final class SplashViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             self.pushToLoginVC()
         }
     }
@@ -34,7 +34,7 @@ final class SplashViewController: BaseViewController {
 
     override func setLayout() {
         splashView.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
+            $0.center.equalToSuperview()
         }
     }
     
