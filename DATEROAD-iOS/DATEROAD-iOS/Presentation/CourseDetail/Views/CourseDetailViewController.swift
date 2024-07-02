@@ -14,6 +14,7 @@ import Then
 class CourseDetailViewController: UIViewController {
     
     private lazy var mainCollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
+    private let bottomPageControlView = BottomPageControllView()
     
     private let viewModel: CourseDetailViewModel
     
@@ -61,7 +62,6 @@ class CourseDetailViewController: UIViewController {
         mainCollectionView.register(TagInfoCell.self, forCellWithReuseIdentifier: TagInfoCell.identifier)
         mainCollectionView.register(LikeCell.self, forCellWithReuseIdentifier: LikeCell.identifier)
         
-        // Register supplementary view (header)
         mainCollectionView.register(InfoHeaderView.self, forSupplementaryViewOfKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier)
         
         mainCollectionView.delegate = self
@@ -183,6 +183,7 @@ class CourseDetailViewController: UIViewController {
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: InfoHeaderView.elementKinds, alignment: .top)
         return header
     }
+
 }
 
 extension CourseDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
