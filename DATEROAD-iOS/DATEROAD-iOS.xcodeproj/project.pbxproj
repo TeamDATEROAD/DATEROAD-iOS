@@ -23,6 +23,7 @@
 		0D9497CD2C32A3B40004B442 /* TagInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497CC2C32A3B40004B442 /* TagInfoViewModel.swift */; };
 		0D9497CF2C32A3D20004B442 /* LikeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497CE2C32A3D20004B442 /* LikeViewModel.swift */; };
 		0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497D02C32A75A0004B442 /* InfoHeaderView.swift */; };
+		0D9497D32C33BD760004B442 /* BottomPageControllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497D22C33BD760004B442 /* BottomPageControllView.swift */; };
 		CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A963D2C2B131300F39EBE /* BaseViewController.swift */; };
 		CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96422C2C60E800F39EBE /* LoginModel.swift */; };
 		CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96442C2C610900F39EBE /* LoginViewModel.swift */; };
@@ -65,6 +66,7 @@
 		0D9497CC2C32A3B40004B442 /* TagInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagInfoViewModel.swift; sourceTree = "<group>"; };
 		0D9497CE2C32A3D20004B442 /* LikeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewModel.swift; sourceTree = "<group>"; };
 		0D9497D02C32A75A0004B442 /* InfoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoHeaderView.swift; sourceTree = "<group>"; };
+		0D9497D22C33BD760004B442 /* BottomPageControllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPageControllView.swift; sourceTree = "<group>"; };
 		CA0A963D2C2B131300F39EBE /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CA0A96422C2C60E800F39EBE /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		CA0A96442C2C610900F39EBE /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 			children = (
 				0D9497B12C327D2D0004B442 /* CourseDetailViewController.swift */,
 				0D9497D02C32A75A0004B442 /* InfoHeaderView.swift */,
+				0D9497D22C33BD760004B442 /* BottomPageControllView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -409,6 +412,7 @@
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
 				0D9497CB2C32A37E0004B442 /* CoastInfoViewModel.swift in Sources */,
 				CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */,
+				0D9497D32C33BD760004B442 /* BottomPageControllView.swift in Sources */,
 				0D9497C52C32A2FF0004B442 /* ImageCarouselViewModel.swift in Sources */,
 				CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */,
 				CA3D0CDD2C29A2F300735097 /* SceneDelegate.swift in Sources */,

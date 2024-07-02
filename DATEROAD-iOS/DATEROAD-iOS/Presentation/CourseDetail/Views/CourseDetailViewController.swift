@@ -19,7 +19,7 @@ class CourseDetailViewController: UIViewController {
     
     init(viewModel: CourseDetailViewModel = CourseDetailViewModel()) {
         self.viewModel = viewModel
-        super.init(nibName:ㄴ nil, bundle: nil)
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
