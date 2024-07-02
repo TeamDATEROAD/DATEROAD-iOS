@@ -30,6 +30,7 @@
 		CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0D1B2C29AACD00735097 /* UIStackView+.swift */; };
 		CA3D0D1E2C2ACE3900735097 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0D1D2C2ACE3900735097 /* UIButton+.swift */; };
 		CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0D1F2C2ACEB100735097 /* UILabel+.swift */; };
+		CA4EF3D12C3461C7003B02B6 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3D02C3461C7003B02B6 /* UIFont+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		CA3D0D1D2C2ACE3900735097 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 		CA3D0D1F2C2ACEB100735097 /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		CA4EF3B22C30092B003B02B6 /* DATEROAD-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DATEROAD-iOS.entitlements"; sourceTree = "<group>"; };
+		CA4EF3D02C3461C7003B02B6 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +213,7 @@
 				CA3D0D1B2C29AACD00735097 /* UIStackView+.swift */,
 				CA3D0D1D2C2ACE3900735097 /* UIButton+.swift */,
 				CA3D0D1F2C2ACEB100735097 /* UILabel+.swift */,
+				CA4EF3D02C3461C7003B02B6 /* UIFont+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				CA3D0D1E2C2ACE3900735097 /* UIButton+.swift in Sources */,
 				CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */,
 				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
+				CA4EF3D12C3461C7003B02B6 /* UIFont+.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
 				CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */,
