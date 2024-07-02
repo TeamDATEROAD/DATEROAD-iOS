@@ -74,7 +74,7 @@ class BaseNavBarViewController: UIViewController {
     }
     
     func setStyle() {
-        self.view.backgroundColor = UIColor.systemBackground
+        self.view.backgroundColor = .drWhite
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
         leftButton.do {

@@ -27,7 +27,7 @@ class BaseViewController: UIViewController {
     func setLayout() {}
     
     func setStyle() {
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = .drWhite
         self.navigationController?.navigationBar.isHidden = true
     }
     
