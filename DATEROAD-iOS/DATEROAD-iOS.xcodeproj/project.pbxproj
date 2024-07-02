@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */; };
 		CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A963D2C2B131300F39EBE /* BaseViewController.swift */; };
 		CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96422C2C60E800F39EBE /* LoginModel.swift */; };
 		CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96442C2C610900F39EBE /* LoginViewModel.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointDetailsViewController.swift; sourceTree = "<group>"; };
 		CA0A963D2C2B131300F39EBE /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CA0A96422C2C60E800F39EBE /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		CA0A96442C2C610900F39EBE /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -72,6 +74,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		74F8E2D22C3464BD0088AFA4 /* PointDetails */ = {
+			isa = PBXGroup;
+			children = (
+				74F8E2D52C34653D0088AFA4 /* Views */,
+				74F8E2D42C3465370088AFA4 /* ViewModels */,
+				74F8E2D32C34652F0088AFA4 /* Models */,
+			);
+			path = PointDetails;
+			sourceTree = "<group>";
+		};
+		74F8E2D32C34652F0088AFA4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		74F8E2D42C3465370088AFA4 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		74F8E2D52C34653D0088AFA4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		CA0A963C2C2B12FC00F39EBE /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +181,7 @@
 		CA3D0D092C29A75600735097 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				74F8E2D22C3464BD0088AFA4 /* PointDetails */,
 				CA0A963C2C2B12FC00F39EBE /* Base */,
 				CA3D0D0A2C29A7D800735097 /* Login */,
 			);
@@ -308,6 +343,7 @@
 				CA3D0D1E2C2ACE3900735097 /* UIButton+.swift in Sources */,
 				CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */,
 				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
+				74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
 				CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */,
