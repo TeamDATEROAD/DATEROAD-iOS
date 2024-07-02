@@ -52,7 +52,7 @@ enum FontName {
 
 extension UIFont {
     static func suit(_ style: FontName) -> UIFont {
-        return UIFont(name: style.rawValue, size: style.size)!
+        return UIFont(name: style.rawValue, size: style.size) ?? UIFont.systemFont(ofSize: style.size)
     }
 }
 
