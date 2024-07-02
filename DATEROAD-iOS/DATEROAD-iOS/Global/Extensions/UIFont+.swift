@@ -51,7 +51,7 @@ enum FontName {
 }
 
 extension UIFont {
-    static func pretendard(_ style: FontName) -> UIFont {
+    static func suit(_ style: FontName) -> UIFont {
         return UIFont(name: style.rawValue, size: style.size)!
     }
 }
