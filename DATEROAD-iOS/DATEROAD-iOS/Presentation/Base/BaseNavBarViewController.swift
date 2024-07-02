@@ -1,5 +1,5 @@
 //
-//  CustomBarViewController.swift
+//  BaseNavBarViewController.swift
 //  DATEROAD-iOS
 //
 //  Created by 이수민 on 7/1/24.
@@ -10,9 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
-class CustomBarViewController: UIViewController {
+class BaseNavBarViewController: UIViewController {
 
     // MARK: - UI Properties
+    
     private let topInsetView = UIView()
     
     private var navigationBarView = UIView()
@@ -34,16 +35,13 @@ class CustomBarViewController: UIViewController {
         setLayout()
         setStyle()
     }
-
-}
-
-extension CustomBarViewController {
-    private func setHierarchy() {
+    
+    func setHierarchy() {
         self.view.addSubviews(topInsetView, navigationBarView, contentView)
         self.navigationBarView.addSubviews(leftButton, titleLabel, rightButton)
     }
     
-    private func setLayout() {
+    func setLayout() {
         topInsetView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -91,6 +89,12 @@ extension CustomBarViewController {
             $0.isHidden = true
         }
     }
+    
+}
+
+// MARK: - NavigationBar Custom Methods
+
+extension BaseNavBarViewController {
     
     func setLeftButtonStyle(image: UIImage?) {
         leftButton.do {
