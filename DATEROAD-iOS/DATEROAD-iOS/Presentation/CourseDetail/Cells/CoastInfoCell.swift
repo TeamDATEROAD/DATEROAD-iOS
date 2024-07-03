@@ -13,6 +13,12 @@ import Then
 
 final class CoastInfoCell: UICollectionViewCell {
     
+    // MARK: - UI Properties
+    
+    private let timelineBackgroundView = UIView()
+    
+    private let coastLabel = UILabel()
+    
     // MARK: - Properties
     
     static let identifier: String = "CoastInfoCell"
@@ -35,15 +41,32 @@ final class CoastInfoCell: UICollectionViewCell {
 private extension CoastInfoCell {
     
     func setHierarchy() {
-        
+        self.addSubviews(timelineBackgroundView, coastLabel)
     }
     
     func setLayout() {
-     
+        timelineBackgroundView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(50)
+        }
+        
+        coastLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(13)
+            $0.centerY.equalTo(timelineBackgroundView)
+        }
     }
     
     func setStyle() {
-
+        timelineBackgroundView.do {
+            $0.backgroundColor = UIColor(resource: .gray100)
+            $0.layer.cornerRadius = 10
+        }
+        
+        coastLabel.do {
+            $0.text = "90,000원"
+            $0.font = UIFont.suit(.body_bold_15)
+            $0.textColor = UIColor(resource: .drBlack)
+        }
     }
 
 }

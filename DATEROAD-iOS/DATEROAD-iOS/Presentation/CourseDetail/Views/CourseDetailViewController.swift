@@ -19,7 +19,6 @@ final class CourseDetailViewController: BaseNavBarViewController {
     
     private let bottomPageControlView = BottomPageControllView()
     
-    private let navigationBarView = BaseViewController()
     
     // MARK: - Properties
     
@@ -28,6 +27,8 @@ final class CourseDetailViewController: BaseNavBarViewController {
     private var mainData: [CourseDetailContents] = CourseDetailContents.images.map { CourseDetailContents(image: $0) }
     
     private var timelineData: [CourseDetailContents] = CourseDetailContents.timelineContents
+    
+    private var hashTagData: [CourseDetailContents] = CourseDetailContents.hashTagContents
     
     private var currentPage: Int = 0
     
@@ -144,22 +145,20 @@ private extension CourseDetailViewController {
     }
     
     func makeTimelineInfoLayout() -> NSCollectionLayoutSection {
-        let timelineHeight: Int = timelineData.count * 62
-        print(timelineHeight)
-        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 10, trailing: 16)
+        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(62))
         return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .none, hasHeader: true)
     }
     
     func makeCoastInfoLayout() -> NSCollectionLayoutSection {
-        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
+        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(62))
         return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging, hasHeader: true)
     }
     
     func makeTagInfoLayout() -> NSCollectionLayoutSection {
-        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
+        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 10, trailing: 0)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(120/375), heightDimension: .absolute(100))
         return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging, hasHeader: true)
     }
     
@@ -170,9 +169,9 @@ private extension CourseDetailViewController {
     }
     
     func makeHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(25))
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(20))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: InfoHeaderView.elementKinds, alignment: .top)
-        header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 10, trailing: 16)
+        header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
         return header
     }
     
@@ -207,6 +206,8 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return mainData.count
         case .timelineInfo:
             return timelineData.count
+        case .tagInfo:
+            return hashTagData.count
         default:
             return viewModel.numberOfItemsInSection(section)
         }
@@ -244,15 +245,17 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             cell = coastInfoCell
         case .tagInfo:
             guard let tagInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCell.identifier, for: indexPath) as? TagInfoCell else {
-                fatalError("Unable to dequeue TagInfoCell")
+                fatalError("Unable to dequeue TimelineInfoCell")
             }
+            let contents = hashTagData[indexPath.row]
+            tagInfoCell.setCell(contents: contents)
             cell = tagInfoCell
+            cell.backgroundColor = .red
         case .like:
             guard let likeCell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCell.identifier, for: indexPath) as? LikeCell else {
                 fatalError("Unable to dequeue LikeCell")
             }
             cell = likeCell
-            cell.backgroundColor = .red
         }
         
         return cell

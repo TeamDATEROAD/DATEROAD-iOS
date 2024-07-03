@@ -9,6 +9,6 @@ import Foundation
 
 struct TimelineInfoViewModel {
     var numberOfItems: Int {
-        return 3
+        return 5
     }
 }
