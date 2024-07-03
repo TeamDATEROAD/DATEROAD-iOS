@@ -142,7 +142,7 @@ private extension CourseDetailViewController {
     }
     
     func makeTimelineInfoLayout() -> NSCollectionLayoutSection {
-        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
+        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 10, trailing: 16)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(500))
         return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging, hasHeader: true)
     }
@@ -222,6 +222,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
                 fatalError("Unable to dequeue TimelineInfoCell")
             }
             cell = timelineInfoCell
+            cell.backgroundColor = .gray500
         case .coastInfo:
             guard let coastInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.identifier, for: indexPath) as? CoastInfoCell else {
                 fatalError("Unable to dequeue CoastInfoCell")

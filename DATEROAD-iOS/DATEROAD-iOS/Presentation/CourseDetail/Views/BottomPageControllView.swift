@@ -15,7 +15,7 @@ class BottomPageControllView: UICollectionReusableView {
     
     // MARK: - UI Properties
     
-    private let likeBoxLabel = UILabel()
+    private let likeBoxView = UIView()
     
     private let likeButton = UIImageView(image: .heartIcon)
     
@@ -64,13 +64,13 @@ class BottomPageControllView: UICollectionReusableView {
 private extension BottomPageControllView {
     
     func setHierarchy() {
-        self.addSubviews(likeBoxLabel, likeStackView, indexBoxButton)
+        self.addSubviews(likeBoxView, likeStackView, indexBoxButton)
         likeStackView.addArrangedSubviews(likeButton, likeNumLabel)
     }
     
     func setLayout() {
         
-        likeBoxLabel.snp.makeConstraints {
+        likeBoxView.snp.makeConstraints {
             $0.leading.trailing.equalTo(likeStackView).inset(-7)
             $0.height.equalTo(20)
         }
@@ -93,7 +93,7 @@ private extension BottomPageControllView {
     }
     
     func setStyle() {
-        likeBoxLabel.do {
+        likeBoxView.do {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 10
             $0.backgroundColor = UIColor(resource: .deepPurple)
