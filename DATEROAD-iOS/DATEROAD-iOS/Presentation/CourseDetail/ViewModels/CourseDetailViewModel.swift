@@ -16,7 +16,12 @@ enum CourseDetailSection {
     case like
     
     static var dataSource: [CourseDetailSection] {
-        return [.imageCarousel, .mainContents, .timelineInfo, .coastInfo, .tagInfo, .like]
+        return [.imageCarousel,
+                .mainContents,
+                .timelineInfo,
+                .coastInfo,
+                .tagInfo,
+                .like]
     }
 }
 

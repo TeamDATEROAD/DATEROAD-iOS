@@ -10,19 +10,35 @@ import UIKit
 import SnapKit
 import Then
 
+
 class BottomPageControllView: UICollectionReusableView {
+    
+    // MARK: - UI Properties
+    
+    private let heartButton: UIButton = UIButton()
+    private let indexBoxButton: UIButton = UIButton()
     
     // MARK: - Properties
     
-    private let heartButton: UIButton = UIButton()
+    static let elementKinds: String = "footer"
+    static let identifier: String = "BottomPageControllView"
     
-    private let indexBoxButton: UIButton = UIButton()
+    var pageIndex: Int = 0 {
+        didSet {
+            updatePageLabel()
+        }
+    }
+    
+    var pageIndexSum: Int = 0 {
+        didSet {
+            updatePageLabel()
+        }
+    }
     
     // MARK: - Life Cycles
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         setHierarchy()
         setLayout()
         setStyle()
@@ -32,13 +48,16 @@ class BottomPageControllView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func updatePageLabel() {
+        indexBoxButton.setTitle("\(pageIndex + 1)/\(pageIndexSum)", for: .normal)
+    }
+    
 }
 
 private extension BottomPageControllView {
     
     func setHierarchy() {
         self.addSubviews(heartButton, indexBoxButton)
-       
     }
     
     func setLayout() {
@@ -70,4 +89,5 @@ private extension BottomPageControllView {
     }
     
 }
+
 

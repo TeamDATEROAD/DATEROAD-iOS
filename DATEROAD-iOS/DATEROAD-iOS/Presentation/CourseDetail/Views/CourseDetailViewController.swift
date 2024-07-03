@@ -19,6 +19,10 @@ final class CourseDetailViewController: BaseNavBarViewController {
     
     private let viewModel: CourseDetailViewModel
     
+    private var mainData: [CourseDetailContents] = CourseDetailContents.images.map { CourseDetailContents(image: $0) }
+    
+    private var currentPage: Int = 0
+    
     init(viewModel: CourseDetailViewModel = CourseDetailViewModel()) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -36,6 +40,7 @@ final class CourseDetailViewController: BaseNavBarViewController {
         setHierarchy()
         setLayout()
         setStyle()
+        setDelegate()
         registerCell()
     }
     
@@ -53,7 +58,11 @@ final class CourseDetailViewController: BaseNavBarViewController {
         self.view.backgroundColor = UIColor.white
         self.navigationController?.navigationBar.isHidden = true
         self.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
-        self.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
+    }
+    
+    private func setDelegate() {
+        mainCollectionView.delegate = self
+        mainCollectionView.dataSource = self
     }
 }
 
@@ -70,8 +79,8 @@ private extension CourseDetailViewController {
             
             $0.register(InfoHeaderView.self, forSupplementaryViewOfKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier)
             
-            $0.delegate = self
-            $0.dataSource = self
+            $0.register(BottomPageControllView.self, forSupplementaryViewOfKind: BottomPageControllView.elementKinds, withReuseIdentifier: BottomPageControllView.identifier)
+   
         }
     }
     
@@ -90,8 +99,7 @@ private extension CourseDetailViewController {
         }
     }
     
-    /// 섹션 레이아웃들
-    func makeLayoutSection(itemInsets: NSDirectionalEdgeInsets, groupSize: NSCollectionLayoutSize, orthogonalScrollingBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior, hasHeader: Bool = false) -> NSCollectionLayoutSection {
+    func makeLayoutSection(itemInsets: NSDirectionalEdgeInsets, groupSize: NSCollectionLayoutSize, orthogonalScrollingBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior, hasHeader: Bool = false, hasFooter: Bool = false) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = itemInsets
@@ -106,13 +114,19 @@ private extension CourseDetailViewController {
             section.boundarySupplementaryItems = [header]
         }
         
+        if hasFooter {
+            let footer = makeBottomPageControllView()
+            section.boundarySupplementaryItems = [footer]
+        }
+        
         return section
     }
     
     func makeImageCarouselLayout() -> NSCollectionLayoutSection {
-        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
-        return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging)
+        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1))
+        
+        return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging, hasFooter: true)
     }
     
     func makeMainContentsLayout() -> NSCollectionLayoutSection {
@@ -151,6 +165,20 @@ private extension CourseDetailViewController {
         return header
     }
     
+    func makeBottomPageControllView() -> NSCollectionLayoutBoundarySupplementaryItem {
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(20))
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: BottomPageControllView.elementKinds, alignment: .bottom)
+        return footer
+    }
+}
+
+extension CourseDetailViewController: ImageCarouselDelegate {
+    func didSwipeImage(index: Int, vc: UIPageViewController, vcData: [UIViewController]) {
+        currentPage = index
+        if let bottomPageControllView = mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
+            bottomPageControllView.pageIndex = currentPage
+        }
+    }
 }
 
 extension CourseDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -172,38 +200,35 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             guard let imageCarouselCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCarouselCell.identifier, for: indexPath) as? ImageCarouselCell else {
                 fatalError("Unable to dequeue ImageCarouselCell")
             }
-            imageCarouselCell.backgroundColor = .red
+            imageCarouselCell.setPageVC(imageData: mainData)
+            imageCarouselCell.delegate = self
             cell = imageCarouselCell
         case .mainContents:
             guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.identifier, for: indexPath) as? MainContentsCell else {
                 fatalError("Unable to dequeue MainContentsCell")
             }
-            mainContentsCell.backgroundColor = .green
             cell = mainContentsCell
         case .timelineInfo:
             guard let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.identifier, for: indexPath) as? TimelineInfoCell else {
                 fatalError("Unable to dequeue TimelineInfoCell")
             }
-            timelineInfoCell.backgroundColor = .blue
             cell = timelineInfoCell
         case .coastInfo:
             guard let coastInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.identifier, for: indexPath) as? CoastInfoCell else {
                 fatalError("Unable to dequeue CoastInfoCell")
             }
-            coastInfoCell.backgroundColor = .yellow
             cell = coastInfoCell
         case .tagInfo:
             guard let tagInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCell.identifier, for: indexPath) as? TagInfoCell else {
                 fatalError("Unable to dequeue TagInfoCell")
             }
-            tagInfoCell.backgroundColor = .purple
             cell = tagInfoCell
         case .like:
             guard let likeCell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCell.identifier, for: indexPath) as? LikeCell else {
                 fatalError("Unable to dequeue LikeCell")
             }
-            likeCell.backgroundColor = .orange
             cell = likeCell
+            cell.backgroundColor = .red
         }
         
         return cell
@@ -223,6 +248,10 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
                 break
             }
             return header
+        } else if kind == BottomPageControllView.elementKinds {
+            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else { return UICollectionReusableView() }
+            footer.pageIndexSum = mainData.count
+            return footer
         } else {
             return UICollectionReusableView()
         }
