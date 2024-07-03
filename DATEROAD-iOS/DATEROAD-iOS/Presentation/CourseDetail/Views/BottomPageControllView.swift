@@ -15,8 +15,15 @@ class BottomPageControllView: UICollectionReusableView {
     
     // MARK: - UI Properties
     
-    private let heartButton: UIButton = UIButton()
-    private let indexBoxButton: UIButton = UIButton()
+    private let likeBoxLabel = UILabel()
+    
+    private let likeButton = UIImageView(image: .heartIcon)
+    
+    private let likeNumLabel = UILabel()
+    
+    private var likeStackView = UIStackView()
+    
+    private let indexBoxButton = UIButton()
     
     // MARK: - Properties
     
@@ -57,14 +64,25 @@ class BottomPageControllView: UICollectionReusableView {
 private extension BottomPageControllView {
     
     func setHierarchy() {
-        self.addSubviews(heartButton, indexBoxButton)
+        self.addSubviews(likeBoxLabel, likeStackView, indexBoxButton)
+        likeStackView.addArrangedSubviews(likeButton, likeNumLabel)
     }
     
     func setLayout() {
-        heartButton.snp.makeConstraints {
-            $0.leading.bottom.equalToSuperview()
-            $0.width.equalTo(31)
+        
+        likeBoxLabel.snp.makeConstraints {
+            $0.leading.trailing.equalTo(likeStackView).inset(-7)
             $0.height.equalTo(20)
+        }
+        
+        likeButton.snp.makeConstraints {
+            $0.width.equalTo(8)
+            $0.height.equalTo(7)
+        }
+        
+        likeStackView.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(7)
+            $0.centerY.equalTo(indexBoxButton)
         }
         
         indexBoxButton.snp.makeConstraints {
@@ -75,16 +93,30 @@ private extension BottomPageControllView {
     }
     
     func setStyle() {
-        heartButton.do {
-            $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+        likeBoxLabel.do {
+            $0.clipsToBounds = true
+            $0.layer.cornerRadius = 10
             $0.backgroundColor = UIColor(resource: .deepPurple)
-            $0.setTitle("5", for: .normal)
+        }
+        
+        likeNumLabel.do {
+            $0.text = "5"
+            $0.textColor = UIColor(resource: .drWhite)
+            $0.font = UIFont.suit(.body_bold_13)
+        }
+        
+        likeStackView.do {
+            $0.axis = .horizontal
+            $0.alignment = .center
+            $0.spacing = 3
         }
         
         indexBoxButton.do {
             $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
             $0.backgroundColor = UIColor(resource: .gray400)
             $0.setTitle("3/10", for: .normal)
+            $0.setTitleColor(.drWhite, for: .normal)
+            $0.titleLabel?.font = UIFont.suit(.body_bold_13)
         }
     }
     

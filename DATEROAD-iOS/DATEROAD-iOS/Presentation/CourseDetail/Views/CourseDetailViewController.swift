@@ -13,9 +13,15 @@ import Then
 
 final class CourseDetailViewController: BaseNavBarViewController {
     
+    // MARK: - UI Properties
+    
     private lazy var mainCollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
     
     private let bottomPageControlView = BottomPageControllView()
+    
+    private let navigationBarView = BaseViewController()
+    
+    // MARK: - Properties
     
     private let viewModel: CourseDetailViewModel
     
@@ -42,6 +48,7 @@ final class CourseDetailViewController: BaseNavBarViewController {
         setStyle()
         setDelegate()
         registerCell()
+        setLeftBackButton()
     }
     
     override func setHierarchy() {
@@ -64,6 +71,11 @@ final class CourseDetailViewController: BaseNavBarViewController {
         mainCollectionView.delegate = self
         mainCollectionView.dataSource = self
     }
+    
+    private func configureNavigationBar() {
+            setLeftBackButton()
+            setTitleLabelStyle(title: "Course Detail")
+        }
 }
 
 private extension CourseDetailViewController {
