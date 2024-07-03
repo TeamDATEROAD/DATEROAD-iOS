@@ -28,8 +28,6 @@ final class CourseDetailViewController: BaseNavBarViewController {
     
     private var timelineData: [CourseDetailContents] = CourseDetailContents.timelineContents
     
-    private var hashTagData: [CourseDetailContents] = CourseDetailContents.hashTagContents
-    
     private var currentPage: Int = 0
     
     init(viewModel: CourseDetailViewModel = CourseDetailViewModel()) {
@@ -72,6 +70,15 @@ final class CourseDetailViewController: BaseNavBarViewController {
     private func setDelegate() {
         mainCollectionView.delegate = self
         mainCollectionView.dataSource = self
+    }
+    
+    private func getTagListForSection(_ section: Int) -> [String] {
+        switch viewModel.fetchSection(at: section) {
+        case .tagInfo:
+            return ["🚙 드라이브", "🛍️ 쇼핑", "🚪 실내"]
+        default:
+            return []
+        }
     }
 }
 
@@ -152,13 +159,13 @@ private extension CourseDetailViewController {
     
     func makeCoastInfoLayout() -> NSCollectionLayoutSection {
         let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(62))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50))
         return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging, hasHeader: true)
     }
     
     func makeTagInfoLayout() -> NSCollectionLayoutSection {
         let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 10, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(120/375), heightDimension: .absolute(100))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50))
         return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging, hasHeader: true)
     }
     
@@ -206,8 +213,6 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return mainData.count
         case .timelineInfo:
             return timelineData.count
-        case .tagInfo:
-            return hashTagData.count
         default:
             return viewModel.numberOfItemsInSection(section)
         }
@@ -243,19 +248,20 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
                 fatalError("Unable to dequeue CoastInfoCell")
             }
             cell = coastInfoCell
+            cell.backgroundColor = .red
         case .tagInfo:
             guard let tagInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCell.identifier, for: indexPath) as? TagInfoCell else {
-                fatalError("Unable to dequeue TimelineInfoCell")
+                fatalError("Unable to dequeue TagInfoCell")
             }
-            let contents = hashTagData[indexPath.row]
-            tagInfoCell.setCell(contents: contents)
+            tagInfoCell.tagList = getTagListForSection(indexPath.section)
             cell = tagInfoCell
-            cell.backgroundColor = .red
+           
         case .like:
             guard let likeCell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCell.identifier, for: indexPath) as? LikeCell else {
                 fatalError("Unable to dequeue LikeCell")
             }
             cell = likeCell
+            cell.backgroundColor = .red
         }
         
         return cell

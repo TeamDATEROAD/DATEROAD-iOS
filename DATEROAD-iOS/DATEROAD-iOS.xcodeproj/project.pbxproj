@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0D06D9A02C3561AF0094C505 /* CourseDetailContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D06D99F2C3561AF0094C505 /* CourseDetailContents.swift */; };
+		0D06D9A22C3605760094C505 /* HashTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D06D9A12C3605760094C505 /* HashTagCell.swift */; };
+		0D06D9A42C3608BF0094C505 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D06D9A32C3608BF0094C505 /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		0D9497B22C327D2D0004B442 /* CourseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497B12C327D2D0004B442 /* CourseDetailViewController.swift */; };
 		0D9497B42C327D620004B442 /* CourseDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497B32C327D620004B442 /* CourseDetailViewModel.swift */; };
 		0D9497B92C328D010004B442 /* ImageCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497B82C328D010004B442 /* ImageCarouselCell.swift */; };
@@ -67,6 +69,8 @@
 
 /* Begin PBXFileReference section */
 		0D06D99F2C3561AF0094C505 /* CourseDetailContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailContents.swift; sourceTree = "<group>"; };
+		0D06D9A12C3605760094C505 /* HashTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashTagCell.swift; sourceTree = "<group>"; };
+		0D06D9A32C3608BF0094C505 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		0D9497B12C327D2D0004B442 /* CourseDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailViewController.swift; sourceTree = "<group>"; };
 		0D9497B32C327D620004B442 /* CourseDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailViewModel.swift; sourceTree = "<group>"; };
 		0D9497B82C328D010004B442 /* ImageCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselCell.swift; sourceTree = "<group>"; };
@@ -179,6 +183,7 @@
 				0D9497B12C327D2D0004B442 /* CourseDetailViewController.swift */,
 				0D9497D02C32A75A0004B442 /* InfoHeaderView.swift */,
 				0D9497D22C33BD760004B442 /* BottomPageControllView.swift */,
+				0D06D9A32C3608BF0094C505 /* LeftAlignedCollectionViewFlowLayout.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -192,6 +197,7 @@
 				0D9497BE2C3292D60004B442 /* CoastInfoCell.swift */,
 				0D9497C02C3292E90004B442 /* TagInfoCell.swift */,
 				0D9497C22C3292F50004B442 /* LikeCell.swift */,
+				0D06D9A12C3605760094C505 /* HashTagCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -523,6 +529,7 @@
 				0D9497CD2C32A3B40004B442 /* TagInfoViewModel.swift in Sources */,
 				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
 				0D9497B22C327D2D0004B442 /* CourseDetailViewController.swift in Sources */,
+				0D06D9A42C3608BF0094C505 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
 				0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */,
 				0D9497BD2C3292C20004B442 /* MainContentsCell.swift in Sources */,
@@ -537,6 +544,7 @@
 				CA4EF3C32C3285F8003B02B6 /* StringLiterals.swift in Sources */,
 				CA3D0D182C29AA7A00735097 /* UITextField+.swift in Sources */,
 				CA4EF3C52C328698003B02B6 /* SplashViewController.swift in Sources */,
+				0D06D9A22C3605760094C505 /* HashTagCell.swift in Sources */,
 				CA4EF3B62C328521003B02B6 /* LoginViewController.swift in Sources */,
 				CA4EF3BD2C3285A1003B02B6 /* ScreenUtils.swift in Sources */,
 				CA4EF3CB2C3287DA003B02B6 /* Config.swift in Sources */,
