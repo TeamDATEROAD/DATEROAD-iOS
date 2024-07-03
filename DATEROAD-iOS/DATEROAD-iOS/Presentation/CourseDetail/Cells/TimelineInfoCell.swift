@@ -42,6 +42,17 @@ final class TimelineInfoCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    func setCell(contents: CourseDetailContents) {
+        if let index = contents.index {
+            indexNumLabel.text = "\(index)"
+        } else {
+            indexNumLabel.text = nil
+        }
+        locationLabel.text = contents.location
+        timeLabel.text = contents.time
+    }
 }
 
 // MARK: - Private Methods
@@ -112,7 +123,7 @@ private extension TimelineInfoCell {
             $0.backgroundColor = UIColor(resource: .gray200)
             $0.layer.cornerRadius = 5
         }
-
+        
         timeLabel.do {
             $0.text = "1시간"
             $0.font = UIFont.suit(.body_med_13)

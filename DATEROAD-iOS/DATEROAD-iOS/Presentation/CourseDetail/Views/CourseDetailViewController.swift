@@ -27,6 +27,8 @@ final class CourseDetailViewController: BaseNavBarViewController {
     
     private var mainData: [CourseDetailContents] = CourseDetailContents.images.map { CourseDetailContents(image: $0) }
     
+    private var timelineData: [CourseDetailContents] = CourseDetailContents.timelineContents
+    
     private var currentPage: Int = 0
     
     init(viewModel: CourseDetailViewModel = CourseDetailViewModel()) {
@@ -86,7 +88,7 @@ private extension CourseDetailViewController {
             $0.register(InfoHeaderView.self, forSupplementaryViewOfKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier)
             
             $0.register(BottomPageControllView.self, forSupplementaryViewOfKind: BottomPageControllView.elementKinds, withReuseIdentifier: BottomPageControllView.identifier)
-   
+            
         }
     }
     
@@ -142,9 +144,11 @@ private extension CourseDetailViewController {
     }
     
     func makeTimelineInfoLayout() -> NSCollectionLayoutSection {
+        let timelineHeight: Int = timelineData.count * 62
+        print(timelineHeight)
         let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 10, trailing: 16)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(500))
-        return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging, hasHeader: true)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(62))
+        return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .none, hasHeader: true)
     }
     
     func makeCoastInfoLayout() -> NSCollectionLayoutSection {
@@ -168,7 +172,7 @@ private extension CourseDetailViewController {
     func makeHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(25))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: InfoHeaderView.elementKinds, alignment: .top)
-        header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 10, trailing: 16)
         return header
     }
     
@@ -178,7 +182,7 @@ private extension CourseDetailViewController {
         footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
         return footer
     }
-
+    
 }
 
 extension CourseDetailViewController: ImageCarouselDelegate {
@@ -196,7 +200,16 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfItemsInSection(section)
+        let sectionType = viewModel.fetchSection(at: section)
+        
+        switch sectionType {
+        case .imageCarousel:
+            return mainData.count
+        case .timelineInfo:
+            return timelineData.count
+        default:
+            return viewModel.numberOfItemsInSection(section)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -221,8 +234,9 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             guard let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.identifier, for: indexPath) as? TimelineInfoCell else {
                 fatalError("Unable to dequeue TimelineInfoCell")
             }
+            let contents = timelineData[indexPath.row]
+            timelineInfoCell.setCell(contents: contents)
             cell = timelineInfoCell
-            cell.backgroundColor = .gray500
         case .coastInfo:
             guard let coastInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.identifier, for: indexPath) as? CoastInfoCell else {
                 fatalError("Unable to dequeue CoastInfoCell")
@@ -267,3 +281,4 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         }
     }
 }
+
