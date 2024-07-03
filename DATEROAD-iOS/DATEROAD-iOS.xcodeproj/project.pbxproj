@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */; };
+		746287D52C35C65B007CED48 /* PointTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746287D42C35C65B007CED48 /* PointTableView.swift */; };
 		74A70BFA2C329A9600855E61 /* SUIT-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF82C329A6900855E61 /* SUIT-SemiBold.otf */; };
 		74A70BFC2C329A9C00855E61 /* SUIT-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF72C329A6700855E61 /* SUIT-Regular.otf */; };
 		74A70C012C329AB000855E61 /* SUIT-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF22C329A5B00855E61 /* SUIT-ExtraBold.otf */; };
 		74A70C022C329AB200855E61 /* SUIT-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74BC16652C329A110084E832 /* SUIT-Bold.otf */; };
 		74BC165A2C3284A90084E832 /* BaseNavBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BC16592C3284A90084E832 /* BaseNavBarViewController.swift */; };
+		74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */; };
 		CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A963D2C2B131300F39EBE /* BaseViewController.swift */; };
 		CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96422C2C60E800F39EBE /* LoginModel.swift */; };
 		CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96442C2C610900F39EBE /* LoginViewModel.swift */; };
@@ -50,13 +51,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointDetailsViewController.swift; sourceTree = "<group>"; };
+		746287D42C35C65B007CED48 /* PointTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointTableView.swift; sourceTree = "<group>"; };
 		74A70BF22C329A5B00855E61 /* SUIT-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-ExtraBold.otf"; sourceTree = "<group>"; };
 		74A70BF62C329A6400855E61 /* SUIT-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Medium.otf"; sourceTree = "<group>"; };
 		74A70BF72C329A6700855E61 /* SUIT-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Regular.otf"; sourceTree = "<group>"; };
 		74A70BF82C329A6900855E61 /* SUIT-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-SemiBold.otf"; sourceTree = "<group>"; };
 		74BC16592C3284A90084E832 /* BaseNavBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavBarViewController.swift; sourceTree = "<group>"; };
 		74BC16652C329A110084E832 /* SUIT-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Bold.otf"; sourceTree = "<group>"; };
+		74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointDetailsViewController.swift; sourceTree = "<group>"; };
 		CA0A963D2C2B131300F39EBE /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CA0A96422C2C60E800F39EBE /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		CA0A96442C2C610900F39EBE /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -108,6 +110,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		74BC165B2C3299E10084E832 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				74A70BF82C329A6900855E61 /* SUIT-SemiBold.otf */,
+				74A70BF72C329A6700855E61 /* SUIT-Regular.otf */,
+				74A70BF62C329A6400855E61 /* SUIT-Medium.otf */,
+				74A70BF22C329A5B00855E61 /* SUIT-ExtraBold.otf */,
+				74BC16652C329A110084E832 /* SUIT-Bold.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		74F8E2D22C3464BD0088AFA4 /* PointDetails */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,20 +150,9 @@
 			isa = PBXGroup;
 			children = (
 				74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */,
+				746287D42C35C65B007CED48 /* PointTableView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		74BC165B2C3299E10084E832 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				74A70BF82C329A6900855E61 /* SUIT-SemiBold.otf */,
-				74A70BF72C329A6700855E61 /* SUIT-Regular.otf */,
-				74A70BF62C329A6400855E61 /* SUIT-Medium.otf */,
-				74A70BF22C329A5B00855E61 /* SUIT-ExtraBold.otf */,
-				74BC16652C329A110084E832 /* SUIT-Bold.otf */,
-			);
-			path = Fonts;
 			sourceTree = "<group>";
 		};
 		CA0A963C2C2B12FC00F39EBE /* Base */ = {
@@ -438,7 +441,6 @@
 				74A70C012C329AB000855E61 /* SUIT-ExtraBold.otf in Resources */,
 				74A70C022C329AB200855E61 /* SUIT-Bold.otf in Resources */,
 				74A70BFC2C329A9C00855E61 /* SUIT-Regular.otf in Resources */,
-				74A70BFD2C329A9E00855E61 /* SUIT-Medium.otf in Resources */,
 				74A70BFA2C329A9600855E61 /* SUIT-SemiBold.otf in Resources */,
 				CA3D0CE42C29A2F500735097 /* Assets.xcassets in Resources */,
 				CA3D0CE72C29A2F500735097 /* Base in Resources */,
@@ -461,6 +463,7 @@
 				74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */,
 				CA4EF3C02C3285BA003B02B6 /* SocialType.swift in Sources */,
 				CA4EF3D12C3461C7003B02B6 /* UIFont+.swift in Sources */,
+				746287D52C35C65B007CED48 /* PointTableView.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
 				CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */,
