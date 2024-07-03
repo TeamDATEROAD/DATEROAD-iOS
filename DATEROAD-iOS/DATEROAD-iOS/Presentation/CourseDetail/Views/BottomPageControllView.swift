@@ -12,8 +12,11 @@ import Then
 
 class BottomPageControllView: UICollectionReusableView {
     
+    // MARK: - Properties
+    
     private let heartButton: UIButton = UIButton()
-    private let indexBox: UIButton = UIButton()
+    
+    private let indexBoxButton: UIButton = UIButton()
     
     // MARK: - Life Cycles
     
@@ -34,20 +37,19 @@ class BottomPageControllView: UICollectionReusableView {
 private extension BottomPageControllView {
     
     func setHierarchy() {
-        self.addSubviews(heartButton, indexBox)
+        self.addSubviews(heartButton, indexBoxButton)
+       
     }
     
     func setLayout() {
         heartButton.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(16)
-            $0.top.equalToSuperview()
+            $0.leading.bottom.equalToSuperview()
             $0.width.equalTo(31)
             $0.height.equalTo(20)
         }
         
-        indexBox.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(16)
-            $0.top.equalToSuperview()
+        indexBoxButton.snp.makeConstraints {
+            $0.trailing.bottom.equalToSuperview()
             $0.width.equalTo(40)
             $0.height.equalTo(20)
         }
@@ -60,7 +62,7 @@ private extension BottomPageControllView {
             $0.setTitle("5", for: .normal)
         }
         
-        indexBox.do {
+        indexBoxButton.do {
             $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
             $0.backgroundColor = UIColor(resource: .gray400)
             $0.setTitle("3/10", for: .normal)

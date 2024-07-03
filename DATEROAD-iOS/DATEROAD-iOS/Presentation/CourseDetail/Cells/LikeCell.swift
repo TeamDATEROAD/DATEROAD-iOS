@@ -13,9 +13,12 @@ import Then
 
 final class LikeCell: UICollectionViewCell {
     
+    // MARK: - Properties
+    
     static let identifier: String = "LikeCell"
 
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
         setHierarchy()
         setLayout()
@@ -25,12 +28,11 @@ final class LikeCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-
 }
 
 // MARK: - Private Methods
 private extension LikeCell {
+    
     func setHierarchy() {
         
     }

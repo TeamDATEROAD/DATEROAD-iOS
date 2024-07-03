@@ -13,9 +13,12 @@ import Then
 
 final class MainContentsCell: UICollectionViewCell {
     
+    // MARK: - Properties
+    
     static let identifier: String = "MainContentsCell"
 
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
         setHierarchy()
         setLayout()
@@ -25,12 +28,11 @@ final class MainContentsCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-
 }
 
 // MARK: - Private Methods
 private extension MainContentsCell {
+    
     func setHierarchy() {
         
     }

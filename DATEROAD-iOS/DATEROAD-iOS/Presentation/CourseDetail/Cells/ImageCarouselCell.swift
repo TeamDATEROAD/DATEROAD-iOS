@@ -13,11 +13,14 @@ import Then
 
 final class ImageCarouselCell: UICollectionViewCell {
     
-    let pageControlView = BottomPageControllView()
+    // MARK: - Properties
+    
+    let pageControllView = BottomPageControllView()
     
     static let identifier: String = "ImageCarouselCell"
     
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
         setHierarchy()
         setLayout()
@@ -27,26 +30,26 @@ final class ImageCarouselCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
 }
 
 // MARK: - Private Methods
+
 private extension ImageCarouselCell {
+    
     func setHierarchy() {
-        addSubview(pageControlView)
+        contentView.addSubview(pageControllView)
     }
     
     func setLayout() {
-        
+        pageControllView.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(16)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(20)
+        }
     }
     
     func setStyle() {
-        pageControlView.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(16)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(20)  
-        }
+        
     }
     
 }

@@ -13,9 +13,12 @@ import Then
 
 final class CoastInfoCell: UICollectionViewCell {
     
+    // MARK: - Properties
+    
     static let identifier: String = "CoastInfoCell"
 
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
         setHierarchy()
         setLayout()
@@ -25,12 +28,12 @@ final class CoastInfoCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-
 }
 
 // MARK: - Private Methods
+
 private extension CoastInfoCell {
+    
     func setHierarchy() {
         
     }

@@ -11,9 +11,10 @@ import UIKit
 import SnapKit
 import Then
 
-class CourseDetailViewController: UIViewController {
+final class CourseDetailViewController: BaseNavBarViewController {
     
     private lazy var mainCollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
+    
     private let bottomPageControlView = BottomPageControllView()
     
     private let viewModel: CourseDetailViewModel
@@ -38,40 +39,45 @@ class CourseDetailViewController: UIViewController {
         registerCell()
     }
     
-    func setHierarchy() {
+    override func setHierarchy() {
         self.view.addSubview(mainCollectionView)
     }
     
-    func setLayout() {
+    override func setLayout() {
         mainCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
     
-    func setStyle() {
+    override func setStyle() {
         self.view.backgroundColor = UIColor.white
         self.navigationController?.navigationBar.isHidden = true
-        self.mainCollectionView.backgroundColor = UIColor.white
+        self.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
+        self.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
     }
-    
-    private func registerCell() {
-        mainCollectionView.register(ImageCarouselCell.self, forCellWithReuseIdentifier: ImageCarouselCell.identifier)
-        mainCollectionView.register(MainContentsCell.self, forCellWithReuseIdentifier: MainContentsCell.identifier)
-        mainCollectionView.register(TimelineInfoCell.self, forCellWithReuseIdentifier: TimelineInfoCell.identifier)
-        mainCollectionView.register(CoastInfoCell.self, forCellWithReuseIdentifier: CoastInfoCell.identifier)
-        mainCollectionView.register(TagInfoCell.self, forCellWithReuseIdentifier: TagInfoCell.identifier)
-        mainCollectionView.register(LikeCell.self, forCellWithReuseIdentifier: LikeCell.identifier)
-        
-        mainCollectionView.register(InfoHeaderView.self, forSupplementaryViewOfKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier)
-        
-        mainCollectionView.delegate = self
-        mainCollectionView.dataSource = self
-    }
+}
 
+private extension CourseDetailViewController {
     
-    private func makeFlowLayout() -> UICollectionViewCompositionalLayout {
+    func registerCell() {
+        mainCollectionView.do {
+            $0.register(ImageCarouselCell.self, forCellWithReuseIdentifier: ImageCarouselCell.identifier)
+            $0.register(MainContentsCell.self, forCellWithReuseIdentifier: MainContentsCell.identifier)
+            $0.register(TimelineInfoCell.self, forCellWithReuseIdentifier: TimelineInfoCell.identifier)
+            $0.register(CoastInfoCell.self, forCellWithReuseIdentifier: CoastInfoCell.identifier)
+            $0.register(TagInfoCell.self, forCellWithReuseIdentifier: TagInfoCell.identifier)
+            $0.register(LikeCell.self, forCellWithReuseIdentifier: LikeCell.identifier)
+            
+            $0.register(InfoHeaderView.self, forSupplementaryViewOfKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier)
+            
+            $0.delegate = self
+            $0.dataSource = self
+        }
+    }
+    
+    func makeFlowLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { section, _ -> NSCollectionLayoutSection? in
-            let sectionType = self.viewModel.section(at: section)
+            let sectionType = self.viewModel.fetchSection(at: section)
             
             switch sectionType {
             case .imageCarousel: return self.makeImageCarouselLayout()
@@ -84,106 +90,67 @@ class CourseDetailViewController: UIViewController {
         }
     }
     
-    // 섹션 레이아웃들
-    private func makeImageCarouselLayout() -> NSCollectionLayoutSection {
+    /// 섹션 레이아웃들
+    func makeLayoutSection(itemInsets: NSDirectionalEdgeInsets, groupSize: NSCollectionLayoutSize, orthogonalScrollingBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior, hasHeader: Bool = false) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
+        item.contentInsets = itemInsets
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
+        section.orthogonalScrollingBehavior = orthogonalScrollingBehavior
+        
+        if hasHeader {
+            let header = makeHeaderView()
+            section.boundarySupplementaryItems = [header]
+        }
         
         return section
     }
     
-    private func makeMainContentsLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        
+    func makeImageCarouselLayout() -> NSCollectionLayoutSection {
+        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
-        
-        return section
+        return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging)
     }
     
-    private func makeTimelineInfoLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        
+    func makeMainContentsLayout() -> NSCollectionLayoutSection {
+        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
-        
-        let header = makeHeaderView()
-        section.boundarySupplementaryItems = [header]
-        
-        return section
+        return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging)
     }
     
-    private func makeCoastInfoLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        
+    func makeTimelineInfoLayout() -> NSCollectionLayoutSection {
+        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
-        
-        let header = makeHeaderView()
-        section.boundarySupplementaryItems = [header]
-        
-        return section
+        return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging, hasHeader: true)
     }
     
-    private func makeTagInfoLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        
+    func makeCoastInfoLayout() -> NSCollectionLayoutSection {
+        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
-        
-        let header = makeHeaderView()
-        section.boundarySupplementaryItems = [header]
-        
-        return section
+        return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging, hasHeader: true)
     }
     
-    private func makeLikeLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        
+    func makeTagInfoLayout() -> NSCollectionLayoutSection {
+        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
-        
-        return section
+        return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging, hasHeader: true)
     }
     
-    private func makeHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
+    func makeLikeLayout() -> NSCollectionLayoutSection {
+        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
+        return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging)
+    }
+    
+    func makeHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(25))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: InfoHeaderView.elementKinds, alignment: .top)
         return header
     }
-
+    
 }
 
 extension CourseDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -198,31 +165,43 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: UICollectionViewCell
         
-        let sectionType = viewModel.section(at: indexPath.section)
+        let sectionType = viewModel.fetchSection(at: indexPath.section)
         
         switch sectionType {
         case .imageCarousel:
-            let imageCarouselCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCarouselCell.identifier, for: indexPath) as! ImageCarouselCell
+            guard let imageCarouselCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCarouselCell.identifier, for: indexPath) as? ImageCarouselCell else {
+                fatalError("Unable to dequeue ImageCarouselCell")
+            }
             imageCarouselCell.backgroundColor = .red
             cell = imageCarouselCell
         case .mainContents:
-            let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.identifier, for: indexPath) as! MainContentsCell
+            guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.identifier, for: indexPath) as? MainContentsCell else {
+                fatalError("Unable to dequeue MainContentsCell")
+            }
             mainContentsCell.backgroundColor = .green
             cell = mainContentsCell
         case .timelineInfo:
-            let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.identifier, for: indexPath) as! TimelineInfoCell
+            guard let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.identifier, for: indexPath) as? TimelineInfoCell else {
+                fatalError("Unable to dequeue TimelineInfoCell")
+            }
             timelineInfoCell.backgroundColor = .blue
             cell = timelineInfoCell
         case .coastInfo:
-            let coastInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.identifier, for: indexPath) as! CoastInfoCell
+            guard let coastInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.identifier, for: indexPath) as? CoastInfoCell else {
+                fatalError("Unable to dequeue CoastInfoCell")
+            }
             coastInfoCell.backgroundColor = .yellow
             cell = coastInfoCell
         case .tagInfo:
-            let tagInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCell.identifier, for: indexPath) as! TagInfoCell
+            guard let tagInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCell.identifier, for: indexPath) as? TagInfoCell else {
+                fatalError("Unable to dequeue TagInfoCell")
+            }
             tagInfoCell.backgroundColor = .purple
             cell = tagInfoCell
         case .like:
-            let likeCell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCell.identifier, for: indexPath) as! LikeCell
+            guard let likeCell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCell.identifier, for: indexPath) as? LikeCell else {
+                fatalError("Unable to dequeue LikeCell")
+            }
             likeCell.backgroundColor = .orange
             cell = likeCell
         }
@@ -233,13 +212,13 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == InfoHeaderView.elementKinds {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoHeaderView.identifier, for: indexPath) as? InfoHeaderView else { return UICollectionReusableView() }
-            switch viewModel.section(at: indexPath.section) {
+            switch viewModel.fetchSection(at: indexPath.section) {
             case .timelineInfo:
-                header.bindTitle(headerTitle: "코스 타임라인")
+                header.bindTitle(headerTitle: StringLiterals.CourseDetail.timelineInfoLabel)
             case .coastInfo:
-                header.bindTitle(headerTitle: "총 비용")
+                header.bindTitle(headerTitle: StringLiterals.CourseDetail.coastInfoLabel)
             case .tagInfo:
-                header.bindTitle(headerTitle: "태그")
+                header.bindTitle(headerTitle: StringLiterals.CourseDetail.tagInfoLabel)
             default:
                 break
             }

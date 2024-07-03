@@ -13,9 +13,12 @@ import Then
 
 final class TimelineInfoCell: UICollectionViewCell {
     
+    // MARK: - Properties
+    
     static let identifier: String = "TimelineInfoCell"
 
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
         setHierarchy()
         setLayout()
@@ -25,12 +28,12 @@ final class TimelineInfoCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-
 }
 
 // MARK: - Private Methods
+
 private extension TimelineInfoCell {
+    
     func setHierarchy() {
         
     }

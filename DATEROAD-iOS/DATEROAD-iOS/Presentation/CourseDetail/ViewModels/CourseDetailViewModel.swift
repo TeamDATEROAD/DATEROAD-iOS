@@ -46,7 +46,7 @@ class CourseDetailViewModel {
         return sections.count
     }
     
-    func section(at index: Int) -> CourseDetailSection {
+    func fetchSection(at index: Int) -> CourseDetailSection {
         return sections[index]
     }
     

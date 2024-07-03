@@ -13,9 +13,12 @@ import Then
 
 final class TagInfoCell: UICollectionViewCell {
     
+    // MARK: - Properties
+    
     static let identifier: String = "TagInfoCell"
 
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
         setHierarchy()
         setLayout()
@@ -25,12 +28,11 @@ final class TagInfoCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-
 }
 
 // MARK: - Private Methods
 private extension TagInfoCell {
+    
     func setHierarchy() {
         
     }
