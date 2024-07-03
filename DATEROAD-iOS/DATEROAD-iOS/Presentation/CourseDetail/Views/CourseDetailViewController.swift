@@ -48,7 +48,6 @@ final class CourseDetailViewController: BaseNavBarViewController {
         setStyle()
         setDelegate()
         registerCell()
-        setLeftBackButton()
     }
     
     override func setHierarchy() {
@@ -71,11 +70,6 @@ final class CourseDetailViewController: BaseNavBarViewController {
         mainCollectionView.delegate = self
         mainCollectionView.dataSource = self
     }
-    
-    private func configureNavigationBar() {
-            setLeftBackButton()
-            setTitleLabelStyle(title: "Course Detail")
-        }
 }
 
 private extension CourseDetailViewController {
@@ -142,14 +136,14 @@ private extension CourseDetailViewController {
     }
     
     func makeMainContentsLayout() -> NSCollectionLayoutSection {
-        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
+        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(430))
         return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging)
     }
     
     func makeTimelineInfoLayout() -> NSCollectionLayoutSection {
         let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(500))
         return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging, hasHeader: true)
     }
     
@@ -174,6 +168,7 @@ private extension CourseDetailViewController {
     func makeHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(25))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: InfoHeaderView.elementKinds, alignment: .top)
+        header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
         return header
     }
     
