@@ -20,4 +20,10 @@ enum StringLiterals {
         static let appleLoginLabel = "Apple ID로 로그인"
         static let privacyPolicyLabel = "개인정보처리방침"
     }
+    
+    enum CourseDetail {
+        static let timelineInfoLabel = "코스 타임라인"
+        static let coastInfoLabel = "총 비용"
+        static let tagInfoLabel = "태그"
+    }
 }
