@@ -77,7 +77,8 @@ extension TimelineInfoTableViewCell: UITableViewDataSource {
             return UITableViewCell()
         }
         let locationData = locationList[indexPath.row]
-        cell.dataBind(locationData) // Bind data to the cell
+        cell.selectionStyle = .none
+        cell.dataBind(locationData)
         return cell
     }
 }
