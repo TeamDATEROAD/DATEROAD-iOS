@@ -25,17 +25,16 @@ final class PointViewModel {
     ]
     
     var usedPointDummyData = [
-        PointModel(pointSign: "-", pointAmount: 100, pointDescription: "코스 등록하기", pointDate: "2024.7.4."),
-        PointModel(pointSign: "-", pointAmount: 100, pointDescription: "코스 등록하기", pointDate: "2024.7.4."),
-        PointModel(pointSign: "-", pointAmount: 100, pointDescription: "코스 등록하기", pointDate: "2024.7.4."),
-        PointModel(pointSign: "-", pointAmount: 100, pointDescription: "코스 등록하기", pointDate: "2024.7.4."),
-        PointModel(pointSign: "-", pointAmount: 100, pointDescription: "코스 등록하기", pointDate: "2024.7.4."),
-        PointModel(pointSign: "-", pointAmount: 100, pointDescription: "코스 등록하기", pointDate: "2024.7.4."),
-        PointModel(pointSign: "-", pointAmount: 100, pointDescription: "코스 등록하기", pointDate: "2024.7.4."),
-        PointModel(pointSign: "-", pointAmount: 100, pointDescription: "코스 등록하기", pointDate: "2024.7.4."),
-        PointModel(pointSign: "-", pointAmount: 100, pointDescription: "코스 등록하기", pointDate: "2024.7.4."),
-        PointModel(pointSign: "-", pointAmount: 100, pointDescription: "코스 등록하기", pointDate: "2024.7.4.")
-      
+        PointModel(pointSign: "-", pointAmount: 50, pointDescription: "코스 열람하기", pointDate: "2024.7.4."),
+        PointModel(pointSign: "-", pointAmount: 50, pointDescription: "코스 열람하기", pointDate: "2024.7.4."),
+        PointModel(pointSign: "-", pointAmount: 50, pointDescription: "코스 열람하기", pointDate: "2024.7.4."),
+        PointModel(pointSign: "-", pointAmount: 50, pointDescription: "코스 열람하기", pointDate: "2024.7.4."),
+        PointModel(pointSign: "-", pointAmount: 50, pointDescription: "코스 열람하기", pointDate: "2024.7.4."),
+        PointModel(pointSign: "-", pointAmount: 50, pointDescription: "코스 열람하기", pointDate: "2024.7.4."),
+        PointModel(pointSign: "-", pointAmount: 50, pointDescription: "코스 열람하기", pointDate: "2024.7.4."),
+        PointModel(pointSign: "-", pointAmount: 50, pointDescription: "코스 열람하기", pointDate: "2024.7.4."),
+        PointModel(pointSign: "-", pointAmount: 50, pointDescription: "코스 열람하기", pointDate: "2024.7.4."),
+        PointModel(pointSign: "-", pointAmount: 50, pointDescription: "코스 열람하기", pointDate: "2024.7.4.")
     ]
 
 }

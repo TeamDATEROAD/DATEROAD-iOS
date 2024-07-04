@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PointCollectionView: UICollectionView {
+final class PointCollectionView: UICollectionView {
     
     // MARK: - UI Properties
     

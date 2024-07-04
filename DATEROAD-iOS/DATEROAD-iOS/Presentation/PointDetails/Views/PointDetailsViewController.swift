@@ -58,14 +58,14 @@ class PointDetailsViewController: BaseNavBarViewController {
     }
     
     override func setHierarchy() {
-        super.setHierarchy()
+        // super.setHierarchy()
         
-        self.contentView.addSubviews(pointView, segmentControl, segmentControlUnderLineView, selectedSegmentUnderLineView, pointEarnedCollectionView, pointUsedCollectionView)
+        self.contentView.addSubviews(pointView, segmentControl, segmentControlUnderLineView, selectedSegmentUnderLineView, pointUsedCollectionView, pointEarnedCollectionView)
         self.pointView.addSubviews(namePointLabel, totalPointLabel)
     }
     
     override func setLayout() {
-        super.setLayout()
+        // super.setLayout()
         
         pointView.snp.makeConstraints{
             $0.top.equalToSuperview().offset(20)
@@ -117,7 +117,7 @@ class PointDetailsViewController: BaseNavBarViewController {
     }
     
     override func setStyle() {
-        super.setStyle()
+        // super.setStyle()
         
         pointView.do {
             $0.backgroundColor = UIColor(resource: .deepPurple)
@@ -171,7 +171,8 @@ class PointDetailsViewController: BaseNavBarViewController {
 // MARK: - Private Method
 
 private extension PointDetailsViewController {
-    @objc func didChangeValue(segment: UISegmentedControl) {
+    @objc 
+    func didChangeValue(segment: UISegmentedControl) {
         self.isEarnedPointHidden = self.segmentControl.selectedSegmentIndex != 0
         changeSelectedSegmentUnderLineLayout()
     }

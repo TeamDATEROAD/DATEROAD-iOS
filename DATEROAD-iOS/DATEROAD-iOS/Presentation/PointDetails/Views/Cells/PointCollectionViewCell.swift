@@ -25,12 +25,14 @@ class PointCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
     
     static let identifier = "PointCollectionViewCell"
+    
     var pointItemRow: Int?
     
     // MARK: - LifeCycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         setHierarchy()
         setLayout()
         setStyle()
@@ -43,7 +45,10 @@ class PointCollectionViewCell: UICollectionViewCell {
     
     
     func setHierarchy() {
-        self.addSubviews(pointAmountLabel, pointDescriptionLabel, pointDateLabel, cellDivider)
+        self.addSubviews(pointAmountLabel, 
+                         pointDescriptionLabel,
+                         pointDateLabel,
+                         cellDivider)
     }
     
     func setLayout() {
