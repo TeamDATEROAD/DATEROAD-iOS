@@ -126,12 +126,14 @@ class PointDetailsViewController: BaseNavBarViewController {
             $0.font = UIFont.suit(.body_med_13)
             $0.textColor = UIColor(resource: .drWhite)
             $0.textAlignment = .left
+            $0.text = "\(pointViewModel.pointUserDummyData.userName ?? "00") 님의 포인트"
         }
         
         totalPointLabel.do {
             $0.font = UIFont.suit(.title_extra_24)
             $0.textColor = UIColor(resource: .drWhite)
             $0.textAlignment = .left
+            $0.text = "\(pointViewModel.pointUserDummyData.totalPoint ?? 0) P"
         }
         
         segmentControl.do {

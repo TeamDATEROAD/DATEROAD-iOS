@@ -8,17 +8,21 @@
 import UIKit
 
 class PointCollectionView: UICollectionView {
+    
     // MARK: - UI Properties
     
     static var pointCollectionViewLayout: UICollectionViewFlowLayout {
-       let layout = UICollectionViewFlowLayout()
-       layout.scrollDirection = .vertical
-       return layout
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 0
+        return layout
    }
     
     // MARK: - Properties
     
     private var pointData: [PointModel] = []
+    
+    // MARK: - LifeCycle
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         let flowLayout = PointCollectionView.pointCollectionViewLayout
@@ -26,32 +30,38 @@ class PointCollectionView: UICollectionView {
         self.backgroundColor = .black
         register()
         setDelegate()
-        // setUpBindings(pointData: pointDummyData)
+        setStyle()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setUpBindings(pointData : [PointModel]) {
-        self.pointData = pointData
+    func setStyle() {
+        self.backgroundColor = UIColor(resource: .drWhite)
     }
 
 }
 
-private extension PointCollectionView {
-    func register() {
+
+// MARK: - CollectionView Methods
+
+extension PointCollectionView {
+    private func register() {
         self.register(PointCollectionViewCell.self, forCellWithReuseIdentifier: "PointCollectionViewCell")
     }
     
-    func setDelegate() {
+    private func setDelegate() {
         self.delegate = self
         self.dataSource = self
     }
 
+    func setUpBindings(pointData : [PointModel]) {
+        self.pointData = pointData
+    }
 }
 
-// MARK: UICollectionViewDelegateFlowLayout
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension PointCollectionView : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -59,7 +69,7 @@ extension PointCollectionView : UICollectionViewDelegateFlowLayout {
     }
 }
 
-// MARK: UICollectionViewDataSource
+// MARK: - UICollectionViewDataSource
 
 extension PointCollectionView : UICollectionViewDataSource {
     

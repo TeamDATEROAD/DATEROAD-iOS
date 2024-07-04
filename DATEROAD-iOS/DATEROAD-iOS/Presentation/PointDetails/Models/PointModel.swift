@@ -7,6 +7,16 @@
 
 import Foundation
 
+struct PointUserModel {
+    let userName: String?
+    let totalPoint: Int?
+    
+    init(userName: String?, totalPoint: Int?) {
+        self.userName = userName
+        self.totalPoint = totalPoint
+    }
+}
+
 struct PointModel {
     let pointAmount: Int?
     let pointDescription: String?
