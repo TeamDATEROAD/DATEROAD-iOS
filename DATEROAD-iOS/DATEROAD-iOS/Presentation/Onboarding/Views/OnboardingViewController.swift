@@ -99,6 +99,7 @@ extension OnboardingViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OnboardingCollectionViewCell.cellIdentifier, for: indexPath) as? OnboardingCollectionViewCell else { return UICollectionViewCell() }
+        cell.prepareForReuse()
         cell.setOnboardingData(data: onboardingViewModel.datasource[indexPath.row])
         cell.nextButton.addTarget(self, action: #selector(pushToNextView), for: .touchUpInside)
         return cell
@@ -121,7 +122,7 @@ extension OnboardingViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        return .zero
     }
 
 }

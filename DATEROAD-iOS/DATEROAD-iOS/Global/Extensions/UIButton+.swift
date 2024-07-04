@@ -36,6 +36,7 @@ extension UIButton {
         self.isEnabled = buttonType.isEnabled
         self.layer.cornerRadius = 14
         self.clipsToBounds = true
+        self.titleLabel?.font = UIFont.suit(.body_bold_15)
     }
     
 }

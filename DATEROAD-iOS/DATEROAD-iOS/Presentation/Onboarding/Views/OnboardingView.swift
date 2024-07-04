@@ -18,6 +18,7 @@ final class OnboardingView: BaseView {
     
     // MARK: - Properties
     
+
     
     // MARK: - Methods
     
@@ -31,7 +32,7 @@ final class OnboardingView: BaseView {
         }
         
         pageControl.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(85)
+            $0.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(35)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(8)
         }
@@ -43,7 +44,8 @@ final class OnboardingView: BaseView {
             layout.scrollDirection = .horizontal
             $0.collectionViewLayout = layout
             $0.showsHorizontalScrollIndicator = false
-            $0.backgroundColor = UIColor(resource: .lime)
+            $0.backgroundColor = UIColor(resource: .drWhite)
+            $0.contentInsetAdjustmentBehavior = .never
             $0.isPagingEnabled = true
             $0.isScrollEnabled = true
         }

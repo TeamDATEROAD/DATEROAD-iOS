@@ -45,7 +45,7 @@ final class OnboardingCollectionViewCell: BaseCollectionViewCell {
         }
         
         mainInfoLabel.snp.makeConstraints {
-            $0.top.equalTo(backgroundImage).inset(130)
+            $0.top.equalTo(self.contentView.safeAreaLayoutGuide.snp.top).offset(80)
             $0.centerX.equalToSuperview()
         }
         
@@ -70,15 +70,11 @@ final class OnboardingCollectionViewCell: BaseCollectionViewCell {
         }
         
         mainInfoLabel.do {
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.textAlignment = .center
-            $0.numberOfLines = 0
+            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_extra_24))
         }
         
         subInfoLabel.do {
-            $0.textColor = UIColor(resource: .gray500)
-            $0.textAlignment = .center
-            $0.numberOfLines = 0
+            $0.setLabel(textColor: UIColor(resource: .gray500), font: UIFont.suit(.body_med_15))
         }
         
     }
@@ -91,10 +87,9 @@ final class OnboardingCollectionViewCell: BaseCollectionViewCell {
             self.backgroundImage.isHidden = true
         }
         
-        self.mainInfoLabel.text = data.mainInfo
-        data.pointText.forEach {
+        for index in 0..<data.pointText.count {
             self.mainInfoLabel.setAttributedText(fullText: data.mainInfo,
-                                                 pointText: $0,
+                                                 pointText: data.pointText[index],
                                                  pointColor: UIColor(resource: .deepPurple),
                                                  lineHeight: 1.04)
         }

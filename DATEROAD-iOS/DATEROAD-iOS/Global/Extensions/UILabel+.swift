@@ -18,13 +18,25 @@ extension UILabel {
     
     // 특정 텍스트의 색상을 변경해주고, 문단 간격 설정해주는 메소드
     func setAttributedText(fullText: String, pointText: String, pointColor: UIColor, lineHeight: CGFloat) {
-        let fullText = text ?? ""
         let attributedString = NSMutableAttributedString(string: fullText)
         let range = (fullText as NSString).range(of: pointText)
-        var paragraphStyle = NSMutableParagraphStyle()
+        if range.location != NSNotFound {
+            attributedString.addAttribute(.foregroundColor, value: pointColor, range: range)
+        }
+        let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = lineHeight
-        attributedString.addAttributes([.foregroundColor: pointColor, .paragraphStyle: paragraphStyle], range: range)
-        attributedText = attributedString
+        paragraphStyle.alignment = self.textAlignment
+        attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
+        self.attributedText = attributedString
+    }
+    
+    // 기본 라벨 속성 설정 메소드
+    func setLabel(text: String? = "", alignment: NSTextAlignment = .center, numberOfLines: Int = 0, textColor: UIColor, font: UIFont) {
+        self.text = text
+        self.textAlignment = alignment
+        self.numberOfLines = numberOfLines
+        self.textColor = textColor
+        self.font = font
     }
 }
 
