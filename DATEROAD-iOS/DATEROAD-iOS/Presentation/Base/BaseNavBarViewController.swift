@@ -18,7 +18,7 @@ class BaseNavBarViewController: UIViewController {
     
     private var navigationBarView = UIView()
     
-    private var contentView = UIView()
+    var contentView = UIView()
     
     private var leftButton = UIButton()
     
