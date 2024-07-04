@@ -39,14 +39,6 @@ class PointDetailsViewController: BaseNavBarViewController {
     
     private lazy var usedPointDummyData = pointViewModel.usedPointDummyData
     
-    private var isEarnedPointHidden : Bool? {
-        didSet {
-            guard let isEarnedPointHidden = self.isEarnedPointHidden else { return }
-            self.pointEarnedCollectionView.isHidden = isEarnedPointHidden
-            self.pointUsedCollectionView.isHidden = !self.pointEarnedCollectionView.isHidden
-        }
-    }
-    
     private let segmentBackgroundImage = UIImage()
     
     // MARK: - LifeCycle
@@ -58,14 +50,14 @@ class PointDetailsViewController: BaseNavBarViewController {
     }
     
     override func setHierarchy() {
-        // super.setHierarchy()
+        super.setHierarchy()
         
         self.contentView.addSubviews(pointView, segmentControl, segmentControlUnderLineView, selectedSegmentUnderLineView, pointUsedCollectionView, pointEarnedCollectionView)
         self.pointView.addSubviews(namePointLabel, totalPointLabel)
     }
     
     override func setLayout() {
-        // super.setLayout()
+        super.setLayout()
         
         pointView.snp.makeConstraints{
             $0.top.equalToSuperview().offset(20)
@@ -117,7 +109,7 @@ class PointDetailsViewController: BaseNavBarViewController {
     }
     
     override func setStyle() {
-        // super.setStyle()
+        super.setStyle()
         
         pointView.do {
             $0.backgroundColor = UIColor(resource: .deepPurple)
@@ -173,12 +165,15 @@ class PointDetailsViewController: BaseNavBarViewController {
 private extension PointDetailsViewController {
     @objc 
     func didChangeValue(segment: UISegmentedControl) {
-        self.isEarnedPointHidden = self.segmentControl.selectedSegmentIndex != 0
-        changeSelectedSegmentUnderLineLayout()
+        pointViewModel.changeSegment(segmentIndex: segmentControl.selectedSegmentIndex)
+        changeSelectedSegmentLayout(isEarnedPointHidden: pointViewModel.isEarnedPointHidden.value)
     }
     
-    func changeSelectedSegmentUnderLineLayout() {
-        guard let isEarnedPointHidden = self.isEarnedPointHidden else { return }
+    func changeSelectedSegmentLayout(isEarnedPointHidden: Bool?) {
+        guard let isEarnedPointHidden = isEarnedPointHidden else { return }
+        self.pointEarnedCollectionView.isHidden = isEarnedPointHidden
+        self.pointUsedCollectionView.isHidden = !self.pointEarnedCollectionView.isHidden
+        
         if isEarnedPointHidden {
             self.selectedSegmentUnderLineView.snp.updateConstraints {
                 $0.leading.equalToSuperview().inset(ScreenUtils.width/2)

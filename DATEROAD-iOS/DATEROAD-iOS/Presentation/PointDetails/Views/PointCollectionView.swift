@@ -7,16 +7,13 @@
 
 import UIKit
 
+import Then
+
 final class PointCollectionView: UICollectionView {
     
     // MARK: - UI Properties
     
-    static var pointCollectionViewLayout: UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 0
-        return layout
-   }
+    static var pointCollectionViewLayout = UICollectionViewFlowLayout()
     
     // MARK: - Properties
     
@@ -39,6 +36,11 @@ final class PointCollectionView: UICollectionView {
     
     func setStyle() {
         self.backgroundColor = UIColor(resource: .drWhite)
+        
+        PointCollectionView.pointCollectionViewLayout.do {
+            $0.scrollDirection = .vertical
+            $0.minimumLineSpacing = 0
+        }
     }
 
 }

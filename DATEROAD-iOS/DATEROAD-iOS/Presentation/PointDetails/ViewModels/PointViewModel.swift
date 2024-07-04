@@ -36,5 +36,11 @@ final class PointViewModel {
         PointModel(pointSign: "-", pointAmount: 50, pointDescription: "코스 열람하기", pointDate: "2024.7.4."),
         PointModel(pointSign: "-", pointAmount: 50, pointDescription: "코스 열람하기", pointDate: "2024.7.4.")
     ]
-
+    
+    var isEarnedPointHidden : ObservablePattern<Bool> = ObservablePattern(false)
+    
+    func changeSegment(segmentIndex: Int) {
+        isEarnedPointHidden.value = segmentIndex != 0
+    }
+    
 }
