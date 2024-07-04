@@ -71,6 +71,11 @@
 		CA4EF3E52C3538AA003B02B6 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */; };
 		CA4EF3EB2C3605D9003B02B6 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3EA2C3605D9003B02B6 /* UIFont+.swift */; };
 		CA4EF3EC2C360B7B003B02B6 /* SUIT-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF62C329A6400855E61 /* SUIT-Medium.otf */; };
+		748400E02C36824500513E04 /* PointCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400DF2C36824500513E04 /* PointCollectionViewCell.swift */; };
+		748400E22C3685BA00513E04 /* PointModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400E12C3685BA00513E04 /* PointModel.swift */; };
+		748400E42C3688D700513E04 /* PointCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400E32C3688D700513E04 /* PointCollectionView.swift */; };
+		748400E62C36899800513E04 /* PointViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400E52C36899800513E04 /* PointViewModel.swift */; };
+		74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -133,6 +138,11 @@
 		CA4EF3E12C3537F3003B02B6 /* OnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
 		CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		CA4EF3EA2C3605D9003B02B6 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
+		748400DF2C36824500513E04 /* PointCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCollectionViewCell.swift; sourceTree = "<group>"; };
+		748400E12C3685BA00513E04 /* PointModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointModel.swift; sourceTree = "<group>"; };
+		748400E32C3688D700513E04 /* PointCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCollectionView.swift; sourceTree = "<group>"; };
+		748400E52C36899800513E04 /* PointViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointViewModel.swift; sourceTree = "<group>"; };
+		74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -311,6 +321,7 @@
 				CA0A963C2C2B12FC00F39EBE /* Base */,
 				CA3D0D0A2C29A7D800735097 /* Login */,
 				0D9497AD2C327C660004B442 /* CourseDetail */,
+                74F8E2D22C3464BD0088AFA4 /* PointDetails */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -484,6 +495,50 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		748400DC2C367DD700513E04 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				748400DF2C36824500513E04 /* PointCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		74F8E2D22C3464BD0088AFA4 /* PointDetails */ = {
+			isa = PBXGroup;
+			children = (
+				74F8E2D52C34653D0088AFA4 /* Views */,
+				74F8E2D42C3465370088AFA4 /* ViewModels */,
+				74F8E2D32C34652F0088AFA4 /* Models */,
+			);
+			path = PointDetails;
+            sourceTree = "<group>";
+		};
+		74F8E2D32C34652F0088AFA4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+                748400E12C3685BA00513E04 /* PointModel.swift */,
+			);
+			path = Models;
+            sourceTree = "<group>";
+		};
+		74F8E2D42C3465370088AFA4 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				748400E52C36899800513E04 /* PointViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		74F8E2D52C34653D0088AFA4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				748400DC2C367DD700513E04 /* Cells */,
+				74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */,
+				748400E32C3688D700513E04 /* PointCollectionView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -625,6 +680,11 @@
 				0D9497C72C32A3320004B442 /* MainContentsViewModel.swift in Sources */,
 				0D9497C32C3292F50004B442 /* LikeCell.swift in Sources */,
 				0D9497C12C3292E90004B442 /* TagInfoCell.swift in Sources */,
+                748400E22C3685BA00513E04 /* PointModel.swift in Sources */,
+                748400E02C36824500513E04 /* PointCollectionViewCell.swift in Sources */,
+                748400E42C3688D700513E04 /* PointCollectionView.swift in Sources */,
+                748400E62C36899800513E04 /* PointViewModel.swift in Sources */,
+                74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
