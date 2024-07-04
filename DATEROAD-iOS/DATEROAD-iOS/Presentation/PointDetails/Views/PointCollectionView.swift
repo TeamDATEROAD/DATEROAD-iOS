@@ -50,7 +50,7 @@ final class PointCollectionView: UICollectionView {
 
 extension PointCollectionView {
     private func register() {
-        self.register(PointCollectionViewCell.self, forCellWithReuseIdentifier: "PointCollectionViewCell")
+        self.register(PointCollectionViewCell.self, forCellWithReuseIdentifier: PointCollectionViewCell.cellIdentifier)
     }
     
     private func setDelegate() {
@@ -80,7 +80,7 @@ extension PointCollectionView : UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PointCollectionViewCell.identifier, for: indexPath) as? PointCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PointCollectionViewCell.cellIdentifier, for: indexPath) as? PointCollectionViewCell else { return UICollectionViewCell() }
         cell.dataBind(pointData[indexPath.item], indexPath.item)
         return cell
     }

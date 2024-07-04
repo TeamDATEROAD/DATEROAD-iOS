@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class PointCollectionViewCell: UICollectionViewCell {
+class PointCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
@@ -24,8 +24,6 @@ class PointCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    static let identifier = "PointCollectionViewCell"
-    
     var pointItemRow: Int?
     
     // MARK: - LifeCycle
@@ -33,9 +31,6 @@ class PointCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setHierarchy()
-        setLayout()
-        setStyle()
     }
     
     @available(*, unavailable)
@@ -44,14 +39,14 @@ class PointCollectionViewCell: UICollectionViewCell {
     }
     
     
-    func setHierarchy() {
-        self.addSubviews(pointAmountLabel, 
+    override func setHierarchy() {
+        self.addSubviews(pointAmountLabel,
                          pointDescriptionLabel,
                          pointDateLabel,
                          cellDivider)
     }
     
-    func setLayout() {
+    override func setLayout() {
         pointAmountLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(20)
             $0.leading.equalToSuperview().inset(16)
@@ -77,9 +72,8 @@ class PointCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func setStyle() {
+    override func setStyle() {
         self.backgroundColor = UIColor(resource: .drWhite)
-        
         pointAmountLabel.do {
             $0.textColor = UIColor(resource: .drBlack)
             $0.font = UIFont.suit(.body_bold_15)
