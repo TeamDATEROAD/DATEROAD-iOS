@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 class PointDetailsViewController: BaseNavBarViewController {
-
+    
     // MARK: - UI Properties
     
     private let pointView = UIView()
@@ -26,12 +26,16 @@ class PointDetailsViewController: BaseNavBarViewController {
     
     private let selectedSegmentUnderLineView = UIView()
     
-    private var pointEarnedCollectionView = PointTableView()
+    private var pointEarnedCollectionView = PointCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    private var pointUsedCollectionView = PointTableView()
+    private var pointUsedCollectionView = PointCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     
     // MARK: - Properties
+    
+    private let pointViewModel = PointViewModel()
+    
+    private lazy var pointDummyData = pointViewModel.pointDummyData
     
     private var isEarnedPointHidden : Bool? {
         didSet {
@@ -147,7 +151,17 @@ class PointDetailsViewController: BaseNavBarViewController {
         selectedSegmentUnderLineView.do {
             $0.backgroundColor = UIColor(resource: .drBlack)
         }
+        
+        pointEarnedCollectionView.do {
+            $0.setUpBindings(pointData: pointDummyData)
+        }
+        
+        pointUsedCollectionView.do {
+            $0.setUpBindings(pointData: pointDummyData)
+        }
+
     }
+
 }
 
 // MARK: - Private Method
