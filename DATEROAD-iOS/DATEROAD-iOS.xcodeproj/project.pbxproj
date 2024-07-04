@@ -24,11 +24,17 @@
 		0D9497CF2C32A3D20004B442 /* LikeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497CE2C32A3D20004B442 /* LikeViewModel.swift */; };
 		0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497D02C32A75A0004B442 /* InfoHeaderView.swift */; };
 		0D9497D32C33BD760004B442 /* BottomPageControllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497D22C33BD760004B442 /* BottomPageControllView.swift */; };
+		741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */; };
+		748400E02C36824500513E04 /* PointCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400DF2C36824500513E04 /* PointCollectionViewCell.swift */; };
+		748400E22C3685BA00513E04 /* PointModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400E12C3685BA00513E04 /* PointModel.swift */; };
+		748400E42C3688D700513E04 /* PointCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400E32C3688D700513E04 /* PointCollectionView.swift */; };
+		748400E62C36899800513E04 /* PointViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400E52C36899800513E04 /* PointViewModel.swift */; };
 		74A70BFA2C329A9600855E61 /* SUIT-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF82C329A6900855E61 /* SUIT-SemiBold.otf */; };
 		74A70BFC2C329A9C00855E61 /* SUIT-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF72C329A6700855E61 /* SUIT-Regular.otf */; };
 		74A70C012C329AB000855E61 /* SUIT-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF22C329A5B00855E61 /* SUIT-ExtraBold.otf */; };
 		74A70C022C329AB200855E61 /* SUIT-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74BC16652C329A110084E832 /* SUIT-Bold.otf */; };
 		74BC165A2C3284A90084E832 /* BaseNavBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BC16592C3284A90084E832 /* BaseNavBarViewController.swift */; };
+		74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */; };
 		CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A963D2C2B131300F39EBE /* BaseViewController.swift */; };
 		CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96422C2C60E800F39EBE /* LoginModel.swift */; };
 		CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96442C2C610900F39EBE /* LoginViewModel.swift */; };
@@ -71,11 +77,6 @@
 		CA4EF3E52C3538AA003B02B6 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */; };
 		CA4EF3EB2C3605D9003B02B6 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3EA2C3605D9003B02B6 /* UIFont+.swift */; };
 		CA4EF3EC2C360B7B003B02B6 /* SUIT-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF62C329A6400855E61 /* SUIT-Medium.otf */; };
-		748400E02C36824500513E04 /* PointCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400DF2C36824500513E04 /* PointCollectionViewCell.swift */; };
-		748400E22C3685BA00513E04 /* PointModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400E12C3685BA00513E04 /* PointModel.swift */; };
-		748400E42C3688D700513E04 /* PointCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400E32C3688D700513E04 /* PointCollectionView.swift */; };
-		748400E62C36899800513E04 /* PointViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400E52C36899800513E04 /* PointViewModel.swift */; };
-		74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,12 +97,18 @@
 		0D9497CE2C32A3D20004B442 /* LikeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewModel.swift; sourceTree = "<group>"; };
 		0D9497D02C32A75A0004B442 /* InfoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoHeaderView.swift; sourceTree = "<group>"; };
 		0D9497D22C33BD760004B442 /* BottomPageControllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPageControllView.swift; sourceTree = "<group>"; };
+		741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseViewController.swift; sourceTree = "<group>"; };
+		748400DF2C36824500513E04 /* PointCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCollectionViewCell.swift; sourceTree = "<group>"; };
+		748400E12C3685BA00513E04 /* PointModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointModel.swift; sourceTree = "<group>"; };
+		748400E32C3688D700513E04 /* PointCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCollectionView.swift; sourceTree = "<group>"; };
+		748400E52C36899800513E04 /* PointViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointViewModel.swift; sourceTree = "<group>"; };
 		74A70BF22C329A5B00855E61 /* SUIT-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-ExtraBold.otf"; sourceTree = "<group>"; };
 		74A70BF62C329A6400855E61 /* SUIT-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Medium.otf"; sourceTree = "<group>"; };
 		74A70BF72C329A6700855E61 /* SUIT-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Regular.otf"; sourceTree = "<group>"; };
 		74A70BF82C329A6900855E61 /* SUIT-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-SemiBold.otf"; sourceTree = "<group>"; };
 		74BC16592C3284A90084E832 /* BaseNavBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavBarViewController.swift; sourceTree = "<group>"; };
 		74BC16652C329A110084E832 /* SUIT-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Bold.otf"; sourceTree = "<group>"; };
+		74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointDetailsViewController.swift; sourceTree = "<group>"; };
 		CA0A963D2C2B131300F39EBE /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CA0A96422C2C60E800F39EBE /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		CA0A96442C2C610900F39EBE /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -138,11 +145,6 @@
 		CA4EF3E12C3537F3003B02B6 /* OnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
 		CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		CA4EF3EA2C3605D9003B02B6 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
-		748400DF2C36824500513E04 /* PointCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCollectionViewCell.swift; sourceTree = "<group>"; };
-		748400E12C3685BA00513E04 /* PointModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointModel.swift; sourceTree = "<group>"; };
-		748400E32C3688D700513E04 /* PointCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCollectionView.swift; sourceTree = "<group>"; };
-		748400E52C36899800513E04 /* PointViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointViewModel.swift; sourceTree = "<group>"; };
-		74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +223,46 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		741AE2DD2C37288A0031849F /* ViewedCourse */ = {
+			isa = PBXGroup;
+			children = (
+				741AE2E02C3728B40031849F /* Models */,
+				741AE2DF2C3728A20031849F /* ViewModels */,
+				741AE2DE2C37289B0031849F /* Views */,
+			);
+			path = ViewedCourse;
+			sourceTree = "<group>";
+		};
+		741AE2DE2C37289B0031849F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		741AE2DF2C3728A20031849F /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		741AE2E02C3728B40031849F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		748400DC2C367DD700513E04 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				748400DF2C36824500513E04 /* PointCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		74BC165B2C3299E10084E832 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,6 +273,42 @@
 				74BC16652C329A110084E832 /* SUIT-Bold.otf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		74F8E2D22C3464BD0088AFA4 /* PointDetails */ = {
+			isa = PBXGroup;
+			children = (
+				74F8E2D52C34653D0088AFA4 /* Views */,
+				74F8E2D42C3465370088AFA4 /* ViewModels */,
+				74F8E2D32C34652F0088AFA4 /* Models */,
+			);
+			path = PointDetails;
+			sourceTree = "<group>";
+		};
+		74F8E2D32C34652F0088AFA4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				748400E12C3685BA00513E04 /* PointModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		74F8E2D42C3465370088AFA4 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				748400E52C36899800513E04 /* PointViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		74F8E2D52C34653D0088AFA4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				748400DC2C367DD700513E04 /* Cells */,
+				74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */,
+				748400E32C3688D700513E04 /* PointCollectionView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		CA0A963C2C2B12FC00F39EBE /* Base */ = {
@@ -316,12 +394,13 @@
 		CA3D0D092C29A75600735097 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				741AE2DD2C37288A0031849F /* ViewedCourse */,
 				CA4EF3D22C3475EE003B02B6 /* Onboarding */,
 				CA4EF3CC2C328F2C003B02B6 /* Splash */,
 				CA0A963C2C2B12FC00F39EBE /* Base */,
 				CA3D0D0A2C29A7D800735097 /* Login */,
 				0D9497AD2C327C660004B442 /* CourseDetail */,
-                74F8E2D22C3464BD0088AFA4 /* PointDetails */,
+				74F8E2D22C3464BD0088AFA4 /* PointDetails */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -495,50 +574,6 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		748400DC2C367DD700513E04 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				748400DF2C36824500513E04 /* PointCollectionViewCell.swift */,
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
-		74F8E2D22C3464BD0088AFA4 /* PointDetails */ = {
-			isa = PBXGroup;
-			children = (
-				74F8E2D52C34653D0088AFA4 /* Views */,
-				74F8E2D42C3465370088AFA4 /* ViewModels */,
-				74F8E2D32C34652F0088AFA4 /* Models */,
-			);
-			path = PointDetails;
-            sourceTree = "<group>";
-		};
-		74F8E2D32C34652F0088AFA4 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-                748400E12C3685BA00513E04 /* PointModel.swift */,
-			);
-			path = Models;
-            sourceTree = "<group>";
-		};
-		74F8E2D42C3465370088AFA4 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				748400E52C36899800513E04 /* PointViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		74F8E2D52C34653D0088AFA4 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				748400DC2C367DD700513E04 /* Cells */,
-				74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */,
-				748400E32C3688D700513E04 /* PointCollectionView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -676,15 +711,16 @@
 				0D9497D32C33BD760004B442 /* BottomPageControllView.swift in Sources */,
 				0D9497C52C32A2FF0004B442 /* ImageCarouselViewModel.swift in Sources */,
 				0D9497CF2C32A3D20004B442 /* LikeViewModel.swift in Sources */,
+				741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */,
 				0D9497C92C32A35E0004B442 /* TimelineInfoViewModel.swift in Sources */,
 				0D9497C72C32A3320004B442 /* MainContentsViewModel.swift in Sources */,
 				0D9497C32C3292F50004B442 /* LikeCell.swift in Sources */,
 				0D9497C12C3292E90004B442 /* TagInfoCell.swift in Sources */,
-                748400E22C3685BA00513E04 /* PointModel.swift in Sources */,
-                748400E02C36824500513E04 /* PointCollectionViewCell.swift in Sources */,
-                748400E42C3688D700513E04 /* PointCollectionView.swift in Sources */,
-                748400E62C36899800513E04 /* PointViewModel.swift in Sources */,
-                74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */,
+				748400E22C3685BA00513E04 /* PointModel.swift in Sources */,
+				748400E02C36824500513E04 /* PointCollectionViewCell.swift in Sources */,
+				748400E42C3688D700513E04 /* PointCollectionView.swift in Sources */,
+				748400E62C36899800513E04 /* PointViewModel.swift in Sources */,
+				74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
