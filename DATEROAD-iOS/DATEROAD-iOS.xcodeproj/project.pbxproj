@@ -64,7 +64,7 @@
         CA4EF3CB2C3287DA003B02B6 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3CA2C3287DA003B02B6 /* Config.swift */; };
         CA4EF3D12C3461C7003B02B6 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3D02C3461C7003B02B6 /* UIFont+.swift */; };
 		74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */; };
-		CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A963D2C2B131300F39EBE /* BaseViewController.swift */; };
+        746287D52C35C65B007CED48 /* PointTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746287D42C35C65B007CED48 /* PointTableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -295,6 +295,7 @@
             children = (
                 CA4EF3CC2C328F2C003B02B6 /* Splash */,
                 CA0A963C2C2B12FC00F39EBE /* Base */,
+                74F8E2D22C3464BD0088AFA4 /* PointDetails */,
                 0D9497AD2C327C660004B442 /* CourseDetail */,
                 CA3D0D0A2C29A7D800735097 /* Login */,
             );
@@ -428,6 +429,29 @@
 			path = PointDetails;
 			sourceTree = "<group>";
 		};
+        74F8E2D32C34652F0088AFA4 /* Models */ = {
+            isa = PBXGroup;
+            children = (
+            );
+            path = Models;
+            sourceTree = "<group>";
+        };
+        74F8E2D42C3465370088AFA4 /* ViewModels */ = {
+            isa = PBXGroup;
+            children = (
+            );
+            path = ViewModels;
+            sourceTree = "<group>";
+        };
+        74F8E2D52C34653D0088AFA4 /* Views */ = {
+            isa = PBXGroup;
+            children = (
+                74F8E2D62C3466840088AFA4 /* PointDetailsViewController.swift */,
+                746287D42C35C65B007CED48 /* PointTableView.swift */,
+            );
+            path = Views;
+            sourceTree = "<group>";
+        };
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -563,11 +587,11 @@
                 0D9497C72C32A3320004B442 /* MainContentsViewModel.swift in Sources */,
                 0D9497C32C3292F50004B442 /* LikeCell.swift in Sources */,
                 0D9497C12C3292E90004B442 /* TagInfoCell.swift in Sources */,
+                746287D52C35C65B007CED48 /* PointTableView.swift in Sources */,
+                74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
-				746287D52C35C65B007CED48 /* PointTableView.swift in Sources */,
-				74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */,
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
