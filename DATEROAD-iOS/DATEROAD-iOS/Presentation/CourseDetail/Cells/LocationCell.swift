@@ -63,8 +63,8 @@ private extension LocationCell {
     
     func setLayout() {
         timelineBackgroundView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(50)
+            $0.leading.trailing.top.equalToSuperview()
+            $0.height.equalTo(54)
         }
         
         circleView.snp.makeConstraints {

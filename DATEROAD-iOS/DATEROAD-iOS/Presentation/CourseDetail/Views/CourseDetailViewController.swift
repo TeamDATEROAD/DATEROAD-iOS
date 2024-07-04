@@ -151,7 +151,7 @@ private extension CourseDetailViewController {
     
     func makeTimelineInfoLayout() -> NSCollectionLayoutSection {
         let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(334))
         return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .none, hasHeader: true)
     }
     
