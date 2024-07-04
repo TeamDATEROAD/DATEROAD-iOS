@@ -53,7 +53,6 @@ private extension InfoHeaderView {
             $0.bottom.equalToSuperview()
             $0.leading.equalToSuperview()
         }
-        
     }
     
     func setStyle() {

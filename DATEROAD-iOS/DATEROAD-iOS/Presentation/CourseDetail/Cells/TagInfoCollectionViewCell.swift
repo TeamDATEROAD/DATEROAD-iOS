@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class TagInfoCell: UICollectionViewCell {
+class TagInfoCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
@@ -28,7 +28,7 @@ class TagInfoCell: UICollectionViewCell {
         let layout = LeftAlignedCollectionViewFlowLayout()
         //아이템 간격
         layout.minimumInteritemSpacing = 7
-        layout.sectionInset = UIEdgeInsets(top: 12, left: 0, bottom: 34, right: 14)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 14)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.isScrollEnabled = false
@@ -73,7 +73,7 @@ class TagInfoCell: UICollectionViewCell {
 
 // MARK: - UICollectionViewDataSource
 
-extension TagInfoCell: UICollectionViewDataSource {
+extension TagInfoCollectionViewCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return tagList.count
@@ -88,7 +88,7 @@ extension TagInfoCell: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
-extension TagInfoCell: UICollectionViewDelegateFlowLayout {
+extension TagInfoCollectionViewCell: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let label = UILabel()

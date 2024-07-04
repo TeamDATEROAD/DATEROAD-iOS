@@ -9,6 +9,6 @@ import Foundation
 
 struct ImageCarouselViewModel {
     var numberOfItems: Int {
-        return 5
+        return 10
     }
 }

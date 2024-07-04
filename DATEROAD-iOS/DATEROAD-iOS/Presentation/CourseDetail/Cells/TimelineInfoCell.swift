@@ -99,7 +99,7 @@ private extension TimelineInfoCell {
     func setStyle() {
         timelineBackgroundView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.layer.cornerRadius = 10
+            $0.layer.cornerRadius = 14
         }
         
         circleView.do {
@@ -121,7 +121,7 @@ private extension TimelineInfoCell {
         
         timeBoxView.do {
             $0.backgroundColor = UIColor(resource: .gray200)
-            $0.layer.cornerRadius = 5
+            $0.layer.cornerRadius = 10
         }
         
         timeLabel.do {

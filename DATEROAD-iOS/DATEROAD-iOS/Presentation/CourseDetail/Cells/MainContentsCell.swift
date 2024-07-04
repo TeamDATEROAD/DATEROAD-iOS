@@ -108,6 +108,7 @@ private extension MainContentsCell {
         mainTextLabel.snp.makeConstraints {
             $0.top.equalTo(locationIconImageView.snp.bottom).offset(40)
             $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(34)
         }
         
     }

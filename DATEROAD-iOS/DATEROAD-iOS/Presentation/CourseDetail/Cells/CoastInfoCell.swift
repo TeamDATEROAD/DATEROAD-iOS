@@ -51,7 +51,7 @@ private extension CoastInfoCell {
         }
         
         coastLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(13)
+            $0.leading.equalToSuperview().offset(20)
             $0.centerY.equalTo(timelineBackgroundView)
         }
     }
@@ -59,7 +59,7 @@ private extension CoastInfoCell {
     func setStyle() {
         timelineBackgroundView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.layer.cornerRadius = 10
+            $0.layer.cornerRadius = 14
         }
         
         coastLabel.do {
