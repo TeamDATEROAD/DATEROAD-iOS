@@ -35,7 +35,9 @@ class PointDetailsViewController: BaseNavBarViewController {
     
     private let pointViewModel = PointViewModel()
     
-    private lazy var pointDummyData = pointViewModel.pointDummyData
+    private lazy var earnedPointDummyData = pointViewModel.earnedPointDummyData
+    
+    private lazy var usedPointDummyData = pointViewModel.usedPointDummyData
     
     private var isEarnedPointHidden : Bool? {
         didSet {
@@ -155,11 +157,11 @@ class PointDetailsViewController: BaseNavBarViewController {
         }
         
         pointEarnedCollectionView.do {
-            $0.setUpBindings(pointData: pointDummyData)
+            $0.setUpBindings(pointData: earnedPointDummyData)
         }
         
         pointUsedCollectionView.do {
-            $0.setUpBindings(pointData: pointDummyData)
+            $0.setUpBindings(pointData: usedPointDummyData)
         }
 
     }

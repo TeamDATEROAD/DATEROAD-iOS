@@ -18,11 +18,13 @@ struct PointUserModel {
 }
 
 struct PointModel {
+    let pointSign: String?
     let pointAmount: Int?
     let pointDescription: String?
     let pointDate: String?
     
-    init(pointAmount: Int?, pointDescription: String?, pointDate: String?) {
+    init(pointSign: String?, pointAmount: Int?, pointDescription: String?, pointDate: String?) {
+        self.pointSign = pointSign
         self.pointAmount = pointAmount
         self.pointDescription = pointDescription
         self.pointDate = pointDate
