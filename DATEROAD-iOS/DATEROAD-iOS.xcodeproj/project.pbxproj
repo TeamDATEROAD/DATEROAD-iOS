@@ -10,10 +10,11 @@
 		0D06D9A02C3561AF0094C505 /* CourseDetailContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D06D99F2C3561AF0094C505 /* CourseDetailContents.swift */; };
 		0D06D9A22C3605760094C505 /* HashTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D06D9A12C3605760094C505 /* HashTagCell.swift */; };
 		0D06D9A42C3608BF0094C505 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D06D9A32C3608BF0094C505 /* LeftAlignedCollectionViewFlowLayout.swift */; };
+		0D06D9A82C36946C0094C505 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D06D9A72C36946C0094C505 /* LocationCell.swift */; };
 		0D9497B22C327D2D0004B442 /* CourseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497B12C327D2D0004B442 /* CourseDetailViewController.swift */; };
 		0D9497B42C327D620004B442 /* CourseDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497B32C327D620004B442 /* CourseDetailViewModel.swift */; };
 		0D9497B92C328D010004B442 /* ImageCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497B82C328D010004B442 /* ImageCarouselCell.swift */; };
-		0D9497BB2C328F570004B442 /* TimelineInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497BA2C328F570004B442 /* TimelineInfoCell.swift */; };
+		0D9497BB2C328F570004B442 /* TimelineInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497BA2C328F570004B442 /* TimelineInfoTableViewCell.swift */; };
 		0D9497BD2C3292C20004B442 /* MainContentsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497BC2C3292C20004B442 /* MainContentsCell.swift */; };
 		0D9497BF2C3292D60004B442 /* CoastInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497BE2C3292D60004B442 /* CoastInfoCell.swift */; };
 		0D9497C12C3292E90004B442 /* TagInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497C02C3292E90004B442 /* TagInfoCollectionViewCell.swift */; };
@@ -69,10 +70,11 @@
 		0D06D99F2C3561AF0094C505 /* CourseDetailContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailContents.swift; sourceTree = "<group>"; };
 		0D06D9A12C3605760094C505 /* HashTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashTagCell.swift; sourceTree = "<group>"; };
 		0D06D9A32C3608BF0094C505 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		0D06D9A72C36946C0094C505 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		0D9497B12C327D2D0004B442 /* CourseDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailViewController.swift; sourceTree = "<group>"; };
 		0D9497B32C327D620004B442 /* CourseDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailViewModel.swift; sourceTree = "<group>"; };
 		0D9497B82C328D010004B442 /* ImageCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselCell.swift; sourceTree = "<group>"; };
-		0D9497BA2C328F570004B442 /* TimelineInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineInfoCell.swift; sourceTree = "<group>"; };
+		0D9497BA2C328F570004B442 /* TimelineInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineInfoTableViewCell.swift; sourceTree = "<group>"; };
 		0D9497BC2C3292C20004B442 /* MainContentsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentsCell.swift; sourceTree = "<group>"; };
 		0D9497BE2C3292D60004B442 /* CoastInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoastInfoCell.swift; sourceTree = "<group>"; };
 		0D9497C02C3292E90004B442 /* TagInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagInfoCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -188,10 +190,11 @@
 			children = (
 				0D9497B82C328D010004B442 /* ImageCarouselCell.swift */,
 				0D9497BC2C3292C20004B442 /* MainContentsCell.swift */,
-				0D9497BA2C328F570004B442 /* TimelineInfoCell.swift */,
+				0D9497BA2C328F570004B442 /* TimelineInfoTableViewCell.swift */,
 				0D9497BE2C3292D60004B442 /* CoastInfoCell.swift */,
 				0D9497C02C3292E90004B442 /* TagInfoCollectionViewCell.swift */,
 				0D06D9A12C3605760094C505 /* HashTagCell.swift */,
+				0D06D9A72C36946C0094C505 /* LocationCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -517,7 +520,7 @@
 				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
 				CA4EF3C02C3285BA003B02B6 /* SocialType.swift in Sources */,
 				CA4EF3D12C3461C7003B02B6 /* UIFont+.swift in Sources */,
-				0D9497BB2C328F570004B442 /* TimelineInfoCell.swift in Sources */,
+				0D9497BB2C328F570004B442 /* TimelineInfoTableViewCell.swift in Sources */,
 				0D06D9A02C3561AF0094C505 /* CourseDetailContents.swift in Sources */,
 				0D9497B42C327D620004B442 /* CourseDetailViewModel.swift in Sources */,
 				0D9497CD2C32A3B40004B442 /* TagInfoViewModel.swift in Sources */,
@@ -525,6 +528,7 @@
 				0D9497B22C327D2D0004B442 /* CourseDetailViewController.swift in Sources */,
 				0D06D9A42C3608BF0094C505 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
+				0D06D9A82C36946C0094C505 /* LocationCell.swift in Sources */,
 				0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */,
 				0D9497BD2C3292C20004B442 /* MainContentsCell.swift in Sources */,
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,

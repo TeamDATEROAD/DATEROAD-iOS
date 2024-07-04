@@ -26,8 +26,6 @@ final class CourseDetailViewController: BaseNavBarViewController {
     
     private var mainData: [CourseDetailContents] = CourseDetailContents.images.map { CourseDetailContents(image: $0) }
     
-    private var timelineData: [CourseDetailContents] = CourseDetailContents.timelineContents
-    
     private var currentPage: Int = 0
     
     init(viewModel: CourseDetailViewModel = CourseDetailViewModel()) {
@@ -43,19 +41,20 @@ final class CourseDetailViewController: BaseNavBarViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setHierarchy()
-        setLayout()
-        setStyle()
+
         setDelegate()
         registerCell()
+        setLeftBackButton()
     }
     
     override func setHierarchy() {
-        self.view.addSubview(mainCollectionView)
+        super.setHierarchy()
+        self.contentView.addSubviews(mainCollectionView)
     }
     
     override func setLayout() {
+        super.setLayout()
+        
         mainCollectionView.contentInsetAdjustmentBehavior = .never
         mainCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -63,9 +62,10 @@ final class CourseDetailViewController: BaseNavBarViewController {
     }
     
     override func setStyle() {
-        self.view.backgroundColor = UIColor.white
+        super.setStyle()
+        
+        self.view.backgroundColor = UIColor(resource: .drWhite)
         self.navigationController?.navigationBar.isHidden = true
-        self.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
     }
     
     private func setDelegate() {
@@ -84,12 +84,11 @@ final class CourseDetailViewController: BaseNavBarViewController {
 }
 
 private extension CourseDetailViewController {
-    
     func registerCell() {
         mainCollectionView.do {
             $0.register(ImageCarouselCell.self, forCellWithReuseIdentifier: ImageCarouselCell.identifier)
             $0.register(MainContentsCell.self, forCellWithReuseIdentifier: MainContentsCell.identifier)
-            $0.register(TimelineInfoCell.self, forCellWithReuseIdentifier: TimelineInfoCell.identifier)
+            $0.register(TimelineInfoTableViewCell.self, forCellWithReuseIdentifier: TimelineInfoTableViewCell.identifier)
             $0.register(CoastInfoCell.self, forCellWithReuseIdentifier: CoastInfoCell.identifier)
             $0.register(TagInfoCollectionViewCell.self, forCellWithReuseIdentifier: TagInfoCollectionViewCell.identifier)
             
@@ -152,7 +151,7 @@ private extension CourseDetailViewController {
     
     func makeTimelineInfoLayout() -> NSCollectionLayoutSection {
         let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
         return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .none, hasHeader: true)
     }
     
@@ -204,8 +203,6 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         switch sectionType {
         case .imageCarousel:
             return mainData.count
-        case .timelineInfo:
-            return timelineData.count
         default:
             return viewModel.numberOfItemsInSection(section)
         }
@@ -230,11 +227,9 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             }
             cell = mainContentsCell
         case .timelineInfo:
-            guard let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.identifier, for: indexPath) as? TimelineInfoCell else {
+            guard let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoTableViewCell.identifier, for: indexPath) as? TimelineInfoTableViewCell else {
                 fatalError("Unable to dequeue TimelineInfoCell")
             }
-            let contents = timelineData[indexPath.row]
-            timelineInfoCell.setCell(contents: contents)
             cell = timelineInfoCell
         case .coastInfo:
             guard let coastInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.identifier, for: indexPath) as? CoastInfoCell else {
