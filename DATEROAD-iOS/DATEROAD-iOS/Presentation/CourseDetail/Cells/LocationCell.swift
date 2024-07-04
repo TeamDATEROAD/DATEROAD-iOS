@@ -1,0 +1,8 @@
+//
+//  locationCell.swift
+//  DATEROAD-iOS
+//
+//  Created by 김민서 on 7/4/24.
+//
+
+import Foundation

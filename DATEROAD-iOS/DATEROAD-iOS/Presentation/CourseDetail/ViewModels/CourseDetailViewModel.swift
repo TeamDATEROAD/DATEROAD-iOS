@@ -13,15 +13,13 @@ enum CourseDetailSection {
     case timelineInfo
     case coastInfo
     case tagInfo
-    case like
     
     static var dataSource: [CourseDetailSection] {
         return [.imageCarousel,
                 .mainContents,
                 .timelineInfo,
                 .coastInfo,
-                .tagInfo,
-                .like]
+                .tagInfo]
     }
 }
 
@@ -32,7 +30,6 @@ class CourseDetailViewModel {
     let timelineInfoViewModel: TimelineInfoViewModel
     let coastInfoViewModel: CoastInfoViewModel
     let tagInfoViewModel: TagInfoViewModel
-    let likeViewModel: LikeViewModel
     
     init() {
         self.imageCarouselViewModel = ImageCarouselViewModel()
@@ -40,11 +37,10 @@ class CourseDetailViewModel {
         self.timelineInfoViewModel = TimelineInfoViewModel()
         self.coastInfoViewModel = CoastInfoViewModel()
         self.tagInfoViewModel = TagInfoViewModel()
-        self.likeViewModel = LikeViewModel()
     }
     
     var sections: [CourseDetailSection] {
-        return [.imageCarousel, .mainContents, .timelineInfo, .coastInfo, .tagInfo, .like]
+        return [.imageCarousel, .mainContents, .timelineInfo, .coastInfo, .tagInfo]
     }
     
     var numberOfSections: Int {
@@ -67,8 +63,6 @@ class CourseDetailViewModel {
             return coastInfoViewModel.numberOfItems
         case .tagInfo:
             return tagInfoViewModel.numberOfItems
-        case .like:
-            return likeViewModel.numberOfItems
         }
     }
 }

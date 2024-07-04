@@ -91,7 +91,6 @@ private extension CourseDetailViewController {
             $0.register(TimelineInfoCell.self, forCellWithReuseIdentifier: TimelineInfoCell.identifier)
             $0.register(CoastInfoCell.self, forCellWithReuseIdentifier: CoastInfoCell.identifier)
             $0.register(TagInfoCell.self, forCellWithReuseIdentifier: TagInfoCell.identifier)
-            $0.register(LikeCell.self, forCellWithReuseIdentifier: LikeCell.identifier)
             
             $0.register(InfoHeaderView.self, forSupplementaryViewOfKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier)
             
@@ -110,7 +109,6 @@ private extension CourseDetailViewController {
             case .timelineInfo: return self.makeTimelineInfoLayout()
             case .coastInfo: return self.makeCoastInfoLayout()
             case .tagInfo: return self.makeTagInfoLayout()
-            case .like: return self.makeLikeLayout()
             }
         }
     }
@@ -167,12 +165,6 @@ private extension CourseDetailViewController {
         let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 10, trailing: 0)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50))
         return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging, hasHeader: true)
-    }
-    
-    func makeLikeLayout() -> NSCollectionLayoutSection {
-        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
-        return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging)
     }
     
     func makeHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
@@ -255,13 +247,6 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             }
             tagInfoCell.tagList = getTagListForSection(indexPath.section)
             cell = tagInfoCell
-           
-        case .like:
-            guard let likeCell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCell.identifier, for: indexPath) as? LikeCell else {
-                fatalError("Unable to dequeue LikeCell")
-            }
-            cell = likeCell
-            cell.backgroundColor = .red
         }
         
         return cell
