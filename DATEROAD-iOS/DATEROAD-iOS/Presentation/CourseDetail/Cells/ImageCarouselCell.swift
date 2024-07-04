@@ -99,7 +99,7 @@ extension ImageCarouselCell: UIPageViewControllerDataSource {
         let previousIndex = index - 1
         return previousIndex < 0 ? nil : vcData[previousIndex]
     }
-
+    
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let index = vcData.firstIndex(of: viewController) else { return nil }
         let nextIndex = index + 1

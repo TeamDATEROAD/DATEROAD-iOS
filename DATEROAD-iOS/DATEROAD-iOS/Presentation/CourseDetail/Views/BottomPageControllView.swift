@@ -69,33 +69,34 @@ private extension BottomPageControllView {
     }
     
     func setLayout() {
-        
         likeBoxView.snp.makeConstraints {
-            $0.leading.trailing.equalTo(likeStackView).inset(-7)
-            $0.height.equalTo(20)
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalTo(likeStackView).inset(-10)
+            $0.height.equalToSuperview()
         }
         
         likeButton.snp.makeConstraints {
-            $0.width.equalTo(8)
-            $0.height.equalTo(7)
+            $0.width.equalTo(10)
+            $0.height.equalTo(9)
         }
         
         likeStackView.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(7)
-            $0.centerY.equalTo(indexBoxButton)
+            $0.leading.equalToSuperview().inset(10)
+            $0.centerY.equalTo(likeBoxView)
         }
         
         indexBoxButton.snp.makeConstraints {
+            $0.top.equalToSuperview()
             $0.trailing.bottom.equalToSuperview()
-            $0.width.equalTo(40)
-            $0.height.equalTo(20)
+            $0.width.equalTo(47)
+            $0.height.equalTo(22)
         }
     }
     
     func setStyle() {
         likeBoxView.do {
             $0.clipsToBounds = true
-            $0.layer.cornerRadius = 10
+            $0.layer.cornerRadius = 11
             $0.backgroundColor = UIColor(resource: .deepPurple)
         }
         
@@ -112,11 +113,11 @@ private extension BottomPageControllView {
         }
         
         indexBoxButton.do {
-            $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+            $0.roundedButton(cornerRadius: 11, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
             $0.backgroundColor = UIColor(resource: .gray400)
             $0.setTitle("3/10", for: .normal)
             $0.setTitleColor(.drWhite, for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_bold_13)
+            $0.titleLabel?.font = UIFont.suit(.body_med_13)
         }
     }
     
