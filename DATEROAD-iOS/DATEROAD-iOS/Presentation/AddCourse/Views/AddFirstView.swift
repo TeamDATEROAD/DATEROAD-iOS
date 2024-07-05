@@ -41,6 +41,8 @@ class AddFirstView: BaseView {
    
    let nextBtn = UIButton() //추후 Captin 버튼으로 수정 예정
    
+   private let nextBtnTitleLabel = UILabel()
+   
    override func setHierarchy() {
       self.addSubviews(
          textFieldStackView,
@@ -58,6 +60,8 @@ class AddFirstView: BaseView {
       tagContainer.addSubviews(tagTitleLabel, tagVStackView)
       
       datePlaceContainer.addSubviews(datePlaceLabel, datePlaceImage)
+      
+      nextBtn.addSubview(nextBtnTitleLabel)
    }
    
    override func setLayout() {
@@ -102,6 +106,10 @@ class AddFirstView: BaseView {
       nextBtn.snp.makeConstraints {
          $0.bottom.horizontalEdges.equalToSuperview()
          $0.height.equalTo(54)
+      }
+      
+      nextBtnTitleLabel.snp.makeConstraints {
+         $0.center.equalToSuperview()
       }
       
    }
@@ -162,11 +170,6 @@ class AddFirstView: BaseView {
          }
       }
       
-      tagContainer.do {
-         $0.layer.borderWidth = 1
-         $0.layer.borderColor = UIColor.red.cgColor
-      }
-      
       tagTitleLabel.do {
          $0.font = .suit(.body_semi_15)
          $0.text = StringLiterals.AddCourseOrScheduleFirst.tagTitle
@@ -185,7 +188,7 @@ class AddFirstView: BaseView {
       
       datePlaceContainer.do {
          $0.backgroundColor = .gray100
-         $0.layer.cornerRadius = 13
+         $0.layer.cornerRadius = 14
       }
       
       datePlaceLabel.do {
@@ -199,8 +202,14 @@ class AddFirstView: BaseView {
       }
       
       nextBtn.do {
-         $0.layer.borderWidth = 1
-         $0.layer.borderColor = UIColor.brown.cgColor
+         $0.backgroundColor = .gray200
+         $0.layer.cornerRadius = 14
+      }
+      
+      nextBtnTitleLabel.do {
+         $0.font = .suit(.body_bold_15)
+         $0.text = "다음 (1/3)"
+         $0.textColor = .gray400
       }
    }
    
@@ -252,11 +261,12 @@ extension AddFirstView {
    func createOvalButton(title: String) -> UIButton {
       var config = UIButton.Configuration.gray()
       var titleAttr = AttributedString.init(title)
-      titleAttr.font = .suit(.cap_reg_11)
-      titleAttr.foregroundColor = .drBlack
+      titleAttr.font = .suit(.body_semi_13)
+      
       config.attributedTitle = titleAttr
-      config.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 14, bottom: 6, trailing: 14)
+      config.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 12, bottom: 6, trailing: 12)
       config.baseBackgroundColor = .gray100
+      config.baseForegroundColor = .drBlack
       
       let btn = UIButton(configuration: config)
       btn.roundedButton(cornerRadius: 12, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
