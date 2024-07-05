@@ -41,4 +41,17 @@ enum StringLiterals {
         static let coastInfoLabel = "총 비용"
         static let tagInfoLabel = "태그"
     }
+    
+    enum Profile {
+        static let myProfile = "내 프로필"
+        static let nickname = "닉네임"
+        static let nicknamePlaceholder = "닉네임을 입력하세요."
+        static let doubleCheck = "중복확인"
+        static let disabledNickname = "이미 사용중인 닉네임이에요"
+        static let enabledNickname = "사용가능한 닉네임이에요"
+        static let countPlaceholder = "0/5"
+        static let dateTendency = "나의 데이트 성향 (0/3)"
+        static let registerProfile = "프로필 등록하기"
+    }
+    
 }

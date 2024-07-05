@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ic_profileplus.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

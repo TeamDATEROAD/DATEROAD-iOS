@@ -34,9 +34,10 @@ extension UIButton {
         self.layer.borderWidth = buttonType.borderWidth
         self.layer.borderColor = UIColor(resource: .deepPurple).cgColor
         self.isEnabled = buttonType.isEnabled
-        self.layer.cornerRadius = 14
+        self.layer.cornerRadius = buttonType.cornerRadius
         self.clipsToBounds = true
-        self.titleLabel?.font = UIFont.suit(.body_bold_15)
+        self.titleLabel?.font = buttonType.font
+        self.titleLabel?.numberOfLines = 1
     }
     
 }
