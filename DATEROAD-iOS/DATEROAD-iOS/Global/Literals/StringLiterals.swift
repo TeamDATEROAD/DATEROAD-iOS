@@ -26,4 +26,15 @@ enum StringLiterals {
         static let coastInfoLabel = "총 비용"
         static let tagInfoLabel = "태그"
     }
+   
+   enum AddCourseOrSchedule {
+      static let addCourseTitle = "코스 등록하기"
+      static let addScheduleTitle = "일정 등록하기"
+      static let emptyImage = "이미지를 삽입해주세요.\n(최소 1장, 최대 10장)"
+      static let dateNmaePlaceHolder = "데이트 이름을 입력해 주세요 (필수)"
+      static let visitDatePlaceHolder = "방문일자를 선택해 주세요 (필수)"
+      static let dateStartTimePlaceHolder = "데이트 시작 시간을 선택해 주세요 (필수)"
+      static let tagTitle = "데이트코스와 어울리는 태그를 선택해 주세요 (0/3)"
+      static let dateLocationPlaceHolder = "데이트 지역을 선택해 주세요 (필수)"
+   }
 }
