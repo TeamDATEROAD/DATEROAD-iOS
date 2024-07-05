@@ -13,11 +13,23 @@ import Then
 
 final class CourseDetailViewController: BaseNavBarViewController {
     
+    // MARK: - UI Properties
+    
     private lazy var mainCollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
     
     private let bottomPageControlView = BottomPageControllView()
     
+    // MARK: - Properties
+    
     private let viewModel: CourseDetailViewModel
+    
+    private var mainData: [CourseDetailContents] = CourseDetailContents.images.map { CourseDetailContents(image: $0) }
+    
+    private var timelineData: [CourseDetailContents] = CourseDetailContents.timelineContents()
+    
+    private var tagData: [CourseDetailContents] = CourseDetailContents.tagContents
+
+    private var currentPage: Int = 0 
     
     init(viewModel: CourseDetailViewModel = CourseDetailViewModel()) {
         self.viewModel = viewModel
@@ -32,28 +44,39 @@ final class CourseDetailViewController: BaseNavBarViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setHierarchy()
-        setLayout()
-        setStyle()
+
+        setDelegate()
         registerCell()
+        setLeftBackButton()
     }
     
     override func setHierarchy() {
-        self.view.addSubview(mainCollectionView)
+        super.setHierarchy()
+        self.contentView.addSubviews(mainCollectionView)
     }
     
     override func setLayout() {
+        super.setLayout()
+        
+        mainCollectionView.contentInsetAdjustmentBehavior = .never
+        
         mainCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
     
     override func setStyle() {
-        self.view.backgroundColor = UIColor.white
+        super.setStyle()
+        
+        self.view.backgroundColor = UIColor(resource: .drWhite)
         self.navigationController?.navigationBar.isHidden = true
-        self.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
-        self.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
+        
+        mainCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    }
+    
+    private func setDelegate() {
+        mainCollectionView.delegate = self
+        mainCollectionView.dataSource = self
     }
 }
 
@@ -66,12 +89,11 @@ private extension CourseDetailViewController {
             $0.register(TimelineInfoCell.self, forCellWithReuseIdentifier: TimelineInfoCell.identifier)
             $0.register(CoastInfoCell.self, forCellWithReuseIdentifier: CoastInfoCell.identifier)
             $0.register(TagInfoCell.self, forCellWithReuseIdentifier: TagInfoCell.identifier)
-            $0.register(LikeCell.self, forCellWithReuseIdentifier: LikeCell.identifier)
+            $0.register(BringCourseCell.self, forCellWithReuseIdentifier: BringCourseCell.identifier)
             
             $0.register(InfoHeaderView.self, forSupplementaryViewOfKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier)
             
-            $0.delegate = self
-            $0.dataSource = self
+            $0.register(BottomPageControllView.self, forSupplementaryViewOfKind: BottomPageControllView.elementKinds, withReuseIdentifier: BottomPageControllView.identifier)
         }
     }
     
@@ -80,91 +102,166 @@ private extension CourseDetailViewController {
             let sectionType = self.viewModel.fetchSection(at: section)
             
             switch sectionType {
-            case .imageCarousel: return self.makeImageCarouselLayout()
-            case .mainContents: return self.makeMainContentsLayout()
-            case .timelineInfo: return self.makeTimelineInfoLayout()
-            case .coastInfo: return self.makeCoastInfoLayout()
-            case .tagInfo: return self.makeTagInfoLayout()
-            case .like: return self.makeLikeLayout()
+            case .imageCarousel:
+                return self.makeImageCarouselLayout()
+            case .mainContents:
+                return self.makeMainContentsLayout()
+            case .timelineInfo:
+                return self.makeTimelineInfoLayout()
+            case .coastInfo:
+                return self.makeCoastInfoLayout()
+            case .tagInfo:
+                return self.makeTagInfoLayout()
+            case .bringCourse:
+                return self.makeBringCourseLayout()
             }
         }
     }
     
-    /// 섹션 레이아웃들
-    func makeLayoutSection(itemInsets: NSDirectionalEdgeInsets, groupSize: NSCollectionLayoutSize, orthogonalScrollingBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior, hasHeader: Bool = false) -> NSCollectionLayoutSection {
+    func makeImageCarouselLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = itemInsets
         
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = orthogonalScrollingBehavior
+        section.orthogonalScrollingBehavior = .groupPaging
         
-        if hasHeader {
-            let header = makeHeaderView()
-            section.boundarySupplementaryItems = [header]
-        }
+        let footer = makeBottomPageControllView()
+        section.boundarySupplementaryItems = [footer]
         
         return section
     }
     
-    func makeImageCarouselLayout() -> NSCollectionLayoutSection {
-        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
-        return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging)
-    }
-    
     func makeMainContentsLayout() -> NSCollectionLayoutSection {
-        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
-        return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging)
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(300))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(300))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        return section
     }
     
     func makeTimelineInfoLayout() -> NSCollectionLayoutSection {
-        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
-        return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging, hasHeader: true)
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(70))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(70))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 15, trailing: 0)
+        
+        let header = makeHeaderView()
+        section.boundarySupplementaryItems = [header]
+        
+        return section
     }
     
+
+    
     func makeCoastInfoLayout() -> NSCollectionLayoutSection {
-        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
-        return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging, hasHeader: true)
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0)
+        
+        let header = makeHeaderView()
+        section.boundarySupplementaryItems = [header]
+        
+        return section
     }
     
     func makeTagInfoLayout() -> NSCollectionLayoutSection {
-        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
-        return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging, hasHeader: true)
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0)
+        group.interItemSpacing = .fixed(7)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 61, trailing: 0)
+        
+        let header = makeHeaderView()
+        section.boundarySupplementaryItems = [header]
+        
+        return section
     }
+
     
-    func makeLikeLayout() -> NSCollectionLayoutSection {
-        let itemInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300))
-        return makeLayoutSection(itemInsets: itemInsets, groupSize: groupSize, orthogonalScrollingBehavior: .groupPaging)
+    func makeBringCourseLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(54))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0)
+        
+        return section
     }
     
     func makeHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(25))
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(37))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: InfoHeaderView.elementKinds, alignment: .top)
+        header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 12, trailing: 16)
         return header
     }
     
+    func makeBottomPageControllView() -> NSCollectionLayoutBoundarySupplementaryItem {
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(22))
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: BottomPageControllView.elementKinds, alignment: .bottom, absoluteOffset: CGPoint(x: 0, y: -33))
+        footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        return footer
+    }
+}
+
+extension CourseDetailViewController: ImageCarouselDelegate {
+    func didSwipeImage(index: Int, vc: UIPageViewController, vcData: [UIViewController]) {
+        currentPage = index
+        if let bottomPageControllView = mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
+            bottomPageControllView.pageIndex = currentPage
+        }
+    }
 }
 
 extension CourseDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return viewModel.numberOfSections
+        return 6
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfItemsInSection(section)
+        let sectionType = viewModel.fetchSection(at: section)
+        
+        switch sectionType {
+        case .imageCarousel:
+            return viewModel.imageCarouselViewModel.numberOfItems
+        case .timelineInfo:
+            return timelineData.count
+        case .tagInfo:
+            return tagData.count
+        default:
+            return viewModel.numberOfItemsInSection(section)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: UICollectionViewCell
-        
+
         let sectionType = viewModel.fetchSection(at: indexPath.section)
         
         switch sectionType {
@@ -172,41 +269,39 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             guard let imageCarouselCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCarouselCell.identifier, for: indexPath) as? ImageCarouselCell else {
                 fatalError("Unable to dequeue ImageCarouselCell")
             }
-            imageCarouselCell.backgroundColor = .red
-            cell = imageCarouselCell
+            imageCarouselCell.setPageVC(imageData: mainData)
+            imageCarouselCell.delegate = self
+            return imageCarouselCell
         case .mainContents:
             guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.identifier, for: indexPath) as? MainContentsCell else {
                 fatalError("Unable to dequeue MainContentsCell")
             }
-            mainContentsCell.backgroundColor = .green
-            cell = mainContentsCell
+            return mainContentsCell
         case .timelineInfo:
             guard let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.identifier, for: indexPath) as? TimelineInfoCell else {
                 fatalError("Unable to dequeue TimelineInfoCell")
             }
-            timelineInfoCell.backgroundColor = .blue
-            cell = timelineInfoCell
+            timelineInfoCell.setCell(timelineData[indexPath.row])
+            return timelineInfoCell
         case .coastInfo:
             guard let coastInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.identifier, for: indexPath) as? CoastInfoCell else {
                 fatalError("Unable to dequeue CoastInfoCell")
             }
-            coastInfoCell.backgroundColor = .yellow
-            cell = coastInfoCell
+            return coastInfoCell
         case .tagInfo:
             guard let tagInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCell.identifier, for: indexPath) as? TagInfoCell else {
                 fatalError("Unable to dequeue TagInfoCell")
             }
-            tagInfoCell.backgroundColor = .purple
-            cell = tagInfoCell
-        case .like:
-            guard let likeCell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCell.identifier, for: indexPath) as? LikeCell else {
-                fatalError("Unable to dequeue LikeCell")
+            tagInfoCell.setCell(tagData: tagData[indexPath.row])
+            return tagInfoCell
+        case .bringCourse:
+            guard let bringCourseCell = collectionView.dequeueReusableCell(withReuseIdentifier: BringCourseCell.identifier, for: indexPath) as? BringCourseCell else {
+                fatalError("Unable to dequeue TagInfoCell")
             }
-            likeCell.backgroundColor = .orange
-            cell = likeCell
+            return bringCourseCell
         }
+    
         
-        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -223,6 +318,10 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
                 break
             }
             return header
+        } else if kind == BottomPageControllView.elementKinds {
+            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else { return UICollectionReusableView() }
+            footer.pageIndexSum = mainData.count
+            return footer
         } else {
             return UICollectionReusableView()
         }
