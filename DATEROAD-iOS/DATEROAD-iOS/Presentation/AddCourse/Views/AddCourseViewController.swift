@@ -47,7 +47,7 @@ final class AddCourseViewController: BaseNavBarViewController {
       addCourseFirstView.snp.makeConstraints {
          $0.top.equalToSuperview().offset(4)
          $0.horizontalEdges.bottom.equalToSuperview()
-         $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-4)
+         $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
       }
    }
    

@@ -27,7 +27,7 @@ enum StringLiterals {
         static let tagInfoLabel = "태그"
     }
    
-   enum AddCourseOrSchedule {
+   enum AddCourseOrScheduleFirst {
       static let addCourseTitle = "코스 등록하기"
       static let addScheduleTitle = "일정 등록하기"
       static let emptyImage = "이미지를 삽입해주세요.\n(최소 1장, 최대 10장)"
