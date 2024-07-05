@@ -81,6 +81,7 @@ final class CourseDetailViewController: BaseNavBarViewController {
 }
 
 private extension CourseDetailViewController {
+    
     func registerCell() {
         mainCollectionView.do {
             $0.register(ImageCarouselCell.self, forCellWithReuseIdentifier: ImageCarouselCell.identifier)
@@ -126,7 +127,6 @@ private extension CourseDetailViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         
         let footer = makeBottomPageControllView()
         section.boundarySupplementaryItems = [footer]
@@ -143,7 +143,6 @@ private extension CourseDetailViewController {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         
         return section
     }
@@ -187,6 +186,7 @@ private extension CourseDetailViewController {
     func makeTagInfoLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0)

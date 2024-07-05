@@ -41,7 +41,11 @@ final class BringCourseCell: UICollectionViewCell {
 private extension BringCourseCell {
     
     func setHierarchy() {
-        self.addSubviews(likeButtonView, likeButtonImageView, bringCourseButton)
+        self.addSubviews(
+            likeButtonView,
+            likeButtonImageView,
+            bringCourseButton
+        )
     }
     
     func setLayout() {
@@ -51,7 +55,7 @@ private extension BringCourseCell {
         }
         
         likeButtonImageView.snp.makeConstraints {
-            $0.centerY.centerX.equalTo(likeButtonView)
+            $0.center.equalTo(likeButtonView)
             $0.width.equalTo(20)
             $0.height.equalTo(18)
         }
@@ -76,7 +80,8 @@ private extension BringCourseCell {
         bringCourseButton.do {
             $0.roundedButton(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
             $0.backgroundColor = UIColor(resource: .deepPurple)
-            $0.setTitle("코스 가져오기", for: .normal)
+            $0.setTitle(StringLiterals.CourseDetail.bringCourseLabel, for: .normal)
+            $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_bold_15)
         }
     }

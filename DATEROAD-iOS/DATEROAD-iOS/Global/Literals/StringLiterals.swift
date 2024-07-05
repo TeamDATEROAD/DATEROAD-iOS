@@ -25,5 +25,6 @@ enum StringLiterals {
         static let timelineInfoLabel = "코스 타임라인"
         static let coastInfoLabel = "총 비용"
         static let tagInfoLabel = "태그"
+        static let bringCourseLabel = "코스 가져오기"
     }
 }

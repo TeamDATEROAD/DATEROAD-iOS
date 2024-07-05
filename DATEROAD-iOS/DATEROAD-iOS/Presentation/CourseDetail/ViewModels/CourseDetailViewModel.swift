@@ -43,7 +43,14 @@ class CourseDetailViewModel {
     }
     
     var sections: [CourseDetailSection] {
-        return [.imageCarousel, .mainContents, .timelineInfo, .coastInfo, .tagInfo, .bringCourse]
+        return [
+            .imageCarousel,
+            .mainContents,
+            .timelineInfo,
+            .coastInfo,
+            .tagInfo,
+            .bringCourse
+        ]
     }
     
     var numberOfSections: Int {

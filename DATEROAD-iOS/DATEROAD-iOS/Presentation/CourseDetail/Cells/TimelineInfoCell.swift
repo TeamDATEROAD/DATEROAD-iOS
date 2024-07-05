@@ -58,7 +58,14 @@ extension TimelineInfoCell {
 private extension TimelineInfoCell {
     
     func setHierarchy() {
-        self.addSubviews(timelineBackgroundView, circleView, indexNumLabel, locationLabel, timeBoxView, timeLabel)
+        self.addSubviews(
+            timelineBackgroundView,
+            circleView,
+            indexNumLabel,
+            locationLabel,
+            timeBoxView,
+            timeLabel
+        )
     }
     
     func setLayout() {
@@ -70,11 +77,11 @@ private extension TimelineInfoCell {
         circleView.snp.makeConstraints {
             $0.leading.equalTo(timelineBackgroundView).inset(13)
             $0.centerY.equalTo(timelineBackgroundView)
-            $0.width.height.equalTo(24)
+            $0.size.equalTo(24)
         }
         
         indexNumLabel.snp.makeConstraints {
-            $0.centerX.centerY.equalTo(circleView)
+            $0.center.equalTo(circleView)
         }
         
         locationLabel.snp.makeConstraints {
@@ -90,7 +97,7 @@ private extension TimelineInfoCell {
         }
         
         timeLabel.snp.makeConstraints {
-            $0.centerX.centerY.equalTo(timeBoxView)
+            $0.center.equalTo(timeBoxView)
         }
     }
     

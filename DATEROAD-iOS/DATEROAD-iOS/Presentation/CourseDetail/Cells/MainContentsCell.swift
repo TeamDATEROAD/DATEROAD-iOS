@@ -55,7 +55,17 @@ final class MainContentsCell: UICollectionViewCell {
 private extension MainContentsCell {
     
     func setHierarchy() {
-        self.addSubviews(dateLabel, titleLabel, coastLabel, coastIconImageView, timeLabel, timeIconImageView, locationLabel,locationIconImageView, mainTextLabel )
+        self.addSubviews(
+            dateLabel,
+            titleLabel,
+            coastLabel,
+            coastIconImageView,
+            timeLabel,
+            timeIconImageView,
+            locationLabel,
+            locationIconImageView,
+            mainTextLabel
+        )
     }
     
     func setLayout() {
