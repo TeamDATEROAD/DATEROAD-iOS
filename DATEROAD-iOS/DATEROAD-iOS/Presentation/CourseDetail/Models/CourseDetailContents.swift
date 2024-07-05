@@ -14,14 +14,14 @@ struct CourseDetailContents {
     let index: Int?
     let location: String?
     let time: String?
-    let hashTag: String?
+    let tag: String?
     
     init(image: UIImage) {
         self.image = image
         self.index = nil
         self.location = nil
         self.time = nil
-        self.hashTag = nil
+        self.tag = nil
     }
     
     init(index: Int, location: String, time: String) {
@@ -29,15 +29,15 @@ struct CourseDetailContents {
         self.index = index
         self.location = location
         self.time = time
-        self.hashTag = nil
+        self.tag = nil
     }
     
-    init(hashTag: String) {
+    init(tag: String) {
         self.image = nil
         self.index = nil
         self.location = nil
         self.time = nil
-        self.hashTag = hashTag
+        self.tag = tag
     }
 }
 
@@ -60,9 +60,9 @@ extension CourseDetailContents {
         ]
     }
     
-    static let hashTagContents: [CourseDetailContents] = [
-        CourseDetailContents(hashTag: "🚙 드라이브"),
-        CourseDetailContents(hashTag: "🛍️ 쇼핑"),
-        CourseDetailContents(hashTag: "🚪 실내")
+    static let tagContents: [CourseDetailContents] = [
+        CourseDetailContents(tag: "🚙 드라이브"),
+        CourseDetailContents(tag: "🛍️ 쇼핑"),
+        CourseDetailContents(tag: "🚪 실내")
     ]
 }

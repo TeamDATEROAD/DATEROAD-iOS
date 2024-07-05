@@ -26,6 +26,8 @@ final class CourseDetailViewController: BaseNavBarViewController {
     private var mainData: [CourseDetailContents] = CourseDetailContents.images.map { CourseDetailContents(image: $0) }
     
     private var timelineData: [CourseDetailContents] = CourseDetailContents.timelineContents()
+    
+    private var tagData: [CourseDetailContents] = CourseDetailContents.tagContents
 
     private var currentPage: Int = 0 
     
@@ -76,15 +78,6 @@ final class CourseDetailViewController: BaseNavBarViewController {
         mainCollectionView.delegate = self
         mainCollectionView.dataSource = self
     }
-    
-    private func getTagListForSection(_ section: Int) -> [String] {
-        switch viewModel.fetchSection(at: section) {
-        case .tagInfo:
-            return ["🚙 드라이브", "🛍️ 쇼핑", "🚪 실내"]
-        default:
-            return []
-        }
-    }
 }
 
 private extension CourseDetailViewController {
@@ -94,7 +87,7 @@ private extension CourseDetailViewController {
             $0.register(MainContentsCell.self, forCellWithReuseIdentifier: MainContentsCell.identifier)
             $0.register(TimelineInfoCell.self, forCellWithReuseIdentifier: TimelineInfoCell.identifier)
             $0.register(CoastInfoCell.self, forCellWithReuseIdentifier: CoastInfoCell.identifier)
-            $0.register(TagInfoCollectionViewCell.self, forCellWithReuseIdentifier: TagInfoCollectionViewCell.identifier)
+            $0.register(TagInfoCell.self, forCellWithReuseIdentifier: TagInfoCell.identifier)
             $0.register(BringCourseCell.self, forCellWithReuseIdentifier: BringCourseCell.identifier)
             
             $0.register(InfoHeaderView.self, forSupplementaryViewOfKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier)
@@ -192,12 +185,12 @@ private extension CourseDetailViewController {
     }
     
     func makeTagInfoLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0)
-        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0)
+        group.interItemSpacing = .fixed(7)
         
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 61, trailing: 0)
@@ -207,6 +200,7 @@ private extension CourseDetailViewController {
         
         return section
     }
+
     
     func makeBringCourseLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
@@ -259,6 +253,8 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return viewModel.imageCarouselViewModel.numberOfItems
         case .timelineInfo:
             return timelineData.count
+        case .tagInfo:
+            return tagData.count
         default:
             return viewModel.numberOfItemsInSection(section)
         }
@@ -293,12 +289,11 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             }
             return coastInfoCell
         case .tagInfo:
-            guard let tagInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCollectionViewCell.identifier, for: indexPath) as? TagInfoCollectionViewCell else {
+            guard let tagInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCell.identifier, for: indexPath) as? TagInfoCell else {
                 fatalError("Unable to dequeue TagInfoCell")
             }
-            tagInfoCell.tagList = getTagListForSection(indexPath.section)
+            tagInfoCell.setCell(tagData: tagData[indexPath.row])
             return tagInfoCell
-            
         case .bringCourse:
             guard let bringCourseCell = collectionView.dequeueReusableCell(withReuseIdentifier: BringCourseCell.identifier, for: indexPath) as? BringCourseCell else {
                 fatalError("Unable to dequeue TagInfoCell")

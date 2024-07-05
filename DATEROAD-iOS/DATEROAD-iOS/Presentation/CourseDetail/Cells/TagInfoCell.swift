@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 
-final class HashTagInfoCell: UICollectionViewCell {
+final class TagInfoCell: UICollectionViewCell {
     
     // MARK: - UI Properties
     
@@ -34,12 +34,21 @@ final class HashTagInfoCell: UICollectionViewCell {
     }
     
     func setCell(contents: CourseDetailContents) {
-        hashTagLabel.text = contents.hashTag
+        hashTagLabel.text = contents.tag
     }
 }
 
+extension TagInfoCell {
+    
+    func setCell(tagData: CourseDetailContents) {
+        hashTagLabel.text = tagData.tag
+    }
+}
+
+
 // MARK: - Private Methods
-private extension HashTagInfoCell {
+
+private extension TagInfoCell {
     
     func setHierarchy() {
         contentView.addSubview(hashTagLabel)
@@ -47,7 +56,8 @@ private extension HashTagInfoCell {
     
     func setLayout() {
         hashTagLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(14)
+            $0.centerY.equalToSuperview()
         }
     }
     
@@ -61,7 +71,7 @@ private extension HashTagInfoCell {
         contentView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
             $0.layer.masksToBounds = true
-            $0.layer.cornerRadius = 14
+            $0.layer.cornerRadius = 15
         }
     }
 
