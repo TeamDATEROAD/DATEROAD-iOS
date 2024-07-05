@@ -28,7 +28,9 @@ class BottomPageControllView: UICollectionReusableView {
     // MARK: - Properties
     
     static let elementKinds: String = "footer"
+    
     static let identifier: String = "BottomPageControllView"
+    
     
     var pageIndex: Int = 0 {
         didSet {

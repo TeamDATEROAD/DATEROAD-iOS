@@ -24,8 +24,8 @@ final class CourseDetailViewController: BaseNavBarViewController {
     private let viewModel: CourseDetailViewModel
     
     private var mainData: [CourseDetailContents] = CourseDetailContents.images.map { CourseDetailContents(image: $0) }
-    
-    private var currentPage: Int = 0
+
+    private var currentPage: Int = 0 
     
     init(viewModel: CourseDetailViewModel = CourseDetailViewModel()) {
         self.viewModel = viewModel
@@ -226,7 +226,7 @@ extension CourseDetailViewController: ImageCarouselDelegate {
 
 extension CourseDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return viewModel.numberOfSections
+        return mainData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -234,7 +234,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         
         switch sectionType {
         case .imageCarousel:
-            return mainData.count
+            return 1
         default:
             return viewModel.numberOfItemsInSection(section)
         }
@@ -256,13 +256,11 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.identifier, for: indexPath) as? MainContentsCell else {
                 fatalError("Unable to dequeue MainContentsCell")
             }
-            mainContentsCell.backgroundColor = .green
             return mainContentsCell
         case .timelineInfo:
             guard let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoTableViewCell.identifier, for: indexPath) as? TimelineInfoTableViewCell else {
                 fatalError("Unable to dequeue TimelineInfoCell")
             }
-            timelineInfoCell.backgroundColor = .deepPurple
             return timelineInfoCell
         case .coastInfo:
             guard let coastInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.identifier, for: indexPath) as? CoastInfoCell else {
@@ -274,7 +272,6 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
                 fatalError("Unable to dequeue TagInfoCell")
             }
             tagInfoCell.tagList = getTagListForSection(indexPath.section)
-            tagInfoCell.backgroundColor = .deepPurple
             return tagInfoCell
         }
     }

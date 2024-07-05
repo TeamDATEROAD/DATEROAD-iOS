@@ -23,10 +23,12 @@ final class ImageCarouselCell: UICollectionViewCell {
     // MARK: - Properties
     
     var vcData: [UIViewController] = []
-    weak var delegate: ImageCarouselDelegate?
+    
     let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
     
     static let identifier: String = "ImageCarouselCell"
+    
+    weak var delegate: ImageCarouselDelegate?
     
     override init(frame: CGRect) {
         
@@ -62,7 +64,7 @@ final class ImageCarouselCell: UICollectionViewCell {
 private extension ImageCarouselCell {
     
     func setHierarchy() {
-        contentView.addSubview(pageViewController.view)
+        self.addSubview(pageViewController.view)
     }
     
     func setLayout() {
@@ -84,7 +86,6 @@ private extension ImageCarouselCell {
 }
 
 extension ImageCarouselCell: UIPageViewControllerDelegate {
-    
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         guard let currentVC = pageViewController.viewControllers?.first,
               let currentIndex = vcData.firstIndex(of: currentVC) else { return }
@@ -97,12 +98,14 @@ extension ImageCarouselCell: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let index = vcData.firstIndex(of: viewController) else { return nil }
         let previousIndex = index - 1
+        
         return previousIndex < 0 ? nil : vcData[previousIndex]
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let index = vcData.firstIndex(of: viewController) else { return nil }
         let nextIndex = index + 1
+        
         return nextIndex == vcData.count ? nil : vcData[nextIndex]
     }
 }

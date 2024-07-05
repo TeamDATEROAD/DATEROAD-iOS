@@ -44,10 +44,10 @@ struct CourseDetailContents {
 extension CourseDetailContents {
     static let images: [UIImage] = [
         UIImage(resource: .image1),
-        UIImage(resource: .image1),
-        UIImage(resource: .image1),
-        UIImage(resource: .image1),
-        UIImage(resource: .image1)
+        UIImage(resource: .image2),
+        UIImage(resource: .image3),
+        UIImage(resource: .image4),
+        UIImage(resource: .image5)
     ]
     
     static func timelineContents() -> [CourseDetailContents] {
