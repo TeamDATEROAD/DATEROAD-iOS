@@ -12,11 +12,27 @@ import Then
 
 class AddCourseImageCollectionViewCell: UICollectionViewCell {
    
+   enum AddCellType {
+      case EmptyType, NotEmptyPType
+   }
+   
    static let id: String = "AddCourseImageCollectionViewCell"
+   
+   var cellType: AddCellType = .EmptyType {
+      didSet {
+         updateUIForCellType()
+      }
+   }
    
    // MARK: - UI Properties
    
    private let imageView = UIImageView()
+   
+   private let emptyView = UIView()
+   
+   private let emptyCameraImage = UIImageView()
+   
+   private let emptyLabel = UILabel()
    
    // MARK: Initializer
    
@@ -30,35 +46,85 @@ class AddCourseImageCollectionViewCell: UICollectionViewCell {
       setHierarchy()
       setLayout()
       setStyle()
+      updateUIForCellType()
    }
    
    override func prepareForReuse() {
       super.prepareForReuse()
       self.prepare(image: nil)
+      self.cellType = .EmptyType
    }
    
    func prepare(image: UIImage?) {
       self.imageView.image = image
    }
    
-   func setHierarchy() {
-       contentView.addSubview(imageView)
+   private func setHierarchy() {
+      contentView.addSubview(imageView)
+      contentView.addSubview(emptyView)
+      emptyView.addSubviews(emptyCameraImage, emptyLabel)
    }
    
-   func setLayout() {
+   private func setLayout() {
       imageView.snp.makeConstraints {
-         $0.top.equalTo(contentView)
-         $0.horizontalEdges.bottom.equalToSuperview()
+         $0.edges.equalToSuperview()
+      }
+      
+      emptyView.snp.makeConstraints {
+         $0.edges.equalToSuperview()
+      }
+      
+      emptyCameraImage.snp.makeConstraints {
+         $0.top.equalToSuperview().offset(36)
+         $0.centerX.equalToSuperview()
+         $0.size.equalTo(32)
+      }
+      
+      emptyLabel.snp.makeConstraints {
+         $0.top.equalTo(emptyCameraImage.snp.bottom).offset(13)
+         $0.centerX.equalTo(emptyCameraImage)
       }
    }
    
-   func setStyle() {
+   private func setStyle() {
+      emptyView.do {
+         $0.backgroundColor = .gray100
+         $0.layer.cornerRadius = 14
+         $0.isHidden = false
+      }
+      
+      emptyCameraImage.do {
+         $0.image = .camera
+         $0.backgroundColor = .gray200
+         $0.layer.cornerRadius = 32 / 2
+      }
+      
+      emptyLabel.do {
+         $0.numberOfLines = 2
+         $0.text = StringLiterals.AddCourseOrScheduleFirst.emptyImage
+         $0.textColor = .gray300
+         $0.font = .suit(.body_bold_11)
+         $0.textAlignment = .center
+      }
+      
       imageView.do {
          $0.contentMode = .scaleAspectFill
-         $0.backgroundColor = .drBlack
-         $0.layer.borderWidth = 1
-         $0.layer.borderColor = UIColor.red.cgColor
+         $0.clipsToBounds = true
+         $0.layer.cornerRadius = 14
+         $0.isHidden = true
       }
    }
    
+   private func updateUIForCellType() {
+      switch cellType {
+      case .EmptyType:
+         emptyView.isHidden = false
+         imageView.isHidden = true
+//         contentView.bringSubviewToFront(emptyView)
+      case .NotEmptyPType:
+         emptyView.isHidden = true
+         imageView.isHidden = false
+//         contentView.bringSubviewToFront(imageView)
+      }
+   }
 }

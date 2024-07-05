@@ -17,7 +17,11 @@ import Then
 
 final class AddCourseViewController: BaseNavBarViewController {
    
-   private var dataSource = getSampleImages()
+   //   private var isImageEmpty = true
+   //
+   //   private var dataSource = getSampleImages()
+   
+   private let viewModel = AddCourseViewModel()
    
    private var addCourseFirstView = AddCourseFirstView()
    
@@ -46,7 +50,7 @@ final class AddCourseViewController: BaseNavBarViewController {
       super.setLayout()
       addCourseFirstView.snp.makeConstraints {
          $0.top.equalToSuperview().offset(4)
-         $0.horizontalEdges.bottom.equalToSuperview()
+         $0.horizontalEdges.equalToSuperview()
          $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
       }
    }
@@ -62,18 +66,23 @@ final class AddCourseViewController: BaseNavBarViewController {
 }
 
 extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-
+   
    private func registerCell() {
       addCourseFirstView.collectionView.do {
          $0.register(AddCourseImageCollectionViewCell.self, forCellWithReuseIdentifier: "AddCourseImageCollectionViewCell")
          $0.delegate = self
          $0.dataSource = self
-         $0.backgroundColor = .deepPurple
       }
    }
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-      return self.dataSource.count
+      if viewModel.dataSource.isEmpty {
+//         viewModel.isImageEmpty = true
+         return 1
+      } else {
+//         viewModel.isImageEmpty = false
+         return viewModel.dataSource.count
+      }
    }
    
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -81,12 +90,34 @@ extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewD
          withReuseIdentifier: AddCourseImageCollectionViewCell.id,
          for: indexPath
       ) as! AddCourseImageCollectionViewCell
-      cell.prepare(image: self.dataSource[indexPath.item])
+      
+      if viewModel.dataSource.isEmpty {
+         print("EmptyType")
+         addCourseFirstView.cameraBtn.isHidden = true
+         cell.cellType = .EmptyType
+         addCourseFirstView.imageCountLabel.text = "\(0)/10"
+      } else {
+         print("NotEmptyPType")
+         addCourseFirstView.cameraBtn.isHidden = false
+         cell.cellType = .NotEmptyPType
+         cell.prepare(image: viewModel.dataSource[indexPath.item])
+         addCourseFirstView.imageCountLabel.text = "\(viewModel.dataSource.count)/10"
+      }
+      
       return cell
+   }
+   
+   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+      if viewModel.dataSource.isEmpty {
+         print("Empty cell selected")
+      } else {
+         print("Cell \(indexPath.item) selected")
+      }
    }
    
 }
 
 func getSampleImages() -> [UIImage?] {
    (1...9).map { _ in return UIImage(resource: .test) }
+//      return []
 }

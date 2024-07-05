@@ -5,4 +5,10 @@
 //  Created by 박신영 on 7/5/24.
 //
 
-import Foundation
+import UIKit
+
+final class AddCourseViewModel {
+   var dataSource = getSampleImages()
+   
+   
+}
