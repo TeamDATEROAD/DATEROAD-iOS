@@ -36,8 +36,6 @@ final class MainContentsCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    var calculatedHeight: CGFloat = 0
-    
     static let identifier: String = "MainContentsCell"
     
     override init(frame: CGRect) {

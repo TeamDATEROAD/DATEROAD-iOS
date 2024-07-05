@@ -24,6 +24,8 @@ final class CourseDetailViewController: BaseNavBarViewController {
     private let viewModel: CourseDetailViewModel
     
     private var mainData: [CourseDetailContents] = CourseDetailContents.images.map { CourseDetailContents(image: $0) }
+    
+    private var timelineData: [CourseDetailContents] = CourseDetailContents.timelineContents()
 
     private var currentPage: Int = 0 
     
@@ -55,6 +57,7 @@ final class CourseDetailViewController: BaseNavBarViewController {
         super.setLayout()
         
         mainCollectionView.contentInsetAdjustmentBehavior = .never
+        
         mainCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -89,9 +92,10 @@ private extension CourseDetailViewController {
         mainCollectionView.do {
             $0.register(ImageCarouselCell.self, forCellWithReuseIdentifier: ImageCarouselCell.identifier)
             $0.register(MainContentsCell.self, forCellWithReuseIdentifier: MainContentsCell.identifier)
-            $0.register(TimelineInfoTableViewCell.self, forCellWithReuseIdentifier: TimelineInfoTableViewCell.identifier)
+            $0.register(TimelineInfoCell.self, forCellWithReuseIdentifier: TimelineInfoCell.identifier)
             $0.register(CoastInfoCell.self, forCellWithReuseIdentifier: CoastInfoCell.identifier)
             $0.register(TagInfoCollectionViewCell.self, forCellWithReuseIdentifier: TagInfoCollectionViewCell.identifier)
+            $0.register(BringCourseCell.self, forCellWithReuseIdentifier: BringCourseCell.identifier)
             
             $0.register(InfoHeaderView.self, forSupplementaryViewOfKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier)
             
@@ -114,6 +118,8 @@ private extension CourseDetailViewController {
                 return self.makeCoastInfoLayout()
             case .tagInfo:
                 return self.makeTagInfoLayout()
+            case .bringCourse:
+                return self.makeBringCourseLayout()
             }
         }
     }
@@ -150,21 +156,23 @@ private extension CourseDetailViewController {
     }
     
     func makeTimelineInfoLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(200))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(70))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(200))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(70))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 34, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 15, trailing: 0)
         
         let header = makeHeaderView()
         section.boundarySupplementaryItems = [header]
         
         return section
     }
+    
+
     
     func makeCoastInfoLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
@@ -192,10 +200,24 @@ private extension CourseDetailViewController {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 61, trailing: 0)
         
         let header = makeHeaderView()
         section.boundarySupplementaryItems = [header]
+        
+        return section
+    }
+    
+    func makeBringCourseLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(54))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0)
         
         return section
     }
@@ -226,7 +248,7 @@ extension CourseDetailViewController: ImageCarouselDelegate {
 
 extension CourseDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return mainData.count
+        return 6
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -234,14 +256,16 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         
         switch sectionType {
         case .imageCarousel:
-            return 1
+            return viewModel.imageCarouselViewModel.numberOfItems
+        case .timelineInfo:
+            return timelineData.count
         default:
             return viewModel.numberOfItemsInSection(section)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+
         let sectionType = viewModel.fetchSection(at: indexPath.section)
         
         switch sectionType {
@@ -258,9 +282,10 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             }
             return mainContentsCell
         case .timelineInfo:
-            guard let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoTableViewCell.identifier, for: indexPath) as? TimelineInfoTableViewCell else {
+            guard let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.identifier, for: indexPath) as? TimelineInfoCell else {
                 fatalError("Unable to dequeue TimelineInfoCell")
             }
+            timelineInfoCell.setCell(timelineData[indexPath.row])
             return timelineInfoCell
         case .coastInfo:
             guard let coastInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.identifier, for: indexPath) as? CoastInfoCell else {
@@ -273,7 +298,15 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             }
             tagInfoCell.tagList = getTagListForSection(indexPath.section)
             return tagInfoCell
+            
+        case .bringCourse:
+            guard let bringCourseCell = collectionView.dequeueReusableCell(withReuseIdentifier: BringCourseCell.identifier, for: indexPath) as? BringCourseCell else {
+                fatalError("Unable to dequeue TagInfoCell")
+            }
+            return bringCourseCell
         }
+    
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

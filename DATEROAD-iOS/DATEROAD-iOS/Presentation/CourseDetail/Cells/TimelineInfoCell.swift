@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LocationCell: UITableViewCell {
+class TimelineInfoCell: UICollectionViewCell {
     
     // MARK: - UI Properties
     
@@ -27,9 +27,9 @@ class LocationCell: UITableViewCell {
     
     static let identifier: String = "LocationCell"
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
         
+        super.init(frame: frame)
         setHierarchy()
         setLayout()
         setStyle()
@@ -41,21 +41,21 @@ class LocationCell: UITableViewCell {
     }
 }
 
-extension LocationCell {
-    func dataBind(_ locationData: CourseDetailContents) {
-        if let index = locationData.index {
+extension TimelineInfoCell {
+    func setCell(_ timelineData: CourseDetailContents) {
+        if let index = timelineData.index {
             indexNumLabel.text = String(index)
         } else {
             indexNumLabel.text = nil
         }
-        locationLabel.text = locationData.location
-        timeLabel.text = locationData.time
+        locationLabel.text = timelineData.location
+        timeLabel.text = timelineData.time
     }
 }
 
 // MARK: - Private Methods
 
-private extension LocationCell {
+private extension TimelineInfoCell {
     
     func setHierarchy() {
         self.addSubviews(timelineBackgroundView, circleView, indexNumLabel, locationLabel, timeBoxView, timeLabel)
