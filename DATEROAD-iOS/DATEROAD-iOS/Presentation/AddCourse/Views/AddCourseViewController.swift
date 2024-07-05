@@ -10,10 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
-//@available(iOS 17.0, *)
-//#Preview {
-//   AddCourseViewController()
-//}
+@available(iOS 17.0, *)
+#Preview {
+   AddCourseViewController()
+}
 
 final class AddCourseViewController: BaseNavBarViewController {
    
@@ -37,15 +37,17 @@ final class AddCourseViewController: BaseNavBarViewController {
    override func setHierarchy() {
       
       super.setHierarchy()
-      self.view.addSubviews(addCourseFirstView)
+      self.view.addSubview(contentView)
+      contentView.addSubview(addCourseFirstView)
    }
    
    override func setLayout() {
       
       super.setLayout()
       addCourseFirstView.snp.makeConstraints {
-         $0.top.equalTo(view.safeAreaLayoutGuide).inset(60)
+         $0.top.equalToSuperview().offset(4)
          $0.horizontalEdges.bottom.equalToSuperview()
+         $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-4)
       }
    }
    

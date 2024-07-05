@@ -16,16 +16,15 @@ class AddCourseFirstView: BaseView {
    
    var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
    
-   private let horizonStackView = UIStackView()
-   
-   
+   let addFirstView = AddFirstView()
    
    // MARK: - Methods
    
    override func setHierarchy() {
 
       super.setHierarchy()
-      self.addSubview(self.collectionView)
+      self.addSubviews(collectionView, addFirstView)
+      
    }
    
    override func setLayout() {
@@ -35,6 +34,12 @@ class AddCourseFirstView: BaseView {
          $0.top.equalToSuperview()
          $0.horizontalEdges.equalToSuperview()
          $0.height.equalTo(146)
+      }
+      
+      addFirstView.snp.makeConstraints {
+         $0.top.equalTo(collectionView.snp.bottom).offset(14)
+         $0.horizontalEdges.equalToSuperview().inset(16)
+         $0.bottom.equalToSuperview()
       }
    }
    
