@@ -16,7 +16,23 @@ protocol DRButton {
     var borderWidth: CGFloat { get }
         
     var isEnabled: Bool { get }
+    
+    var font: UIFont { get }
         
+    var cornerRadius: CGFloat { get }
+}
+
+extension DRButton {
+        
+    var fontColor: UIColor { return UIColor(resource: .drBlack) }
+        
+    var borderWidth: CGFloat { return 0 }
+        
+    var isEnabled: Bool { return true }
+    
+    var font: UIFont  { return UIFont.suit(.body_bold_15) }
+        
+    var cornerRadius: CGFloat  { return 14 }
 }
 
 struct NextButton: DRButton {
@@ -27,8 +43,6 @@ struct NextButton: DRButton {
     
     var borderWidth: CGFloat = 1
 
-    var isEnabled: Bool = true
-
 }
 
 struct EnabledButton: DRButton {
@@ -37,10 +51,8 @@ struct EnabledButton: DRButton {
     
     var fontColor: UIColor = UIColor(resource: .drWhite)
     
-    var borderWidth: CGFloat = 0
-
-    var isEnabled: Bool = true
-                    
+    var borderWidth: CGFloat = 1
+    
 }
 
 struct DisabledButton: DRButton {
@@ -48,9 +60,7 @@ struct DisabledButton: DRButton {
     var bgColor: UIColor = UIColor(resource: .gray200)
     
     var fontColor: UIColor = UIColor(resource: .gray400)
-    
-    var borderWidth: CGFloat = 0
-        
+            
     var isEnabled: Bool = false
         
 }
@@ -58,13 +68,7 @@ struct DisabledButton: DRButton {
 struct KakaoLoginButton: DRButton {
     
     var bgColor: UIColor = UIColor(resource: .drWhite)
-    
-    var fontColor: UIColor = UIColor(resource: .drBlack)
-    
-    var borderWidth: CGFloat = 0
-        
-    var isEnabled: Bool = true
-        
+            
 }
 
 struct AppleLoginButton: DRButton {
@@ -72,10 +76,25 @@ struct AppleLoginButton: DRButton {
     var bgColor: UIColor = UIColor(resource: .drBlack)
     
     var fontColor: UIColor = UIColor(resource: .drWhite)
-    
-    var borderWidth: CGFloat = 0
-        
-    var isEnabled: Bool = true
         
 }
 
+struct UnselectedButton: DRButton {
+    
+    var bgColor: UIColor = UIColor(resource: .gray100)
+
+    var font: UIFont = UIFont.suit(.body_med_13)
+    
+    var cornerRadius: CGFloat = 16
+        
+}
+
+struct SelectedButton : DRButton {
+    
+    var bgColor: UIColor = UIColor(resource: .deepPurple)
+
+    var font: UIFont = UIFont.suit(.body_med_13)
+    
+    var cornerRadius: CGFloat = 16
+        
+}
