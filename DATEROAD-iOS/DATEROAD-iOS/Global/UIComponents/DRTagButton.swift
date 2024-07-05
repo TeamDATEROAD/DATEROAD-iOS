@@ -11,9 +11,9 @@ class DRTagButton: UIButton {
     
     // MARK: - Properties
         
-    private let selectedType: DRButton = SelectedButton()
+    private let selectedType: DRButtonType = SelectedButton()
     
-    private let unselectedType: DRButton = UnselectedButton()
+    private let unselectedType: DRButtonType = UnselectedButton()
     
     
     // MARK: - Life Cycle

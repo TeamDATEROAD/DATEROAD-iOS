@@ -28,7 +28,7 @@ extension UIButton {
     }
     
     // 버튼 타입에 따라 속성 설정해주는 메소드
-    func setButtonStatus(buttonType: DRButton) {
+    func setButtonStatus(buttonType: DRButtonType) {
         self.backgroundColor = buttonType.bgColor
         self.setTitleColor(buttonType.fontColor, for: .normal)
         self.layer.borderWidth = buttonType.borderWidth

@@ -85,16 +85,22 @@ struct UnselectedButton: DRButtonType {
 
     var font: UIFont = UIFont.suit(.body_med_13)
     
-    var cornerRadius: CGFloat = 16
-        
+    var cornerRadius: CGFloat = 15
+    
+    var borderWidth: CGFloat = 0
+            
 }
 
 struct SelectedButton : DRButtonType {
     
     var bgColor: UIColor = UIColor(resource: .deepPurple)
+    
+    var fontColor: UIColor = UIColor(resource: .drWhite)
 
     var font: UIFont = UIFont.suit(.body_med_13)
     
-    var cornerRadius: CGFloat = 16
+    var cornerRadius: CGFloat = 15
         
+    var borderWidth: CGFloat = 0
+
 }
