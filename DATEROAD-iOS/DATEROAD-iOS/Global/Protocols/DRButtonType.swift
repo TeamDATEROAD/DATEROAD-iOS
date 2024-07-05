@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol DRButton {
+protocol DRButtonType {
 
     var bgColor: UIColor { get }
     
@@ -22,7 +22,7 @@ protocol DRButton {
     var cornerRadius: CGFloat { get }
 }
 
-extension DRButton {
+extension DRButtonType {
         
     var fontColor: UIColor { return UIColor(resource: .drBlack) }
         
@@ -35,7 +35,7 @@ extension DRButton {
     var cornerRadius: CGFloat  { return 14 }
 }
 
-struct NextButton: DRButton {
+struct NextButton: DRButtonType {
     
     var bgColor: UIColor =  UIColor(resource: .drWhite)
     
@@ -45,7 +45,7 @@ struct NextButton: DRButton {
 
 }
 
-struct EnabledButton: DRButton {
+struct EnabledButton: DRButtonType {
     
     var bgColor: UIColor = UIColor(resource: .deepPurple)
     
@@ -55,7 +55,7 @@ struct EnabledButton: DRButton {
     
 }
 
-struct DisabledButton: DRButton {
+struct DisabledButton: DRButtonType {
     
     var bgColor: UIColor = UIColor(resource: .gray200)
     
@@ -65,13 +65,13 @@ struct DisabledButton: DRButton {
         
 }
 
-struct KakaoLoginButton: DRButton {
+struct KakaoLoginButton: DRButtonType {
     
     var bgColor: UIColor = UIColor(resource: .drWhite)
             
 }
 
-struct AppleLoginButton: DRButton {
+struct AppleLoginButton: DRButtonType {
     
     var bgColor: UIColor = UIColor(resource: .drBlack)
     
@@ -79,7 +79,7 @@ struct AppleLoginButton: DRButton {
         
 }
 
-struct UnselectedButton: DRButton {
+struct UnselectedButton: DRButtonType {
     
     var bgColor: UIColor = UIColor(resource: .gray100)
 
@@ -89,7 +89,7 @@ struct UnselectedButton: DRButton {
         
 }
 
-struct SelectedButton : DRButton {
+struct SelectedButton : DRButtonType {
     
     var bgColor: UIColor = UIColor(resource: .deepPurple)
 
