@@ -16,11 +16,13 @@ final class ProfileViewModel {
     var nickname: ObservablePattern<String> = ObservablePattern("")
     
     var tagCount: ObservablePattern<Int> = ObservablePattern(0)
+    
+    var isValidNickname: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var isValidTag: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var isValidRegistration: ObservablePattern<Bool> = ObservablePattern(false)
         
-    var onValidNickname: ((Bool) -> Void)?
-    
-    var onValidSelect: ((Bool) -> Void)?
-    
     var onSuccessRegister: ((Bool) -> Void)?
  
     init() {
@@ -38,21 +40,24 @@ extension ProfileViewModel {
     
     func checkValidNickname() {
         let nickname = self.nickname.value ?? ""
-        if nickname.isEmpty {
-            self.onValidNickname?(false)
+        if nickname.count >= 2 && nickname.count <= 5 {
+            // TODO: - 닉네임이 글자 수 충족 -> 중복 확인 처리 로직 추가 예정
+
+            self.isValidNickname.value = true
         } else {
-            // TODO: - 닉네임이 비어있지 않은 경우 중복 확인 처리 로직 추가 예정
-            self.onValidNickname?(true)
+            self.isValidNickname.value = false
         }
     }
     
     func countSelectedTag(isSelected: Bool) {
-        let oldCount = tagCount.value ?? 0
+        guard let oldCount = tagCount.value else { return }
         
         if isSelected {
             tagCount.value = oldCount + 1
         } else {
-            tagCount.value = oldCount - 1
+            if oldCount != 0 {
+                tagCount.value = oldCount - 1
+            }
         }
         
         checkTagCount()
@@ -62,13 +67,17 @@ extension ProfileViewModel {
         guard let count = tagCount.value else { return }
 
         if count >= 1 && count <= 3 {
-            self.onValidSelect?(true)
+            self.isValidTag.value = true
         } else {
-            self.onValidSelect?(false)
+            self.isValidTag.value = false
         }
+        print(count)
     }
     
     func checkValidRegistration() {
+        guard let isValidNickname = isValidNickname.value,
+            let isValidTag = isValidTag.value else { return }
         
+        self.isValidRegistration.value = isValidNickname && isValidTag ? true : false
     }
 }

@@ -17,26 +17,34 @@ final class ProfileView: BaseView {
     
     private let nicknameLabel: UILabel = UILabel()
     
-    private let nicknameTextfield: UITextField = UITextField()
+    let nicknameTextfield: UITextField = UITextField()
     
-    private let doubleCheckButton: UIButton = UIButton()
+    private let rightViewBox: UIView = UIView()
     
-    private let errorMessageLabel: UILabel = UILabel()
+    let doubleCheckButton: UIButton = UIButton()
+    
+    let nicknameErrMessageLabel: UILabel = UILabel()
     
     private let countLabel: UILabel = UILabel()
     
     private let datingTendencyLabel: UILabel = UILabel()
     
     let tendencyTagCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
+    let tagErrMessageLabel: UILabel = UILabel()
 
-    private let registerButton: UIButton = UIButton()
+    let registerButton: UIButton = UIButton()
     
     
     // MARK: - Properties
     
-    private let enabledButtonType: DRButton = EnabledButton()
+    private let enabledButtonType: DRButtonType = EnabledButton()
     
-    private let disabledButtonType: DRButton = DisabledButton()
+    private let disabledButtonType: DRButtonType = DisabledButton()
+    
+    private let warningType: DRErrorType = Warning()
+    
+    private let correctType: DRErrorType = Correct()
     
     
     // MARK: - Life Cycle
@@ -45,14 +53,14 @@ final class ProfileView: BaseView {
         self.addSubviews(profileImageView,
                          nicknameLabel,
                          nicknameTextfield,
-                         errorMessageLabel,
+                         nicknameErrMessageLabel,
                          countLabel,
                          datingTendencyLabel,
                          tendencyTagCollectionView,
+                         tagErrMessageLabel,
                          registerButton)
         
         profileImageView.addSubview(editImageButton)
-        nicknameTextfield.addSubview(doubleCheckButton)
     }
     
     override func setLayout() {
@@ -78,7 +86,7 @@ final class ProfileView: BaseView {
             $0.height.equalTo(54)
         }
         
-        errorMessageLabel.snp.makeConstraints {
+        nicknameErrMessageLabel.snp.makeConstraints {
             $0.top.equalTo(nicknameTextfield.snp.bottom).offset(6)
             $0.leading.equalToSuperview()
         }
@@ -97,6 +105,11 @@ final class ProfileView: BaseView {
             $0.top.equalTo(datingTendencyLabel.snp.bottom).offset(10)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(106)
+        }
+        
+        tagErrMessageLabel.snp.makeConstraints {
+            $0.top.equalTo(tendencyTagCollectionView.snp.bottom).offset(14)
+            $0.leading.equalToSuperview()
         }
         
         registerButton.snp.makeConstraints {
@@ -127,6 +140,20 @@ final class ProfileView: BaseView {
         }
         
         nicknameTextfield.do {
+            rightViewBox.addSubview(doubleCheckButton)
+            rightViewBox.snp.makeConstraints {
+                $0.width.equalTo(90)
+                $0.height.equalTo(30)
+            }
+            doubleCheckButton.snp.makeConstraints {
+                $0.leading.equalToSuperview()
+                $0.verticalEdges.equalToSuperview()
+                $0.width.equalTo(74)
+            }
+            $0.rightView = rightViewBox
+            $0.rightViewMode = .always
+            
+            $0.setLeftPadding(amount: 16)
             $0.textColor = UIColor(resource: .drBlack)
             $0.backgroundColor = UIColor(resource: .gray100)
             $0.clipsToBounds = true
@@ -136,12 +163,14 @@ final class ProfileView: BaseView {
         }
         
         doubleCheckButton.do {
+            $0.setTitle(StringLiterals.Profile.doubleCheck, for: .normal)
             $0.setButtonStatus(buttonType: disabledButtonType)
+            $0.titleLabel?.font = UIFont.suit(.body_med_13)
         }
         
-        errorMessageLabel.do {
+        nicknameErrMessageLabel.do {
             $0.isHidden = true
-            $0.setLabel(alignment: .left, textColor: UIColor(resource: .alertRed), font: UIFont.suit(.cap_reg_11))
+            $0.setErrorLabel(text: StringLiterals.Profile.disabledNickname, errorType: warningType)
         }
         
         countLabel.do {
@@ -167,9 +196,51 @@ final class ProfileView: BaseView {
             $0.contentInsetAdjustmentBehavior = .never
             $0.showsVerticalScrollIndicator = false
         }
+        
+        tagErrMessageLabel.do {
+            $0.isHidden = true
+            $0.setErrorLabel(text: StringLiterals.Profile.selectTag, errorType: warningType)
+        }
+        
     }
 }
 
 extension ProfileView {
+    
+    func updateNicknameErrLabel(isValid: Bool) {
+        isValid ? nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.enabledNickname, errorType: self.correctType)
+        : nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.disabledNickname, errorType: self.warningType)
+    }
+    
+    func updateTagErrLabel(isValid: Bool) {
+        tagErrMessageLabel.isHidden =  isValid ? true : false
+    }
+    
+    func updateNicknameCount(count: Int) {
+        countLabel.do {
+            $0.textColor = UIColor(resource: .drBlack)
+            $0.text = "\(count)/5"
+        }
+    }
+    
+    func updateDoubleCheckButton(isValid: Bool) {
+       isValid ? doubleCheckButton.setButtonStatus(buttonType: enabledButtonType)
+        : doubleCheckButton.setButtonStatus(buttonType: disabledButtonType)
+        doubleCheckButton.titleLabel?.font = UIFont.suit(.body_med_13)
+    }
+    
+    func updateTagCount(count: Int) {
+        datingTendencyLabel.text = "나의 데이트 성향 (\(count)/3)"
+    }
+
+    func updateTag(button: UIButton, buttonType: DRButtonType) {
+        button.setButtonStatus(buttonType: buttonType)
+    }
+    
+    func updateRegisterButton(isValid: Bool) {
+       isValid ? registerButton.setButtonStatus(buttonType: enabledButtonType)
+        : registerButton.setButtonStatus(buttonType: disabledButtonType)
+        registerButton.titleLabel?.font = UIFont.suit(.body_bold_15)
+    }
     
 }

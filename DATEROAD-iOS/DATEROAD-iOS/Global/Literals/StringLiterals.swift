@@ -53,6 +53,7 @@ enum StringLiterals {
         static let countPlaceholder = "0/5"
         static let dateTendency = "나의 데이트 성향 (0/3)"
         static let registerProfile = "프로필 등록하기"
+        static let selectTag =  "최소 1개, 최대 3개를 선택해주세요."
     }
     
 }

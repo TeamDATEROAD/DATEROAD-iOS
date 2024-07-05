@@ -11,10 +11,7 @@ final class TendencyTagCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
-    private var tendencyTagButton:  DRTagButton
-    
-    
-    // MARK: - Properties
+     var tendencyTagButton:  DRTagButton
     
     
     // MARK: - Life Cycle
