@@ -36,6 +36,14 @@ final class CoastInfoCell: UICollectionViewCell {
     }
 }
 
+extension CoastInfoCell {
+    
+    func setCell(coastData: Int) {
+        coastLabel.text = "\(coastData.formattedWithSeparator)원"
+    }
+    
+}
+
 // MARK: - Private Methods
 
 private extension CoastInfoCell {

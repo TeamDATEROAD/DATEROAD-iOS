@@ -24,7 +24,7 @@ struct InfoContents {
 
 extension InfoContents {
     
-    static let coast: Int = 900000
+    static let coast: Int = 50000
     
     static let tagContents: [InfoContents] = [InfoContents(tag: "🚙 드라이브"),
                                               InfoContents(tag: "🛍️ 쇼핑"),

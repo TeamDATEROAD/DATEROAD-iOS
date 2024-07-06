@@ -42,14 +42,19 @@ class TimelineInfoCell: UICollectionViewCell {
 }
 
 extension TimelineInfoCell {
-    func setCell(_ timelineData: CourseDetailContents) {
+    
+    func setCell(_ timelineData: TimelineContents) {
         if let index = timelineData.index {
             indexNumLabel.text = String(index)
         } else {
             indexNumLabel.text = nil
         }
         locationLabel.text = timelineData.location
-        timeLabel.text = timelineData.time
+        if let time = timelineData.time {
+            timeLabel.text = String(time) + "시간"
+        } else {
+            timeLabel.text = nil
+        }
     }
 }
 

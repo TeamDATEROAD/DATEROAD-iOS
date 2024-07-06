@@ -31,7 +31,6 @@ class BottomPageControllView: UICollectionReusableView {
     
     static let identifier: String = "BottomPageControllView"
     
-    
     var pageIndex: Int = 0 {
         didSet {
             updatePageLabel()
@@ -57,13 +56,13 @@ class BottomPageControllView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func updatePageLabel() {
-        indexBoxButton.setTitle("\(pageIndex + 1)/\(pageIndexSum)", for: .normal)
-    }
-    
 }
 
 private extension BottomPageControllView {
+
+    func updatePageLabel() {
+        indexBoxButton.setTitle("\(pageIndex + 1)/\(pageIndexSum)", for: .normal)
+    }
     
     func setHierarchy() {
         self.addSubviews(likeBoxView, likeStackView, indexBoxButton)

@@ -23,13 +23,19 @@ final class CourseDetailViewController: BaseNavBarViewController {
     
     private let viewModel: CourseDetailViewModel
     
-    private var mainData: [CourseDetailContents] = CourseDetailContents.images.map { CourseDetailContents(image: $0) }
+    private var imageData: [ImageContents] = ImageContents.imageContents.map { ImageContents(image: $0) }
     
-    private var timelineData: [CourseDetailContents] = CourseDetailContents.timelineContents()
+    private var likeSum: Int = ImageContents.likeSum
     
-    private var tagData: [CourseDetailContents] = CourseDetailContents.tagContents
-
-    private var currentPage: Int = 0 
+    private var mainContentsData: MainContents = MainContents.mainContents
+    
+    private var timelineData: [TimelineContents] = TimelineContents.timelineContents
+    
+    private var coastData: Int = InfoContents.coast
+    
+    private var tagData: [InfoContents] = InfoContents.tagContents
+    
+    private var currentPage: Int = 0
     
     init(viewModel: CourseDetailViewModel = CourseDetailViewModel()) {
         self.viewModel = viewModel
@@ -44,7 +50,7 @@ final class CourseDetailViewController: BaseNavBarViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setDelegate()
         registerCell()
         setLeftBackButton()
@@ -164,7 +170,7 @@ private extension CourseDetailViewController {
         return section
     }
     
-
+    
     
     func makeCoastInfoLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
@@ -200,7 +206,7 @@ private extension CourseDetailViewController {
         
         return section
     }
-
+    
     
     func makeBringCourseLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
@@ -232,6 +238,7 @@ private extension CourseDetailViewController {
 }
 
 extension CourseDetailViewController: ImageCarouselDelegate {
+    
     func didSwipeImage(index: Int, vc: UIPageViewController, vcData: [UIViewController]) {
         currentPage = index
         if let bottomPageControllView = mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
@@ -261,7 +268,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
+        
         let sectionType = viewModel.fetchSection(at: indexPath.section)
         
         switch sectionType {
@@ -269,13 +276,14 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             guard let imageCarouselCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCarouselCell.identifier, for: indexPath) as? ImageCarouselCell else {
                 fatalError("Unable to dequeue ImageCarouselCell")
             }
-            imageCarouselCell.setPageVC(imageData: mainData)
+            imageCarouselCell.setPageVC(imageData: imageData)
             imageCarouselCell.delegate = self
             return imageCarouselCell
         case .mainContents:
             guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.identifier, for: indexPath) as? MainContentsCell else {
                 fatalError("Unable to dequeue MainContentsCell")
             }
+            mainContentsCell.setCell(mainContentsData: mainContentsData)
             return mainContentsCell
         case .timelineInfo:
             guard let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.identifier, for: indexPath) as? TimelineInfoCell else {
@@ -287,6 +295,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             guard let coastInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.identifier, for: indexPath) as? CoastInfoCell else {
                 fatalError("Unable to dequeue CoastInfoCell")
             }
+            coastInfoCell.setCell(coastData: coastData)
             return coastInfoCell
         case .tagInfo:
             guard let tagInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCell.identifier, for: indexPath) as? TagInfoCell else {
@@ -300,7 +309,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             }
             return bringCourseCell
         }
-    
+        
         
     }
     
@@ -320,7 +329,8 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return header
         } else if kind == BottomPageControllView.elementKinds {
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else { return UICollectionReusableView() }
-            footer.pageIndexSum = mainData.count
+            //이미지 갯수가 총 인덱스
+            footer.pageIndexSum = imageData.count
             return footer
         } else {
             return UICollectionReusableView()
