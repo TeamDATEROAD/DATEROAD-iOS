@@ -44,9 +44,8 @@ class AddFirstView: BaseView {
    private let nextBtnTitleLabel = UILabel()
    
    lazy var dateAccessoryView = UIView()
-//   lazy var accessoryView: UIView = {
-//       return UIView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: 72.0))
-//   }()
+   
+   
    
    override func setHierarchy() {
       self.addSubviews(
@@ -119,7 +118,7 @@ class AddFirstView: BaseView {
       
       dateAccessoryView.snp.makeConstraints {
          $0.width.equalTo(375)
-         $0.height.equalTo(260)
+         $0.height.equalTo(304)
       }
       
    }
@@ -152,7 +151,7 @@ class AddFirstView: BaseView {
       
       visitDateTextField.do {
          $0.setPlaceholder(
-            placeholder: StringLiterals.AddCourseOrScheduleFirst.visitDatePlaceHolder,
+            placeholder: StringLiterals.AddCourseOrScheduleFirst.visitDateLabel,
             fontColor: .gray300,
             font: .suit(.body_semi_13)
          )
@@ -173,7 +172,7 @@ class AddFirstView: BaseView {
       
       dateStartTimeTextField.do {
          $0.setPlaceholder(
-            placeholder: StringLiterals.AddCourseOrScheduleFirst.dateStartTimePlaceHolder,
+            placeholder: StringLiterals.AddCourseOrScheduleFirst.dateStartTimeLabel,
             fontColor: .gray300,
             font: .suit(.body_semi_13)
          )
@@ -213,7 +212,7 @@ class AddFirstView: BaseView {
       
       datePlaceLabel.do {
          $0.font = .suit(.body_semi_13)
-         $0.text = StringLiterals.AddCourseOrScheduleFirst.dateLocationPlaceHolder
+         $0.text = StringLiterals.AddCourseOrScheduleFirst.datePlaceLabel
          $0.textColor = .gray300
       }
       
