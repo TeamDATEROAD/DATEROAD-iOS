@@ -65,6 +65,8 @@ final class CourseDetailViewController: BaseNavBarViewController {
         super.setLayout()
         
         mainCollectionView.contentInsetAdjustmentBehavior = .never
+        mainCollectionView.showsVerticalScrollIndicator = false
+        mainCollectionView.showsHorizontalScrollIndicator = false
         
         mainCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
