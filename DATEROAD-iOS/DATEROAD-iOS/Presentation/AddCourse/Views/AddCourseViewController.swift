@@ -21,6 +21,8 @@ final class AddCourseViewController: BaseNavBarViewController {
    //
    //   private var dataSource = getSampleImages()
    
+   let datePicker = UIDatePicker()
+   
    private let viewModel = AddCourseViewModel()
    
    private var addCourseFirstView = AddCourseFirstView()
@@ -35,6 +37,7 @@ final class AddCourseViewController: BaseNavBarViewController {
       setStyle()
       setTitleLabelStyle(title: StringLiterals.AddCourseOrScheduleFirst.addCourseTitle)
       setLeftBackButton()
+      setAddTarget()
       registerCell()
    }
    
@@ -65,6 +68,36 @@ final class AddCourseViewController: BaseNavBarViewController {
    
 }
 
+extension AddCourseViewController {
+   private func setAddTarget() {
+      // addTarget을 통해 텍스트 필드 클릭 시 특정 함수 실행
+      addCourseFirstView.addFirstView.visitDateTextField.addTarget(self, action: #selector(textFieldTapped(_:)), for: .touchDown)
+      addCourseFirstView.addFirstView.dateStartTimeTextField.addTarget(self, action: #selector(textFieldTapped(_:)), for: .touchDown)
+   }
+   
+   @objc
+   private func textFieldTapped(_ textField: UITextField) {
+      print("\(textField.placeholder ?? "TextField") was tapped")
+      // 예시: 바텀 시트 표시
+      if textField == addCourseFirstView.addFirstView.visitDateTextField {
+         DispatchQueue.main.async {
+            let addSheetVC = AddSheetViewController()
+            addSheetVC.modalPresentationStyle = .overFullScreen
+            self.present(addSheetVC, animated: true, completion: nil)
+         }
+      } else if textField == addCourseFirstView.addFirstView.dateStartTimeTextField {
+         print("!")
+      }
+   }
+}
+
+extension AddCourseViewController: UITextFieldDelegate {
+   func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+      textFieldTapped(textField)
+      return false
+   }
+}
+
 extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewDelegate {
    
    private func registerCell() {
@@ -77,10 +110,8 @@ extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewD
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
       if viewModel.dataSource.isEmpty {
-//         viewModel.isImageEmpty = true
          return 1
       } else {
-//         viewModel.isImageEmpty = false
          return viewModel.dataSource.count
       }
    }
@@ -119,5 +150,5 @@ extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewD
 
 func getSampleImages() -> [UIImage?] {
    (1...9).map { _ in return UIImage(resource: .test) }
-//      return []
+   //      return []
 }
