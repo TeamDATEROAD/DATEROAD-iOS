@@ -84,6 +84,7 @@ final class CourseDetailViewController: BaseNavBarViewController {
         mainCollectionView.delegate = self
         mainCollectionView.dataSource = self
     }
+
 }
 
 private extension CourseDetailViewController {

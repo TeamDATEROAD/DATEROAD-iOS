@@ -20,16 +20,22 @@ final class BringCourseCell: UICollectionViewCell {
     
     private let bringCourseButton = UIButton()
     
+    private var isLiked: Bool = false {
+        didSet {
+            updateLikeButtonColor()
+        }
+    }
+    
     // MARK: - Properties
     
     static let identifier: String = "BringCourseCell"
     
     override init(frame: CGRect) {
-        
         super.init(frame: frame)
         setHierarchy()
         setLayout()
         setStyle()
+        setupTapGesture()
     }
     
     required init?(coder: NSCoder) {
@@ -38,7 +44,26 @@ final class BringCourseCell: UICollectionViewCell {
 }
 
 // MARK: - Private Methods
+
 private extension BringCourseCell {
+    
+    func setupTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(likeButtonTapped))
+        likeButtonView.isUserInteractionEnabled = true
+        likeButtonView.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func likeButtonTapped() {
+        isLiked.toggle()
+    }
+    
+    func updateLikeButtonColor() {
+        if isLiked {
+            likeButtonImageView.tintColor = UIColor(resource: .deepPurple)
+        } else {
+            likeButtonImageView.tintColor = UIColor(resource: .gray200)
+        }
+    }
     
     func setHierarchy() {
         self.addSubviews(
@@ -85,10 +110,4 @@ private extension BringCourseCell {
             $0.titleLabel?.font = UIFont.suit(.body_bold_15)
         }
     }
-    
 }
-
-
-
-
-
