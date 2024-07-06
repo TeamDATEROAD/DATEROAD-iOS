@@ -14,8 +14,12 @@ final class AddSheetViewController: BaseViewController {
    
    private let addSheetView = AddSheetView()
    
+   var viewModel: AddCourseViewModel?
+   
    override func viewDidLoad() {
+      
       super.viewDidLoad()
+      setAddTarget()
    }
    
    override func setHierarchy() {
@@ -34,4 +38,21 @@ final class AddSheetViewController: BaseViewController {
       }
    }
    
+}
+
+extension AddSheetViewController {
+   private func setAddTarget() {
+      addSheetView.doneBtn.addTarget(self, action: #selector(didTapDoneBtn), for: .touchUpInside)
+   }
+   
+   @objc
+   private func didTapDoneBtn() {
+      let selectedDate = addSheetView.datePicker.date
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "yyyy. MM. dd."
+      let formattedDate = dateFormatter.string(from: selectedDate)
+      print("\(formattedDate)")
+      viewModel?.visitDate.value = formattedDate
+      dismiss(animated: true, completion: nil)
+   }
 }

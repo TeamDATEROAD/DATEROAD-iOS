@@ -21,7 +21,6 @@ final class AddCourseViewController: BaseNavBarViewController {
    //
    //   private var dataSource = getSampleImages()
    
-   let datePicker = UIDatePicker()
    
    private let viewModel = AddCourseViewModel()
    
@@ -39,6 +38,7 @@ final class AddCourseViewController: BaseNavBarViewController {
       setLeftBackButton()
       setAddTarget()
       registerCell()
+      bindViewModel()
    }
    
    override func setHierarchy() {
@@ -69,6 +69,12 @@ final class AddCourseViewController: BaseNavBarViewController {
 }
 
 extension AddCourseViewController {
+   private func bindViewModel() {
+      viewModel.visitDate.bind { [weak self] date in
+         self?.addCourseFirstView.addFirstView.visitDateTextField.text = date
+      }
+   }
+   
    private func setAddTarget() {
       // addTarget을 통해 텍스트 필드 클릭 시 특정 함수 실행
       addCourseFirstView.addFirstView.visitDateTextField.addTarget(self, action: #selector(textFieldTapped(_:)), for: .touchDown)
@@ -80,8 +86,9 @@ extension AddCourseViewController {
       print("\(textField.placeholder ?? "TextField") was tapped")
       // 예시: 바텀 시트 표시
       if textField == addCourseFirstView.addFirstView.visitDateTextField {
+         let addSheetVC = AddSheetViewController()
+         addSheetVC.viewModel = self.viewModel
          DispatchQueue.main.async {
-            let addSheetVC = AddSheetViewController()
             addSheetVC.modalPresentationStyle = .overFullScreen
             self.present(addSheetVC, animated: true, completion: nil)
          }

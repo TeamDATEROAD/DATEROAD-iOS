@@ -10,5 +10,5 @@ import UIKit
 final class AddCourseViewModel {
    var dataSource = getSampleImages()
    
-   
+   var visitDate: ObservablePattern<String> = ObservablePattern(nil)
 }
