@@ -43,6 +43,11 @@ class AddFirstView: BaseView {
    
    private let nextBtnTitleLabel = UILabel()
    
+   lazy var dateAccessoryView = UIView()
+//   lazy var accessoryView: UIView = {
+//       return UIView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: 72.0))
+//   }()
+   
    override func setHierarchy() {
       self.addSubviews(
          textFieldStackView,
@@ -112,9 +117,20 @@ class AddFirstView: BaseView {
          $0.center.equalToSuperview()
       }
       
+      dateAccessoryView.snp.makeConstraints {
+         $0.width.equalTo(375)
+         $0.height.equalTo(260)
+      }
+      
    }
    
    override func setStyle() {
+      dateAccessoryView.do {
+         $0.backgroundColor = .drWhite
+         $0.layer.cornerRadius = 30
+         $0.clipsToBounds = true
+      }
+      
       textFieldStackView.do {
          $0.axis = .vertical
          $0.spacing = 20
@@ -127,6 +143,8 @@ class AddFirstView: BaseView {
             $0.backgroundColor = .gray100
             $0.setLeftPadding(amount: 16)
             $0.layer.cornerRadius = 13
+            $0.autocorrectionType = .no
+            $0.spellCheckingType = .no
          }
       }
       
@@ -149,6 +167,8 @@ class AddFirstView: BaseView {
             $0.height.equalTo(17)
             $0.trailing.equalToSuperview().inset(19)
          }
+         $0.inputView = dateAccessoryView
+         
       }
       
       dateStartTimeTextField.do {
@@ -261,15 +281,15 @@ extension AddFirstView {
    func createOvalButton(title: String) -> UIButton {
       var config = UIButton.Configuration.gray()
       var titleAttr = AttributedString.init(title)
-      titleAttr.font = .suit(.body_semi_13)
+      titleAttr.font = .suit(.body_med_13)
       
       config.attributedTitle = titleAttr
-      config.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 12, bottom: 6, trailing: 12)
+      config.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 10, bottom: 6, trailing: 10)
       config.baseBackgroundColor = .gray100
       config.baseForegroundColor = .drBlack
       
       let btn = UIButton(configuration: config)
-      btn.roundedButton(cornerRadius: 12, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+      btn.roundedButton(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
       
       return btn
    }
