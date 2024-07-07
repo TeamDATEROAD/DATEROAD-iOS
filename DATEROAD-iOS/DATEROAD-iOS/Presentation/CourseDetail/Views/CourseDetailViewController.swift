@@ -18,7 +18,7 @@ final class CourseDetailViewController: BaseViewController {
     private lazy var mainCollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
     
     private let bottomPageControlView = BottomPageControllView()
-    
+
     private let previewView = PreviewView()
     
     // MARK: - Properties
@@ -110,6 +110,8 @@ private extension CourseDetailViewController {
             $0.register(CoastInfoCell.self, forCellWithReuseIdentifier: CoastInfoCell.identifier)
             $0.register(TagInfoCell.self, forCellWithReuseIdentifier: TagInfoCell.identifier)
             $0.register(BringCourseCell.self, forCellWithReuseIdentifier: BringCourseCell.identifier)
+        
+            $0.register(GradientView.self, forSupplementaryViewOfKind: GradientView.elementKinds, withReuseIdentifier: GradientView.identifier)
             
             $0.register(InfoHeaderView.self, forSupplementaryViewOfKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier)
             
@@ -119,6 +121,8 @@ private extension CourseDetailViewController {
     
     func makeFlowLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { section, _ -> NSCollectionLayoutSection? in
+            let collectionViewWidth = self.view.frame.width
+            
             let sectionType = self.viewModel.fetchSection(at: section)
             
             switch sectionType {
@@ -148,9 +152,11 @@ private extension CourseDetailViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         
+        let gradient = makeGradientView()
         let footer = makeBottomPageControllView()
-        section.boundarySupplementaryItems = [footer]
         
+        section.boundarySupplementaryItems = [gradient, footer]
+
         return section
     }
     
@@ -234,6 +240,14 @@ private extension CourseDetailViewController {
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0)
         
         return section
+    }
+    
+    func makeGradientView() -> NSCollectionLayoutBoundarySupplementaryItem {
+        let gradientSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.27))
+        let collectionViewWidth = mainCollectionView.frame.width
+        let gradient = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: gradientSize, elementKind: GradientView.elementKinds, alignment: .top, absoluteOffset: CGPoint(x: 0, y: collectionViewWidth * 0.27))
+      
+        return gradient
     }
     
     func makeHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
@@ -346,6 +360,9 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             //이미지 갯수가 총 인덱스
             footer.pageIndexSum = imageData.count
             return footer
+        } else if kind == GradientView.elementKinds {
+            guard let gradient = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: GradientView.identifier, for: indexPath) as? GradientView else { return UICollectionReusableView() }
+            return gradient
         } else {
             return UICollectionReusableView()
         }

@@ -97,7 +97,7 @@ private extension BottomPageControllView {
     func setStyle() {
         likeBoxView.do {
             $0.clipsToBounds = true
-            $0.layer.cornerRadius = 14
+            $0.layer.cornerRadius = 11
             $0.backgroundColor = UIColor(resource: .deepPurple)
         }
         
@@ -114,7 +114,7 @@ private extension BottomPageControllView {
         }
         
         indexBoxButton.do {
-            $0.roundedButton(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+            $0.roundedButton(cornerRadius: 11, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
             $0.backgroundColor = UIColor(resource: .gray400)
             $0.setTitle("3/10", for: .normal)
             $0.setTitleColor(.drWhite, for: .normal)
