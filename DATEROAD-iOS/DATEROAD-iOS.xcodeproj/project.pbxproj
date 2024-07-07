@@ -25,6 +25,10 @@
 		0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497D02C32A75A0004B442 /* InfoHeaderView.swift */; };
 		0D9497D32C33BD760004B442 /* BottomPageControllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497D22C33BD760004B442 /* BottomPageControllView.swift */; };
 		741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */; };
+		747819392C3A93760040D5E7 /* CourseCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747819382C3A93760040D5E7 /* CourseCollectionView.swift */; };
+		7478193B2C3A94D40040D5E7 /* ViewedCourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193A2C3A94D30040D5E7 /* ViewedCourseModel.swift */; };
+		7478193E2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193D2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift */; };
+		747819402C3AB7E10040D5E7 /* ViewedCourseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193F2C3AB7E10040D5E7 /* ViewedCourseViewModel.swift */; };
 		748400E02C36824500513E04 /* PointCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400DF2C36824500513E04 /* PointCollectionViewCell.swift */; };
 		748400E22C3685BA00513E04 /* PointModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400E12C3685BA00513E04 /* PointModel.swift */; };
 		748400E42C3688D700513E04 /* PointCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400E32C3688D700513E04 /* PointCollectionView.swift */; };
@@ -98,6 +102,10 @@
 		0D9497D02C32A75A0004B442 /* InfoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoHeaderView.swift; sourceTree = "<group>"; };
 		0D9497D22C33BD760004B442 /* BottomPageControllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPageControllView.swift; sourceTree = "<group>"; };
 		741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseViewController.swift; sourceTree = "<group>"; };
+		747819382C3A93760040D5E7 /* CourseCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCollectionView.swift; sourceTree = "<group>"; };
+		7478193A2C3A94D30040D5E7 /* ViewedCourseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseModel.swift; sourceTree = "<group>"; };
+		7478193D2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseCollectionViewCell.swift; sourceTree = "<group>"; };
+		7478193F2C3AB7E10040D5E7 /* ViewedCourseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseViewModel.swift; sourceTree = "<group>"; };
 		748400DF2C36824500513E04 /* PointCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCollectionViewCell.swift; sourceTree = "<group>"; };
 		748400E12C3685BA00513E04 /* PointModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointModel.swift; sourceTree = "<group>"; };
 		748400E32C3688D700513E04 /* PointCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCollectionView.swift; sourceTree = "<group>"; };
@@ -236,7 +244,9 @@
 		741AE2DE2C37289B0031849F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7478193C2C3A97300040D5E7 /* Cells */,
 				741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */,
+				747819382C3A93760040D5E7 /* CourseCollectionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -244,6 +254,7 @@
 		741AE2DF2C3728A20031849F /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				7478193F2C3AB7E10040D5E7 /* ViewedCourseViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -251,8 +262,17 @@
 		741AE2E02C3728B40031849F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7478193A2C3A94D30040D5E7 /* ViewedCourseModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		7478193C2C3A97300040D5E7 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				7478193D2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		748400DC2C367DD700513E04 /* Cells */ = {
@@ -674,6 +694,7 @@
 				74BC165A2C3284A90084E832 /* BaseNavBarViewController.swift in Sources */,
 				CA4EF3E22C3537F3003B02B6 /* OnboardingModel.swift in Sources */,
 				CA4EF3D52C34763B003B02B6 /* OnboardingViewController.swift in Sources */,
+				747819402C3AB7E10040D5E7 /* ViewedCourseViewModel.swift in Sources */,
 				CA4EF3B42C3284BB003B02B6 /* BaseView.swift in Sources */,
 				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
 				CA4EF3DF2C347B4E003B02B6 /* DRButton.swift in Sources */,
@@ -690,6 +711,7 @@
 				CA4EF3C32C3285F8003B02B6 /* StringLiterals.swift in Sources */,
 				CA3D0D182C29AA7A00735097 /* UITextField+.swift in Sources */,
 				CA4EF3C52C328698003B02B6 /* SplashViewController.swift in Sources */,
+				747819392C3A93760040D5E7 /* CourseCollectionView.swift in Sources */,
 				CA4EF3EB2C3605D9003B02B6 /* UIFont+.swift in Sources */,
 				CA4EF3B62C328521003B02B6 /* LoginViewController.swift in Sources */,
 				CA4EF3BD2C3285A1003B02B6 /* ScreenUtils.swift in Sources */,
@@ -702,6 +724,7 @@
 				0D9497B92C328D010004B442 /* ImageCarouselCell.swift in Sources */,
 				0D9497BB2C328F570004B442 /* TimelineInfoCell.swift in Sources */,
 				0D9497B42C327D620004B442 /* CourseDetailViewModel.swift in Sources */,
+				7478193E2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift in Sources */,
 				0D9497CD2C32A3B40004B442 /* TagInfoViewModel.swift in Sources */,
 				0D9497B22C327D2D0004B442 /* CourseDetailViewController.swift in Sources */,
 				0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */,
@@ -721,6 +744,7 @@
 				748400E42C3688D700513E04 /* PointCollectionView.swift in Sources */,
 				748400E62C36899800513E04 /* PointViewModel.swift in Sources */,
 				74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */,
+				7478193B2C3A94D40040D5E7 /* ViewedCourseModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

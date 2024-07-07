@@ -12,6 +12,8 @@ import Then
 
 class ViewedCourseViewController: BaseViewController {
 
+    // MARK: - UI Properties
+    
     private var topLabel = UILabel()
     
     private var createCourseView = UIView()
@@ -20,7 +22,15 @@ class ViewedCourseViewController: BaseViewController {
     
     private let arrowButton = UIButton()
     
-    private var courseCollectionView = UIView()
+    private var courseCollectionView = ViewedCourseCollectionView()
+    
+    // MARK: - Properties
+    
+    private let viewedCourseViewModel = ViewedCourseViewModel()
+    
+    private lazy var viewedCourseDummyData = viewedCourseViewModel.viewedCourseDummyData
+    
+    // MARK: - LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,6 +103,10 @@ class ViewedCourseViewController: BaseViewController {
             $0.setButtonStatus(buttonType: EnabledButton())
             $0.setImage(UIImage(resource: .createCourseArrow), for: .normal)
             $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+        }
+        
+        courseCollectionView.do {
+            $0.setUpBindings(viewedCourseData: viewedCourseDummyData)
         }
     }
 
