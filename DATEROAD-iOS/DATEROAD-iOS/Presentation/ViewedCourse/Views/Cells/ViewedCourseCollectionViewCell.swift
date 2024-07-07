@@ -30,6 +30,8 @@ class ViewedCourseCollectionViewCell: BaseCollectionViewCell {
     
     var viewedCourseItemRow: Int?
     
+    var courseID: Int?
+    
     // MARK: - LifeCycle
     
     override init(frame: CGRect) {
@@ -93,7 +95,7 @@ class ViewedCourseCollectionViewCell: BaseCollectionViewCell {
         self.backgroundColor = UIColor(resource: .drWhite)
         
         thumbnailImageView.do {
-            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 12, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
             $0.layer.borderColor = UIColor(resource: .alertRed).cgColor
@@ -115,7 +117,7 @@ class ViewedCourseCollectionViewCell: BaseCollectionViewCell {
         
         expenseButton.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.roundedButton(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundedButton(cornerRadius: 12, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
             $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_med_13)
             $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
@@ -126,7 +128,7 @@ class ViewedCourseCollectionViewCell: BaseCollectionViewCell {
         
         timeButton.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.roundedButton(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundedButton(cornerRadius: 12, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
             $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_med_13)
             $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
@@ -139,6 +141,7 @@ class ViewedCourseCollectionViewCell: BaseCollectionViewCell {
 
 extension ViewedCourseCollectionViewCell {
     func dataBind(_ viewedCourseData: ViewedCourseModel, _ viewedCourseItemRow: Int?) {
+        self.courseID = viewedCourseData.courseID
         self.thumbnailImageView.image = UIImage(resource: .secondOnboardingBG)
         self.locationLabel.text = viewedCourseData.courseLocation
         self.titleLabel.text = viewedCourseData.courseTitle
@@ -146,4 +149,6 @@ extension ViewedCourseCollectionViewCell {
         self.timeButton.setTitle(viewedCourseData.courseTime, for: .normal)
         self.viewedCourseItemRow = viewedCourseItemRow
     }
+    
+    
 }

@@ -26,9 +26,9 @@
 		0D9497D32C33BD760004B442 /* BottomPageControllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497D22C33BD760004B442 /* BottomPageControllView.swift */; };
 		741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */; };
 		747819392C3A93760040D5E7 /* CourseCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747819382C3A93760040D5E7 /* CourseCollectionView.swift */; };
-		7478193B2C3A94D40040D5E7 /* ViewedCourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193A2C3A94D30040D5E7 /* ViewedCourseModel.swift */; };
 		7478193E2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193D2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift */; };
 		747819402C3AB7E10040D5E7 /* ViewedCourseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193F2C3AB7E10040D5E7 /* ViewedCourseViewModel.swift */; };
+		747819412C3AD05D0040D5E7 /* ViewedCourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193A2C3A94D30040D5E7 /* ViewedCourseModel.swift */; };
 		748400E02C36824500513E04 /* PointCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400DF2C36824500513E04 /* PointCollectionViewCell.swift */; };
 		748400E22C3685BA00513E04 /* PointModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400E12C3685BA00513E04 /* PointModel.swift */; };
 		748400E42C3688D700513E04 /* PointCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748400E32C3688D700513E04 /* PointCollectionView.swift */; };
@@ -709,6 +709,7 @@
 				CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */,
 				CA3D0CDD2C29A2F300735097 /* SceneDelegate.swift in Sources */,
 				CA4EF3C32C3285F8003B02B6 /* StringLiterals.swift in Sources */,
+				747819412C3AD05D0040D5E7 /* ViewedCourseModel.swift in Sources */,
 				CA3D0D182C29AA7A00735097 /* UITextField+.swift in Sources */,
 				CA4EF3C52C328698003B02B6 /* SplashViewController.swift in Sources */,
 				747819392C3A93760040D5E7 /* CourseCollectionView.swift in Sources */,
@@ -744,7 +745,6 @@
 				748400E42C3688D700513E04 /* PointCollectionView.swift in Sources */,
 				748400E62C36899800513E04 /* PointViewModel.swift in Sources */,
 				74F8E2D72C3466850088AFA4 /* PointDetailsViewController.swift in Sources */,
-				7478193B2C3A94D40040D5E7 /* ViewedCourseModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

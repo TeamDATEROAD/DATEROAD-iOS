@@ -64,6 +64,7 @@ extension ViewedCourseCollectionView : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: ScreenUtils.width, height: 140)
     }
+    
 }
 
 // MARK: - DataSource
@@ -78,7 +79,18 @@ extension ViewedCourseCollectionView : UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         cell.dataBind(viewedCourseData[indexPath.item], indexPath.item)
+        cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToCourseDetailVC(_:))))
         return cell
+    }
+    
+    @objc func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
+        let location = sender.location(in: self)
+        let indexPath = self.indexPathForItem(at: location)
+
+       if let index = indexPath {
+           print("코스 상세 페이지로 이동 \(viewedCourseData[indexPath?.item ?? 0].courseID ?? 0)")
+       }
+        
     }
     
 }
