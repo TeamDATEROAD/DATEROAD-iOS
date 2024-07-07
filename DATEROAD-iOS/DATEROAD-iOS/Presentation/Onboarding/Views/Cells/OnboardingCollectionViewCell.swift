@@ -22,9 +22,9 @@ final class OnboardingCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - Properties
     
-    private let nextButtonType: DRButton = NextButton()
+    private let nextButtonType: DRButtonType = NextButton()
     
-    private let enabledButtonType: DRButton = EnabledButton()
+    private let enabledButtonType: DRButtonType = EnabledButton()
 
     
     // MARK: - Methods

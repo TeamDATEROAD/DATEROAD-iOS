@@ -19,9 +19,9 @@ struct OnboardingModel {
     
     let buttonText: String
     
-    let buttonType: DRButton
+    let buttonType: DRButtonType
     
-    init(bgIMG: UIImage?, mainInfo: String, subInfo: String, pointText: [String], buttonText: String, buttonType: DRButton) {
+    init(bgIMG: UIImage?, mainInfo: String, subInfo: String, pointText: [String], buttonText: String, buttonType: DRButtonType) {
         self.bgIMG = bgIMG
         self.mainInfo = mainInfo
         self.subInfo = subInfo

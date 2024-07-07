@@ -10,6 +10,6 @@ import Foundation
 ///태그 최대 3개까지 가능
 struct TagInfoViewModel {
     var numberOfItems: Int {
-        return 3
+        return 1
     }
 }

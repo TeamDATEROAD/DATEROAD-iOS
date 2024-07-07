@@ -10,25 +10,52 @@ import UIKit
 import SnapKit
 import Then
 
+protocol ImageCarouselDelegate: AnyObject {
+    func didSwipeImage(index: Int, vc: UIPageViewController, vcData: [UIViewController])
+}
 
 final class ImageCarouselCell: UICollectionViewCell {
     
-    // MARK: - Properties
+    // MARK: - UI Properties
     
     let pageControllView = BottomPageControllView()
     
+    // MARK: - Properties
+    
+    var vcData: [UIViewController] = []
+    
+    let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+    
     static let identifier: String = "ImageCarouselCell"
+    
+    weak var delegate: ImageCarouselDelegate?
     
     override init(frame: CGRect) {
         
         super.init(frame: frame)
         setHierarchy()
         setLayout()
-        setStyle()
+        setDelegate()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setPageVC(imageData: [CourseDetailContents]) {
+        vcData = imageData.map {
+            let vc = UIViewController()
+            let imageView = UIImageView()
+            imageView.image = $0.image
+            imageView.contentMode = .scaleAspectFill
+            imageView.clipsToBounds = true
+            vc.view.addSubview(imageView)
+            imageView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+            return vc
+        }
+        setVCInPageVC()
     }
 }
 
@@ -37,22 +64,48 @@ final class ImageCarouselCell: UICollectionViewCell {
 private extension ImageCarouselCell {
     
     func setHierarchy() {
-        contentView.addSubview(pageControllView)
+        self.addSubview(pageViewController.view)
     }
     
     func setLayout() {
-        pageControllView.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(16)
-            $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(20)
+        pageViewController.view.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
     
-    func setStyle() {
-        
+    func setVCInPageVC() {
+        if let firstVC = vcData.first {
+            pageViewController.setViewControllers([firstVC], direction: .forward, animated: true, completion: nil)
+        }
     }
     
+    func setDelegate() {
+        pageViewController.delegate = self
+        pageViewController.dataSource = self
+    }
 }
 
+extension ImageCarouselCell: UIPageViewControllerDelegate {
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        guard let currentVC = pageViewController.viewControllers?.first,
+              let currentIndex = vcData.firstIndex(of: currentVC) else { return }
+        self.delegate?.didSwipeImage(index: currentIndex, vc: pageViewController, vcData: vcData)
+    }
+}
 
-
+extension ImageCarouselCell: UIPageViewControllerDataSource {
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        guard let index = vcData.firstIndex(of: viewController) else { return nil }
+        let previousIndex = index - 1
+        
+        return previousIndex < 0 ? nil : vcData[previousIndex]
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        guard let index = vcData.firstIndex(of: viewController) else { return nil }
+        let nextIndex = index + 1
+        
+        return nextIndex == vcData.count ? nil : vcData[nextIndex]
+    }
+}

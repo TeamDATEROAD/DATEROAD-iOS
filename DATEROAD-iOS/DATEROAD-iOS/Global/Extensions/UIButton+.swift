@@ -28,15 +28,16 @@ extension UIButton {
     }
     
     // 버튼 타입에 따라 속성 설정해주는 메소드
-    func setButtonStatus(buttonType: DRButton) {
+    func setButtonStatus(buttonType: DRButtonType) {
         self.backgroundColor = buttonType.bgColor
         self.setTitleColor(buttonType.fontColor, for: .normal)
         self.layer.borderWidth = buttonType.borderWidth
         self.layer.borderColor = UIColor(resource: .deepPurple).cgColor
         self.isEnabled = buttonType.isEnabled
-        self.layer.cornerRadius = 14
+        self.layer.cornerRadius = buttonType.cornerRadius
         self.clipsToBounds = true
-        self.titleLabel?.font = UIFont.suit(.body_bold_15)
+        self.titleLabel?.font = buttonType.font
+        self.titleLabel?.numberOfLines = 1
     }
     
 }

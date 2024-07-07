@@ -38,5 +38,14 @@ extension UILabel {
         self.textColor = textColor
         self.font = font
     }
+    
+    func setErrorLabel(text: String, errorType: DRErrorType) {
+        self.text = text
+        self.textAlignment = .left
+        self.numberOfLines = 1
+        self.textColor = errorType.fontColor
+        self.font = errorType.font
+    }
+    
 }
 
