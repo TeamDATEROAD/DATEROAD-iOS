@@ -79,6 +79,8 @@ class ViewedCourseViewController: BaseViewController {
         
         createCourseView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
+            $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToCourseUploadVC(_:))))
+            $0.isUserInteractionEnabled = true
         }
         
         createCourseLabel.do {
@@ -90,8 +92,15 @@ class ViewedCourseViewController: BaseViewController {
         arrowButton.do {
             $0.setButtonStatus(buttonType: EnabledButton())
             $0.setImage(UIImage(resource: .createCourseArrow), for: .normal)
-            $0.roundedButton(cornerRadius: 8, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+            $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
         }
     }
 
+}
+
+extension ViewedCourseViewController {
+    @objc
+    func pushToCourseUploadVC(_ gesture: UITapGestureRecognizer) {
+        print("일정 등록 페이지로 이동")
+    }
 }
