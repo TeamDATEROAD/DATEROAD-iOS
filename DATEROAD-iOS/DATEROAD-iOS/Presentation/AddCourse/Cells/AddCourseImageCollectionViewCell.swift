@@ -10,11 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-enum AddCellType {
-   case EmptyType, NotEmptyPType
-}
-
-final class AddCourseImageCollectionViewCell: UICollectionViewCell {
+final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
    
    // MARK: - UI Properties
    
@@ -30,20 +26,16 @@ final class AddCourseImageCollectionViewCell: UICollectionViewCell {
    
    static let id: String = "AddCourseImageCollectionViewCell"
    
-   var cellType: AddCellType = .EmptyType {
-      didSet {
-         updateUIForCellType()
-      }
-   }
+   var cellType: AddCellType = .EmptyType
    
-   // MARK: Initializer
+   // MARK: - Initializer
    
    override init(frame: CGRect) {
       super.init(frame: frame)
       setHierarchy()
       setLayout()
       setStyle()
-      updateUIForCellType()
+//      updateUIForCellType()
    }
    
    @available(*, unavailable)
@@ -61,13 +53,13 @@ final class AddCourseImageCollectionViewCell: UICollectionViewCell {
       self.imageView.image = image
    }
    
-   private func setHierarchy() {
+   override func setHierarchy() {
       contentView.addSubview(imageView)
       contentView.addSubview(emptyView)
       emptyView.addSubviews(emptyCameraImage, emptyLabel)
    }
    
-   private func setLayout() {
+   override func setLayout() {
       imageView.snp.makeConstraints {
          $0.edges.equalToSuperview()
       }
@@ -88,7 +80,7 @@ final class AddCourseImageCollectionViewCell: UICollectionViewCell {
       }
    }
    
-   private func setStyle() {
+   override func setStyle() {
       emptyView.do {
          $0.backgroundColor = .gray100
          $0.layer.cornerRadius = 14
@@ -117,14 +109,4 @@ final class AddCourseImageCollectionViewCell: UICollectionViewCell {
       }
    }
    
-   private func updateUIForCellType() {
-      switch cellType {
-      case .EmptyType:
-         emptyView.isHidden = false
-         imageView.isHidden = true
-      case .NotEmptyPType:
-         emptyView.isHidden = true
-         imageView.isHidden = false
-      }
-   }
 }

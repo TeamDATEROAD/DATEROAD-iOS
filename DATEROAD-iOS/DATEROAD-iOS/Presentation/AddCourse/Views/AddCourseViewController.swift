@@ -88,6 +88,7 @@ extension AddCourseViewController {
       for button in addCourseFirstView.addFirstView.tagBtns {
          button.addTarget(self, action: #selector(changeTagBtnState), for: .touchUpInside)
       }
+      setupKeyboardDismissRecognizer()
    }
    
 }
@@ -100,6 +101,7 @@ extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewD
          $0.delegate = self
          $0.dataSource = self
       }
+      addCourseFirstView.addFirstView.dateNameTextField.delegate = self
    }
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -149,6 +151,12 @@ extension AddCourseViewController: UITextFieldDelegate {
          textFieldTapped(textField)
          return false
       }
+   }
+   
+   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+      textField.resignFirstResponder()
+      textField.tintColor = UIColor.clear
+      return true
    }
    
    // MARK: - @objc Methods
