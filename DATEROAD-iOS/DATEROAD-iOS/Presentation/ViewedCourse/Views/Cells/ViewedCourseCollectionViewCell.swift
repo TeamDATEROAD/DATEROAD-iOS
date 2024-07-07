@@ -15,6 +15,8 @@ class ViewedCourseCollectionViewCell: BaseCollectionViewCell {
     // MARK: - UI Properties
     
     private var thumbnailImageView = UIImageView()
+
+    private var heartButton = UIButton()
     
     private var infoView = UIView()
     
@@ -45,8 +47,8 @@ class ViewedCourseCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func setHierarchy() {
-        self.addSubviews(thumbnailImageView, infoView)
-        infoView.addSubviews(locationLabel, 
+        self.addSubviews(thumbnailImageView, heartButton, infoView)
+        infoView.addSubviews(locationLabel,
                              titleLabel,
                              expenseButton, 
                              timeButton)
@@ -57,6 +59,13 @@ class ViewedCourseCollectionViewCell: BaseCollectionViewCell {
             $0.verticalEdges.equalToSuperview().inset(10)
             $0.leading.equalToSuperview().inset(16)
             $0.width.equalTo(120)
+        }
+        
+        heartButton.snp.makeConstraints {
+            $0.leading.equalTo(thumbnailImageView.snp.leading).inset(5)
+            $0.bottom.equalTo(thumbnailImageView.snp.bottom).inset(5)
+            $0.width.equalTo(43)
+            $0.height.equalTo(22)
         }
         
         infoView.snp.makeConstraints {
@@ -102,6 +111,18 @@ class ViewedCourseCollectionViewCell: BaseCollectionViewCell {
             $0.layer.borderWidth = 3
         }
         
+        heartButton.do {
+            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.roundedButton(cornerRadius: 12, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+            $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
+            $0.titleLabel?.font = UIFont.suit(.body_bold_13)
+            $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+            $0.imageEdgeInsets = UIEdgeInsets(top: 6.5, left: -2.5, bottom: 6.5, right: 2.5)
+            $0.titleEdgeInsets = UIEdgeInsets(top: 2, left: 2.5, bottom: 2, right: -2.5)
+            $0.setImage(UIImage(resource: .heartIcon), for: .normal)
+            $0.imageView?.contentMode = .scaleAspectFit
+        }
+        
         locationLabel.do {
             $0.font = UIFont.suit(.body_med_13)
             $0.textColor = UIColor(resource: .gray400)
@@ -145,6 +166,7 @@ class ViewedCourseCollectionViewCell: BaseCollectionViewCell {
 extension ViewedCourseCollectionViewCell {
     func dataBind(_ viewedCourseData: ViewedCourseModel, _ viewedCourseItemRow: Int?) {
         self.courseID = viewedCourseData.courseID
+        self.heartButton.setTitle("\(viewedCourseData.courseLike ?? 0)", for: .normal)
         self.thumbnailImageView.image = UIImage(resource: .secondOnboardingBG)
         self.locationLabel.text = viewedCourseData.courseLocation
         self.titleLabel.text = viewedCourseData.courseTitle
