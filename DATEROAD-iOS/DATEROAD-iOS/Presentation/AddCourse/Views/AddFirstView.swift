@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 ///AddFirstView load 시 각 inset 값들 top: 14, horizontalEdges: 16, bottom: 4[safelayoutguide 기준] )
-class AddFirstView: BaseView {
+final class AddFirstView: BaseView {
    
    private let tagStringArr = [
       ["🚙 드라이브", "🛍️ 쇼핑", "🚪 실내", "🍵 힐링"],

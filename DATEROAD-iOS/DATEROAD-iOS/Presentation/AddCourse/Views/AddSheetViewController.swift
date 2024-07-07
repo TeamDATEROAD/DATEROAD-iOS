@@ -5,6 +5,7 @@
 //  Created by 박신영 on 7/6/24.
 //
 
+
 import UIKit
 
 import SnapKit
@@ -16,9 +17,21 @@ final class AddSheetViewController: BaseViewController {
    
    var viewModel: AddCourseViewModel?
    
-   override func viewDidLoad() {
+   var addCourseFirstView: AddCourseFirstView?
+   
+   init(viewModel: AddCourseViewModel) {
       
+      self.viewModel = viewModel
+      super.init(nibName: nil, bundle: nil)
+   }
+   
+   required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+   }
+   
+   override func viewDidLoad() {
       super.viewDidLoad()
+      bindViewModel()
       setAddTarget()
    }
    
@@ -34,13 +47,25 @@ final class AddSheetViewController: BaseViewController {
    
    override func setStyle() {
       view.do {
-         $0.backgroundColor = UIColor.darkGray.withAlphaComponent(0.4)
+         $0.backgroundColor = UIColor.drBlack.withAlphaComponent(0.65)
       }
    }
    
 }
 
 extension AddSheetViewController {
+   private func bindViewModel() {
+      viewModel?.isNonError = { [weak self] in
+         self?.addCourseFirstView?.updateVisitDateTextField(isPassValid: true)
+         self?.dismiss(animated: true, completion: nil)
+      }
+      
+      viewModel?.isError = { [weak self] in
+         self?.addCourseFirstView?.updateVisitDateTextField(isPassValid: false)
+         self?.dismiss(animated: true, completion: nil)
+      }
+   }
+   
    private func setAddTarget() {
       addSheetView.doneBtn.addTarget(self, action: #selector(didTapDoneBtn), for: .touchUpInside)
    }
@@ -51,8 +76,7 @@ extension AddSheetViewController {
       let dateFormatter = DateFormatter()
       dateFormatter.dateFormat = "yyyy. MM. dd."
       let formattedDate = dateFormatter.string(from: selectedDate)
-      print("\(formattedDate)")
       viewModel?.visitDate.value = formattedDate
-      dismiss(animated: true, completion: nil)
+      viewModel?.isFutureDate()
    }
 }

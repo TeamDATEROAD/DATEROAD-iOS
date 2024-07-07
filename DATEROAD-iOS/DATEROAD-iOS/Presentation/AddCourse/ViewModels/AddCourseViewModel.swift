@@ -8,7 +8,32 @@
 import UIKit
 
 final class AddCourseViewModel {
+   
    var dataSource = getSampleImages()
    
-   var visitDate: ObservablePattern<String> = ObservablePattern(nil)
+   var dateName: ObservablePattern<String> = ObservablePattern("")
+   
+   var visitDate: ObservablePattern<String> = ObservablePattern("")
+   
+   var isError: (() -> Void)?
+   
+   var isNonError: (() -> Void)?
+   
+}
+
+extension AddCourseViewModel {
+   func isFutureDate() {
+      let dateStr = visitDate.value ?? ""
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "yyyy. MM. dd."
+      
+      let today = Date()
+      let selectedDate = dateFormatter.date(from: dateStr)
+      
+      let flag = (selectedDate ?? today) > today
+      
+      flag ? isError?() : isNonError?()
+   }
+   
+   
 }

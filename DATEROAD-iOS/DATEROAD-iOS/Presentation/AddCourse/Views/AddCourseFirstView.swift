@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class AddCourseFirstView: BaseView {
+final class AddCourseFirstView: BaseView {
    
    // MARK: - UI Properties
    
@@ -26,10 +26,22 @@ class AddCourseFirstView: BaseView {
    
    let imageCountLabel = UILabel()
    
+   let dateNameErrorLabel = UILabel()
+   
+   let visitDateErrorLabel = UILabel()
+   
+   let test = UIView()
+   
    // MARK: - Methods
    
    override func setHierarchy() {
-      self.addSubviews(collectionView, ImageAccessoryView, addFirstView)
+      self.addSubviews(
+         collectionView,
+         ImageAccessoryView,
+         addFirstView,
+         dateNameErrorLabel,
+         visitDateErrorLabel
+      )
       ImageAccessoryView.addSubviews(cameraBtn, imageCountLabelContainer)
       imageCountLabelContainer.addSubview(imageCountLabel)
    }
@@ -68,6 +80,16 @@ class AddCourseFirstView: BaseView {
          $0.horizontalEdges.equalToSuperview().inset(16)
          $0.bottom.equalToSuperview()
       }
+      
+      dateNameErrorLabel.snp.makeConstraints {
+         $0.top.equalTo(addFirstView.dateNameTextField.snp.bottom).offset(2)
+         $0.leading.equalTo(addFirstView.dateNameTextField.snp.leading).offset(9)
+      }
+      
+      visitDateErrorLabel.snp.makeConstraints {
+         $0.top.equalTo(addFirstView.visitDateTextField.snp.bottom).offset(2)
+         $0.leading.equalTo(addFirstView.visitDateTextField.snp.leading).offset(9)
+      }
    }
    
    override func setStyle() {
@@ -88,6 +110,7 @@ class AddCourseFirstView: BaseView {
          $0.setImage(.camera, for: .normal)
          $0.backgroundColor = .gray200
          $0.layer.cornerRadius = 32 / 2
+         $0.isUserInteractionEnabled = true
       }
       
       imageCountLabelContainer.do {
@@ -100,6 +123,51 @@ class AddCourseFirstView: BaseView {
          $0.font = .suit(.body_med_10)
          $0.textColor = .drWhite
       }
+      
+      for i in [dateNameErrorLabel,visitDateErrorLabel] {
+         i.do {
+            if i == dateNameErrorLabel {
+               $0.text = StringLiterals.AddCourseOrScheduleFirst.dateNmaeErrorLabel
+            } else {
+               $0.text = StringLiterals.AddCourseOrScheduleFirst.visitDateErrorLabel
+            }
+            $0.font = .suit(.cap_reg_11)
+            $0.textColor = .alertRed
+            $0.isHidden = true
+         }
+      }
    }
    
+}
+
+extension AddCourseFirstView {
+   func updateVisitDateTextField(isPassValid: Bool) {
+      if isPassValid {
+         visitDateErrorLabel.isHidden = true
+         addFirstView.visitDateTextField.do {
+            $0.layer.borderWidth = 0
+         }
+      } else {
+         visitDateErrorLabel.isHidden = false
+         addFirstView.visitDateTextField.do {
+            $0.layer.borderColor = UIColor.alertRed.cgColor
+            $0.layer.borderWidth = 1
+         }
+      }
+   }
+   
+   func updateDateNameTextField(isPassValid: Bool) {
+      if isPassValid {
+         dateNameErrorLabel.isHidden = true
+         addFirstView.dateNameTextField.do {
+            $0.layer.borderWidth = 0
+         }
+      } else {
+         dateNameErrorLabel.isHidden = false
+         addFirstView.dateNameTextField.do {
+            $0.layer.borderColor = UIColor.alertRed.cgColor
+            $0.layer.borderWidth = 1
+         }
+      }
+   }
 }

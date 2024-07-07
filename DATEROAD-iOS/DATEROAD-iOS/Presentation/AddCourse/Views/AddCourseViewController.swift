@@ -21,7 +21,6 @@ final class AddCourseViewController: BaseNavBarViewController {
    //
    //   private var dataSource = getSampleImages()
    
-   
    private let viewModel = AddCourseViewModel()
    
    private var addCourseFirstView = AddCourseFirstView()
@@ -70,24 +69,37 @@ final class AddCourseViewController: BaseNavBarViewController {
 
 extension AddCourseViewController {
    private func bindViewModel() {
+      viewModel.dateName.bind { [weak self] date in
+         self?.addCourseFirstView.addFirstView.dateNameTextField.text = date
+      }
       viewModel.visitDate.bind { [weak self] date in
          self?.addCourseFirstView.addFirstView.visitDateTextField.text = date
       }
    }
    
    private func setAddTarget() {
-      // addTarget을 통해 텍스트 필드 클릭 시 특정 함수 실행
+      addCourseFirstView.addFirstView.dateNameTextField.addTarget(self, action: #selector(textFieldDidChanacge(_:)), for: .editingChanged)
       addCourseFirstView.addFirstView.visitDateTextField.addTarget(self, action: #selector(textFieldTapped(_:)), for: .touchDown)
       addCourseFirstView.addFirstView.dateStartTimeTextField.addTarget(self, action: #selector(textFieldTapped(_:)), for: .touchDown)
+   }
+
+}
+
+extension AddCourseViewController: UITextFieldDelegate {
+   func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+      if textField == addCourseFirstView.addFirstView.dateNameTextField {
+         return true
+      } else {
+         textFieldTapped(textField)
+         return false
+      }
    }
    
    @objc
    private func textFieldTapped(_ textField: UITextField) {
-      print("\(textField.placeholder ?? "TextField") was tapped")
-      // 예시: 바텀 시트 표시
       if textField == addCourseFirstView.addFirstView.visitDateTextField {
-         let addSheetVC = AddSheetViewController()
-         addSheetVC.viewModel = self.viewModel
+         let addSheetVC = AddSheetViewController(viewModel: self.viewModel)
+         addSheetVC.addCourseFirstView = self.addCourseFirstView
          DispatchQueue.main.async {
             addSheetVC.modalPresentationStyle = .overFullScreen
             self.present(addSheetVC, animated: true, completion: nil)
@@ -96,13 +108,18 @@ extension AddCourseViewController {
          print("!")
       }
    }
-}
-
-extension AddCourseViewController: UITextFieldDelegate {
-   func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-      textFieldTapped(textField)
-      return false
+   
+   @objc
+   func textFieldDidChanacge(_ textField: UITextField) {
+      if textField.text?.count ?? 0 >= 5 {
+         addCourseFirstView.updateDateNameTextField(isPassValid: true)
+      } else {
+         addCourseFirstView.updateDateNameTextField(isPassValid: false)
+      }
+      
    }
+   
+   
 }
 
 extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewDelegate {
