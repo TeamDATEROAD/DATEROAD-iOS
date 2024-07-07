@@ -12,11 +12,14 @@ import Then
 
 class InfoHeaderView: UICollectionReusableView {
 
+    // MARK: - UI Properties
+    
+    private let titleLabel: UILabel = UILabel()
+    
     // MARK: - Properties
     
-    let titleLabel: UILabel = UILabel()
-    
     static let elementKinds: String = "header"
+    
     static let identifier: String = "InfoHeaderView"
 
     
@@ -48,20 +51,17 @@ private extension InfoHeaderView {
     }
     
     func setLayout() {
-
         titleLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview()
             $0.leading.equalToSuperview()
         }
-        
     }
     
     func setStyle() {
-        
         titleLabel.do {
             $0.text = "코스"
-            $0.textColor = .black
-            $0.textAlignment = .center
+            $0.textColor = UIColor(resource: .drBlack)
+            $0.font = UIFont.suit(.title_bold_18)
             $0.numberOfLines = 1
         }
     }

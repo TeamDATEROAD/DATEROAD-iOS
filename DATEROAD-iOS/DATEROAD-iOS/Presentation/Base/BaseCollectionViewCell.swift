@@ -1,8 +1,8 @@
 //
-//  LikeCell.swift
+//  BaseCollectionViewCell.swift
 //  DATEROAD-iOS
 //
-//  Created by 김민서 on 7/1/24.
+//  Created by 윤희슬 on 7/3/24.
 //
 
 import UIKit
@@ -10,16 +10,18 @@ import UIKit
 import SnapKit
 import Then
 
-
-final class LikeCell: UICollectionViewCell {
+class BaseCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    static let identifier: String = "LikeCell"
-
+    static let cellIdentifier = String(describing: BaseCollectionViewCell.self)
+    
+    
+    // MARK: - Life Cycle
+    
     override init(frame: CGRect) {
-        
         super.init(frame: frame)
+        
         setHierarchy()
         setLayout()
         setStyle()
@@ -28,25 +30,13 @@ final class LikeCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
-
-// MARK: - Private Methods
-private extension LikeCell {
     
-    func setHierarchy() {
-        
-    }
+    func setHierarchy() {}
     
-    func setLayout() {
-     
-    }
+    func setLayout() {}
     
     func setStyle() {
-
+        self.backgroundColor = UIColor(resource: .drWhite)
     }
-
+    
 }
-
-
-
-

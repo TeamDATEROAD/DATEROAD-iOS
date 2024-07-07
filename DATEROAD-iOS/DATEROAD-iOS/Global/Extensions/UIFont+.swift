@@ -2,7 +2,7 @@
 //  UIFont+.swift
 //  DATEROAD-iOS
 //
-//  Created by 윤희슬 on 7/3/24.
+//  Created by 김민서 on 7/8/24.
 //
 
 import UIKit
@@ -57,4 +57,3 @@ extension UIFont {
         return UIFont(name: style.rawValue, size: style.size) ?? UIFont.systemFont(ofSize: style.size)
     }
 }
-

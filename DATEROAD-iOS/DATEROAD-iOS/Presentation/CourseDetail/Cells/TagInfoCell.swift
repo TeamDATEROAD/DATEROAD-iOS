@@ -1,8 +1,8 @@
 //
-//  TagInfoCell.swift
+//  HashTagCell.swift
 //  DATEROAD-iOS
 //
-//  Created by 김민서 on 7/1/24.
+//  Created by 김민서 on 7/4/24.
 //
 
 import UIKit
@@ -13,9 +13,13 @@ import Then
 
 final class TagInfoCell: UICollectionViewCell {
     
+    // MARK: - UI Properties
+    
+    let hashTagLabel = UILabel()
+    
     // MARK: - Properties
     
-    static let identifier: String = "TagInfoCell"
+    static let identifier: String = "HashTagInfoCell"
 
     override init(frame: CGRect) {
         
@@ -30,19 +34,42 @@ final class TagInfoCell: UICollectionViewCell {
     }
 }
 
+extension TagInfoCell {
+    
+    func setCell(tagData: InfoContents) {
+        hashTagLabel.text = tagData.tag
+    }
+    
+}
+
+
 // MARK: - Private Methods
+
 private extension TagInfoCell {
     
     func setHierarchy() {
-        
+        contentView.addSubview(hashTagLabel)
     }
     
     func setLayout() {
-     
+        hashTagLabel.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(14)
+            $0.centerY.equalToSuperview()
+        }
     }
     
     func setStyle() {
-
+        hashTagLabel.do {
+            $0.text = "🚙 드라이브"
+            $0.font = UIFont.suit(.body_med_13)
+            $0.textColor = UIColor(resource: .drBlack)
+        }
+        
+        contentView.do {
+            $0.backgroundColor = UIColor(resource: .gray100)
+            $0.layer.masksToBounds = true
+            $0.layer.cornerRadius = 15
+        }
     }
 
 }
