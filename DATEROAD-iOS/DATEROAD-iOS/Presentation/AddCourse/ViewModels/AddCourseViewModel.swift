@@ -23,6 +23,8 @@ final class AddCourseViewModel {
    
    var dateStartTime: ObservablePattern<String> = ObservablePattern("")
    
+   var isDateNameError: ((Bool) -> Void)?
+   
    var isVisitDateError: ((Bool) -> Void)?
    
    var tagButtonsArr: [UIButton] = []
@@ -46,6 +48,11 @@ extension AddCourseViewModel {
       let flag = (selectedDate ?? today) > today
       
       self.isVisitDateError?(flag)
+   }
+   
+   func isDateNameValid(cnt: Int) {
+      let flag = cnt < 5
+      isDateNameError?(flag)
    }
    
 }

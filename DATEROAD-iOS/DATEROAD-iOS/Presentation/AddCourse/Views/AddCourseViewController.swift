@@ -76,6 +76,9 @@ extension AddCourseViewController {
       viewModel.dateStartTime.bind { [weak self] date in
          self?.addCourseFirstView.addFirstView.dateStartTimeTextField.text = date
       }
+      viewModel.isDateNameError = { [weak self] date in
+         self?.addCourseFirstView.updateDateNameTextField(isPassValid: !date)
+      }
       viewModel.isVisitDateError = { [weak self] date in
          self?.addCourseFirstView.updateVisitDateTextField(isPassValid: !date)
       }
@@ -179,11 +182,7 @@ extension AddCourseViewController: UITextFieldDelegate {
    
    @objc
    func textFieldDidChanacge(_ textField: UITextField) {
-      if textField.text?.count ?? 0 >= 5 {
-         addCourseFirstView.updateDateNameTextField(isPassValid: true)
-      } else {
-         addCourseFirstView.updateDateNameTextField(isPassValid: false)
-      }
+      viewModel.isDateNameValid(cnt: textField.text?.count ?? 0)
    }
    
    @objc
