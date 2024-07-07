@@ -11,6 +11,12 @@
 		0D06D9A22C3605760094C505 /* TagInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D06D9A12C3605760094C505 /* TagInfoCell.swift */; };
 		0D06D9A82C36946C0094C505 /* TimelineInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D06D9A72C36946C0094C505 /* TimelineInfoCell.swift */; };
 		0D06D9AA2C37CAFC0094C505 /* BringCourseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D06D9A92C37CAFC0094C505 /* BringCourseCell.swift */; };
+		0D0DA3D72C3AF2DE004210EE /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0DA3D62C3AF2DE004210EE /* UIFont+.swift */; };
+		0D0DA3DE2C3AF37C004210EE /* PointCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0DA3DD2C3AF37C004210EE /* PointCollectionViewCell.swift */; };
+		0D0DA3E02C3AF396004210EE /* PointModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0DA3DF2C3AF396004210EE /* PointModel.swift */; };
+		0D0DA3E22C3AF3B0004210EE /* PointViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0DA3E12C3AF3B0004210EE /* PointViewModel.swift */; };
+		0D0DA3E42C3AF3CF004210EE /* PointCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0DA3E32C3AF3CF004210EE /* PointCollectionView.swift */; };
+		0D0DA3E62C3AF3FB004210EE /* PointDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0DA3E52C3AF3FB004210EE /* PointDetailViewController.swift */; };
 		0D9497B22C327D2D0004B442 /* CourseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497B12C327D2D0004B442 /* CourseDetailViewController.swift */; };
 		0D9497B42C327D620004B442 /* CourseDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497B32C327D620004B442 /* CourseDetailViewModel.swift */; };
 		0D9497B92C328D010004B442 /* ImageCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497B82C328D010004B442 /* ImageCarouselCell.swift */; };
@@ -71,7 +77,6 @@
 		CA4EF3E22C3537F3003B02B6 /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3E12C3537F3003B02B6 /* OnboardingModel.swift */; };
 		CA4EF3E52C3538AA003B02B6 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */; };
 		CA78FE442C383D53001B1403 /* SUIT-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF62C329A6400855E61 /* SUIT-Medium.otf */; };
-		CA78FE452C383DD6001B1403 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3EA2C3605D9003B02B6 /* UIFont+.swift */; };
 		CA78FE472C38667A001B1403 /* DRErrorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA78FE462C38667A001B1403 /* DRErrorLabel.swift */; };
 		CA78FE492C3866FD001B1403 /* DRErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA78FE482C3866FC001B1403 /* DRErrorType.swift */; };
 		CAA30ADE2C3718C500835DE3 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30ADD2C3718C500835DE3 /* ProfileViewController.swift */; };
@@ -88,6 +93,12 @@
 		0D06D9A12C3605760094C505 /* TagInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagInfoCell.swift; sourceTree = "<group>"; };
 		0D06D9A72C36946C0094C505 /* TimelineInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineInfoCell.swift; sourceTree = "<group>"; };
 		0D06D9A92C37CAFC0094C505 /* BringCourseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringCourseCell.swift; sourceTree = "<group>"; };
+		0D0DA3D62C3AF2DE004210EE /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
+		0D0DA3DD2C3AF37C004210EE /* PointCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCollectionViewCell.swift; sourceTree = "<group>"; };
+		0D0DA3DF2C3AF396004210EE /* PointModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointModel.swift; sourceTree = "<group>"; };
+		0D0DA3E12C3AF3B0004210EE /* PointViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointViewModel.swift; sourceTree = "<group>"; };
+		0D0DA3E32C3AF3CF004210EE /* PointCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCollectionView.swift; sourceTree = "<group>"; };
+		0D0DA3E52C3AF3FB004210EE /* PointDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointDetailViewController.swift; sourceTree = "<group>"; };
 		0D9497B12C327D2D0004B442 /* CourseDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailViewController.swift; sourceTree = "<group>"; };
 		0D9497B32C327D620004B442 /* CourseDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailViewModel.swift; sourceTree = "<group>"; };
 		0D9497B82C328D010004B442 /* ImageCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselCell.swift; sourceTree = "<group>"; };
@@ -143,7 +154,6 @@
 		CA4EF3DE2C347B4E003B02B6 /* DRButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRButtonType.swift; sourceTree = "<group>"; };
 		CA4EF3E12C3537F3003B02B6 /* OnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
 		CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
-		CA4EF3EA2C3605D9003B02B6 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		CA78FE462C38667A001B1403 /* DRErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRErrorLabel.swift; sourceTree = "<group>"; };
 		CA78FE482C3866FC001B1403 /* DRErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRErrorType.swift; sourceTree = "<group>"; };
 		CAA30ADD2C3718C500835DE3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -175,6 +185,50 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D0DA3D82C3AF304004210EE /* PointDetail */ = {
+			isa = PBXGroup;
+			children = (
+				0D0DA3DB2C3AF31D004210EE /* Models */,
+				0D0DA3DA2C3AF316004210EE /* ViewModels */,
+				0D0DA3D92C3AF310004210EE /* Views */,
+			);
+			path = PointDetail;
+			sourceTree = "<group>";
+		};
+		0D0DA3D92C3AF310004210EE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0D0DA3DC2C3AF322004210EE /* Cells */,
+				0D0DA3E32C3AF3CF004210EE /* PointCollectionView.swift */,
+				0D0DA3E52C3AF3FB004210EE /* PointDetailViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0D0DA3DA2C3AF316004210EE /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				0D0DA3E12C3AF3B0004210EE /* PointViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		0D0DA3DB2C3AF31D004210EE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0D0DA3DF2C3AF396004210EE /* PointModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0D0DA3DC2C3AF322004210EE /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				0D0DA3DD2C3AF37C004210EE /* PointCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		0D9497AD2C327C660004B442 /* CourseDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -327,6 +381,7 @@
 		CA3D0D092C29A75600735097 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				0D0DA3D82C3AF304004210EE /* PointDetail */,
 				CAA30ADB2C37182A00835DE3 /* Profile */,
 				CA4EF3D22C3475EE003B02B6 /* Onboarding */,
 				CA4EF3CC2C328F2C003B02B6 /* Splash */,
@@ -397,9 +452,9 @@
 				CA3D0D1B2C29AACD00735097 /* UIStackView+.swift */,
 				CA3D0D1D2C2ACE3900735097 /* UIButton+.swift */,
 				CA3D0D1F2C2ACEB100735097 /* UILabel+.swift */,
-				CA4EF3D02C3461C7003B02B6 /* UIFont+.swift */,
 				0DF905C72C39402A0072EE65 /* Int+.swift */,
 				CAA30AEC2C37E57400835DE3 /* String+.swift */,
+				0D0DA3D62C3AF2DE004210EE /* UIFont+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -648,6 +703,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D0DA3E02C3AF396004210EE /* PointModel.swift in Sources */,
 				0D9497BF2C3292D60004B442 /* CoastInfoCell.swift in Sources */,
 				CA3D0CDF2C29A2F300735097 /* ViewController.swift in Sources */,
 				CA3D0D1E2C2ACE3900735097 /* UIButton+.swift in Sources */,
@@ -659,15 +715,17 @@
 				CA4EF3E22C3537F3003B02B6 /* OnboardingModel.swift in Sources */,
 				CA4EF3D52C34763B003B02B6 /* OnboardingViewController.swift in Sources */,
 				CAA30ADE2C3718C500835DE3 /* ProfileViewController.swift in Sources */,
+				0D0DA3D72C3AF2DE004210EE /* UIFont+.swift in Sources */,
 				CA4EF3B42C3284BB003B02B6 /* BaseView.swift in Sources */,
 				0DF905CA2C399F750072EE65 /* PreviewView.swift in Sources */,
 				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
 				CA4EF3DF2C347B4E003B02B6 /* DRButtonType.swift in Sources */,
 				CAA30AED2C37E57400835DE3 /* String+.swift in Sources */,
+				0D0DA3E42C3AF3CF004210EE /* PointCollectionView.swift in Sources */,
 				CA4EF3C02C3285BA003B02B6 /* SocialType.swift in Sources */,
-				CA4EF3D12C3461C7003B02B6 /* UIFont+.swift in Sources */,
 				0D06D9A02C3561AF0094C505 /* ImageContents.swift in Sources */,
 				0D9497B42C327D620004B442 /* CourseDetailViewModel.swift in Sources */,
+				0D0DA3E62C3AF3FB004210EE /* PointDetailViewController.swift in Sources */,
 				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
 				0D9497B22C327D2D0004B442 /* CourseDetailViewController.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
@@ -675,18 +733,18 @@
 				0D06D9A82C36946C0094C505 /* TimelineInfoCell.swift in Sources */,
 				0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */,
 				0D9497BD2C3292C20004B442 /* MainContentsCell.swift in Sources */,
-				CA78FE452C383DD6001B1403 /* UIFont+.swift in Sources */,
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
 				CAA30AEB2C37DCE300835DE3 /* ProfileViewModel.swift in Sources */,
 				CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */,
 				CAA30AE22C37497200835DE3 /* TendencyTag.swift in Sources */,
 				CA4EF3DC2C347994003B02B6 /* BaseCollectionViewCell.swift in Sources */,
-				0D9497CB2C32A37E0004B442 /* CoastInfoViewModel.swift in Sources */,
+				0D0DA3E22C3AF3B0004210EE /* PointViewModel.swift in Sources */,
 				CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */,
 				CA4EF3B82C328542003B02B6 /* LoginView.swift in Sources */,
 				CA4EF3DA2C34791F003B02B6 /* OnboardingCollectionViewCell.swift in Sources */,
 				CA4EF3E52C3538AA003B02B6 /* OnboardingViewModel.swift in Sources */,
 				0D9497D32C33BD760004B442 /* BottomPageControllView.swift in Sources */,
+				0D0DA3DE2C3AF37C004210EE /* PointCollectionViewCell.swift in Sources */,
 				CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */,
 				CA3D0CDD2C29A2F300735097 /* SceneDelegate.swift in Sources */,
 				CA4EF3C32C3285F8003B02B6 /* StringLiterals.swift in Sources */,
