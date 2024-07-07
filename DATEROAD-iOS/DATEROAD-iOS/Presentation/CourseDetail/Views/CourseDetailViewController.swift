@@ -11,25 +11,33 @@ import UIKit
 import SnapKit
 import Then
 
-final class CourseDetailViewController: BaseNavBarViewController {
+final class CourseDetailViewController: BaseViewController {
     
     // MARK: - UI Properties
     
     private lazy var mainCollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
     
     private let bottomPageControlView = BottomPageControllView()
+
+    private let previewView = PreviewView()
     
     // MARK: - Properties
     
     private let viewModel: CourseDetailViewModel
     
-    private var mainData: [CourseDetailContents] = CourseDetailContents.images.map { CourseDetailContents(image: $0) }
+    private var imageData: [ImageContents] = ImageContents.imageContents.map { ImageContents(image: $0) }
     
-    private var timelineData: [CourseDetailContents] = CourseDetailContents.timelineContents()
+    private var likeSum: Int = ImageContents.likeSum
     
-    private var tagData: [CourseDetailContents] = CourseDetailContents.tagContents
-
-    private var currentPage: Int = 0 
+    private var mainContentsData: MainContents = MainContents.mainContents
+    
+    private var timelineData: [TimelineContents] = TimelineContents.timelineContents
+    
+    private var coastData: Int = InfoContents.coast
+    
+    private var tagData: [InfoContents] = InfoContents.tagContents
+    
+    private var currentPage: Int = 0
     
     init(viewModel: CourseDetailViewModel = CourseDetailViewModel()) {
         self.viewModel = viewModel
@@ -44,25 +52,36 @@ final class CourseDetailViewController: BaseNavBarViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setDelegate()
         registerCell()
-        setLeftBackButton()
+        //setLeftBackButton()
     }
     
     override func setHierarchy() {
         super.setHierarchy()
-        self.contentView.addSubviews(mainCollectionView)
+        view.addSubview(mainCollectionView)
+        //내용 열람 전 뷰
+//        view.addSubview(previewView)
     }
     
     override func setLayout() {
         super.setLayout()
         
         mainCollectionView.contentInsetAdjustmentBehavior = .never
+        mainCollectionView.showsVerticalScrollIndicator = false
+        mainCollectionView.showsHorizontalScrollIndicator = false
         
+        //스크롤 테스트용
+//        mainCollectionView.isScrollEnabled = false
+    
         mainCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+//        previewView.snp.makeConstraints {
+//            $0.bottom.horizontalEdges.equalToSuperview()
+//        }
     }
     
     override func setStyle() {
@@ -78,6 +97,7 @@ final class CourseDetailViewController: BaseNavBarViewController {
         mainCollectionView.delegate = self
         mainCollectionView.dataSource = self
     }
+
 }
 
 private extension CourseDetailViewController {
@@ -90,6 +110,8 @@ private extension CourseDetailViewController {
             $0.register(CoastInfoCell.self, forCellWithReuseIdentifier: CoastInfoCell.identifier)
             $0.register(TagInfoCell.self, forCellWithReuseIdentifier: TagInfoCell.identifier)
             $0.register(BringCourseCell.self, forCellWithReuseIdentifier: BringCourseCell.identifier)
+        
+            $0.register(GradientView.self, forSupplementaryViewOfKind: GradientView.elementKinds, withReuseIdentifier: GradientView.identifier)
             
             $0.register(InfoHeaderView.self, forSupplementaryViewOfKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier)
             
@@ -99,6 +121,8 @@ private extension CourseDetailViewController {
     
     func makeFlowLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { section, _ -> NSCollectionLayoutSection? in
+            let collectionViewWidth = self.view.frame.width
+            
             let sectionType = self.viewModel.fetchSection(at: section)
             
             switch sectionType {
@@ -128,9 +152,11 @@ private extension CourseDetailViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         
+        let gradient = makeGradientView()
         let footer = makeBottomPageControllView()
-        section.boundarySupplementaryItems = [footer]
         
+        section.boundarySupplementaryItems = [gradient, footer]
+
         return section
     }
     
@@ -164,7 +190,7 @@ private extension CourseDetailViewController {
         return section
     }
     
-
+    
     
     func makeCoastInfoLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
@@ -200,7 +226,7 @@ private extension CourseDetailViewController {
         
         return section
     }
-
+    
     
     func makeBringCourseLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
@@ -214,6 +240,14 @@ private extension CourseDetailViewController {
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0)
         
         return section
+    }
+    
+    func makeGradientView() -> NSCollectionLayoutBoundarySupplementaryItem {
+        let gradientSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.27))
+        let collectionViewWidth = mainCollectionView.frame.width
+        let gradient = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: gradientSize, elementKind: GradientView.elementKinds, alignment: .top, absoluteOffset: CGPoint(x: 0, y: collectionViewWidth * 0.27))
+      
+        return gradient
     }
     
     func makeHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
@@ -232,6 +266,7 @@ private extension CourseDetailViewController {
 }
 
 extension CourseDetailViewController: ImageCarouselDelegate {
+    
     func didSwipeImage(index: Int, vc: UIPageViewController, vcData: [UIViewController]) {
         currentPage = index
         if let bottomPageControllView = mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
@@ -261,7 +296,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
+        
         let sectionType = viewModel.fetchSection(at: indexPath.section)
         
         switch sectionType {
@@ -269,13 +304,14 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             guard let imageCarouselCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCarouselCell.identifier, for: indexPath) as? ImageCarouselCell else {
                 fatalError("Unable to dequeue ImageCarouselCell")
             }
-            imageCarouselCell.setPageVC(imageData: mainData)
+            imageCarouselCell.setPageVC(imageData: imageData)
             imageCarouselCell.delegate = self
             return imageCarouselCell
         case .mainContents:
             guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.identifier, for: indexPath) as? MainContentsCell else {
                 fatalError("Unable to dequeue MainContentsCell")
             }
+            mainContentsCell.setCell(mainContentsData: mainContentsData)
             return mainContentsCell
         case .timelineInfo:
             guard let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.identifier, for: indexPath) as? TimelineInfoCell else {
@@ -287,6 +323,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             guard let coastInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.identifier, for: indexPath) as? CoastInfoCell else {
                 fatalError("Unable to dequeue CoastInfoCell")
             }
+            coastInfoCell.setCell(coastData: coastData)
             return coastInfoCell
         case .tagInfo:
             guard let tagInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCell.identifier, for: indexPath) as? TagInfoCell else {
@@ -300,7 +337,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             }
             return bringCourseCell
         }
-    
+        
         
     }
     
@@ -320,8 +357,12 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return header
         } else if kind == BottomPageControllView.elementKinds {
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else { return UICollectionReusableView() }
-            footer.pageIndexSum = mainData.count
+            //이미지 갯수가 총 인덱스
+            footer.pageIndexSum = imageData.count
             return footer
+        } else if kind == GradientView.elementKinds {
+            guard let gradient = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: GradientView.identifier, for: indexPath) as? GradientView else { return UICollectionReusableView() }
+            return gradient
         } else {
             return UICollectionReusableView()
         }
