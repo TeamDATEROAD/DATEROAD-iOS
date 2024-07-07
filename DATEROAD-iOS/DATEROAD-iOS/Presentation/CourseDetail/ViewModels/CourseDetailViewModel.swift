@@ -80,6 +80,40 @@ class CourseDetailViewModel {
 }
 
 
+struct ImageCarouselViewModel {
+    var numberOfItems: Int {
+        return 1
+    }
+}
 
+struct MainContentsViewModel {
+    var numberOfItems: Int {
+        return 1
+    }
+}
+
+struct TimelineInfoViewModel {
+    var numberOfItems: Int {
+        return 1
+    }
+}
+
+struct CoastInfoViewModel {
+    var numberOfItems: Int {
+        return 1
+    }
+}
+
+struct TagInfoViewModel {
+    var numberOfItems: Int {
+        return 1
+    }
+}
+
+struct BringCourseViewModel {
+    var numberOfItems: Int {
+        return 1
+    }
+}
 
 

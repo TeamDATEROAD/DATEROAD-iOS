@@ -12,9 +12,11 @@ import Then
 
 class InfoHeaderView: UICollectionReusableView {
 
-    // MARK: - Properties
+    // MARK: - UI Properties
     
-    let titleLabel: UILabel = UILabel()
+    private let titleLabel: UILabel = UILabel()
+    
+    // MARK: - Properties
     
     static let elementKinds: String = "header"
     

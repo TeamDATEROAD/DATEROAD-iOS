@@ -42,7 +42,7 @@ final class ImageCarouselCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setPageVC(imageData: [CourseDetailContents]) {
+    func setPageVC(imageData: [ImageContents]) {
         vcData = imageData.map {
             let vc = UIViewController()
             let imageView = UIImageView()

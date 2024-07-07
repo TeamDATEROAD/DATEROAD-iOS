@@ -32,17 +32,14 @@ final class TagInfoCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func setCell(contents: CourseDetailContents) {
-        hashTagLabel.text = contents.tag
-    }
 }
 
 extension TagInfoCell {
     
-    func setCell(tagData: CourseDetailContents) {
+    func setCell(tagData: InfoContents) {
         hashTagLabel.text = tagData.tag
     }
+    
 }
 
 
