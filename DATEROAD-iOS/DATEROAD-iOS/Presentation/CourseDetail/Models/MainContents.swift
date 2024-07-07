@@ -29,9 +29,9 @@ extension MainContents {
     
     static let mainContents: MainContents = MainContents(
         date: "2024년 6월 27일",
-        title: "5년차 장기연애 커플이 보장하는 성수동 당일치기 데이트 코스",
+        title: "나랑 스껄하러 갈래?♥︎",
         coast: "10만원 초과",
-        time: "10만원 시간",
+        time: "10시간",
         location: "건대/성수/왕십리",
         mainText: """
 "5년차 장기연애 커플이 보장하는 성수동 당일치기 데이트 코스를 소개해 드릴게요. 저희 커플은 12시에 만나서 브런치 집을 갔어요. 여기에서는 프렌치 토스트를 꼭 시키세요. 강추합니다.

@@ -11,13 +11,15 @@ import UIKit
 import SnapKit
 import Then
 
-final class CourseDetailViewController: BaseNavBarViewController {
+final class CourseDetailViewController: BaseViewController {
     
     // MARK: - UI Properties
     
     private lazy var mainCollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
     
     private let bottomPageControlView = BottomPageControllView()
+    
+    private let previewView = PreviewView()
     
     // MARK: - Properties
     
@@ -53,12 +55,14 @@ final class CourseDetailViewController: BaseNavBarViewController {
         
         setDelegate()
         registerCell()
-        setLeftBackButton()
+        //setLeftBackButton()
     }
     
     override func setHierarchy() {
         super.setHierarchy()
-        self.contentView.addSubviews(mainCollectionView)
+        view.addSubview(mainCollectionView)
+        //내용 열람 전 뷰
+//        view.addSubview(previewView)
     }
     
     override func setLayout() {
@@ -68,9 +72,16 @@ final class CourseDetailViewController: BaseNavBarViewController {
         mainCollectionView.showsVerticalScrollIndicator = false
         mainCollectionView.showsHorizontalScrollIndicator = false
         
+        //스크롤 테스트용
+//        mainCollectionView.isScrollEnabled = false
+    
         mainCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+//        previewView.snp.makeConstraints {
+//            $0.bottom.horizontalEdges.equalToSuperview()
+//        }
     }
     
     override func setStyle() {

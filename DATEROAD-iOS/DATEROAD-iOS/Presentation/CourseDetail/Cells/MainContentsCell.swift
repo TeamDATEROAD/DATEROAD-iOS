@@ -17,6 +17,8 @@ final class MainContentsCell: UICollectionViewCell {
     
     private let dateLabel = UILabel()
     
+    private let titleView = UIView()
+    
     private let titleLabel = UILabel()
     
     private let coastIconImageView = UIImageView(image: .coastIcon)
@@ -73,6 +75,7 @@ private extension MainContentsCell {
             titleLabel,
             coastLabel,
             coastIconImageView,
+            titleView,
             timeLabel,
             timeIconImageView,
             locationLabel,
@@ -86,21 +89,26 @@ private extension MainContentsCell {
             $0.top.equalToSuperview().inset(23)
             $0.leading.equalToSuperview()
         }
+        titleView.snp.makeConstraints {
+            $0.top.equalTo(dateLabel.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(62)
+        }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(dateLabel.snp.bottom).offset(16)
+            $0.top.equalTo(titleView)
             $0.leading.trailing.equalToSuperview()
         }
         
         coastIconImageView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(15)
+            $0.top.equalTo(titleView.snp.bottom).offset(15)
             $0.leading.equalToSuperview()
             $0.width.height.equalTo(14)
         }
         
         coastLabel.snp.makeConstraints {
             $0.centerY.equalTo(coastIconImageView)
-            $0.leading.equalTo(coastIconImageView.snp.trailing).offset(5)
+            $0.leading.equalTo(coastIconImageView.snp.trailing).offset(3.5)
         }
         
         timeIconImageView.snp.makeConstraints {
@@ -111,7 +119,7 @@ private extension MainContentsCell {
         
         timeLabel.snp.makeConstraints {
             $0.centerY.equalTo(timeIconImageView)
-            $0.leading.equalTo(timeIconImageView.snp.trailing).offset(5)
+            $0.leading.equalTo(timeIconImageView.snp.trailing).offset(3.5)
         }
         
         locationIconImageView.snp.makeConstraints {
@@ -123,7 +131,7 @@ private extension MainContentsCell {
         
         locationLabel.snp.makeConstraints {
             $0.centerY.equalTo(locationIconImageView)
-            $0.leading.equalTo(locationIconImageView.snp.trailing).offset(5)
+            $0.leading.equalTo(locationIconImageView.snp.trailing).offset(3.5)
         }
         
         mainTextLabel.snp.makeConstraints {
@@ -135,6 +143,7 @@ private extension MainContentsCell {
     }
     
     func setStyle() {
+        
         dateLabel.do {
             $0.text = "2024년 6월 27일"
             $0.font = UIFont.suit(.body_semi_15)
@@ -167,7 +176,7 @@ private extension MainContentsCell {
         }
         
         mainTextLabel.do {
-            var paragraphStyle = NSMutableParagraphStyle()
+            let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineHeightMultiple = 1.2
             $0.attributedText = NSMutableAttributedString(string: "본문", attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
 
