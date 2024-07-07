@@ -23,8 +23,8 @@ final class AddCourseViewController: BaseNavBarViewController {
    // MARK: - Life Cycle
    
    override func viewDidLoad() {
-      
       super.viewDidLoad()
+      
       setHierarchy()
       setLayout()
       setStyle()
@@ -38,15 +38,15 @@ final class AddCourseViewController: BaseNavBarViewController {
    // MARK: - Methods
    
    override func setHierarchy() {
-      
       super.setHierarchy()
+      
       self.view.addSubview(contentView)
       contentView.addSubview(addCourseFirstView)
    }
    
    override func setLayout() {
-      
       super.setLayout()
+      
       addCourseFirstView.snp.makeConstraints {
          $0.top.equalToSuperview().offset(4)
          $0.horizontalEdges.equalToSuperview()
@@ -55,8 +55,8 @@ final class AddCourseViewController: BaseNavBarViewController {
    }
    
    override func setStyle() {
-      
       super.setStyle()
+      
       addCourseFirstView.do {
          $0.isUserInteractionEnabled = true
       }

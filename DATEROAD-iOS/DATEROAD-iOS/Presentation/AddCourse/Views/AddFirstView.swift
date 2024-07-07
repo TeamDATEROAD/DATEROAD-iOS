@@ -38,8 +38,6 @@ final class AddFirstView: BaseView {
    
    private let nextBtnTitleLabel = UILabel()
    
-   lazy var dateAccessoryView = UIView()
-   
    // MARK: - Properties
    
    private let tagStringArr = [
@@ -101,7 +99,7 @@ final class AddFirstView: BaseView {
       }
       
       datePlaceLabel.snp.makeConstraints {
-         $0.leading.trailing.equalToSuperview().inset(16)
+         $0.horizontalEdges.equalToSuperview().inset(16)
          $0.centerY.equalToSuperview()
       }
       
@@ -120,21 +118,9 @@ final class AddFirstView: BaseView {
       nextBtnTitleLabel.snp.makeConstraints {
          $0.center.equalToSuperview()
       }
-      
-      dateAccessoryView.snp.makeConstraints {
-         $0.width.equalTo(375)
-         $0.height.equalTo(304)
-      }
-      
    }
    
    override func setStyle() {
-      dateAccessoryView.do {
-         $0.backgroundColor = .drWhite
-         $0.layer.cornerRadius = 30
-         $0.clipsToBounds = true
-      }
-      
       textFieldStackView.do {
          $0.axis = .vertical
          $0.spacing = 20
@@ -152,7 +138,8 @@ final class AddFirstView: BaseView {
          }
       }
       
-      dateNameTextField.setPlaceholder(placeholder: StringLiterals.AddCourseOrScheduleFirst.dateNmaePlaceHolder, fontColor: .gray300, font: .suit(.body_semi_13))
+      dateNameTextField.setPlaceholder(placeholder: StringLiterals.AddCourseOrScheduleFirst.dateNmaePlaceHolder,
+                                       fontColor: .gray300, font: .suit(.body_semi_13))
       
       visitDateTextField.do {
          $0.setPlaceholder(
@@ -160,6 +147,7 @@ final class AddFirstView: BaseView {
             fontColor: .gray300,
             font: .suit(.body_semi_13)
          )
+         $0.layer.borderColor = UIColor(resource: .alertRed).cgColor
          let view = UIView()
          let imageView = UIImageView(image: .calendar)
          $0.rightView = view
@@ -171,8 +159,6 @@ final class AddFirstView: BaseView {
             $0.height.equalTo(17)
             $0.trailing.equalToSuperview().inset(19)
          }
-         $0.inputView = dateAccessoryView
-         
       }
       
       dateStartTimeTextField.do {
@@ -188,8 +174,7 @@ final class AddFirstView: BaseView {
          view.addSubview(imageView)
          imageView.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.width.equalTo(17)
-            $0.height.equalTo(17)
+            $0.size.equalTo(17)
             $0.trailing.equalToSuperview().inset(18)
          }
       }

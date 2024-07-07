@@ -18,7 +18,7 @@ final class AddCourseFirstView: BaseView {
    
    let addFirstView = AddFirstView()
    
-   private let ImageAccessoryView = UIView()
+   private let imageAccessoryView = UIView()
    
    let cameraBtn = UIButton()
    
@@ -33,12 +33,12 @@ final class AddCourseFirstView: BaseView {
    override func setHierarchy() {
       self.addSubviews(
          collectionView,
-         ImageAccessoryView,
+         imageAccessoryView,
          addFirstView,
          dateNameErrorLabel,
          visitDateErrorLabel
       )
-      ImageAccessoryView.addSubviews(cameraBtn, imageCountLabelContainer)
+      imageAccessoryView.addSubviews(cameraBtn, imageCountLabelContainer)
       imageCountLabelContainer.addSubview(imageCountLabel)
    }
    
@@ -49,7 +49,7 @@ final class AddCourseFirstView: BaseView {
          $0.height.equalTo(146)
       }
       
-      ImageAccessoryView.snp.makeConstraints {
+      imageAccessoryView.snp.makeConstraints {
          $0.horizontalEdges.equalToSuperview().inset(16)
          $0.bottom.equalTo(collectionView)
          $0.height.equalTo(32)
@@ -79,7 +79,7 @@ final class AddCourseFirstView: BaseView {
       
       dateNameErrorLabel.snp.makeConstraints {
          $0.top.equalTo(addFirstView.dateNameTextField.snp.bottom).offset(2)
-         $0.leading.equalTo(addFirstView.dateNameTextField.snp.leading).offset(9)
+         $0.leading.equalTo(addFirstView.dateNameTextField).offset(9)
       }
       
       visitDateErrorLabel.snp.makeConstraints {
@@ -123,7 +123,7 @@ final class AddCourseFirstView: BaseView {
       for i in [dateNameErrorLabel,visitDateErrorLabel] {
          i.do {
             if i == dateNameErrorLabel {
-               $0.text = StringLiterals.AddCourseOrScheduleFirst.dateNmaeErrorLabel
+               $0.text = StringLiterals.AddCourseOrScheduleFirst.dateNameErrorLabel
             } else {
                $0.text = StringLiterals.AddCourseOrScheduleFirst.visitDateErrorLabel
             }
@@ -149,7 +149,6 @@ extension AddCourseFirstView {
       } else {
          visitDateErrorLabel.isHidden = false
          addFirstView.visitDateTextField.do {
-            $0.layer.borderColor = UIColor.alertRed.cgColor
             $0.layer.borderWidth = 1
          }
       }

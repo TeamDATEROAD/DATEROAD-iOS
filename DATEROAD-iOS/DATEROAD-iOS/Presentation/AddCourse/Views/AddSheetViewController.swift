@@ -24,7 +24,6 @@ final class AddSheetViewController: BaseViewController {
    // MARK: - Initializer
    
    init(viewModel: AddCourseViewModel) {
-      
       self.viewModel = viewModel
       super.init(nibName: nil, bundle: nil)
    }
@@ -37,6 +36,7 @@ final class AddSheetViewController: BaseViewController {
    
    override func viewDidLoad() {
       super.viewDidLoad()
+      
       setAddTarget()
    }
    

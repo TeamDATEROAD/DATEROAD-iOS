@@ -32,6 +32,7 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
    
    override init(frame: CGRect) {
       super.init(frame: frame)
+      
       setHierarchy()
       setLayout()
       setStyle()
@@ -45,6 +46,7 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
    
    override func prepareForReuse() {
       super.prepareForReuse()
+      
       self.prepare(image: nil)
       self.cellType = .EmptyType
    }
