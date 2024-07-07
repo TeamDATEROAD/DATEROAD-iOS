@@ -77,9 +77,11 @@ extension AddCourseViewController {
          self?.addCourseFirstView.addFirstView.dateStartTimeTextField.text = date
       }
       viewModel.isDateNameError = { [weak self] date in
+         print("현재 viewModel.isDateNameError",date)
          self?.addCourseFirstView.updateDateNameTextField(isPassValid: !date)
       }
       viewModel.isVisitDateError = { [weak self] date in
+         print("현재 viewModel.isVisitDateError",date)
          self?.addCourseFirstView.updateVisitDateTextField(isPassValid: !date)
       }
    }

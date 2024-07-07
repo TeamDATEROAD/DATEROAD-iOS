@@ -30,6 +30,10 @@ final class AddCourseFirstView: BaseView {
    
    let visitDateErrorLabel = UILabel()
    
+   
+   
+   private let warningType: DRErrorType = Warning()
+   
    override func setHierarchy() {
       self.addSubviews(
          collectionView,
@@ -122,11 +126,10 @@ final class AddCourseFirstView: BaseView {
       for i in [dateNameErrorLabel,visitDateErrorLabel] {
          i.do {
             if i == dateNameErrorLabel {
-               $0.text = StringLiterals.AddCourseOrScheduleFirst.dateNameErrorLabel
+               $0.setErrorLabel(text: StringLiterals.AddCourseOrScheduleFirst.dateNameErrorLabel, errorType: warningType)
             } else {
-               $0.text = StringLiterals.AddCourseOrScheduleFirst.visitDateErrorLabel
+               $0.setErrorLabel(text: StringLiterals.AddCourseOrScheduleFirst.visitDateErrorLabel, errorType: warningType)
             }
-            $0.setLabel(textColor: UIColor(resource: .alertRed), font: .suit(.cap_reg_11))
             $0.isHidden = true
          }
       }
@@ -145,6 +148,7 @@ extension AddCourseFirstView {
             $0.layer.borderWidth = 0
          }
       } else {
+         print("지금 미래 날짜")
          visitDateErrorLabel.isHidden = false
          addFirstView.visitDateTextField.do {
             $0.layer.borderWidth = 1

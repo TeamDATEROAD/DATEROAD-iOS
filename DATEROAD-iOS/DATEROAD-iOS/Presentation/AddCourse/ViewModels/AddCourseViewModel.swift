@@ -37,17 +37,30 @@ final class AddCourseViewModel {
 
 extension AddCourseViewModel {
    
-   func isFutureDate() {
-      let dateStr = visitDate.value ?? ""
-      let dateFormatter = DateFormatter()
-      dateFormatter.dateFormat = "yyyy. MM. dd."
-      
-      let today = Date()
-      let selectedDate = dateFormatter.date(from: dateStr)
-      
-      let flag = (selectedDate ?? today) > today
-      
-      self.isVisitDateError?(flag)
+   func isFutureDate(date: Date, dateType: String) {
+      if dateType == "date" {
+         let dateFormatter = DateFormatter()
+         dateFormatter.dateFormat = "yyyy. MM. dd."
+         
+         let formattedDate = dateFormatter.string(from: date)
+         visitDate.value = formattedDate
+         
+         let dateStr = visitDate.value ?? ""
+         dateFormatter.dateFormat = "yyyy. MM. dd."
+         
+         let today = Date()
+         let selectedDate = dateFormatter.date(from: dateStr)
+         
+         let flag = (selectedDate ?? today) > today
+         
+         self.isVisitDateError?(flag)
+      } else {
+         let dateformatter = DateFormatter()
+         dateformatter.dateStyle = .none
+         dateformatter.timeStyle = .short
+         let formattedDate = dateformatter.string(from: date)
+         dateStartTime.value = formattedDate
+      }
    }
    
    func isDateNameValid(cnt: Int) {

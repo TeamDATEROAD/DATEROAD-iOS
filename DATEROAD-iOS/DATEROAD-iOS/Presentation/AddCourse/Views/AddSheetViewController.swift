@@ -72,18 +72,11 @@ extension AddSheetViewController {
    private func didTapDoneBtn() {
       if addSheetView.datePicker.datePickerMode == .date {
          let selectedDate = addSheetView.datePicker.date
-         let dateFormatter = DateFormatter()
-         dateFormatter.dateFormat = "yyyy. MM. dd."
-         let formattedDate = dateFormatter.string(from: selectedDate)
-         viewModel?.visitDate.value = formattedDate
+         viewModel?.isFutureDate(date: selectedDate, dateType: "date")
          dismiss(animated: true, completion: nil)
-         viewModel?.isFutureDate()
-      } else if addSheetView.datePicker.datePickerMode == .time {
-         let dateformatter = DateFormatter()
-         dateformatter.dateStyle = .none
-         dateformatter.timeStyle = .short
-         let formattedDate = dateformatter.string(from: addSheetView.datePicker.date)
-         viewModel?.dateStartTime.value = formattedDate
+      } else {
+         let formattedDate = addSheetView.datePicker.date
+         viewModel?.isFutureDate(date: formattedDate, dateType: "time")
          dismiss(animated: true, completion: nil)
       }
    }
