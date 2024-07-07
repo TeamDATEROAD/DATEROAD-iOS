@@ -96,11 +96,12 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
       }
       
       emptyLabel.do {
-         $0.numberOfLines = 2
+         $0.setLabel(
+            numberOfLines: 2,
+            textColor: UIColor(resource: .gray300),
+            font: .suit(.body_bold_11)
+         )
          $0.text = StringLiterals.AddCourseOrScheduleFirst.emptyImage
-         $0.textColor = .gray300
-         $0.font = .suit(.body_bold_11)
-         $0.textAlignment = .center
       }
       
       imageView.do {

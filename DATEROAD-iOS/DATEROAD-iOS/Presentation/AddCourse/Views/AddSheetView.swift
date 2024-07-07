@@ -70,9 +70,8 @@ final class AddSheetView: BaseView {
       }
       
       doneBtnTitleLabel.do {
-         $0.font = .suit(.body_bold_15)
+         $0.setLabel(textColor: UIColor(resource: .drWhite), font: .suit(.body_bold_15))
          $0.text = "선택하기"
-         $0.textColor = .drWhite
       }
    }
    

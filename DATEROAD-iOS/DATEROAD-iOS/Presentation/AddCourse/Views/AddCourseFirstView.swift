@@ -115,9 +115,8 @@ final class AddCourseFirstView: BaseView {
       }
       
       imageCountLabel.do {
+         $0.setLabel(textColor: UIColor(resource: .drWhite), font: .suit(.body_med_10))
          $0.text = "1/10"
-         $0.font = .suit(.body_med_10)
-         $0.textColor = .drWhite
       }
       
       for i in [dateNameErrorLabel,visitDateErrorLabel] {
@@ -127,8 +126,7 @@ final class AddCourseFirstView: BaseView {
             } else {
                $0.text = StringLiterals.AddCourseOrScheduleFirst.visitDateErrorLabel
             }
-            $0.font = .suit(.cap_reg_11)
-            $0.textColor = .alertRed
+            $0.setLabel(textColor: UIColor(resource: .alertRed), font: .suit(.cap_reg_11))
             $0.isHidden = true
          }
       }
@@ -163,7 +161,6 @@ extension AddCourseFirstView {
       } else {
          dateNameErrorLabel.isHidden = false
          addFirstView.dateNameTextField.do {
-            $0.layer.borderColor = UIColor.alertRed.cgColor
             $0.layer.borderWidth = 1
          }
       }

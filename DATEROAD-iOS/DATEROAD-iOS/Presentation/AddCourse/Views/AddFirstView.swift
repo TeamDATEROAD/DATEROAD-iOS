@@ -135,6 +135,7 @@ final class AddFirstView: BaseView {
             $0.layer.cornerRadius = 13
             $0.autocorrectionType = .no
             $0.spellCheckingType = .no
+            $0.layer.borderColor = UIColor(resource: .alertRed).cgColor
          }
       }
       
@@ -147,7 +148,6 @@ final class AddFirstView: BaseView {
             fontColor: .gray300,
             font: .suit(.body_semi_13)
          )
-         $0.layer.borderColor = UIColor(resource: .alertRed).cgColor
          let view = UIView()
          let imageView = UIImageView(image: .calendar)
          $0.rightView = view
@@ -167,6 +167,7 @@ final class AddFirstView: BaseView {
             fontColor: .gray300,
             font: .suit(.body_semi_13)
          )
+         $0.layer.borderWidth = 0
          let view = UIView()
          let imageView = UIImageView(image: .time)
          $0.rightView = view
@@ -180,7 +181,7 @@ final class AddFirstView: BaseView {
       }
       
       tagTitleLabel.do {
-         $0.font = .suit(.body_semi_15)
+         $0.setLabel(textColor: UIColor(resource: .drBlack), font: .suit(.body_semi_15))
          $0.text = StringLiterals.AddCourseOrScheduleFirst.tagTitle
       }
       
@@ -201,9 +202,8 @@ final class AddFirstView: BaseView {
       }
       
       datePlaceLabel.do {
-         $0.font = .suit(.body_semi_13)
+         $0.setLabel(textColor: UIColor(resource: .gray300), font: .suit(.body_semi_13))
          $0.text = StringLiterals.AddCourseOrScheduleFirst.datePlaceLabel
-         $0.textColor = .gray300
       }
       
       datePlaceImage.do {
@@ -216,9 +216,8 @@ final class AddFirstView: BaseView {
       }
       
       nextBtnTitleLabel.do {
-         $0.font = .suit(.body_bold_15)
+         $0.setLabel(textColor: UIColor(resource: .gray400), font: .suit(.body_bold_15))
          $0.text = "다음 (1/3)"
-         $0.textColor = .gray400
       }
    }
    
