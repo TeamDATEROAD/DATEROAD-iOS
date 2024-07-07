@@ -28,6 +28,8 @@ class ViewedCourseViewController: BaseViewController {
     
     private let viewedCourseViewModel = ViewedCourseViewModel()
     
+    private lazy var userViewedCourseDummyData = viewedCourseViewModel.userViewedCourseDummyData
+    
     private lazy var viewedCourseDummyData = viewedCourseViewModel.viewedCourseDummyData
     
     // MARK: - LifeCycle
@@ -83,7 +85,7 @@ class ViewedCourseViewController: BaseViewController {
         
         topLabel.do {
             $0.font = UIFont.suit(.title_extra_24)
-            $0.setAttributedText(fullText: "호은님이 지금까지\n열람한 데이트 코스\n14개", pointText: "14", pointColor: UIColor(resource: .mediumPurple), lineHeight: 1)
+            $0.setAttributedText(fullText: "\(userViewedCourseDummyData.userName ?? "00")님이 지금까지\n열람한 데이트 코스\n\(userViewedCourseDummyData.courseNumber ?? 0)개", pointText: "14", pointColor: UIColor(resource: .mediumPurple), lineHeight: 1)
             $0.numberOfLines = 3
         }
         

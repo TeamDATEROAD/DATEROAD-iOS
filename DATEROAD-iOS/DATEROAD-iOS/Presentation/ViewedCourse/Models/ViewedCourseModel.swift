@@ -7,6 +7,16 @@
 
 import UIKit
 
+struct UserViewedCourseModel {
+    let userName: String?
+    let courseNumber: Int?
+    
+    init(userName: String?, courseNumber: Int?) {
+        self.userName = userName
+        self.courseNumber = courseNumber
+    }
+}
+
 struct ViewedCourseModel {
     let courseThumbnail: String?
     let courseTitle: String?
