@@ -72,7 +72,7 @@ class ViewedCourseCollectionViewCell: BaseCollectionViewCell {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
             $0.top.equalTo(locationLabel.snp.bottom).offset(5)
             $0.height.equalTo(42)
         }
@@ -121,9 +121,10 @@ class ViewedCourseCollectionViewCell: BaseCollectionViewCell {
             $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_med_13)
             $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-            $0.imageEdgeInsets = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 5)
-            $0.setImage(UIImage(systemName: "s.circle"), for: .normal)
-            $0.imageView?.contentMode = .scaleAspectFill
+            $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: -2.5, bottom: 0, right: 2.5)
+            $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 2.5, bottom: 0, right: -2.5)
+            $0.setImage(UIImage(resource: .coastIcon), for: .normal)
+            $0.imageView?.contentMode = .scaleAspectFit
         }
         
         timeButton.do {
@@ -132,7 +133,9 @@ class ViewedCourseCollectionViewCell: BaseCollectionViewCell {
             $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_med_13)
             $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-            $0.setImage(UIImage(systemName: "clock"), for: .normal)
+            $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: -2.5, bottom: 0, right: 2.5)
+            $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 2.5, bottom: 0, right: -2.5)
+            $0.setImage(UIImage(resource: .timeIcon), for: .normal)
         }
         
     }

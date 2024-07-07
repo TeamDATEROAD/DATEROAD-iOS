@@ -77,6 +77,7 @@ class ViewedCourseViewController: BaseViewController {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview()
             $0.width.equalTo(45)
+            $0.height.equalTo(26)
         }
     }
     
@@ -104,7 +105,7 @@ class ViewedCourseViewController: BaseViewController {
         arrowButton.do {
             $0.setButtonStatus(buttonType: EnabledButton())
             $0.setImage(UIImage(resource: .createCourseArrow), for: .normal)
-            $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+            $0.roundedButton(cornerRadius: 13, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
         }
         
         courseCollectionView.do {

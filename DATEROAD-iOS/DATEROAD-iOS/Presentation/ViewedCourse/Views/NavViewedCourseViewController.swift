@@ -26,6 +26,7 @@ class NavViewedCourseViewController: BaseNavBarViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setLeftBackButton()
         setTitleLabelStyle(title: "내가 등록한 코스")
         // Do any additional setup after loading the view.
