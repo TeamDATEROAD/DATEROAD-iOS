@@ -7,15 +7,23 @@
 
 import UIKit
 
+enum AddCellType {
+   case EmptyType, NotEmptyPType
+}
+
 final class AddCourseViewModel {
    
    var dataSource = getSampleImages()
+   
+   var cellType: ObservablePattern<AddCellType> = ObservablePattern(nil)
    
    var dateName: ObservablePattern<String> = ObservablePattern("")
    
    var visitDate: ObservablePattern<String> = ObservablePattern("")
    
    var dateStartTime: ObservablePattern<String> = ObservablePattern("")
+   
+   var isVisitDateError: ((Bool) -> Void)?
    
    var tagButtonsArr: [UIButton] = []
    
@@ -37,7 +45,7 @@ extension AddCourseViewModel {
       
       let flag = (selectedDate ?? today) > today
       
-      flag ? isError?() : isNonError?()
+      self.isVisitDateError?(flag)
    }
    
 }

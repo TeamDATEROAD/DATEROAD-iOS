@@ -37,7 +37,6 @@ final class AddSheetViewController: BaseViewController {
    
    override func viewDidLoad() {
       super.viewDidLoad()
-      bindViewModel()
       setAddTarget()
    }
    
@@ -63,22 +62,6 @@ extension AddSheetViewController {
    
    // MARK: - Methods
    
-   private func bindViewModel() {
-      viewModel?.isNonError = { [weak self] in
-         DispatchQueue.main.async {
-            self?.addCourseFirstView?.updateVisitDateTextField(isPassValid: true)
-            self?.dismiss(animated: true, completion: nil)
-         }
-      }
-      
-      viewModel?.isError = { [weak self] in
-         DispatchQueue.main.async {
-            self?.addCourseFirstView?.updateVisitDateTextField(isPassValid: false)
-            self?.dismiss(animated: true, completion: nil)
-         }
-      }
-   }
-   
    private func setAddTarget() {
       addSheetView.doneBtn.addTarget(self, action: #selector(didTapDoneBtn), for: .touchUpInside)
    }
@@ -93,6 +76,7 @@ extension AddSheetViewController {
          dateFormatter.dateFormat = "yyyy. MM. dd."
          let formattedDate = dateFormatter.string(from: selectedDate)
          viewModel?.visitDate.value = formattedDate
+         dismiss(animated: true, completion: nil)
          viewModel?.isFutureDate()
       } else if addSheetView.datePicker.datePickerMode == .time {
          let dateformatter = DateFormatter()

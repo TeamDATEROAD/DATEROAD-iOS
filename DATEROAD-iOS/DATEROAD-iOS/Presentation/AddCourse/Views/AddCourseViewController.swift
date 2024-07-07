@@ -76,6 +76,9 @@ extension AddCourseViewController {
       viewModel.dateStartTime.bind { [weak self] date in
          self?.addCourseFirstView.addFirstView.dateStartTimeTextField.text = date
       }
+      viewModel.isVisitDateError = { [weak self] date in
+         self?.addCourseFirstView.updateVisitDateTextField(isPassValid: !date)
+      }
    }
    
    private func setAddTarget() {
