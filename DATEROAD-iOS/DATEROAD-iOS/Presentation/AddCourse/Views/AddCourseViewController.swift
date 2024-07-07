@@ -75,6 +75,10 @@ extension AddCourseViewController {
       viewModel.visitDate.bind { [weak self] date in
          self?.addCourseFirstView.addFirstView.visitDateTextField.text = date
       }
+      
+      viewModel.dateStartTime.bind { [weak self] date in
+         self?.addCourseFirstView.addFirstView.dateStartTimeTextField.text = date
+      }
    }
    
    private func setAddTarget() {
@@ -97,15 +101,17 @@ extension AddCourseViewController: UITextFieldDelegate {
    
    @objc
    private func textFieldTapped(_ textField: UITextField) {
+      let addSheetVC = AddSheetViewController(viewModel: self.viewModel)
       if textField == addCourseFirstView.addFirstView.visitDateTextField {
-         let addSheetVC = AddSheetViewController(viewModel: self.viewModel)
          addSheetVC.addCourseFirstView = self.addCourseFirstView
-         DispatchQueue.main.async {
-            addSheetVC.modalPresentationStyle = .overFullScreen
-            self.present(addSheetVC, animated: true, completion: nil)
-         }
+         addSheetVC.addSheetView.datePicker.datePickerMode = .date
       } else if textField == addCourseFirstView.addFirstView.dateStartTimeTextField {
-         print("!")
+         addSheetVC.addCourseFirstView = self.addCourseFirstView
+         addSheetVC.addSheetView.datePicker.datePickerMode = .time
+      }
+      DispatchQueue.main.async {
+         addSheetVC.modalPresentationStyle = .overFullScreen
+         self.present(addSheetVC, animated: true, completion: nil)
       }
    }
    

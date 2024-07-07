@@ -15,6 +15,8 @@ final class AddCourseViewModel {
    
    var visitDate: ObservablePattern<String> = ObservablePattern("")
    
+   var dateStartTime: ObservablePattern<String> = ObservablePattern("")
+   
    var isError: (() -> Void)?
    
    var isNonError: (() -> Void)?
