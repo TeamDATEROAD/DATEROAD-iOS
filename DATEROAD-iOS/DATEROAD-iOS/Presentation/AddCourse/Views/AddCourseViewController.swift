@@ -89,54 +89,6 @@ extension AddCourseViewController {
    
 }
 
-extension AddCourseViewController: UITextFieldDelegate {
-   
-   func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-      if textField == addCourseFirstView.addFirstView.dateNameTextField {
-         return true
-      } else {
-         textFieldTapped(textField)
-         return false
-      }
-   }
-   
-   @objc
-   private func textFieldTapped(_ textField: UITextField) {
-      let addSheetVC = AddSheetViewController(viewModel: self.viewModel)
-      if textField == addCourseFirstView.addFirstView.visitDateTextField {
-         addSheetVC.addCourseFirstView = self.addCourseFirstView
-         addSheetVC.addSheetView.datePicker.datePickerMode = .date
-      } else if textField == addCourseFirstView.addFirstView.dateStartTimeTextField {
-         addSheetVC.addCourseFirstView = self.addCourseFirstView
-         addSheetVC.addSheetView.datePicker.datePickerMode = .time
-      }
-      DispatchQueue.main.async {
-         addSheetVC.modalPresentationStyle = .overFullScreen
-         self.present(addSheetVC, animated: true, completion: nil)
-      }
-   }
-   
-   @objc
-   func textFieldDidChanacge(_ textField: UITextField) {
-      if textField.text?.count ?? 0 >= 5 {
-         addCourseFirstView.updateDateNameTextField(isPassValid: true)
-      } else {
-         addCourseFirstView.updateDateNameTextField(isPassValid: false)
-      }
-   }
-   
-   @objc
-   func changeTagBtnState(sender: UIButton) {
-      viewModel.tagButtonsArr.append(sender)
-      if viewModel.tagButtonsArr.count <= 3 {
-         self.addCourseFirstView.addFirstView.updateTagButtonStyle(btn: sender)
-      } else {
-         print("지금 3개야!")
-      }
-   }
-   
-}
-
 extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewDelegate {
    
    private func registerCell() {
@@ -180,6 +132,56 @@ extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewD
          print("Empty cell selected")
       } else {
          print("Cell \(indexPath.item) selected")
+      }
+   }
+   
+}
+
+extension AddCourseViewController: UITextFieldDelegate {
+   
+   func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+      if textField == addCourseFirstView.addFirstView.dateNameTextField {
+         return true
+      } else {
+         textFieldTapped(textField)
+         return false
+      }
+   }
+   
+   // MARK: - @objc Methods
+   
+   @objc
+   private func textFieldTapped(_ textField: UITextField) {
+      let addSheetVC = AddSheetViewController(viewModel: self.viewModel)
+      if textField == addCourseFirstView.addFirstView.visitDateTextField {
+         addSheetVC.addCourseFirstView = self.addCourseFirstView
+         addSheetVC.addSheetView.datePicker.datePickerMode = .date
+      } else if textField == addCourseFirstView.addFirstView.dateStartTimeTextField {
+         addSheetVC.addCourseFirstView = self.addCourseFirstView
+         addSheetVC.addSheetView.datePicker.datePickerMode = .time
+      }
+      DispatchQueue.main.async {
+         addSheetVC.modalPresentationStyle = .overFullScreen
+         self.present(addSheetVC, animated: true, completion: nil)
+      }
+   }
+   
+   @objc
+   func textFieldDidChanacge(_ textField: UITextField) {
+      if textField.text?.count ?? 0 >= 5 {
+         addCourseFirstView.updateDateNameTextField(isPassValid: true)
+      } else {
+         addCourseFirstView.updateDateNameTextField(isPassValid: false)
+      }
+   }
+   
+   @objc
+   func changeTagBtnState(sender: UIButton) {
+      viewModel.tagButtonsArr.append(sender)
+      if viewModel.tagButtonsArr.count <= 3 {
+         self.addCourseFirstView.addFirstView.updateTagButtonStyle(btn: sender)
+      } else {
+         print("지금 3개야!")
       }
    }
    

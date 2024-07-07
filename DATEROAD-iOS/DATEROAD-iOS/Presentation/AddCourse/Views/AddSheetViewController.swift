@@ -65,19 +65,25 @@ extension AddSheetViewController {
    
    private func bindViewModel() {
       viewModel?.isNonError = { [weak self] in
-         self?.addCourseFirstView?.updateVisitDateTextField(isPassValid: true)
-         self?.dismiss(animated: true, completion: nil)
+         DispatchQueue.main.async {
+            self?.addCourseFirstView?.updateVisitDateTextField(isPassValid: true)
+            self?.dismiss(animated: true, completion: nil)
+         }
       }
       
       viewModel?.isError = { [weak self] in
-         self?.addCourseFirstView?.updateVisitDateTextField(isPassValid: false)
-         self?.dismiss(animated: true, completion: nil)
+         DispatchQueue.main.async {
+            self?.addCourseFirstView?.updateVisitDateTextField(isPassValid: false)
+            self?.dismiss(animated: true, completion: nil)
+         }
       }
    }
    
    private func setAddTarget() {
       addSheetView.doneBtn.addTarget(self, action: #selector(didTapDoneBtn), for: .touchUpInside)
    }
+   
+   // MARK: - @objc Methods
    
    @objc
    private func didTapDoneBtn() {
