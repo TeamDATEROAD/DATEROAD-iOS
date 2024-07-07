@@ -36,5 +36,7 @@ enum StringLiterals {
       static let dateStartTimeLabel = "데이트 시작 시간을 선택해 주세요 (필수)"
       static let tagTitle = "데이트코스와 어울리는 태그를 선택해 주세요 (0/3)"
       static let datePlaceLabel = "데이트 지역을 선택해 주세요 (필수)"
+      static let dateNmaeErrorLabel = "최소 5글자 이상 입력해주세요"
+      static let visitDateErrorLabel = "미래 날짜를 선택하셨어요"
    }
 }
