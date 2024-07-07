@@ -122,9 +122,7 @@ extension AddCourseViewController: UITextFieldDelegate {
       } else {
          addCourseFirstView.updateDateNameTextField(isPassValid: false)
       }
-      
    }
-   
    
 }
 
@@ -153,12 +151,10 @@ extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewD
       ) as! AddCourseImageCollectionViewCell
       
       if viewModel.dataSource.isEmpty {
-         print("EmptyType")
          addCourseFirstView.cameraBtn.isHidden = true
          cell.cellType = .EmptyType
          addCourseFirstView.imageCountLabel.text = "\(0)/10"
       } else {
-         print("NotEmptyPType")
          addCourseFirstView.cameraBtn.isHidden = false
          cell.cellType = .NotEmptyPType
          cell.prepare(image: viewModel.dataSource[indexPath.item])

@@ -29,10 +29,6 @@ final class AddSheetView: BaseView {
    }
    
    override func setLayout() {
-//      blurView.snp.makeConstraints {
-//         $0.edges.equalToSuperview()
-//      }
-      
       bottomSheetView.snp.makeConstraints {
          $0.horizontalEdges.bottom.equalToSuperview()
          $0.height.equalTo(304)
@@ -55,10 +51,6 @@ final class AddSheetView: BaseView {
    }
    
    override func setStyle() {
-//      blurView.do {
-//         $0.backgroundColor = UIColor.darkGray.withAlphaComponent(0.4)
-//      }
-      
       bottomSheetView.do {
          $0.backgroundColor = .drWhite
          $0.layer.cornerRadius = 14
@@ -68,7 +60,6 @@ final class AddSheetView: BaseView {
          $0.datePickerMode = .date
          $0.preferredDatePickerStyle = .wheels
          $0.locale = Locale(identifier: "ko-KR")
-//         $0.addTarget(self, action: #selector(dateChange), for: .valueChanged)
       }
       
       doneBtn.do {
@@ -83,6 +74,4 @@ final class AddSheetView: BaseView {
       }
    }
    
-   
-      
 }
