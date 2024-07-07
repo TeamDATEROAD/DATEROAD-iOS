@@ -17,6 +17,12 @@ final class AddCourseViewModel {
    
    var dateStartTime: ObservablePattern<String> = ObservablePattern("")
    
+//   var currentTagButton =  UIButton()
+   
+   var tagButtonsArr: [UIButton] = []
+   
+//   var currentButton: ObservablePattern<UIButton> = ObservablePattern(nil)
+   
    var isError: (() -> Void)?
    
    var isNonError: (() -> Void)?
@@ -35,6 +41,18 @@ extension AddCourseViewModel {
       let flag = (selectedDate ?? today) > today
       
       flag ? isError?() : isNonError?()
+   }
+   
+//   func selectedTagBtnCount(selectedBtn: UIButton) {
+//      if tagButtonsArr.contains(selectedBtn) {
+//         currentButton.value = selectedBtn
+//      } else {
+//         currentButton.value = selectedBtn
+//      }
+//   }
+   
+   func isOverTagBtnCount(cnt: Int) {
+      
    }
    
    

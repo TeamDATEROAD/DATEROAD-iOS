@@ -17,10 +17,6 @@ import Then
 
 final class AddCourseViewController: BaseNavBarViewController {
    
-   //   private var isImageEmpty = true
-   //
-   //   private var dataSource = getSampleImages()
-   
    private let viewModel = AddCourseViewModel()
    
    private var addCourseFirstView = AddCourseFirstView()
@@ -79,14 +75,18 @@ extension AddCourseViewController {
       viewModel.dateStartTime.bind { [weak self] date in
          self?.addCourseFirstView.addFirstView.dateStartTimeTextField.text = date
       }
+      
    }
    
    private func setAddTarget() {
       addCourseFirstView.addFirstView.dateNameTextField.addTarget(self, action: #selector(textFieldDidChanacge(_:)), for: .editingChanged)
       addCourseFirstView.addFirstView.visitDateTextField.addTarget(self, action: #selector(textFieldTapped(_:)), for: .touchDown)
       addCourseFirstView.addFirstView.dateStartTimeTextField.addTarget(self, action: #selector(textFieldTapped(_:)), for: .touchDown)
+      for button in addCourseFirstView.addFirstView.tagBtns {
+         button.addTarget(self, action: #selector(changeTagBtnState), for: .touchUpInside)
+      }
    }
-
+   
 }
 
 extension AddCourseViewController: UITextFieldDelegate {
@@ -121,6 +121,16 @@ extension AddCourseViewController: UITextFieldDelegate {
          addCourseFirstView.updateDateNameTextField(isPassValid: true)
       } else {
          addCourseFirstView.updateDateNameTextField(isPassValid: false)
+      }
+   }
+   
+   @objc
+   func changeTagBtnState(sender: UIButton) {
+      viewModel.tagButtonsArr.append(sender)
+      if viewModel.tagButtonsArr.count <= 3 {
+         self.addCourseFirstView.addFirstView.updateTagButtonStyle(btn: sender)
+      } else {
+         print("지금 3개야!")
       }
    }
    

@@ -45,7 +45,7 @@ final class AddFirstView: BaseView {
    
    lazy var dateAccessoryView = UIView()
    
-   
+   var tagBtns: [UIButton] = []
    
    override func setHierarchy() {
       self.addSubviews(
@@ -247,6 +247,7 @@ extension AddFirstView {
       for i in 0..<tagStringArr[cnt].count {
          let button = createOvalButton(title: tagStringArr[cnt][i])
          hStackView.addArrangedSubview(button)
+         tagBtns.append(button)
       }
       
       // 각 버튼 열에 맞는 PaddingView 추가
@@ -289,7 +290,18 @@ extension AddFirstView {
       
       let btn = UIButton(configuration: config)
       btn.roundedButton(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
-      
       return btn
    }
+   
+   func updateTagButtonStyle(btn: UIButton) {
+      btn.do {
+         $0.configuration?.baseBackgroundColor = .deepPurple
+         $0.configuration?.baseForegroundColor = .drWhite
+      }
+   }
+   
+   //   @objc
+   //   func changeTagBtnState(sender: UIButton) {
+   //      print(sender.titleLabel?.text)
+   //   }
 }
