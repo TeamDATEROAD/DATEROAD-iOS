@@ -10,14 +10,9 @@ import UIKit
 import SnapKit
 import Then
 
-///AddFirstView load 시 각 inset 값들 top: 14, horizontalEdges: 16, bottom: 4[safelayoutguide 기준] )
 final class AddFirstView: BaseView {
    
-   private let tagStringArr = [
-      ["🚙 드라이브", "🛍️ 쇼핑", "🚪 실내", "🍵 힐링"],
-      ["🥂 알콜", "🍜 식도락", "💍 공방", "🌊 자연"],
-      ["🛼️ 액티비티", "🎭 공연·음악", "🎨 전시·팝업"]
-   ]
+   // MARK: - UI Properties
    
    private let textFieldStackView = UIStackView()
    
@@ -45,7 +40,17 @@ final class AddFirstView: BaseView {
    
    lazy var dateAccessoryView = UIView()
    
+   // MARK: - Properties
+   
+   private let tagStringArr = [
+      ["🚙 드라이브", "🛍️ 쇼핑", "🚪 실내", "🍵 힐링"],
+      ["🥂 알콜", "🍜 식도락", "💍 공방", "🌊 자연"],
+      ["🛼️ 액티비티", "🎭 공연·음악", "🎨 전시·팝업"]
+   ]
+   
    var tagBtns: [UIButton] = []
+   
+   // MARK: - Life Cycle
    
    override func setHierarchy() {
       self.addSubviews(
@@ -235,6 +240,9 @@ final class AddFirstView: BaseView {
 }
 
 extension AddFirstView {
+   
+   // MARK: - Methods
+   
    /// HStackView 생성 함수
    func createHorizontalStackView(_ cnt: Int) -> UIStackView {
       let hStackView = UIStackView().then {
@@ -300,8 +308,4 @@ extension AddFirstView {
       }
    }
    
-   //   @objc
-   //   func changeTagBtnState(sender: UIButton) {
-   //      print(sender.titleLabel?.text)
-   //   }
 }

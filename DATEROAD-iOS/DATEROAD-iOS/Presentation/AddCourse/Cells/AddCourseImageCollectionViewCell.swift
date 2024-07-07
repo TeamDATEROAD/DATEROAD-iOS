@@ -10,19 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
-class AddCourseImageCollectionViewCell: UICollectionViewCell {
-   
-   enum AddCellType {
-      case EmptyType, NotEmptyPType
-   }
-   
-   static let id: String = "AddCourseImageCollectionViewCell"
-   
-   var cellType: AddCellType = .EmptyType {
-      didSet {
-         updateUIForCellType()
-      }
-   }
+enum AddCellType {
+   case EmptyType, NotEmptyPType
+}
+
+final class AddCourseImageCollectionViewCell: UICollectionViewCell {
    
    // MARK: - UI Properties
    
@@ -34,12 +26,17 @@ class AddCourseImageCollectionViewCell: UICollectionViewCell {
    
    private let emptyLabel = UILabel()
    
-   // MARK: Initializer
+   // MARK: - Properties
    
-   @available(*, unavailable)
-   required init?(coder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
+   static let id: String = "AddCourseImageCollectionViewCell"
+   
+   var cellType: AddCellType = .EmptyType {
+      didSet {
+         updateUIForCellType()
+      }
    }
+   
+   // MARK: Initializer
    
    override init(frame: CGRect) {
       super.init(frame: frame)
@@ -47,6 +44,11 @@ class AddCourseImageCollectionViewCell: UICollectionViewCell {
       setLayout()
       setStyle()
       updateUIForCellType()
+   }
+   
+   @available(*, unavailable)
+   required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
    }
    
    override func prepareForReuse() {
@@ -120,11 +122,9 @@ class AddCourseImageCollectionViewCell: UICollectionViewCell {
       case .EmptyType:
          emptyView.isHidden = false
          imageView.isHidden = true
-//         contentView.bringSubviewToFront(emptyView)
       case .NotEmptyPType:
          emptyView.isHidden = true
          imageView.isHidden = false
-//         contentView.bringSubviewToFront(imageView)
       }
    }
 }

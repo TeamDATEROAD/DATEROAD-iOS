@@ -12,6 +12,8 @@ import Then
 
 final class AddSheetView: BaseView {
    
+   // MARK: - UI Properties
+   
    private let blurView = UIView()
    
    private let bottomSheetView = UIView()

@@ -30,10 +30,6 @@ final class AddCourseFirstView: BaseView {
    
    let visitDateErrorLabel = UILabel()
    
-   let test = UIView()
-   
-   // MARK: - Methods
-   
    override func setHierarchy() {
       self.addSubviews(
          collectionView,
@@ -141,6 +137,9 @@ final class AddCourseFirstView: BaseView {
 }
 
 extension AddCourseFirstView {
+   
+   // MARK: - Methods
+   
    func updateVisitDateTextField(isPassValid: Bool) {
       if isPassValid {
          visitDateErrorLabel.isHidden = true
@@ -170,4 +169,5 @@ extension AddCourseFirstView {
          }
       }
    }
+   
 }

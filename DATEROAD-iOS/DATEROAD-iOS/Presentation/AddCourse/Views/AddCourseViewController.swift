@@ -10,16 +10,15 @@ import UIKit
 import SnapKit
 import Then
 
-@available(iOS 17.0, *)
-#Preview {
-   AddCourseViewController()
-}
-
 final class AddCourseViewController: BaseNavBarViewController {
    
-   private let viewModel = AddCourseViewModel()
+   // MARK: - UI Properties
    
    private var addCourseFirstView = AddCourseFirstView()
+   
+   // MARK: - Properties
+   
+   private let viewModel = AddCourseViewModel()
    
    // MARK: - Life Cycle
    
@@ -35,6 +34,8 @@ final class AddCourseViewController: BaseNavBarViewController {
       registerCell()
       bindViewModel()
    }
+   
+   // MARK: - Methods
    
    override func setHierarchy() {
       
@@ -64,6 +65,7 @@ final class AddCourseViewController: BaseNavBarViewController {
 }
 
 extension AddCourseViewController {
+   
    private func bindViewModel() {
       viewModel.dateName.bind { [weak self] date in
          self?.addCourseFirstView.addFirstView.dateNameTextField.text = date
@@ -71,11 +73,9 @@ extension AddCourseViewController {
       viewModel.visitDate.bind { [weak self] date in
          self?.addCourseFirstView.addFirstView.visitDateTextField.text = date
       }
-      
       viewModel.dateStartTime.bind { [weak self] date in
          self?.addCourseFirstView.addFirstView.dateStartTimeTextField.text = date
       }
-      
    }
    
    private func setAddTarget() {
@@ -90,6 +90,7 @@ extension AddCourseViewController {
 }
 
 extension AddCourseViewController: UITextFieldDelegate {
+   
    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
       if textField == addCourseFirstView.addFirstView.dateNameTextField {
          return true
@@ -184,6 +185,7 @@ extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewD
    
 }
 
+/// 이미지 개수에 따른 Cell 분기처리 대응 테스트 함수
 func getSampleImages() -> [UIImage?] {
    (1...9).map { _ in return UIImage(resource: .test) }
    //      return []

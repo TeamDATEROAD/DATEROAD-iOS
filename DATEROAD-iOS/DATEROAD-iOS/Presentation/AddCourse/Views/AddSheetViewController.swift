@@ -13,11 +13,15 @@ import Then
 
 final class AddSheetViewController: BaseViewController {
    
+   // MARK: - UI Properties
+   
    let addSheetView = AddSheetView()
    
    var viewModel: AddCourseViewModel?
    
    var addCourseFirstView: AddCourseFirstView?
+   
+   // MARK: - Initializer
    
    init(viewModel: AddCourseViewModel) {
       
@@ -28,6 +32,8 @@ final class AddSheetViewController: BaseViewController {
    required init?(coder: NSCoder) {
       fatalError("init(coder:) has not been implemented")
    }
+   
+   // MARK: - Life Cycle
    
    override func viewDidLoad() {
       super.viewDidLoad()
@@ -54,6 +60,9 @@ final class AddSheetViewController: BaseViewController {
 }
 
 extension AddSheetViewController {
+   
+   // MARK: - Methods
+   
    private func bindViewModel() {
       viewModel?.isNonError = { [weak self] in
          self?.addCourseFirstView?.updateVisitDateTextField(isPassValid: true)
