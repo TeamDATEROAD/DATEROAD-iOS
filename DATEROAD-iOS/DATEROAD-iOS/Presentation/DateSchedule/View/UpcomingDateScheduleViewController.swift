@@ -16,6 +16,10 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     private let titleLabel = UILabel()
     
+    private var cardScrollView = UIScrollView()
+    
+    private var cardPageControl = UIPageControl()
+    
     private var dateRegisterButton = UIButton()
     
     private var pastDateButton = UIButton()
@@ -33,8 +37,11 @@ class UpcomingDateScheduleViewController: BaseViewController {
     }
     
     override func setHierarchy() {
-        
-        self.view.addSubviews(titleLabel, dateRegisterButton, pastDateButton)
+        self.view.addSubviews(titleLabel,
+                              cardScrollView,
+                              cardPageControl,
+                              dateRegisterButton,
+                              pastDateButton)
     }
     
     override func setLayout() {
@@ -43,6 +50,17 @@ class UpcomingDateScheduleViewController: BaseViewController {
             $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(13)
             $0.leading.equalToSuperview().inset(16)
             $0.height.equalTo(28)
+        }
+        
+        cardScrollView.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(16)
+            $0.height.equalTo(406)
+        }
+        
+        cardPageControl.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(8)
+            $0.bottom.equalTo(dateRegisterButton.snp.top).inset(20)
         }
         
         dateRegisterButton.snp.makeConstraints {
@@ -67,6 +85,14 @@ class UpcomingDateScheduleViewController: BaseViewController {
             $0.font = UIFont.suit(.title_bold_20)
             $0.textColor = UIColor(resource: .drBlack)
             $0.text = "데이트 일정"
+        }
+        
+        cardScrollView.do {
+            
+        }
+        
+        cardPageControl.do {
+            
         }
         
         dateRegisterButton.do {
