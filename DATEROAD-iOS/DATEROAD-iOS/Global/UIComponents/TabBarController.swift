@@ -14,9 +14,10 @@ final class TabBarController: UITabBarController {
     
     // MARK: - UI Properties
     
+    //여기 임의로 아무 뷰컨 넣었어용
     let homeVC = CourseDetailViewController()
     
-    let courseVC = UIViewController()
+    let courseVC = PointDetailViewController()
     
     let dateVC = UIViewController()
     
@@ -52,7 +53,7 @@ private extension TabBarController {
         
         let normalTitleAttributes: [NSAttributedString.Key: Any] = [
             .font: font,
-            .foregroundColor: UIColor(resource: .gray200)
+            .foregroundColor: UIColor(resource: .gray300)
         ]
         
         let selectedTitleAttributes: [NSAttributedString.Key: Any] = [
@@ -126,7 +127,7 @@ private extension TabBarController {
         
         if let items = tabBar.items {
             for item in items {
-                 item.imageInsets = UIEdgeInsets(top: 3, left: 0, bottom: -5, right: 0)
+                 item.imageInsets = UIEdgeInsets(top: 3, left: 0, bottom: -6, right: 0)
             }
         }
     }
