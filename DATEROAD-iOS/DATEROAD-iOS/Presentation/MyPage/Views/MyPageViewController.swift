@@ -159,7 +159,7 @@ extension MyPageViewController: UITableViewDelegate {
             let myCourseVC = CourseDetailViewController(viewModel: CourseDetailViewModel())
             self.navigationController?.pushViewController(myCourseVC, animated: false)
         case .pointSystem:
-            let pointSystemVC = PointDetailViewController()
+            let pointSystemVC = PointSystemViewController(pointSystemViewModel: PointSystemViewModel())
             self.navigationController?.pushViewController(pointSystemVC, animated: false)
         case .inquiry:
             // 웹뷰는 present?
