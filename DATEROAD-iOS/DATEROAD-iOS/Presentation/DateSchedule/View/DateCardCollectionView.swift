@@ -22,7 +22,6 @@ class DateCardCollectionView: UICollectionView {
     
     var currentIndex: CGFloat = 0
     
-    var isOneStepPaging = true
     
     // MARK: - LifeCycle
     
@@ -44,11 +43,12 @@ class DateCardCollectionView: UICollectionView {
         self.contentInsetAdjustmentBehavior = .never
         self.clipsToBounds = true
         self.decelerationRate = .fast
+        self.showsHorizontalScrollIndicator = false
         
         DateCardCollectionView.dateCardCollectionViewLayout.do {
             $0.scrollDirection = .horizontal
             $0.minimumLineSpacing = ScreenUtils.width * 0.0693
-            $0.itemSize = CGSize(width: ScreenUtils.width * 0.776, height: 406)
+            $0.itemSize = CGSize(width: ScreenUtils.width * 0.776, height: ScreenUtils.height*0.5)
         }
     }
 
@@ -93,6 +93,7 @@ extension DateCardCollectionView: UICollectionViewDelegateFlowLayout {
         
         offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
         targetContentOffset.pointee = offset
+        currentIndex = roundedIndex
     }
 }
 

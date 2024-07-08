@@ -50,28 +50,28 @@ class UpcomingDateScheduleViewController: BaseViewController {
     override func setLayout() {
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(13)
+            $0.top.equalToSuperview().offset(64)
             $0.leading.equalToSuperview().inset(16)
             $0.height.equalTo(28)
         }
         
         dateRegisterButton.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(12)
+            $0.top.equalToSuperview().offset(63)
             $0.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(30)
             $0.width.equalTo(44)
         }
         
         cardCollectionView.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(128)
+            $0.top.equalToSuperview().offset(178)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(406)
+            $0.height.equalTo(ScreenUtils.height*0.5)
         }
         
         cardPageControl.snp.makeConstraints {
+            $0.top.equalTo(cardCollectionView.snp.bottom).offset(29)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(8)
-            $0.bottom.equalTo(dateRegisterButton.snp.top).inset(20)
         }
         
         pastDateButton.snp.makeConstraints {
@@ -96,6 +96,13 @@ class UpcomingDateScheduleViewController: BaseViewController {
             $0.isScrollEnabled = true
         }
         
+        cardPageControl.do {
+            $0.numberOfPages = upcomingDateScheduleData.dateCards.count
+            $0.currentPage = 0
+            $0.pageIndicatorTintColor = UIColor(resource: .gray200)
+            $0.currentPageIndicatorTintColor = UIColor(resource: .deepPurple)
+        }
+        
         dateRegisterButton.do {
             $0.backgroundColor = UIColor(resource: .deepPurple)
             $0.setImage(UIImage(resource: .plusSchedule), for: .normal)
@@ -112,9 +119,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
             $0.addTarget(self, action: #selector(pushToPastDateVC), for: .touchUpInside)
         }
         
-
     }
-
 }
 
 // MARK: - Private Method
@@ -129,6 +134,5 @@ private extension UpcomingDateScheduleViewController {
     func pushToPastDateVC() {
        print("지난 데이트로 이동")
     }
-    
 }
 
