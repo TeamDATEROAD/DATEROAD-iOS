@@ -57,4 +57,9 @@ enum StringLiterals {
         static let selectTag =  "최소 1개, 최대 3개를 선택해주세요."
     }
     
+    enum MyPage {
+        static let myPage = "마이페이지"
+        static let goToPointHistory = "포인트 내역 보기"
+    }
+    
 }

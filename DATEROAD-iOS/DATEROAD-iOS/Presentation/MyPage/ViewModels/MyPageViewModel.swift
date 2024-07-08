@@ -9,4 +9,21 @@ import Foundation
 
 final class MyPageViewModel {
     
+    var dummyData: ObservablePattern<UserInfoModel> = ObservablePattern(nil)
+    
+    var dummyTagData: ObservablePattern<[String]> = ObservablePattern(nil)
+    
+    init() {
+        fetchData()
+    }
+    
+}
+
+extension MyPageViewModel {
+    
+    func fetchData() {
+        dummyData.value = UserInfoModel.dummyData
+        dummyTagData.value = UserInfoModel.dummyData.tagList
+    }
+    
 }
