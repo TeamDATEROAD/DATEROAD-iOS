@@ -115,6 +115,7 @@
 		CAC80FC22C3C6CE500658EA6 /* PointSystemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FC12C3C6CE500658EA6 /* PointSystemCollectionViewCell.swift */; };
 		CAC80FC52C3C759B00658EA6 /* PointSystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FC42C3C759B00658EA6 /* PointSystemModel.swift */; };
 		CAC80FC82C3C75F200658EA6 /* PointSystemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FC72C3C75F200658EA6 /* PointSystemViewModel.swift */; };
+		CAC80FCA2C3C95A100658EA6 /* UICollectionViewFlowLayout+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FC92C3C95A000658EA6 /* UICollectionViewFlowLayout+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -221,6 +222,7 @@
 		CAC80FC12C3C6CE500658EA6 /* PointSystemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSystemCollectionViewCell.swift; sourceTree = "<group>"; };
 		CAC80FC42C3C759B00658EA6 /* PointSystemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSystemModel.swift; sourceTree = "<group>"; };
 		CAC80FC72C3C75F200658EA6 /* PointSystemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSystemViewModel.swift; sourceTree = "<group>"; };
+		CAC80FC92C3C95A000658EA6 /* UICollectionViewFlowLayout+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewFlowLayout+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -601,6 +603,7 @@
 				0DF905C72C39402A0072EE65 /* Int+.swift */,
 				CAA30AEC2C37E57400835DE3 /* String+.swift */,
 				0D0DA3D62C3AF2DE004210EE /* UIFont+.swift */,
+				CAC80FC92C3C95A000658EA6 /* UICollectionViewFlowLayout+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1032,6 +1035,7 @@
 				9E63BB202C35CF7200D5ED5B /* AddCourseViewController.swift in Sources */,
 				9E443A4C2C37ACEF00C1F92C /* AddCourseFirstView.swift in Sources */,
 				9E590B402C39375000039690 /* AddSheetView.swift in Sources */,
+				CAC80FCA2C3C95A100658EA6 /* UICollectionViewFlowLayout+.swift in Sources */,
 				9E443A4E2C3819DB00C1F92C /* AddFirstView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
