@@ -32,7 +32,7 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     private var dateStartTimeLabel = UILabel()
     
-    private var dateTimeLineCollectionView = UIView()
+    private var dateTimeLineCollectionView = DateTimeLineCollectionView()
     
     private var dateDeleteButton = UIButton()
     
@@ -40,8 +40,9 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - Properties
     
-    private let upcomingDateCardViewModel = DateScheduleViewModel()
+    private let upcomingDateCardViewModel = DateDetailViewModel()
     
+    private lazy var upcomingDataDetailData = upcomingDateCardViewModel.upcomingDateDetailDummyData
     
     // MARK: - LifeCycle
     
@@ -49,6 +50,9 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
         super.viewDidLoad()
         
         setLeftBackButton()
+        setTitleLabelStyle(title: "데이트 일정")
+        setRightButtonStyle(image: UIImage(resource: .moreButton))
+        setRightButtonAction(target: self, action: #selector(deleteDateCourse))
        
     }
     
@@ -65,20 +69,20 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
                                      titleLabel,
                                      dateDetailView)
         
-        dateDetailView.addSubviews(dateStartTimeLabel, dateTimeLineCollectionView, dateDeleteButton)
+        dateDetailView.addSubviews(dateStartTimeLabel, dateTimeLineCollectionView)
     }
     
     override func setLayout() {
         super.setLayout()
         
         dateLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().inset(12)
             $0.leading.equalToSuperview().inset(16)
             $0.height.equalTo(21)
         }
         
         dDayButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().inset(13)
             $0.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(19)
         }
@@ -86,35 +90,36 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
         titleLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
             $0.top.equalTo(dateLabel.snp.bottom).offset(5)
-            $0.bottom.equalToSuperview().inset(25)
+            $0.height.equalTo(62)
+            $0.width.equalTo(241)
         }
         
         locationLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
-            $0.top.equalToSuperview().inset(189)
+            $0.top.equalToSuperview().inset(127)
         }
         
         firstTagButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
-            $0.top.equalToSuperview().inset(220)
+            $0.top.equalToSuperview().inset(158)
             $0.height.equalTo(30)
         }
         
         secondTagButton.snp.makeConstraints {
             $0.leading.equalTo(firstTagButton.snp.trailing).offset(7)
-            $0.top.equalToSuperview().inset(220)
+            $0.top.equalToSuperview().inset(158)
             $0.height.equalTo(30)
         }
         
         thirdTagButton.snp.makeConstraints {
             $0.leading.equalTo(secondTagButton.snp.trailing).offset(7)
-            $0.top.equalToSuperview().inset(220)
+            $0.top.equalToSuperview().inset(158)
             $0.height.equalTo(30)
         }
         
         dateDetailView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
-            $0.top.equalToSuperview().offset(270)
+            $0.top.equalToSuperview().offset(206)
             $0.bottom.equalToSuperview()
         }
         
@@ -128,13 +133,6 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
             $0.top.equalToSuperview().inset(63)
             $0.height.equalTo(318)
         }
-        
-        dateDeleteButton.snp.makeConstraints {
-            $0.width.equalTo(60)
-            $0.height.equalTo(30)
-            $0.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(63)
-        }
 
     }
     
@@ -144,10 +142,8 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
         self.contentView.backgroundColor = UIColor(resource: .lilac)
 
         dateLabel.do {
-            $0.font = UIFont.suit(.title_extra_24)
+            $0.font = UIFont.suit(.body_semi_15)
             $0.textColor = UIColor(resource: .drBlack)
-            $0.numberOfLines = 2
-            
         }
         
         dDayButton.do {
@@ -190,16 +186,16 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
             $0.roundCorners(cornerRadius: 20, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
         }
         
-        dateDeleteButton.do {
-            $0.backgroundColor = UIColor(resource: .drWhite)
-            $0.setTitle("삭제", for: .normal)
-            $0.titleLabel?.textColor = UIColor(resource: .gray400)
-            $0.contentEdgeInsets = UIEdgeInsets(top: 6, left: 18.5, bottom: 6, right: 18.5)
+        dateStartTimeLabel.do {
+            $0.font = UIFont.suit(.body_semi_15)
+            $0.textColor = UIColor(resource: .drBlack)
+            $0.text = "시작시간: \(upcomingDataDetailData.startTime ?? "12:00")"
+        }
+        
+        dateTimeLineCollectionView.do {
+            $0.setUpBindings(upcomingDateDetailData: upcomingDataDetailData)
         }
     }
-    
-    
-    
 }
 
 extension UpcomingDateDetailViewController {
@@ -219,5 +215,13 @@ extension UpcomingDateDetailViewController {
         self.locationLabel.text = dateCardData.dateLocation
         self.titleLabel.text = dateCardData.dateTitle
     }
+
 }
 
+extension UpcomingDateDetailViewController {
+    
+    @objc
+    func deleteDateCourse() {
+        print("delete date course 바텀시트")
+    }
+}

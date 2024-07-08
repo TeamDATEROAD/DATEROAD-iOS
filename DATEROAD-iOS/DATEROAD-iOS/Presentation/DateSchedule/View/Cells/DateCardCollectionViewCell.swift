@@ -10,6 +10,8 @@ import UIKit
 import SnapKit
 import Then
 
+//민서언니 코드랑 같음 !! -> 나중에 병합
+
 class DateCardCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties

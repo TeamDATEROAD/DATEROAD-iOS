@@ -116,3 +116,16 @@ struct DateScheduleTagButton: DRButtonType {
     var cornerRadius: CGFloat = 16
 
 }
+
+struct DateDetailTagButton: DRButtonType {
+    
+    var bgColor: UIColor =  UIColor(resource: .lightPink)
+    
+    var fontColor: UIColor = UIColor(resource: .drBlack)
+    
+    var font: UIFont = UIFont.suit(.body_med_13)
+    
+    var cornerRadius: CGFloat = 16
+
+}
+

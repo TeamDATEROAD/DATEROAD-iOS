@@ -35,10 +35,12 @@ struct DateScheduleModel {
     }
 }
 
-struct DateDetailModel {
+struct DateTimeLineModel {
+    let startTime: String?
     let places: [DatePlacesModel]
     
-    init(places: [DatePlacesModel]) {
+    init(startTime: String?, places: [DatePlacesModel]) {
+        self.startTime = startTime
         self.places = places
     }
 }
