@@ -5,6 +5,7 @@
 //  Created by 이수민 on 7/8/24.
 //
 
+/*
 import UIKit
 
 import SnapKit
@@ -21,8 +22,6 @@ class DateCardCollectionView: UICollectionView {
     lazy var upcomingDateScheduleData = DateScheduleModel(dateCards: [])
     
     var currentIndex: CGFloat = 0
-    
-    var detailData: Int = 0
     
     // MARK: - LifeCycle
     
@@ -94,7 +93,7 @@ extension DateCardCollectionView: UICollectionViewDelegateFlowLayout {
         
         offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
         targetContentOffset.pointee = offset
-        currentIndex = roundedIndex
+        // updatePageControlSelectedIndex(index: currentIndex)
     }
 }
 
@@ -123,4 +122,4 @@ extension DateCardCollectionView: UICollectionViewDataSource {
             upcomingDateDetailVC.dataBind(upcomingDateScheduleData.dateCards[indexPath.item])
         }
     }
-}
+}*/

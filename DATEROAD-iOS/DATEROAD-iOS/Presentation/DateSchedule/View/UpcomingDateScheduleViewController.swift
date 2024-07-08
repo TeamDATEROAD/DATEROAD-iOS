@@ -14,15 +14,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     // MARK: - UI Properties
     
-    private let titleLabel = UILabel()
-    
-    private var cardCollectionView = DateCardCollectionView()
-    
-    private var cardPageControl = UIPageControl()
-    
-    private var dateRegisterButton = UIButton()
-    
-    private var pastDateButton = UIButton()
+    private var upcomingDateScheduleView = UpcomingDateScheduleView()
     
     
     // MARK: - Properties
@@ -36,93 +28,23 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        register()
+        setDelegate()
+        setupBindings()
     }
     
     override func setHierarchy() {
-        self.view.addSubviews(titleLabel,
-                              cardCollectionView,
-                              cardPageControl,
-                              dateRegisterButton,
-                              pastDateButton)
+        self.view.addSubviews(upcomingDateScheduleView)
     }
     
     override func setLayout() {
-        
-        titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(64)
-            $0.leading.equalToSuperview().inset(16)
-            $0.height.equalTo(28)
+        upcomingDateScheduleView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
-        
-        dateRegisterButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(63)
-            $0.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(30)
-            $0.width.equalTo(44)
-        }
-        
-        cardCollectionView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(178)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(ScreenUtils.height*0.5)
-        }
-        
-        cardPageControl.snp.makeConstraints {
-            $0.top.equalTo(cardCollectionView.snp.bottom).offset(29)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(8)
-        }
-        
-        pastDateButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(127)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(44)
-            $0.width.equalTo(177)
-        }
-    }
-    
-    override func setStyle() {
-        self.view.backgroundColor = UIColor(resource: .drWhite)
-        
-        titleLabel.do {
-            $0.font = UIFont.suit(.title_bold_20)
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.text = "데이트 일정"
-        }
-        
-        cardCollectionView.do {
-            $0.setUpBindings(upcomingDateScheduleData: upcomingDateScheduleData)
-            $0.isScrollEnabled = true
-        }
-        
-        cardPageControl.do {
-            $0.numberOfPages = upcomingDateScheduleData.dateCards.count
-            $0.currentPage = 0
-            $0.pageIndicatorTintColor = UIColor(resource: .gray200)
-            $0.currentPageIndicatorTintColor = UIColor(resource: .deepPurple)
-        }
-        
-        dateRegisterButton.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
-            $0.setImage(UIImage(resource: .plusSchedule), for: .normal)
-            $0.addTarget(self, action: #selector(pushToDateRegisterVC), for: .touchUpInside)
-            $0.roundedButton(cornerRadius: 14, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
-        }
-        
-        pastDateButton.do {
-            $0.backgroundColor = UIColor(resource: .gray100)
-            $0.roundedButton(cornerRadius: 13, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
-            $0.setTitle("지난 데이트 보기", for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_bold_15)
-            $0.titleLabel?.textColor = UIColor(resource: .drBlack)
-            $0.addTarget(self, action: #selector(pushToPastDateVC), for: .touchUpInside)
-        }
-        
     }
 }
 
-// MARK: - Private Method
+// MARK: - Private Methods
 
 private extension UpcomingDateScheduleViewController {
     @objc
@@ -134,5 +56,90 @@ private extension UpcomingDateScheduleViewController {
     func pushToPastDateVC() {
        print("지난 데이트로 이동")
     }
+    
+    func setupBindings() {
+        upcomingDateScheduleView.cardPageControl.do {
+            $0.numberOfPages = upcomingDateScheduleData.dateCards.count
+        }
+        
+        upcomingDateScheduleView.dateRegisterButton.do {
+            $0.addTarget(self, action: #selector(pushToDateRegisterVC), for: .touchUpInside)
+        }
+        
+        upcomingDateScheduleView.pastDateButton.do {
+            $0.addTarget(self, action: #selector(pushToPastDateVC), for: .touchUpInside)
+        }
+    }
+    
 }
 
+// MARK: - CollectionView Methods
+
+extension UpcomingDateScheduleViewController {
+    private func register() {
+        upcomingDateScheduleView.cardCollectionView.register(DateCardCollectionViewCell.self, forCellWithReuseIdentifier: DateCardCollectionViewCell.cellIdentifier)
+    }
+    
+    private func setDelegate() {
+        upcomingDateScheduleView.cardCollectionView.delegate = self
+        upcomingDateScheduleView.cardCollectionView.dataSource = self
+    }
+    
+    func setUpBindings(upcomingDateScheduleData: DateScheduleModel) {
+        upcomingDateScheduleView.upcomingDateScheduleData = upcomingDateScheduleData
+        upcomingDateScheduleView.cardCollectionView.reloadData()
+    }
+}
+
+// MARK: - Delegate
+
+extension UpcomingDateScheduleViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return UpcomingDateScheduleView.dateCardCollectionViewLayout.itemSize
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: ScreenUtils.width * 0.112, bottom: 0, right: ScreenUtils.width * 0.112)
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let layout = UpcomingDateScheduleView.dateCardCollectionViewLayout
+        let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
+        
+        var offset = targetContentOffset.pointee
+        let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
+        let roundedIndex = round(index)
+        
+        offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
+        targetContentOffset.pointee = offset
+        upcomingDateScheduleView.updatePageControlSelectedIndex(index: Int(roundedIndex))
+    }
+}
+
+
+// MARK: - DataSource
+
+extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return upcomingDateScheduleData.dateCards.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateCardCollectionViewCell.cellIdentifier, for: indexPath) as? DateCardCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        cell.dataBind(upcomingDateScheduleData.dateCards[indexPath.item], indexPath.item)
+        cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToUpcomingDateDetailVC(_:))))
+        return cell
+    }
+    
+    @objc func pushToUpcomingDateDetailVC(_ sender: UITapGestureRecognizer) {
+        let location = sender.location(in: upcomingDateScheduleView.cardCollectionView)
+        if let indexPath = upcomingDateScheduleView.cardCollectionView.indexPathForItem(at: location) {
+            let upcomingDateDetailVC = UpcomingDateDetailViewController()
+            UpcomingDateScheduleViewController().navigationController?.pushViewController(upcomingDateDetailVC, animated: true)
+            upcomingDateDetailVC.dataBind(upcomingDateScheduleData.dateCards[indexPath.item])
+        }
+    }
+}
+  
