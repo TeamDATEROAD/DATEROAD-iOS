@@ -63,8 +63,8 @@ private extension TabBarController {
         homeVC.do {
             $0.tabBarItem = UITabBarItem(
                 title: StringLiterals.TabBar.home,
-                image: UIImage(resource: .icHome).withRenderingMode(.alwaysOriginal), // 원본 이미지 사용
-                selectedImage: UIImage(resource: .icHome).withRenderingMode(.alwaysTemplate) // 선택된 상태의 이미지
+                image: UIImage(resource: .icHome).withRenderingMode(.alwaysOriginal),
+                selectedImage: UIImage(resource: .icHome).withRenderingMode(.alwaysTemplate)
             )
             $0.tabBarItem.setTitleTextAttributes(normalTitleAttributes, for: .normal)
             $0.tabBarItem.setTitleTextAttributes(selectedTitleAttributes, for: .selected)
@@ -75,8 +75,8 @@ private extension TabBarController {
             $0.view.backgroundColor = UIColor(resource: .drWhite)
             $0.tabBarItem = UITabBarItem(
                 title: StringLiterals.TabBar.course,
-                image: UIImage(resource: .icLook).withRenderingMode(.alwaysOriginal), // 원본 이미지 사용
-                selectedImage: UIImage(resource: .icLook).withRenderingMode(.alwaysTemplate) // 선택된 상태의 이미지
+                image: UIImage(resource: .icLook).withRenderingMode(.alwaysOriginal),
+                selectedImage: UIImage(resource: .icLook).withRenderingMode(.alwaysTemplate)
             )
             $0.tabBarItem.setTitleTextAttributes(normalTitleAttributes, for: .normal)
             $0.tabBarItem.setTitleTextAttributes(selectedTitleAttributes, for: .selected)
@@ -86,8 +86,8 @@ private extension TabBarController {
         dateVC.do {
             $0.tabBarItem = UITabBarItem(
                 title: StringLiterals.TabBar.date,
-                image: UIImage(resource: .icTimeline).withRenderingMode(.alwaysOriginal), // 원본 이미지 사용
-                selectedImage: UIImage(resource: .icTimeline).withRenderingMode(.alwaysTemplate) // 선택된 상태의 이미지
+                image: UIImage(resource: .icTimeline).withRenderingMode(.alwaysOriginal),
+                selectedImage: UIImage(resource: .icTimeline).withRenderingMode(.alwaysTemplate)
             )
             $0.tabBarItem.setTitleTextAttributes(normalTitleAttributes, for: .normal)
             $0.tabBarItem.setTitleTextAttributes(selectedTitleAttributes, for: .selected)
@@ -97,8 +97,8 @@ private extension TabBarController {
         viewedCourseVC.do {
             $0.tabBarItem = UITabBarItem(
                 title: StringLiterals.TabBar.viewedCourse,
-                image: UIImage(resource: .icRead).withRenderingMode(.alwaysOriginal), // 원본 이미지 사용
-                selectedImage: UIImage(resource: .icRead).withRenderingMode(.alwaysTemplate) // 선택된 상태의 이미지
+                image: UIImage(resource: .icRead).withRenderingMode(.alwaysOriginal),
+                selectedImage: UIImage(resource: .icRead).withRenderingMode(.alwaysTemplate)
             )
             $0.tabBarItem.setTitleTextAttributes(normalTitleAttributes, for: .normal)
             $0.tabBarItem.setTitleTextAttributes(selectedTitleAttributes, for: .selected)
@@ -108,8 +108,8 @@ private extension TabBarController {
         mypageVC.do {
             $0.tabBarItem = UITabBarItem(
                 title: StringLiterals.TabBar.myPage,
-                image: UIImage(resource: .icMypage).withRenderingMode(.alwaysOriginal), // 원본 이미지 사용
-                selectedImage: UIImage(resource: .icMypage).withRenderingMode(.alwaysTemplate) // 선택된 상태의 이미지
+                image: UIImage(resource: .icMypage).withRenderingMode(.alwaysOriginal),
+                selectedImage: UIImage(resource: .icMypage).withRenderingMode(.alwaysTemplate) 
             )
             $0.tabBarItem.setTitleTextAttributes(normalTitleAttributes, for: .normal)
             $0.tabBarItem.setTitleTextAttributes(selectedTitleAttributes, for: .selected)
@@ -126,7 +126,7 @@ private extension TabBarController {
         
         if let items = tabBar.items {
             for item in items {
-                 item.imageInsets = UIEdgeInsets(top: 3, left: 0, bottom: -7, right: 0)
+                 item.imageInsets = UIEdgeInsets(top: 3, left: 0, bottom: -5, right: 0)
             }
         }
     }
