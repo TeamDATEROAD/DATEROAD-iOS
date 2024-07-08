@@ -1,5 +1,5 @@
 //
-//  CityCollectionViewCell.swift
+//  CityLabelCollectionViewCell.swift
 //  DATEROAD-iOS
 //
 //  Created by 김민서 on 7/9/24.
@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class CityLabelCollectionViewCell: BaseCollectionViewCell {
+final class CountryLabelCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
@@ -59,10 +59,9 @@ final class CityLabelCollectionViewCell: BaseCollectionViewCell {
     }
 }
 
-extension CityLabelCollectionViewCell {
+extension CountryLabelCollectionViewCell {
     func configure(with locationData: LocationModel, isSelected: Bool) {
         cityLabel.text = locationData.counrty
         updateSelectionState(isSelected)
     }
 }
-
