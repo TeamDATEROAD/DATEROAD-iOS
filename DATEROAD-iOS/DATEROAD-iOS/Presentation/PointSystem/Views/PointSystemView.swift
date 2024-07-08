@@ -68,6 +68,7 @@ final class PointSystemView: BaseView {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .vertical
             $0.collectionViewLayout = layout
+            $0.showsVerticalScrollIndicator = false
             $0.backgroundColor = UIColor(resource: .drWhite)
         }
     }

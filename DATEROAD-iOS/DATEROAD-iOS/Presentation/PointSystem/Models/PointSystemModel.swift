@@ -30,6 +30,9 @@ struct PointSystemModel {
                                          subTitle: StringLiterals.PointSystem.secondSubSystem),
                 PointSystemModel(illustration: UIImage(resource: .emptyProfileImg),
                                          mainTitle: StringLiterals.PointSystem.thirdMainSystem,
-                                         subTitle: StringLiterals.PointSystem.thirdSubSystem)]
+                                         subTitle: StringLiterals.PointSystem.thirdSubSystem),
+                PointSystemModel(illustration: UIImage(resource: .emptyProfileImg),
+                                         mainTitle: StringLiterals.PointSystem.fourthMainSystem,
+                                         subTitle: StringLiterals.PointSystem.fourthSubSystem)]
     }()
 }

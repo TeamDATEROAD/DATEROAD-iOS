@@ -57,7 +57,6 @@ final class PointSystemCollectionViewCell: BaseCollectionViewCell {
         
         mainLabel.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.setAttributedText(fullText: <#T##String#>, pointText: <#T##String#>, pointColor: <#T##UIColor#>, lineHeight: <#T##CGFloat#>)
             $0.setLabel(alignment: .left, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_bold_15))
             $0.numberOfLines = 2
         }
