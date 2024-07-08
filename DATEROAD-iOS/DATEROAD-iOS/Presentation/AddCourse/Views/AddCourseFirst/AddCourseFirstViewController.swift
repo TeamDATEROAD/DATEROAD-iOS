@@ -10,11 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
-final class AddCourseViewController: BaseNavBarViewController {
+final class AddCourseFirstViewController: BaseNavBarViewController {
    
    // MARK: - UI Properties
    
-   private var addCourseFirstView = AddCourseFirstView()
+   var addCourseFirstView = AddCourseFirstView()
    
    // MARK: - Properties
    
@@ -64,7 +64,7 @@ final class AddCourseViewController: BaseNavBarViewController {
    
 }
 
-extension AddCourseViewController {
+extension AddCourseFirstViewController {
    
    private func bindViewModel() {
       viewModel.dateName.bind { [weak self] date in
@@ -76,13 +76,12 @@ extension AddCourseViewController {
       viewModel.dateStartTime.bind { [weak self] date in
          self?.addCourseFirstView.addFirstView.dateStartTimeTextField.text = date
       }
-      viewModel.isDateNameError = { [weak self] date in
-         self?.addCourseFirstView.updateDateNameTextField(isPassValid: !date)
+      viewModel.isDateNameValid.bind { [weak self] date in
+         self?.addCourseFirstView.updateDateNameTextField(isPassValid: date ?? true)
       }
-      viewModel.isVisitDateError = { [weak self] date in
-         self?.addCourseFirstView.updateVisitDateTextField(isPassValid: !date)
+      viewModel.isVisitDateValid.bind { [weak self] date in
+         self?.addCourseFirstView.updateVisitDateTextField(isPassValid: date ?? true)
       }
-      
    }
    
    private func setAddTarget() {
@@ -97,7 +96,7 @@ extension AddCourseViewController {
    
 }
 
-extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension AddCourseFirstViewController: UICollectionViewDataSource, UICollectionViewDelegate {
    
    private func registerCell() {
       addCourseFirstView.collectionView.do {
@@ -137,7 +136,7 @@ extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewD
    
 }
 
-extension AddCourseViewController: UITextFieldDelegate {
+extension AddCourseFirstViewController: UITextFieldDelegate {
    
    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
       if textField == addCourseFirstView.addFirstView.dateNameTextField {

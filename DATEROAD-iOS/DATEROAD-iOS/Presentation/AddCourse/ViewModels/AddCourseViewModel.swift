@@ -21,13 +21,18 @@ final class AddCourseViewModel {
    
    var visitDate: ObservablePattern<String> = ObservablePattern("")
    
+   /// 데이트 시작시간 유효성 판별 (self.count > 0 인지)
    var dateStartTime: ObservablePattern<String> = ObservablePattern("")
    
+   /// ImageCollection 유효성 판별
    var isImageEmpty: ObservablePattern<Bool> = ObservablePattern(true)
    
-   var isDateNameError: ((Bool) -> Void)?
+   /// 데이트 이름 유효성 판별 (true는 통과)
+   var isDateNameValid: ObservablePattern<Bool> = ObservablePattern(nil)
    
-   var isVisitDateError: ((Bool) -> Void)?
+//   var isDateNameError: ((Bool) -> Void)?
+   
+   var isVisitDateValid: ObservablePattern<Bool> = ObservablePattern(nil)
    
    var tagButtonsArr: [UIButton] = []
    
@@ -53,9 +58,10 @@ extension AddCourseViewModel {
          let today = Date()
          let selectedDate = dateFormatter.date(from: dateStr)
          
-         let flag = (selectedDate ?? today) > today
+         // 현재 selectedDate가 미래 일자가 아니라면 true
+         let flag = (selectedDate ?? today) <= today
          
-         self.isVisitDateError?(flag)
+         self.isVisitDateValid.value = flag
       } else {
          let dateformatter = DateFormatter()
          dateformatter.dateStyle = .none
@@ -66,8 +72,8 @@ extension AddCourseViewModel {
    }
    
    func isDateNameValid(cnt: Int) {
-      let flag = cnt < 5
-      isDateNameError?(flag)
+      let flag = cnt >= 5
+      isDateNameValid.value = flag
    }
    
    func getSampleImages() -> Bool {
