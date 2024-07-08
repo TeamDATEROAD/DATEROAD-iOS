@@ -14,7 +14,9 @@ class BaseCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    static let cellIdentifier = String(describing: BaseCollectionViewCell.self)
+    static var cellIdentifier: String {
+        return String(describing: self)
+    }
     
     
     // MARK: - Life Cycle

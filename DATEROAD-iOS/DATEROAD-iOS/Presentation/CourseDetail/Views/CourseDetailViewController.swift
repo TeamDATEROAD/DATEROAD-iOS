@@ -104,12 +104,12 @@ private extension CourseDetailViewController {
     
     func registerCell() {
         mainCollectionView.do {
-            $0.register(ImageCarouselCell.self, forCellWithReuseIdentifier: ImageCarouselCell.identifier)
-            $0.register(MainContentsCell.self, forCellWithReuseIdentifier: MainContentsCell.identifier)
-            $0.register(TimelineInfoCell.self, forCellWithReuseIdentifier: TimelineInfoCell.identifier)
-            $0.register(CoastInfoCell.self, forCellWithReuseIdentifier: CoastInfoCell.identifier)
-            $0.register(TagInfoCell.self, forCellWithReuseIdentifier: TagInfoCell.identifier)
-            $0.register(BringCourseCell.self, forCellWithReuseIdentifier: BringCourseCell.identifier)
+            $0.register(ImageCarouselCell.self, forCellWithReuseIdentifier: ImageCarouselCell.cellIdentifier)
+            $0.register(MainContentsCell.self, forCellWithReuseIdentifier: MainContentsCell.cellIdentifier)
+            $0.register(TimelineInfoCell.self, forCellWithReuseIdentifier: TimelineInfoCell.cellIdentifier)
+            $0.register(CoastInfoCell.self, forCellWithReuseIdentifier: CoastInfoCell.cellIdentifier)
+            $0.register(TagInfoCell.self, forCellWithReuseIdentifier: TagInfoCell.cellIdentifier)
+            $0.register(BringCourseCell.self, forCellWithReuseIdentifier: BringCourseCell.cellIdentifier)
         
             $0.register(GradientView.self, forSupplementaryViewOfKind: GradientView.elementKinds, withReuseIdentifier: GradientView.identifier)
             
@@ -301,38 +301,38 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         
         switch sectionType {
         case .imageCarousel:
-            guard let imageCarouselCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCarouselCell.identifier, for: indexPath) as? ImageCarouselCell else {
+            guard let imageCarouselCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCarouselCell.cellIdentifier, for: indexPath) as? ImageCarouselCell else {
                 fatalError("Unable to dequeue ImageCarouselCell")
             }
             imageCarouselCell.setPageVC(imageData: imageData)
             imageCarouselCell.delegate = self
             return imageCarouselCell
         case .mainContents:
-            guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.identifier, for: indexPath) as? MainContentsCell else {
+            guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.cellIdentifier, for: indexPath) as? MainContentsCell else {
                 fatalError("Unable to dequeue MainContentsCell")
             }
             mainContentsCell.setCell(mainContentsData: mainContentsData)
             return mainContentsCell
         case .timelineInfo:
-            guard let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.identifier, for: indexPath) as? TimelineInfoCell else {
+            guard let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.cellIdentifier, for: indexPath) as? TimelineInfoCell else {
                 fatalError("Unable to dequeue TimelineInfoCell")
             }
             timelineInfoCell.setCell(timelineData[indexPath.row])
             return timelineInfoCell
         case .coastInfo:
-            guard let coastInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.identifier, for: indexPath) as? CoastInfoCell else {
+            guard let coastInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.cellIdentifier, for: indexPath) as? CoastInfoCell else {
                 fatalError("Unable to dequeue CoastInfoCell")
             }
             coastInfoCell.setCell(coastData: coastData)
             return coastInfoCell
         case .tagInfo:
-            guard let tagInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCell.identifier, for: indexPath) as? TagInfoCell else {
+            guard let tagInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCell.cellIdentifier, for: indexPath) as? TagInfoCell else {
                 fatalError("Unable to dequeue TagInfoCell")
             }
             tagInfoCell.setCell(tagData: tagData[indexPath.row])
             return tagInfoCell
         case .bringCourse:
-            guard let bringCourseCell = collectionView.dequeueReusableCell(withReuseIdentifier: BringCourseCell.identifier, for: indexPath) as? BringCourseCell else {
+            guard let bringCourseCell = collectionView.dequeueReusableCell(withReuseIdentifier: BringCourseCell.cellIdentifier, for: indexPath) as? BringCourseCell else {
                 fatalError("Unable to dequeue TagInfoCell")
             }
             return bringCourseCell
