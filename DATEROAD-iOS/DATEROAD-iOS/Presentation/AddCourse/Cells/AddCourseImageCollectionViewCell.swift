@@ -22,12 +22,6 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
    
    private let emptyLabel = UILabel()
    
-   // MARK: - Properties
-   
-//   var emptyType = true
-   
-   
-   
    // MARK: - Initializer
    
    override init(frame: CGRect) {
