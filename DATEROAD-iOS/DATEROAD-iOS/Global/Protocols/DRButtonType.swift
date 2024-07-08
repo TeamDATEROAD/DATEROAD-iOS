@@ -113,7 +113,7 @@ struct DateScheduleTagButton: DRButtonType {
     
     var font: UIFont = UIFont.suit(.body_semi_15)
     
-    var cornerRadius: CGFloat = 16
+    var cornerRadius: CGFloat = 15
 
 }
 

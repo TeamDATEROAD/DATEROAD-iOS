@@ -15,6 +15,9 @@ import Then
 class DateCardCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
+    private var topImageView = UIImageView()
+    
+    private var bottomImageView = UIImageView()
     
     private var dateLabel = UILabel()
     
@@ -55,7 +58,9 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
     
     
     override func setHierarchy() {
-        self.addSubviews(dateLabel,
+        self.addSubviews(topImageView,
+                         bottomImageView,
+                         dateLabel,
                          dDayButton,
                          firstTagButton,
                          secondTagButton,
@@ -68,6 +73,18 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func setLayout() {
+        
+        topImageView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(44)
+            $0.width.equalToSuperview()
+            $0.height.equalTo(215.79)
+        }
+        
+        bottomImageView.snp.makeConstraints {
+            $0.trailing.bottom.equalToSuperview()
+            $0.leading.equalToSuperview().inset(123)
+            $0.top.equalToSuperview().inset(346)
+        }
         
         dateLabel.snp.makeConstraints {
             $0.top.leading.equalToSuperview().inset(20)
@@ -88,13 +105,13 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
         
         secondTagButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(83)
-            $0.top.equalToSuperview().inset(184)
+            $0.top.equalToSuperview().inset(189)
             $0.height.equalTo(29)
         }
         
         thirdTagButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(39)
-            $0.top.equalToSuperview().inset(147)
+            $0.top.equalToSuperview().inset(146.21)
             $0.height.equalTo(29)
         }
         
@@ -131,6 +148,13 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
         self.backgroundColor = UIColor(resource: .lilac)
         self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
         
+        topImageView.do {
+            $0.image = UIImage(resource: .lilacTop)
+        }
+        
+        bottomImageView.do {
+            $0.image = UIImage(resource: .lilacBottom)
+        }
         
         dateLabel.do {
             $0.font = UIFont.suit(.title_extra_24)
@@ -155,11 +179,13 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
         secondTagButton.do {
             $0.setButtonStatus(buttonType: tagButtonType)
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
+            $0.transform = CGAffineTransform(rotationAngle: CGFloat(15 * Double.pi / 180))
         }
         
         thirdTagButton.do {
             $0.setButtonStatus(buttonType: tagButtonType)
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
+            $0.transform = CGAffineTransform(rotationAngle: CGFloat(-12 * Double.pi / 180))
         }
         
         dotDividerView.do {

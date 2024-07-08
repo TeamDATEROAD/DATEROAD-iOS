@@ -114,11 +114,11 @@ class UpcomingDateScheduleView: BaseView {
         }
         
         pastDateButton.do {
-            $0.backgroundColor = UIColor(resource: .gray100)
-            $0.roundedButton(cornerRadius: 13, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
             $0.setTitle("지난 데이트 보기", for: .normal)
+            $0.backgroundColor = UIColor(resource: .gray100)
             $0.titleLabel?.font = UIFont.suit(.body_bold_15)
-            $0.titleLabel?.textColor = UIColor(resource: .drBlack)
+            $0.setTitleColor(UIColor(resource: .drBlack), for: .normal)
+            $0.roundedButton(cornerRadius: 13, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
         }
         
     }
