@@ -27,8 +27,9 @@
 		0D9497D32C33BD760004B442 /* BottomPageControllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497D22C33BD760004B442 /* BottomPageControllView.swift */; };
 		0DA920F22C3C0AF500A6A321 /* MainContentsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA920F12C3C0AF500A6A321 /* MainContentsCell.swift */; };
 		0DDFEE0D2C3C513E008C6022 /* LocationFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE0C2C3C513E008C6022 /* LocationFilterViewController.swift */; };
-		0DDFEE0F2C3C5D0A008C6022 /* CityLabelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE0E2C3C5D0A008C6022 /* CityLabelCollectionViewCell.swift */; };
+		0DDFEE0F2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE0E2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift */; };
 		0DDFEE112C3C6576008C6022 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE102C3C6576008C6022 /* LocationModel.swift */; };
+		0DDFEE132C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE122C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift */; };
 		0DF905C02C3921AD0072EE65 /* ImageGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905BF2C3921AD0072EE65 /* ImageGradientView.swift */; };
 		0DF905C22C39294A0072EE65 /* MainContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905C12C39294A0072EE65 /* MainContents.swift */; };
 		0DF905C42C39295F0072EE65 /* TimelineContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905C32C39295F0072EE65 /* TimelineContents.swift */; };
@@ -120,8 +121,9 @@
 		0D9497D22C33BD760004B442 /* BottomPageControllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPageControllView.swift; sourceTree = "<group>"; };
 		0DA920F12C3C0AF500A6A321 /* MainContentsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentsCell.swift; sourceTree = "<group>"; };
 		0DDFEE0C2C3C513E008C6022 /* LocationFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFilterViewController.swift; sourceTree = "<group>"; };
-		0DDFEE0E2C3C5D0A008C6022 /* CityLabelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityLabelCollectionViewCell.swift; sourceTree = "<group>"; };
+		0DDFEE0E2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryLabelCollectionViewCell.swift; sourceTree = "<group>"; };
 		0DDFEE102C3C6576008C6022 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
+		0DDFEE122C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityLabelCollectionViewCell.swift; sourceTree = "<group>"; };
 		0DF905BF2C3921AD0072EE65 /* ImageGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGradientView.swift; sourceTree = "<group>"; };
 		0DF905C12C39294A0072EE65 /* MainContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContents.swift; sourceTree = "<group>"; };
 		0DF905C32C39295F0072EE65 /* TimelineContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineContents.swift; sourceTree = "<group>"; };
@@ -320,8 +322,9 @@
 			isa = PBXGroup;
 			children = (
 				0DDFEE0C2C3C513E008C6022 /* LocationFilterViewController.swift */,
-				0DDFEE0E2C3C5D0A008C6022 /* CityLabelCollectionViewCell.swift */,
+				0DDFEE0E2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift */,
 				0DDFEE102C3C6576008C6022 /* LocationModel.swift */,
+				0DDFEE122C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift */,
 			);
 			path = LocationFilter;
 			sourceTree = "<group>";
@@ -807,6 +810,7 @@
 				0D0DA3D72C3AF2DE004210EE /* UIFont+.swift in Sources */,
 				747819402C3AB7E10040D5E7 /* ViewedCourseViewModel.swift in Sources */,
 				CA4EF3B42C3284BB003B02B6 /* BaseView.swift in Sources */,
+				0DDFEE132C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift in Sources */,
 				0DF905CA2C399F750072EE65 /* PreviewView.swift in Sources */,
 				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
 				CA4EF3DF2C347B4E003B02B6 /* DRButtonType.swift in Sources */,
@@ -816,7 +820,7 @@
 				0D06D9A02C3561AF0094C505 /* ImageContents.swift in Sources */,
 				0D9497B42C327D620004B442 /* CourseDetailViewModel.swift in Sources */,
 				0D0DA3E62C3AF3FB004210EE /* PointDetailViewController.swift in Sources */,
-				0DDFEE0F2C3C5D0A008C6022 /* CityLabelCollectionViewCell.swift in Sources */,
+				0DDFEE0F2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift in Sources */,
 				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
 				0D9497B22C327D2D0004B442 /* CourseDetailViewController.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,

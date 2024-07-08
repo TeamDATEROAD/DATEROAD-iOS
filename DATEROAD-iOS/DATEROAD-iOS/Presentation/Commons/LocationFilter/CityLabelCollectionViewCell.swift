@@ -15,6 +15,7 @@ final class CityLabelCollectionViewCell: BaseCollectionViewCell {
     // MARK: - UI Properties
     
     private let grayBoxView = UIView()
+    
     private let cityLabel = UILabel()
 
     // MARK: - Properties
@@ -29,6 +30,7 @@ final class CityLabelCollectionViewCell: BaseCollectionViewCell {
         grayBoxView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
         cityLabel.snp.makeConstraints {
             $0.center.equalTo(grayBoxView)
         }
@@ -41,8 +43,8 @@ final class CityLabelCollectionViewCell: BaseCollectionViewCell {
         }
         
         cityLabel.do {
-            $0.text = "서울"
-            $0.font = UIFont.suit(.body_semi_15)
+            $0.text = "서울 전체"
+            $0.font = UIFont.suit(.body_med_13)
             $0.textColor = UIColor(resource: .gray400)
         }
     }
