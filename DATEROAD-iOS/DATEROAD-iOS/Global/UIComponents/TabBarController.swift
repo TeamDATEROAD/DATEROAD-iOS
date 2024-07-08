@@ -23,7 +23,7 @@ final class TabBarController: UITabBarController {
     
     let viewedCourseVC = UIViewController()
     
-    let mypageVC = UIViewController()
+    let mypageVC = MyPageViewController(myPageViewModel: MyPageViewModel())
     
     override func viewDidLoad() {
         super.viewDidLoad()
