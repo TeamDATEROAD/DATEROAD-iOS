@@ -18,11 +18,7 @@ final class CoastInfoCell: BaseCollectionViewCell {
     private let timelineBackgroundView = UIView()
     
     private let coastLabel = UILabel()
-    
-    // MARK: - Properties
-    
-    static let identifier: String = "CoastInfoCell"
-    
+
     override func setHierarchy() {
         self.addSubviews(timelineBackgroundView, coastLabel)
     }

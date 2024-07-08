@@ -26,6 +26,9 @@
 		0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497D02C32A75A0004B442 /* InfoHeaderView.swift */; };
 		0D9497D32C33BD760004B442 /* BottomPageControllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497D22C33BD760004B442 /* BottomPageControllView.swift */; };
 		0DA920F22C3C0AF500A6A321 /* MainContentsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA920F12C3C0AF500A6A321 /* MainContentsCell.swift */; };
+		0DDFEE0D2C3C513E008C6022 /* LocationFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE0C2C3C513E008C6022 /* LocationFilterViewController.swift */; };
+		0DDFEE0F2C3C5D0A008C6022 /* CityLabelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE0E2C3C5D0A008C6022 /* CityLabelCollectionViewCell.swift */; };
+		0DDFEE112C3C6576008C6022 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE102C3C6576008C6022 /* LocationModel.swift */; };
 		0DF905C02C3921AD0072EE65 /* ImageGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905BF2C3921AD0072EE65 /* ImageGradientView.swift */; };
 		0DF905C22C39294A0072EE65 /* MainContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905C12C39294A0072EE65 /* MainContents.swift */; };
 		0DF905C42C39295F0072EE65 /* TimelineContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905C32C39295F0072EE65 /* TimelineContents.swift */; };
@@ -116,6 +119,9 @@
 		0D9497D02C32A75A0004B442 /* InfoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoHeaderView.swift; sourceTree = "<group>"; };
 		0D9497D22C33BD760004B442 /* BottomPageControllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPageControllView.swift; sourceTree = "<group>"; };
 		0DA920F12C3C0AF500A6A321 /* MainContentsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentsCell.swift; sourceTree = "<group>"; };
+		0DDFEE0C2C3C513E008C6022 /* LocationFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFilterViewController.swift; sourceTree = "<group>"; };
+		0DDFEE0E2C3C5D0A008C6022 /* CityLabelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityLabelCollectionViewCell.swift; sourceTree = "<group>"; };
+		0DDFEE102C3C6576008C6022 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
 		0DF905BF2C3921AD0072EE65 /* ImageGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGradientView.swift; sourceTree = "<group>"; };
 		0DF905C12C39294A0072EE65 /* MainContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContents.swift; sourceTree = "<group>"; };
 		0DF905C32C39295F0072EE65 /* TimelineContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineContents.swift; sourceTree = "<group>"; };
@@ -302,6 +308,24 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		0DDFEE0A2C3C50F7008C6022 /* Commons */ = {
+			isa = PBXGroup;
+			children = (
+				0DDFEE0B2C3C5126008C6022 /* LocationFilter */,
+			);
+			path = Commons;
+			sourceTree = "<group>";
+		};
+		0DDFEE0B2C3C5126008C6022 /* LocationFilter */ = {
+			isa = PBXGroup;
+			children = (
+				0DDFEE0C2C3C513E008C6022 /* LocationFilterViewController.swift */,
+				0DDFEE0E2C3C5D0A008C6022 /* CityLabelCollectionViewCell.swift */,
+				0DDFEE102C3C6576008C6022 /* LocationModel.swift */,
+			);
+			path = LocationFilter;
+			sourceTree = "<group>";
+		};
 		741AE2DD2C37288A0031849F /* ViewedCourse */ = {
 			isa = PBXGroup;
 			children = (
@@ -443,6 +467,7 @@
 		CA3D0D092C29A75600735097 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				0DDFEE0A2C3C50F7008C6022 /* Commons */,
 				0D0DA3D82C3AF304004210EE /* PointDetail */,
 				CAA30ADB2C37182A00835DE3 /* Profile */,
 				741AE2DD2C37288A0031849F /* ViewedCourse */,
@@ -791,6 +816,7 @@
 				0D06D9A02C3561AF0094C505 /* ImageContents.swift in Sources */,
 				0D9497B42C327D620004B442 /* CourseDetailViewModel.swift in Sources */,
 				0D0DA3E62C3AF3FB004210EE /* PointDetailViewController.swift in Sources */,
+				0DDFEE0F2C3C5D0A008C6022 /* CityLabelCollectionViewCell.swift in Sources */,
 				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
 				0D9497B22C327D2D0004B442 /* CourseDetailViewController.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
@@ -809,6 +835,7 @@
 				CA4EF3DA2C34791F003B02B6 /* OnboardingCollectionViewCell.swift in Sources */,
 				CA4EF3E52C3538AA003B02B6 /* OnboardingViewModel.swift in Sources */,
 				0D9497D32C33BD760004B442 /* BottomPageControllView.swift in Sources */,
+				0DDFEE112C3C6576008C6022 /* LocationModel.swift in Sources */,
 				0D0DA3DE2C3AF37C004210EE /* PointCollectionViewCell.swift in Sources */,
 				CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */,
 				CA3D0CDD2C29A2F300735097 /* SceneDelegate.swift in Sources */,
@@ -820,6 +847,7 @@
 				0DF905CC2C3ABAC30072EE65 /* GradientView.swift in Sources */,
 				CA4EF3C52C328698003B02B6 /* SplashViewController.swift in Sources */,
 				0DA920F22C3C0AF500A6A321 /* MainContentsCell.swift in Sources */,
+				0DDFEE0D2C3C513E008C6022 /* LocationFilterViewController.swift in Sources */,
 				0D06D9A22C3605760094C505 /* TagInfoCell.swift in Sources */,
 				747819392C3A93760040D5E7 /* CourseCollectionView.swift in Sources */,
 				74E3E1822C3AF8F200AD7674 /* ViewedCourseModel.swift in Sources */,
