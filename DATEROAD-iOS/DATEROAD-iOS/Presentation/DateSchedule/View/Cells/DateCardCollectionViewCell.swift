@@ -24,11 +24,11 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
     
     private var thirdTagButton = UIButton()
     
-    private let dotDividerView = UIView()
+    private var dotDividerView = UIImageView()
     
-    private let leftCircleInsetImageView = UIImageView()
+    private var leftCircleInsetImageView = UIImageView()
     
-    private let rightCircleInsetImageView = UIImageView()
+    private var rightCircleInsetImageView = UIImageView()
     
     private var locationLabel = UILabel()
     
@@ -70,6 +70,7 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
         dateLabel.snp.makeConstraints {
             $0.top.leading.equalToSuperview().inset(20)
             $0.height.equalTo(62)
+            $0.width.equalTo(66)
         }
         
         dDayButton.snp.makeConstraints {
@@ -80,21 +81,18 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
         firstTagButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(20)
             $0.top.equalToSuperview().inset(218)
-            $0.width.equalTo(91)
             $0.height.equalTo(29)
         }
         
         secondTagButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(83)
             $0.top.equalToSuperview().inset(184)
-            $0.width.equalTo(91)
             $0.height.equalTo(29)
         }
         
         thirdTagButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(39)
             $0.top.equalToSuperview().inset(147)
-            $0.width.equalTo(91)
             $0.height.equalTo(29)
         }
         
@@ -136,6 +134,7 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
             $0.font = UIFont.suit(.title_extra_24)
             $0.textColor = UIColor(resource: .drBlack)
             $0.numberOfLines = 2
+            
         }
         
         dDayButton.do {
@@ -143,18 +142,34 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
             $0.titleLabel?.textColor = UIColor(resource: .drWhite)
             $0.backgroundColor = UIColor(resource: .deepPurple)
             $0.contentEdgeInsets = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
+            $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
         }
         
         firstTagButton.do {
             $0.setButtonStatus(buttonType: tagButtonType)
+            $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
         }
         
         secondTagButton.do {
             $0.setButtonStatus(buttonType: tagButtonType)
+            $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
         }
         
         thirdTagButton.do {
             $0.setButtonStatus(buttonType: tagButtonType)
+            $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
+        }
+        
+        dotDividerView.do {
+            $0.image = UIImage(resource: .dottedLine)
+        }
+        
+        leftCircleInsetImageView.do {
+            $0.image = UIImage(resource: .leftCardInset)
+        }
+        
+        rightCircleInsetImageView.do {
+            $0.image = UIImage(resource: .rightCardInset)
         }
         
         locationLabel.do {
@@ -166,6 +181,7 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
             $0.font = UIFont.suit(.title_extra_24)
             $0.textColor = UIColor(resource: .drBlack)
             $0.numberOfLines = 2
+            $0.lineBreakMode = .byWordWrapping
         }
     }
     
@@ -175,7 +191,7 @@ extension DateCardCollectionViewCell {
     func dataBind(_ dateCardData : DateCardModel, _ dateCardItemRow: Int) {
         self.dateLabel.text = dateCardData.dateCalendar
         self.dDayButton.setTitle("D-\(dateCardData.dDay ?? 0)", for: .normal)
-        self.secondTagButton.setTitle(dateCardData.tags[0], for: .normal)
+        self.firstTagButton.setTitle(dateCardData.tags[0], for: .normal)
         if dateCardData.tags.count >= 2 {
             self.secondTagButton.isHidden = false
             self.secondTagButton.setTitle(dateCardData.tags[1], for: .normal)
