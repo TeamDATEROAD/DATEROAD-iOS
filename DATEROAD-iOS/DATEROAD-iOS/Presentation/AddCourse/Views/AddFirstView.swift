@@ -41,9 +41,15 @@ final class AddFirstView: BaseView {
    // MARK: - Properties
    
    private let tagStringArr = [
-      ["🚙 드라이브", "🛍️ 쇼핑", "🚪 실내", "🍵 힐링"],
-      ["🥂 알콜", "🍜 식도락", "💍 공방", "🌊 자연"],
-      ["🛼️ 액티비티", "🎭 공연·음악", "🎨 전시·팝업"]
+      ["드라이브", "쇼핑", "실내", "힐링"],
+      ["알콜", "식도락", "공방", "자연"],
+      ["액티비티", "공연·음악", "전시·팝업"]
+   ]
+   
+   private let tagImageArr = [
+      [UIImage(resource: .tagCar), UIImage(resource: .tagShopping), UIImage(resource: .tagDoor), UIImage(resource: .tagTea)],
+      [UIImage(resource: .tagAlcohol), UIImage(resource: .tagRamen), UIImage(resource: .tagRing), UIImage(resource: .tagMountain)],
+      [UIImage(resource: .tagSkate), UIImage(resource: .tagMasks), UIImage(resource: .tagPaint)]
    ]
    
    var tagBtns: [UIButton] = []
@@ -236,46 +242,45 @@ extension AddFirstView {
          $0.distribution = .fillProportionally
       }
       
-      for i in 0..<tagStringArr[cnt].count {
-         let button = createOvalButton(title: tagStringArr[cnt][i])
+      tagStringArr[cnt].enumerated().forEach { index, title in
+         let button = createOvalButton(title: title, image: tagImageArr[cnt][index])
          hStackView.addArrangedSubview(button)
          tagBtns.append(button)
       }
       
-      // 각 버튼 열에 맞는 PaddingView 추가
-      if cnt == 0 {
-         let paddingView = UIView()
-         paddingView.snp.makeConstraints {
-            $0.width.equalTo(24)
-            $0.height.equalTo(0)
-         }
-         hStackView.addArrangedSubview(paddingView)
-      } else if cnt == 1 {
-         let paddingView = UIView()
-         paddingView.snp.makeConstraints {
-            $0.width.equalTo(35)
-            $0.height.equalTo(0)
-         }
-         hStackView.addArrangedSubview(paddingView)
-      } else {
-         let paddingView = UIView()
-         paddingView.snp.makeConstraints {
-            $0.width.equalTo(40)
-            $0.height.equalTo(0)
-         }
-         hStackView.addArrangedSubview(paddingView)
+      let paddingWidth: CGFloat
+      switch cnt {
+      case 0:
+         paddingWidth = 24
+      case 1:
+         paddingWidth = 35
+      default:
+         paddingWidth = 40
       }
+      
+      let paddingView = UIView().then {
+         $0.snp.makeConstraints {
+            $0.width.equalTo(paddingWidth)
+            $0.height.equalTo(0)
+         }
+      }
+      hStackView.addArrangedSubview(paddingView)
       
       return hStackView
    }
    
+   
    /// HStackView에 들어갈 버튼 생성 함수
-   func createOvalButton(title: String) -> UIButton {
+   func createOvalButton(title: String, image: UIImage) -> UIButton {
       var config = UIButton.Configuration.gray()
+      config.image = image
+      config.imagePadding = 2
+      config.titleAlignment = .leading
+      
       var titleAttr = AttributedString.init(title)
       titleAttr.font = .suit(.body_med_13)
-      
       config.attributedTitle = titleAttr
+      
       config.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 10, bottom: 6, trailing: 10)
       config.baseBackgroundColor = .gray100
       config.baseForegroundColor = .drBlack
