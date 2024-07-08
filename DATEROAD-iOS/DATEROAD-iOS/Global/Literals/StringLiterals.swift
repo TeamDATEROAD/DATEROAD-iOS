@@ -36,6 +36,13 @@ enum StringLiterals {
         static let thirdMainPoint = "다양한 데이트 코스"
 	}
     
+    enum TabBar {
+        static let home = "홈"
+        static let course = "코스 둘러보기"
+        static let date = "데이트 일정"
+        static let viewedCourse = "열람한 코스"
+        static let myPage = "마이페이지"
+    }
 	enum CourseDetail {
         static let timelineInfoLabel = "코스 타임라인"
         static let coastInfoLabel = "총 비용"
