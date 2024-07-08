@@ -14,7 +14,7 @@ protocol ImageCarouselDelegate: AnyObject {
     func didSwipeImage(index: Int, vc: UIPageViewController, vcData: [UIViewController])
 }
 
-final class ImageCarouselCell: UICollectionViewCell {
+final class ImageCarouselCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
@@ -33,8 +33,7 @@ final class ImageCarouselCell: UICollectionViewCell {
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-        setHierarchy()
-        setLayout()
+
         setDelegate()
     }
     
@@ -57,17 +56,12 @@ final class ImageCarouselCell: UICollectionViewCell {
         }
         setVCInPageVC()
     }
-}
-
-// MARK: - Private Methods
-
-private extension ImageCarouselCell {
     
-    func setHierarchy() {
+    override func setHierarchy() {
         self.addSubview(pageViewController.view)
     }
     
-    func setLayout() {
+    override func setLayout() {
         pageViewController.view.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -84,6 +78,7 @@ private extension ImageCarouselCell {
         pageViewController.dataSource = self
     }
 }
+
 
 extension ImageCarouselCell: UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
