@@ -31,6 +31,11 @@ final class TabBarController: UITabBarController {
         setStyle()
         setHierarchy()
     }
+    
+    override func viewDidLayoutSubviews() {
+        self.tabBar.frame.size.height = view.frame.height * 0.1
+        self.tabBar.frame.origin.y = view.frame.height - self.tabBar.frame.size.height
+    }
 }
 
 // MARK: - Private Methods
@@ -39,7 +44,7 @@ private extension TabBarController {
     
     func setStyle() {
         
-        let iconOffset: Int = 4
+        let iconOffset: Int = -7
         
         let font = UIFont.suit(.cap_reg_11)
         
@@ -110,7 +115,7 @@ private extension TabBarController {
             $0.tabBarItem = UITabBarItem(
                 title: StringLiterals.TabBar.myPage,
                 image: UIImage(resource: .icMypage).withRenderingMode(.alwaysOriginal),
-                selectedImage: UIImage(resource: .icMypage).withRenderingMode(.alwaysTemplate) 
+                selectedImage: UIImage(resource: .icMypage).withRenderingMode(.alwaysTemplate)
             )
             $0.tabBarItem.setTitleTextAttributes(normalTitleAttributes, for: .normal)
             $0.tabBarItem.setTitleTextAttributes(selectedTitleAttributes, for: .selected)
@@ -127,7 +132,7 @@ private extension TabBarController {
         
         if let items = tabBar.items {
             for item in items {
-                 item.imageInsets = UIEdgeInsets(top: 3, left: 0, bottom: -6, right: 0)
+                 item.imageInsets = UIEdgeInsets(top: -4, left: 0, bottom: 2, right: 0)
             }
         }
     }
