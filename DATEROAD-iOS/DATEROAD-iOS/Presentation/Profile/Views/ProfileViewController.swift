@@ -35,7 +35,7 @@ final class ProfileViewController: BaseNavBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setTitleLabelStyle(title: StringLiterals.Profile.myProfile)
+        setTitleLabelStyle(title: StringLiterals.Profile.myProfile, alignment: .center)
         registerCell()
         setDelegate()
         setAddGesture()

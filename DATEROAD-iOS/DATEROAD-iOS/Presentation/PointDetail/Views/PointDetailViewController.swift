@@ -46,7 +46,7 @@ class PointDetailViewController: BaseNavBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setLeftBackButton()
-        setTitleLabelStyle(title: "포인트 내역")
+        setTitleLabelStyle(title: "포인트 내역", alignment: .center)
     }
     
     override func setHierarchy() {
