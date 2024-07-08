@@ -6,3 +6,21 @@
 //
 
 import Foundation
+
+final class PointSystemViewModel {
+    
+    var pointSystemData: [PointSystemModel] = []
+    
+    init() {
+        fetchData()
+    }
+    
+}
+
+extension PointSystemViewModel {
+    
+    func fetchData() {
+        self.pointSystemData = PointSystemModel.pointSystemData
+    }
+    
+}
