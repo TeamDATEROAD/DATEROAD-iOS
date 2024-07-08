@@ -9,9 +9,9 @@ import UIKit
 
 enum FontName {
     case title_extra_24, title_extra_20
-    case title_bold_20, title_bold_18, body_bold_17, body_bold_15, body_bold_13, cap_bold_11
-    case body_semi_17, body_semi_15, body_semi_13
-    case title_med_18, body_med_17, body_med_15, body_med_13
+    case title_bold_20, title_bold_18, body_bold_17, body_bold_15, body_bold_13, body_bold_11, cap_bold_11
+    case body_semi_17, body_semi_15, body_semi_13, body_semi_11
+    case title_med_18, body_med_17, body_med_15, body_med_13, body_med_10
     case cap_reg_11
     
     
@@ -19,13 +19,13 @@ enum FontName {
         switch self {
         case .title_extra_24, .title_extra_20:
             return "SUIT-ExtraBold"
-        case .title_bold_20, .title_bold_18, .body_bold_17, .body_bold_15, .body_bold_13, .cap_bold_11:
+        case .title_bold_20, .title_bold_18, .body_bold_17, .body_bold_15, .body_bold_13, .body_bold_11, .cap_bold_11:
             return "SUIT-Bold"
-        case .body_semi_17, .body_semi_15, .body_semi_13:
+        case .body_semi_17, .body_semi_15, .body_semi_13, .body_semi_11:
             return "SUIT-SemiBold"
         case .cap_reg_11:
             return "SUIT-Regular"
-        case .title_med_18, .body_med_17, .body_med_15, .body_med_13:
+        case .title_med_18, .body_med_17, .body_med_15, .body_med_13, .body_med_10:
             return "SUIT-Medium"
         }
     }
@@ -44,8 +44,10 @@ enum FontName {
             return 15
         case .body_bold_13, .body_semi_13, .body_med_13:
             return 13
-        case .cap_bold_11, .cap_reg_11:
+        case .cap_bold_11, .cap_reg_11, .body_bold_11, .body_semi_11:
             return 11
+        case .body_med_10:
+            return 10
         }
     }
 }

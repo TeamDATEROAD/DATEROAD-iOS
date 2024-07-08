@@ -43,6 +43,13 @@
 		74A70C022C329AB200855E61 /* SUIT-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74BC16652C329A110084E832 /* SUIT-Bold.otf */; };
 		74BC165A2C3284A90084E832 /* BaseNavBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BC16592C3284A90084E832 /* BaseNavBarViewController.swift */; };
 		74E3E1822C3AF8F200AD7674 /* ViewedCourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E3E1812C3AF8F200AD7674 /* ViewedCourseModel.swift */; };
+		9E443A482C37AAE400C1F92C /* AddCourseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E443A472C37AAE400C1F92C /* AddCourseViewModel.swift */; };
+		9E443A4C2C37ACEF00C1F92C /* AddCourseFirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E443A4B2C37ACEF00C1F92C /* AddCourseFirstView.swift */; };
+		9E443A4E2C3819DB00C1F92C /* AddFirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E443A4D2C3819DB00C1F92C /* AddFirstView.swift */; };
+		9E443A502C39158100C1F92C /* AddSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E443A4F2C39158100C1F92C /* AddSheetViewController.swift */; };
+		9E590B402C39375000039690 /* AddSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E590B3F2C39375000039690 /* AddSheetView.swift */; };
+		9E63BB202C35CF7200D5ED5B /* AddCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E63BB1F2C35CF7200D5ED5B /* AddCourseViewController.swift */; };
+		9EB91E782C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */; };
 		CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A963D2C2B131300F39EBE /* BaseViewController.swift */; };
 		CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96422C2C60E800F39EBE /* LoginModel.swift */; };
 		CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96442C2C610900F39EBE /* LoginViewModel.swift */; };
@@ -133,6 +140,13 @@
 		74BC16592C3284A90084E832 /* BaseNavBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavBarViewController.swift; sourceTree = "<group>"; };
 		74BC16652C329A110084E832 /* SUIT-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Bold.otf"; sourceTree = "<group>"; };
 		74E3E1812C3AF8F200AD7674 /* ViewedCourseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseModel.swift; sourceTree = "<group>"; };
+		9E443A472C37AAE400C1F92C /* AddCourseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseViewModel.swift; sourceTree = "<group>"; };
+		9E443A4B2C37ACEF00C1F92C /* AddCourseFirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseFirstView.swift; sourceTree = "<group>"; };
+		9E443A4D2C3819DB00C1F92C /* AddFirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFirstView.swift; sourceTree = "<group>"; };
+		9E443A4F2C39158100C1F92C /* AddSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSheetViewController.swift; sourceTree = "<group>"; };
+		9E590B3F2C39375000039690 /* AddSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSheetView.swift; sourceTree = "<group>"; };
+		9E63BB1F2C35CF7200D5ED5B /* AddCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseViewController.swift; sourceTree = "<group>"; };
+		9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		CA0A963D2C2B131300F39EBE /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CA0A96422C2C60E800F39EBE /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		CA0A96442C2C610900F39EBE /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -356,6 +370,44 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		9E63BB1D2C35CEAF00D5ED5B /* AddCourse */ = {
+			isa = PBXGroup;
+			children = (
+				9EB91E792C36371800D7A836 /* ViewModels */,
+				9EB91E762C36288900D7A836 /* Cells */,
+				9E63BB1E2C35CF5900D5ED5B /* Views */,
+			);
+			path = AddCourse;
+			sourceTree = "<group>";
+		};
+		9E63BB1E2C35CF5900D5ED5B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9E63BB1F2C35CF7200D5ED5B /* AddCourseViewController.swift */,
+				9E443A4B2C37ACEF00C1F92C /* AddCourseFirstView.swift */,
+				9E443A4D2C3819DB00C1F92C /* AddFirstView.swift */,
+				9E443A4F2C39158100C1F92C /* AddSheetViewController.swift */,
+				9E590B3F2C39375000039690 /* AddSheetView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9EB91E762C36288900D7A836 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		9EB91E792C36371800D7A836 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				9E443A472C37AAE400C1F92C /* AddCourseViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		CA0A963C2C2B12FC00F39EBE /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -444,6 +496,7 @@
 				CAA30ADB2C37182A00835DE3 /* Profile */,
 				741AE2DD2C37288A0031849F /* ViewedCourse */,
 				CA4EF3D22C3475EE003B02B6 /* Onboarding */,
+				9E63BB1D2C35CEAF00D5ED5B /* AddCourse */,
 				CA4EF3CC2C328F2C003B02B6 /* Splash */,
 				CA0A963C2C2B12FC00F39EBE /* Base */,
 				0D9497AD2C327C660004B442 /* CourseDetail */,
@@ -835,6 +888,13 @@
 				CAA30AE52C37BCB200835DE3 /* DRTagButton.swift in Sources */,
 				CAA30AE82C37DAA600835DE3 /* TendencyTagCollectionViewCell.swift in Sources */,
 				CA78FE472C38667A001B1403 /* DRErrorLabel.swift in Sources */,
+				9E443A482C37AAE400C1F92C /* AddCourseViewModel.swift in Sources */,
+				9E443A502C39158100C1F92C /* AddSheetViewController.swift in Sources */,
+				9EB91E782C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift in Sources */,
+				9E63BB202C35CF7200D5ED5B /* AddCourseViewController.swift in Sources */,
+				9E443A4C2C37ACEF00C1F92C /* AddCourseFirstView.swift in Sources */,
+				9E590B402C39375000039690 /* AddSheetView.swift in Sources */,
+				9E443A4E2C3819DB00C1F92C /* AddFirstView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

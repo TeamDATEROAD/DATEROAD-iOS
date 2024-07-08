@@ -86,6 +86,7 @@ extension LoginViewController {
         controller.delegate = self
         controller.performRequests()
     }
+   
 }
 
 extension LoginViewController: ASAuthorizationControllerDelegate {
@@ -95,7 +96,6 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         else { return }
         
         self.loginViewModel.loginWithApple(userInfo: credential)
-
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: any Error) {
