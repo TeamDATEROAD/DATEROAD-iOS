@@ -106,6 +106,7 @@ private extension CourseDetailViewController {
         mainCollectionView.do {
             $0.register(ImageCarouselCell.self, forCellWithReuseIdentifier: ImageCarouselCell.cellIdentifier)
             $0.register(TitleInfoCell.self, forCellWithReuseIdentifier: TitleInfoCell.cellIdentifier)
+            $0.register(MainContentsCell.self, forCellWithReuseIdentifier: MainContentsCell.cellIdentifier)
             $0.register(TimelineInfoCell.self, forCellWithReuseIdentifier: TimelineInfoCell.cellIdentifier)
             $0.register(CoastInfoCell.self, forCellWithReuseIdentifier: CoastInfoCell.cellIdentifier)
             $0.register(TagInfoCell.self, forCellWithReuseIdentifier: TagInfoCell.cellIdentifier)
@@ -128,6 +129,8 @@ private extension CourseDetailViewController {
             switch sectionType {
             case .imageCarousel:
                 return self.makeImageCarouselLayout()
+            case .titleInfo:
+                return self.makeTitleInfoLayout()
             case .mainContents:
                 return self.makeMainContentsLayout()
             case .timelineInfo:
@@ -157,6 +160,19 @@ private extension CourseDetailViewController {
         
         section.boundarySupplementaryItems = [gradient, footer]
 
+        return section
+    }
+    
+    func makeTitleInfoLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(160))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(160))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
         return section
     }
     
@@ -277,7 +293,7 @@ extension CourseDetailViewController: ImageCarouselDelegate {
 
 extension CourseDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 6
+        return viewModel.numberOfSections
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -307,10 +323,18 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             imageCarouselCell.setPageVC(imageData: imageData)
             imageCarouselCell.delegate = self
             return imageCarouselCell
-        case .mainContents:
-            guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleInfoCell.cellIdentifier, for: indexPath) as? TitleInfoCell else {
+        case .titleInfo:
+            guard let titleInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleInfoCell.cellIdentifier, for: indexPath) as? TitleInfoCell else {
                 fatalError("Unable to dequeue MainContentsCell")
             }
+            titleInfoCell.backgroundColor = .red
+            titleInfoCell.setCell(mainContentsData: mainContentsData)
+            return titleInfoCell
+        case .mainContents:
+            guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.cellIdentifier, for: indexPath) as? MainContentsCell else {
+                fatalError("Unable to dequeue MainContentsCell")
+            }
+            mainContentsCell.backgroundColor = .blue
             mainContentsCell.setCell(mainContentsData: mainContentsData)
             return mainContentsCell
         case .timelineInfo:

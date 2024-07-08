@@ -9,6 +9,7 @@ import Foundation
 
 enum CourseDetailSection {
     case imageCarousel
+    case titleInfo
     case mainContents
     case timelineInfo
     case coastInfo
@@ -17,6 +18,7 @@ enum CourseDetailSection {
     
     static var dataSource: [CourseDetailSection] {
         return [.imageCarousel,
+                .titleInfo,
                 .mainContents,
                 .timelineInfo,
                 .coastInfo,
@@ -27,6 +29,7 @@ enum CourseDetailSection {
 class CourseDetailViewModel {
     
     let imageCarouselViewModel: ImageCarouselViewModel
+    let titleInfoViewModel: TitleInfoViewModel
     let mainContentsViewModel: MainContentsViewModel
     let timelineInfoViewModel: TimelineInfoViewModel
     let coastInfoViewModel: CoastInfoViewModel
@@ -35,6 +38,7 @@ class CourseDetailViewModel {
     
     init() {
         self.imageCarouselViewModel = ImageCarouselViewModel()
+        self.titleInfoViewModel = TitleInfoViewModel()
         self.mainContentsViewModel = MainContentsViewModel()
         self.timelineInfoViewModel = TimelineInfoViewModel()
         self.coastInfoViewModel = CoastInfoViewModel()
@@ -45,6 +49,7 @@ class CourseDetailViewModel {
     var sections: [CourseDetailSection] {
         return [
             .imageCarousel,
+            .titleInfo,
             .mainContents,
             .timelineInfo,
             .coastInfo,
@@ -65,6 +70,8 @@ class CourseDetailViewModel {
         switch sections[section] {
         case .imageCarousel:
             return imageCarouselViewModel.numberOfItems
+        case .titleInfo:
+            return titleInfoViewModel.numberOfItems
         case .mainContents:
             return mainContentsViewModel.numberOfItems
         case .timelineInfo:
@@ -81,6 +88,11 @@ class CourseDetailViewModel {
 
 
 struct ImageCarouselViewModel {
+    var numberOfItems: Int {
+        return 1
+    }
+}
+struct TitleInfoViewModel {
     var numberOfItems: Int {
         return 1
     }

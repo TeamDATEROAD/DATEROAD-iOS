@@ -33,8 +33,6 @@ final class TitleInfoCell: BaseCollectionViewCell {
     
     private let locationLabel = UILabel()
     
-    private let mainTextLabel = UILabel()
-    
     override func setHierarchy() {
         self.addSubviews(
             dateLabel,
@@ -45,8 +43,7 @@ final class TitleInfoCell: BaseCollectionViewCell {
             timeLabel,
             timeIconImageView,
             locationLabel,
-            locationIconImageView,
-            mainTextLabel
+            locationIconImageView
         )
     }
     
@@ -100,12 +97,6 @@ final class TitleInfoCell: BaseCollectionViewCell {
             $0.leading.equalTo(locationIconImageView.snp.trailing).offset(3.5)
         }
         
-        mainTextLabel.snp.makeConstraints {
-            $0.top.equalTo(coastLabel.snp.bottom).offset(20)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(34)
-        }
-        
     }
     
     override func setStyle() {
@@ -141,17 +132,6 @@ final class TitleInfoCell: BaseCollectionViewCell {
             $0.textColor = UIColor(resource: .gray400)
         }
         
-        mainTextLabel.do {
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineHeightMultiple = 1.2
-            $0.attributedText = NSMutableAttributedString(string: "본문", attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
-
-            $0.font = UIFont.suit(.body_med_13)
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.numberOfLines = 0
-       
-        }
-        
     }
     
     
@@ -165,6 +145,5 @@ extension TitleInfoCell {
         coastLabel.text = mainContentsData.coast
         timeLabel.text = mainContentsData.time
         locationLabel.text = mainContentsData.location
-        mainTextLabel.text = mainContentsData.mainText
     }
 }
