@@ -38,6 +38,8 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     private let tagButtonType : DRButtonType = DateScheduleTagButton()
     
+    var kakaoShareButton = UIButton()
+    
     // MARK: - Properties
     
     private let upcomingDateCardViewModel = DateDetailViewModel()
@@ -67,7 +69,8 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
                                      thirdTagButton,
                                      locationLabel,
                                      titleLabel,
-                                     dateDetailView)
+                                     dateDetailView,
+                                     kakaoShareButton)
         
         dateDetailView.addSubviews(dateStartTimeLabel, dateTimeLineCollectionView)
     }
@@ -133,6 +136,12 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
             $0.top.equalToSuperview().inset(63)
             $0.height.equalTo(318)
         }
+        
+        kakaoShareButton.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(78)
+            $0.height.equalTo(52)
+            $0.bottom.equalToSuperview().inset(39)
+        }
 
     }
     
@@ -195,6 +204,20 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
         dateTimeLineCollectionView.do {
             $0.setUpBindings(upcomingDateDetailData: upcomingDataDetailData)
         }
+        
+        kakaoShareButton.do {
+            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.setImage(UIImage(resource: .kakaoShare), for: .normal)
+            $0.setTitle("카카오톡으로 공유하기", for: .normal)
+            $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
+            $0.titleLabel?.font = UIFont.suit(.body_bold_15)
+            $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
+            $0.imageEdgeInsets = UIEdgeInsets(top: 14, left: -6, bottom: 14, right: 6)
+            $0.titleEdgeInsets = UIEdgeInsets(top: 15.5, left: 6, bottom: 15.5, right: -6)
+            $0.roundedButton(cornerRadius: 25, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+            $0.addTarget(self, action: #selector(kakaoShareCourse), for: .touchUpInside)
+        }
+        
     }
 }
 
@@ -223,5 +246,10 @@ extension UpcomingDateDetailViewController {
     @objc
     func deleteDateCourse() {
         print("delete date course 바텀시트")
+    }
+    
+    @objc
+    func kakaoShareCourse() {
+        print("카카오 공유하기")
     }
 }
