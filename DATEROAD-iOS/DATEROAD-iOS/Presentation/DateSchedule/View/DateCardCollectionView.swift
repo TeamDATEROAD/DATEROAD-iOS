@@ -22,6 +22,7 @@ class DateCardCollectionView: UICollectionView {
     
     var currentIndex: CGFloat = 0
     
+    var detailData: Int = 0
     
     // MARK: - LifeCycle
     
@@ -116,7 +117,10 @@ extension DateCardCollectionView: UICollectionViewDataSource {
     @objc func pushToUpcomingDateDetailVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: self)
         if let indexPath = self.indexPathForItem(at: location) {
-            print("다가올 데이트 상세 페이지로 이동 \(upcomingDateScheduleData.dateCards[indexPath.item].courseID ?? 0)")
+            self.detailData = indexPath.item
+            let upcomingDateDetailVC = UpcomingDateDetailViewController()
+            UpcomingDateScheduleViewController().navigationController?.pushViewController(upcomingDateDetailVC, animated: true)
+            upcomingDateDetailVC.dataBind(upcomingDateScheduleData.dateCards[indexPath.item])
         }
     }
 }

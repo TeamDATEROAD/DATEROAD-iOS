@@ -35,6 +35,8 @@
 		745547532C3B862100B526F3 /* DateScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745547522C3B862100B526F3 /* DateScheduleModel.swift */; };
 		745547552C3B8A0B00B526F3 /* DateScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745547542C3B8A0B00B526F3 /* DateScheduleViewModel.swift */; };
 		745547572C3B8C4B00B526F3 /* DateCardCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745547562C3B8C4B00B526F3 /* DateCardCollectionView.swift */; };
+		7455475D2C3C2A9A00B526F3 /* UpcomingDateDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7455475C2C3C2A9A00B526F3 /* UpcomingDateDetailViewController.swift */; };
+		7455475F2C3C2EC400B526F3 /* DateDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7455475E2C3C2EC400B526F3 /* DateDetailViewModel.swift */; };
 		747819392C3A93760040D5E7 /* CourseCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747819382C3A93760040D5E7 /* CourseCollectionView.swift */; };
 		7478193E2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193D2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift */; };
 		747819402C3AB7E10040D5E7 /* ViewedCourseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193F2C3AB7E10040D5E7 /* ViewedCourseViewModel.swift */; };
@@ -128,6 +130,8 @@
 		745547522C3B862100B526F3 /* DateScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateScheduleModel.swift; sourceTree = "<group>"; };
 		745547542C3B8A0B00B526F3 /* DateScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateScheduleViewModel.swift; sourceTree = "<group>"; };
 		745547562C3B8C4B00B526F3 /* DateCardCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCardCollectionView.swift; sourceTree = "<group>"; };
+		7455475C2C3C2A9A00B526F3 /* UpcomingDateDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingDateDetailViewController.swift; sourceTree = "<group>"; };
+		7455475E2C3C2EC400B526F3 /* DateDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDetailViewModel.swift; sourceTree = "<group>"; };
 		747819382C3A93760040D5E7 /* CourseCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCollectionView.swift; sourceTree = "<group>"; };
 		7478193D2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseCollectionViewCell.swift; sourceTree = "<group>"; };
 		7478193F2C3AB7E10040D5E7 /* ViewedCourseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseViewModel.swift; sourceTree = "<group>"; };
@@ -379,6 +383,7 @@
 			children = (
 				74CDE2692C3B7A9400A7459B /* Cells */,
 				74CDE2672C3B123100A7459B /* UpcomingDateScheduleViewController.swift */,
+				7455475C2C3C2A9A00B526F3 /* UpcomingDateDetailViewController.swift */,
 				745547562C3B8C4B00B526F3 /* DateCardCollectionView.swift */,
 			);
 			path = View;
@@ -388,6 +393,7 @@
 			isa = PBXGroup;
 			children = (
 				745547542C3B8A0B00B526F3 /* DateScheduleViewModel.swift */,
+				7455475E2C3C2EC400B526F3 /* DateDetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -828,6 +834,7 @@
 				CA4EF3E22C3537F3003B02B6 /* OnboardingModel.swift in Sources */,
 				CA4EF3D52C34763B003B02B6 /* OnboardingViewController.swift in Sources */,
 				CAA30ADE2C3718C500835DE3 /* ProfileViewController.swift in Sources */,
+				7455475F2C3C2EC400B526F3 /* DateDetailViewModel.swift in Sources */,
 				0D0DA3D72C3AF2DE004210EE /* UIFont+.swift in Sources */,
 				747819402C3AB7E10040D5E7 /* ViewedCourseViewModel.swift in Sources */,
 				CA4EF3B42C3284BB003B02B6 /* BaseView.swift in Sources */,
@@ -851,6 +858,7 @@
 				0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */,
 				0D9497BD2C3292C20004B442 /* MainContentsCell.swift in Sources */,
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
+				7455475D2C3C2A9A00B526F3 /* UpcomingDateDetailViewController.swift in Sources */,
 				CAA30AEB2C37DCE300835DE3 /* ProfileViewModel.swift in Sources */,
 				CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */,
 				CAA30AE22C37497200835DE3 /* TendencyTag.swift in Sources */,

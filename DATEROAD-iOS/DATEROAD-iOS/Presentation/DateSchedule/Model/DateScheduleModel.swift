@@ -34,3 +34,21 @@ struct DateScheduleModel {
         self.dateCards = dateCards
     }
 }
+
+struct DateDetailModel {
+    let places: [DatePlacesModel]
+    
+    init(places: [DatePlacesModel]) {
+        self.places = places
+    }
+}
+
+struct DatePlacesModel {
+    let title: String?
+    let duration: Float?
+    
+    init(title: String?, duration: Float?) {
+        self.title = title
+        self.duration = duration
+    }
+}

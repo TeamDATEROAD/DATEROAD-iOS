@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 class DateScheduleViewModel {
     var upcomingDateScheduleDummyData = DateScheduleModel(
         dateCards: [
