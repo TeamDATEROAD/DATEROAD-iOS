@@ -138,7 +138,7 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
         if let indexPath = upcomingDateScheduleView.cardCollectionView.indexPathForItem(at: location) {
             let upcomingDateDetailVC = UpcomingDateDetailViewController()
             self.navigationController?.pushViewController(upcomingDateDetailVC, animated: true)
-            upcomingDateDetailVC.dataBind(upcomingDateScheduleData.dateCards[indexPath.item])
+            upcomingDateDetailVC.upcomingDateDetailContentView.dataBind(upcomingDateScheduleData.dateCards[indexPath.item])
         }
     }
 }

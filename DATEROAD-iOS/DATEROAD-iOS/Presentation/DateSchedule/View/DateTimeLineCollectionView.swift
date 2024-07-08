@@ -5,6 +5,7 @@
 //  Created by 이수민 on 7/9/24.
 //
 
+/*
 import UIKit
 
 import SnapKit
@@ -52,6 +53,7 @@ class DateTimeLineCollectionView: UICollectionView {
 
 }
 
+
 // MARK: - CollectionView Methods
 
 extension DateTimeLineCollectionView {
@@ -96,4 +98,4 @@ extension DateTimeLineCollectionView: UICollectionViewDataSource {
         return cell
     }
 
-}
+} */

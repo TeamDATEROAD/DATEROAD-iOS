@@ -39,6 +39,7 @@
 		745547612C3C4CAC00B526F3 /* UpcomingDateScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745547602C3C4CAC00B526F3 /* UpcomingDateScheduleView.swift */; };
 		745547632C3C66C700B526F3 /* DateTimeLineCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745547622C3C66C700B526F3 /* DateTimeLineCollectionView.swift */; };
 		745547672C3C67FE00B526F3 /* DateTimeLineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745547662C3C67FE00B526F3 /* DateTimeLineCollectionViewCell.swift */; };
+		745547692C3C8D3200B526F3 /* UpcomingDateDetailContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745547682C3C8D3200B526F3 /* UpcomingDateDetailContentView.swift */; };
 		747819392C3A93760040D5E7 /* CourseCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747819382C3A93760040D5E7 /* CourseCollectionView.swift */; };
 		7478193E2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193D2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift */; };
 		747819402C3AB7E10040D5E7 /* ViewedCourseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193F2C3AB7E10040D5E7 /* ViewedCourseViewModel.swift */; };
@@ -136,6 +137,7 @@
 		745547602C3C4CAC00B526F3 /* UpcomingDateScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingDateScheduleView.swift; sourceTree = "<group>"; };
 		745547622C3C66C700B526F3 /* DateTimeLineCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeLineCollectionView.swift; sourceTree = "<group>"; };
 		745547662C3C67FE00B526F3 /* DateTimeLineCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeLineCollectionViewCell.swift; sourceTree = "<group>"; };
+		745547682C3C8D3200B526F3 /* UpcomingDateDetailContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingDateDetailContentView.swift; sourceTree = "<group>"; };
 		747819382C3A93760040D5E7 /* CourseCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCollectionView.swift; sourceTree = "<group>"; };
 		7478193D2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseCollectionViewCell.swift; sourceTree = "<group>"; };
 		7478193F2C3AB7E10040D5E7 /* ViewedCourseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseViewModel.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 				74CDE2672C3B123100A7459B /* UpcomingDateScheduleViewController.swift */,
 				745547622C3C66C700B526F3 /* DateTimeLineCollectionView.swift */,
 				745547602C3C4CAC00B526F3 /* UpcomingDateScheduleView.swift */,
+				745547682C3C8D3200B526F3 /* UpcomingDateDetailContentView.swift */,
 				7455475C2C3C2A9A00B526F3 /* UpcomingDateDetailViewController.swift */,
 			);
 			path = View;
@@ -881,6 +884,7 @@
 				0D0DA3DE2C3AF37C004210EE /* PointCollectionViewCell.swift in Sources */,
 				CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */,
 				CA3D0CDD2C29A2F300735097 /* SceneDelegate.swift in Sources */,
+				745547692C3C8D3200B526F3 /* UpcomingDateDetailContentView.swift in Sources */,
 				CA4EF3C32C3285F8003B02B6 /* StringLiterals.swift in Sources */,
 				0DF905C82C39402A0072EE65 /* Int+.swift in Sources */,
 				0DF905C22C39294A0072EE65 /* MainContents.swift in Sources */,
