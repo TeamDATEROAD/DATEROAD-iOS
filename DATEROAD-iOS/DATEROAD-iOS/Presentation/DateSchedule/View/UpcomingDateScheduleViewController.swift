@@ -16,7 +16,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     private let titleLabel = UILabel()
     
-    private var cardScrollView = UIScrollView()
+    private var cardCollectionView = UIScrollView()
     
     private var cardPageControl = UIPageControl()
     
@@ -38,7 +38,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     override func setHierarchy() {
         self.view.addSubviews(titleLabel,
-                              cardScrollView,
+                              cardCollectionView,
                               cardPageControl,
                               dateRegisterButton,
                               pastDateButton)
@@ -52,7 +52,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
             $0.height.equalTo(28)
         }
         
-        cardScrollView.snp.makeConstraints {
+        cardCollectionView.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
             $0.height.equalTo(406)
         }
@@ -87,7 +87,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
             $0.text = "데이트 일정"
         }
         
-        cardScrollView.do {
+        cardCollectionView.do {
             
         }
         

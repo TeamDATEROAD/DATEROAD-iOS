@@ -104,3 +104,15 @@ struct SelectedButton : DRButtonType {
     var borderWidth: CGFloat = 0
 
 }
+
+struct DateScheduleTagButton: DRButtonType {
+    
+    var bgColor: UIColor =  UIColor(resource: .lightPink)
+    
+    var fontColor: UIColor = UIColor(resource: .drBlack)
+    
+    var font: UIFont = UIFont.suit(.body_semi_15)
+    
+    var cornerRadius: CGFloat = 20
+
+}
