@@ -15,12 +15,13 @@ final class MyPageView: BaseView {
     
     let myPageTableView: UITableView = UITableView(frame: .zero, style: .plain)
     
+    let withdrawalButton: UIButton = UIButton()
     
     
     // MARK: - Life Cycle
     
     override func setHierarchy() {
-        self.addSubviews(userInfoView, myPageTableView)
+        self.addSubviews(userInfoView, myPageTableView, withdrawalButton)
     }
     
     override func setLayout() {
@@ -34,6 +35,12 @@ final class MyPageView: BaseView {
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(240)
         }
+        
+        // TODO: - bottom 탭바 기준으로 수정 예정
+        withdrawalButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalToSuperview().inset(30)
+        }
     }
     
     override func setStyle() {
@@ -45,6 +52,12 @@ final class MyPageView: BaseView {
         myPageTableView.do {
             $0.separatorStyle = .none
             $0.rowHeight = 60
+        }
+        
+        withdrawalButton.do {
+            $0.setTitle(StringLiterals.MyPage.withdrawal, for: .normal)
+            $0.titleLabel?.font = UIFont.suit(.body_med_13)
+            $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
         }
     }
  

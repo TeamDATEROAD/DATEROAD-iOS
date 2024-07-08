@@ -92,7 +92,6 @@
 		CAC80FA92C3B4CE800658EA6 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FA82C3B4CE800658EA6 /* TagCollectionViewCell.swift */; };
 		CAC80FAC2C3B567100658EA6 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FAB2C3B567100658EA6 /* MyPageViewModel.swift */; };
 		CAC80FAF2C3B56A800658EA6 /* MyPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FAE2C3B56A800658EA6 /* MyPageModel.swift */; };
-		CAC80FB12C3BB81C00658EA6 /* MyPageMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FB02C3BB81C00658EA6 /* MyPageMenuView.swift */; };
 		CAC80FB32C3BBE9100658EA6 /* MyPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FB22C3BBE9100658EA6 /* MyPageTableViewCell.swift */; };
 		CAC80FB52C3BBEA900658EA6 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FB42C3BBEA900658EA6 /* BaseTableViewCell.swift */; };
 		CAC80FB72C3BC2F800658EA6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FB62C3BC2F800658EA6 /* Constants.swift */; };
@@ -180,7 +179,6 @@
 		CAC80FA82C3B4CE800658EA6 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		CAC80FAB2C3B567100658EA6 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		CAC80FAE2C3B56A800658EA6 /* MyPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageModel.swift; sourceTree = "<group>"; };
-		CAC80FB02C3BB81C00658EA6 /* MyPageMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageMenuView.swift; sourceTree = "<group>"; };
 		CAC80FB22C3BBE9100658EA6 /* MyPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTableViewCell.swift; sourceTree = "<group>"; };
 		CAC80FB42C3BBEA900658EA6 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		CAC80FB62C3BC2F800658EA6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -652,7 +650,6 @@
 				CAC80F9F2C3B10D100658EA6 /* MyPageView.swift */,
 				CAC80FA12C3B10EA00658EA6 /* MyPageViewController.swift */,
 				CAC80FA32C3B34B400658EA6 /* UserInfoView.swift */,
-				CAC80FB02C3BB81C00658EA6 /* MyPageMenuView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -790,12 +787,10 @@
 				CAC80FA02C3B10D100658EA6 /* MyPageView.swift in Sources */,
 				CA4EF3E22C3537F3003B02B6 /* OnboardingModel.swift in Sources */,
 				CA4EF3D52C34763B003B02B6 /* OnboardingViewController.swift in Sources */,
-				CAC80FB12C3BB81C00658EA6 /* MyPageMenuView.swift in Sources */,
 				CAA30ADE2C3718C500835DE3 /* ProfileViewController.swift in Sources */,
 				0D0DA3D72C3AF2DE004210EE /* UIFont+.swift in Sources */,
 				CA4EF3B42C3284BB003B02B6 /* BaseView.swift in Sources */,
 				0DF905CA2C399F750072EE65 /* PreviewView.swift in Sources */,
-				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
 				CA4EF3DF2C347B4E003B02B6 /* DRButtonType.swift in Sources */,
 				CAA30AED2C37E57400835DE3 /* String+.swift in Sources */,
 				0D0DA3E42C3AF3CF004210EE /* PointCollectionView.swift in Sources */,

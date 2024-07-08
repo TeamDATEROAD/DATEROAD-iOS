@@ -25,6 +25,8 @@ final class UserInfoView: BaseView {
     
     private let pointLabel: UILabel = UILabel()
     
+    let goToPointHistoryStackView: UIStackView = UIStackView()
+    
     private let goToPointHistoryLabel: UILabel = UILabel()
     
     private let rightArrowButton: UIImageView = UIImageView()
@@ -41,8 +43,10 @@ final class UserInfoView: BaseView {
         
         pointView.addSubviews(userPointLabel,
                               pointLabel,
-                              rightArrowButton,
-                              goToPointHistoryLabel)
+                              goToPointHistoryStackView)
+        
+        goToPointHistoryStackView.addArrangedSubviews(goToPointHistoryLabel,rightArrowButton
+                                                      )
     }
     
     override func setLayout() {
@@ -84,22 +88,31 @@ final class UserInfoView: BaseView {
             $0.trailing.equalTo(goToPointHistoryLabel.snp.leading)
         }
         
-        rightArrowButton.snp.makeConstraints {
+        goToPointHistoryStackView.snp.makeConstraints {
+            $0.width.equalTo(100)
             $0.trailing.equalToSuperview().inset(14)
-            $0.width.equalTo(4)
-            $0.height.equalTo(7)
-            $0.centerY.equalTo(goToPointHistoryLabel)
+            $0.height.equalTo(20)
+            $0.centerY.equalTo(pointLabel)
         }
         
-        goToPointHistoryLabel.snp.makeConstraints {
-            $0.centerY.equalTo(pointLabel)
-            $0.trailing.equalTo(rightArrowButton.snp.leading).offset(-10)
-            $0.width.equalTo(86)
-        }
+//        rightArrowButton.snp.makeConstraints {
+//            $0.trailing.equalToSuperview().inset(14)
+//            $0.width.equalTo(4)
+//            $0.height.equalTo(7)
+//            $0.centerY.equalTo(goToPointHistoryLabel)
+//        }
+//        
+//        goToPointHistoryLabel.snp.makeConstraints {
+//            $0.centerY.equalTo(pointLabel)
+//            $0.trailing.equalTo(rightArrowButton.snp.leading).offset(-10)
+//            $0.width.equalTo(86)
+//        }
         
     }
     
     override func setStyle() {
+        self.isUserInteractionEnabled = true
+        
         profileImageView.do {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 22
@@ -131,6 +144,13 @@ final class UserInfoView: BaseView {
                         font: UIFont.suit(.body_med_13))
             $0.numberOfLines = 1
             $0.textAlignment = .left
+        }
+        
+        goToPointHistoryStackView.do {
+            $0.axis = .horizontal
+            $0.alignment = .center
+            $0.distribution = .equalSpacing
+            $0.isUserInteractionEnabled = true
         }
         
         pointLabel.do {

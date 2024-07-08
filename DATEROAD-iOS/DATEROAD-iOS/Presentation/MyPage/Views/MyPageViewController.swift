@@ -40,6 +40,7 @@ final class MyPageViewController: BaseNavBarViewController {
         registerCell()
         setDelegate()
         bindViewModel()
+        setAddTarget()
     }
     
     override func setHierarchy() {
@@ -85,6 +86,23 @@ private extension MyPageViewController {
             guard let data else { return }
             self?.myPageView.userInfoView.bindData(userInfo: data)
         }
+    }
+    
+    func setAddTarget() {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(pushToPointDetailVC))
+        self.myPageView.userInfoView.goToPointHistoryStackView.addGestureRecognizer(gesture)
+        self.myPageView.withdrawalButton.addTarget(self, action: #selector(pushToWithdrawalVC), for: .touchUpInside)
+    }
+    
+    // TODO: - 추후 뷰컨 수정 예정
+    @objc
+    func pushToPointDetailVC() {
+        print("포인트 내역 기기")
+    }
+    
+    @objc
+    func pushToWithdrawalVC() {
+        print("탈퇴하세요 그러세요 그럼")
     }
 
 }
