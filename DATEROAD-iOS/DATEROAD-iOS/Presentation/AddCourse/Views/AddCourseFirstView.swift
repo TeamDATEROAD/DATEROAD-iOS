@@ -30,8 +30,6 @@ final class AddCourseFirstView: BaseView {
    
    let visitDateErrorLabel = UILabel()
    
-   
-   
    private let warningType: DRErrorType = Warning()
    
    override func setHierarchy() {
@@ -168,6 +166,11 @@ extension AddCourseFirstView {
             $0.layer.borderWidth = 1
          }
       }
+   }
+   
+   func updateImageCellUI(isEmpty: Bool, ImageDataCount: Int) {
+      cameraBtn.isHidden = isEmpty
+      imageCountLabel.text = "\(ImageDataCount)/10"
    }
    
 }

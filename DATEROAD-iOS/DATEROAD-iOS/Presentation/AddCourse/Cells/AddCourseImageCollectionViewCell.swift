@@ -24,7 +24,9 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
    
    // MARK: - Properties
    
-   var cellType: AddCellType = .EmptyType
+   var emptyType = true
+   
+   
    
    // MARK: - Initializer
    
@@ -34,7 +36,7 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
       setHierarchy()
       setLayout()
       setStyle()
-//      updateUIForCellType()
+      updateImageCellUI(isImageEmpty: emptyType)
    }
    
    @available(*, unavailable)
@@ -46,7 +48,7 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
       super.prepareForReuse()
       
       self.prepare(image: nil)
-      self.cellType = .EmptyType
+//      self.cellType = .EmptyType
    }
    
    func prepare(image: UIImage?) {
@@ -110,4 +112,16 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
       }
    }
    
+}
+
+extension AddCourseImageCollectionViewCell {
+   func updateImageCellUI(isImageEmpty: Bool) {
+      if isImageEmpty {
+         emptyView.isHidden = !isImageEmpty
+         imageView.isHidden = isImageEmpty
+      } else {
+         emptyView.isHidden = !isImageEmpty
+         imageView.isHidden = isImageEmpty
+      }
+   }
 }

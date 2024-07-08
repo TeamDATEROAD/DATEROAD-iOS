@@ -77,13 +77,12 @@ extension AddCourseViewController {
          self?.addCourseFirstView.addFirstView.dateStartTimeTextField.text = date
       }
       viewModel.isDateNameError = { [weak self] date in
-         print("현재 viewModel.isDateNameError",date)
          self?.addCourseFirstView.updateDateNameTextField(isPassValid: !date)
       }
       viewModel.isVisitDateError = { [weak self] date in
-         print("현재 viewModel.isVisitDateError",date)
          self?.addCourseFirstView.updateVisitDateTextField(isPassValid: !date)
       }
+      
    }
    
    private func setAddTarget() {
@@ -110,11 +109,12 @@ extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewD
    }
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-      if viewModel.dataSource.isEmpty {
-         return 1
-      } else {
-         return viewModel.dataSource.count
-      }
+      return viewModel.getSampleImages() ? 1 : viewModel.dataSource.count
+//      if viewModel.dataSource.isEmpty {
+//         
+//      } else {
+//         return viewModel.dataSource.count
+//      }
    }
    
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -123,16 +123,17 @@ extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewD
          for: indexPath
       ) as! AddCourseImageCollectionViewCell
       
-      if viewModel.dataSource.isEmpty {
-         addCourseFirstView.cameraBtn.isHidden = true
-         cell.cellType = .EmptyType
-         addCourseFirstView.imageCountLabel.text = "\(0)/10"
+      if viewModel.isImageEmpty.value ?? true {
+         cell.updateImageCellUI(isImageEmpty: true)
+         
       } else {
-         addCourseFirstView.cameraBtn.isHidden = false
-         cell.cellType = .NotEmptyPType
-         cell.prepare(image: viewModel.dataSource[indexPath.item])
-         addCourseFirstView.imageCountLabel.text = "\(viewModel.dataSource.count)/10"
+         cell.updateImageCellUI(isImageEmpty: false)
+         cell.prepare(image: self.viewModel.dataSource[indexPath.item])
+         print(self.viewModel.dataSource[indexPath.item])
       }
+      self.addCourseFirstView.updateImageCellUI(isEmpty: viewModel.isImageEmpty.value ?? true,
+         ImageDataCount: self.viewModel.dataSource.count
+      )
       
       return cell
    }
@@ -200,7 +201,5 @@ extension AddCourseViewController: UITextFieldDelegate {
 }
 
 /// 이미지 개수에 따른 Cell 분기처리 대응 테스트 함수
-func getSampleImages() -> [UIImage?] {
-   (1...9).map { _ in return UIImage(resource: .test) }
-   //      return []
-}
+
+

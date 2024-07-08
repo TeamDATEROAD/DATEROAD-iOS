@@ -13,7 +13,7 @@ enum AddCellType {
 
 final class AddCourseViewModel {
    
-   var dataSource = getSampleImages()
+   var dataSource = [UIImage]()
    
    var cellType: ObservablePattern<AddCellType> = ObservablePattern(nil)
    
@@ -22,6 +22,8 @@ final class AddCourseViewModel {
    var visitDate: ObservablePattern<String> = ObservablePattern("")
    
    var dateStartTime: ObservablePattern<String> = ObservablePattern("")
+   
+   var isImageEmpty: ObservablePattern<Bool> = ObservablePattern(true)
    
    var isDateNameError: ((Bool) -> Void)?
    
@@ -68,4 +70,14 @@ extension AddCourseViewModel {
       isDateNameError?(flag)
    }
    
+   func getSampleImages() -> Bool {
+      var t = (1...9).map { _ in
+         UIImage(resource: .test)
+      }
+//      for i in t {
+//         dataSource.append(i)
+//      }
+      isImageEmpty.value = dataSource.isEmpty
+      return isImageEmpty.value ?? true
+   }
 }
