@@ -64,9 +64,8 @@ class UpcomingDateScheduleViewController: BaseViewController {
         
         cardCollectionView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(128)
-            $0.leading.equalToSuperview().inset(16)
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(406)
-            $0.width.equalTo(1000)
         }
         
         cardPageControl.snp.makeConstraints {

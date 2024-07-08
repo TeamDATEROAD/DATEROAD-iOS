@@ -18,7 +18,11 @@ class DateCardCollectionView: UICollectionView {
     
     // MARK: - Properties
     
-    lazy var upcomingDateScheduleData = DateSchdeuleModel(dateCards: [])
+    lazy var upcomingDateScheduleData = DateScheduleModel(dateCards: [])
+    
+    var currentIndex: CGFloat = 0
+    
+    var isOneStepPaging = true
     
     // MARK: - LifeCycle
     
@@ -36,14 +40,20 @@ class DateCardCollectionView: UICollectionView {
     
     func setStyle() {
         self.backgroundColor = UIColor(resource: .drWhite)
+        self.isPagingEnabled = false
+        self.contentInsetAdjustmentBehavior = .never
+        self.clipsToBounds = true
+        self.decelerationRate = .fast
         
         DateCardCollectionView.dateCardCollectionViewLayout.do {
-            $0.minimumLineSpacing = 20
             $0.scrollDirection = .horizontal
+            $0.minimumLineSpacing = ScreenUtils.width * 0.0693
+            $0.itemSize = CGSize(width: ScreenUtils.width * 0.776, height: 406)
         }
     }
 
 }
+
 // MARK: - CollectionView Methods
 
 extension DateCardCollectionView {
@@ -56,23 +66,39 @@ extension DateCardCollectionView {
         self.dataSource = self
     }
     
-    func setUpBindings(upcomingDateScheduleData: DateSchdeuleModel) {
+    func setUpBindings(upcomingDateScheduleData: DateScheduleModel) {
         self.upcomingDateScheduleData = upcomingDateScheduleData
+        self.reloadData()
     }
 }
 
 // MARK: - Delegate
 
-extension DateCardCollectionView : UICollectionViewDelegateFlowLayout {
+extension DateCardCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 291, height: 406)
+        return DateCardCollectionView.dateCardCollectionViewLayout.itemSize
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: ScreenUtils.width * 0.112, bottom: 0, right: ScreenUtils.width * 0.112)
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let layout = DateCardCollectionView.dateCardCollectionViewLayout
+        let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
+        
+        var offset = targetContentOffset.pointee
+        let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
+        let roundedIndex = round(index)
+        
+        offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
+        targetContentOffset.pointee = offset
+    }
 }
 
 // MARK: - DataSource
 
-extension DateCardCollectionView : UICollectionViewDataSource {
+extension DateCardCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return upcomingDateScheduleData.dateCards.count
     }
@@ -88,11 +114,8 @@ extension DateCardCollectionView : UICollectionViewDataSource {
     
     @objc func pushToUpcomingDateDetailVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: self)
-        let indexPath = self.indexPathForItem(at: location)
-
-        if indexPath != nil {
-           print("다가올 데이트 상세 페이지로 이동 \(upcomingDateScheduleData.dateCards[indexPath?.item ?? 0].courseID ?? 0)")
-       }
+        if let indexPath = self.indexPathForItem(at: location) {
+            print("다가올 데이트 상세 페이지로 이동 \(upcomingDateScheduleData.dateCards[indexPath.item].courseID ?? 0)")
+        }
     }
-    
 }

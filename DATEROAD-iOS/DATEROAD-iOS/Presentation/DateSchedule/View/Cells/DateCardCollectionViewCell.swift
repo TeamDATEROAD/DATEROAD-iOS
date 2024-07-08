@@ -53,7 +53,7 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
     
     
     override func setHierarchy() {
-        self.addSubviews(dateLabel, 
+        self.addSubviews(dateLabel,
                          dDayButton,
                          firstTagButton,
                          secondTagButton,
@@ -66,6 +66,7 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func setLayout() {
+        
         dateLabel.snp.makeConstraints {
             $0.top.leading.equalToSuperview().inset(20)
             $0.height.equalTo(62)
@@ -129,6 +130,7 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
     override func setStyle() {
         self.backgroundColor = UIColor(resource: .lilac)
         self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+        
         
         dateLabel.do {
             $0.font = UIFont.suit(.title_extra_24)

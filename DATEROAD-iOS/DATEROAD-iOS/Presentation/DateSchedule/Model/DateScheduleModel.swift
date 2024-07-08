@@ -27,7 +27,7 @@ struct DateCardModel {
     }
 }
 
-struct DateSchdeuleModel {
+struct DateScheduleModel {
     let dateCards: [DateCardModel]
     
     init(dateCards: [DateCardModel]) {
