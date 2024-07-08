@@ -28,7 +28,7 @@ final class AddCourseViewController: BaseNavBarViewController {
       setHierarchy()
       setLayout()
       setStyle()
-      setTitleLabelStyle(title: StringLiterals.AddCourseOrScheduleFirst.addCourseTitle)
+       setTitleLabelStyle(title: StringLiterals.AddCourseOrScheduleFirst.addCourseTitle, alignment: .center)
       setLeftBackButton()
       setAddTarget()
       registerCell()

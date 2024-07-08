@@ -14,9 +14,9 @@ class BaseNavBarViewController: UIViewController {
    
    // MARK: - UI Properties
    
-   private let topInsetView = UIView()
+    let topInsetView = UIView()
    
-   private var navigationBarView = UIView()
+    var navigationBarView = UIView()
    
    var contentView = UIView()
    
@@ -24,7 +24,7 @@ class BaseNavBarViewController: UIViewController {
    
    private var rightButton = UIButton()
    
-   private var titleLabel = UILabel()
+    var titleLabel = UILabel()
    
    // MARK: - Life Cycles
    
@@ -69,7 +69,8 @@ class BaseNavBarViewController: UIViewController {
       }
       
       titleLabel.snp.makeConstraints {
-         $0.center.equalToSuperview()
+          $0.centerY.equalToSuperview()
+          $0.horizontalEdges.equalToSuperview().inset(16)
       }
    }
    
@@ -124,12 +125,13 @@ extension BaseNavBarViewController {
       setLeftButtonAction(target: self, action: #selector(backButtonTapped))
    }
    
-   func setTitleLabelStyle(title: String?) {
+    func setTitleLabelStyle(title: String?, alignment: NSTextAlignment) {
       titleLabel.do {
-         $0.isHidden = false
-         $0.text = title
-         $0.font = UIFont(name: "SUIT-Bold", size: 20)
-         $0.textColor = .black
+          $0.isHidden = false
+          $0.text = title
+          $0.font = UIFont(name: "SUIT-Bold", size: 20)
+          $0.textColor = .black
+          $0.textAlignment = alignment
       }
    }
    
