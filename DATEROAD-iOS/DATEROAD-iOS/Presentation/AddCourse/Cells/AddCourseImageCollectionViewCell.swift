@@ -48,7 +48,7 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
       super.prepareForReuse()
       
       self.prepare(image: nil)
-//      self.cellType = .EmptyType
+      //      self.cellType = .EmptyType
    }
    
    func prepare(image: UIImage?) {
@@ -116,12 +116,7 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
 
 extension AddCourseImageCollectionViewCell {
    func updateImageCellUI(isImageEmpty: Bool) {
-      if isImageEmpty {
-         emptyView.isHidden = !isImageEmpty
-         imageView.isHidden = isImageEmpty
-      } else {
-         emptyView.isHidden = !isImageEmpty
-         imageView.isHidden = isImageEmpty
-      }
+      emptyView.isHidden = !isImageEmpty
+      imageView.isHidden = isImageEmpty
    }
 }

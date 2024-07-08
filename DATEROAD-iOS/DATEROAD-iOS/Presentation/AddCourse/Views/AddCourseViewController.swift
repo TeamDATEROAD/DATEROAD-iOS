@@ -110,11 +110,6 @@ extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewD
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
       return viewModel.getSampleImages() ? 1 : viewModel.dataSource.count
-//      if viewModel.dataSource.isEmpty {
-//         
-//      } else {
-//         return viewModel.dataSource.count
-//      }
    }
    
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -125,14 +120,13 @@ extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewD
       
       if viewModel.isImageEmpty.value ?? true {
          cell.updateImageCellUI(isImageEmpty: true)
-         
       } else {
          cell.updateImageCellUI(isImageEmpty: false)
+         // 아래 코드 때문에 if문을 사용하였습니다.
          cell.prepare(image: self.viewModel.dataSource[indexPath.item])
-         print(self.viewModel.dataSource[indexPath.item])
       }
       self.addCourseFirstView.updateImageCellUI(isEmpty: viewModel.isImageEmpty.value ?? true,
-         ImageDataCount: self.viewModel.dataSource.count
+                                                ImageDataCount: self.viewModel.dataSource.count
       )
       
       return cell
@@ -199,7 +193,3 @@ extension AddCourseViewController: UITextFieldDelegate {
    }
    
 }
-
-/// 이미지 개수에 따른 Cell 분기처리 대응 테스트 함수
-
-

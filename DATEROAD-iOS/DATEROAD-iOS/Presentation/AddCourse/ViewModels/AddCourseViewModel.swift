@@ -74,9 +74,11 @@ extension AddCourseViewModel {
       var t = (1...9).map { _ in
          UIImage(resource: .test)
       }
-//      for i in t {
-//         dataSource.append(i)
-//      }
+      
+      // 이미지 개수 대응 관련 코드
+      for i in t {
+         dataSource.append(i)
+      }
       isImageEmpty.value = dataSource.isEmpty
       return isImageEmpty.value ?? true
    }
