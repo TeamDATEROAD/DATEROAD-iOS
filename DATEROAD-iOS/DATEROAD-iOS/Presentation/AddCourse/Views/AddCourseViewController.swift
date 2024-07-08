@@ -102,7 +102,7 @@ extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewD
    
    private func registerCell() {
       addCourseFirstView.collectionView.do {
-         $0.register(AddCourseImageCollectionViewCell.self, forCellWithReuseIdentifier: "AddCourseImageCollectionViewCell")
+         $0.register(AddCourseImageCollectionViewCell.self, forCellWithReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier)
          $0.delegate = self
          $0.dataSource = self
       }
@@ -119,7 +119,7 @@ extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewD
    
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
       let cell = collectionView.dequeueReusableCell(
-         withReuseIdentifier: AddCourseImageCollectionViewCell.id,
+         withReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier,
          for: indexPath
       ) as! AddCourseImageCollectionViewCell
       

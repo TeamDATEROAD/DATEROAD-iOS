@@ -24,8 +24,6 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
    
    // MARK: - Properties
    
-   static let id: String = "AddCourseImageCollectionViewCell"
-   
    var cellType: AddCellType = .EmptyType
    
    // MARK: - Initializer
