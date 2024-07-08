@@ -26,3 +26,11 @@ struct DateCardModel {
         self.dateLocation = dateLocation
     }
 }
+
+struct DateSchdeuleModel {
+    let dateCards: [DateCardModel]
+    
+    init(dateCards: [DateCardModel]) {
+        self.dateCards = dateCards
+    }
+}

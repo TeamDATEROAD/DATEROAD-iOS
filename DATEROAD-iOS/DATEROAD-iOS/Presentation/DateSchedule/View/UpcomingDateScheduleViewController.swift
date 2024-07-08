@@ -16,7 +16,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     private let titleLabel = UILabel()
     
-    private var cardCollectionView = UIScrollView()
+    private var cardCollectionView = DateCardCollectionView()
     
     private var cardPageControl = UIPageControl()
     
@@ -27,6 +27,9 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     // MARK: - Properties
     
+    private let upcomingDateScheduleViewModel = DateScheduleViewModel()
+    
+    private lazy var upcomingDateScheduleData = upcomingDateScheduleViewModel.upcomingDateScheduleDummyData
     
     
     // MARK: - LifeCycle
@@ -52,22 +55,24 @@ class UpcomingDateScheduleViewController: BaseViewController {
             $0.height.equalTo(28)
         }
         
+        dateRegisterButton.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(12)
+            $0.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(30)
+            $0.width.equalTo(44)
+        }
+        
         cardCollectionView.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(128)
             $0.leading.equalToSuperview().inset(16)
             $0.height.equalTo(406)
+            $0.width.equalTo(1000)
         }
         
         cardPageControl.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(8)
             $0.bottom.equalTo(dateRegisterButton.snp.top).inset(20)
-        }
-        
-        dateRegisterButton.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(12)
-            $0.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(30)
-            $0.width.equalTo(44)
         }
         
         pastDateButton.snp.makeConstraints {
@@ -88,11 +93,8 @@ class UpcomingDateScheduleViewController: BaseViewController {
         }
         
         cardCollectionView.do {
-            
-        }
-        
-        cardPageControl.do {
-            
+            $0.setUpBindings(upcomingDateScheduleData: upcomingDateScheduleData)
+            $0.isScrollEnabled = true
         }
         
         dateRegisterButton.do {

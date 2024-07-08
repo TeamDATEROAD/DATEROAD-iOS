@@ -34,6 +34,7 @@
 		741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */; };
 		745547532C3B862100B526F3 /* DateScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745547522C3B862100B526F3 /* DateScheduleModel.swift */; };
 		745547552C3B8A0B00B526F3 /* DateScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745547542C3B8A0B00B526F3 /* DateScheduleViewModel.swift */; };
+		745547572C3B8C4B00B526F3 /* DateCardCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745547562C3B8C4B00B526F3 /* DateCardCollectionView.swift */; };
 		747819392C3A93760040D5E7 /* CourseCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747819382C3A93760040D5E7 /* CourseCollectionView.swift */; };
 		7478193E2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193D2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift */; };
 		747819402C3AB7E10040D5E7 /* ViewedCourseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193F2C3AB7E10040D5E7 /* ViewedCourseViewModel.swift */; };
@@ -126,6 +127,7 @@
 		741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseViewController.swift; sourceTree = "<group>"; };
 		745547522C3B862100B526F3 /* DateScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateScheduleModel.swift; sourceTree = "<group>"; };
 		745547542C3B8A0B00B526F3 /* DateScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateScheduleViewModel.swift; sourceTree = "<group>"; };
+		745547562C3B8C4B00B526F3 /* DateCardCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCardCollectionView.swift; sourceTree = "<group>"; };
 		747819382C3A93760040D5E7 /* CourseCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCollectionView.swift; sourceTree = "<group>"; };
 		7478193D2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseCollectionViewCell.swift; sourceTree = "<group>"; };
 		7478193F2C3AB7E10040D5E7 /* ViewedCourseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseViewModel.swift; sourceTree = "<group>"; };
@@ -377,6 +379,7 @@
 			children = (
 				74CDE2692C3B7A9400A7459B /* Cells */,
 				74CDE2672C3B123100A7459B /* UpcomingDateScheduleViewController.swift */,
+				745547562C3B8C4B00B526F3 /* DateCardCollectionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -885,6 +888,7 @@
 				741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */,
 				0D06D9AA2C37CAFC0094C505 /* BringCourseCell.swift in Sources */,
 				CAA30AE52C37BCB200835DE3 /* DRTagButton.swift in Sources */,
+				745547572C3B8C4B00B526F3 /* DateCardCollectionView.swift in Sources */,
 				CAA30AE82C37DAA600835DE3 /* TendencyTagCollectionViewCell.swift in Sources */,
 				CA78FE472C38667A001B1403 /* DRErrorLabel.swift in Sources */,
 			);

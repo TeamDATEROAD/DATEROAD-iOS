@@ -127,7 +127,7 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func setStyle() {
-        self.backgroundColor = UIColor(resource: .deepPurple)
+        self.backgroundColor = UIColor(resource: .lilac)
         self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
         
         dateLabel.do {
@@ -172,7 +172,7 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
 extension DateCardCollectionViewCell {
     func dataBind(_ dateCardData : DateCardModel, _ dateCardItemRow: Int) {
         self.dateLabel.text = dateCardData.dateCalendar
-        self.dDayButton.setTitle("D-\(dateCardData.dDay)", for: .normal)
+        self.dDayButton.setTitle("D-\(dateCardData.dDay ?? 0)", for: .normal)
         self.secondTagButton.setTitle(dateCardData.tags[0], for: .normal)
         if dateCardData.tags.count >= 2 {
             self.secondTagButton.isHidden = false
