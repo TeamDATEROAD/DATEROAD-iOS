@@ -100,6 +100,16 @@
 		CAA30AE82C37DAA600835DE3 /* TendencyTagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30AE72C37DAA600835DE3 /* TendencyTagCollectionViewCell.swift */; };
 		CAA30AEB2C37DCE300835DE3 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30AEA2C37DCE300835DE3 /* ProfileViewModel.swift */; };
 		CAA30AED2C37E57400835DE3 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30AEC2C37E57400835DE3 /* String+.swift */; };
+		CAC80FA02C3B10D100658EA6 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80F9F2C3B10D100658EA6 /* MyPageView.swift */; };
+		CAC80FA22C3B10EA00658EA6 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FA12C3B10EA00658EA6 /* MyPageViewController.swift */; };
+		CAC80FA42C3B34B400658EA6 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FA32C3B34B400658EA6 /* UserInfoView.swift */; };
+		CAC80FA92C3B4CE800658EA6 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FA82C3B4CE800658EA6 /* TagCollectionViewCell.swift */; };
+		CAC80FAC2C3B567100658EA6 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FAB2C3B567100658EA6 /* MyPageViewModel.swift */; };
+		CAC80FAF2C3B56A800658EA6 /* MyPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FAE2C3B56A800658EA6 /* MyPageModel.swift */; };
+		CAC80FB32C3BBE9100658EA6 /* MyPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FB22C3BBE9100658EA6 /* MyPageTableViewCell.swift */; };
+		CAC80FB52C3BBEA900658EA6 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FB42C3BBEA900658EA6 /* BaseTableViewCell.swift */; };
+		CAC80FB72C3BC2F800658EA6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FB62C3BC2F800658EA6 /* Constants.swift */; };
+		CAC80FB92C3BCE4E00658EA6 /* MyPageSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FB82C3BCE4E00658EA6 /* MyPageSection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -191,6 +201,16 @@
 		CAA30AE72C37DAA600835DE3 /* TendencyTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TendencyTagCollectionViewCell.swift; sourceTree = "<group>"; };
 		CAA30AEA2C37DCE300835DE3 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		CAA30AEC2C37E57400835DE3 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		CAC80F9F2C3B10D100658EA6 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		CAC80FA12C3B10EA00658EA6 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		CAC80FA32C3B34B400658EA6 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
+		CAC80FA82C3B4CE800658EA6 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
+		CAC80FAB2C3B567100658EA6 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
+		CAC80FAE2C3B56A800658EA6 /* MyPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageModel.swift; sourceTree = "<group>"; };
+		CAC80FB22C3BBE9100658EA6 /* MyPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTableViewCell.swift; sourceTree = "<group>"; };
+		CAC80FB42C3BBEA900658EA6 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
+		CAC80FB62C3BC2F800658EA6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		CAC80FB82C3BCE4E00658EA6 /* MyPageSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -415,6 +435,7 @@
 				CA0A963D2C2B131300F39EBE /* BaseViewController.swift */,
 				CA4EF3B32C3284BB003B02B6 /* BaseView.swift */,
 				CA4EF3DB2C347994003B02B6 /* BaseCollectionViewCell.swift */,
+				CAC80FB42C3BBEA900658EA6 /* BaseTableViewCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -492,6 +513,7 @@
 		CA3D0D092C29A75600735097 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				CAC80F9D2C3B0FD000658EA6 /* MyPage */,
 				0D0DA3D82C3AF304004210EE /* PointDetail */,
 				CAA30ADB2C37182A00835DE3 /* Profile */,
 				741AE2DD2C37288A0031849F /* ViewedCourse */,
@@ -578,6 +600,7 @@
 				CA4EF3BE2C3285AD003B02B6 /* Enums */,
 				CA4EF3BA2C328595003B02B6 /* ObservablePattern.swift */,
 				CA4EF3BC2C3285A1003B02B6 /* ScreenUtils.swift */,
+				CAC80FB62C3BC2F800658EA6 /* Constants.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -587,6 +610,7 @@
 			children = (
 				CA4EF3BF2C3285BA003B02B6 /* SocialType.swift */,
 				CAA30AE12C37497200835DE3 /* TendencyTag.swift */,
+				CAC80FB82C3BCE4E00658EA6 /* MyPageSection.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -723,6 +747,52 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		CAC80F9D2C3B0FD000658EA6 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				CAC80FAD2C3B569700658EA6 /* Models */,
+				CAC80FAA2C3B565800658EA6 /* ViewModels */,
+				CAC80F9E2C3B0FDA00658EA6 /* Views */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		CAC80F9E2C3B0FDA00658EA6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CAC80FA52C3B48A800658EA6 /* Cells */,
+				CAC80F9F2C3B10D100658EA6 /* MyPageView.swift */,
+				CAC80FA12C3B10EA00658EA6 /* MyPageViewController.swift */,
+				CAC80FA32C3B34B400658EA6 /* UserInfoView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CAC80FA52C3B48A800658EA6 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				CAC80FA82C3B4CE800658EA6 /* TagCollectionViewCell.swift */,
+				CAC80FB22C3BBE9100658EA6 /* MyPageTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		CAC80FAA2C3B565800658EA6 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CAC80FAB2C3B567100658EA6 /* MyPageViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CAC80FAD2C3B569700658EA6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CAC80FAE2C3B56A800658EA6 /* MyPageModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -823,9 +893,12 @@
 				CA3D0D1E2C2ACE3900735097 /* UIButton+.swift in Sources */,
 				0D9497B92C328D010004B442 /* ImageCarouselCell.swift in Sources */,
 				0DF905C02C3921AD0072EE65 /* ImageGradientView.swift in Sources */,
+				CAC80FB72C3BC2F800658EA6 /* Constants.swift in Sources */,
 				CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */,
 				74BC165A2C3284A90084E832 /* BaseNavBarViewController.swift in Sources */,
 				CA78FE492C3866FD001B1403 /* DRErrorType.swift in Sources */,
+				CAC80FA42C3B34B400658EA6 /* UserInfoView.swift in Sources */,
+				CAC80FA02C3B10D100658EA6 /* MyPageView.swift in Sources */,
 				CA4EF3E22C3537F3003B02B6 /* OnboardingModel.swift in Sources */,
 				CA4EF3D52C34763B003B02B6 /* OnboardingViewController.swift in Sources */,
 				CAA30ADE2C3718C500835DE3 /* ProfileViewController.swift in Sources */,
@@ -833,11 +906,12 @@
 				747819402C3AB7E10040D5E7 /* ViewedCourseViewModel.swift in Sources */,
 				CA4EF3B42C3284BB003B02B6 /* BaseView.swift in Sources */,
 				0DF905CA2C399F750072EE65 /* PreviewView.swift in Sources */,
-				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
 				CA4EF3DF2C347B4E003B02B6 /* DRButtonType.swift in Sources */,
 				CAA30AED2C37E57400835DE3 /* String+.swift in Sources */,
 				0D0DA3E42C3AF3CF004210EE /* PointCollectionView.swift in Sources */,
+				CAC80FA22C3B10EA00658EA6 /* MyPageViewController.swift in Sources */,
 				CA4EF3C02C3285BA003B02B6 /* SocialType.swift in Sources */,
+				CAC80FAC2C3B567100658EA6 /* MyPageViewModel.swift in Sources */,
 				0D06D9A02C3561AF0094C505 /* ImageContents.swift in Sources */,
 				0D9497B42C327D620004B442 /* CourseDetailViewModel.swift in Sources */,
 				0D0DA3E62C3AF3FB004210EE /* PointDetailViewController.swift in Sources */,
@@ -845,12 +919,15 @@
 				0D9497B22C327D2D0004B442 /* CourseDetailViewController.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
 				0DF905C42C39295F0072EE65 /* TimelineContents.swift in Sources */,
+				CAC80FB32C3BBE9100658EA6 /* MyPageTableViewCell.swift in Sources */,
+				CAC80FA92C3B4CE800658EA6 /* TagCollectionViewCell.swift in Sources */,
 				0D06D9A82C36946C0094C505 /* TimelineInfoCell.swift in Sources */,
 				0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */,
 				0D9497BD2C3292C20004B442 /* MainContentsCell.swift in Sources */,
+				CAC80FAF2C3B56A800658EA6 /* MyPageModel.swift in Sources */,
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
 				CAA30AEB2C37DCE300835DE3 /* ProfileViewModel.swift in Sources */,
-				CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */,
+				CAC80FB52C3BBEA900658EA6 /* BaseTableViewCell.swift in Sources */,
 				CAA30AE22C37497200835DE3 /* TendencyTag.swift in Sources */,
 				CA4EF3DC2C347994003B02B6 /* BaseCollectionViewCell.swift in Sources */,
 				0D0DA3E22C3AF3B0004210EE /* PointViewModel.swift in Sources */,
@@ -887,6 +964,7 @@
 				0D06D9AA2C37CAFC0094C505 /* BringCourseCell.swift in Sources */,
 				CAA30AE52C37BCB200835DE3 /* DRTagButton.swift in Sources */,
 				CAA30AE82C37DAA600835DE3 /* TendencyTagCollectionViewCell.swift in Sources */,
+				CAC80FB92C3BCE4E00658EA6 /* MyPageSection.swift in Sources */,
 				CA78FE472C38667A001B1403 /* DRErrorLabel.swift in Sources */,
 				9E443A482C37AAE400C1F92C /* AddCourseViewModel.swift in Sources */,
 				9E443A502C39158100C1F92C /* AddSheetViewController.swift in Sources */,
