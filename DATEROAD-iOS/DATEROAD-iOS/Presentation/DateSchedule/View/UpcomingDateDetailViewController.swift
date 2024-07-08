@@ -51,6 +51,7 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setBackgroundColor(color: UIColor(resource: .lilac))
         setLeftBackButton()
         setTitleLabelStyle(title: "데이트 일정")
         setRightButtonStyle(image: UIImage(resource: .moreButton))

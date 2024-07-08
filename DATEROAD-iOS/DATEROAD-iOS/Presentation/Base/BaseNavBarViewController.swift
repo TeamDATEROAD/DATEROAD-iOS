@@ -136,4 +136,13 @@ extension BaseNavBarViewController {
             $0.textColor = .black
         }
     }
+    
+    func setBackgroundColor(color: UIColor) {
+        topInsetView.do {
+            $0.backgroundColor = color
+        }
+        navigationBarView.do {
+            $0.backgroundColor = color
+        }
+    }
 }
