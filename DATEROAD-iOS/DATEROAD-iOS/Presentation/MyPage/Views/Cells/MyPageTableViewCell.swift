@@ -16,10 +16,8 @@ final class MyPageTableViewCell: BaseTableViewCell {
     let rightArrowButton: UIButton = UIButton()
     
     
-//    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-//        super.init(style: style, reuseIdentifier: reuseIdentifier)
-//        
-//    }
+    // MARK: - Life Cycle
+
     override func setHierarchy() {
         self.addSubviews(titleLabel, rightArrowButton)
     }
@@ -48,6 +46,7 @@ final class MyPageTableViewCell: BaseTableViewCell {
 }
 
 extension MyPageTableViewCell {
+    
     func bindTitle(title: String) {
         self.titleLabel.text = title
     }

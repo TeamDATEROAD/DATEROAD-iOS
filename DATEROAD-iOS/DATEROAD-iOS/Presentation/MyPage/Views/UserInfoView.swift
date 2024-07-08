@@ -94,20 +94,7 @@ final class UserInfoView: BaseView {
             $0.height.equalTo(20)
             $0.centerY.equalTo(pointLabel)
         }
-        
-//        rightArrowButton.snp.makeConstraints {
-//            $0.trailing.equalToSuperview().inset(14)
-//            $0.width.equalTo(4)
-//            $0.height.equalTo(7)
-//            $0.centerY.equalTo(goToPointHistoryLabel)
-//        }
-//        
-//        goToPointHistoryLabel.snp.makeConstraints {
-//            $0.centerY.equalTo(pointLabel)
-//            $0.trailing.equalTo(rightArrowButton.snp.leading).offset(-10)
-//            $0.width.equalTo(86)
-//        }
-        
+
     }
     
     override func setStyle() {
@@ -171,7 +158,6 @@ final class UserInfoView: BaseView {
             $0.image = UIImage(resource: .arrowRightMini)
         }
     }
-    
     
 }
 

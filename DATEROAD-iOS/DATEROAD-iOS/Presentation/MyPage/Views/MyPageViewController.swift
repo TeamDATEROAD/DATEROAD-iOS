@@ -67,6 +67,9 @@ final class MyPageViewController: BaseNavBarViewController {
     
 }
 
+
+// MARK: - Private Methods
+
 private extension MyPageViewController {
     
     func registerCell() {
@@ -194,6 +197,5 @@ extension MyPageViewController: UITableViewDataSource {
         cell.selectionStyle = .none
         return cell
     }
-    
     
 }
