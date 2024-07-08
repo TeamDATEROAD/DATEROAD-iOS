@@ -113,19 +113,22 @@ extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewD
    }
    
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-      let cell = collectionView.dequeueReusableCell(
+      guard let cell = collectionView.dequeueReusableCell(
          withReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier,
          for: indexPath
-      ) as! AddCourseImageCollectionViewCell
+      ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
       
-      if viewModel.isImageEmpty.value ?? true {
-         cell.updateImageCellUI(isImageEmpty: true)
-      } else {
-         cell.updateImageCellUI(isImageEmpty: false)
-         // 아래 코드 때문에 if문을 사용하였습니다.
-         cell.prepare(image: self.viewModel.dataSource[indexPath.item])
-      }
-      self.addCourseFirstView.updateImageCellUI(isEmpty: viewModel.isImageEmpty.value ?? true,
+      viewModel.isImageEmpty.value ?? true ?
+      cell.updateImageCellUI(
+         isImageEmpty: viewModel.isImageEmpty.value ?? true,
+         image: nil
+      ) : cell.updateImageCellUI(
+         isImageEmpty: viewModel.isImageEmpty.value ?? true,
+         image: self.viewModel.dataSource[indexPath.item]
+      )
+      
+      self.addCourseFirstView.updateImageCellUI(
+         isEmpty: viewModel.isImageEmpty.value ?? true,
                                                 ImageDataCount: self.viewModel.dataSource.count
       )
       
