@@ -79,7 +79,7 @@ final class UserInfoView: BaseView {
         }
         
         pointLabel.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(18)
+            $0.bottom.equalToSuperview().inset(12)
             $0.leading.equalToSuperview().inset(14)
             $0.trailing.equalTo(goToPointHistoryLabel.snp.leading)
         }
@@ -92,7 +92,7 @@ final class UserInfoView: BaseView {
         }
         
         goToPointHistoryLabel.snp.makeConstraints {
-            $0.bottom.equalTo(pointLabel)
+            $0.centerY.equalTo(pointLabel)
             $0.trailing.equalTo(rightArrowButton.snp.leading).offset(-10)
             $0.width.equalTo(86)
         }
@@ -161,7 +161,7 @@ extension UserInfoView {
     func bindData(userInfo: UserInfoModel) {
         self.profileImageView.image = UIImage(resource: .emptyProfileImg)
         self.nicknameLabel.text = userInfo.nickname
-        self.userPointLabel.text = userInfo.nickname + " 님의 포인트"
+        self.userPointLabel.text = userInfo.nickname + "님의 포인트"
         self.pointLabel.text = String(userInfo.point) + " P"
         
     }

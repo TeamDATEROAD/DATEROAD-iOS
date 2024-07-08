@@ -13,17 +13,26 @@ final class MyPageView: BaseView {
     
     let userInfoView: UserInfoView = UserInfoView()
     
+    let myPageTableView: UITableView = UITableView(frame: .zero, style: .plain)
+    
+    
     
     // MARK: - Life Cycle
     
     override func setHierarchy() {
-        self.addSubview(userInfoView)
+        self.addSubviews(userInfoView, myPageTableView)
     }
     
     override func setLayout() {
         userInfoView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
             $0.height.equalTo(230)
+        }
+        
+        myPageTableView.snp.makeConstraints {
+            $0.top.equalTo(userInfoView.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(240)
         }
     }
     
@@ -32,8 +41,11 @@ final class MyPageView: BaseView {
             $0.backgroundColor = UIColor(resource: .gray100)
             $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner])
         }
+        
+        myPageTableView.do {
+            $0.separatorStyle = .none
+            $0.rowHeight = 60
+        }
     }
-    
-    
-    
+ 
 }

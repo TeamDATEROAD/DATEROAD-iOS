@@ -70,11 +70,14 @@ private extension MyPageViewController {
     
     func registerCell() {
         self.myPageView.userInfoView.tagCollectionView.register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.cellIdentifier)
+        self.myPageView.myPageTableView.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.cellIdentifier)
     }
     
     func setDelegate() {
         self.myPageView.userInfoView.tagCollectionView.delegate = self
         self.myPageView.userInfoView.tagCollectionView.dataSource = self
+        self.myPageView.myPageTableView.delegate = self
+        self.myPageView.myPageTableView.dataSource = self
     }
     
     func bindViewModel() {
@@ -83,7 +86,11 @@ private extension MyPageViewController {
             self?.myPageView.userInfoView.bindData(userInfo: data)
         }
     }
+
 }
+
+
+// MARK: - UICollectionView Delegates
 
 extension MyPageViewController: UICollectionViewDelegateFlowLayout {
     
@@ -101,10 +108,10 @@ extension MyPageViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-
 // TODO: - 추후 데이터 수정
 
 extension MyPageViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return myPageViewModel.dummyTagData.value?.count ?? 0
     }
@@ -114,6 +121,59 @@ extension MyPageViewController: UICollectionViewDataSource {
         if let model = myPageViewModel.dummyTagData.value {
             cell.updateButtonTitle(title: model[indexPath.row])
         }
+        return cell
+    }
+    
+}
+
+// MARK: - UITableView Delegates
+
+// TODO: - 뷰컨 변경 예정
+
+extension MyPageViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch MyPageSection.dataSource[indexPath.item] {
+        case .myCourse:
+            let myCourseVC = CourseDetailViewController(viewModel: CourseDetailViewModel())
+            self.navigationController?.pushViewController(myCourseVC, animated: false)
+        case .pointSystem:
+            let pointSystemVC = PointDetailViewController()
+            self.navigationController?.pushViewController(pointSystemVC, animated: false)
+        case .inquiry:
+            // 웹뷰는 present?
+            let inquiryVC = OnboardingViewController()
+            self.navigationController?.pushViewController(inquiryVC, animated: false)
+        case .logout:
+            let pointSystemVC = ProfileViewController(profileViewModel: ProfileViewModel())
+            self.navigationController?.pushViewController(pointSystemVC, animated: false)
+        }
+    }
+    
+}
+
+extension MyPageViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return MyPageSection.dataSource.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageTableViewCell.cellIdentifier, for: indexPath) as? MyPageTableViewCell else { return UITableViewCell() }
+        var title: String = ""
+        
+        switch MyPageSection.dataSource[indexPath.item] {
+        case .myCourse:
+            title = MyPageSection.myCourse.title
+        case .pointSystem:
+            title = MyPageSection.pointSystem.title
+        case .inquiry:
+            title = MyPageSection.inquiry.title
+        case .logout:
+            title = MyPageSection.logout.title
+        }
+        cell.bindTitle(title: title)
+        cell.selectionStyle = .none
         return cell
     }
     

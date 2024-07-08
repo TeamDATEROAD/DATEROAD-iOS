@@ -60,6 +60,11 @@ enum StringLiterals {
     enum MyPage {
         static let myPage = "마이페이지"
         static let goToPointHistory = "포인트 내역 보기"
+        static let myCourse = "내가 등록한 코스"
+        static let pointSystem = "포인트 시스템 소개"
+        static let inquiry = "문의하기"
+        static let logout = "로그아웃"
+        static let withdrawal = "탈퇴하기"
     }
     
 }
