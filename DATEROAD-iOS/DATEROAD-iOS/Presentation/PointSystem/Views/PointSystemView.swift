@@ -28,20 +28,20 @@ final class PointSystemView: BaseView {
     
     override func setLayout() {
         mainLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(40)
+            $0.top.equalToSuperview().inset(16)
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
         subLabel.snp.makeConstraints {
-            $0.top.equalTo(mainLabel.snp.bottom).offset(14)
+            $0.top.equalTo(mainLabel.snp.bottom).offset(16)
             $0.horizontalEdges.equalToSuperview().inset(16)
             
         }
         
         pointSystemCollectionView.snp.makeConstraints {
-            $0.top.equalTo(subLabel.snp.bottom).offset(65)
+            $0.top.equalTo(subLabel.snp.bottom).offset(26)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview().inset(30)
+            $0.bottom.equalToSuperview()
         }
     }
     
