@@ -98,6 +98,7 @@ extension AddCourseFirstViewController {
          button.addTarget(self, action: #selector(changeTagBtnState), for: .touchUpInside)
       }
       setupKeyboardDismissRecognizer()
+      addCourseFirstView.addFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
    }
    
 }
@@ -187,6 +188,12 @@ extension AddCourseFirstViewController: UITextFieldDelegate {
       sender.isSelected.toggle()
       addCourseFirstView.addFirstView.updateTagButtonStyle(btn: sender, isSelected: sender.isSelected)
       viewModel.countSelectedTag(isSelected: sender.isSelected)
+   }
+   
+   @objc
+   func sixCheckBtnTapped() {
+      let secondVC = AddCourseSecondViewController(viewModel: self.viewModel)
+      navigationController?.pushViewController(secondVC, animated: true)
    }
    
 }

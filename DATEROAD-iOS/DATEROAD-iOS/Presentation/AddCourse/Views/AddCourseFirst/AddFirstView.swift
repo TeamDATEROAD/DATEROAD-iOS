@@ -215,7 +215,7 @@ final class AddFirstView: BaseView {
       sixCheckNextButton.do {
          $0.setTitle(StringLiterals.AddCourseOrScheduleFirst.addFirstNextBtn, for: .normal)
          $0.titleLabel?.font = UIFont.suit(.body_med_13)
-         $0.setButtonStatus(buttonType: disabledButtonType)
+         $0.setButtonStatus(buttonType: enabledButtonType)
       }
    }
    
@@ -298,9 +298,9 @@ extension AddFirstView {
    
    func updateSixCheckButton(isValid: Bool) {
       print("!!!!isValid : \(isValid)!!!!!!!")
-      isValid ? sixCheckNextButton.setButtonStatus(buttonType: enabledButtonType)
-       : sixCheckNextButton.setButtonStatus(buttonType: disabledButtonType)
-      sixCheckNextButton.titleLabel?.font = UIFont.suit(.body_med_13)
+//      isValid ? sixCheckNextButton.setButtonStatus(buttonType: enabledButtonType)
+//       : sixCheckNextButton.setButtonStatus(buttonType: disabledButtonType)
+//      sixCheckNextButton.titleLabel?.font = UIFont.suit(.body_med_13)
    }
    
    func updateTagCount(count: Int) {
