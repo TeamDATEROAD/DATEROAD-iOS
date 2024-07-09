@@ -71,7 +71,6 @@ final class LoginView: BaseView {
 
             var config = UIButton.Configuration.plain()
             config.imagePadding = ScreenUtils.width / 375 * 86
-            config.imagePlacement = .leading
             config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 14, bottom: 0, trailing: 0)
             $0.configuration = config
         }
