@@ -141,12 +141,15 @@ final class AddFirstView: BaseView {
          }
       }
       
-      dateNameTextField.setPlaceholder(placeholder: StringLiterals.AddCourseOrScheduleFirst.dateNmaePlaceHolder,
-                                       fontColor: .gray300, font: .suit(.body_semi_13))
+      dateNameTextField.setPlaceholder(
+         placeholder: StringLiterals.AddCourseOrSchedul.AddFirstView.dateNmaePlaceHolder,
+         fontColor: .gray300,
+         font: .suit(.body_semi_13)
+      )
       
       visitDateTextField.do {
          $0.setPlaceholder(
-            placeholder: StringLiterals.AddCourseOrScheduleFirst.visitDateLabel,
+            placeholder: StringLiterals.AddCourseOrSchedul.AddFirstView.visitDateLabel,
             fontColor: .gray300,
             font: .suit(.body_semi_13)
          )
@@ -165,7 +168,7 @@ final class AddFirstView: BaseView {
       
       dateStartTimeTextField.do {
          $0.setPlaceholder(
-            placeholder: StringLiterals.AddCourseOrScheduleFirst.dateStartTimeLabel,
+            placeholder: StringLiterals.AddCourseOrSchedul.AddFirstView.dateStartTimeLabel,
             fontColor: .gray300,
             font: .suit(.body_semi_13)
          )
@@ -184,7 +187,7 @@ final class AddFirstView: BaseView {
       
       tagTitleLabel.do {
          $0.setLabel(alignment: .left, textColor: UIColor(resource: .drBlack), font: .suit(.body_semi_15))
-         $0.text = StringLiterals.AddCourseOrScheduleFirst.tagTitle
+         $0.text = StringLiterals.AddCourseOrSchedul.AddFirstView.tagTitle
       }
       
       tagVStackView.do {
@@ -205,7 +208,7 @@ final class AddFirstView: BaseView {
       
       datePlaceLabel.do {
          $0.setLabel(textColor: UIColor(resource: .gray300), font: .suit(.body_semi_13))
-         $0.text = StringLiterals.AddCourseOrScheduleFirst.datePlaceLabel
+         $0.text = StringLiterals.AddCourseOrSchedul.AddFirstView.datePlaceLabel
       }
       
       datePlaceImage.do {
@@ -213,7 +216,10 @@ final class AddFirstView: BaseView {
       }
       
       sixCheckNextButton.do {
-         $0.setTitle(StringLiterals.AddCourseOrScheduleFirst.addFirstNextBtn, for: .normal)
+         $0.setTitle(
+            StringLiterals.AddCourseOrSchedul.AddFirstView.addFirstNextBtnOfCourse,
+            for: .normal
+         )
          $0.titleLabel?.font = UIFont.suit(.body_med_13)
          $0.setButtonStatus(buttonType: enabledButtonType)
       }
