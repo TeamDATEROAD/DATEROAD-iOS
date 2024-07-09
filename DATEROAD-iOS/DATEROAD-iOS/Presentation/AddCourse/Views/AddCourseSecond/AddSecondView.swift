@@ -18,12 +18,33 @@ class AddSecondView: BaseView {
    
    private let contentSubTitleLabel: UILabel = UILabel()
    
+   private let placeRegistrationContainer: UIView = UIView()
+   
+   let datePlaceTextField: UITextField = UITextField()
+   
+   let timeRequireTextField: UITextField = UITextField()
+   
+   let addPlaceButton: UIButton = UIButton()
+   
+   private let enabledButtonType: DRButtonType = EnabledButton()
+   
+   private let disabledButtonType: DRButtonType = addCoursePlaceDisabledButton()
+   
    override func setHierarchy() {
       addSubviews (
          container,
          contentTitleLabel,
-         contentSubTitleLabel
+         contentSubTitleLabel,
+         placeRegistrationContainer
       )
+      placeRegistrationContainer.addSubviews(
+         datePlaceTextField,
+         timeRequireTextField,
+         addPlaceButton
+      )
+      
+      //추후 삭제
+      //여기부터
       container.snp.makeConstraints {
          $0.edges.equalToSuperview()
       }
@@ -31,6 +52,7 @@ class AddSecondView: BaseView {
          $0.layer.borderWidth = 1
          $0.layer.borderColor = UIColor(resource: .alertRed).cgColor
       }
+      //여기까지
    }
    
    override func setLayout() {
@@ -40,6 +62,25 @@ class AddSecondView: BaseView {
       contentSubTitleLabel.snp.makeConstraints {
          $0.top.equalTo(contentTitleLabel.snp.bottom).offset(2)
          $0.horizontalEdges.equalToSuperview()
+      }
+      placeRegistrationContainer.snp.makeConstraints {
+         $0.top.equalTo(contentSubTitleLabel.snp.bottom).offset(16)
+         $0.horizontalEdges.equalToSuperview()
+         $0.height.equalTo(44)
+      }
+      datePlaceTextField.snp.makeConstraints {
+         $0.top.leading.bottom.equalToSuperview()
+         $0.width.equalTo(206)
+      }
+      timeRequireTextField.snp.makeConstraints {
+         $0.top.bottom.equalToSuperview()
+         $0.leading.equalTo(datePlaceTextField.snp.trailing).offset(8)
+         $0.width.equalTo(77)
+      }
+      addPlaceButton.snp.makeConstraints {
+         $0.trailing.equalToSuperview()
+         $0.centerY.equalToSuperview()
+         $0.size.equalTo(44)
       }
    }
    
@@ -60,6 +101,39 @@ class AddSecondView: BaseView {
             font: .suit(.body_med_13)
          )
          $0.text = StringLiterals.AddCourseOrSchedul.AddSecondView.subTitleLabel
+      }
+      
+      datePlaceTextField.do {
+         $0.setPlaceholder(
+            placeholder: StringLiterals.AddCourseOrSchedul.AddSecondView.datePlacePlaceHolder,
+            fontColor: UIColor(resource: .gray300),
+            font: .suit(.body_semi_13)
+         )
+         $0.setLeftPadding(amount: 14)
+         $0.textAlignment = .left
+         $0.backgroundColor = UIColor(resource: .gray100)
+         $0.layer.borderWidth = 0
+         $0.layer.cornerRadius = 14
+      }
+      
+      timeRequireTextField.do {
+         $0.setPlaceholder(
+            placeholder: StringLiterals.AddCourseOrSchedul.AddSecondView.timeRequiredPlaceHolder,
+            fontColor: UIColor(resource: .gray300),
+            font: .suit(.body_semi_13)
+         )
+         $0.textAlignment = .center
+         $0.backgroundColor = UIColor(resource: .gray100)
+         $0.layer.borderWidth = 0
+         $0.layer.cornerRadius = 14
+      }
+      
+      addPlaceButton.do {
+         $0.setImage(UIImage(resource: .icAddcourseGray), for: .normal)
+         $0.imageView?.snp.makeConstraints {
+            $0.size.equalTo(14)
+         }
+         $0.setButtonStatus(buttonType: disabledButtonType)
       }
    }
 }
