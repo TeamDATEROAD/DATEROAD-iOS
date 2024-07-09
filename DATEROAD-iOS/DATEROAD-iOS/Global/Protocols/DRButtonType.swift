@@ -110,3 +110,16 @@ struct SelectedButton : DRButtonType {
     var borderWidth: CGFloat = 0
 
 }
+
+struct TagButton: DRButtonType {
+    
+    var bgColor: UIColor = UIColor(resource: .drWhite)
+    
+    var font: UIFont = UIFont.suit(.body_med_13)
+    
+    var isEnabled: Bool = false
+    
+    var cornerRadius: CGFloat = 15
+        
+    var borderWidth: CGFloat = 0
+}
