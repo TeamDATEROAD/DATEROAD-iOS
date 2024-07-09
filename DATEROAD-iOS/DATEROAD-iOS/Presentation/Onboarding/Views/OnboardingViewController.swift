@@ -27,6 +27,7 @@ final class OnboardingViewController: BaseViewController {
         registerCell()
         setDelegate()
         bindViewModel()
+        setAddTarget()
     }
     
     override func setHierarchy() {
@@ -57,8 +58,11 @@ private extension OnboardingViewController {
     
     func bindViewModel() {
         self.onboardingViewModel.currentPage.bind { [weak self] page in
-            guard let page else { return }
-            self?.onboardingView.pageControl.currentPage = page
+            guard let page,
+                  let buttonText =  self?.onboardingViewModel.datasource[page].buttonText
+            else { return }
+            self?.onboardingView.bottomControlView.pageControl.currentPage = page
+            self?.onboardingView.bottomControlView.updateBottomButtonText(buttonText: buttonText)
         }
         
         self.onboardingViewModel.goToNextVC = { [weak self] isLastIndex in
@@ -71,6 +75,10 @@ private extension OnboardingViewController {
                 self?.onboardingView.onboardingCollectionView.setContentOffset(offset, animated: true)
             }
         }
+    }
+    
+    func setAddTarget() {
+        self.onboardingView.bottomControlView.nextButton.addTarget(self, action: #selector(pushToNextView), for: .touchUpInside)
     }
     
     @objc
@@ -101,7 +109,6 @@ extension OnboardingViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OnboardingCollectionViewCell.cellIdentifier, for: indexPath) as? OnboardingCollectionViewCell else { return UICollectionViewCell() }
         cell.prepareForReuse()
         cell.setOnboardingData(data: onboardingViewModel.datasource[indexPath.row])
-        cell.nextButton.addTarget(self, action: #selector(pushToNextView), for: .touchUpInside)
         return cell
     }
     
