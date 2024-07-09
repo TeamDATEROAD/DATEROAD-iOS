@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DRPopUpViewController: BaseViewController {
+final class DRBottomSheetViewController: BaseViewController {
     
     // MARK: - UI Properties
         

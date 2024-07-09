@@ -13,7 +13,7 @@ final class ProfileViewController: BaseNavBarViewController {
     
     private let profileView = ProfileView()
     
-    private let alertVC = DRPopUpViewController(contentView: ProfileImageSettingView(), height: 288, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
+    private let alertVC = DRBottomSheetViewController(contentView: ProfileImageSettingView(), height: 288, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
     
     // MARK: - Properties
 
@@ -121,7 +121,7 @@ private extension ProfileViewController {
     
     @objc
     func presentEditBottomSheet() {
-        let alertVC = DRPopUpViewController(contentView: ProfileImageSettingView(), height: 288, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
+        let alertVC = DRBottomSheetViewController(contentView: ProfileImageSettingView(), height: 288, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
         alertVC.modalPresentationStyle = .overFullScreen
         self.present(alertVC, animated: true)
     }
