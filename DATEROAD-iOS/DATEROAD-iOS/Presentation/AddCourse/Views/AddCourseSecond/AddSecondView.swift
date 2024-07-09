@@ -26,16 +26,24 @@ class AddSecondView: BaseView {
    
    let addPlaceButton: UIButton = UIButton()
    
+   let separatorLine: UIView = UIView()
+   
+   let nextBtn: UIButton = UIButton()
+   
    private let enabledButtonType: DRButtonType = EnabledButton()
    
-   private let disabledButtonType: DRButtonType = addCoursePlaceDisabledButton()
+   private let disabledButtonType: DRButtonType = DisabledButton()
+   
+   private let addCourseDisabledButtonType: DRButtonType = addCoursePlaceDisabledButton()
    
    override func setHierarchy() {
       addSubviews (
          container,
          contentTitleLabel,
          contentSubTitleLabel,
-         placeRegistrationContainer
+         placeRegistrationContainer,
+         separatorLine,
+         nextBtn
       )
       placeRegistrationContainer.addSubviews(
          datePlaceTextField,
@@ -82,6 +90,18 @@ class AddSecondView: BaseView {
          $0.centerY.equalToSuperview()
          $0.size.equalTo(44)
       }
+      separatorLine.snp.makeConstraints {
+         $0.top.equalTo(placeRegistrationContainer.snp.bottom).offset(21)
+         $0.horizontalEdges.equalToSuperview()
+         $0.height.equalTo(1)
+      }
+      
+      nextBtn.snp.makeConstraints {
+         $0.bottom.equalToSuperview()
+         $0.horizontalEdges.equalToSuperview()
+         $0.height.equalTo(54)
+      }
+      
    }
    
    override func setStyle() {
@@ -133,7 +153,16 @@ class AddSecondView: BaseView {
          $0.imageView?.snp.makeConstraints {
             $0.size.equalTo(14)
          }
+         $0.setButtonStatus(buttonType: addCourseDisabledButtonType)
+      }
+      
+      separatorLine.do {
+         $0.backgroundColor = UIColor(resource: .gray200)
+      }
+      
+      nextBtn.do {
          $0.setButtonStatus(buttonType: disabledButtonType)
+         $0.setTitle(StringLiterals.AddCourseOrSchedul.AddSecondView.addSecondNextBtnOfCourse, for: .normal)
       }
    }
 }
