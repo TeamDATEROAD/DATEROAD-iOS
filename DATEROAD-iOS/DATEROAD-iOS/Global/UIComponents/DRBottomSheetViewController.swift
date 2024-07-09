@@ -60,8 +60,7 @@ final class DRBottomSheetViewController: BaseViewController {
         }
         
         contentView.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview()
-            $0.top.equalToSuperview()
+            $0.top.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(bottomButton.snp.top).offset(-14)
         }
         
@@ -84,10 +83,6 @@ final class DRBottomSheetViewController: BaseViewController {
         
         self.contentView.do {
             $0.roundCorners(cornerRadius: 20, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
-            $0.backgroundColor = UIColor(resource: .drWhite)
-        }
-        
-        self.contentView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
         }
         

@@ -35,8 +35,7 @@ final class BottomControlView: BaseView {
         }
         
         pageControl.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-            $0.centerX.equalToSuperview()
+            $0.bottom.centerX.equalToSuperview()
             $0.height.equalTo(ScreenUtils.height / 812 * 8)
         }
     }
