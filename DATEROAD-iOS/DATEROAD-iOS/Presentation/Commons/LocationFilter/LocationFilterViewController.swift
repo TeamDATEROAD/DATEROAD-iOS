@@ -231,7 +231,7 @@ extension LocationFilterViewController: UICollectionViewDelegateFlowLayout {
         var cellHeight: CGFloat = 0
         
         if collectionView == countryCollectionView {
-            let screenWidth = UIScreen.main.bounds.width
+            let screenWidth = ScreenUtils.width
             cellWidth = ((screenWidth - 50) - ( countryInset * 2 )) / 3
             cellHeight = 33
         } else if collectionView == cityCollectionView {

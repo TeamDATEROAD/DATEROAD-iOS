@@ -34,6 +34,7 @@ final class TitleInfoCell: BaseCollectionViewCell {
     private let locationLabel = UILabel()
     
     override func setHierarchy() {
+        
         self.addSubviews(
             dateLabel,
             titleLabel,
@@ -48,6 +49,7 @@ final class TitleInfoCell: BaseCollectionViewCell {
     }
     
     override func setLayout() {
+        
         dateLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(23)
             $0.leading.equalToSuperview()

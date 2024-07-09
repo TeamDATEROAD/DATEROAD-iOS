@@ -92,6 +92,7 @@ struct ImageCarouselViewModel {
         return 1
     }
 }
+
 struct TitleInfoViewModel {
     var numberOfItems: Int {
         return 1
