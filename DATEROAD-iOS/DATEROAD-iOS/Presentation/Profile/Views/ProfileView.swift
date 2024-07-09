@@ -13,7 +13,7 @@ final class ProfileView: BaseView {
     
     private let profileImageView: UIImageView = UIImageView()
     
-    let editImageButton: UIImageView = UIImageView()
+    let editImageButton: UIButton = UIButton()
     
     private let nicknameLabel: UILabel = UILabel()
     
@@ -51,6 +51,7 @@ final class ProfileView: BaseView {
     
     override func setHierarchy() {
         self.addSubviews(profileImageView,
+                         editImageButton,
                          nicknameLabel,
                          nicknameTextfield,
                          nicknameErrMessageLabel,
@@ -60,7 +61,6 @@ final class ProfileView: BaseView {
                          tagErrMessageLabel,
                          registerButton)
         
-        profileImageView.addSubview(editImageButton)
     }
     
     override func setLayout() {
@@ -71,7 +71,7 @@ final class ProfileView: BaseView {
         }
         
         editImageButton.snp.makeConstraints {
-            $0.trailing.bottom.equalToSuperview()
+            $0.trailing.bottom.equalTo(profileImageView)
             $0.size.equalTo(36)
         }
         
@@ -129,7 +129,8 @@ final class ProfileView: BaseView {
         }
         
         editImageButton.do {
-            $0.image = UIImage(resource: .icProfileplus)
+            $0.setImage(UIImage(resource: .icProfileplus), for: .normal)
+            $0.isUserInteractionEnabled = true
         }
         
         nicknameLabel.do {

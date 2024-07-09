@@ -46,6 +46,7 @@ enum StringLiterals {
         static let viewedCourse = "열람한 코스"
         static let myPage = "마이페이지"
     }
+    
 	enum CourseDetail {
         static let timelineInfoLabel = "코스 타임라인"
         static let coastInfoLabel = "총 비용"
@@ -65,8 +66,10 @@ enum StringLiterals {
         static let dateTendency = "나의 데이트 성향 (0/3)"
         static let registerProfile = "프로필 등록하기"
         static let selectTag =  "최소 1개, 최대 3개를 선택해주세요."
+        static let settingImage = "프로필 사진 설정"
+        static let registerImage = "사진 등록"
+        static let deleteImage = "사진 삭제"
     }
-    
    
    enum AddCourseOrScheduleFirst {
       static let addCourseTitle = "코스 등록하기"
@@ -80,6 +83,7 @@ enum StringLiterals {
       static let dateNameErrorLabel = "최소 5글자 이상 입력해주세요"
       static let visitDateErrorLabel = "미래 날짜를 선택하셨어요"
    }
+    
     enum MyPage {
         static let myPage = "마이페이지"
         static let goToPointHistory = "포인트 내역 보기"
@@ -88,6 +92,10 @@ enum StringLiterals {
         static let inquiry = "문의하기"
         static let logout = "로그아웃"
         static let withdrawal = "탈퇴하기"
+    }
+    
+    enum Common {
+        static let cancel = "취소"
     }
     
 }

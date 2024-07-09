@@ -112,6 +112,8 @@
 		CAC80FB92C3BCE4E00658EA6 /* MyPageSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FB82C3BCE4E00658EA6 /* MyPageSection.swift */; };
 		CAC80FCC2C3D2EA600658EA6 /* DRButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FCB2C3D2EA600658EA6 /* DRButton.swift */; };
 		CAC80FCE2C3D2FD800658EA6 /* BottomControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FCD2C3D2FD800658EA6 /* BottomControlView.swift */; };
+		CAC80FD02C3D723200658EA6 /* DRPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FCF2C3D723200658EA6 /* DRPopUpViewController.swift */; };
+		CAC80FD22C3D7E5100658EA6 /* ProfileImageSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FD12C3D7E5100658EA6 /* ProfileImageSettingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -215,6 +217,8 @@
 		CAC80FB82C3BCE4E00658EA6 /* MyPageSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSection.swift; sourceTree = "<group>"; };
 		CAC80FCB2C3D2EA600658EA6 /* DRButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRButton.swift; sourceTree = "<group>"; };
 		CAC80FCD2C3D2FD800658EA6 /* BottomControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomControlView.swift; sourceTree = "<group>"; };
+		CAC80FCF2C3D723200658EA6 /* DRPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRPopUpViewController.swift; sourceTree = "<group>"; };
+		CAC80FD12C3D7E5100658EA6 /* ProfileImageSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageSettingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -722,6 +726,7 @@
 				CAA30AE62C37DA7E00835DE3 /* Cells */,
 				CAA30ADD2C3718C500835DE3 /* ProfileViewController.swift */,
 				CAA30ADF2C3733DF00835DE3 /* ProfileView.swift */,
+				CAC80FD12C3D7E5100658EA6 /* ProfileImageSettingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -733,6 +738,7 @@
 				CA78FE462C38667A001B1403 /* DRErrorLabel.swift */,
 				0D07420B2C3B0339004B3F59 /* TabBarController.swift */,
 				CAC80FCB2C3D2EA600658EA6 /* DRButton.swift */,
+				CAC80FCF2C3D723200658EA6 /* DRPopUpViewController.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -928,6 +934,8 @@
 				0DF905C42C39295F0072EE65 /* TimelineContents.swift in Sources */,
 				CAC80FB32C3BBE9100658EA6 /* MyPageTableViewCell.swift in Sources */,
 				CAC80FA92C3B4CE800658EA6 /* TagCollectionViewCell.swift in Sources */,
+				CAC80FD22C3D7E5100658EA6 /* ProfileImageSettingView.swift in Sources */,
+				CAC80FD02C3D723200658EA6 /* DRPopUpViewController.swift in Sources */,
 				0D06D9A82C36946C0094C505 /* TimelineInfoCell.swift in Sources */,
 				0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */,
 				0D9497BD2C3292C20004B442 /* MainContentsCell.swift in Sources */,

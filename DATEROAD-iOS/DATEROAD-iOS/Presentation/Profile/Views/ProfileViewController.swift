@@ -13,6 +13,7 @@ final class ProfileViewController: BaseNavBarViewController {
     
     private let profileView = ProfileView()
     
+    private let alertVC = DRPopUpViewController(contentView: ProfileImageSettingView(), height: 288, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
     
     // MARK: - Properties
 
@@ -76,8 +77,7 @@ private extension ProfileViewController {
         let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(self.view.endEditing(_:)))
         self.view.addGestureRecognizer(tapGesture)
         
-        let editImageButtonGesture = UITapGestureRecognizer(target: self, action: #selector(presentEditBottomSheet))
-        self.profileView.editImageButton.addGestureRecognizer(editImageButtonGesture)
+        self.profileView.editImageButton.addTarget(self, action: #selector(presentEditBottomSheet), for: .touchUpInside)
         
         self.profileView.doubleCheckButton.addTarget(self, action: #selector(doubleCheckNickname), for: .touchUpInside)
         
@@ -120,8 +120,10 @@ private extension ProfileViewController {
     }
     
     @objc
-    func presentEditBottomSheet(sender: UITapGestureRecognizer) {
-        // TODO: - 프로필 편집 바텀 시트 띄우기
+    func presentEditBottomSheet() {
+        let alertVC = DRPopUpViewController(contentView: ProfileImageSettingView(), height: 288, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
+        alertVC.modalPresentationStyle = .overFullScreen
+        self.present(alertVC, animated: true)
     }
     
     @objc
