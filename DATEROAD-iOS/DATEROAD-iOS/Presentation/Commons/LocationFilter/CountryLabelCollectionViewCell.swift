@@ -15,21 +15,22 @@ final class CountryLabelCollectionViewCell: BaseCollectionViewCell {
     // MARK: - UI Properties
     
     private let grayBoxView = UIView()
-    private let cityLabel = UILabel()
+    
+    private let countryLabel = UILabel()
 
     // MARK: - Properties
     
     var itemRow: Int?
     
     override func setHierarchy() {
-        self.addSubviews(grayBoxView, cityLabel)
+        self.addSubviews(grayBoxView, countryLabel)
     }
     
     override func setLayout() {
         grayBoxView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        cityLabel.snp.makeConstraints {
+        countryLabel.snp.makeConstraints {
             $0.center.equalTo(grayBoxView)
         }
     }
@@ -40,7 +41,7 @@ final class CountryLabelCollectionViewCell: BaseCollectionViewCell {
             $0.backgroundColor = UIColor(resource: .gray100)
         }
         
-        cityLabel.do {
+        countryLabel.do {
             $0.text = "서울"
             $0.font = UIFont.suit(.body_semi_15)
             $0.textColor = UIColor(resource: .gray400)
@@ -51,17 +52,17 @@ final class CountryLabelCollectionViewCell: BaseCollectionViewCell {
     func updateSelectionState(_ isSelected: Bool) {
         if isSelected {
             grayBoxView.backgroundColor = UIColor(resource: .deepPurple)
-            cityLabel.textColor = UIColor(resource: .drWhite)
+            countryLabel.textColor = UIColor(resource: .drWhite)
         } else {
             grayBoxView.backgroundColor = UIColor(resource: .gray100)
-            cityLabel.textColor = UIColor(resource: .gray400)
+            countryLabel.textColor = UIColor(resource: .gray400)
         }
     }
 }
 
 extension CountryLabelCollectionViewCell {
-    func configure(with locationData: LocationModel, isSelected: Bool) {
-        cityLabel.text = locationData.counrty
+    func configure(with country: LocationModel.Country, isSelected: Bool) {
+        countryLabel.text = country.rawValue
         updateSelectionState(isSelected)
     }
 }

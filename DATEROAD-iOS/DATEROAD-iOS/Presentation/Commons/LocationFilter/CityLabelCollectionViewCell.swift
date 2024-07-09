@@ -62,8 +62,8 @@ final class CityLabelCollectionViewCell: BaseCollectionViewCell {
 }
 
 extension CityLabelCollectionViewCell {
-    func configure(with locationData: LocationModel, isSelected: Bool) {
-        cityLabel.text = locationData.counrty
+    func configure(with city: LocationModel.City, isSelected: Bool) {
+        cityLabel.text = city.rawValue
         updateSelectionState(isSelected)
     }
 }

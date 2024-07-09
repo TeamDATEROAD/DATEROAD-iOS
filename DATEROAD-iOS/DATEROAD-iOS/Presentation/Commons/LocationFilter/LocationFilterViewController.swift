@@ -42,15 +42,16 @@ class LocationFilterViewController: BaseViewController {
         }
     }
     
-    private var cityData = LocationModel.cityData() {
+    private var cityData = [LocationModel.City]() {
         didSet {
-            self.countryCollectionView.reloadData()
+            self.cityCollectionView.reloadData()
         }
     }
     
     private var selectedCountryIndex: Int? {
         didSet {
             self.countryCollectionView.reloadData()
+            updateCityData()
         }
     }
     
@@ -64,7 +65,7 @@ class LocationFilterViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         register()
         setDelegate()
     }
@@ -180,36 +181,49 @@ class LocationFilterViewController: BaseViewController {
         cityCollectionView.delegate = self
         cityCollectionView.dataSource = self
     }
+    
+    private func setInitialCityData() {
+        if let selectedCountryIndex = selectedCountryIndex {
+            updateCityData()
+        }
+    }
+    private func updateCityData() {
+        guard let selectedCountryIndex = selectedCountryIndex else { return }
+        
+        let selectedCountry = countryData[selectedCountryIndex]
+        cityData = selectedCountry.cities
+    }
 }
 
 extension LocationFilterViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var cellWidth: CGFloat = 0
         var cellHeight: CGFloat = 0
-
+        
         if collectionView == countryCollectionView {
             let screenWidth = UIScreen.main.bounds.width
             cellWidth = ((screenWidth - 50) - ( countryInset * 2 )) / 3
             cellHeight = 33
         } else if collectionView == cityCollectionView {
-            let text = cityData[indexPath.item].counrty
+            let text = cityData[indexPath.item].rawValue
+            print(text)
             let font = UIFont.suit(.body_med_13)
-            let textWidth = text?.width(withConstrainedHeight: 30, font: font)
-            cellWidth = (textWidth ?? 0) + 28
+            let textWidth = text.width(withConstrainedHeight: 30, font: font)
+            cellWidth = textWidth + 28
             cellHeight = 30
         }
-
+        
         return CGSize(width: cellWidth, height: cellHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-    
+        
         if collectionView == countryCollectionView {
             return 8
         } else {
             return 8
         }
-       
+        
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         if collectionView == cityCollectionView{
@@ -219,7 +233,7 @@ extension LocationFilterViewController: UICollectionViewDelegateFlowLayout {
         }
         
     }
-
+    
 }
 
 extension LocationFilterViewController: UICollectionViewDataSource {
@@ -238,23 +252,23 @@ extension LocationFilterViewController: UICollectionViewDataSource {
             guard let countryCell = collectionView.dequeueReusableCell(withReuseIdentifier: CountryLabelCollectionViewCell.cellIdentifier, for: indexPath) as? CountryLabelCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            let location = countryData[indexPath.item]
+            let country = countryData[indexPath.item]
             let isSelected = indexPath.item == selectedCountryIndex
-            countryCell.configure(with: location, isSelected: isSelected)
+            countryCell.configure(with: country, isSelected: isSelected)
             cell = countryCell
         } else {
             guard let cityCell = collectionView.dequeueReusableCell(withReuseIdentifier: CityLabelCollectionViewCell.cellIdentifier, for: indexPath) as? CityLabelCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            let location = cityData[indexPath.item]
+            let city = cityData[indexPath.item]
             let isSelected = indexPath.item == selectedCityIndex
-            cityCell.configure(with: location, isSelected: isSelected)
+            cityCell.configure(with: city, isSelected: isSelected)
             cell = cityCell
         }
         
         return cell
     }
-
+    
 }
 
 extension LocationFilterViewController: UICollectionViewDelegate {
@@ -265,5 +279,5 @@ extension LocationFilterViewController: UICollectionViewDelegate {
             selectedCityIndex = indexPath.item
         }
     }
-
+    
 }
