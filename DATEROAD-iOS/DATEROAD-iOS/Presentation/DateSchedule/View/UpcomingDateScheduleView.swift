@@ -64,16 +64,16 @@ class UpcomingDateScheduleView: BaseView {
         }
         
         cardPageControl.snp.makeConstraints {
-            $0.top.equalTo(cardCollectionView.snp.bottom).offset(29)
+            $0.top.equalTo(cardCollectionView.snp.bottom).offset(ScreenUtils.height*0.035)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(8)
         }
         
         pastDateButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(127)
+            $0.top.equalTo(cardPageControl.snp.bottom).offset(ScreenUtils.height*0.025)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(44)
-            $0.width.equalTo(177)
+            $0.height.equalTo(ScreenUtils.height*0.0541)
+            $0.width.equalTo(ScreenUtils.width*0.472)
         }
     }
     

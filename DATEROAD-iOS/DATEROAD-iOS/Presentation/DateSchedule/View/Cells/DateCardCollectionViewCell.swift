@@ -77,19 +77,19 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
         topImageView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(44)
             $0.width.equalToSuperview()
-            $0.height.equalTo(215.79)
+            $0.height.equalTo(ScreenUtils.height * 0.2658)
         }
         
         bottomImageView.snp.makeConstraints {
             $0.trailing.bottom.equalToSuperview()
-            $0.leading.equalToSuperview().inset(123)
-            $0.top.equalToSuperview().inset(346)
+            $0.leading.equalToSuperview().inset(ScreenUtils.width * 0.328)
+            $0.top.equalToSuperview().inset(ScreenUtils.height * 0.36)
         }
         
         dateLabel.snp.makeConstraints {
             $0.top.leading.equalToSuperview().inset(20)
             $0.height.equalTo(62)
-            // $0.width.equalTo(66)
+            $0.width.equalTo(66)
         }
         
         dDayButton.snp.makeConstraints {
@@ -99,46 +99,46 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
         
         firstTagButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(20)
-            $0.top.equalToSuperview().inset(218)
+            $0.top.equalToSuperview().inset(ScreenUtils.height * 0.2684)
             $0.height.equalTo(29)
         }
         
         secondTagButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(83)
-            $0.top.equalToSuperview().inset(189)
+            $0.top.equalToSuperview().inset(ScreenUtils.height * 0.2327)
             $0.height.equalTo(29)
         }
         
         thirdTagButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(39)
-            $0.top.equalToSuperview().inset(146.21)
+            $0.top.equalToSuperview().inset(ScreenUtils.height * 0.18)
             $0.height.equalTo(29)
         }
         
         dotDividerView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(7)
-            $0.top.equalToSuperview().inset(268)
+            $0.top.equalToSuperview().inset(ScreenUtils.height * 0.33)
             $0.height.equalTo(1.5)
         }
         
         leftCircleInsetImageView.snp.makeConstraints {
             $0.leading.equalToSuperview()
-            $0.top.equalToSuperview().inset(261)
+            $0.top.equalToSuperview().inset(ScreenUtils.height * 0.321)
         }
         
         rightCircleInsetImageView.snp.makeConstraints {
             $0.trailing.equalToSuperview()
-            $0.top.equalToSuperview().inset(261)
+            $0.top.equalToSuperview().inset(ScreenUtils.height * 0.321)
         }
         
         locationLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(20)
-            $0.top.equalToSuperview().inset(293)
+            $0.top.equalToSuperview().inset(ScreenUtils.height * 0.3608)//0.3608
         }
         
         titleLabel.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview().inset(25)
+            $0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.0307)
         }
         
         
@@ -146,6 +146,14 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
     
     override func setStyle() {
         self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+        
+        topImageView.do {
+            $0.contentMode = .scaleAspectFill
+        }
+        
+        bottomImageView.do {
+            $0.contentMode = .scaleAspectFill
+        }
         
         dateLabel.do {
             $0.font = UIFont.suit(.title_extra_24)

@@ -76,53 +76,53 @@ class PastDateCollectionViewCell: BaseCollectionViewCell {
         }
         
         dateLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(14)
+            $0.top.equalToSuperview().inset(ScreenUtils.height*0.01724)
             $0.leading.equalToSuperview().inset(16)
             $0.height.equalTo(18)
         }
         
         titleLabel.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.top.equalToSuperview().inset(44)
+            $0.top.equalToSuperview().inset(ScreenUtils.height*0.054187)
         }
         
         locationLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
-            $0.top.equalToSuperview().inset(133)
+            $0.top.equalToSuperview().inset(ScreenUtils.height*0.163793)
         }
         
         firstTagButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
-            $0.top.equalToSuperview().inset(161)
-            $0.height.equalTo(26)
+            $0.top.equalToSuperview().inset(ScreenUtils.height*0.19827)
+            $0.height.equalTo(ScreenUtils.height*0.0320197)
         }
         
         secondTagButton.snp.makeConstraints {
             $0.leading.equalTo(firstTagButton.snp.trailing).offset(6)
-            $0.top.equalToSuperview().inset(161)
-            $0.height.equalTo(26)
+            $0.top.equalToSuperview().inset(ScreenUtils.height*0.19827)
+            $0.height.equalTo(ScreenUtils.height*0.0320197)
         }
         
         thirdTagButton.snp.makeConstraints {
             $0.leading.equalTo(secondTagButton.snp.trailing).offset(6)
-            $0.top.equalToSuperview().inset(161)
-            $0.height.equalTo(26)
+            $0.top.equalToSuperview().inset(ScreenUtils.height*0.19827)
+            $0.height.equalTo(ScreenUtils.height*0.0320197)
         }
         
         dotDividerView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(7)
-            $0.top.equalToSuperview().inset(116)
+            $0.centerY.equalTo(leftCircleInsetImageView)
             $0.height.equalTo(1.5)
         }
         
         leftCircleInsetImageView.snp.makeConstraints {
             $0.leading.equalToSuperview()
-            $0.top.equalToSuperview().inset(107)
+            $0.top.equalToSuperview().inset(ScreenUtils.height*0.1317734)
         }
         
         rightCircleInsetImageView.snp.makeConstraints {
             $0.trailing.equalToSuperview()
-            $0.top.equalToSuperview().inset(107)
+            $0.top.equalToSuperview().inset(ScreenUtils.height*0.1317734)
         }
         
     }

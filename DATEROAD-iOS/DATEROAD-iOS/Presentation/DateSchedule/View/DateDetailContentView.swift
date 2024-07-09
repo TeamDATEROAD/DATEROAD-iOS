@@ -81,13 +81,13 @@ class DateDetailContentView: BaseView {
     override func setLayout() {
         ribbonImageView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(8)
-            $0.leading.equalToSuperview().inset(54)
+            $0.leading.equalToSuperview().inset(ScreenUtils.width*0.1386667)
             $0.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(500.21)
+            $0.bottom.equalToSuperview().inset(ScreenUtils.height*0.61602217)
         }
         
         dateLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(12)
+            $0.top.equalToSuperview().inset(ScreenUtils.height*0.01477833)
             $0.leading.equalToSuperview().inset(16)
             $0.height.equalTo(21)
         }
@@ -107,30 +107,30 @@ class DateDetailContentView: BaseView {
         
         locationLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
-            $0.top.equalToSuperview().inset(127)
+            $0.top.equalToSuperview().inset(ScreenUtils.height*0.15640394)
         }
         
         firstTagButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
-            $0.top.equalToSuperview().inset(158)
+            $0.top.equalToSuperview().inset(ScreenUtils.height*0.19458128)
             $0.height.equalTo(30)
         }
         
         secondTagButton.snp.makeConstraints {
             $0.leading.equalTo(firstTagButton.snp.trailing).offset(7)
-            $0.top.equalToSuperview().inset(158)
+            $0.top.equalToSuperview().inset(ScreenUtils.height*0.19458128)
             $0.height.equalTo(30)
         }
         
         thirdTagButton.snp.makeConstraints {
             $0.leading.equalTo(secondTagButton.snp.trailing).offset(7)
-            $0.top.equalToSuperview().inset(158)
+            $0.top.equalToSuperview().inset(ScreenUtils.height*0.19458128)
             $0.height.equalTo(30)
         }
         
         dateDetailView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
-            $0.top.equalToSuperview().offset(206)
+            $0.top.equalToSuperview().offset(ScreenUtils.height*0.25369458)
             $0.bottom.equalToSuperview()
         }
         
@@ -142,19 +142,19 @@ class DateDetailContentView: BaseView {
         dateTimeLineCollectionView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.top.equalToSuperview().inset(63)
-            $0.height.equalTo(318)
+            $0.height.equalTo(ScreenUtils.height*0.39162562)
         }
         
         kakaoShareButton.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(78)
-            $0.height.equalTo(52)
-            $0.bottom.equalToSuperview().inset(39)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(ScreenUtils.width*0.1386667)
+            $0.bottom.equalToSuperview().inset(ScreenUtils.height*0.04802956)
         }
         
         courseShareButton.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(78)
-            $0.height.equalTo(52)
-            $0.bottom.equalToSuperview().inset(39)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(ScreenUtils.width*0.1386667)
+            $0.bottom.equalToSuperview().inset(ScreenUtils.height*0.04802956)
         }
 
     }
