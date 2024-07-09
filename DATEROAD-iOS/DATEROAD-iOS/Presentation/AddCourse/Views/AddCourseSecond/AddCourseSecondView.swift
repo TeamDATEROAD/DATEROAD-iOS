@@ -35,7 +35,7 @@ final class AddCourseSecondView: BaseView {
       }
       
       addSecondView.snp.makeConstraints {
-         $0.top.equalTo(collectionView.snp.bottom).offset(14)
+         $0.top.equalTo(collectionView.snp.bottom).offset(7)
          $0.horizontalEdges.equalToSuperview().inset(16)
          $0.bottom.equalToSuperview()
       }
