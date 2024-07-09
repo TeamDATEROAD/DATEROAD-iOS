@@ -22,14 +22,17 @@ enum StringLiterals {
     }
     
     enum Onboarding {
+        static let blank = ""
         static let next = "다음"
         static let createProfile = "프로필 생성하기"
         static let firstMainInfoLabel = "데이트로드는 포인트로\n데이트 코스를 열람할 수 있어요."
-        static let firstSubInfoLabel = "최초 3회 찬스로 다른 사람의 데이트 코스를\n구경해보세요"
+        static let firstSubInfoLabel = "최초 3회 무료 찬스로\n다른 사람의 데이트 코스를 구경하세요!"
+        static let firstHintInfoLabel = "(이후에는 50포인트로 코스를 열람할 수 있어요)"
         static let secondMainInfoLabel = "데이트 코스를 등록하면\n100 포인트를 얻을 수 있어요"
         static let secondSubInfoLabel = "내 연인과 함께한 데이트 코스를 자랑하고\n포인트를 받아보세요"
         static let thirdMainInfoLabel = "쌓인 포인트로\n다양한 데이트 코스를 둘러보세요"
         static let thirdSubInfoLabel = "모인 포인트는 데이트 장소를 예약할 때\n현금처럼 사용 가능해요"
+        static let thirdHintInfoLabel = "(추후 제공될 기능이에요)"
         static let dateCourse = "데이트 코스"
         static let firstMainPoint = "포인트"
         static let secondMainPoint = "100 포인트"
