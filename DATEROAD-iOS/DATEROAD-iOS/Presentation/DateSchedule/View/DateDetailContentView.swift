@@ -1,5 +1,5 @@
 //
-//  UpcomingDateDetailContentView.swift
+//  DateDetailContentView.swift
 //  DATEROAD-iOS
 //
 //  Created by 이수민 on 7/9/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class UpcomingDateDetailContentView: BaseView {
+class DateDetailContentView: BaseView {
 
     // MARK: - UI Properties
     
@@ -216,7 +216,7 @@ class UpcomingDateDetailContentView: BaseView {
             $0.roundedButton(cornerRadius: 25, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
         }
         
-        UpcomingDateDetailContentView.dateTimeLineCollectionViewLayout.do {
+        DateDetailContentView.dateTimeLineCollectionViewLayout.do {
             $0.scrollDirection = .vertical
             $0.minimumLineSpacing = 12
             $0.itemSize = CGSize(width: 343, height: 54)
@@ -226,7 +226,7 @@ class UpcomingDateDetailContentView: BaseView {
 
 }
 
-extension UpcomingDateDetailContentView {
+extension DateDetailContentView {
     
     func dataBind(_ dateCardData : DateCardModel) {
         self.dateLabel.text = dateCardData.dateCalendar
@@ -257,9 +257,9 @@ extension UpcomingDateDetailContentView {
 
 // MARK: - Delegate
 
-extension UpcomingDateDetailContentView: UICollectionViewDelegateFlowLayout {
+extension DateDetailContentView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return UpcomingDateDetailContentView.dateTimeLineCollectionViewLayout.itemSize
+        return DateDetailContentView.dateTimeLineCollectionViewLayout.itemSize
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

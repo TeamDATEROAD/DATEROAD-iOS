@@ -54,7 +54,8 @@ private extension UpcomingDateScheduleViewController {
     
     @objc
     func pushToPastDateVC() {
-       print("지난 데이트로 이동")
+        let pastDateVC = PastDateViewController()
+        self.navigationController?.pushViewController(pastDateVC, animated: true)
     }
     
     func setupBindings() {

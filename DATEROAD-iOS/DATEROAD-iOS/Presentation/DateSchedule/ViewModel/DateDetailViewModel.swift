@@ -20,5 +20,15 @@ class DateDetailViewModel {
                  DatePlacesModel(title: "성수미술관 성수점", duration: 2),
                  DatePlacesModel(title: "성수미술관 성수점", duration: 2)]
     )
+    
+    var pastDateDetailDummyData = DateTimeLineModel(
+        startTime: "10:00 PM",
+        places: [DatePlacesModel(title: "성수미술관 연남점", duration: 2),
+                 DatePlacesModel(title: "성수미술관 연남점", duration: 2),
+                 DatePlacesModel(title: "성수미술관 연남점", duration: 2),
+                 DatePlacesModel(title: "성수미술관 연남점", duration: 2),
+                 DatePlacesModel(title: "성수미술관 연남점", duration: 2),
+                 DatePlacesModel(title: "성수미술관 연남점", duration: 2),]
+    )
 }
 

@@ -1,8 +1,8 @@
 //
-//  UpcomingDateDetailViewController.swift
+//  PastDateDetailViewController.swift
 //  DATEROAD-iOS
 //
-//  Created by 이수민 on 7/8/24.
+//  Created by 이수민 on 7/9/24.
 //
 
 import UIKit
@@ -10,19 +10,19 @@ import UIKit
 import SnapKit
 import Then
 
-class UpcomingDateDetailViewController: BaseNavBarViewController {
+class PastDateDetailViewController: BaseNavBarViewController {
 
     // MARK: - UI Properties
     
-    var upcomingDateDetailContentView = DateDetailContentView()
+    var pastDateDetailContentView = DateDetailContentView()
     
     // MARK: - Properties
     
-    var upcomingDateDetailData = DateTimeLineModel(startTime: "", places: [])
+    var pastDateDetailData = DateTimeLineModel(startTime: "", places: [])
     
     var currentIndex: CGFloat = 0
     
-    private let upcomingDateDetailViewModel = DateDetailViewModel()
+    private let pastDateDetailViewModel = DateDetailViewModel()
 
     
     // MARK: - LifeCycle
@@ -45,20 +45,20 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        contentView.addSubviews(upcomingDateDetailContentView)
+        contentView.addSubviews(pastDateDetailContentView)
         
     }
     
     override func setLayout() {
         super.setLayout()
         
-        upcomingDateDetailContentView.snp.makeConstraints {
+        pastDateDetailContentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
 }
 
-extension UpcomingDateDetailViewController {
+extension PastDateDetailViewController {
     
     @objc
     func deleteDateCourse() {
@@ -71,40 +71,40 @@ extension UpcomingDateDetailViewController {
     }
     
     func setUpBindings() {
-        upcomingDateDetailContentView.kakaoShareButton.addTarget(self, action: #selector(kakaoShareCourse), for: .touchUpInside)
+        //pastDateDetailContentView.kakaoShareButton.addTarget(self, action: #selector(kakaoShareCourse), for: .touchUpInside)
         
-        self.upcomingDateDetailData = upcomingDateDetailViewModel.upcomingDateDetailDummyData
+        self.pastDateDetailData = pastDateDetailViewModel.pastDateDetailDummyData
     }
-    
 
 }
 
 
 // MARK: - CollectionView Methods
 
-extension UpcomingDateDetailViewController {
+extension PastDateDetailViewController {
     func setDataSource() {
-        upcomingDateDetailContentView.dateTimeLineCollectionView.dataSource = self
+        pastDateDetailContentView.dateTimeLineCollectionView.dataSource = self
     }
     
-    func setUpBindings(upcomingDateDetailData: DateTimeLineModel) {
-        self.upcomingDateDetailData = upcomingDateDetailData
+    func setUpBindings(pastDateDetailData: DateTimeLineModel) {
+        self.pastDateDetailData = pastDateDetailData
     }
 }
 
 
 // MARK: - DataSource
 
-extension UpcomingDateDetailViewController: UICollectionViewDataSource {
+extension PastDateDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return upcomingDateDetailData.places.count
+        return pastDateDetailData.places.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier, for: indexPath) as? DateTimeLineCollectionViewCell else {
             return UICollectionViewCell() }
-        cell.dataBind(upcomingDateDetailData.places[indexPath.item], indexPath.item)
+        cell.dataBind(pastDateDetailData.places[indexPath.item], indexPath.item)
         return cell
     }
 
 }
+

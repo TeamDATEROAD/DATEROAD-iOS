@@ -10,11 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
-//민서언니 코드랑 같음 !! -> 나중에 병합
 
 class DateCardCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
+    
     private var topImageView = UIImageView()
     
     private var bottomImageView = UIImageView()
@@ -89,7 +89,7 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
         dateLabel.snp.makeConstraints {
             $0.top.leading.equalToSuperview().inset(20)
             $0.height.equalTo(62)
-            $0.width.equalTo(66)
+            // $0.width.equalTo(66)
         }
         
         dDayButton.snp.makeConstraints {
