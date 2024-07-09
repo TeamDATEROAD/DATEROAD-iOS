@@ -22,6 +22,7 @@ final class CountryLabelCollectionViewCell: BaseCollectionViewCell {
     
     var itemRow: Int?
     
+    
     override func setHierarchy() {
         self.addSubviews(grayBoxView, countryLabel)
     }
@@ -48,8 +49,9 @@ final class CountryLabelCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    // 선택했을 때 버튼 색 속성 변경
+    
     func updateSelectionState(_ isSelected: Bool) {
+        print(isSelected)
         if isSelected {
             grayBoxView.backgroundColor = UIColor(resource: .deepPurple)
             countryLabel.textColor = UIColor(resource: .drWhite)
@@ -57,6 +59,7 @@ final class CountryLabelCollectionViewCell: BaseCollectionViewCell {
             grayBoxView.backgroundColor = UIColor(resource: .gray100)
             countryLabel.textColor = UIColor(resource: .gray400)
         }
+        
     }
 }
 

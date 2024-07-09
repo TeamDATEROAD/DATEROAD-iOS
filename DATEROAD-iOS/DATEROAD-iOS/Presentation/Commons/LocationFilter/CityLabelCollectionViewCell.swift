@@ -17,7 +17,7 @@ final class CityLabelCollectionViewCell: BaseCollectionViewCell {
     private let grayBoxView = UIView()
     
     private let cityLabel = UILabel()
-
+    
     // MARK: - Properties
     
     var itemRow: Int?
@@ -49,16 +49,7 @@ final class CityLabelCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    // 선택했을 때 버튼 색 속성 변경
-    func updateSelectionState(_ isSelected: Bool) {
-        if isSelected {
-            grayBoxView.backgroundColor = UIColor(resource: .deepPurple)
-            cityLabel.textColor = UIColor(resource: .drWhite)
-        } else {
-            grayBoxView.backgroundColor = UIColor(resource: .gray100)
-            cityLabel.textColor = UIColor(resource: .gray400)
-        }
-    }
+    
 }
 
 extension CityLabelCollectionViewCell {
@@ -66,5 +57,16 @@ extension CityLabelCollectionViewCell {
         cityLabel.text = city.rawValue
         updateSelectionState(isSelected)
     }
+    // 선택했을 때 버튼 색 속성 변경
+    func updateSelectionState(_ isSelected: Bool) {
+        if isSelected {
+            grayBoxView.backgroundColor = UIColor(resource: .deepPurple)
+            cityLabel.textColor = UIColor(resource: .drWhite)
+        } else  {
+            grayBoxView.backgroundColor = UIColor(resource: .gray100)
+            cityLabel.textColor = UIColor(resource: .gray400)
+        }
+    }
+    
 }
 

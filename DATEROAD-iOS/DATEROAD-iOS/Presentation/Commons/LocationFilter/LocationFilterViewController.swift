@@ -39,6 +39,7 @@ class LocationFilterViewController: BaseViewController {
     private var countryData = LocationModel.countryData() {
         didSet {
             self.countryCollectionView.reloadData()
+            selectedCityIndex = nil
         }
     }
     
@@ -52,6 +53,7 @@ class LocationFilterViewController: BaseViewController {
         didSet {
             self.countryCollectionView.reloadData()
             updateCityData()
+            selectedCityIndex = nil
         }
     }
     
@@ -68,6 +70,8 @@ class LocationFilterViewController: BaseViewController {
         
         register()
         setDelegate()
+        
+        setupInitialSelection()
     }
     
     override func setHierarchy() {
@@ -182,17 +186,6 @@ class LocationFilterViewController: BaseViewController {
         cityCollectionView.dataSource = self
     }
     
-    private func setInitialCityData() {
-        if let selectedCountryIndex = selectedCountryIndex {
-            updateCityData()
-        }
-    }
-    private func updateCityData() {
-        guard let selectedCountryIndex = selectedCountryIndex else { return }
-        
-        let selectedCountry = countryData[selectedCountryIndex]
-        cityData = selectedCountry.cities
-    }
 }
 
 extension LocationFilterViewController: UICollectionViewDelegateFlowLayout {
@@ -273,11 +266,44 @@ extension LocationFilterViewController: UICollectionViewDataSource {
 
 extension LocationFilterViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         if collectionView == countryCollectionView {
             selectedCountryIndex = indexPath.item
         } else {
             selectedCityIndex = indexPath.item
         }
+        
+        updateApplyButtonState()
     }
     
 }
+
+// MARK: - Private Methods
+
+private extension LocationFilterViewController {
+    
+    private func setupInitialSelection() {
+        //기본적으로 서울 선택되어있게 초기화
+        selectedCountryIndex = 0
+    }
+    
+    func updateCityData() {
+        guard let selectedCountryIndex = selectedCountryIndex else { return }
+        
+        let selectedCountry = countryData[selectedCountryIndex]
+        cityData = selectedCountry.cities
+    }
+    
+    func updateApplyButtonState() {
+        
+        if selectedCityIndex != nil {
+            applyButton.backgroundColor = UIColor(resource: .deepPurple)
+            applyButton.setTitleColor(UIColor(resource: .drWhite), for: .normal)
+        } else {
+            applyButton.backgroundColor = UIColor(resource: .gray200)
+            applyButton.setTitleColor(UIColor(resource: .gray400), for: .normal)
+        }
+    }
+}
+
+
