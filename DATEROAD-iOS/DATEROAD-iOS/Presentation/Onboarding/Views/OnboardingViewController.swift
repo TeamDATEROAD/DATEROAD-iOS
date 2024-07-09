@@ -67,7 +67,7 @@ private extension OnboardingViewController {
         
         self.onboardingViewModel.goToNextVC = { [weak self] isLastIndex in
             if isLastIndex {
-                let createProfileVC = BaseViewController()
+                let createProfileVC = ProfileViewController(profileViewModel: ProfileViewModel())
                 self?.navigationController?.pushViewController(createProfileVC, animated: true)
             } else {
                 let currentOffset = self?.onboardingView.onboardingCollectionView.contentOffset ?? CGPoint.zero
