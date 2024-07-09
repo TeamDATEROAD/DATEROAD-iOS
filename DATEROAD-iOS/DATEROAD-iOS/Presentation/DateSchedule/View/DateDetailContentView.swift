@@ -11,6 +11,8 @@ class DateDetailContentView: BaseView {
 
     // MARK: - UI Properties
     
+    private var ribbonImageView = UIImageView()
+    
     private var dateLabel = UILabel()
     
     private var dDayButton = UIButton()
@@ -61,7 +63,8 @@ class DateDetailContentView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(dateLabel,
+        self.addSubviews(ribbonImageView,
+                         dateLabel,
                          dDayButton,
                          firstTagButton,
                          secondTagButton,
@@ -74,8 +77,14 @@ class DateDetailContentView: BaseView {
         
         dateDetailView.addSubviews(dateStartTimeLabel, dateTimeLineCollectionView)
     }
-    
+
     override func setLayout() {
+        ribbonImageView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(8)
+            $0.leading.equalToSuperview().inset(54)
+            $0.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(500.21)
+        }
         
         dateLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(12)
@@ -153,6 +162,11 @@ class DateDetailContentView: BaseView {
     override func setStyle() {
         self.backgroundColor = UIColor(resource: .lilac)
 
+        ribbonImageView.do {
+            $0.contentMode = .scaleAspectFit
+            $0.clipsToBounds = true
+        }
+        
         dateLabel.do {
             $0.font = UIFont.suit(.body_semi_15)
             $0.textColor = UIColor(resource: .drBlack)
@@ -262,6 +276,25 @@ extension DateDetailContentView {
         }
         self.locationLabel.text = dateCardData.dateLocation
         self.titleLabel.text = dateCardData.dateTitle
+    }
+    
+    private func setColorToLabel(bgColor : UIColor, ribbonImage: UIImage, buttonColor: UIColor) {
+        self.backgroundColor = bgColor
+        self.ribbonImageView.image = ribbonImage
+        self.firstTagButton.backgroundColor = buttonColor
+        self.secondTagButton.backgroundColor = buttonColor
+        self.thirdTagButton.backgroundColor = buttonColor
+    }
+    
+    func setColor(index: Int) {
+        let colorIndex = index % 3
+        if colorIndex == 0 {
+            setColorToLabel(bgColor: UIColor(resource: .pink200), ribbonImage: UIImage(resource: .lilacRibbon), buttonColor: UIColor(resource: .pink100))
+        } else if colorIndex == 1 {
+            setColorToLabel(bgColor: UIColor(resource: .purple200), ribbonImage: UIImage(resource: .deepPurpleRibbon), buttonColor: UIColor(resource: .purple100))
+        } else {
+            setColorToLabel(bgColor: UIColor(resource: .lime), ribbonImage: UIImage(resource: .limeRibbon), buttonColor: UIColor(resource: .lime100))
+        }
     }
 
     private func register() {

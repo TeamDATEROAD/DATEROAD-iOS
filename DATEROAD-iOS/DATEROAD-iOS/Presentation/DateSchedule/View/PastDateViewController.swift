@@ -73,6 +73,7 @@ extension PastDateViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         cell.dataBind(pastDateScheduleData.dateCards[indexPath.item], indexPath.item)
+        cell.setColor(index: indexPath.item)
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToPastDateDetailVC(_:))))
         return cell
     }
@@ -83,6 +84,7 @@ extension PastDateViewController: UICollectionViewDataSource {
             let pastDateDetailVC = PastDateDetailViewController()
             self.navigationController?.pushViewController(pastDateDetailVC, animated: true)
             pastDateDetailVC.pastDateDetailContentView.dataBind(pastDateScheduleData.dateCards[indexPath.item])
+            pastDateDetailVC.setColor(index: indexPath.item)
         }
     }
 }

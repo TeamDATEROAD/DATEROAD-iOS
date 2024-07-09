@@ -130,6 +130,7 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         cell.dataBind(upcomingDateScheduleData.dateCards[indexPath.item], indexPath.item)
+        cell.setColor(index: indexPath.item)
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToUpcomingDateDetailVC(_:))))
         return cell
     }
@@ -140,6 +141,7 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
             let upcomingDateDetailVC = UpcomingDateDetailViewController()
             self.navigationController?.pushViewController(upcomingDateDetailVC, animated: true)
             upcomingDateDetailVC.upcomingDateDetailContentView.dataBind(upcomingDateScheduleData.dateCards[indexPath.item])
+            upcomingDateDetailVC.setColor(index: indexPath.item)
         }
     }
 }

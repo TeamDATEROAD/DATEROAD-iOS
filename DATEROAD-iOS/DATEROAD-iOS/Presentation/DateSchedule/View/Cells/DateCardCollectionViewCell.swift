@@ -145,22 +145,12 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func setStyle() {
-        self.backgroundColor = UIColor(resource: .lilac)
         self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
-        
-        topImageView.do {
-            $0.image = UIImage(resource: .lilacTop)
-        }
-        
-        bottomImageView.do {
-            $0.image = UIImage(resource: .lilacBottom)
-        }
         
         dateLabel.do {
             $0.font = UIFont.suit(.title_extra_24)
             $0.textColor = UIColor(resource: .drBlack)
             $0.numberOfLines = 2
-            
         }
         
         dDayButton.do {
@@ -230,6 +220,26 @@ extension DateCardCollectionViewCell {
         }
         self.locationLabel.text = dateCardData.dateLocation
         self.titleLabel.text = dateCardData.dateTitle
+    }
+    
+    private func setColorToLabel(bgColor : UIColor, topImage: UIImage, bottomImage: UIImage, buttonColor: UIColor) {
+        self.backgroundColor = bgColor
+        self.topImageView.image = topImage
+        self.bottomImageView.image = bottomImage
+        self.firstTagButton.backgroundColor = buttonColor
+        self.secondTagButton.backgroundColor = buttonColor
+        self.thirdTagButton.backgroundColor = buttonColor
+    }
+    
+    func setColor(index: Int) {
+        let colorIndex = index % 3
+        if colorIndex == 0 {
+            setColorToLabel(bgColor: UIColor(resource: .pink200), topImage: UIImage(resource: .lilacTop), bottomImage: UIImage(resource: .lilacBottom), buttonColor: UIColor(resource: .pink100))
+        } else if colorIndex == 1 {
+            setColorToLabel(bgColor: UIColor(resource: .purple200), topImage: UIImage(resource: .deepPurpleTop), bottomImage: UIImage(resource: .deepPurpleBottom), buttonColor: UIColor(resource: .purple100))
+        } else {
+            setColorToLabel(bgColor: UIColor(resource: .lime), topImage: UIImage(resource: .limeTop), bottomImage: UIImage(resource: .limeBottom), buttonColor: UIColor(resource: .lime100))
+        }
     }
 }
 

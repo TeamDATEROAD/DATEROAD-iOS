@@ -30,7 +30,7 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setBackgroundColor(color: UIColor(resource: .lilac))
+        
         setLeftBackButton()
         setTitleLabelStyle(title: "데이트 일정")
         setRightButtonStyle(image: UIImage(resource: .moreButton))
@@ -69,6 +69,18 @@ extension UpcomingDateDetailViewController {
     @objc
     func kakaoShareCourse() {
         print("카카오 공유하기")
+    }
+    
+    func setColor(index: Int) {
+        let colorIndex = index % 3
+        if colorIndex == 0 {
+            self.setBackgroundColor(color: UIColor(resource: .pink200))
+        } else if colorIndex == 1 {
+            self.setBackgroundColor(color: UIColor(resource: .purple200))
+        } else {
+            self.setBackgroundColor(color: UIColor(resource: .lime))
+        }
+        upcomingDateDetailContentView.setColor(index: index)
     }
     
     func setUpBindings() {

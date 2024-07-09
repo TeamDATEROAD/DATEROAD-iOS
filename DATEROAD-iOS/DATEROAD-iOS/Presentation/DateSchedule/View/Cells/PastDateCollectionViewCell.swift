@@ -70,9 +70,9 @@ class PastDateCollectionViewCell: BaseCollectionViewCell {
     override func setLayout() {
         
         ribbonImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(41)
-            $0.leading.equalToSuperview().inset(40)
             $0.bottom.trailing.equalToSuperview()
+            $0.top.equalToSuperview().inset(68)
+            $0.leading.equalToSuperview().inset(40)
         }
         
         dateLabel.snp.makeConstraints {
@@ -130,6 +130,10 @@ class PastDateCollectionViewCell: BaseCollectionViewCell {
     override func setStyle() {
         self.backgroundColor = UIColor(resource: .lilac)
         self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+        
+        ribbonImageView.do {
+            $0.contentMode = .scaleAspectFill
+        }
         
         dateLabel.do {
             $0.font = UIFont.suit(.body_semi_13)
@@ -192,6 +196,25 @@ extension PastDateCollectionViewCell {
         }
         locationLabel.text = dateCardData.dateLocation
         titleLabel.text = dateCardData.dateTitle
+    }
+    
+    private func setColorToLabel(bgColor : UIColor, ribbonImage: UIImage, buttonColor: UIColor) {
+        self.backgroundColor = bgColor
+        self.ribbonImageView.image = ribbonImage
+        self.firstTagButton.backgroundColor = buttonColor
+        self.secondTagButton.backgroundColor = buttonColor
+        self.thirdTagButton.backgroundColor = buttonColor
+    }
+    
+    func setColor(index: Int) {
+        let colorIndex = index % 3
+        if colorIndex == 0 {
+            setColorToLabel(bgColor: UIColor(resource: .pink200), ribbonImage: UIImage(resource: .lilacRibbon), buttonColor: UIColor(resource: .pink100))
+        } else if colorIndex == 1 {
+            setColorToLabel(bgColor: UIColor(resource: .purple200), ribbonImage: UIImage(resource: .deepPurpleRibbon), buttonColor: UIColor(resource: .purple100))
+        } else {
+            setColorToLabel(bgColor: UIColor(resource: .lime), ribbonImage: UIImage(resource: .limeRibbon), buttonColor: UIColor(resource: .lime100))
+        }
     }
 }
 
