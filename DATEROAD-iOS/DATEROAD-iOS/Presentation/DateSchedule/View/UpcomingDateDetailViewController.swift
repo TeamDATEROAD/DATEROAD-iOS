@@ -36,6 +36,7 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
         setRightButtonStyle(image: UIImage(resource: .moreButton))
         setRightButtonAction(target: self, action: #selector(deleteDateCourse))
         
+        setButton()
         setUpBindings()
         setDataSource()
        
@@ -83,6 +84,12 @@ extension UpcomingDateDetailViewController {
 // MARK: - CollectionView Methods
 
 extension UpcomingDateDetailViewController {
+    
+    func setButton() {
+        upcomingDateDetailContentView.kakaoShareButton.isHidden = false
+        upcomingDateDetailContentView.courseShareButton.isHidden = true
+    }
+    
     func setDataSource() {
         upcomingDateDetailContentView.dateTimeLineCollectionView.dataSource = self
     }

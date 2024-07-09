@@ -40,8 +40,9 @@ class PastDateContentView: BaseView {
         self.backgroundColor = UIColor(resource: .drWhite)
         
         pastDateCollectionView.do {
+            $0.isScrollEnabled = true
             $0.backgroundColor = UIColor(resource: .drWhite)
-            // $0.showsVerticalScrollIndicator = false
+            $0.showsVerticalScrollIndicator = true
         }
         
         PastDateContentView.pastDateCollectionViewLayout.do {

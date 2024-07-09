@@ -32,10 +32,11 @@ class PastDateDetailViewController: BaseNavBarViewController {
         
         setBackgroundColor(color: UIColor(resource: .lilac))
         setLeftBackButton()
-        setTitleLabelStyle(title: "데이트 일정")
+        setTitleLabelStyle(title: "지난 데이트")
         setRightButtonStyle(image: UIImage(resource: .moreButton))
         setRightButtonAction(target: self, action: #selector(deleteDateCourse))
         
+        setButton()
         setUpBindings()
         setDataSource()
        
@@ -82,6 +83,11 @@ extension PastDateDetailViewController {
 // MARK: - CollectionView Methods
 
 extension PastDateDetailViewController {
+    func setButton() {
+        pastDateDetailContentView.kakaoShareButton.isHidden = true
+        pastDateDetailContentView.courseShareButton.isHidden = false
+    }
+    
     func setDataSource() {
         pastDateDetailContentView.dateTimeLineCollectionView.dataSource = self
     }

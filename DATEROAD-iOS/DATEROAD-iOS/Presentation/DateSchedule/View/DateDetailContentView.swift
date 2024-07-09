@@ -37,6 +37,8 @@ class DateDetailContentView: BaseView {
     
     var kakaoShareButton = UIButton()
     
+    var courseShareButton = UIButton()
+    
     static var dateTimeLineCollectionViewLayout = UICollectionViewFlowLayout()
     
     // MARK: - Properties
@@ -67,7 +69,8 @@ class DateDetailContentView: BaseView {
                          locationLabel,
                          titleLabel,
                          dateDetailView,
-                         kakaoShareButton)
+                         kakaoShareButton,
+                         courseShareButton)
         
         dateDetailView.addSubviews(dateStartTimeLabel, dateTimeLineCollectionView)
     }
@@ -134,6 +137,12 @@ class DateDetailContentView: BaseView {
         }
         
         kakaoShareButton.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(78)
+            $0.height.equalTo(52)
+            $0.bottom.equalToSuperview().inset(39)
+        }
+        
+        courseShareButton.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(78)
             $0.height.equalTo(52)
             $0.bottom.equalToSuperview().inset(39)
@@ -205,6 +214,7 @@ class DateDetailContentView: BaseView {
         }
         
         kakaoShareButton.do {
+            $0.isHidden = true
             $0.backgroundColor = UIColor(resource: .deepPurple)
             $0.setImage(UIImage(resource: .kakaoShare), for: .normal)
             $0.setTitle("카카오톡으로 공유하기", for: .normal)
@@ -213,6 +223,16 @@ class DateDetailContentView: BaseView {
             $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
             $0.imageEdgeInsets = UIEdgeInsets(top: 14, left: -6, bottom: 14, right: 6)
             $0.titleEdgeInsets = UIEdgeInsets(top: 15.5, left: 6, bottom: 15.5, right: -6)
+            $0.roundedButton(cornerRadius: 25, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+        }
+        
+        courseShareButton.do {
+            $0.isHidden = true
+            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.setTitle("데이트 코스 올리고 50P 받기", for: .normal)
+            $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
+            $0.titleLabel?.font = UIFont.suit(.body_bold_15)
+            $0.contentEdgeInsets = UIEdgeInsets(top: 14, left: 24, bottom: 14, right: 24)
             $0.roundedButton(cornerRadius: 25, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
         }
         
@@ -251,8 +271,6 @@ extension DateDetailContentView {
     private func setDelegate() {
         dateTimeLineCollectionView.delegate = self
     }
-    
-    
 }
 
 // MARK: - Delegate
