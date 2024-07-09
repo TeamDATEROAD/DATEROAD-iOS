@@ -21,20 +21,28 @@ final class AddCourseViewModel {
    
    var visitDate: ObservablePattern<String> = ObservablePattern("")
    
-   /// 데이트 시작시간 유효성 판별 (self.count > 0 인지)
-   var dateStartTime: ObservablePattern<String> = ObservablePattern("")
-   
    /// ImageCollection 유효성 판별
-   var isImageEmpty: ObservablePattern<Bool> = ObservablePattern(true)
+   var isImageEmpty: ObservablePattern<Bool> = ObservablePattern(false)
    
    /// 데이트 이름 유효성 판별 (true는 통과)
    var isDateNameValid: ObservablePattern<Bool> = ObservablePattern(nil)
    
-//   var isDateNameError: ((Bool) -> Void)?
-   
+   /// 방문 일자 유효성 판별 (true는 통과)
    var isVisitDateValid: ObservablePattern<Bool> = ObservablePattern(nil)
    
-   var tagButtonsArr: [UIButton] = []
+   /// 데이트 시작시간 유효성 판별 (self.count > 0 인지)
+   var dateStartTime: ObservablePattern<String> = ObservablePattern("")
+   
+   var isTagButtonValid: ObservablePattern<Bool> = ObservablePattern(false)
+   
+   /// 코스 등록하기 1 View 중 6개를 모두 통과하였는지 판별
+   var isSixCheckPass: ObservablePattern<Int> = ObservablePattern(0)
+   
+   var tagCount: ObservablePattern<Int> = ObservablePattern(0)
+   
+   var cnt = 0
+   
+//   var tagButtonsSet: Set<UIButton> = []
    
    var isError: (() -> Void)?
    
@@ -75,6 +83,68 @@ extension AddCourseViewModel {
       let flag = cnt >= 5
       isDateNameValid.value = flag
    }
+   
+   func countSelectedTag(isSelected: Bool) {
+       guard let oldCount = tagCount.value else { return }
+       
+       if isSelected {
+           tagCount.value = oldCount + 1
+       } else {
+           if oldCount != 0 {
+               tagCount.value = oldCount - 1
+           }
+       }
+       
+       checkTagCount()
+   }
+   
+   func checkTagCount() {
+       guard let count = tagCount.value else { return }
+
+       if count >= 1 && count <= 3 {
+           self.isTagButtonValid.value = true
+       } else {
+           self.isTagButtonValid.value = false
+       }
+       print(count)
+   }
+   
+//   func isTagBtnFull(sender: UIButton) -> Bool {
+//      if let index = tagButtonsSet.firstIndex(of: sender) {
+//         tagButtonsSet.remove(at: index)
+//         return true
+//      } else {
+//         tagButtonsSet.insert(sender)
+//         return false
+//      }
+//   }
+   
+//   func isTagBtnFull(sender: UIButton) -> Bool {
+//      let flag = tagButtonsArr.count >= 3 ? true : false
+//      if tagButtonsArr.contains(<#T##other: Collection##Collection#>)
+//      // tagButtonArr의 개수가 3개라면
+//      if flag {
+//         
+//      } else {
+//         
+//      }
+//   }
+   
+//   func isPassSixCheckBtn() -> Bool {
+//      guard let isImageEmpty = isImageEmpty.value,
+//            let isDateNameValid = isDateNameValid.value,
+//            let isVisitDateValid = isVisitDateValid.value,
+//            let dateStartTime = dateStartTime.value,
+//            let tagButtonsArr = tagButtonsArr
+//      else {}
+////      isImageEmpty.value ?? true ? (cnt+=1) : (cnt=0)
+////      isDateNameValid.value ?? true ? (cnt+=1) : (cnt=0)
+////      isVisitDateValid.value ?? true ? (cnt+=1) : (cnt=0)
+////      (dateStartTime.value?.count ?? 0 > 0) ? (cnt+=1) : (cnt=0)
+////      (tagButtonsArr.count != 0) ? (cnt+=1) : (cnt=0)
+//      
+//      return true
+//   }
    
    func getSampleImages() -> Bool {
       var t = (1...9).map { _ in

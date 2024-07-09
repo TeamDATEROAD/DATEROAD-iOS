@@ -76,5 +76,6 @@ enum StringLiterals {
       static let datePlaceLabel = "데이트 지역을 선택해 주세요 (필수)"
       static let dateNameErrorLabel = "최소 5글자 이상 입력해주세요"
       static let visitDateErrorLabel = "미래 날짜를 선택하셨어요"
+      static let addFirstNextBtn = "다음 (1/3)"
    }
 }

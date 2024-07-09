@@ -82,6 +82,12 @@ extension AddCourseFirstViewController {
       viewModel.isVisitDateValid.bind { [weak self] date in
          self?.addCourseFirstView.updateVisitDateTextField(isPassValid: date ?? true)
       }
+      viewModel.tagCount.bind { [weak self] count in
+         self?.addCourseFirstView.addFirstView.updateTagCount(count: count ?? 0)
+      }
+//      viewModel.isSixCheckPass.bind { [weak self] date in
+//         self?.viewModel.isPassSixCheckBtn()
+//      }
    }
    
    private func setAddTarget() {
@@ -178,12 +184,9 @@ extension AddCourseFirstViewController: UITextFieldDelegate {
    
    @objc
    func changeTagBtnState(sender: UIButton) {
-      viewModel.tagButtonsArr.append(sender)
-      if viewModel.tagButtonsArr.count <= 3 {
-         self.addCourseFirstView.addFirstView.updateTagButtonStyle(btn: sender)
-      } else {
-         print("지금 3개야!")
-      }
+      sender.isSelected.toggle()
+      addCourseFirstView.addFirstView.updateTagButtonStyle(btn: sender, isSelected: sender.isSelected)
+      viewModel.countSelectedTag(isSelected: sender.isSelected)
    }
    
 }
