@@ -28,6 +28,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         register()
         setDelegate()
         setupBindings()

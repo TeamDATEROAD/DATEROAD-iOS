@@ -99,13 +99,16 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
         
         firstTagButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(20)
-            $0.top.equalToSuperview().inset(ScreenUtils.height * 0.2684)
+            $0.top.equalTo(secondTagButton.snp.bottom)
+            //$0.top.equalTo(secondTagButton.snp.bottom).offset(ScreenUtils.height * 0.04310345)
+            //$0.top.equalToSuperview().inset(ScreenUtils.height * 0.2684)
             $0.height.equalTo(29)
         }
         
         secondTagButton.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(83)
-            $0.top.equalToSuperview().inset(ScreenUtils.height * 0.2327)
+            $0.leading.equalToSuperview().inset(95) //83
+            $0.top.equalTo(thirdTagButton.snp.bottom).offset(ScreenUtils.height * 0.015)
+            //$0.top.equalToSuperview().inset(ScreenUtils.height * 0.01970443)
             $0.height.equalTo(29)
         }
         
@@ -138,7 +141,8 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
         
         titleLabel.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.0307)
+            $0.top.equalTo(locationLabel.snp.bottom).offset(5)
+            //$0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.0307)
         }
         
         
@@ -210,7 +214,6 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
             $0.lineBreakMode = .byWordWrapping
         }
     }
-    
 }
 
 extension DateCardCollectionViewCell {

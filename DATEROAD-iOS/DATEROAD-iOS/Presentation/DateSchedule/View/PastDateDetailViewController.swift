@@ -66,12 +66,12 @@ extension PastDateDetailViewController {
     }
     
     @objc
-    func kakaoShareCourse() {
-        print("카카오 공유하기")
+    func tapShareCourse() {
+        print("일정 공유하기")
     }
     
     func setUpBindings() {
-        //pastDateDetailContentView.kakaoShareButton.addTarget(self, action: #selector(kakaoShareCourse), for: .touchUpInside)
+        pastDateDetailContentView.courseShareButton.addTarget(self, action: #selector(tapShareCourse), for: .touchUpInside)
         
         self.pastDateDetailData = pastDateDetailViewModel.pastDateDetailDummyData
     }

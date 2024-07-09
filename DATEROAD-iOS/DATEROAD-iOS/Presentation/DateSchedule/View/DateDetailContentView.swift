@@ -102,7 +102,7 @@ class DateDetailContentView: BaseView {
             $0.leading.equalToSuperview().inset(16)
             $0.top.equalTo(dateLabel.snp.bottom).offset(5)
             $0.height.equalTo(62)
-            $0.width.equalTo(241)
+            $0.width.equalTo(ScreenUtils.width*0.768)
         }
         
         locationLabel.snp.makeConstraints {

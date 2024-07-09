@@ -30,7 +30,6 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         setLeftBackButton()
         setTitleLabelStyle(title: "데이트 일정")
         setRightButtonStyle(image: UIImage(resource: .moreButton))
