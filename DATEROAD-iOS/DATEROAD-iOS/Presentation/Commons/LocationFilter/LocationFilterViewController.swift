@@ -70,7 +70,6 @@ class LocationFilterViewController: BaseViewController {
         
         register()
         setDelegate()
-        
         setupInitialSelection()
     }
     
@@ -139,6 +138,9 @@ class LocationFilterViewController: BaseViewController {
             $0.alpha = 0.7
             $0.layer.backgroundColor = UIColor(resource: .drBlack).cgColor
             $0.isUserInteractionEnabled = true
+            
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapDimmedView))
+            $0.addGestureRecognizer(gesture)
         }
         
         bottomSheetView.do {
@@ -154,6 +156,7 @@ class LocationFilterViewController: BaseViewController {
         
         closeButton.do {
             $0.setImage(UIImage(resource: .btnClose), for: .normal)
+            $0.addTarget(self, action: #selector(closeView), for: .touchUpInside)
         }
         
         lineView.do {
@@ -170,110 +173,12 @@ class LocationFilterViewController: BaseViewController {
         
     }
     
-    private func register() {
-        countryCollectionView.register(
-            CountryLabelCollectionViewCell.self,
-            forCellWithReuseIdentifier: CountryLabelCollectionViewCell.cellIdentifier)
-        cityCollectionView.register(
-            CityLabelCollectionViewCell.self,
-            forCellWithReuseIdentifier: CityLabelCollectionViewCell.cellIdentifier)
+    @objc func closeView() {
+        self.dismiss(animated: true)
     }
     
-    private func setDelegate() {
-        countryCollectionView.delegate = self
-        countryCollectionView.dataSource = self
-        cityCollectionView.delegate = self
-        cityCollectionView.dataSource = self
-    }
-    
-}
-
-extension LocationFilterViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var cellWidth: CGFloat = 0
-        var cellHeight: CGFloat = 0
-        
-        if collectionView == countryCollectionView {
-            let screenWidth = UIScreen.main.bounds.width
-            cellWidth = ((screenWidth - 50) - ( countryInset * 2 )) / 3
-            cellHeight = 33
-        } else if collectionView == cityCollectionView {
-            let text = cityData[indexPath.item].rawValue
-            print(text)
-            let font = UIFont.suit(.body_med_13)
-            let textWidth = text.width(withConstrainedHeight: 30, font: font)
-            cellWidth = textWidth + 28
-            cellHeight = 30
-        }
-        
-        return CGSize(width: cellWidth, height: cellHeight)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        
-        if collectionView == countryCollectionView {
-            return 8
-        } else {
-            return 8
-        }
-        
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        if collectionView == cityCollectionView{
-            return 8
-        } else {
-            return 0
-        }
-        
-    }
-    
-}
-
-extension LocationFilterViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == countryCollectionView {
-            return countryData.count
-        } else {
-            return cityData.count
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        var cell: UICollectionViewCell
-        
-        if collectionView == countryCollectionView {
-            guard let countryCell = collectionView.dequeueReusableCell(withReuseIdentifier: CountryLabelCollectionViewCell.cellIdentifier, for: indexPath) as? CountryLabelCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-            let country = countryData[indexPath.item]
-            let isSelected = indexPath.item == selectedCountryIndex
-            countryCell.configure(with: country, isSelected: isSelected)
-            cell = countryCell
-        } else {
-            guard let cityCell = collectionView.dequeueReusableCell(withReuseIdentifier: CityLabelCollectionViewCell.cellIdentifier, for: indexPath) as? CityLabelCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-            let city = cityData[indexPath.item]
-            let isSelected = indexPath.item == selectedCityIndex
-            cityCell.configure(with: city, isSelected: isSelected)
-            cell = cityCell
-        }
-        
-        return cell
-    }
-    
-}
-
-extension LocationFilterViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        if collectionView == countryCollectionView {
-            selectedCountryIndex = indexPath.item
-        } else {
-            selectedCityIndex = indexPath.item
-        }
-        
-        updateApplyButtonState()
+    @objc func didTapDimmedView(sender: UIGestureRecognizer) {
+        self.dismiss(animated: true)
     }
     
 }
@@ -297,13 +202,99 @@ private extension LocationFilterViewController {
     func updateApplyButtonState() {
         
         if selectedCityIndex != nil {
-            applyButton.backgroundColor = UIColor(resource: .deepPurple)
-            applyButton.setTitleColor(UIColor(resource: .drWhite), for: .normal)
+            applyButton.setButtonStatus(buttonType: EnabledButton())
         } else {
-            applyButton.backgroundColor = UIColor(resource: .gray200)
-            applyButton.setTitleColor(UIColor(resource: .gray400), for: .normal)
+            applyButton.setButtonStatus(buttonType: DisabledButton())
         }
     }
+    
+    func register() {
+        countryCollectionView.register(
+            CountryLabelCollectionViewCell.self,
+            forCellWithReuseIdentifier: CountryLabelCollectionViewCell.cellIdentifier)
+        cityCollectionView.register(
+            CityLabelCollectionViewCell.self,
+            forCellWithReuseIdentifier: CityLabelCollectionViewCell.cellIdentifier)
+    }
+    
+    func setDelegate() {
+        countryCollectionView.delegate = self
+        countryCollectionView.dataSource = self
+        cityCollectionView.delegate = self
+        cityCollectionView.dataSource = self
+    }
 }
+
+extension LocationFilterViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        var cellWidth: CGFloat = 0
+        var cellHeight: CGFloat = 0
+        
+        if collectionView == countryCollectionView {
+            let screenWidth = UIScreen.main.bounds.width
+            cellWidth = ((screenWidth - 50) - ( countryInset * 2 )) / 3
+            cellHeight = 33
+        } else if collectionView == cityCollectionView {
+            let text = cityData[indexPath.item].rawValue
+            let font = UIFont.suit(.body_med_13)
+            let textWidth = text.width(withConstrainedHeight: 30, font: font)
+            cellWidth = textWidth + 28
+            cellHeight = 30
+        }
+        
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        
+        return collectionView == countryCollectionView ? 8 : 9
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        
+        return collectionView == cityCollectionView ? 8 : 0
+    }
+    
+}
+
+extension LocationFilterViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return collectionView == countryCollectionView ? countryData.count : cityData.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let isCountryCollection = collectionView == countryCollectionView
+        let cellIdentifier = isCountryCollection ? CountryLabelCollectionViewCell.cellIdentifier : CityLabelCollectionViewCell.cellIdentifier
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
+        
+        if isCountryCollection, let countryCell = cell as? CountryLabelCollectionViewCell {
+            let country = countryData[indexPath.item]
+            let isSelected = indexPath.item == selectedCountryIndex
+            countryCell.configure(with: country, isSelected: isSelected)
+        } else if let cityCell = cell as? CityLabelCollectionViewCell {
+            let city = cityData[indexPath.item]
+            let isSelected = indexPath.item == selectedCityIndex
+            cityCell.configure(with: city, isSelected: isSelected)
+        }
+        
+        return cell
+    }
+}
+
+extension LocationFilterViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if collectionView == countryCollectionView {
+            selectedCountryIndex = indexPath.item
+        } else {
+            selectedCityIndex = indexPath.item
+        }
+        
+        updateApplyButtonState()
+    }
+}
+
+
 
 

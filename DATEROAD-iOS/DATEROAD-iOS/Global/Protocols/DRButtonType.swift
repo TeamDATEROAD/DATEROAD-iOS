@@ -12,6 +12,8 @@ protocol DRButtonType {
     var bgColor: UIColor { get }
     
     var fontColor: UIColor { get }
+    
+    var borderColor: CGColor { get }
         
     var borderWidth: CGFloat { get }
         
@@ -25,6 +27,8 @@ protocol DRButtonType {
 extension DRButtonType {
         
     var fontColor: UIColor { return UIColor(resource: .drBlack) }
+    
+    var borderColor: CGColor { return UIColor(resource: .deepPurple).cgColor }
         
     var borderWidth: CGFloat { return 0 }
         
@@ -58,6 +62,8 @@ struct EnabledButton: DRButtonType {
 struct DisabledButton: DRButtonType {
     
     var bgColor: UIColor = UIColor(resource: .gray200)
+    
+    var borderColor: UIColor = UIColor(resource: .gray200)
     
     var fontColor: UIColor = UIColor(resource: .gray400)
             
