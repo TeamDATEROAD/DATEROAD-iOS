@@ -13,21 +13,15 @@ import Then
 class CourseView: BaseView {
     
     // MARK: - UI Properties
+   
+    private let courseNavigationBarView = CourseNavigationBarView()
     
-    private let courseLabel = UILabel()
+    let courseFilterView = CourseFilterView()
     
-    private let addCourseButton = UIButton()
-    
-    private let locationFilterButton = UIButton()
-    
-    let priceCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let courseListView = CourseListView()
     
     // MARK: - Properties
-    
-    private let enabledButtonType: DRButtonType = EnabledButton()
-    
-    private let disabledButtonType: DRButtonType = DisabledButton()
-    
+   
     // MARK: - Life Cycle
 
     override init(frame: CGRect) {
@@ -40,81 +34,29 @@ class CourseView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(
-            courseLabel,
-            addCourseButton,
-            locationFilterButton,
-            priceCollectionView
-        )
+        self.addSubviews(courseNavigationBarView, courseFilterView, courseListView)
     }
     
     override func setLayout() {
-        
-        courseLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(63)
-            $0.leading.equalToSuperview()
-        }
-        
-        addCourseButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(63)
-            $0.trailing.equalToSuperview()
-            $0.width.equalTo(44)
-            $0.height.equalTo(30)
-        }
-        
-        locationFilterButton.snp.makeConstraints {
-            $0.top.equalTo(courseLabel.snp.bottom).offset(29)
-            $0.leading.equalToSuperview()
-            $0.width.equalTo(150)
-            $0.height.equalTo(30)
-        }
-        
-        priceCollectionView.snp.makeConstraints {
-            $0.top.equalTo(locationFilterButton.snp.bottom).offset(10)
+        courseNavigationBarView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(54)
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(30)
+            $0.height.equalTo(54)
+        }
+        
+        courseFilterView.snp.makeConstraints {
+            $0.top.equalTo(courseNavigationBarView.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(84)
+        }
+        
+        courseListView.snp.makeConstraints {
+            $0.top.equalTo(courseFilterView.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
         }
     
-        
     }
-    
-    override func setStyle() {
-        courseLabel.do {
-            $0.text = StringLiterals.Course.course
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.font = UIFont.suit(.title_bold_20)
-        }
-        
-        addCourseButton.do {
-            $0.roundedButton(cornerRadius: 15, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
-            $0.backgroundColor = UIColor(resource: .deepPurple)
-            //수민이꺼 머지하면 이미지 가져다 쓰기
-            //$0.setImage(<#T##image: UIImage?##UIImage?#>, for: <#T##UIControl.State#>)
-        }
-        
-        locationFilterButton.do {
-            $0.setTitle("지역", for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_med_13)
-            $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
-            $0.contentHorizontalAlignment = .left
-            $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 128, bottom: 0, right: 0)
-            $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 2, bottom: 0, right: 0)
-            $0.backgroundColor = UIColor(resource: .gray100)
-            $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
-            $0.setImage(UIImage(resource: .icDropdown), for: .normal)
-        }
-    }
-    
+
 }
 
-extension CourseView {
-    
-    func updatePrice(button: UIButton, buttonType: DRButtonType, isSelected: Bool) {
-        button.setButtonStatus(buttonType: buttonType)
-        isSelected ? button.setTitleColor(UIColor(resource: .drWhite), for: .normal)
-        : button.setTitleColor(UIColor(resource: .gray400), for: .normal
-    )
-    }
-   
-}
 
