@@ -50,17 +50,6 @@ class AddSecondView: BaseView {
          timeRequireTextField,
          addPlaceButton
       )
-      
-      //추후 삭제
-      //여기부터
-      container.snp.makeConstraints {
-         $0.edges.equalToSuperview()
-      }
-      container.do {
-         $0.layer.borderWidth = 1
-         $0.layer.borderColor = UIColor(resource: .alertRed).cgColor
-      }
-      //여기까지
    }
    
    override func setLayout() {
