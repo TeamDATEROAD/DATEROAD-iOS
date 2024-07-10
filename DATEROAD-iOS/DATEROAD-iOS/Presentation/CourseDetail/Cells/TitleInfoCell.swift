@@ -141,7 +141,7 @@ final class TitleInfoCell: BaseCollectionViewCell {
 
 extension TitleInfoCell {
     
-    func setCell(mainContentsData: MainContents) {
+    func setCell(mainContentsData: MainContentsModel) {
         dateLabel.text = mainContentsData.date
         titleLabel.text = mainContentsData.title
         coastLabel.text = mainContentsData.coast
