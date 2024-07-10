@@ -29,7 +29,7 @@ class PastDateDetailViewController: BaseNavBarViewController {
         super.viewDidLoad()
 
         setLeftBackButton()
-        setTitleLabelStyle(title: "지난 데이트")
+        setTitleLabelStyle(title: "지난 데이트", alignment: .center)
         setRightButtonStyle(image: UIImage(resource: .moreButton))
         setRightButtonAction(target: self, action: #selector(deleteDateCourse))
         

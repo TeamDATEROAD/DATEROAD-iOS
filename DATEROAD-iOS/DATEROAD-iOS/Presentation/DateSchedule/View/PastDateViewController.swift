@@ -29,7 +29,7 @@ class PastDateViewController: BaseNavBarViewController {
         super.viewDidLoad()
         
         setLeftBackButton()
-        setTitleLabelStyle(title: StringLiterals.DateSchedule.pastDate)
+        setTitleLabelStyle(title: StringLiterals.DateSchedule.pastDate, alignment: .center)
         
         registerCell()
         setDelegate()

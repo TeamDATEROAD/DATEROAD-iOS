@@ -90,8 +90,6 @@ class BaseNavBarViewController: UIViewController {
          $0.isHidden = true
       }
    }
-   
-        setLayout()
 }
 
 // MARK: - NavigationBar Custom Methods
@@ -107,9 +105,6 @@ extension BaseNavBarViewController {
             $0.backgroundColor = color
         }
     }
-    
-
-    
    
    func setLeftButtonStyle(image: UIImage?) {
       leftButton.do {
@@ -165,13 +160,5 @@ extension BaseNavBarViewController {
    func backButtonTapped() {
       navigationController?.popViewController(animated: true)
    }
-    
-    func setBackgroundColor(color: UIColor) {
-        topInsetView.do {
-            $0.backgroundColor = color
-        }
-        navigationBarView.do {
-            $0.backgroundColor = color
-        }
-    }
+
 }
