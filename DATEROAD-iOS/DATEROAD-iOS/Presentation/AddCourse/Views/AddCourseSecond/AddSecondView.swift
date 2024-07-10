@@ -162,11 +162,23 @@ class AddSecondView: BaseView {
 }
 
 extension AddSecondView {
+   
    func changeAddPlaceButtonState(flag: Bool) {
       let state = flag ? enabledButtonType : addCourseDisabledButtonType
-      let image = flag ? UIImage(resource: .icAddcourseWhite) : UIImage(resource: .icAddcourseGray)
-      print(state)
-//      addPlaceButton.setImage(image, for: .)
+//      let image = flag ? UIImage(resource: .icAddcourseWhite) : UIImage(resource: .icAddcourseGray)
+//      print(state)
       addPlaceButton.setButtonStatus(buttonType: state)
    }
+   
+   func finishAddPlace() {
+      datePlaceTextField.text = ""
+      timeRequireTextField.text = ""
+      addPlaceButton.setButtonStatus(buttonType: addCourseDisabledButtonType)
+   }
+   
+   func changeNextBtnState(flag: Bool) {
+      let state = flag ? enabledButtonType : disabledButtonType
+      nextBtn.setButtonStatus(buttonType: state)
+   }
+   
 }

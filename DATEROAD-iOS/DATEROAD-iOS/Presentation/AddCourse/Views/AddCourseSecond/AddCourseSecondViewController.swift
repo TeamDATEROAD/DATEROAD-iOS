@@ -86,8 +86,6 @@ extension AddCourseSecondViewController {
       viewModel.datePlace.bind { [weak self] date in
          self?.addCourseSecondView.addSecondView.datePlaceTextField.text = date
          self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: self?.viewModel.isAbleAddBtn() ?? false)
-//         changeAddPlaceButtonState()
-         //함수(isAbleAddBtn())
       }
       viewModel.timeRequire.bind { [weak self] date in
          self?.addCourseSecondView.addSecondView.timeRequireTextField.text = date
@@ -95,9 +93,14 @@ extension AddCourseSecondViewController {
       }
       self.viewModel.isChange = { [weak self] in
          print(self?.viewModel.tableViewDataSource ?? "")
-         self?.addCourseSecondView.addSecondView.datePlaceTextField.text = ""
-         self?.addCourseSecondView.addSecondView.timeRequireTextField.text = ""
+         self?.addCourseSecondView.addSecondView.finishAddPlace()
+         
+         //얘 로직 확인해봐야함
+         self?.viewModel.isSourceMoreThanOne()
          self?.addCourseSecondView.collectionView2.reloadData()
+      }
+      self.viewModel.isValidOfSecondNextBtn.bind { [weak self] date in
+         self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: date ?? false)
       }
    }
    
