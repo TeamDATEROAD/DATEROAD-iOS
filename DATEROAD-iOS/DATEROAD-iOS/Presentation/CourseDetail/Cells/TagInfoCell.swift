@@ -11,54 +11,24 @@ import SnapKit
 import Then
 
 
-final class TagInfoCell: UICollectionViewCell {
+final class TagInfoCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
     let hashTagLabel = UILabel()
     
-    // MARK: - Properties
-    
-    static let identifier: String = "HashTagInfoCell"
-
-    override init(frame: CGRect) {
-        
-        super.init(frame: frame)
-        setHierarchy()
-        setLayout()
-        setStyle()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension TagInfoCell {
-    
-    func setCell(tagData: InfoContents) {
-        hashTagLabel.text = tagData.tag
-    }
-    
-}
-
-
-// MARK: - Private Methods
-
-private extension TagInfoCell {
-    
-    func setHierarchy() {
+    override func setHierarchy() {
         contentView.addSubview(hashTagLabel)
     }
     
-    func setLayout() {
+    override func setLayout() {
         hashTagLabel.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(14)
             $0.centerY.equalToSuperview()
         }
     }
     
-    func setStyle() {
+    override func setStyle() {
         hashTagLabel.do {
             $0.text = "🚙 드라이브"
             $0.font = UIFont.suit(.body_med_13)
@@ -74,6 +44,11 @@ private extension TagInfoCell {
 
 }
 
-
-
+extension TagInfoCell {
+    
+    func setCell(tagData: InfoContents) {
+        hashTagLabel.text = tagData.tag
+    }
+    
+}
 

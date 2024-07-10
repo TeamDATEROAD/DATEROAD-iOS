@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TimelineInfoCell: UICollectionViewCell {
+class TimelineInfoCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
@@ -23,46 +23,7 @@ class TimelineInfoCell: UICollectionViewCell {
     
     private let timeLabel = UILabel()
     
-    // MARK: - Properties
-    
-    static let identifier: String = "LocationCell"
-    
-    override init(frame: CGRect) {
-        
-        super.init(frame: frame)
-        setHierarchy()
-        setLayout()
-        setStyle()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension TimelineInfoCell {
-    
-    func setCell(_ timelineData: TimelineContents) {
-        if let index = timelineData.index {
-            indexNumLabel.text = String(index)
-        } else {
-            indexNumLabel.text = nil
-        }
-        locationLabel.text = timelineData.location
-        if let time = timelineData.time {
-            timeLabel.text = String(time) + "시간"
-        } else {
-            timeLabel.text = nil
-        }
-    }
-}
-
-// MARK: - Private Methods
-
-private extension TimelineInfoCell {
-    
-    func setHierarchy() {
+    override func setHierarchy() {
         self.addSubviews(
             timelineBackgroundView,
             circleView,
@@ -73,7 +34,7 @@ private extension TimelineInfoCell {
         )
     }
     
-    func setLayout() {
+    override func setLayout() {
         timelineBackgroundView.snp.makeConstraints {
             $0.leading.trailing.top.equalToSuperview()
             $0.height.equalTo(54)
@@ -106,7 +67,7 @@ private extension TimelineInfoCell {
         }
     }
     
-    func setStyle() {
+    override func setStyle() {
         timelineBackgroundView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
             $0.layer.cornerRadius = 14
@@ -140,11 +101,22 @@ private extension TimelineInfoCell {
             $0.textColor = UIColor(resource: .drBlack)
         }
     }
-    
 }
 
-
-
-
-
+extension TimelineInfoCell {
+    
+    func setCell(_ timelineData: TimelineContents) {
+        if let index = timelineData.index {
+            indexNumLabel.text = String(index)
+        } else {
+            indexNumLabel.text = nil
+        }
+        locationLabel.text = timelineData.location
+        if let time = timelineData.time {
+            timeLabel.text = String(time) + "시간"
+        } else {
+            timeLabel.text = nil
+        }
+    }
+}
 

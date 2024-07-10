@@ -195,6 +195,10 @@ final class ProfileView: BaseView {
         tendencyTagCollectionView.do {
             $0.contentInsetAdjustmentBehavior = .never
             $0.showsVerticalScrollIndicator = false
+            let layout = CollectionViewLeftAlignFlowLayout()
+            layout.cellSpacing = 8
+            $0.collectionViewLayout = layout
+
         }
         
         tagErrMessageLabel.do {
