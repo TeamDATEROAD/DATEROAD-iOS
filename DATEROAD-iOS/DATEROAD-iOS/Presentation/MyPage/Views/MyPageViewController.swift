@@ -100,7 +100,7 @@ private extension MyPageViewController {
     // TODO: - 추후 뷰컨 수정 예정
     @objc
     func pushToPointDetailVC() {
-        print("포인트 내역 기기")
+        self.navigationController?.pushViewController(PointDetailViewController(), animated: false)
     }
     
     @objc

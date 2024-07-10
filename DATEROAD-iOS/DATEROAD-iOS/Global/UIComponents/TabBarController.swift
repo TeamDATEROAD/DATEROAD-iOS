@@ -19,9 +19,9 @@ final class TabBarController: UITabBarController {
     
     let courseVC = PointDetailViewController()
     
-    let dateVC = UIViewController()
+    let dateVC = UpcomingDateScheduleViewController()
     
-    let viewedCourseVC = UIViewController()
+    let viewedCourseVC = ViewedCourseViewController()
     
     let mypageVC = MyPageViewController(myPageViewModel: MyPageViewModel())
     
