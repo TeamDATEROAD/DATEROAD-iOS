@@ -20,9 +20,10 @@ final class CourseViewController: BaseViewController {
     
     private var courseViewModel: CourseViewModel
     
+    private var selectedButton: UIButton?
     
     // MARK: - Life Cycle
-  
+    
     init(courseViewModel: CourseViewModel) {
         self.courseViewModel = courseViewModel
         super.init(nibName: nil, bundle: nil)
@@ -50,7 +51,7 @@ final class CourseViewController: BaseViewController {
             $0.verticalEdges.equalToSuperview()
         }
     }
-
+    
 }
 
 extension CourseViewController {
@@ -62,12 +63,22 @@ extension CourseViewController {
         self.courseView.priceCollectionView.dataSource = self
         self.courseView.priceCollectionView.delegate = self
     }
-
+    
     @objc
-    func didTapTagButton(_ sender: UIButton) {
+    func didTapPriceButton(_ sender: UIButton) {
+        if let previousButton = selectedButton, previousButton != sender {
+            previousButton.isSelected = false
+            self.courseView.updatePrice(button: previousButton, buttonType: UnselectedButton(), isSelected: false)
+        }
+        
         sender.isSelected = !sender.isSelected
-        sender.isSelected ? self.courseView.updateTag(button: sender, buttonType: SelectedButton(), isSelected: sender.isSelected)
-        : self.courseView.updateTag(button: sender, buttonType: UnselectedButton(), isSelected: sender.isSelected)
+        
+
+        sender.isSelected ? self.courseView.updatePrice(button: sender, buttonType: SelectedButton(), isSelected: sender.isSelected)
+        : self.courseView.updatePrice(button: sender, buttonType: UnselectedButton(), isSelected: sender.isSelected)
+        
+        // 현재 버튼이 선택되었다면 selectedButton으로 비활성화되었다면 nil로 설정
+        selectedButton = sender.isSelected ? sender : nil
     }
 }
 
@@ -78,8 +89,8 @@ extension CourseViewController: UICollectionViewDelegateFlowLayout {
         let font = UIFont.suit(.body_med_13)
         let textWidth = priceTitle.width(withConstrainedHeight: 30, font: font)
         let padding: CGFloat = 20
-                
-       return CGSize(width: textWidth + padding, height: 30)
+        
+        return CGSize(width: textWidth + padding, height: 30)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -97,7 +108,7 @@ extension CourseViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PriceButtonCollectionViewCell.cellIdentifier, for: indexPath) as? PriceButtonCollectionViewCell else { return UICollectionViewCell() }
         cell.updateButtonTitle(title: self.courseViewModel.priceData[indexPath.item])
-        cell.priceButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
+        cell.priceButton.addTarget(self, action: #selector(didTapPriceButton(_:)), for: .touchUpInside)
         return cell
     }
     

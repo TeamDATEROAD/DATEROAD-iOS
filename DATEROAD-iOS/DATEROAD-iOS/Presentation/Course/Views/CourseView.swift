@@ -109,10 +109,11 @@ class CourseView: BaseView {
 
 extension CourseView {
     
-    func updateTag(button: UIButton, buttonType: DRButtonType, isSelected: Bool) {
+    func updatePrice(button: UIButton, buttonType: DRButtonType, isSelected: Bool) {
         button.setButtonStatus(buttonType: buttonType)
         isSelected ? button.setTitleColor(UIColor(resource: .drWhite), for: .normal)
-        : button.setTitleColor(UIColor(resource: .gray400), for: .normal)
+        : button.setTitleColor(UIColor(resource: .gray400), for: .normal
+    )
     }
    
 }
