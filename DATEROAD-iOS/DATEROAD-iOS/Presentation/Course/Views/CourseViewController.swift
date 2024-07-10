@@ -32,6 +32,7 @@ final class CourseViewController: BaseViewController {
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         
         registerCell()
         setDelegate()
@@ -53,7 +54,7 @@ final class CourseViewController: BaseViewController {
 
 extension CourseViewController {
     func registerCell() {
-        self.courseView.priceCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
+        self.courseView.priceCollectionView.register(PriceButtonCollectionViewCell.self, forCellWithReuseIdentifier: PriceButtonCollectionViewCell.cellIdentifier)
     }
     
     func setDelegate() {
@@ -94,10 +95,9 @@ extension CourseViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
-        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PriceButtonCollectionViewCell.cellIdentifier, for: indexPath) as? PriceButtonCollectionViewCell else { return UICollectionViewCell() }
         cell.updateButtonTitle(title: self.courseViewModel.priceData[indexPath.item])
-        cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
+        cell.priceButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
         return cell
     }
     
