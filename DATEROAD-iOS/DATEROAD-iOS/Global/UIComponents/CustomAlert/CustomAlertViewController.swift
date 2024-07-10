@@ -7,6 +7,13 @@
 
 import UIKit
 
+import SnapKit
+
+protocol CustomAlertDelegate {
+    func action()
+    func exit()
+}
+
 class CustomAlertViewController: BaseViewController {
     // MARK: - UI Properties
     
@@ -25,39 +32,28 @@ class CustomAlertViewController: BaseViewController {
     
     private var longButtonText: String?
     
-    private var longButtonAction: Selector?
-    
     private var leftButtonText: String?
     
-    private var leftButtonAction: Selector?
-    
     private var rightButtonText: String?
-    
-    private var rightButtonAction: Selector?
-    
+
+    var delegate: CustomAlertDelegate?
     
     // MARK: - LifeCycle
     
     init(alertTextType: AlertTextType,
          alertButtonType: AlertButtonType,
          titleText: String,
-         descriptionText: String?,
-         longButtonText: String?,
-         longButtonAction: Selector?,
-         leftButtonText: String?,
-         leftButtonAction: Selector?,
-         rightButtonText: String?,
-         rightButtonAction: Selector?) {
+         descriptionText: String? = "",
+         longButtonText: String? = "",
+         leftButtonText: String? = "취소",
+         rightButtonText: String? = "") {
         
         self.alertTextType = alertTextType
         self.alertButtonType = alertButtonType
         self.titleText = titleText
         self.descriptionText = descriptionText
         self.longButtonText = longButtonText
-        self.longButtonAction = longButtonAction
         self.leftButtonText = leftButtonText
-        self.leftButtonAction = leftButtonAction
-        self.rightButtonAction = rightButtonAction
         self.rightButtonText = rightButtonText
         
         super.init(nibName: nil, bundle: nil)
@@ -70,7 +66,8 @@ class CustomAlertViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        self.view.backgroundColor = .clear
+        setUI()
     }
     
     override func setHierarchy() {
@@ -92,43 +89,62 @@ extension CustomAlertViewController {
         switch alertTextType {
         case .hasDecription:
             customAlertView.descriptionLabel.text = descriptionText
-            customAlertView.titleBottomInset = 92
+            customAlertView.titleLabel.snp.makeConstraints {
+                $0.bottom.equalToSuperview().inset(115)
+            }
         case .noDescription:
-            customAlertView.titleBottomInset = 99
+            customAlertView.titleLabel.snp.makeConstraints {
+                $0.bottom.equalToSuperview().inset(99)
+            }
         }
         
         switch alertButtonType {
         case .oneButton:
-            setLongButton(text: longButtonText, action: longButtonAction ?? #selector(defaultAction))
+            setLongButton(text: longButtonText)
         case .twoButton:
-            setLeftButton(text: leftButtonText, action: leftButtonAction ?? #selector(defaultAction))
-            setLeftButton(text: rightButtonText, action: rightButtonAction ?? #selector(defaultAction))
+            setLeftButton(text: leftButtonText)
+            setRightButton(text: rightButtonText)
         }
     }
 }
 
 private extension CustomAlertViewController {
-    func setLongButton(text: String?, action: Selector) {
+    func setLongButton(text: String?) {
         customAlertView.longButton.isHidden = false
         customAlertView.longButton.setTitle(text, for: .normal)
-        customAlertView.longButton.addTarget(self, action: action, for: .touchUpInside)
+        customAlertView.longButton.addTarget(self, action: #selector(longButtonTapped), for: .touchUpInside)
     }
     
-    func setLeftButton(text: String?, action: Selector) {
+    func setLeftButton(text: String?) {
         customAlertView.leftButton.isHidden = false
         customAlertView.leftButton.setTitle(text, for: .normal)
-        customAlertView.leftButton.addTarget(self, action: action, for: .touchUpInside)
+        customAlertView.leftButton.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
     }
     
-    func setRightButton(text: String?,action: Selector) {
+    func setRightButton(text: String?) {
         customAlertView.rightButton.isHidden = false
         customAlertView.rightButton.setTitle(text, for: .normal)
-        customAlertView.rightButton.addTarget(self, action: action, for: .touchUpInside)
+        customAlertView.rightButton.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
     }
     
     @objc
-    func defaultAction() {
-        print("저런...에러남...ㅜㅜ")
+    func longButtonTapped() {
+        self.dismiss(animated: false) {
+            self.delegate?.exit()
+        }
     }
     
+    @objc
+    func leftButtonTapped() {
+        self.dismiss(animated: false) {
+            self.delegate?.exit()
+        }
+    }
+    
+    @objc
+    func rightButtonTapped() {
+        self.dismiss(animated: false) {
+            self.delegate?.action()
+        }
+    }
 }

@@ -23,8 +23,6 @@ class CustomAlertView: BaseView {
     
     var rightButton = UIButton()
     
-    var titleBottomInset: Int = 115
-    
     // MARK: - Life Cycle
     
     override func setHierarchy() {
@@ -37,6 +35,7 @@ class CustomAlertView: BaseView {
     }
     
     override func setLayout() {
+        
         alertView.snp.makeConstraints {
             $0.width.equalTo(343)
             $0.height.equalTo(162)
@@ -44,10 +43,8 @@ class CustomAlertView: BaseView {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.width.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(24)
-            
-            $0.bottom.equalToSuperview().inset(titleBottomInset)
         }
         
         descriptionLabel.snp.makeConstraints {
@@ -64,16 +61,23 @@ class CustomAlertView: BaseView {
         leftButton.snp.makeConstraints {
             $0.leading.bottom.equalToSuperview().inset(14)
             $0.height.equalTo(48)
+            $0.width.equalTo(153)
         }
         
         rightButton.snp.makeConstraints {
             $0.trailing.bottom.equalToSuperview().inset(14)
             $0.height.equalTo(48)
+            $0.leading.equalTo(leftButton.snp.trailing).offset(10)
         }
     }
     
     override func setStyle() {
         self.backgroundColor = UIColor(resource: .drBlack).withAlphaComponent(0.5)
+    
+        alertView.do {
+            $0.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+            $0.backgroundColor = UIColor(resource: .drWhite)
+        }
         
         titleLabel.do {
             $0.setLabel(alignment: .center, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_bold_17))
@@ -86,14 +90,17 @@ class CustomAlertView: BaseView {
         
         longButton.do {
             $0.setButtonStatus(buttonType: AlertRightButton())
+            $0.isHidden = true
         }
         
         leftButton.do {
             $0.setButtonStatus(buttonType: AlertLeftButton())
+            $0.isHidden = true
         }
         
         rightButton.do {
             $0.setButtonStatus(buttonType: AlertRightButton())
+            $0.isHidden = true
         }
     }
         

@@ -106,6 +106,9 @@ enum StringLiterals {
         static let upcomingDate = "데이트 일정"
         static let pastDate = "지난 데이트"
         static let seePastDate = "지난 데이트 보기"
-        
+    }
+    
+    enum Alert {
+        static let kakaoAlert = "데이트로드에서 카카오톡을 열려고 해요"
     }
 }
