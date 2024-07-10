@@ -42,6 +42,8 @@ final class AddCourseViewModel {
    
    var isNonError: (() -> Void)?
    
+   var isChange: (() -> Void)?
+   
    
    //MARK: - AddSecondView 전용 Viewmodel 변수
    
@@ -49,11 +51,11 @@ final class AddCourseViewModel {
    
    var changeTableViewData: ObservablePattern<Int> = ObservablePattern(0)
    
+   var datePlace: ObservablePattern<String> = ObservablePattern("")
+   
    var timeRequire: ObservablePattern<String> = ObservablePattern("")
    
-//   init() {
-//      fetchTableViewData()
-//   }
+//datePlace이 바뀌면 bind{} 파트에서 viewmodel안에 datePlace랑 timeRequire의 value.count 값을 비교해서 true false 반환토록하고, 이를  bind{} 바인드에 앞선 값들을 flag로 받고 이를 토대로 true false로 버튼 타입 바꿔줌
    
 }
 
@@ -157,6 +159,21 @@ extension AddCourseViewModel {
        } else {
            timeRequire.value = "\(text) 시간"
        }
+   }
+   
+   func isAbleAddBtn() -> Bool {
+      if (datePlace.value?.count != 0) && (timeRequire.value?.count != 0) {
+         return true
+      } else {
+         print("아직 안돼~")
+         return false
+      }
+   }
+   
+   func tapAddBtn(datePlace: String, timeRequire: String) {
+      print(datePlace, timeRequire)
+      tableViewDataSource.append(AddCoursePlaceModel(placeTitle: datePlace, timeRequire: timeRequire))
+      self.isChange?()
    }
    
 }

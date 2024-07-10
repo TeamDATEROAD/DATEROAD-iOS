@@ -123,6 +123,8 @@ class AddSecondView: BaseView {
          $0.backgroundColor = UIColor(resource: .gray100)
          $0.layer.borderWidth = 0
          $0.layer.cornerRadius = 14
+         $0.autocorrectionType = .no
+         $0.spellCheckingType = .no
       }
       
       timeRequireTextField.do {
@@ -135,10 +137,13 @@ class AddSecondView: BaseView {
          $0.backgroundColor = UIColor(resource: .gray100)
          $0.layer.borderWidth = 0
          $0.layer.cornerRadius = 14
+         $0.autocorrectionType = .no
+         $0.spellCheckingType = .no
       }
       
       addPlaceButton.do {
-         $0.setImage(UIImage(resource: .icAddcourseGray), for: .normal)
+         $0.setImage(UIImage(resource: .icAddcourseWhite), for: .normal)
+         $0.setImage(UIImage(resource: .icAddcourseGray), for: .disabled)
          $0.imageView?.snp.makeConstraints {
             $0.size.equalTo(14)
          }
@@ -153,5 +158,15 @@ class AddSecondView: BaseView {
          $0.setButtonStatus(buttonType: disabledButtonType)
          $0.setTitle(StringLiterals.AddCourseOrSchedul.AddSecondView.addSecondNextBtnOfCourse, for: .normal)
       }
+   }
+}
+
+extension AddSecondView {
+   func changeAddPlaceButtonState(flag: Bool) {
+      let state = flag ? enabledButtonType : addCourseDisabledButtonType
+      let image = flag ? UIImage(resource: .icAddcourseWhite) : UIImage(resource: .icAddcourseGray)
+      print(state)
+//      addPlaceButton.setImage(image, for: .)
+      addPlaceButton.setButtonStatus(buttonType: state)
    }
 }
