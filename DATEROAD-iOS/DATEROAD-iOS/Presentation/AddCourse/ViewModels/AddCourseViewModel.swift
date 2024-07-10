@@ -43,7 +43,7 @@ final class AddCourseViewModel {
    var isNonError: (() -> Void)?
    
    
-   //MARK: - AddSecondView 전용 Viewmodel
+   //MARK: - AddSecondView 전용 Viewmodel 변수
    
    var tableViewDataSource: [AddCoursePlaceModel] = []
    
@@ -127,43 +127,6 @@ extension AddCourseViewModel {
        print(count)
    }
    
-//   func isTagBtnFull(sender: UIButton) -> Bool {
-//      if let index = tagButtonsSet.firstIndex(of: sender) {
-//         tagButtonsSet.remove(at: index)
-//         return true
-//      } else {
-//         tagButtonsSet.insert(sender)
-//         return false
-//      }
-//   }
-   
-//   func isTagBtnFull(sender: UIButton) -> Bool {
-//      let flag = tagButtonsArr.count >= 3 ? true : false
-//      if tagButtonsArr.contains(<#T##other: Collection##Collection#>)
-//      // tagButtonArr의 개수가 3개라면
-//      if flag {
-//         
-//      } else {
-//         
-//      }
-//   }
-   
-//   func isPassSixCheckBtn() -> Bool {
-//      guard let isImageEmpty = isImageEmpty.value,
-//            let isDateNameValid = isDateNameValid.value,
-//            let isVisitDateValid = isVisitDateValid.value,
-//            let dateStartTime = dateStartTime.value,
-//            let tagButtonsArr = tagButtonsArr
-//      else {}
-////      isImageEmpty.value ?? true ? (cnt+=1) : (cnt=0)
-////      isDateNameValid.value ?? true ? (cnt+=1) : (cnt=0)
-////      isVisitDateValid.value ?? true ? (cnt+=1) : (cnt=0)
-////      (dateStartTime.value?.count ?? 0 > 0) ? (cnt+=1) : (cnt=0)
-////      (tagButtonsArr.count != 0) ? (cnt+=1) : (cnt=0)
-//      
-//      return true
-//   }
-   
    func getSampleImages() -> Bool {
       var t = (1...9).map { _ in
          UIImage(resource: .test)
@@ -176,4 +139,12 @@ extension AddCourseViewModel {
       isImageEmpty.value = dataSource.isEmpty
       return isImageEmpty.value ?? true
    }
+   
+   
+   //MARK: - AddSecondView 전용 func
+   
+   func updatePlaceCollectionView() {
+      print(tableViewDataSource)
+   }
+   
 }

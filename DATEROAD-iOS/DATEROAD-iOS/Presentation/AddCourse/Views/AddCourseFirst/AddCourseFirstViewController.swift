@@ -33,6 +33,7 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
       setAddTarget()
       registerCell()
       bindViewModel()
+      setupKeyboardDismissRecognizer()
    }
    
    // MARK: - Methods
@@ -85,9 +86,11 @@ extension AddCourseFirstViewController {
       viewModel.tagCount.bind { [weak self] count in
          self?.addCourseFirstView.addFirstView.updateTagCount(count: count ?? 0)
       }
+      //보완 예정
 //      viewModel.isSixCheckPass.bind { [weak self] date in
 //         self?.viewModel.isPassSixCheckBtn()
 //      }
+      
    }
    
    private func setAddTarget() {
@@ -97,7 +100,6 @@ extension AddCourseFirstViewController {
       for button in addCourseFirstView.addFirstView.tagBtns {
          button.addTarget(self, action: #selector(changeTagBtnState), for: .touchUpInside)
       }
-      setupKeyboardDismissRecognizer()
       addCourseFirstView.addFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
    }
    

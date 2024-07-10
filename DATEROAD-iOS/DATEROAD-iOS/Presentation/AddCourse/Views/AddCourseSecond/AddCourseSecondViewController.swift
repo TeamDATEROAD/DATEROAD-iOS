@@ -23,9 +23,11 @@ class AddCourseSecondViewController: BaseNavBarViewController {
       setStyle()
       setTitleLabelStyle(title: StringLiterals.AddCourseOrSchedul.addCourseTitle)
       setLeftBackButton()
+      setAddTarget()
       registerCell()
       setupKeyboardDismissRecognizer()
    }
+   
    
    // MARK: - Methods
    
@@ -55,7 +57,9 @@ class AddCourseSecondViewController: BaseNavBarViewController {
    }
 }
 
-extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension AddCourseSecondViewController {
+   
+   //MARK: - func
    
    private func registerCell() {
       addCourseSecondView.collectionView.do {
@@ -69,16 +73,64 @@ extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectio
          $0.dragDelegate = self
          $0.dropDelegate = self
          $0.dataSource = self
-         $0.dragInteractionEnabled = true
+         $0.dragInteractionEnabled = false
       }
    }
+   
+   private func setAddTarget() {
+      addCourseSecondView.editButton.addTarget(self, action: #selector(toggleEditMode), for: .touchUpInside)
+   }
+   
+   @objc
+   private func removeCell(sender: UIButton) {
+      guard let cell = sender.superview?.superview as? AddSecondViewCollectionViewCell,
+            let indexPath = addCourseSecondView.collectionView2.indexPath(for: cell) else { return }
+      
+      viewModel.tableViewDataSource.remove(at: indexPath.item)
+      addCourseSecondView.collectionView2.deleteItems(at: [indexPath])
+   }
+   
+   @objc
+   private func moveCell(sender: UIButton) {
+      // Move cell logic here
+   }
+   
+   //MARK: - @objc func
+   @objc
+   private func toggleEditMode() {
+      let collectionView = addCourseSecondView.collectionView2
+      let flag = !collectionView.dragInteractionEnabled
+      print("현재 isEditMode = \(flag)")
+      
+      collectionView.dragInteractionEnabled = flag
+      
+      collectionView.visibleCells.forEach { cell in
+         if let customCell = cell as? AddSecondViewCollectionViewCell {
+            customCell.updateEditMode(flag: flag)
+            customCell.moveAbleButton.removeTarget(nil, action: nil, for: .allEvents)
+            if flag {
+               customCell.moveAbleButton.addTarget(self, action: #selector(removeCell(sender:)), for: .touchUpInside)
+            } else {
+               customCell.moveAbleButton.addTarget(self, action: #selector(moveCell(sender:)), for: .touchUpInside)
+            }
+         }
+      }
+      
+      addCourseSecondView.updateEditBtnText(flag: flag)
+      
+      DispatchQueue.main.async {
+         collectionView.reloadData()
+      }
+   }
+}
+
+extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectionViewDelegate {
    
    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
       collectionView == addCourseSecondView.collectionView ? false : true
    }
-       
+   
    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-      
    }
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -108,6 +160,13 @@ extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectio
          ) as? AddSecondViewCollectionViewCell else { return UICollectionViewCell() }
          
          cell.configure(model: viewModel.tableViewDataSource[indexPath.item])
+         cell.updateEditMode(flag: collectionView.dragInteractionEnabled)
+         cell.moveAbleButton.removeTarget(nil, action: nil, for: .allEvents)
+         if collectionView.dragInteractionEnabled {
+            cell.moveAbleButton.addTarget(self, action: #selector(removeCell(sender:)), for: .touchUpInside)
+         } else {
+            cell.moveAbleButton.addTarget(self, action: #selector(moveCell(sender:)), for: .touchUpInside)
+         }
          
          return cell
       }
@@ -115,6 +174,7 @@ extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectio
 }
 
 extension AddCourseSecondViewController: UICollectionViewDropDelegate {
+   
    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
       if collectionView != addCourseSecondView.collectionView {
          var destinationIndexPath: IndexPath
@@ -130,17 +190,16 @@ extension AddCourseSecondViewController: UICollectionViewDropDelegate {
          }
       }
    }
-    
+   
    func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
       if collectionView != addCourseSecondView.collectionView {
          if collectionView.hasActiveDrag {
             return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
          }
       }
-         return UICollectionViewDropProposal(operation: .forbidden)
-      
+      return UICollectionViewDropProposal(operation: .forbidden)
    }
-    
+   
    private func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView) {
       if collectionView != addCourseSecondView.collectionView {
          if
@@ -157,12 +216,13 @@ extension AddCourseSecondViewController: UICollectionViewDropDelegate {
             }
             coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
          }
+         viewModel.updatePlaceCollectionView()
       }
    }
 }
 
 extension AddCourseSecondViewController: UICollectionViewDragDelegate {
-    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        return []
-    }
+   func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+      return []
+   }
 }
