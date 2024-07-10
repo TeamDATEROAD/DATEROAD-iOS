@@ -99,10 +99,6 @@ extension UpcomingDateDetailViewController: CustomAlertDelegate {
     func action() {
         print("카카오 공유하기")
     }
-    
-    func exit() {
-        print("exited")
-    }
 }
 
 

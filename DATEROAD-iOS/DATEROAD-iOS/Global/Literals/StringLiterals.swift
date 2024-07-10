@@ -110,5 +110,11 @@ enum StringLiterals {
     
     enum Alert {
         static let kakaoAlert = "데이트로드에서 카카오톡을 열려고 해요"
+        static let noMoreSchedule = "데이트를 더 이상 등록할 수 없어요!"
+        static let noMoreThanFive = "데이트는 최대 5개까지만 등록 가능해요"
+        static let iChecked = "확인했어요"
+        static let realWithdrawal = "정말로 탈퇴하시겠어요?"
+        static let lastWarning = "삭제된 계정은 복구하실 수 없어요"
+        static let wouldYouLogOut = "로그아웃 하시겠어요?"
     }
 }

@@ -14,6 +14,11 @@ protocol CustomAlertDelegate {
     func exit()
 }
 
+extension CustomAlertDelegate {
+    func action() {}
+    func exit() {}
+}
+
 class CustomAlertViewController: BaseViewController {
     // MARK: - UI Properties
     
@@ -88,6 +93,7 @@ extension CustomAlertViewController {
         
         switch alertTextType {
         case .hasDecription:
+            customAlertView.descriptionLabel.isHidden = false
             customAlertView.descriptionLabel.text = descriptionText
             customAlertView.titleLabel.snp.makeConstraints {
                 $0.bottom.equalToSuperview().inset(115)

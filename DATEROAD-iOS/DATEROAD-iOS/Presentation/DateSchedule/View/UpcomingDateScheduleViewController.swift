@@ -50,7 +50,11 @@ class UpcomingDateScheduleViewController: BaseViewController {
 private extension UpcomingDateScheduleViewController {
     @objc
     func pushToDateRegisterVC() {
-       print("일정 등록으로 이동")
+        if (upcomingDateScheduleData.dateCards.count) >= 5 {
+            
+        } else {
+            print("일정 등록으로 이동")
+        }
     }
     
     @objc
@@ -65,14 +69,28 @@ private extension UpcomingDateScheduleViewController {
         }
         
         upcomingDateScheduleView.dateRegisterButton.do {
-            $0.addTarget(self, action: #selector(pushToDateRegisterVC), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(dateRegisterButtonTapped), for: .touchUpInside)
         }
         
         upcomingDateScheduleView.pastDateButton.do {
             $0.addTarget(self, action: #selector(pushToPastDateVC), for: .touchUpInside)
         }
     }
-    
+}
+
+extension UpcomingDateScheduleViewController: CustomAlertDelegate {
+    @objc
+    private func dateRegisterButtonTapped() {
+        if (upcomingDateScheduleData.dateCards.count) >= 5 {
+            let customAlertVC = CustomAlertViewController(alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.Alert.noMoreSchedule, descriptionText: StringLiterals.Alert.noMoreThanFive, longButtonText: StringLiterals.Alert.iChecked)
+            customAlertVC.delegate = self
+            customAlertVC.modalPresentationStyle = .overFullScreen
+            self.present(customAlertVC, animated: false)
+        } else {
+            print("push to 일정등록하기")
+        }
+        
+    }
 }
 
 // MARK: - CollectionView Methods
