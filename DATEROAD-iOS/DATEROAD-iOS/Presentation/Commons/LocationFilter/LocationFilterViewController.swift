@@ -26,7 +26,7 @@ class LocationFilterViewController: BaseViewController {
     
     private let lineView = UIView()
     
-    private let cityCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let cityCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLeftAlignFlowLayout())
     
     private let applyButton = UIButton()
     
