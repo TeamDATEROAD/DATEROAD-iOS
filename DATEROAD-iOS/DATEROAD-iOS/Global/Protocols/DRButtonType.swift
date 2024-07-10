@@ -130,3 +130,31 @@ struct addCoursePlaceDisabledButton: DRButtonType {
        
    var borderWidth: CGFloat = 0
 }
+
+struct addCourseEditEnableButton: DRButtonType {
+   
+   var bgColor: UIColor = UIColor(resource: .drWhite)
+   
+   var fontColor: UIColor = UIColor(resource: .gray400)
+       
+   var borderWidth: CGFloat = 0
+       
+   var isEnabled: Bool = true
+   
+   var font: UIFont = .suit(.body_med_13)
+    
+}
+
+struct addCourseEditDisableButton: DRButtonType {
+   
+   var bgColor: UIColor = UIColor(resource: .drWhite)
+    
+   var fontColor: UIColor = UIColor(resource: .gray400)
+       
+   var borderWidth: CGFloat = 0
+       
+   var isEnabled: Bool = false
+   
+   var font: UIFont = .suit(.body_med_13)
+    
+}
