@@ -6,3 +6,19 @@
 //
 
 import Foundation
+
+final class CourseViewModel {
+    
+    var priceData: [String] = []
+    
+    init() {
+        fetchPriceData()
+    }
+}
+
+extension CourseViewModel {
+    
+    func fetchPriceData() {
+        priceData = Price.allCases.map { $0.priceTitle }
+    }
+}
