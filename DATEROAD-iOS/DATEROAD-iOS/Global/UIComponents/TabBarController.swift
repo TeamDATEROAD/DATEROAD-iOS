@@ -17,7 +17,7 @@ final class TabBarController: UITabBarController {
     //여기 임의로 아무 뷰컨 넣었어용
     let homeVC = CourseDetailViewController()
     
-    let courseVC = PointDetailViewController()
+    let courseVC = CourseViewController(courseViewModel: CourseViewModel())
     
     let dateVC = UpcomingDateScheduleViewController()
     
