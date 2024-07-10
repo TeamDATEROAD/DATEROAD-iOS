@@ -128,3 +128,39 @@ struct TagButton: DRButtonType {
         
     var borderWidth: CGFloat = 0
 }
+
+struct DateScheduleTagButton: DRButtonType {
+    
+    var bgColor: UIColor =  UIColor(resource: .lightPink)
+    
+    var fontColor: UIColor = UIColor(resource: .drBlack)
+    
+    var font: UIFont = UIFont.suit(.body_semi_15)
+    
+    var cornerRadius: CGFloat = 15
+
+}
+
+struct DateDetailTagButton: DRButtonType {
+    
+    var bgColor: UIColor =  UIColor(resource: .lightPink)
+    
+    var fontColor: UIColor = UIColor(resource: .drBlack)
+    
+    var font: UIFont = UIFont.suit(.body_med_13)
+    
+    var cornerRadius: CGFloat = 16
+
+}
+
+struct PastDateScheduleTagButton: DRButtonType {
+    
+    var bgColor: UIColor =  UIColor(resource: .lightPink)
+    
+    var fontColor: UIColor = UIColor(resource: .drBlack)
+    
+    var font: UIFont = UIFont.suit(.body_semi_13)
+    
+    var cornerRadius: CGFloat = 14
+
+}
