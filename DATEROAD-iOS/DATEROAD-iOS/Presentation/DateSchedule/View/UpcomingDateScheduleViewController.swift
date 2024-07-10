@@ -29,9 +29,9 @@ class UpcomingDateScheduleViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        register()
+        registerCell()
         setDelegate()
-        setupBindings()
+        setUIMethods()
     }
     
     override func setHierarchy() {
@@ -45,7 +45,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
     }
 }
 
-// MARK: - Private Methods
+// MARK: - UI Setting Methods
 
 private extension UpcomingDateScheduleViewController {
     @objc
@@ -59,7 +59,7 @@ private extension UpcomingDateScheduleViewController {
         self.navigationController?.pushViewController(pastDateVC, animated: true)
     }
     
-    func setupBindings() {
+    func setUIMethods() {
         upcomingDateScheduleView.cardPageControl.do {
             $0.numberOfPages = upcomingDateScheduleData.dateCards.count
         }
@@ -77,12 +77,12 @@ private extension UpcomingDateScheduleViewController {
 
 // MARK: - CollectionView Methods
 
-extension UpcomingDateScheduleViewController {
-    private func register() {
+private extension UpcomingDateScheduleViewController {
+    func registerCell() {
         upcomingDateScheduleView.cardCollectionView.register(DateCardCollectionViewCell.self, forCellWithReuseIdentifier: DateCardCollectionViewCell.cellIdentifier)
     }
     
-    private func setDelegate() {
+    func setDelegate() {
         upcomingDateScheduleView.cardCollectionView.delegate = self
         upcomingDateScheduleView.cardCollectionView.dataSource = self
     }

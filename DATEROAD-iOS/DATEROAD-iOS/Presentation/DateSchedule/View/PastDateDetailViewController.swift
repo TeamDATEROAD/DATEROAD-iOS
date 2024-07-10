@@ -36,9 +36,9 @@ class PastDateDetailViewController: BaseNavBarViewController {
         setRightButtonAction(target: self, action: #selector(deleteDateCourse))
         
         setButton()
+        registerCell()
+        setDelegate()
         setUpBindings()
-        setDataSource()
-       
     }
     
     
@@ -60,28 +60,29 @@ class PastDateDetailViewController: BaseNavBarViewController {
 
 extension PastDateDetailViewController {
     
+    
+
+}
+
+// MARK: - UI Setting Methods
+
+extension PastDateDetailViewController {
     @objc
-    func deleteDateCourse() {
+    private func deleteDateCourse() {
         print("delete date course 바텀시트")
     }
     
     @objc
-    func tapShareCourse() {
+    private func tapShareCourse() {
         print("일정 공유하기")
     }
     
-    func setUpBindings() {
-        pastDateDetailContentView.courseShareButton.addTarget(self, action: #selector(tapShareCourse), for: .touchUpInside)
+    private func setButton() {
+        pastDateDetailContentView.kakaoShareButton.isHidden = true
+        pastDateDetailContentView.courseShareButton.isHidden = false
         
-        self.pastDateDetailData = pastDateDetailViewModel.pastDateDetailDummyData
+        pastDateDetailContentView.courseShareButton.addTarget(self, action: #selector(tapShareCourse), for: .touchUpInside)
     }
-
-}
-
-
-// MARK: - CollectionView Methods
-
-extension PastDateDetailViewController {
     
     func setColor(index: Int) {
         let colorIndex = index % 3
@@ -94,21 +95,39 @@ extension PastDateDetailViewController {
         }
         pastDateDetailContentView.setColor(index: index)
     }
+}
+
+// MARK: - CollectionView Methods
+
+private extension PastDateDetailViewController {
     
-    func setButton() {
-        pastDateDetailContentView.kakaoShareButton.isHidden = true
-        pastDateDetailContentView.courseShareButton.isHidden = false
+    func registerCell() {
+        pastDateDetailContentView.dateTimeLineCollectionView.register(DateTimeLineCollectionViewCell.self, forCellWithReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier)
     }
     
-    func setDataSource() {
+    func setDelegate() {
+        pastDateDetailContentView.dateTimeLineCollectionView.delegate = self
         pastDateDetailContentView.dateTimeLineCollectionView.dataSource = self
     }
     
-    func setUpBindings(pastDateDetailData: DateTimeLineModel) {
-        self.pastDateDetailData = pastDateDetailData
+    func setUpBindings() {
+        self.pastDateDetailData = pastDateDetailViewModel.pastDateDetailDummyData
     }
+    
 }
 
+// MARK: - Delegate
+
+extension PastDateDetailViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return DateDetailContentView.dateTimeLineCollectionViewLayout.itemSize
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: ScreenUtils.width * 0.112, bottom: 0, right: ScreenUtils.width * 0.112)
+    }
+    
+}
 
 // MARK: - DataSource
 

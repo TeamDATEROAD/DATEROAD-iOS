@@ -122,6 +122,8 @@ class UpcomingDateScheduleView: BaseView {
     }
 }
 
+// MARK: - Data Binding Methods
+
 extension UpcomingDateScheduleView {
     func updatePageControlSelectedIndex(index: Int) {
         cardPageControl.currentPage = index

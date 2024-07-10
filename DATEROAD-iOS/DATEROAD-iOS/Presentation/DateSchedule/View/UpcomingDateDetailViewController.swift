@@ -36,11 +36,10 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
         setRightButtonAction(target: self, action: #selector(deleteDateCourse))
         
         setButton()
+        registerCell()
+        setDelegate()
         setUpBindings()
-        setDataSource()
-       
     }
-    
     
     override func setHierarchy() {
         super.setHierarchy()
@@ -58,16 +57,24 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     }
 }
 
+// MARK: - UI Setting Methods
+
 extension UpcomingDateDetailViewController {
-    
     @objc
-    func deleteDateCourse() {
+    private func deleteDateCourse() {
         print("delete date course 바텀시트")
     }
     
     @objc
-    func kakaoShareCourse() {
+    private func kakaoShareCourse() {
         print("카카오 공유하기")
+    }
+    
+    private func setButton() {
+        upcomingDateDetailContentView.kakaoShareButton.isHidden = false
+        upcomingDateDetailContentView.courseShareButton.isHidden = true
+        
+        upcomingDateDetailContentView.kakaoShareButton.addTarget(self, action: #selector(kakaoShareCourse), for: .touchUpInside)
     }
     
     func setColor(index: Int) {
@@ -81,35 +88,39 @@ extension UpcomingDateDetailViewController {
         }
         upcomingDateDetailContentView.setColor(index: index)
     }
-    
-    func setUpBindings() {
-        upcomingDateDetailContentView.kakaoShareButton.addTarget(self, action: #selector(kakaoShareCourse), for: .touchUpInside)
-        
-        self.upcomingDateDetailData = upcomingDateDetailViewModel.upcomingDateDetailDummyData
-    }
-    
-
 }
 
 
 // MARK: - CollectionView Methods
 
-extension UpcomingDateDetailViewController {
-    
-    func setButton() {
-        upcomingDateDetailContentView.kakaoShareButton.isHidden = false
-        upcomingDateDetailContentView.courseShareButton.isHidden = true
+private extension UpcomingDateDetailViewController {
+    func registerCell() {
+        upcomingDateDetailContentView.dateTimeLineCollectionView.register(DateTimeLineCollectionViewCell.self, forCellWithReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier)
     }
     
-    func setDataSource() {
+    func setDelegate() {
+        upcomingDateDetailContentView.dateTimeLineCollectionView.delegate = self
         upcomingDateDetailContentView.dateTimeLineCollectionView.dataSource = self
     }
     
-    func setUpBindings(upcomingDateDetailData: DateTimeLineModel) {
-        self.upcomingDateDetailData = upcomingDateDetailData
+    func setUpBindings() {
+        self.upcomingDateDetailData = upcomingDateDetailViewModel.upcomingDateDetailDummyData
     }
+
 }
 
+// MARK: - Delegate
+
+extension UpcomingDateDetailViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return DateDetailContentView.dateTimeLineCollectionViewLayout.itemSize
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: ScreenUtils.width * 0.112, bottom: 0, right: ScreenUtils.width * 0.112)
+    }
+    
+}
 
 // MARK: - DataSource
 

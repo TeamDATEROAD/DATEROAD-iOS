@@ -53,9 +53,6 @@ class DateDetailContentView: BaseView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        register()
-        setDelegate()
     }
     
     required init?(coder: NSCoder) {
@@ -254,6 +251,8 @@ class DateDetailContentView: BaseView {
 
 }
 
+// MARK: - Data Binding Methods
+
 extension DateDetailContentView {
     
     func dataBind(_ dateCardData : DateCardModel) {
@@ -290,25 +289,6 @@ extension DateDetailContentView {
             setColorToLabel(bgColor: UIColor(resource: .lime), ribbonImage: UIImage(resource: .limeRibbon), buttonColor: UIColor(resource: .lime100))
         }
     }
-
-    private func register() {
-        dateTimeLineCollectionView.register(DateTimeLineCollectionViewCell.self, forCellWithReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier)
-    }
-    
-    private func setDelegate() {
-        dateTimeLineCollectionView.delegate = self
-    }
 }
 
-// MARK: - Delegate
 
-extension DateDetailContentView: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return DateDetailContentView.dateTimeLineCollectionViewLayout.itemSize
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: ScreenUtils.width * 0.112, bottom: 0, right: ScreenUtils.width * 0.112)
-    }
-    
-}

@@ -50,31 +50,5 @@ class PastDateContentView: BaseView {
             $0.minimumLineSpacing = ScreenUtils.width * 0.0427
             $0.itemSize = CGSize(width: ScreenUtils.width * 0.9147, height: ScreenUtils.height*0.25)
         }
-        
-        register()
-        setDelegate()
     }
-}
-
-private extension PastDateContentView {
-   func register() {
-        pastDateCollectionView.register(PastDateCollectionViewCell.self, forCellWithReuseIdentifier: PastDateCollectionViewCell.cellIdentifier)
-    }
-    
-    func setDelegate() {
-        pastDateCollectionView.delegate = self
-    }
-}
-
-// MARK: - Delegate
-
-extension PastDateContentView: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return PastDateContentView.pastDateCollectionViewLayout.itemSize
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: ScreenUtils.width * 0.04266, bottom: 0, right: ScreenUtils.width * 0.04266)
-    }
-    
 }
