@@ -115,6 +115,12 @@
 		CAC80FB52C3BBEA900658EA6 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FB42C3BBEA900658EA6 /* BaseTableViewCell.swift */; };
 		CAC80FB72C3BC2F800658EA6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FB62C3BC2F800658EA6 /* Constants.swift */; };
 		CAC80FB92C3BCE4E00658EA6 /* MyPageSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FB82C3BCE4E00658EA6 /* MyPageSection.swift */; };
+		CAC80FBD2C3C61BC00658EA6 /* PointSystemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FBC2C3C61BC00658EA6 /* PointSystemViewController.swift */; };
+		CAC80FBF2C3C642300658EA6 /* PointSystemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FBE2C3C642300658EA6 /* PointSystemView.swift */; };
+		CAC80FC22C3C6CE500658EA6 /* PointSystemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FC12C3C6CE500658EA6 /* PointSystemCollectionViewCell.swift */; };
+		CAC80FC52C3C759B00658EA6 /* PointSystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FC42C3C759B00658EA6 /* PointSystemModel.swift */; };
+		CAC80FC82C3C75F200658EA6 /* PointSystemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FC72C3C75F200658EA6 /* PointSystemViewModel.swift */; };
+		CAC80FCA2C3C95A100658EA6 /* UICollectionViewFlowLayout+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FC92C3C95A000658EA6 /* UICollectionViewFlowLayout+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -221,6 +227,12 @@
 		CAC80FB42C3BBEA900658EA6 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		CAC80FB62C3BC2F800658EA6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CAC80FB82C3BCE4E00658EA6 /* MyPageSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSection.swift; sourceTree = "<group>"; };
+		CAC80FBC2C3C61BC00658EA6 /* PointSystemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSystemViewController.swift; sourceTree = "<group>"; };
+		CAC80FBE2C3C642300658EA6 /* PointSystemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSystemView.swift; sourceTree = "<group>"; };
+		CAC80FC12C3C6CE500658EA6 /* PointSystemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSystemCollectionViewCell.swift; sourceTree = "<group>"; };
+		CAC80FC42C3C759B00658EA6 /* PointSystemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSystemModel.swift; sourceTree = "<group>"; };
+		CAC80FC72C3C75F200658EA6 /* PointSystemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSystemViewModel.swift; sourceTree = "<group>"; };
+		CAC80FC92C3C95A000658EA6 /* UICollectionViewFlowLayout+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewFlowLayout+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -544,6 +556,7 @@
 			isa = PBXGroup;
 			children = (
 				0DDFEE0A2C3C50F7008C6022 /* Commons */,
+				CAC80FBA2C3C619C00658EA6 /* PointSystem */,
 				CAC80F9D2C3B0FD000658EA6 /* MyPage */,
 				0D0DA3D82C3AF304004210EE /* PointDetail */,
 				CAA30ADB2C37182A00835DE3 /* Profile */,
@@ -621,6 +634,7 @@
 				0DF905C72C39402A0072EE65 /* Int+.swift */,
 				CAA30AEC2C37E57400835DE3 /* String+.swift */,
 				0D0DA3D62C3AF2DE004210EE /* UIFont+.swift */,
+				CAC80FC92C3C95A000658EA6 /* UICollectionViewFlowLayout+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -824,6 +838,50 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		CAC80FBA2C3C619C00658EA6 /* PointSystem */ = {
+			isa = PBXGroup;
+			children = (
+				CAC80FC62C3C75E500658EA6 /* ViewModels */,
+				CAC80FC32C3C759000658EA6 /* Models */,
+				CAC80FBB2C3C61AA00658EA6 /* Views */,
+			);
+			path = PointSystem;
+			sourceTree = "<group>";
+		};
+		CAC80FBB2C3C61AA00658EA6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CAC80FC02C3C6CC800658EA6 /* Cells */,
+				CAC80FBC2C3C61BC00658EA6 /* PointSystemViewController.swift */,
+				CAC80FBE2C3C642300658EA6 /* PointSystemView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CAC80FC02C3C6CC800658EA6 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				CAC80FC12C3C6CE500658EA6 /* PointSystemCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		CAC80FC32C3C759000658EA6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CAC80FC42C3C759B00658EA6 /* PointSystemModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CAC80FC62C3C75E500658EA6 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CAC80FC72C3C75F200658EA6 /* PointSystemViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -920,12 +978,14 @@
 			files = (
 				0D0DA3E02C3AF396004210EE /* PointModel.swift in Sources */,
 				0D9497BF2C3292D60004B442 /* CoastInfoCell.swift in Sources */,
+				CAC80FBD2C3C61BC00658EA6 /* PointSystemViewController.swift in Sources */,
 				CA3D0CDF2C29A2F300735097 /* ViewController.swift in Sources */,
 				CA3D0D1E2C2ACE3900735097 /* UIButton+.swift in Sources */,
 				0D9497B92C328D010004B442 /* ImageCarouselCell.swift in Sources */,
 				0DF905C02C3921AD0072EE65 /* ImageGradientView.swift in Sources */,
 				CAC80FB72C3BC2F800658EA6 /* Constants.swift in Sources */,
 				CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */,
+				CAC80FC22C3C6CE500658EA6 /* PointSystemCollectionViewCell.swift in Sources */,
 				74BC165A2C3284A90084E832 /* BaseNavBarViewController.swift in Sources */,
 				CA78FE492C3866FD001B1403 /* DRErrorType.swift in Sources */,
 				CAC80FA42C3B34B400658EA6 /* UserInfoView.swift in Sources */,
@@ -952,6 +1012,7 @@
 				0D9497B22C327D2D0004B442 /* CourseDetailViewController.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
 				0DF905C42C39295F0072EE65 /* TimelineContents.swift in Sources */,
+				CAC80FC82C3C75F200658EA6 /* PointSystemViewModel.swift in Sources */,
 				CAC80FB32C3BBE9100658EA6 /* MyPageTableViewCell.swift in Sources */,
 				CAC80FA92C3B4CE800658EA6 /* TagCollectionViewCell.swift in Sources */,
 				0D06D9A82C36946C0094C505 /* TimelineInfoCell.swift in Sources */,
@@ -961,6 +1022,7 @@
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
 				CAA30AEB2C37DCE300835DE3 /* ProfileViewModel.swift in Sources */,
 				CAC80FB52C3BBEA900658EA6 /* BaseTableViewCell.swift in Sources */,
+				CAC80FBF2C3C642300658EA6 /* PointSystemView.swift in Sources */,
 				CAA30AE22C37497200835DE3 /* TendencyTag.swift in Sources */,
 				CA4EF3DC2C347994003B02B6 /* BaseCollectionViewCell.swift in Sources */,
 				0D0DA3E22C3AF3B0004210EE /* PointViewModel.swift in Sources */,
@@ -997,6 +1059,7 @@
 				CA3D0D1A2C29AAAC00735097 /* UIView+.swift in Sources */,
 				7478193E2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift in Sources */,
 				741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */,
+				CAC80FC52C3C759B00658EA6 /* PointSystemModel.swift in Sources */,
 				0D06D9AA2C37CAFC0094C505 /* BringCourseCell.swift in Sources */,
 				CAA30AE52C37BCB200835DE3 /* DRTagButton.swift in Sources */,
 				CAA30AE82C37DAA600835DE3 /* TendencyTagCollectionViewCell.swift in Sources */,
@@ -1008,6 +1071,7 @@
 				9E63BB202C35CF7200D5ED5B /* AddCourseViewController.swift in Sources */,
 				9E443A4C2C37ACEF00C1F92C /* AddCourseFirstView.swift in Sources */,
 				9E590B402C39375000039690 /* AddSheetView.swift in Sources */,
+				CAC80FCA2C3C95A100658EA6 /* UICollectionViewFlowLayout+.swift in Sources */,
 				9E443A4E2C3819DB00C1F92C /* AddFirstView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

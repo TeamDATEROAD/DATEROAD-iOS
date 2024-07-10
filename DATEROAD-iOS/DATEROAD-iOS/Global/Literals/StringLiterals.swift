@@ -63,7 +63,6 @@ enum StringLiterals {
         static let registerProfile = "프로필 등록하기"
         static let selectTag =  "최소 1개, 최대 3개를 선택해주세요."
     }
-    
    
    enum AddCourseOrScheduleFirst {
       static let addCourseTitle = "코스 등록하기"
@@ -77,6 +76,7 @@ enum StringLiterals {
       static let dateNameErrorLabel = "최소 5글자 이상 입력해주세요"
       static let visitDateErrorLabel = "미래 날짜를 선택하셨어요"
    }
+    
     enum MyPage {
         static let myPage = "마이페이지"
         static let goToPointHistory = "포인트 내역 보기"
@@ -85,6 +85,19 @@ enum StringLiterals {
         static let inquiry = "문의하기"
         static let logout = "로그아웃"
         static let withdrawal = "탈퇴하기"
+    }
+    
+    enum PointSystem {
+        static let pointSystem = "포인트 제도 소개"
+        static let subTitle = "포인트는 데이트 코스를 등록하면 얻을 수 있어요."
+        static let firstMainSystem = "데이트 코스를 등록하면\n포인트를 얻을 수 있어요"
+        static let firstSubSystem = "데이트 코스를 자랑하고 포인트를 받아보세요."
+        static let secondMainSystem = "처음 3번은 무료로\n데이트 코스를 열람할 수 있어요"
+        static let secondSubSystem = "무료 찬스를 사용해 다른 데이트를 열람하세요."
+        static let thirdMainSystem = "쌓인 포인트로\n다양한 데이트 코스를 둘러보세요"
+        static let thirdSubSystem = "다른 커플들의 데이트, 궁금하지 않으신가요?"
+        static let fourthMainSystem = "모인 포인트는 데이트 장소를\n예약할 때 현금처럼 사용 가능해요"
+        static let fourthSubSystem = "추후 만들어질 기능을 기대해주세요!"
     }
     
 }
