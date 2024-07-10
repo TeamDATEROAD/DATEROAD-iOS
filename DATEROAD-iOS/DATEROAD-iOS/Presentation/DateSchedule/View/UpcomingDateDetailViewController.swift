@@ -20,8 +20,6 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     var upcomingDateDetailData = DateTimeLineModel(startTime: "", places: [])
     
-    var currentIndex: CGFloat = 0
-    
     private let upcomingDateDetailViewModel = DateDetailViewModel()
 
     

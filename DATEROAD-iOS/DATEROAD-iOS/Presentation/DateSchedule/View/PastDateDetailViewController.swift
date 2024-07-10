@@ -20,8 +20,6 @@ class PastDateDetailViewController: BaseNavBarViewController {
     
     var pastDateDetailData = DateTimeLineModel(startTime: "", places: [])
     
-    var currentIndex: CGFloat = 0
-    
     private let pastDateDetailViewModel = DateDetailViewModel()
 
     
@@ -58,11 +56,6 @@ class PastDateDetailViewController: BaseNavBarViewController {
     }
 }
 
-extension PastDateDetailViewController {
-    
-    
-
-}
 
 // MARK: - UI Setting Methods
 

@@ -22,8 +22,6 @@ class PastDateContentView: BaseView {
     
     lazy var pastDateScheduleData = DateScheduleModel(dateCards: [])
     
-    var currentIndex: CGFloat = 0
-    
     // MARK: - LifeCycle
     
     override func setHierarchy() {

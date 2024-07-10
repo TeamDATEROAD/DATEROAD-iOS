@@ -22,8 +22,6 @@ class PastDateViewController: BaseNavBarViewController {
     
     private lazy var pastDateScheduleData = pastDateScheduleViewModel.pastDateScheduleDummyData
     
-    var currentIndex: CGFloat = 0
-    
     
     // MARK: - LifeCycle
     

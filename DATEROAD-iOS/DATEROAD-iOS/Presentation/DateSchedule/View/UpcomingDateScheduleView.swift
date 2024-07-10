@@ -30,8 +30,6 @@ class UpcomingDateScheduleView: BaseView {
     
     lazy var upcomingDateScheduleData = DateScheduleModel(dateCards: [])
     
-    var currentIndex: CGFloat = 0
-    
     // MARK: - LifeCycle
     
     override func setHierarchy() {
