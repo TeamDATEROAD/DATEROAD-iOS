@@ -20,6 +20,7 @@ final class CourseViewController: BaseViewController {
     
     private var courseViewModel: CourseViewModel
     
+    
     // MARK: - Life Cycle
   
     init(courseViewModel: CourseViewModel) {
@@ -61,13 +62,12 @@ extension CourseViewController {
         self.courseView.priceCollectionView.dataSource = self
         self.courseView.priceCollectionView.delegate = self
     }
-    
-    
+
     @objc
     func didTapTagButton(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
-        sender.isSelected ? self.courseView.updateTag(button: sender, buttonType: SelectedButton())
-        : self.courseView.updateTag(button: sender, buttonType: UnselectedButton())
+        sender.isSelected ? self.courseView.updateTag(button: sender, buttonType: SelectedButton(), isSelected: sender.isSelected)
+        : self.courseView.updateTag(button: sender, buttonType: UnselectedButton(), isSelected: sender.isSelected)
     }
 }
 

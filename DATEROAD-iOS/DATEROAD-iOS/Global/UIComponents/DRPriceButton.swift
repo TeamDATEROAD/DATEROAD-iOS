@@ -22,7 +22,7 @@ class DRPriceButton: UIButton {
     init(tendencyType: String) {
         super.init(frame: .zero)
 
-        setUnselectedTypeFontColor(UIColor(resource: .gray400))
+//        setUnselectedTypeFontColor(UIColor(resource: .gray400))
         initTagButtonStyle(tagTitle: tendencyType)
     }
     
@@ -37,17 +37,11 @@ class DRPriceButton: UIButton {
 
 extension DRPriceButton {
     
-    func setUnselectedTypeFontColor(_ color: UIColor) {
-            if var unselectedButton = unselectedType as? UnselectedButton {
-                unselectedButton.fontColor = color
-                unselectedType = unselectedButton
-            }
-        }
-    
     func initTagButtonStyle(tagTitle: String) {
         self.do {
             $0.setTitle(tagTitle, for: .normal)
             $0.setButtonStatus(buttonType: unselectedType)
+            $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
         }
     }
     
@@ -56,6 +50,7 @@ extension DRPriceButton {
             self.setButtonStatus(buttonType: selectedType)
         } else {
             self.setButtonStatus(buttonType: unselectedType)
+            self.setTitleColor(UIColor(resource: .gray400), for:.normal)
         }
     }
 }
