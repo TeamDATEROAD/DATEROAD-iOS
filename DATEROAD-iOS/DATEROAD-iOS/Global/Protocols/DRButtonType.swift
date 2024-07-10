@@ -159,3 +159,27 @@ struct PastDateScheduleTagButton: DRButtonType {
     var cornerRadius: CGFloat = 14
 
 }
+
+struct AlertLeftButton: DRButtonType {
+    
+    var bgColor: UIColor =  UIColor(resource: .gray100)
+    
+    var fontColor: UIColor = UIColor(resource: .gray400)
+    
+    var font: UIFont = UIFont.suit(.body_bold_15)
+    
+    var cornerRadius: CGFloat = 10
+
+}
+
+struct AlertRightButton: DRButtonType {
+    
+    var bgColor: UIColor =  UIColor(resource: .deepPurple)
+    
+    var fontColor: UIColor = UIColor(resource: .drWhite)
+    
+    var font: UIFont = UIFont.suit(.body_bold_15)
+    
+    var cornerRadius: CGFloat = 10
+
+}
