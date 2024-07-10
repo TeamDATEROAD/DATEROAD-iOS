@@ -7,15 +7,9 @@
 
 import UIKit
 
-enum AddCellType {
-   case EmptyType, NotEmptyPType
-}
-
 final class AddCourseViewModel {
    
    var dataSource = [UIImage]()
-   
-   var cellType: ObservablePattern<AddCellType> = ObservablePattern(nil)
    
    var dateName: ObservablePattern<String> = ObservablePattern("")
    
@@ -48,9 +42,33 @@ final class AddCourseViewModel {
    
    var isNonError: (() -> Void)?
    
+   
+   //MARK: - AddSecondView 전용 Viewmodel
+   
+   var tableViewDataSource: [AddCoursePlaceModel] = []
+   
+   var changeTableViewData: ObservablePattern<Int> = ObservablePattern(0)
+   
+   init() {
+      fetchTableViewData()
+   }
+   
 }
 
 extension AddCourseViewModel {
+   
+   func fetchTableViewData() {
+      tableViewDataSource.append(contentsOf: [
+         AddCoursePlaceModel(placeTitle: "경북궁",timeRequire: "2시간"),
+         AddCoursePlaceModel(placeTitle: "숭례문", timeRequire: "1시간"),
+         AddCoursePlaceModel(placeTitle: "남대문", timeRequire: "3시간"),
+         AddCoursePlaceModel(placeTitle: "문상훈", timeRequire: "30분"),
+         AddCoursePlaceModel(placeTitle: "경북궁2",timeRequire: "2시간"),
+         AddCoursePlaceModel(placeTitle: "숭례문2", timeRequire: "1시간"),
+         AddCoursePlaceModel(placeTitle: "남대문2", timeRequire: "3시간"),
+         AddCoursePlaceModel(placeTitle: "문상훈2", timeRequire: "30분")
+      ])
+   }
    
    func isFutureDate(date: Date, dateType: String) {
       if dateType == "date" {

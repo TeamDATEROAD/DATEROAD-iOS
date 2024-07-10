@@ -14,7 +14,7 @@ final class AddCourseSecondView: BaseView {
    
    // MARK: - UI Properties
    
-   lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+   var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
    
    let addSecondView = AddSecondView()
    
@@ -22,7 +22,7 @@ final class AddCourseSecondView: BaseView {
    
    private let guideLabel: UILabel = UILabel()
    
-   let tableView: UITableView = UITableView()
+   var collectionView2 = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
    
    private let warningType: DRErrorType = Warning()
    
@@ -31,7 +31,7 @@ final class AddCourseSecondView: BaseView {
          collectionView,
          addSecondView
       )
-      addSecondView.addSubviews(editButton, guideLabel, tableView)
+      addSecondView.addSubviews(editButton, guideLabel, collectionView2)
    }
    
    override func setLayout() {
@@ -59,7 +59,7 @@ final class AddCourseSecondView: BaseView {
          $0.centerY.equalTo(editButton)
       }
       
-      tableView.snp.makeConstraints {
+      collectionView2.snp.makeConstraints {
          $0.top.equalTo(editButton.snp.bottom).offset(14)
          $0.horizontalEdges.equalToSuperview()
          $0.bottom.equalTo(addSecondView.nextBtn.snp.top).offset(-12)
@@ -80,6 +80,18 @@ final class AddCourseSecondView: BaseView {
          $0.clipsToBounds = true
       }
       
+      collectionView2.do {
+         let layout = UICollectionViewFlowLayout()
+         layout.scrollDirection = .vertical
+         layout.minimumInteritemSpacing = 14.0
+         layout.itemSize = CGSize(width: ScreenUtils.width * 0.914, height: 54)
+         $0.contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 0, right: 0)
+         $0.collectionViewLayout =  layout
+         $0.isScrollEnabled = true
+         $0.showsHorizontalScrollIndicator = false
+         $0.showsVerticalScrollIndicator = false
+      }
+      
       editButton.do {
          $0.setTitle(StringLiterals.AddCourseOrSchedul.AddSecondView.edit, for: .normal)
          $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
@@ -91,10 +103,11 @@ final class AddCourseSecondView: BaseView {
          $0.text = StringLiterals.AddCourseOrSchedul.AddSecondView.guideLabel
       }
       
-      tableView.do {
-         $0.layer.borderWidth = 1
-         $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
-      }
+//      tableView.do {
+//         $0.layer.borderWidth = 1
+//         $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
+//         $0.separatorStyle = .none
+//      }
       
    }
    
