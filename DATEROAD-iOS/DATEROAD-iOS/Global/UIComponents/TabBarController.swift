@@ -33,7 +33,7 @@ final class TabBarController: UITabBarController {
     }
     
     override func viewDidLayoutSubviews() {
-        self.tabBar.frame.size.height = view.frame.height * 0.1
+        self.tabBar.frame.size.height = view.frame.height * 0.11
         self.tabBar.frame.origin.y = view.frame.height - self.tabBar.frame.size.height
     }
 }
@@ -132,7 +132,7 @@ private extension TabBarController {
         
         if let items = tabBar.items {
             for item in items {
-                 item.imageInsets = UIEdgeInsets(top: -4, left: 0, bottom: 2, right: 0)
+                 item.imageInsets = UIEdgeInsets(top: -10, left: 0, bottom: 4, right: 0)
             }
         }
     }
