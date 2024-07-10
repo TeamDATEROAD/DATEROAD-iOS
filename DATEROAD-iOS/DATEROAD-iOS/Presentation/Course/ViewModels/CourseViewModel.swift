@@ -11,6 +11,8 @@ final class CourseViewModel {
     
     var priceData: [String] = []
     
+    var courseData: [String] = []
+    
     init() {
         fetchPriceData()
     }

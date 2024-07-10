@@ -18,6 +18,7 @@ class CourseListView: BaseView {
     
     private let courseEmptyLabel = UILabel()
 
+    let courseListCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     // MARK: - Life Cycle
 
@@ -31,7 +32,7 @@ class CourseListView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(courseEmptyImageView, courseEmptyLabel)
+        self.addSubviews(courseEmptyImageView,courseEmptyLabel, courseListCollectionView)
     }
     
     override func setLayout() {
@@ -45,6 +46,13 @@ class CourseListView: BaseView {
             $0.top.equalTo(courseEmptyImageView.snp.bottom)
             $0.centerX.equalToSuperview()
         }
+        
+        courseListCollectionView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(20)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.11)
+        }
+        
         
     }
     

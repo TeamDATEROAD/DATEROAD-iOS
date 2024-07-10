@@ -18,7 +18,7 @@ class CourseView: BaseView {
     
     let courseFilterView = CourseFilterView()
     
-    private let courseListView = CourseListView()
+    let courseListView = CourseListView()
     
     // MARK: - Properties
    
@@ -53,6 +53,7 @@ class CourseView: BaseView {
         courseListView.snp.makeConstraints {
             $0.top.equalTo(courseFilterView.snp.bottom)
             $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
     
     }

@@ -31,8 +31,8 @@ struct CourseListModel {
 extension CourseListModel {
     
     static let courseContents: [CourseListModel] = [
-        CourseListModel(courseId: 0, thumbnail: .image6, location: "건대/성수/왕십리", title: "나랑 스껄 할래?", coast: 10, time: 6.5, like: 5),
-        CourseListModel(courseId: 0, thumbnail: .image6, location: "건대/성수/왕십리", title: "나랑 스껄 할래?", coast: 10, time: 6.5, like: 5),
+        CourseListModel(courseId: 0, thumbnail: .image6, location: "건대/성수/왕십리", title: "나랑 스껄 할래?", coast: 10, time: 6.5, like: 5000),
+        CourseListModel(courseId: 0, thumbnail: .image6, location: "건대/성수/왕십리", title: "나랑 스껄 할래?나랑 스껄 할래?나랑 스껄 할래?", coast: 10, time: 6.5, like: 5),
         CourseListModel(courseId: 0, thumbnail: .image6, location: "건대/성수/왕십리", title: "나랑 스껄 할래?", coast: 10, time: 6.5, like: 5),
         CourseListModel(courseId: 0, thumbnail: .image6, location: "건대/성수/왕십리", title: "나랑 스껄 할래?", coast: 10, time: 6.5, like: 5),
         CourseListModel(courseId: 0, thumbnail: .image6, location: "건대/성수/왕십리", title: "나랑 스껄 할래?", coast: 10, time: 6.5, like: 5),

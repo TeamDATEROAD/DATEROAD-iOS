@@ -114,6 +114,7 @@ enum StringLiterals {
         static let priceLabelUnder50K = "5만원 이하"
         static let priceLabelUnder100K = "10만원 이하"
         static let priceLabelOver100K = "10만원 초과"
+        static let isCourseEmpty = "아직 등록된 코스가 없어요"
     }
     
 }
