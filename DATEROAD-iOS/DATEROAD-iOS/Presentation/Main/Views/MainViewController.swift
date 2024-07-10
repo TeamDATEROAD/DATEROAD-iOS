@@ -5,4 +5,125 @@
 //  Created by 윤희슬 on 7/10/24.
 //
 
-import Foundation
+import UIKit
+
+final class MainViewController: BaseViewController {
+    
+    // MARK: - UI Properties
+    
+    private var mainView: MainView
+    
+    // MARK: - Properties
+    
+    private var mainViewModel: MainViewModel
+    
+    
+    // MARK: - Life Cycles
+    
+    init(viewModel: MainViewModel) {
+        self.mainViewModel = viewModel
+        self.mainView = MainView(mainSectionData: self.mainViewModel.sectionData)
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        registerCell()
+        setDelegate()
+    }
+    
+    override func setHierarchy() {
+        self.view.addSubview(mainView)
+    }
+    
+    override func setLayout() {
+        mainView.snp.makeConstraints {
+            $0.top.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(view.frame.height * 0.1)
+        }
+    }
+    
+    override func setStyle() {
+        self.navigationController?.navigationBar.isHidden = true       
+    }
+}
+
+extension MainViewController {
+    
+    func registerCell() {
+        self.mainView.mainCollectionView.register(UpcomingDateCell.self, forCellWithReuseIdentifier: UpcomingDateCell.cellIdentifier)
+        self.mainView.mainCollectionView.register(HotDateCourseCell.self, forCellWithReuseIdentifier: HotDateCourseCell.cellIdentifier)
+        self.mainView.mainCollectionView.register(BannerCell.self, forCellWithReuseIdentifier: BannerCell.cellIdentifier)
+        self.mainView.mainCollectionView.register(NewDateCourseCell.self, forCellWithReuseIdentifier: NewDateCourseCell.cellIdentifier)
+    }
+    
+    func setDelegate() {
+        self.mainView.mainCollectionView.dataSource = self
+        self.mainView.mainCollectionView.delegate = self
+    }
+    
+}
+
+extension MainViewController: UICollectionViewDelegate {}
+
+extension MainViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return self.mainViewModel.sectionData.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch self.mainViewModel.sectionData[section] {
+        case .upcomingDate:
+            return 1
+        case .hotDateCourse:
+            return self.mainViewModel.hotCourseData.value?.count ?? 0
+        case .banner:
+            return self.mainViewModel.bannerData.value?.count ?? 0
+        case .newDateCourse:
+            return self.mainViewModel.newCourseData.value?.count ?? 0
+        }
+    }
+    
+    // TODO: - 다가오는 일정 없는 경우 로직 수정
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch self.mainViewModel.sectionData[indexPath.section] {
+        case .upcomingDate:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingDateCell.cellIdentifier, for: indexPath) as? UpcomingDateCell else { return UICollectionViewCell() }
+            cell.bindData(upcomingData: mainViewModel.upcomingData.value, mainUserData: mainViewModel.mainUserData.value)
+            return cell
+        case .hotDateCourse:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell else { return UICollectionViewCell() }
+            return cell
+        case .banner:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell else { return UICollectionViewCell() }
+            return cell
+        case .newDateCourse:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell else { return UICollectionViewCell() }
+            return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MainHeaderView.identifier, for: indexPath)
+                            as? MainHeaderView else { return UICollectionReusableView() }
+                    
+        switch mainViewModel.sectionData[indexPath.section] {
+            case .upcomingDate, .banner:
+                return header
+            case .hotDateCourse:
+            header.bindTitle(section: .hotDateCourse, nickname: mainViewModel.nickname.value)
+            case .newDateCourse:
+                header.bindTitle(section: .newDateCourse, nickname: nil)
+        }
+        return header
+    }
+    
+    
+}
