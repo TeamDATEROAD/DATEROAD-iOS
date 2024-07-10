@@ -20,11 +20,13 @@ class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
    
    let moveAbleButton: UIButton = UIButton()
    
-//   override func layoutSubviews() {
-//      super.layoutSubviews()
-//      
-//      contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 14, right: 0))
-//   }
+   private var isEditMode: Bool = false
+   
+   //   override func layoutSubviews() {
+   //      super.layoutSubviews()
+   //
+   //      contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 14, right: 0))
+   //   }
    
    override func setHierarchy() {
       self.addSubview(contentView)
@@ -86,11 +88,31 @@ class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
          $0.setImage(UIImage(resource: .icMovecourse), for: .normal)
       }
    }
+   
 }
 
 extension AddSecondViewCollectionViewCell {
+   
    func configure(model: AddCoursePlaceModel) {
       self.placeTitleLabel.text = model.placeTitle
       self.timeRequireLabel.text = model.timeRequire
+      updateEditMode(flag: isEditMode)
    }
+   
+   func isEditMode(flag: Bool) {
+//      print("현재 isEditMode의 flag : \(flag)")
+      self.isEditMode = flag
+      let image = flag ? UIImage(resource: .icDeletecourse) : UIImage(resource: .icMovecourse)
+      
+      moveAbleButton.setImage(image, for: .normal)
+   }
+   
+   func updateEditMode(flag: Bool) {
+//      print("현재 isEditMode의 flag : \(flag)")
+      self.isEditMode = flag
+      let image = flag ? UIImage(resource: .icDeletecourse) : UIImage(resource: .icMovecourse)
+      
+      moveAbleButton.setImage(image, for: .normal)
+   }
+   
 }

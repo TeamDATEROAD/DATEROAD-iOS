@@ -103,12 +103,13 @@ final class AddCourseSecondView: BaseView {
          $0.text = StringLiterals.AddCourseOrSchedul.AddSecondView.guideLabel
       }
       
-//      tableView.do {
-//         $0.layer.borderWidth = 1
-//         $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
-//         $0.separatorStyle = .none
-//      }
-      
    }
    
+}
+
+extension AddCourseSecondView {
+   func updateEditBtnText(flag: Bool) {
+       let text = flag ? "완료" : "편집"
+       editButton.setTitle(text, for: .normal)
+   }
 }
