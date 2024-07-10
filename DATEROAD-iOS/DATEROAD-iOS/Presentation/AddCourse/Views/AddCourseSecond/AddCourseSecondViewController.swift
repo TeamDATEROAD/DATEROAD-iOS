@@ -25,6 +25,7 @@ class AddCourseSecondViewController: BaseNavBarViewController {
       setLeftBackButton()
       setAddTarget()
       registerCell()
+      bindViewModel()
       setupKeyboardDismissRecognizer()
    }
    
@@ -78,6 +79,12 @@ extension AddCourseSecondViewController {
       [addCourseSecondView.addSecondView.datePlaceTextField,
        addCourseSecondView.addSecondView.timeRequireTextField].forEach { i in
          i.delegate = self
+      }
+   }
+   
+   private func bindViewModel() {
+      viewModel.timeRequire.bind { [weak self] date in
+         self?.addCourseSecondView.addSecondView.timeRequireTextField.text = date
       }
    }
    

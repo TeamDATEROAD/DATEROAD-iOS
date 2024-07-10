@@ -106,7 +106,10 @@ extension AddSheetViewController {
    @objc
    private func didTapDoneBtn() {
       if isCustomPicker == true {
-         // 커스텀피커 동작 입력 예정
+         let selectedRow = addSheetView.customPickerView.selectedRow(inComponent: 0)
+         let selectedValue = customPickerValues[selectedRow]
+         viewModel?.updateTimeRequireTextField(text: String(selectedValue))
+         dismiss(animated: true, completion: nil)
       } else {
          if addSheetView.datePicker.datePickerMode == .date {
             let selectedDate = addSheetView.datePicker.date

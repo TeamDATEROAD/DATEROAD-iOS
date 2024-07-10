@@ -36,7 +36,7 @@ final class AddCourseViewModel {
    
    var cnt = 0
    
-//   var tagButtonsSet: Set<UIButton> = []
+   //   var tagButtonsSet: Set<UIButton> = []
    
    var isError: (() -> Void)?
    
@@ -49,9 +49,11 @@ final class AddCourseViewModel {
    
    var changeTableViewData: ObservablePattern<Int> = ObservablePattern(0)
    
-   init() {
-      fetchTableViewData()
-   }
+   var timeRequire: ObservablePattern<String> = ObservablePattern("")
+   
+//   init() {
+//      fetchTableViewData()
+//   }
    
 }
 
@@ -103,28 +105,28 @@ extension AddCourseViewModel {
    }
    
    func countSelectedTag(isSelected: Bool) {
-       guard let oldCount = tagCount.value else { return }
-       
-       if isSelected {
-           tagCount.value = oldCount + 1
-       } else {
-           if oldCount != 0 {
-               tagCount.value = oldCount - 1
-           }
-       }
-       
-       checkTagCount()
+      guard let oldCount = tagCount.value else { return }
+      
+      if isSelected {
+         tagCount.value = oldCount + 1
+      } else {
+         if oldCount != 0 {
+            tagCount.value = oldCount - 1
+         }
+      }
+      
+      checkTagCount()
    }
    
    func checkTagCount() {
-       guard let count = tagCount.value else { return }
-
-       if count >= 1 && count <= 3 {
-           self.isTagButtonValid.value = true
-       } else {
-           self.isTagButtonValid.value = false
-       }
-       print(count)
+      guard let count = tagCount.value else { return }
+      
+      if count >= 1 && count <= 3 {
+         self.isTagButtonValid.value = true
+      } else {
+         self.isTagButtonValid.value = false
+      }
+      print(count)
    }
    
    func getSampleImages() -> Bool {
@@ -145,6 +147,16 @@ extension AddCourseViewModel {
    
    func updatePlaceCollectionView() {
       print(tableViewDataSource)
+   }
+   
+   func updateTimeRequireTextField(text: String) {
+       if let doubleValue = Double(text) {
+          let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
+          String(Int(doubleValue)) : String(doubleValue)
+           timeRequire.value = "\(text) 시간"
+       } else {
+           timeRequire.value = "\(text) 시간"
+       }
    }
    
 }
