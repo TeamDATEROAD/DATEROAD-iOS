@@ -31,7 +31,7 @@ class PastDateViewController: BaseNavBarViewController {
         super.viewDidLoad()
         
         setLeftBackButton()
-        setTitleLabelStyle(title: "지난 데이트")
+        setTitleLabelStyle(title: StringLiterals.DateSchedule.pastDate)
         
         setDataSource()
         

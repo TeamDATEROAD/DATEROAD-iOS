@@ -57,4 +57,12 @@ enum StringLiterals {
         static let selectTag =  "최소 1개, 최대 3개를 선택해주세요."
     }
     
+    enum DateSchedule {
+        static let kakaoShare = "카카오톡으로 공유하기"
+        static let courseShare = "데이트 코스 올리고 50P 받기"
+        static let upcomingDate = "데이트 일정"
+        static let pastDate = "지난 데이트"
+        static let seePastDate = "지난 데이트 보기"
+        
+    }
 }

@@ -96,14 +96,12 @@ class DateTimeLineCollectionViewCell: BaseCollectionViewCell {
         }
         
         indexNumLabel.do {
-            $0.font = UIFont.suit(.body_bold_13)
-            $0.textColor = UIColor(resource: .drWhite)
+            $0.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_bold_13))
         }
         
         locationLabel.do {
-            $0.text = "성수 미술관 성수점"
-            $0.font = UIFont.suit(.body_bold_15)
-            $0.textColor = UIColor(resource: .drBlack)
+            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_bold_15))
+            $0.text = "성수 미술관 성수점" //더미
         }
         
         timeBoxView.do {
@@ -112,9 +110,8 @@ class DateTimeLineCollectionViewCell: BaseCollectionViewCell {
         }
         
         timeLabel.do {
-            $0.text = "1시간"
-            $0.font = UIFont.suit(.body_med_13)
-            $0.textColor = UIColor(resource: .drBlack)
+            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_med_13))
+            $0.text = "1시간" //더미
         }
     }
 }

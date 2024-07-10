@@ -81,9 +81,7 @@ class UpcomingDateScheduleView: BaseView {
         self.backgroundColor = UIColor(resource: .drWhite)
         
         titleLabel.do {
-            $0.font = UIFont.suit(.title_bold_20)
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.text = "데이트 일정"
+            $0.setLabel(text: StringLiterals.DateSchedule.upcomingDate, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_bold_20))
         }
         
         cardCollectionView.do {
@@ -114,7 +112,7 @@ class UpcomingDateScheduleView: BaseView {
         }
         
         pastDateButton.do {
-            $0.setTitle("지난 데이트 보기", for: .normal)
+            $0.setTitle(StringLiterals.DateSchedule.seePastDate, for: .normal)
             $0.backgroundColor = UIColor(resource: .gray100)
             $0.titleLabel?.font = UIFont.suit(.body_bold_15)
             $0.setTitleColor(UIColor(resource: .drBlack), for: .normal)

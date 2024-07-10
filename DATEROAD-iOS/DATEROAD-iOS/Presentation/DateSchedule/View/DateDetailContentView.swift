@@ -168,8 +168,7 @@ class DateDetailContentView: BaseView {
         }
         
         dateLabel.do {
-            $0.font = UIFont.suit(.body_semi_15)
-            $0.textColor = UIColor(resource: .drBlack)
+            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
         }
         
         dDayButton.do {
@@ -196,14 +195,11 @@ class DateDetailContentView: BaseView {
         }
 
         locationLabel.do {
-            $0.font = UIFont.suit(.body_med_15)
-            $0.textColor = UIColor(resource: .gray500)
+            $0.setLabel(textColor: UIColor(resource: .gray500), font: UIFont.suit(.body_med_15))
         }
         
         titleLabel.do {
-            $0.font = UIFont.suit(.title_extra_24)
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.numberOfLines = 2
+            $0.setLabel(alignment: .left, numberOfLines: 2, textColor: UIColor(resource: .drBlack), font:  UIFont.suit(.title_extra_24))
             $0.lineBreakMode = .byWordWrapping
         }
         
@@ -213,9 +209,7 @@ class DateDetailContentView: BaseView {
         }
         
         dateStartTimeLabel.do {
-            $0.font = UIFont.suit(.body_semi_15)
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.text = "시작시간: \(upcomingDataDetailData.startTime ?? "12:00")"
+            $0.setLabel(text: "시작시간: \(upcomingDataDetailData.startTime ?? "12:00")", textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
         }
         
         dateTimeLineCollectionView.do {
@@ -231,7 +225,7 @@ class DateDetailContentView: BaseView {
             $0.isHidden = true
             $0.backgroundColor = UIColor(resource: .deepPurple)
             $0.setImage(UIImage(resource: .kakaoShare), for: .normal)
-            $0.setTitle("카카오톡으로 공유하기", for: .normal)
+            $0.setTitle(StringLiterals.DateSchedule.kakaoShare, for: .normal)
             $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_bold_15)
             $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
@@ -243,7 +237,7 @@ class DateDetailContentView: BaseView {
         courseShareButton.do {
             $0.isHidden = true
             $0.backgroundColor = UIColor(resource: .deepPurple)
-            $0.setTitle("데이트 코스 올리고 50P 받기", for: .normal)
+            $0.setTitle(StringLiterals.DateSchedule.courseShare, for: .normal)
             $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_bold_15)
             $0.contentEdgeInsets = UIEdgeInsets(top: 14, left: 24, bottom: 14, right: 24)

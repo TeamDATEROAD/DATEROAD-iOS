@@ -160,9 +160,7 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
         }
         
         dateLabel.do {
-            $0.font = UIFont.suit(.title_extra_24)
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.numberOfLines = 2
+            $0.setLabel(alignment: .left, numberOfLines: 2, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_extra_24))
         }
         
         dDayButton.do {
@@ -203,14 +201,11 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
         }
         
         locationLabel.do {
-            $0.font = UIFont.suit(.body_med_15)
-            $0.textColor = UIColor(resource: .gray500)
+            $0.setLabel(textColor: UIColor(resource: .gray500), font: UIFont.suit(.body_med_15))
         }
         
         titleLabel.do {
-            $0.font = UIFont.suit(.title_extra_24)
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.numberOfLines = 2
+            $0.setLabel(alignment: .left, numberOfLines: 2, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_extra_24))
             $0.lineBreakMode = .byWordWrapping
         }
     }

@@ -31,7 +31,7 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
         super.viewDidLoad()
         
         setLeftBackButton()
-        setTitleLabelStyle(title: "데이트 일정")
+        setTitleLabelStyle(title: StringLiterals.DateSchedule.upcomingDate)
         setRightButtonStyle(image: UIImage(resource: .moreButton))
         setRightButtonAction(target: self, action: #selector(deleteDateCourse))
         

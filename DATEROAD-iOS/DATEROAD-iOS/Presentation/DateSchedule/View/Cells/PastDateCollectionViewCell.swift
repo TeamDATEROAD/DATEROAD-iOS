@@ -136,8 +136,7 @@ class PastDateCollectionViewCell: BaseCollectionViewCell {
         }
         
         dateLabel.do {
-            $0.font = UIFont.suit(.body_semi_13)
-            $0.textColor = UIColor(resource: .drBlack)
+            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_13))
         }
         
         firstTagButton.do {
@@ -168,14 +167,11 @@ class PastDateCollectionViewCell: BaseCollectionViewCell {
         }
         
         locationLabel.do {
-            $0.font = UIFont.suit(.body_semi_13)
-            $0.textColor = UIColor(resource: .drBlack)
+            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_13))
         }
         
         titleLabel.do {
-            $0.font = UIFont.suit(.title_extra_20)
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.numberOfLines = 2
+            $0.setLabel(alignment: .left, numberOfLines: 2, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_extra_20))
             $0.lineBreakMode = .byWordWrapping
         }
     }
