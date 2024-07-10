@@ -20,13 +20,17 @@ final class AddSheetView: BaseView {
    
    let datePicker = UIDatePicker()
    
-   let doneBtn = UIButton() //추후 Captin 버튼으로 수정 예정
+   let customPickerView = UIPickerView()
+   
+   let doneBtn = UIButton() // 추후 Captin 버튼으로 수정 예정
    
    private let doneBtnTitleLabel = UILabel()
    
+   var isCustomPicker: Bool = false
+   
    override func setHierarchy() {
-      addSubviews( bottomSheetView)
-      bottomSheetView.addSubviews(datePicker, doneBtn)
+      addSubviews(bottomSheetView)
+      bottomSheetView.addSubviews(datePicker, doneBtn, customPickerView)
       doneBtn.addSubview(doneBtnTitleLabel)
    }
    
@@ -37,6 +41,11 @@ final class AddSheetView: BaseView {
       }
       
       datePicker.snp.makeConstraints {
+         $0.top.horizontalEdges.equalToSuperview().inset(14)
+         $0.height.equalTo(180)
+      }
+      
+      customPickerView.snp.makeConstraints {
          $0.top.horizontalEdges.equalToSuperview().inset(14)
          $0.height.equalTo(180)
       }
@@ -64,6 +73,11 @@ final class AddSheetView: BaseView {
          $0.locale = Locale(identifier: "ko-KR")
       }
       
+      customPickerView.do {
+         $0.layer.borderWidth = 1
+         $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
+      }
+      
       doneBtn.do {
          $0.backgroundColor = .deepPurple
          $0.layer.cornerRadius = 14
@@ -74,5 +88,11 @@ final class AddSheetView: BaseView {
          $0.text = "선택하기"
       }
    }
-   
+}
+
+extension AddSheetView {
+   func isCustomPicker(flag: Bool) {
+      datePicker.isHidden = flag
+      customPickerView.isHidden = !flag
+   }
 }

@@ -75,6 +75,10 @@ extension AddCourseSecondViewController {
          $0.dataSource = self
          $0.dragInteractionEnabled = false
       }
+      [addCourseSecondView.addSecondView.datePlaceTextField,
+       addCourseSecondView.addSecondView.timeRequireTextField].forEach { i in
+         i.delegate = self
+      }
    }
    
    private func setAddTarget() {
@@ -122,6 +126,38 @@ extension AddCourseSecondViewController {
          collectionView.reloadData()
       }
    }
+}
+
+extension AddCourseSecondViewController: UITextFieldDelegate {
+   
+   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+      textField.resignFirstResponder()
+      textField.tintColor = UIColor.clear
+      return true
+   }
+   
+   func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+      if textField != addCourseSecondView.addSecondView.timeRequireTextField {
+         return true
+      } else {
+         textFieldTapped(textField)
+         return false
+      }
+   }
+   
+   @objc
+   private func textFieldTapped(_ textField: UITextField) {
+      let addSheetVC = AddSheetViewController(viewModel: self.viewModel)
+      if textField == addCourseSecondView.addSecondView.timeRequireTextField {
+         addSheetVC.addSecondView = self.addCourseSecondView.addSecondView
+         addSheetVC.isCustomPicker = true
+      }
+      DispatchQueue.main.async {
+         addSheetVC.modalPresentationStyle = .overFullScreen
+         self.present(addSheetVC, animated: true, completion: nil)
+      }
+   }
+
 }
 
 extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectionViewDelegate {
