@@ -57,8 +57,10 @@ final class AddCourseViewModel {
    
    var isValidOfSecondNextBtn: ObservablePattern<Bool> = ObservablePattern(false)
    
-//datePlace이 바뀌면 bind{} 파트에서 viewmodel안에 datePlace랑 timeRequire의 value.count 값을 비교해서 true false 반환토록하고, 이를  bind{} 바인드에 앞선 값들을 flag로 받고 이를 토대로 true false로 버튼 타입 바꿔줌
+   var editBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
    
+//datePlace이 바뀌면 bind{} 파트에서 viewmodel안에 datePlace랑 timeRequire의 value.count 값을 비교해서 true false 반환토록하고, 이를  bind{} 바인드에 앞선 값들을 flag로 받고 이를 토대로 true false로 버튼 타입 바꿔줌
+   var isEditMode: Bool = false
 }
 
 extension AddCourseViewModel {
@@ -175,23 +177,24 @@ extension AddCourseViewModel {
    func tapAddBtn(datePlace: String, timeRequire: String) {
       print(datePlace, timeRequire)
       tableViewDataSource.append(AddCoursePlaceModel(placeTitle: datePlace, timeRequire: timeRequire))
+      
+      //viewmodel 값 초기화
       self.datePlace.value = ""
       self.timeRequire.value = ""
       self.isChange?()
    }
    
+   /// dataSource 개수 >= 2 라면 (다음 2/3) 버튼 활성화
    func isSourceMoreThanOne() {
       let flag = (tableViewDataSource.count >= 2) ? true : false
       print("지금 데이터소스 개수 : \(tableViewDataSource.count)\nflag: \(flag)")
       isValidOfSecondNextBtn.value = flag
    }
    
-   func isDataSourceNotEmpty() -> Bool {
+   /// 데이터 0개면 true 반환
+   func isDataSourceNotEmpty() {
       let flag = (tableViewDataSource.count >= 1) ? true : false
-      return flag
+      editBtnEnableState.value = flag
    }
    
 }
-
-
-//뷰모델에서 isvaild값으로 true false 판별하고 이 값이 바뀌면 vc뷰컨에서 다음버튼 state바꿔주기

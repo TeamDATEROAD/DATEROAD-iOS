@@ -165,12 +165,12 @@ extension AddSecondView {
    
    func changeAddPlaceButtonState(flag: Bool) {
       let state = flag ? enabledButtonType : addCourseDisabledButtonType
-//      let image = flag ? UIImage(resource: .icAddcourseWhite) : UIImage(resource: .icAddcourseGray)
-//      print(state)
       addPlaceButton.setButtonStatus(buttonType: state)
    }
    
+   /// 장소 등록 마치면 실행되는 함수
    func finishAddPlace() {
+      // textfield 값 초기화 및 장소 등록 버튼 비활성화
       datePlaceTextField.text = ""
       timeRequireTextField.text = ""
       addPlaceButton.setButtonStatus(buttonType: addCourseDisabledButtonType)

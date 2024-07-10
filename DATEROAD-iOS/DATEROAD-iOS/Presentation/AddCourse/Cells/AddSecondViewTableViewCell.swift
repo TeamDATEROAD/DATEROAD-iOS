@@ -96,20 +96,17 @@ extension AddSecondViewCollectionViewCell {
    func configure(model: AddCoursePlaceModel) {
       self.placeTitleLabel.text = model.placeTitle
       self.timeRequireLabel.text = model.timeRequire
-      updateEditMode(flag: isEditMode)
    }
    
-   func isEditMode(flag: Bool) {
-//      print("현재 isEditMode의 flag : \(flag)")
-      self.isEditMode = flag
-      let image = flag ? UIImage(resource: .icDeletecourse) : UIImage(resource: .icMovecourse)
-      
-      moveAbleButton.setImage(image, for: .normal)
-   }
+//   func isEditMode(flag: Bool) {
+//      self.isEditMode = flag
+//      let image = flag ? UIImage(resource: .icDeletecourse) : UIImage(resource: .icMovecourse)
+//      
+//      moveAbleButton.setImage(image, for: .normal)
+//   }
    
+   /// editMode 활성화라면
    func updateEditMode(flag: Bool) {
-//      print("현재 isEditMode의 flag : \(flag)")
-      self.isEditMode = flag
       let image = flag ? UIImage(resource: .icDeletecourse) : UIImage(resource: .icMovecourse)
       
       moveAbleButton.setImage(image, for: .normal)

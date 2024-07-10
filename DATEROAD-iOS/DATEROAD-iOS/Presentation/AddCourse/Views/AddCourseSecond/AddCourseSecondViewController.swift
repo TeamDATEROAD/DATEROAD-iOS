@@ -26,6 +26,7 @@ class AddCourseSecondViewController: BaseNavBarViewController {
       setAddTarget()
       registerCell()
       bindViewModel()
+      
       setupKeyboardDismissRecognizer()
    }
    
@@ -74,7 +75,7 @@ extension AddCourseSecondViewController {
          $0.dragDelegate = self
          $0.dropDelegate = self
          $0.dataSource = self
-         $0.dragInteractionEnabled = false
+//         $0.dragInteractionEnabled = false
       }
       [addCourseSecondView.addSecondView.datePlaceTextField,
        addCourseSecondView.addSecondView.timeRequireTextField].forEach { i in
@@ -83,29 +84,55 @@ extension AddCourseSecondViewController {
    }
    
    private func bindViewModel() {
+      viewModel.isDataSourceNotEmpty()
+      
+      viewModel.editBtnEnableState.bind { [weak self] date in
+         self?.addCourseSecondView.editBtnState(isAble: date ?? false)
+      }
+      
       viewModel.datePlace.bind { [weak self] date in
          self?.addCourseSecondView.addSecondView.datePlaceTextField.text = date
          self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: self?.viewModel.isAbleAddBtn() ?? false)
       }
+      
       viewModel.timeRequire.bind { [weak self] date in
          self?.addCourseSecondView.addSecondView.timeRequireTextField.text = date
          self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: self?.viewModel.isAbleAddBtn() ?? false)
       }
+      
+      
+      
       self.viewModel.isChange = { [weak self] in
          print(self?.viewModel.tableViewDataSource ?? "")
-         self?.addCourseSecondView.addSecondView.finishAddPlace()
+         self?.viewModel.isDataSourceNotEmpty()
          
-         //얘 로직 확인해봐야함
+         let state = self?.viewModel.editBtnEnableState.value ?? false
+         
+         self?.addCourseSecondView.editBtnState(isAble: state)
+         
+         // 🔥🔥🔥여기까지 완벽🔥🔥🔥
+         
+         // 텍스트필드 초기화 및 addPlace버튼 비활성화
+         self?.addCourseSecondView.addSecondView.finishAddPlace()
+      
+         
+         // 다음 버튼 활성화 여부 판별 함수
          self?.viewModel.isSourceMoreThanOne()
+         
+         
          self?.addCourseSecondView.collectionView2.reloadData()
       }
+      
       self.viewModel.isValidOfSecondNextBtn.bind { [weak self] date in
-         self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: date ?? false)
+         self?.addCourseSecondView.addSecondView.changeNextBtnState(flag: date ?? false)
       }
+      
    }
    
    private func setAddTarget() {
+      
       addCourseSecondView.editButton.addTarget(self, action: #selector(toggleEditMode), for: .touchUpInside)
+      // 🔥🔥🔥여기까지 완벽🔥🔥🔥
       addCourseSecondView.addSecondView.addPlaceButton.addTarget(self, action: #selector(tapAddPlaceBtn), for: .touchUpInside)
    }
    
@@ -121,6 +148,15 @@ extension AddCourseSecondViewController {
       
       viewModel.tableViewDataSource.remove(at: indexPath.item)
       addCourseSecondView.collectionView2.deleteItems(at: [indexPath])
+      viewModel.isSourceMoreThanOne()
+      
+      //여기서 datasource가 1개 미만이면
+      let dataSourceCnt = viewModel.tableViewDataSource.count
+      if dataSourceCnt < 1 {
+         cell.updateEditMode(flag: false)
+         addCourseSecondView.updateEditBtnText(flag: false)
+         addCourseSecondView.editBtnState(isAble: false)
+      }
    }
    
    @objc
@@ -128,14 +164,19 @@ extension AddCourseSecondViewController {
       // Move cell logic here
    }
    
+   
    //MARK: - @objc func
+   
    @objc
    private func toggleEditMode() {
+      print("EditButton 눌림")
+      viewModel.isEditMode.toggle()
       let collectionView = addCourseSecondView.collectionView2
-      let flag = !collectionView.dragInteractionEnabled
-      print("현재 isEditMode = \(flag)")
       
-      collectionView.dragInteractionEnabled = flag
+      let flag = viewModel.isEditMode
+      print("현재 editButton editBtnEnableState.value 값 ::: \(flag)")
+      
+//      collectionView.dragInteractionEnabled = flag
       
       collectionView.visibleCells.forEach { cell in
          if let customCell = cell as? AddSecondViewCollectionViewCell {
@@ -150,11 +191,14 @@ extension AddCourseSecondViewController {
       }
       
       addCourseSecondView.updateEditBtnText(flag: flag)
+      //여기까지 뒤지게 완벽 like 미친놈
+      
       
       DispatchQueue.main.async {
          collectionView.reloadData()
       }
    }
+   // 얘 통과 진짜 미친놈
 }
 
 extension AddCourseSecondViewController: UITextFieldDelegate {
@@ -205,8 +249,11 @@ extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectio
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
       if collectionView == addCourseSecondView.collectionView {
+         
          return viewModel.getSampleImages() ? 1 : viewModel.dataSource.count
       } else {
+         let isEmpty = (viewModel.tableViewDataSource.count) < 1 ? true : false
+         
          return viewModel.tableViewDataSource.count
       }
    }
@@ -230,9 +277,9 @@ extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectio
          ) as? AddSecondViewCollectionViewCell else { return UICollectionViewCell() }
          
          cell.configure(model: viewModel.tableViewDataSource[indexPath.item])
-         cell.updateEditMode(flag: collectionView.dragInteractionEnabled)
+         cell.updateEditMode(flag: viewModel.isEditMode)
          cell.moveAbleButton.removeTarget(nil, action: nil, for: .allEvents)
-         if collectionView.dragInteractionEnabled {
+         if viewModel.isEditMode {
             cell.moveAbleButton.addTarget(self, action: #selector(removeCell(sender:)), for: .touchUpInside)
          } else {
             cell.moveAbleButton.addTarget(self, action: #selector(moveCell(sender:)), for: .touchUpInside)

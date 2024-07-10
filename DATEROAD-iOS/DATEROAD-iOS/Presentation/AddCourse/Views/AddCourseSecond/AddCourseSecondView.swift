@@ -24,6 +24,10 @@ final class AddCourseSecondView: BaseView {
    
    var collectionView2 = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
    
+   private let enabledButtonType: DRButtonType = addCourseEditEnableButton()
+   
+   private let disabledButtonType: DRButtonType = addCourseEditDisableButton()
+   
    private let warningType: DRErrorType = Warning()
    
    override func setHierarchy() {
@@ -90,12 +94,12 @@ final class AddCourseSecondView: BaseView {
          $0.isScrollEnabled = true
          $0.showsHorizontalScrollIndicator = false
          $0.showsVerticalScrollIndicator = false
+         $0.dragInteractionEnabled = true
       }
       
       editButton.do {
          $0.setTitle(StringLiterals.AddCourseOrSchedul.AddSecondView.edit, for: .normal)
-         $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
-         $0.titleLabel?.font = .suit(.body_med_13)
+         $0.setButtonStatus(buttonType: enabledButtonType)
       }
       
       guideLabel.do {
@@ -108,8 +112,17 @@ final class AddCourseSecondView: BaseView {
 }
 
 extension AddCourseSecondView {
+   
+   /// editMode 활성화라면
    func updateEditBtnText(flag: Bool) {
        let text = flag ? "완료" : "편집"
        editButton.setTitle(text, for: .normal)
+   }
+   
+   func editBtnState(isAble: Bool) {
+      let state = isAble ? enabledButtonType : disabledButtonType
+      editButton.do {
+         $0.setButtonStatus(buttonType: state)
+      }
    }
 }
