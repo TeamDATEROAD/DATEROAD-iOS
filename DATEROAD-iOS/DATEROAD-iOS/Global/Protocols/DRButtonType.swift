@@ -105,6 +105,19 @@ struct SelectedButton : DRButtonType {
 
 }
 
+struct addCoursePlaceAbledButton: DRButtonType {
+    
+   var bgColor: UIColor = UIColor(resource: .deepPurple)
+   
+   var fontColor: UIColor = UIColor(resource: .drWhite)
+           
+   var isEnabled: Bool = false
+   
+   var cornerRadius: CGFloat = 14
+       
+   var borderWidth: CGFloat = 0
+}
+
 struct addCoursePlaceDisabledButton: DRButtonType {
     
    var bgColor: UIColor = UIColor(resource: .gray100)
