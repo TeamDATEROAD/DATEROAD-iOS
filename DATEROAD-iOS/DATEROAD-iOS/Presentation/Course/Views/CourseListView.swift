@@ -36,6 +36,8 @@ class CourseListView: BaseView {
     }
     
     override func setLayout() {
+        courseListCollectionView.showsVerticalScrollIndicator = false
+        courseListCollectionView.showsHorizontalScrollIndicator = false
         
         courseEmptyImageView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(24)
@@ -52,7 +54,6 @@ class CourseListView: BaseView {
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.11)
         }
-        
         
     }
     

@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class CourseViewController: BaseViewController {
+final class CourseViewController: BaseViewController, CourseFilterViewDelegate {
     
     // MARK: - UI Properties
     
@@ -67,6 +67,8 @@ extension CourseViewController {
         self.courseView.courseFilterView.priceCollectionView.delegate = self
         self.courseView.courseListView.courseListCollectionView.dataSource = self
         self.courseView.courseListView.courseListCollectionView.delegate = self
+        
+        self.courseView.courseFilterView.delegate = self
     }
     
     @objc
@@ -78,13 +80,19 @@ extension CourseViewController {
         
         sender.isSelected = !sender.isSelected
         
-
         sender.isSelected ? self.courseView.courseFilterView.updatePrice(button: sender, buttonType: SelectedButton(), isSelected: sender.isSelected)
         : self.courseView.courseFilterView.updatePrice(button: sender, buttonType: UnselectedButton(), isSelected: sender.isSelected)
         
         // 현재 버튼이 선택되었다면 selectedButton으로 비활성화되었다면 nil로 설정
         selectedButton = sender.isSelected ? sender : nil
     }
+    
+    func didTapLocationFilter() {
+        let locationFilterVC = LocationFilterViewController()
+        locationFilterVC.modalPresentationStyle = .overFullScreen
+        self.present(locationFilterVC, animated: true)
+    }
+    
 }
 
 extension CourseViewController: UICollectionViewDelegateFlowLayout {
@@ -92,7 +100,7 @@ extension CourseViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var cellWidth: CGFloat = 0
         var cellHeight: CGFloat = 0
-   
+        
         if collectionView == courseView.courseFilterView.priceCollectionView {
             let priceTitle = self.courseViewModel.priceData[indexPath.item]
             let font = UIFont.suit(.body_med_13)
@@ -113,13 +121,12 @@ extension CourseViewController: UICollectionViewDelegateFlowLayout {
         
         return collectionView == courseView.courseFilterView.priceCollectionView ? 8 : 15
     }
-
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         
         return collectionView == courseView.courseFilterView.priceCollectionView ? 0 : 20
     }
-    
     
 }
 
@@ -136,7 +143,6 @@ extension CourseViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
         
         if isPriceCollection, let priceCell = cell as? PriceButtonCollectionViewCell {
-            let price = self.courseViewModel.priceData[indexPath.item]
             priceCell.updateButtonTitle(title: self.courseViewModel.priceData[indexPath.item])
             priceCell.priceButton.addTarget(self, action: #selector(didTapPriceButton(_:)), for: .touchUpInside)
         } else if let courseListCell = cell as? CourseListCollectionViewCell {

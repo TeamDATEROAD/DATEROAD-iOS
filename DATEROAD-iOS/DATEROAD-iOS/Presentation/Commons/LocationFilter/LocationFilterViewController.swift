@@ -74,9 +74,9 @@ class LocationFilterViewController: BaseViewController {
     }
     
     override func setHierarchy() {
-        self.view.addSubviews(
-            dimmedView,
-            bottomSheetView,
+        self.view.addSubviews(dimmedView, bottomSheetView)
+        
+        bottomSheetView.addSubviews(
             titleLabel,
             closeButton,
             countryCollectionView,
@@ -89,7 +89,7 @@ class LocationFilterViewController: BaseViewController {
     override func setLayout() {
         dimmedView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(bottomSheetView.snp.top)
+            $0.bottom.equalTo(bottomSheetView)
         }
         
         bottomSheetView.snp.makeConstraints {
@@ -134,12 +134,13 @@ class LocationFilterViewController: BaseViewController {
     }
     
     override func setStyle() {
+        self.navigationController?.navigationBar.isHidden = true
+        
         dimmedView.do {
             $0.alpha = 0.7
             $0.layer.backgroundColor = UIColor(resource: .drBlack).cgColor
-            $0.isUserInteractionEnabled = true
-            
             let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapDimmedView))
+            $0.isUserInteractionEnabled = true
             $0.addGestureRecognizer(gesture)
         }
         
@@ -169,17 +170,25 @@ class LocationFilterViewController: BaseViewController {
             $0.setTitle("적용하기", for: .normal)
             $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_bold_15)
+            
         }
         
     }
     
-    @objc func closeView() {
-        self.dismiss(animated: true)
+    @objc
+    func closeView() {
+        if self.navigationController == nil {
+            self.dismiss(animated: false)
+        } else {
+            self.navigationController?.popViewController(animated: false)
+        }
     }
     
-    @objc func didTapDimmedView(sender: UIGestureRecognizer) {
-        self.dismiss(animated: true)
+    @objc
+    func didTapDimmedView(sender: UITapGestureRecognizer) {
+        self.dismiss(animated: false)
     }
+    
     
 }
 

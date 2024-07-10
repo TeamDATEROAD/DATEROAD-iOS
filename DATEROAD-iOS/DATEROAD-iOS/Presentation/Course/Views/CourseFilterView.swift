@@ -10,10 +10,14 @@ import UIKit
 import SnapKit
 import Then
 
+protocol CourseFilterViewDelegate: AnyObject {
+    func didTapLocationFilter()
+}
+
 class CourseFilterView: BaseView {
     
     // MARK: - UI Properties
-  
+    
     private let locationFilterButton = UIButton()
     
     private let resetButton = UIButton()
@@ -26,11 +30,13 @@ class CourseFilterView: BaseView {
     
     private let disabledButtonType: DRButtonType = DisabledButton()
     
+    weak var delegate: CourseFilterViewDelegate?
+    
     // MARK: - Life Cycle
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
     }
     
     required init?(coder: NSCoder) {
@@ -80,6 +86,10 @@ class CourseFilterView: BaseView {
             $0.backgroundColor = UIColor(resource: .gray100)
             $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
             $0.setImage(UIImage(resource: .icDropdown), for: .normal)
+            
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(locationFilterButtonTapped))
+            $0.isUserInteractionEnabled = true
+            $0.addGestureRecognizer(gesture)
         }
         
         resetButton.do {
@@ -88,10 +98,15 @@ class CourseFilterView: BaseView {
         }
     }
     
+    @objc
+    private func locationFilterButtonTapped() {
+        delegate?.didTapLocationFilter()
+    }
+    
 }
 
 extension CourseFilterView {
-    
+
     func updatePrice(button: UIButton, buttonType: DRButtonType, isSelected: Bool) {
         button.setButtonStatus(buttonType: buttonType)
         isSelected ? button.setTitleColor(UIColor(resource: .drWhite), for: .normal)

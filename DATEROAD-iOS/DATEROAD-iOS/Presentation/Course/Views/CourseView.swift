@@ -45,7 +45,7 @@ class CourseView: BaseView {
         }
         
         courseFilterView.snp.makeConstraints {
-            $0.top.equalTo(courseNavigationBarView.snp.bottom)
+            $0.top.equalTo(courseNavigationBarView.snp.bottom).inset(-14)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(84)
         }
