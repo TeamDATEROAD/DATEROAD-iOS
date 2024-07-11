@@ -59,7 +59,7 @@ extension MainSectionLayout {
 
 struct UpcomingDateLayout: MainSectionLayout {
     
-    var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(343/375), heightDimension: .fractionalHeight(255 / 812))
+    var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(343/375), heightDimension: .fractionalHeight(184 / 812))
             
     var sectionContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 36, trailing: 16)
     
@@ -67,11 +67,11 @@ struct UpcomingDateLayout: MainSectionLayout {
 
 struct HotDateLayout: MainSectionLayout {
     
-    var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(255 / 812))
+    var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(238/375), heightDimension: .estimated(356))
     
     var groupContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16)
     
-    var sectionContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets(top: 21, leading: 16, bottom: 30, trailing: 0)
+    var sectionContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets(top: 21, leading: 16, bottom: 0, trailing: 0)
     
 //    var elementKind: String? = HotDateCourseHeader.elementKind
     

@@ -44,7 +44,7 @@ struct DateCourseModel {
     let duration: Int
     
     static var hotDateDummyData: [DateCourseModel] {
-        return [DateCourseModel(courseId: 1, thumbnail: "www.asdfasdfds.jpg", title: "스리와 데이트 - 성수편", city: "건대/상수/왕십리", like: 3, cost: 10, duration: 10),
+        return [DateCourseModel(courseId: 1, thumbnail: "www.asdfasdfds.jpg", title: "스리와 데이트 - 성수편 스리와 데이트 - 성수편", city: "건대/상수/왕십리", like: 3, cost: 10, duration: 10),
                 DateCourseModel(courseId: 1, thumbnail: "www.asdfasdfds.jpg", title: "스리와 데이트 - 홍대편", city: "홍대/합정/마포", like: 3, cost: 10, duration: 10),
                 DateCourseModel(courseId: 1, thumbnail: "www.asdfasdfds.jpg", title: "스리와 데이트 - 한남편", city: "용산/이태원/한남", like: 3, cost: 10, duration: 10),
                 DateCourseModel(courseId: 1, thumbnail: "www.asdfasdfds.jpg", title: "스리와 데이트 - 종로편", city: "종로/중구", like: 3, cost: 10, duration: 10),
