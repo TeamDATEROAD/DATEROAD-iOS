@@ -58,6 +58,7 @@
 		74A70C012C329AB000855E61 /* SUIT-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF22C329A5B00855E61 /* SUIT-ExtraBold.otf */; };
 		74A70C022C329AB200855E61 /* SUIT-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74BC16652C329A110084E832 /* SUIT-Bold.otf */; };
 		74BC165A2C3284A90084E832 /* BaseNavBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BC16592C3284A90084E832 /* BaseNavBarViewController.swift */; };
+		74C88EF02C4047E400A4C638 /* CustomEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C88EEF2C4047E400A4C638 /* CustomEmptyView.swift */; };
 		74CDE2682C3B123100A7459B /* UpcomingDateScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CDE2672C3B123100A7459B /* UpcomingDateScheduleViewController.swift */; };
 		74CDE26B2C3B7AA400A7459B /* DateCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CDE26A2C3B7AA400A7459B /* DateCardCollectionViewCell.swift */; };
 		74E3E1822C3AF8F200AD7674 /* ViewedCourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E3E1812C3AF8F200AD7674 /* ViewedCourseModel.swift */; };
@@ -189,6 +190,7 @@
 		74A70BF82C329A6900855E61 /* SUIT-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-SemiBold.otf"; sourceTree = "<group>"; };
 		74BC16592C3284A90084E832 /* BaseNavBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavBarViewController.swift; sourceTree = "<group>"; };
 		74BC16652C329A110084E832 /* SUIT-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Bold.otf"; sourceTree = "<group>"; };
+		74C88EEF2C4047E400A4C638 /* CustomEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEmptyView.swift; sourceTree = "<group>"; };
 		74CDE2672C3B123100A7459B /* UpcomingDateScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingDateScheduleViewController.swift; sourceTree = "<group>"; };
 		74CDE26A2C3B7AA400A7459B /* DateCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		74E3E1812C3AF8F200AD7674 /* ViewedCourseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseModel.swift; sourceTree = "<group>"; };
@@ -458,44 +460,6 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
-		9E63BB1D2C35CEAF00D5ED5B /* AddCourse */ = {
-			isa = PBXGroup;
-			children = (
-				9EB91E792C36371800D7A836 /* ViewModels */,
-				9EB91E762C36288900D7A836 /* Cells */,
-				9E63BB1E2C35CF5900D5ED5B /* Views */,
-			);
-			path = AddCourse;
-			sourceTree = "<group>";
-		};
-		9E63BB1E2C35CF5900D5ED5B /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				9E63BB1F2C35CF7200D5ED5B /* AddCourseViewController.swift */,
-				9E443A4B2C37ACEF00C1F92C /* AddCourseFirstView.swift */,
-				9E443A4D2C3819DB00C1F92C /* AddFirstView.swift */,
-				9E443A4F2C39158100C1F92C /* AddSheetViewController.swift */,
-				9E590B3F2C39375000039690 /* AddSheetView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		9EB91E762C36288900D7A836 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */,
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
-		9EB91E792C36371800D7A836 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				9E443A472C37AAE400C1F92C /* AddCourseViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
 		74CDE2622C3B11DE00A7459B /* DateSchedule */ = {
 			isa = PBXGroup;
 			children = (
@@ -546,6 +510,44 @@
 				7455476C2C3D03E100B526F3 /* PastDateCollectionViewCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		9E63BB1D2C35CEAF00D5ED5B /* AddCourse */ = {
+			isa = PBXGroup;
+			children = (
+				9EB91E792C36371800D7A836 /* ViewModels */,
+				9EB91E762C36288900D7A836 /* Cells */,
+				9E63BB1E2C35CF5900D5ED5B /* Views */,
+			);
+			path = AddCourse;
+			sourceTree = "<group>";
+		};
+		9E63BB1E2C35CF5900D5ED5B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9E63BB1F2C35CF7200D5ED5B /* AddCourseViewController.swift */,
+				9E443A4B2C37ACEF00C1F92C /* AddCourseFirstView.swift */,
+				9E443A4D2C3819DB00C1F92C /* AddFirstView.swift */,
+				9E443A4F2C39158100C1F92C /* AddSheetViewController.swift */,
+				9E590B3F2C39375000039690 /* AddSheetView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9EB91E762C36288900D7A836 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		9EB91E792C36371800D7A836 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				9E443A472C37AAE400C1F92C /* AddCourseViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		CA0A963C2C2B12FC00F39EBE /* Base */ = {
@@ -851,6 +853,7 @@
 				CAA30AE42C37BCB200835DE3 /* DRTagButton.swift */,
 				CA78FE462C38667A001B1403 /* DRErrorLabel.swift */,
 				0D07420B2C3B0339004B3F59 /* TabBarController.swift */,
+				74C88EEF2C4047E400A4C638 /* CustomEmptyView.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -1102,7 +1105,7 @@
 				74CDE2682C3B123100A7459B /* UpcomingDateScheduleViewController.swift in Sources */,
 				0D06D9A82C36946C0094C505 /* TimelineInfoCell.swift in Sources */,
 				0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */,
-				0D9497BD2C3292C20004B442 /* MainContentsCell.swift in Sources */,
+				0D9497BD2C3292C20004B442 /* TitleInfoCell.swift in Sources */,
 				CAC80FAF2C3B56A800658EA6 /* MyPageModel.swift in Sources */,
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
 				7455476D2C3D03E100B526F3 /* PastDateCollectionViewCell.swift in Sources */,
@@ -1135,6 +1138,7 @@
 				CA4EF3C52C328698003B02B6 /* SplashViewController.swift in Sources */,
 				0DA920F22C3C0AF500A6A321 /* MainContentsCell.swift in Sources */,
 				0DDFEE0D2C3C513E008C6022 /* LocationFilterViewController.swift in Sources */,
+				74C88EF02C4047E400A4C638 /* CustomEmptyView.swift in Sources */,
 				0D06D9A22C3605760094C505 /* TagInfoCell.swift in Sources */,
 				747819392C3A93760040D5E7 /* CourseCollectionView.swift in Sources */,
 				7455476B2C3C95F900B526F3 /* PastDateViewController.swift in Sources */,
