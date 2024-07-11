@@ -2,9 +2,14 @@ import UIKit
 
 class AddCourseSecondViewController: BaseNavBarViewController {
    
+   // MARK: - UI Properties
+   
    private var addCourseSecondView = AddCourseSecondView()
    
    private let viewModel: AddCourseViewModel
+   
+   
+   // MARK: - Initializer
    
    init(viewModel: AddCourseViewModel) {
       self.viewModel = viewModel
@@ -15,6 +20,9 @@ class AddCourseSecondViewController: BaseNavBarViewController {
       fatalError("init(coder:) has not been implemented")
    }
    
+   
+   // MARK: - LifeCycle
+   
    override func viewDidLoad() {
       super.viewDidLoad()
       
@@ -24,9 +32,9 @@ class AddCourseSecondViewController: BaseNavBarViewController {
       setTitleLabelStyle(title: StringLiterals.AddCourseOrSchedul.addCourseTitle)
       setLeftBackButton()
       setAddTarget()
+      setDelegate()
       registerCell()
       bindViewModel()
-      
       setupKeyboardDismissRecognizer()
    }
    
@@ -57,26 +65,37 @@ class AddCourseSecondViewController: BaseNavBarViewController {
          $0.isUserInteractionEnabled = true
       }
    }
+   
 }
 
+
+// MARK: - ViewController Methods
+
 extension AddCourseSecondViewController {
-   
-   //MARK: - func
    
    private func registerCell() {
       addCourseSecondView.collectionView.do {
          $0.register(AddCourseImageCollectionViewCell.self, forCellWithReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier)
+      }
+      
+      addCourseSecondView.collectionView2.do {
+         $0.register(AddSecondViewCollectionViewCell.self, forCellWithReuseIdentifier: AddSecondViewCollectionViewCell.cellIdentifier)
+      }
+   }
+   
+   private func setDelegate() {
+      addCourseSecondView.collectionView.do {
          $0.delegate = self
          $0.dataSource = self
       }
+      
       addCourseSecondView.collectionView2.do {
-         $0.register(AddSecondViewCollectionViewCell.self, forCellWithReuseIdentifier: AddSecondViewCollectionViewCell.cellIdentifier)
          $0.delegate = self
          $0.dragDelegate = self
          $0.dropDelegate = self
          $0.dataSource = self
-//         $0.dragInteractionEnabled = false
       }
+      
       [addCourseSecondView.addSecondView.datePlaceTextField,
        addCourseSecondView.addSecondView.timeRequireTextField].forEach { i in
          i.delegate = self
@@ -100,8 +119,6 @@ extension AddCourseSecondViewController {
          self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: self?.viewModel.isAbleAddBtn() ?? false)
       }
       
-      
-      
       self.viewModel.isChange = { [weak self] in
          print(self?.viewModel.tableViewDataSource ?? "")
          self?.viewModel.isDataSourceNotEmpty()
@@ -114,7 +131,7 @@ extension AddCourseSecondViewController {
          
          // 텍스트필드 초기화 및 addPlace버튼 비활성화
          self?.addCourseSecondView.addSecondView.finishAddPlace()
-      
+         
          
          // 다음 버튼 활성화 여부 판별 함수
          self?.viewModel.isSourceMoreThanOne()
@@ -130,15 +147,28 @@ extension AddCourseSecondViewController {
    }
    
    private func setAddTarget() {
-      
       addCourseSecondView.editButton.addTarget(self, action: #selector(toggleEditMode), for: .touchUpInside)
       // 🔥🔥🔥여기까지 완벽🔥🔥🔥
       addCourseSecondView.addSecondView.addPlaceButton.addTarget(self, action: #selector(tapAddPlaceBtn), for: .touchUpInside)
+      
+      addCourseSecondView.addSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
    }
+   
+   
+   // MARK: - @objc Methods
    
    @objc
    private func tapAddPlaceBtn() {
       viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")
+   }
+   
+   @objc
+   private func didTapNextBtn() {
+      print("지금 장소 등록된 값 : ", viewModel.tableViewDataSource)
+      
+      // 화면 전환 구현해야 함.
+      //let vc = AddCourseThirdViewController()
+      //vc.navigationController?.pushViewController(vc, animated: true)
    }
    
    @objc
@@ -164,9 +194,6 @@ extension AddCourseSecondViewController {
       // Move cell logic here
    }
    
-   
-   //MARK: - @objc func
-   
    @objc
    private func toggleEditMode() {
       print("EditButton 눌림")
@@ -175,8 +202,6 @@ extension AddCourseSecondViewController {
       
       let flag = viewModel.isEditMode
       print("현재 editButton editBtnEnableState.value 값 ::: \(flag)")
-      
-//      collectionView.dragInteractionEnabled = flag
       
       collectionView.visibleCells.forEach { cell in
          if let customCell = cell as? AddSecondViewCollectionViewCell {
@@ -200,6 +225,9 @@ extension AddCourseSecondViewController {
    }
    // 얘 통과 진짜 미친놈
 }
+
+
+// MARK: - UITextFieldDelegate Methods
 
 extension AddCourseSecondViewController: UITextFieldDelegate {
    
@@ -235,8 +263,11 @@ extension AddCourseSecondViewController: UITextFieldDelegate {
          self.present(addSheetVC, animated: true, completion: nil)
       }
    }
-
+   
 }
+
+
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegate Methods
 
 extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectionViewDelegate {
    
@@ -290,6 +321,9 @@ extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectio
    }
 }
 
+
+// MARK: - UICollectionViewDropDelegate Methods
+
 extension AddCourseSecondViewController: UICollectionViewDropDelegate {
    
    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
@@ -337,6 +371,9 @@ extension AddCourseSecondViewController: UICollectionViewDropDelegate {
       }
    }
 }
+
+
+// MARK: - UICollectionViewDragDelegate Methods
 
 extension AddCourseSecondViewController: UICollectionViewDragDelegate {
    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {

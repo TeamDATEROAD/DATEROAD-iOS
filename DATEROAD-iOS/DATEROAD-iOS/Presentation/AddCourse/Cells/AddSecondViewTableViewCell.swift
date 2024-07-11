@@ -12,6 +12,8 @@ import Then
 
 class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
    
+   // MARK: - UI Properties
+   
    private let placeTitleLabel: UILabel = UILabel()
    
    private let timeRequireContainer: UIView = UIView()
@@ -20,13 +22,13 @@ class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
    
    let moveAbleButton: UIButton = UIButton()
    
+   
+   // MARK: - Properties
+   
    private var isEditMode: Bool = false
    
-   //   override func layoutSubviews() {
-   //      super.layoutSubviews()
-   //
-   //      contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 14, right: 0))
-   //   }
+   
+   // MARK: - Methods
    
    override func setHierarchy() {
       self.addSubview(contentView)
@@ -91,19 +93,15 @@ class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
    
 }
 
+
+// MARK: - CollectionViewCell Methods
+
 extension AddSecondViewCollectionViewCell {
    
    func configure(model: AddCoursePlaceModel) {
       self.placeTitleLabel.text = model.placeTitle
       self.timeRequireLabel.text = model.timeRequire
    }
-   
-//   func isEditMode(flag: Bool) {
-//      self.isEditMode = flag
-//      let image = flag ? UIImage(resource: .icDeletecourse) : UIImage(resource: .icMovecourse)
-//      
-//      moveAbleButton.setImage(image, for: .normal)
-//   }
    
    /// editMode 활성화라면
    func updateEditMode(flag: Bool) {

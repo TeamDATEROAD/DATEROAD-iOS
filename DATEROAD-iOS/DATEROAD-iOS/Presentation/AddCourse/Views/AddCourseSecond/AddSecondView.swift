@@ -12,6 +12,8 @@ import Then
 
 class AddSecondView: BaseView {
    
+   // MARK: - UI Properties
+   
    private let container: UIView = UIView()
    
    private let contentTitleLabel: UILabel = UILabel()
@@ -30,11 +32,17 @@ class AddSecondView: BaseView {
    
    let nextBtn: UIButton = UIButton()
    
+   
+   // MARK: - Properties
+   
    private let enabledButtonType: DRButtonType = EnabledButton()
    
    private let disabledButtonType: DRButtonType = DisabledButton()
    
    private let addCourseDisabledButtonType: DRButtonType = addCoursePlaceDisabledButton()
+   
+   
+   // MARK: - Methods
    
    override func setHierarchy() {
       addSubviews (
@@ -45,6 +53,7 @@ class AddSecondView: BaseView {
          separatorLine,
          nextBtn
       )
+      
       placeRegistrationContainer.addSubviews(
          datePlaceTextField,
          timeRequireTextField,
@@ -56,29 +65,35 @@ class AddSecondView: BaseView {
       contentTitleLabel.snp.makeConstraints {
          $0.top.horizontalEdges.equalToSuperview()
       }
+      
       contentSubTitleLabel.snp.makeConstraints {
          $0.top.equalTo(contentTitleLabel.snp.bottom).offset(2)
          $0.horizontalEdges.equalToSuperview()
       }
+      
       placeRegistrationContainer.snp.makeConstraints {
          $0.top.equalTo(contentSubTitleLabel.snp.bottom).offset(16)
          $0.horizontalEdges.equalToSuperview()
          $0.height.equalTo(44)
       }
+      
       datePlaceTextField.snp.makeConstraints {
          $0.top.leading.bottom.equalToSuperview()
          $0.width.equalTo(206)
       }
+      
       timeRequireTextField.snp.makeConstraints {
          $0.top.bottom.equalToSuperview()
          $0.leading.equalTo(datePlaceTextField.snp.trailing).offset(8)
          $0.width.equalTo(77)
       }
+      
       addPlaceButton.snp.makeConstraints {
          $0.trailing.equalToSuperview()
          $0.centerY.equalToSuperview()
          $0.size.equalTo(44)
       }
+      
       separatorLine.snp.makeConstraints {
          $0.top.equalTo(placeRegistrationContainer.snp.bottom).offset(21)
          $0.horizontalEdges.equalToSuperview()
@@ -90,7 +105,6 @@ class AddSecondView: BaseView {
          $0.horizontalEdges.equalToSuperview()
          $0.height.equalTo(54)
       }
-      
    }
    
    override func setStyle() {
@@ -159,7 +173,11 @@ class AddSecondView: BaseView {
          $0.setTitle(StringLiterals.AddCourseOrSchedul.AddSecondView.addSecondNextBtnOfCourse, for: .normal)
       }
    }
+   
 }
+
+
+// MARK: - View Methods
 
 extension AddSecondView {
    

@@ -26,7 +26,13 @@ final class AddSheetView: BaseView {
    
    private let doneBtnTitleLabel = UILabel()
    
+   
+   // MARK: - Properties
+   
    var isCustomPicker: Bool = false
+   
+   
+   // MARK: - Methods
    
    override func setHierarchy() {
       addSubviews(bottomSheetView)
@@ -73,11 +79,6 @@ final class AddSheetView: BaseView {
          $0.locale = Locale(identifier: "ko-KR")
       }
       
-      customPickerView.do {
-         $0.layer.borderWidth = 1
-         $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
-      }
-      
       doneBtn.do {
          $0.backgroundColor = .deepPurple
          $0.layer.cornerRadius = 14
@@ -88,7 +89,11 @@ final class AddSheetView: BaseView {
          $0.text = "선택하기"
       }
    }
+   
 }
+
+
+// MARK: - View Methods
 
 extension AddSheetView {
    func isCustomPicker(flag: Bool) {

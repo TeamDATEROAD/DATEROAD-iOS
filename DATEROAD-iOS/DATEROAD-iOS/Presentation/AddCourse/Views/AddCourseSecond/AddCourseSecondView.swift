@@ -24,11 +24,17 @@ final class AddCourseSecondView: BaseView {
    
    var collectionView2 = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
    
+   
+   // MARK: - Properties
+   
    private let enabledButtonType: DRButtonType = addCourseEditEnableButton()
    
    private let disabledButtonType: DRButtonType = addCourseEditDisableButton()
    
    private let warningType: DRErrorType = Warning()
+   
+   
+   // MARK: - Methods
    
    override func setHierarchy() {
       self.addSubviews (
@@ -40,8 +46,8 @@ final class AddCourseSecondView: BaseView {
    
    override func setLayout() {
       collectionView.snp.makeConstraints {
-         $0.top.equalToSuperview()
-         $0.horizontalEdges.equalToSuperview()
+         $0.top.horizontalEdges.equalToSuperview()
+         //         $0.horizontalEdges.equalToSuperview()
          $0.height.equalTo(146)
       }
       
@@ -106,17 +112,19 @@ final class AddCourseSecondView: BaseView {
          $0.setLabel(alignment: .left, textColor: UIColor(resource: .gray400), font: .suit(.body_med_13))
          $0.text = StringLiterals.AddCourseOrSchedul.AddSecondView.guideLabel
       }
-      
    }
    
 }
+
+
+// MARK: - View Methods
 
 extension AddCourseSecondView {
    
    /// editMode 활성화라면
    func updateEditBtnText(flag: Bool) {
-       let text = flag ? "완료" : "편집"
-       editButton.setTitle(text, for: .normal)
+      let text = flag ? "완료" : "편집"
+      editButton.setTitle(text, for: .normal)
    }
    
    func editBtnState(isAble: Bool) {
@@ -125,4 +133,5 @@ extension AddCourseSecondView {
          $0.setButtonStatus(buttonType: state)
       }
    }
+   
 }

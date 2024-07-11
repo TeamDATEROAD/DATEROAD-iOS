@@ -26,6 +26,7 @@ final class AddSheetViewController: BaseViewController {
    
    var customPickerValues: [Double] = []
    
+   
    // MARK: - Initializer
    
    init(viewModel: AddCourseViewModel) {
@@ -37,6 +38,7 @@ final class AddSheetViewController: BaseViewController {
       fatalError("init(coder:) has not been implemented")
    }
    
+   
    // MARK: - Life Cycle
    
    override func viewDidLoad() {
@@ -46,6 +48,9 @@ final class AddSheetViewController: BaseViewController {
       setupCustomPicker()
       addSheetView.isCustomPicker(flag: isCustomPicker ?? false)
    }
+   
+   
+   // MARK: - Methods
    
    override func setHierarchy() {
       view.addSubview(addSheetView)
@@ -63,6 +68,10 @@ final class AddSheetViewController: BaseViewController {
       }
    }
    
+}
+
+extension AddSheetViewController {
+   
    private func setupCustomPicker() {
       if isCustomPicker == true {
          customPickerValues = Array(stride(from: 0.5, to: 6.5, by: 0.5))
@@ -71,31 +80,13 @@ final class AddSheetViewController: BaseViewController {
          addSheetView.customPickerView.reloadAllComponents()
       }
    }
+   
 }
 
-extension AddSheetViewController: UIPickerViewDataSource, UIPickerViewDelegate {
-   
-   func numberOfComponents(in pickerView: UIPickerView) -> Int {
-      return 1
-   }
-   
-   func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-      return customPickerValues.count
-   }
-   
-   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-      return String(customPickerValues[row])
-   }
-   
-   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-      print("Selected Value: \(customPickerValues[row])")
-      // 선택된 값을 ViewModel 또는 필요한 곳에 전달
-   }
-}
+
+// MARK: - ViewController Methods
 
 extension AddSheetViewController {
-   
-   // MARK: - Methods
    
    private func setAddTarget() {
       addSheetView.doneBtn.addTarget(self, action: #selector(didTapDoneBtn), for: .touchUpInside)
@@ -121,5 +112,28 @@ extension AddSheetViewController {
             dismiss(animated: true, completion: nil)
          }
       }
+   }
+}
+
+
+// MARK: - UIPickerViewDataSource, UIPickerViewDelegate Methods
+
+extension AddSheetViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+   
+   func numberOfComponents(in pickerView: UIPickerView) -> Int {
+      return 1
+   }
+   
+   func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+      return customPickerValues.count
+   }
+   
+   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+      return String(customPickerValues[row])
+   }
+   
+   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+      print("Selected Value: \(customPickerValues[row])")
+      // 선택된 값을 ViewModel 또는 필요한 곳에 전달
    }
 }

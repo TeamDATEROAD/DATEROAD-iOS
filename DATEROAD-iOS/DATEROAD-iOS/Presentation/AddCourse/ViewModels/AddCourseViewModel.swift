@@ -36,8 +36,6 @@ final class AddCourseViewModel {
    
    var cnt = 0
    
-   //   var tagButtonsSet: Set<UIButton> = []
-   
    var isError: (() -> Void)?
    
    var isNonError: (() -> Void)?
@@ -59,7 +57,7 @@ final class AddCourseViewModel {
    
    var editBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
    
-//datePlace이 바뀌면 bind{} 파트에서 viewmodel안에 datePlace랑 timeRequire의 value.count 값을 비교해서 true false 반환토록하고, 이를  bind{} 바인드에 앞선 값들을 flag로 받고 이를 토대로 true false로 버튼 타입 바꿔줌
+   //datePlace이 바뀌면 bind{} 파트에서 viewmodel안에 datePlace랑 timeRequire의 value.count 값을 비교해서 true false 반환토록하고, 이를  bind{} 바인드에 앞선 값들을 flag로 받고 이를 토대로 true false로 버튼 타입 바꿔줌
    var isEditMode: Bool = false
 }
 
@@ -156,13 +154,13 @@ extension AddCourseViewModel {
    }
    
    func updateTimeRequireTextField(text: String) {
-       if let doubleValue = Double(text) {
-          let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
-          String(Int(doubleValue)) : String(doubleValue)
-           timeRequire.value = "\(text) 시간"
-       } else {
-           timeRequire.value = "\(text) 시간"
-       }
+      if let doubleValue = Double(text) {
+         let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
+         String(Int(doubleValue)) : String(doubleValue)
+         timeRequire.value = "\(text) 시간"
+      } else {
+         timeRequire.value = "\(text) 시간"
+      }
    }
    
    func isAbleAddBtn() -> Bool {
