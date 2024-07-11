@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CourseListCollectionView: UICollectionView {
+class MyCourseListCollectionView: UICollectionView {
 
     // MARK: - UI Properties
     
@@ -15,12 +15,12 @@ class CourseListCollectionView: UICollectionView {
     
     // MARK: - Properties
     
-    var courseListData : [CourseListModel] = []
+    var courseListData : [MyCourseListModel] = []
     
     // MARK: - LifeCycle
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
-        let flowLayout = CourseListCollectionView.courseListCollectionViewLayout
+        let flowLayout = MyCourseListCollectionView.courseListCollectionViewLayout
         super.init(frame: frame, collectionViewLayout: flowLayout)
         
         setStyle()
@@ -32,7 +32,7 @@ class CourseListCollectionView: UICollectionView {
     
     func setStyle() {
         self.backgroundColor = UIColor(resource: .drWhite)
-        CourseListCollectionView.courseListCollectionViewLayout.do {
+        MyCourseListCollectionView.courseListCollectionViewLayout.do {
             $0.minimumLineSpacing = 0
             $0.scrollDirection = .vertical
         }

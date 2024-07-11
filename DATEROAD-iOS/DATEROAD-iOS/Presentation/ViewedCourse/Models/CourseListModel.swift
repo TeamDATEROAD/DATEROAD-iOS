@@ -1,5 +1,5 @@
 //
-//  CourseListModel.swift
+//  MyCourseListModel.swift
 //  DATEROAD-iOS
 //
 //  Created by 이수민 on 7/11/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CourseListModel {
+struct MyCourseListModel {
     let courseID: Int?
     let courseLike: Int?
     let courseThumbnail: String?

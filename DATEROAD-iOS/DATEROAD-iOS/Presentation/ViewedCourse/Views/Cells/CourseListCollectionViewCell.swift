@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class CourseListCollectionViewCell: BaseCollectionViewCell {
+class MyCourseListCollectionViewCell: BaseCollectionViewCell {
 
     // MARK: - UI Properties
     
@@ -161,8 +161,8 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
 
 }
 
-extension CourseListCollectionViewCell {
-    func dataBind(_ viewedCourseData: CourseListModel, _ viewedCourseItemRow: Int?) {
+extension MyCourseListCollectionViewCell {
+    func dataBind(_ viewedCourseData: MyCourseListModel, _ viewedCourseItemRow: Int?) {
         self.courseID = viewedCourseData.courseID
         self.heartButton.setTitle("\(viewedCourseData.courseLike ?? 0)", for: .normal)
         self.thumbnailImageView.image = UIImage(resource: .secondOnboardingBG)

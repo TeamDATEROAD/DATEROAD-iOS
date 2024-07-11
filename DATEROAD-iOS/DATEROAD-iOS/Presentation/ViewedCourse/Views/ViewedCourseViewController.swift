@@ -22,11 +22,11 @@ class ViewedCourseViewController: BaseViewController {
     
     private let arrowButton = UIButton()
     
-    private var courseCollectionView = CourseListCollectionView()
+    private var courseCollectionView = MyCourseListCollectionView()
     
     // MARK: - Properties
     
-    private let viewedCourseViewModel = CourseListViewModel()
+    private let viewedCourseViewModel = MyCourseListViewModel()
     
     private lazy var viewedCourseData = viewedCourseViewModel.viewedCourseDummyData
     
@@ -115,7 +115,7 @@ class ViewedCourseViewController: BaseViewController {
 
 extension ViewedCourseViewController {
     private func register() {
-        courseCollectionView.register(CourseListCollectionViewCell.self, forCellWithReuseIdentifier: CourseListCollectionViewCell.cellIdentifier)
+        courseCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
     }
     
     private func setDelegate() {
@@ -140,7 +140,7 @@ extension ViewedCourseViewController : UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CourseListCollectionViewCell.cellIdentifier, for: indexPath) as? CourseListCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier, for: indexPath) as? MyCourseListCollectionViewCell else {
             return UICollectionViewCell()
         }
         cell.dataBind(viewedCourseData[indexPath.item], indexPath.item)

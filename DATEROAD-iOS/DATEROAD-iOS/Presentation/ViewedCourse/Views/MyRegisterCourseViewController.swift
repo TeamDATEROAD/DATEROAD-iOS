@@ -14,11 +14,11 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
 
     // MARK: - UI Properties
     
-    private var courseCollectionView = CourseListCollectionView()
+    private var courseCollectionView = MyCourseListCollectionView()
     
     // MARK: - Properties
     
-    private let myRegisterCourseViewModel = CourseListViewModel()
+    private let myRegisterCourseViewModel = MyCourseListViewModel()
     
     private lazy var myRegisterCourseData = myRegisterCourseViewModel.myRegisterCourseDummyData
     
@@ -60,7 +60,7 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
 
 extension MyRegisterCourseViewController {
     private func register() {
-        courseCollectionView.register(CourseListCollectionViewCell.self, forCellWithReuseIdentifier: CourseListCollectionViewCell.cellIdentifier)
+        courseCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
     }
     
     private func setDelegate() {
@@ -85,7 +85,7 @@ extension MyRegisterCourseViewController : UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CourseListCollectionViewCell.cellIdentifier, for: indexPath) as? CourseListCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier, for: indexPath) as? MyCourseListCollectionViewCell else {
             return UICollectionViewCell()
         }
         cell.dataBind(myRegisterCourseData[indexPath.item], indexPath.item)
