@@ -18,27 +18,27 @@ class AddThirdView: BaseView {
    
    private let contentTitleLabel: UILabel = UILabel()
    
-   private let contentTextFieldPlaceHolderLabel: UILabel = UILabel()
-   
-   private let contentTextField: UITextField = UITextField()
+   let contentTextView: UITextView = UITextView()
    
    private let contentTextCountLabel: UILabel = UILabel()
    
    private let priceTitleLabel: UILabel = UILabel()
    
-   private let priceTextField: UITextField = UITextField()
+   let priceTextField: UITextField = UITextField()
    
    private let addThirdDoneBtn: UIButton = UIButton()
    
    
    // MARK: - Properties
    
+   let textViewPlaceHolder = StringLiterals.AddCourseOrSchedul.AddThirdView.contentTextFieldPlaceHolder
+   
    private let enabledButtonType: DRButtonType = EnabledButton()
    
    private let disabledButtonType: DRButtonType = DisabledButton()
    
    
-   // MARK: - Methods
+   // MARK: - Methods
    
    override func setHierarchy() {
       addSubviews (
@@ -46,13 +46,12 @@ class AddThirdView: BaseView {
       )
       container.addSubviews(
          contentTitleLabel,
-         contentTextField,
+         contentTextView,
          contentTextCountLabel,
          priceTitleLabel,
          priceTextField,
          addThirdDoneBtn
       )
-      contentTextField.addSubview(contentTextFieldPlaceHolderLabel)
    }
    
    override func setLayout() {
@@ -65,19 +64,14 @@ class AddThirdView: BaseView {
          $0.top.leading.equalToSuperview()
       }
       
-      contentTextField.snp.makeConstraints {
+      contentTextView.snp.makeConstraints {
          $0.top.equalTo(contentTitleLabel.snp.bottom).offset(12)
          $0.horizontalEdges.equalToSuperview()
          $0.height.equalTo(244)
       }
       
-      contentTextFieldPlaceHolderLabel.snp.makeConstraints {
-         $0.top.equalToSuperview().inset(14)
-         $0.leading.equalToSuperview().inset(16)
-      }
-      
       contentTextCountLabel.snp.makeConstraints {
-         $0.top.equalTo(contentTextField.snp.bottom).offset(8)
+         $0.top.equalTo(contentTextView.snp.bottom).offset(8)
          $0.trailing.equalToSuperview()
       }
       
@@ -109,24 +103,29 @@ class AddThirdView: BaseView {
          $0.text = StringLiterals.AddCourseOrSchedul.AddThirdView.contentTitleLabel
       }
       
-      [contentTextField, priceTextField].forEach {
-         $0.setLeftPadding(amount: 16)
-         $0.setRightPadding(amount: 16)
-         $0.font = .suit(.body_med_13)
-         $0.textColor = UIColor(resource: .drBlack)
+      [contentTextView, priceTextField].forEach {
          $0.layer.borderWidth = 0
          $0.layer.cornerRadius = 14
          $0.backgroundColor = UIColor(resource: .gray100)
       }
       
-      priceTextField.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedul.AddThirdView.priceTextFieldPlaceHolder, fontColor: UIColor(resource: .gray300), font: .suit(.body_med_13))
-      
-      contentTextFieldPlaceHolderLabel.do {
-         $0.setLabel(textColor: UIColor(resource: .gray300), font: .suit(.body_med_13))
-         $0.text = StringLiterals.AddCourseOrSchedul.AddThirdView.contentTextFieldPlaceHolder
+      contentTextView.do {
+         $0.text = textViewPlaceHolder
+         $0.font = .suit(.body_med_13)
+         $0.textColor = UIColor(resource: .gray300)
+         $0.textContainerInset = UIEdgeInsets(top: 14, left: 16, bottom: 14, right: 16)
+         $0.isScrollEnabled = true
          $0.textAlignment = .left
-         $0.isHidden = false
       }
+      
+      priceTextField.do {
+         $0.setLeftPadding(amount: 16)
+         $0.setRightPadding(amount: 16)
+         $0.font = .suit(.body_med_13)
+         $0.textColor = UIColor(resource: .drBlack)
+      }
+      
+      priceTextField.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedul.AddThirdView.priceTextFieldPlaceHolder, fontColor: UIColor(resource: .gray300), font: .suit(.body_med_13))
       
       contentTextCountLabel.do {
          $0.setLabel(

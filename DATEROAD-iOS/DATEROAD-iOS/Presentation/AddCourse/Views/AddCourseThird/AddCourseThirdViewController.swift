@@ -94,6 +94,36 @@ extension AddCourseThirdViewController {
          $0.delegate = self
          $0.dataSource = self
       }
+      
+      addCourseThirdView.addThirdView.contentTextView.delegate = self
+      addCourseThirdView.addThirdView.priceTextField.delegate = self
+   }
+   
+}
+
+
+extension AddCourseThirdViewController: UITextViewDelegate {
+   
+   func textViewDidBeginEditing(_ textView: UITextView) {
+      if textView.text == addCourseThirdView.addThirdView.textViewPlaceHolder {
+         textView.text = nil
+         textView.textColor = .black
+      }
+   }
+   
+   func textViewDidEndEditing(_ textView: UITextView) {
+      if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+         textView.text = addCourseThirdView.addThirdView.textViewPlaceHolder
+         textView.textColor = UIColor(resource: .gray300)
+      }
+   }
+   
+   func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+       if text == "\n" {
+           textView.resignFirstResponder()
+           return false
+       }
+       return true
    }
    
 }
