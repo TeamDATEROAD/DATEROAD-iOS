@@ -16,6 +16,8 @@ class PastDateContentView: BaseView {
     
     var pastDateCollectionView = UICollectionView(frame: .zero, collectionViewLayout: pastDateCollectionViewLayout)
     
+    var emptyView = CustomEmptyView()
+    
     // MARK: - Properties
     
     static var pastDateCollectionViewLayout = UICollectionViewFlowLayout()
@@ -25,12 +27,18 @@ class PastDateContentView: BaseView {
     // MARK: - LifeCycle
     
     override func setHierarchy() {
-        self.addSubviews(pastDateCollectionView)
+        self.addSubviews(pastDateCollectionView, emptyView)
     }
     
     override func setLayout() {
         pastDateCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        emptyView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(ScreenUtils.height * 84 / 812)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(ScreenUtils.height * 444/812)
         }
     }
     
@@ -47,6 +55,11 @@ class PastDateContentView: BaseView {
             $0.scrollDirection = .vertical
             $0.minimumLineSpacing = ScreenUtils.width * 0.0427
             $0.itemSize = CGSize(width: ScreenUtils.width * 0.9147, height: ScreenUtils.height*0.25)
+        }
+        
+        emptyView.do {
+            $0.isHidden = true
+            $0.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule), emptyTitle: StringLiterals.EmptyView.emptyPastSchedule)
         }
     }
 }

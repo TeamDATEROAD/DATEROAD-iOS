@@ -108,4 +108,9 @@ enum StringLiterals {
         static let seePastDate = "지난 데이트 보기"
         
     }
+    
+    enum EmptyView {
+        static let emptyDateSchedule = "아직 연인과의 데이트 일정을\n등록하지 않으셨나요?"
+        static let emptyPastSchedule = "지난 데이트가 없어요!"
+    }
 }

@@ -32,6 +32,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
         registerCell()
         setDelegate()
         setUIMethods()
+        setEmptyView()
     }
     
     override func setHierarchy() {
@@ -70,6 +71,12 @@ private extension UpcomingDateScheduleViewController {
         
         upcomingDateScheduleView.pastDateButton.do {
             $0.addTarget(self, action: #selector(pushToPastDateVC), for: .touchUpInside)
+        }
+    }
+    
+    func setEmptyView() {
+        if upcomingDateScheduleData.dateCards.count == 0 {
+            upcomingDateScheduleView.emptyView.isHidden = false
         }
     }
     

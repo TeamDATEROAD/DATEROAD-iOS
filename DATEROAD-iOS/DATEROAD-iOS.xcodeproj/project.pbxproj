@@ -47,7 +47,7 @@
 		745547692C3C8D3200B526F3 /* DateDetailContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745547682C3C8D3200B526F3 /* DateDetailContentView.swift */; };
 		7455476B2C3C95F900B526F3 /* PastDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7455476A2C3C95F900B526F3 /* PastDateViewController.swift */; };
 		7455476D2C3D03E100B526F3 /* PastDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7455476C2C3D03E100B526F3 /* PastDateCollectionViewCell.swift */; };
-		7455476F2C3D0A6300B526F3 /* PastDateCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7455476E2C3D0A6300B526F3 /* PastDateCollectionView.swift */; };
+		7455476F2C3D0A6300B526F3 /* PastDateContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7455476E2C3D0A6300B526F3 /* PastDateContentView.swift */; };
 		745547712C3D12CD00B526F3 /* PastDateDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745547702C3D12CD00B526F3 /* PastDateDetailViewController.swift */; };
 		747819392C3A93760040D5E7 /* CourseCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747819382C3A93760040D5E7 /* CourseCollectionView.swift */; };
 		7478193E2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193D2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift */; };
@@ -178,7 +178,7 @@
 		745547682C3C8D3200B526F3 /* DateDetailContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDetailContentView.swift; sourceTree = "<group>"; };
 		7455476A2C3C95F900B526F3 /* PastDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastDateViewController.swift; sourceTree = "<group>"; };
 		7455476C2C3D03E100B526F3 /* PastDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastDateCollectionViewCell.swift; sourceTree = "<group>"; };
-		7455476E2C3D0A6300B526F3 /* PastDateCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastDateCollectionView.swift; sourceTree = "<group>"; };
+		7455476E2C3D0A6300B526F3 /* PastDateContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastDateContentView.swift; sourceTree = "<group>"; };
 		745547702C3D12CD00B526F3 /* PastDateDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastDateDetailViewController.swift; sourceTree = "<group>"; };
 		747819382C3A93760040D5E7 /* CourseCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCollectionView.swift; sourceTree = "<group>"; };
 		7478193D2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -478,7 +478,7 @@
 				7455476A2C3C95F900B526F3 /* PastDateViewController.swift */,
 				745547702C3D12CD00B526F3 /* PastDateDetailViewController.swift */,
 				745547602C3C4CAC00B526F3 /* UpcomingDateScheduleView.swift */,
-				7455476E2C3D0A6300B526F3 /* PastDateCollectionView.swift */,
+				7455476E2C3D0A6300B526F3 /* PastDateContentView.swift */,
 				745547682C3C8D3200B526F3 /* DateDetailContentView.swift */,
 				7455475C2C3C2A9A00B526F3 /* UpcomingDateDetailViewController.swift */,
 			);
@@ -1131,7 +1131,7 @@
 				0DF905C82C39402A0072EE65 /* Int+.swift in Sources */,
 				0DF905C22C39294A0072EE65 /* MainContents.swift in Sources */,
 				CA3D0D182C29AA7A00735097 /* UITextField+.swift in Sources */,
-				7455476F2C3D0A6300B526F3 /* PastDateCollectionView.swift in Sources */,
+				7455476F2C3D0A6300B526F3 /* PastDateContentView.swift in Sources */,
 				0DF905C62C3929A30072EE65 /* InfoContents.swift in Sources */,
 				745547552C3B8A0B00B526F3 /* DateScheduleViewModel.swift in Sources */,
 				0DF905CC2C3ABAC30072EE65 /* GradientView.swift in Sources */,
