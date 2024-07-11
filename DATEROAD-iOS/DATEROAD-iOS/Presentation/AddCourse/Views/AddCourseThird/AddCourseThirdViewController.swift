@@ -41,10 +41,10 @@ class AddCourseThirdViewController: BaseNavBarViewController {
       setStyle()
       setTitleLabelStyle(title: StringLiterals.AddCourseOrSchedul.addCourseTitle, alignment: .center)
       setLeftBackButton()
-//      setAddTarget()
+      //      setAddTarget()
       setDelegate()
       registerCell()
-//      bindViewModel()
+      //      bindViewModel()
       setupKeyboardDismissRecognizer()
    }
    
@@ -64,14 +64,13 @@ class AddCourseThirdViewController: BaseNavBarViewController {
       addCourseThirdView.snp.makeConstraints {
          $0.top.equalToSuperview().offset(4)
          $0.horizontalEdges.equalToSuperview()
-         $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
+         $0.bottom.equalToSuperview()
       }
    }
    
    override func setStyle() {
       super.setStyle()
       
-      //3으로 변경 예정
       addCourseThirdView.do {
          $0.isUserInteractionEnabled = true
       }
@@ -115,11 +114,8 @@ extension AddCourseThirdViewController: UITextFieldDelegate {
    }
    
    func textFieldDidEndEditing(_ textField: UITextField) {
-//      viewModel.datePlace.value = textField.text
       print(textField.text)
    }
-   
-   
    
 }
 
@@ -129,19 +125,19 @@ extension AddCourseThirdViewController: UITextFieldDelegate {
 extension AddCourseThirdViewController: UICollectionViewDataSource, UICollectionViewDelegate {
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-         return viewModel.getSampleImages() ? 1 : viewModel.dataSource.count
+      return viewModel.getSampleImages() ? 1 : viewModel.dataSource.count
    }
    
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier,
-            for: indexPath
-         ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
-         
-         let isImageEmpty = viewModel.isImageEmpty.value ?? true
-         isImageEmpty ? cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: nil)
-         : cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: self.viewModel.dataSource[indexPath.item])
-         
-         return cell
+      guard let cell = collectionView.dequeueReusableCell(
+         withReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier,
+         for: indexPath
+      ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
+      
+      let isImageEmpty = viewModel.isImageEmpty.value ?? true
+      isImageEmpty ? cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: nil)
+      : cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: self.viewModel.dataSource[indexPath.item])
+      
+      return cell
    }
 }

@@ -30,15 +30,19 @@ class AddThirdView: BaseView {
       addSubviews (
          container
       )
-      container.snp.makeConstraints {
-         $0.edges.equalToSuperview()
-      }
-      container.do {
-         $0.backgroundColor = .red
-      }
    }
    
    override func setLayout() {
+      container.snp.makeConstraints {
+         $0.top.bottom.equalToSuperview()
+         $0.horizontalEdges.equalToSuperview()
+         $0.height.equalTo(800)
+      }
+      
+      container.do {
+         $0.layer.borderWidth = 1
+         $0.layer.borderColor = UIColor(resource: .alertRed).cgColor
+      }
    }
    
    override func setStyle() {

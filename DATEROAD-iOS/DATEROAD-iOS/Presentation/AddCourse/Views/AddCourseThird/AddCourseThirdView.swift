@@ -36,9 +36,9 @@ final class AddCourseThirdView: BaseView {
       }
       
       scrollContentView.snp.makeConstraints {
-         $0.edges.equalTo(scrollView)
-         $0.width.equalTo(scrollView)
-         $0.height.greaterThanOrEqualToSuperview().priority(.low)
+         $0.edges.equalToSuperview()
+         $0.width.equalToSuperview()
+         $0.height.greaterThanOrEqualTo(scrollView.snp.height).priority(.low)
       }
       
       collectionView.snp.makeConstraints {
@@ -49,11 +49,18 @@ final class AddCourseThirdView: BaseView {
       addThirdView.snp.makeConstraints {
          $0.top.equalTo(collectionView.snp.bottom).offset(7)
          $0.horizontalEdges.equalToSuperview().inset(16)
-         $0.height.equalTo(1000)
+         $0.bottom.equalToSuperview()
       }
+      
    }
    
    override func setStyle() {
+      scrollView.do {
+         $0.isScrollEnabled = true
+         $0.showsVerticalScrollIndicator = false
+      }
+      
+      
       collectionView.do {
          let layout = UICollectionViewFlowLayout()
          layout.scrollDirection = .horizontal
