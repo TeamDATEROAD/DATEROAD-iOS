@@ -40,7 +40,6 @@ final class CourseViewController: BaseViewController, LocationFilterDelegate, Co
         
         registerCell()
         setDelegate()
-        
     }
     
     override func setHierarchy() {
@@ -69,6 +68,16 @@ extension CourseViewController {
         self.courseView.courseListView.courseListCollectionView.delegate = self
         
         self.courseView.courseFilterView.delegate = self
+        self.courseView.courseFilterView.resetButton.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
+    }
+    
+    @objc
+    func didTapResetButton() {
+        courseViewModel.fetchPriceData()
+        courseView.courseFilterView.priceCollectionView.reloadData()
+        
+        courseViewModel.resetSelections()
+        courseView.courseFilterView.locationFilterButton.setTitle("지역", for: .normal)
     }
     
     @objc
@@ -86,6 +95,7 @@ extension CourseViewController {
         // 현재 버튼이 선택되었다면 selectedButton으로 비활성화되었다면 nil로 설정
         selectedButton = sender.isSelected ? sender : nil
     }
+    
     
     func didTapLocationFilter() {
         let locationFilterVC = LocationFilterViewController()

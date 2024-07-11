@@ -17,6 +17,7 @@ final class CourseViewModel {
     
     var cityData = [LocationModel.City]()
     
+    
     var selectedCountryIndex: Int? {
         didSet {
             updateCityData()
@@ -33,6 +34,12 @@ final class CourseViewModel {
         }
     }
     
+    var selectedPriceIndex: Int? {
+        didSet {
+            didUpdateSelectedPriceIndex?(selectedPriceIndex)
+        }
+    }
+    
     var isApplyButtonEnabled: Bool = false {
         didSet {
             didUpdateApplyButtonState?(isApplyButtonEnabled)
@@ -45,17 +52,36 @@ final class CourseViewModel {
     
     var didUpdateSelectedCityIndex: ((Int?) -> Void)?
     
+    var didUpdateSelectedPriceIndex: ((Int?) -> Void)?
+    
     var didUpdateApplyButtonState: ((Bool) -> Void)?
     
     init() {
         fetchPriceData()
+        setupInitialSelection()
     }
     
-
+    
     // MARK: - Methods
+    func setupInitialSelection() {
+        selectedCountryIndex = 0 // 초기 선택 설정
+        selectedPriceIndex = 0 // 가격 초기 선택
+    }
+    
+    
+    func resetSelections() {
+        selectedCountryIndex = nil
+        selectedCityIndex = nil
+        selectedPriceIndex = nil
+        updateCityData()
+    }
     
     private func updateCityData() {
-        guard let selectedCountryIndex = selectedCountryIndex else { return }
+        guard let selectedCountryIndex = selectedCountryIndex else {
+            cityData.removeAll()
+            didUpdateCityData?()
+            return
+        }
         let selectedCountry = countryData[selectedCountryIndex]
         cityData = selectedCountry.cities
         didUpdateCityData?()
@@ -65,9 +91,6 @@ final class CourseViewModel {
         isApplyButtonEnabled = selectedCityIndex != nil
     }
     
-    func setupInitialSelection() {
-        selectedCountryIndex = 0
-    }
     
     
 }

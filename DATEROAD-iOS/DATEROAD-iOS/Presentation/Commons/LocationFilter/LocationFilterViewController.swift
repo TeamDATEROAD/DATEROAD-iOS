@@ -277,7 +277,6 @@ extension LocationFilterViewController: UICollectionViewDataSource {
         } else if let cityCell = cell as? CityLabelCollectionViewCell {
             let city = viewModel.cityData[indexPath.item]
             let isSelected = viewModel.selectedCityIndex == indexPath.item
-            print(isSelected)
             cityCell.configure(with: city, isSelected: isSelected)
         }
         
