@@ -16,13 +16,13 @@ enum Price: Int, CaseIterable {
     var priceTitle: String {
         switch self {
         case .under300K:
-            return "3만원 이하"
+            return StringLiterals.Course.priceLabelUnder30K
         case .under500K:
-            return "5만원 이하"
+            return StringLiterals.Course.priceLabelUnder50K
         case .under100K:
-            return "10만원 이하"
+            return StringLiterals.Course.priceLabelUnder100K
         case .over100K:
-            return "10만원 초과"
+            return StringLiterals.Course.priceLabelOver100K
             
         }
     }
