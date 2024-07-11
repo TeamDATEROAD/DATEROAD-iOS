@@ -99,7 +99,7 @@ enum StringLiterals {
          static let contentTextCountLabel = "0자 / 200자 이상"
          static let priceTitleLabel = "총 비용을 입력해 주세요"
          static let priceTextFieldPlaceHolder = "데이트 예상 총 비용을 숫자로만 입력해 주세요"
-         static let addThirdDoneBtnOfSchedul = "완료"
+         static let addThirdDoneBtn = "완료"
       }
       
       enum AddCourseAlert {
