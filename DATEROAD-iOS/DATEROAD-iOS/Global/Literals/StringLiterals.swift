@@ -94,6 +94,27 @@ enum StringLiterals {
         static let withdrawal = "탈퇴하기"
     }
     
+    enum PointSystem {
+        static let pointSystem = "포인트 제도 소개"
+        static let subTitle = "포인트는 데이트 코스를 등록하면 얻을 수 있어요."
+        static let firstMainSystem = "데이트 코스를 등록하면\n포인트를 얻을 수 있어요"
+        static let firstSubSystem = "데이트 코스를 자랑하고 포인트를 받아보세요."
+        static let secondMainSystem = "처음 3번은 무료로\n데이트 코스를 열람할 수 있어요"
+        static let secondSubSystem = "무료 찬스를 사용해 다른 데이트를 열람하세요."
+        static let thirdMainSystem = "쌓인 포인트로\n다양한 데이트 코스를 둘러보세요"
+        static let thirdSubSystem = "다른 커플들의 데이트, 궁금하지 않으신가요?"
+        static let fourthMainSystem = "모인 포인트는 데이트 장소를\n예약할 때 현금처럼 사용 가능해요"
+        static let fourthSubSystem = "추후 만들어질 기능을 기대해주세요!"
+    }
+    
+    enum DateSchedule {
+        static let kakaoShare = "카카오톡으로 공유하기"
+        static let courseShare = "데이트 코스 올리고 50P 받기"
+        static let upcomingDate = "데이트 일정"
+        static let pastDate = "지난 데이트"
+        static let seePastDate = "지난 데이트 보기"
+        
+    }
     enum Common {
         static let cancel = "취소"
     }
