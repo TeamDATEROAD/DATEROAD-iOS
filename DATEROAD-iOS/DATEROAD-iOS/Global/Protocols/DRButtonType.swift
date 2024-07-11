@@ -41,11 +41,11 @@ extension DRButtonType {
 
 struct NextButton: DRButtonType {
     
-    var bgColor: UIColor =  UIColor(resource: .drWhite)
+    var bgColor: UIColor =  UIColor(resource: .deepPurple)
     
-    var fontColor: UIColor = UIColor(resource: .deepPurple)
+    var fontColor: UIColor = UIColor(resource: .drWhite)
     
-    var borderWidth: CGFloat = 1
+    var cornerRadius: CGFloat = ScreenUtils.height / 812 * 29
 
 }
 
@@ -128,4 +128,40 @@ struct TagButton: DRButtonType {
     var cornerRadius: CGFloat = 15
         
     var borderWidth: CGFloat = 0
+}
+
+struct DateScheduleTagButton: DRButtonType {
+    
+    var bgColor: UIColor =  UIColor(resource: .lightPink)
+    
+    var fontColor: UIColor = UIColor(resource: .drBlack)
+    
+    var font: UIFont = UIFont.suit(.body_semi_15)
+    
+    var cornerRadius: CGFloat = 15
+
+}
+
+struct DateDetailTagButton: DRButtonType {
+    
+    var bgColor: UIColor =  UIColor(resource: .lightPink)
+    
+    var fontColor: UIColor = UIColor(resource: .drBlack)
+    
+    var font: UIFont = UIFont.suit(.body_med_13)
+    
+    var cornerRadius: CGFloat = 16
+
+}
+
+struct PastDateScheduleTagButton: DRButtonType {
+    
+    var bgColor: UIColor =  UIColor(resource: .lightPink)
+    
+    var fontColor: UIColor = UIColor(resource: .drBlack)
+    
+    var font: UIFont = UIFont.suit(.body_semi_13)
+    
+    var cornerRadius: CGFloat = 14
+
 }
