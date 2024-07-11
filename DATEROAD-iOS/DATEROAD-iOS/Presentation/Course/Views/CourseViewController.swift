@@ -40,6 +40,7 @@ final class CourseViewController: BaseViewController, LocationFilterDelegate, Co
         
         registerCell()
         setDelegate()
+        bindViewModel()
     }
     
     override func setHierarchy() {
@@ -55,7 +56,12 @@ final class CourseViewController: BaseViewController, LocationFilterDelegate, Co
 }
 
 extension CourseViewController {
-    
+    func bindViewModel() {
+        self.courseViewModel.selectedPriceIndex.bind { [weak self] index in
+            self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
+        }
+        
+    }
     func registerCell() {
         self.courseView.courseFilterView.priceCollectionView.register(PriceButtonCollectionViewCell.self, forCellWithReuseIdentifier: PriceButtonCollectionViewCell.cellIdentifier)
         self.courseView.courseListView.courseListCollectionView.register(CourseListCollectionViewCell.self, forCellWithReuseIdentifier: CourseListCollectionViewCell.cellIdentifier)
@@ -95,7 +101,7 @@ extension CourseViewController {
         // 현재 버튼이 선택되었다면 selectedButton으로 비활성화되었다면 nil로 설정
         selectedButton = sender.isSelected ? sender : nil
     }
-
+    
     func isCellEmpty(cellCount: Int) {
         if cellCount == 0 {
             self.courseView.courseListView.courseListCollectionView.isHidden = true

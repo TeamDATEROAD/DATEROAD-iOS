@@ -36,7 +36,7 @@ class LocationFilterViewController: BaseViewController {
     
     // MARK: - Properties
     
-    private let viewModel = CourseViewModel()
+    private let courseViewModel = CourseViewModel()
     
     weak var delegate: LocationFilterDelegate?
     
@@ -52,7 +52,6 @@ class LocationFilterViewController: BaseViewController {
         register()
         setDelegate()
         bindViewModel()
-        viewModel.setupInitialSelection()
     }
     
     override func setHierarchy() {
@@ -172,10 +171,10 @@ class LocationFilterViewController: BaseViewController {
         self.dismiss(animated: false)
     }
     
-    @objc 
+    @objc
     func applyButtonTapped() {
-        guard let selectedCityIndex = viewModel.selectedCityIndex else { return }
-        let selectedCity = viewModel.cityData[selectedCityIndex]
+        guard let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
+        let selectedCity = courseViewModel.cityData[selectedCityIndex]
         delegate?.didSelectCity(selectedCity)
         closeView()
     }
@@ -187,18 +186,35 @@ class LocationFilterViewController: BaseViewController {
 
 private extension LocationFilterViewController {
     
-    private func setupInitialSelection() {
-        //기본적으로 서울 선택되어있게 초기화
-        viewModel.selectedCountryIndex = 0
-    }
-    
     private func bindViewModel() {
-        viewModel.didUpdateCityData = { [weak self] in
+        courseViewModel.didUpdateCityData = { [weak self] in
             self?.cityCollectionView.reloadData()
         }
-        viewModel.didUpdateApplyButtonState = { [weak self] isEnabled in
+        courseViewModel.didUpdateApplyButtonState = { [weak self] isEnabled in
             self?.updateApplyButtonState(isEnabled: isEnabled)
         }
+        
+        self.courseViewModel.selectedCountryIndex.bind { [weak self] index in
+            self?.courseViewModel.updateCityData()
+            self?.courseViewModel.selectedCityIndex.value = nil
+            self?.courseViewModel.didUpdateSelectedCountryIndex?(index)
+            self?.courseViewModel.updateApplyButtonState()
+        }
+        
+        self.courseViewModel.selectedCityIndex.bind { [weak self] index in
+            self?.courseViewModel.didUpdateSelectedCityIndex?(index)
+            self?.courseViewModel.updateApplyButtonState()
+            
+        }
+        
+        self.courseViewModel.selectedPriceIndex.bind {[weak self] index in
+            self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
+        }
+        
+        self.courseViewModel.isApplyButtonEnabled.bind {[weak self] isApply in
+            self?.courseViewModel.didUpdateApplyButtonState?(isApply ?? false)
+        }
+        
     }
     
     private func updateApplyButtonState(isEnabled: Bool) {
@@ -236,7 +252,7 @@ extension LocationFilterViewController: UICollectionViewDelegateFlowLayout {
             cellWidth = ((screenWidth - 50) - ( countryInset * 2 )) / 3
             cellHeight = 33
         } else if collectionView == cityCollectionView {
-            let text = viewModel.cityData[indexPath.item].rawValue
+            let text = courseViewModel.cityData[indexPath.item].rawValue
             let font = UIFont.suit(.body_med_13)
             let textWidth = text.width(withConstrainedHeight: 30, font: font)
             cellWidth = textWidth + 28
@@ -261,7 +277,7 @@ extension LocationFilterViewController: UICollectionViewDelegateFlowLayout {
 extension LocationFilterViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return collectionView == countryCollectionView ? viewModel.countryData.count : viewModel.cityData.count
+        return collectionView == countryCollectionView ? courseViewModel.countryData.count : courseViewModel.cityData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -271,12 +287,12 @@ extension LocationFilterViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
         
         if isCountryCollection, let countryCell = cell as? CountryLabelCollectionViewCell {
-            let country = viewModel.countryData[indexPath.item]
-            let isSelected = viewModel.selectedCountryIndex == indexPath.item
+            let country = courseViewModel.countryData[indexPath.item]
+            let isSelected = courseViewModel.selectedCountryIndex.value == indexPath.item
             countryCell.configure(with: country, isSelected: isSelected)
         } else if let cityCell = cell as? CityLabelCollectionViewCell {
-            let city = viewModel.cityData[indexPath.item]
-            let isSelected = viewModel.selectedCityIndex == indexPath.item
+            let city = courseViewModel.cityData[indexPath.item]
+            let isSelected = courseViewModel.selectedCityIndex.value == indexPath.item
             cityCell.configure(with: city, isSelected: isSelected)
         }
         
@@ -288,9 +304,9 @@ extension LocationFilterViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if collectionView == countryCollectionView {
-            viewModel.selectedCountryIndex = indexPath.item
+            courseViewModel.selectedCountryIndex.value = indexPath.item
         } else if collectionView == cityCollectionView {
-            viewModel.selectedCityIndex = indexPath.item
+            courseViewModel.selectedCityIndex.value = indexPath.item
         }
         
         collectionView.reloadData()

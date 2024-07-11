@@ -17,34 +17,13 @@ final class CourseViewModel {
     
     var cityData = [LocationModel.City]()
     
+    var selectedCountryIndex: ObservablePattern<Int> = ObservablePattern(0)
     
-    var selectedCountryIndex: Int? {
-        didSet {
-            updateCityData()
-            selectedCityIndex = nil
-            didUpdateSelectedCountryIndex?(selectedCountryIndex)
-            updateApplyButtonState()
-        }
-    }
+    var selectedCityIndex: ObservablePattern<Int>  = ObservablePattern(nil)
     
-    var selectedCityIndex: Int? {
-        didSet {
-            didUpdateSelectedCityIndex?(selectedCityIndex)
-            updateApplyButtonState()
-        }
-    }
+    var selectedPriceIndex: ObservablePattern<Int> = ObservablePattern(nil)
     
-    var selectedPriceIndex: Int? {
-        didSet {
-            didUpdateSelectedPriceIndex?(selectedPriceIndex)
-        }
-    }
-    
-    var isApplyButtonEnabled: Bool = false {
-        didSet {
-            didUpdateApplyButtonState?(isApplyButtonEnabled)
-        }
-    }
+    var isApplyButtonEnabled: ObservablePattern<Bool> = ObservablePattern(false)
     
     var didUpdateCityData: (() -> Void)?
     
@@ -58,26 +37,18 @@ final class CourseViewModel {
     
     init() {
         fetchPriceData()
-        setupInitialSelection()
-    }
-    
-    
-    // MARK: - Methods
-    func setupInitialSelection() {
-        selectedCountryIndex = 0 // 초기 선택 설정
-        selectedPriceIndex = 0 // 가격 초기 선택
     }
     
     
     func resetSelections() {
-        selectedCountryIndex = nil
-        selectedCityIndex = nil
-        selectedPriceIndex = nil
+        selectedCountryIndex.value = nil
+        selectedCityIndex.value = nil
+        selectedPriceIndex.value = nil
         updateCityData()
     }
     
-    private func updateCityData() {
-        guard let selectedCountryIndex = selectedCountryIndex else {
+    func updateCityData() {
+        guard let selectedCountryIndex = selectedCountryIndex.value else {
             cityData.removeAll()
             didUpdateCityData?()
             return
@@ -87,10 +58,9 @@ final class CourseViewModel {
         didUpdateCityData?()
     }
     
-    private func updateApplyButtonState() {
-        isApplyButtonEnabled = selectedCityIndex != nil
+    func updateApplyButtonState() {
+        isApplyButtonEnabled.value = selectedCityIndex.value != nil
     }
-    
     
     
 }
