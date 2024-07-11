@@ -17,7 +17,7 @@ final class PointCollectionView: UICollectionView {
     
     // MARK: - Properties
     
-    private var pointData: [PointModel] = []
+    private var pointData: [PointDetailModel] = []
     
     // MARK: - LifeCycle
     
@@ -25,9 +25,7 @@ final class PointCollectionView: UICollectionView {
         let flowLayout = PointCollectionView.pointCollectionViewLayout
         super.init(frame: frame, collectionViewLayout: flowLayout)
         self.backgroundColor = .black
-        register()
-        setDelegate()
-        setStyle()
+
     }
     
     required init?(coder: NSCoder) {
@@ -44,45 +42,3 @@ final class PointCollectionView: UICollectionView {
     }
 
 }
-
-
-// MARK: - CollectionView Methods
-
-extension PointCollectionView {
-    private func register() {
-        self.register(PointCollectionViewCell.self, forCellWithReuseIdentifier: PointCollectionViewCell.cellIdentifier)
-    }
-    
-    private func setDelegate() {
-        self.delegate = self
-        self.dataSource = self
-    }
-
-    func setUpBindings(pointData : [PointModel]) {
-        self.pointData = pointData
-    }
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout
-
-extension PointCollectionView : UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: ScreenUtils.width, height: 86)
-    }
-}
-
-// MARK: - UICollectionViewDataSource
-
-extension PointCollectionView : UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return pointData.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PointCollectionViewCell.cellIdentifier, for: indexPath) as? PointCollectionViewCell else { return UICollectionViewCell() }
-        cell.dataBind(pointData[indexPath.item], indexPath.item)
-        return cell
-    }
-}
-
