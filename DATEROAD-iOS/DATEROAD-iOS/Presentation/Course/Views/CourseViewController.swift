@@ -95,7 +95,18 @@ extension CourseViewController {
         // 현재 버튼이 선택되었다면 selectedButton으로 비활성화되었다면 nil로 설정
         selectedButton = sender.isSelected ? sender : nil
     }
-    
+
+    func isCellEmpty(cellCount: Int) {
+        if cellCount == 0 {
+            self.courseView.courseListView.courseListCollectionView.isHidden = true
+            self.courseView.courseListView.courseEmptyImageView.isHidden = false
+            self.courseView.courseListView.courseEmptyLabel.isHidden = false
+        } else {
+            self.courseView.courseListView.courseListCollectionView.isHidden = false
+            self.courseView.courseListView.courseEmptyImageView.isHidden = true
+            self.courseView.courseListView.courseEmptyLabel.isHidden = true
+        }
+    }
     
     func didTapLocationFilter() {
         let locationFilterVC = LocationFilterViewController()
@@ -149,7 +160,8 @@ extension CourseViewController: UICollectionViewDelegateFlowLayout {
 extension CourseViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
+        //엠티뷰 분기 처리
+        isCellEmpty(cellCount: self.courseListModel.count)
         return collectionView == courseView.courseFilterView.priceCollectionView ? self.courseViewModel.priceData.count : self.courseListModel.count
     }
     

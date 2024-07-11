@@ -14,9 +14,9 @@ class CourseListView: BaseView {
     
     // MARK: - UI Properties
     
-    private let courseEmptyImageView = UIImageView(image: .imgCourseEmpty)
+    let courseEmptyImageView = UIImageView(image: .imgCourseEmpty)
     
-    private let courseEmptyLabel = UILabel()
+    let courseEmptyLabel = UILabel()
 
     let courseListCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
