@@ -86,7 +86,7 @@ private extension UpcomingDateScheduleViewController {
 extension UpcomingDateScheduleViewController: CustomAlertDelegate {
     @objc
     private func dateRegisterButtonTapped() {
-        if (upcomingDateScheduleData.dateCards.count) >= 5 {
+        if upcomingDateScheduleViewModel.isMoreThanFiveSchedule {
             let customAlertVC = CustomAlertViewController(alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.Alert.noMoreSchedule, descriptionText: StringLiterals.Alert.noMoreThanFive, longButtonText: StringLiterals.Alert.iChecked)
             customAlertVC.delegate = self
             customAlertVC.modalPresentationStyle = .overFullScreen
