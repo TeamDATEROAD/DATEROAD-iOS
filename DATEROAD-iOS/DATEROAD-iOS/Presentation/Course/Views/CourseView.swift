@@ -34,7 +34,11 @@ class CourseView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(courseNavigationBarView, courseFilterView, courseListView)
+        self.addSubviews(
+            courseNavigationBarView,
+            courseFilterView,
+            courseListView
+        )
     }
     
     override func setLayout() {

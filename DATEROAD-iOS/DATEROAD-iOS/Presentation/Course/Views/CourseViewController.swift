@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class CourseViewController: BaseViewController, LocationFilterDelegate, CourseFilterViewDelegate {
+final class CourseViewController: BaseViewController {
     
     // MARK: - UI Properties
     
@@ -114,6 +114,9 @@ extension CourseViewController {
         }
     }
     
+}
+extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate {
+    
     func didTapLocationFilter() {
         let locationFilterVC = LocationFilterViewController()
         locationFilterVC.modalPresentationStyle = .overFullScreen
@@ -125,8 +128,8 @@ extension CourseViewController {
         print("Selected city: \(city.rawValue)")
         self.courseView.courseFilterView.locationFilterButton.setTitle("\(city.rawValue)", for: .normal)
     }
-    
 }
+
 
 extension CourseViewController: UICollectionViewDelegateFlowLayout {
     

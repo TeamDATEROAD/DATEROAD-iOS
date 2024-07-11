@@ -36,8 +36,6 @@ class CourseListView: BaseView {
     }
     
     override func setLayout() {
-        courseListCollectionView.showsVerticalScrollIndicator = false
-        courseListCollectionView.showsHorizontalScrollIndicator = false
         
         courseEmptyImageView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(24)
@@ -58,10 +56,13 @@ class CourseListView: BaseView {
     }
     
     override func setStyle() {
+        courseListCollectionView.showsVerticalScrollIndicator = false
+        courseListCollectionView.showsHorizontalScrollIndicator = false
+        
         courseEmptyImageView.isHidden = true
-        courseEmptyLabel.isHidden = true
         
         courseEmptyLabel.do {
+            $0.isHidden = true
             $0.text = StringLiterals.Course.isCourseEmpty
             $0.textColor = UIColor(resource: .gray500)
             $0.font = UIFont.suit(.title_bold_18)
