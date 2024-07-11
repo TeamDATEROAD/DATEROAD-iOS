@@ -43,6 +43,7 @@ enum StringLiterals {
         static let viewedCourse = "열람한 코스"
         static let myPage = "마이페이지"
     }
+    
 	enum CourseDetail {
         static let timelineInfoLabel = "코스 타임라인"
         static let coastInfoLabel = "총 비용"
@@ -98,6 +99,20 @@ enum StringLiterals {
         static let thirdSubSystem = "다른 커플들의 데이트, 궁금하지 않으신가요?"
         static let fourthMainSystem = "모인 포인트는 데이트 장소를\n예약할 때 현금처럼 사용 가능해요"
         static let fourthSubSystem = "추후 만들어질 기능을 기대해주세요!"
+    }
+    
+    enum Common {
+        static let header = "header"
+    }
+    
+    enum Main {
+        static let hotDateTitle = "님, 오늘은\n이런 데이트 어떠세요?"
+        static let hotDateSub = "후기 보장 HOT 데이트 코스 둘러보기"
+        static let viewMore = "더보기"
+        static let newDateTitle = "새로 올라왔어요"
+        static let newDateSub = "가장 최근에 올라온 코스 보러가기"
+        static let emptyDateTitle = "다가오는 데이트 일정이 없어요"
+        static let emptyDateSub = "일정을 등록하러 가볼까요?"
     }
     
 }

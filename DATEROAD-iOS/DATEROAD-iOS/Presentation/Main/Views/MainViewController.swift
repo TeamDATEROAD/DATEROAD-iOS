@@ -100,6 +100,7 @@ extension MainViewController: UICollectionViewDataSource {
             return cell
         case .hotDateCourse:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell else { return UICollectionViewCell() }
+            cell.bindData(hotDateData: mainViewModel.hotCourseData.value?[indexPath.row])
             return cell
         case .banner:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell else { return UICollectionViewCell() }
