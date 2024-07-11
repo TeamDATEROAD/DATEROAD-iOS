@@ -29,7 +29,7 @@ class AddCourseSecondViewController: BaseNavBarViewController {
       setHierarchy()
       setLayout()
       setStyle()
-      setTitleLabelStyle(title: StringLiterals.AddCourseOrSchedul.addCourseTitle)
+      setTitleLabelStyle(title: StringLiterals.AddCourseOrSchedul.addCourseTitle, alignment: .center)
       setLeftBackButton()
       setAddTarget()
       setDelegate()
