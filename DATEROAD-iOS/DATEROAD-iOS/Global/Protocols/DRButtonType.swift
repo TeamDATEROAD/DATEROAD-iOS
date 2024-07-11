@@ -41,11 +41,11 @@ extension DRButtonType {
 
 struct NextButton: DRButtonType {
     
-    var bgColor: UIColor =  UIColor(resource: .drWhite)
+    var bgColor: UIColor =  UIColor(resource: .deepPurple)
     
-    var fontColor: UIColor = UIColor(resource: .deepPurple)
+    var fontColor: UIColor = UIColor(resource: .drWhite)
     
-    var borderWidth: CGFloat = 1
+    var cornerRadius: CGFloat = ScreenUtils.height / 812 * 29
 
 }
 
