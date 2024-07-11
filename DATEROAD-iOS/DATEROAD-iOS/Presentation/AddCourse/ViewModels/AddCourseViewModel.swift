@@ -134,7 +134,7 @@ extension AddCourseViewModel {
    }
    
    func getSampleImages() -> Bool {
-      var t = (1...9).map { _ in
+      let t = (1...9).map { _ in
          UIImage(resource: .test)
       }
       

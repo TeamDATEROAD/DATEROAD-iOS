@@ -158,7 +158,7 @@ extension AddCourseFirstViewController: UITextFieldDelegate {
    
    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
       textField.resignFirstResponder()
-      textField.tintColor = UIColor.clear
+//      textField.tintColor = UIColor.clear
       return true
    }
    

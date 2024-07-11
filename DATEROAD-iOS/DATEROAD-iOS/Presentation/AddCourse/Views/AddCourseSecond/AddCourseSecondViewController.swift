@@ -282,7 +282,7 @@ extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectio
          
          return viewModel.getSampleImages() ? 1 : viewModel.dataSource.count
       } else {
-         let isEmpty = (viewModel.addPlaceCollectionViewDataSource.count) < 1 ? true : false
+         _ = (viewModel.addPlaceCollectionViewDataSource.count) < 1 ? true : false
          
          return viewModel.addPlaceCollectionViewDataSource.count
       }
