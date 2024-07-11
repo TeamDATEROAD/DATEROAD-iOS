@@ -12,6 +12,8 @@ protocol DRButtonType {
     var bgColor: UIColor { get }
     
     var fontColor: UIColor { get }
+    
+    var borderColor: CGColor { get }
         
     var borderWidth: CGFloat { get }
         
@@ -25,6 +27,8 @@ protocol DRButtonType {
 extension DRButtonType {
         
     var fontColor: UIColor { return UIColor(resource: .drBlack) }
+    
+    var borderColor: CGColor { return UIColor(resource: .deepPurple).cgColor }
         
     var borderWidth: CGFloat { return 0 }
         
@@ -58,6 +62,8 @@ struct EnabledButton: DRButtonType {
 struct DisabledButton: DRButtonType {
     
     var bgColor: UIColor = UIColor(resource: .gray200)
+    
+    var borderColor: UIColor = UIColor(resource: .gray200)
     
     var fontColor: UIColor = UIColor(resource: .gray400)
             
@@ -103,6 +109,54 @@ struct SelectedButton : DRButtonType {
         
     var borderWidth: CGFloat = 0
 
+}
+
+struct TagButton: DRButtonType {
+    
+    var bgColor: UIColor = UIColor(resource: .drWhite)
+    
+    var font: UIFont = UIFont.suit(.body_med_13)
+    
+    var isEnabled: Bool = false
+    
+    var cornerRadius: CGFloat = 15
+        
+    var borderWidth: CGFloat = 0
+}
+
+struct DateScheduleTagButton: DRButtonType {
+    
+    var bgColor: UIColor =  UIColor(resource: .lightPink)
+    
+    var fontColor: UIColor = UIColor(resource: .drBlack)
+    
+    var font: UIFont = UIFont.suit(.body_semi_15)
+    
+    var cornerRadius: CGFloat = 15
+
+}
+
+struct DateDetailTagButton: DRButtonType {
+    
+    var bgColor: UIColor =  UIColor(resource: .lightPink)
+    
+    var fontColor: UIColor = UIColor(resource: .drBlack)
+    
+    var font: UIFont = UIFont.suit(.body_med_13)
+    
+    var cornerRadius: CGFloat = 16
+
+}
+
+struct PastDateScheduleTagButton: DRButtonType {
+    
+    var bgColor: UIColor =  UIColor(resource: .lightPink)
+    
+    var fontColor: UIColor = UIColor(resource: .drBlack)
+    
+    var font: UIFont = UIFont.suit(.body_semi_13)
+    
+    var cornerRadius: CGFloat = 14
 }
 
 struct addCoursePlaceAbledButton: DRButtonType {

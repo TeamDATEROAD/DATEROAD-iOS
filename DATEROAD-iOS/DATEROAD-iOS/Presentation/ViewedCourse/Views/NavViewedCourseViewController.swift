@@ -28,7 +28,7 @@ class NavViewedCourseViewController: BaseNavBarViewController {
         super.viewDidLoad()
         
         setLeftBackButton()
-        setTitleLabelStyle(title: "내가 등록한 코스")
+        setTitleLabelStyle(title: "내가 등록한 코스", alignment: .center)
         // Do any additional setup after loading the view.
     }
     

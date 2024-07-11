@@ -32,7 +32,7 @@ extension UIButton {
         self.backgroundColor = buttonType.bgColor
         self.setTitleColor(buttonType.fontColor, for: .normal)
         self.layer.borderWidth = buttonType.borderWidth
-        self.layer.borderColor = UIColor(resource: .deepPurple).cgColor
+        self.layer.borderColor = buttonType.borderColor
         self.isEnabled = buttonType.isEnabled
         self.layer.cornerRadius = buttonType.cornerRadius
         self.clipsToBounds = true
