@@ -16,11 +16,6 @@ final class BannerCell: BaseCollectionViewCell {
     let indexLabel: DRPaddingLabel = DRPaddingLabel()
 
     
-    // MARK: - Properties
-    
-
-    
-    
     // MARK: - Life Cycle
     
     override func setHierarchy() {
@@ -49,7 +44,6 @@ final class BannerCell: BaseCollectionViewCell {
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFill
             $0.isPagingEnabled = true            
-//            $0.isScrollEnabled = true
             $0.contentInsetAdjustmentBehavior = .never
             $0.showsHorizontalScrollIndicator = false
             $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])

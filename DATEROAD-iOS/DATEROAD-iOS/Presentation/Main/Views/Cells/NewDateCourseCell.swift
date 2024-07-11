@@ -66,7 +66,6 @@ final class NewDateCourseCell: BaseCollectionViewCell {
         countryLabel.snp.makeConstraints {
             $0.leading.equalTo(courseImage.snp.trailing).offset(15)
             $0.top.equalTo(courseImage).inset(9)
-//            $0.height.equalTo(26)
         }
         
         likeView.snp.makeConstraints {

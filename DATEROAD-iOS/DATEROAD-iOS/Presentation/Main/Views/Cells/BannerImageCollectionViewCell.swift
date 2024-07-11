@@ -37,19 +37,19 @@ final class BannerImageCollectionViewCell: BaseCollectionViewCell {
         
         tagLabel.snp.makeConstraints {
             $0.top.leading.equalTo(bannerImage).inset(13)
-            $0.height.equalTo(22
-            )
+            $0.height.equalTo(22)
         }
         
         titleView.snp.makeConstraints {
-            $0.centerY.equalTo(bannerImage).inset(13)
-            $0.horizontalEdges.equalTo(bannerImage).inset(13)
+            $0.centerY.equalTo(bannerImage)
+            $0.leading.equalTo(bannerImage).inset(13)
+            $0.width.equalTo(176)
             $0.height.equalTo(42)
         }
         
         titleLabel.snp.makeConstraints {
             $0.horizontalEdges.equalTo(titleView)
-            $0.centerY.equalTo(titleView)
+            $0.top.equalTo(titleView)
         }
 
     }
