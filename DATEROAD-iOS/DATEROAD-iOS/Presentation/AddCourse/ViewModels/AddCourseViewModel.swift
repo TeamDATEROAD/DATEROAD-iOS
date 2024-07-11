@@ -45,7 +45,7 @@ final class AddCourseViewModel {
    
    //MARK: - AddSecondView 전용 Viewmodel 변수
    
-   var tableViewDataSource: [AddCoursePlaceModel] = []
+   var addPlaceCollectionViewDataSource: [AddCoursePlaceModel] = []
    
    var changeTableViewData: ObservablePattern<Int> = ObservablePattern(0)
    
@@ -64,7 +64,7 @@ final class AddCourseViewModel {
 extension AddCourseViewModel {
    
    func fetchTableViewData() {
-      tableViewDataSource.append(contentsOf: [
+      addPlaceCollectionViewDataSource.append(contentsOf: [
          AddCoursePlaceModel(placeTitle: "경북궁",timeRequire: "2시간"),
          AddCoursePlaceModel(placeTitle: "숭례문", timeRequire: "1시간"),
          AddCoursePlaceModel(placeTitle: "남대문", timeRequire: "3시간"),
@@ -150,7 +150,7 @@ extension AddCourseViewModel {
    //MARK: - AddSecondView 전용 func
    
    func updatePlaceCollectionView() {
-      print(tableViewDataSource)
+      print(addPlaceCollectionViewDataSource)
    }
    
    func updateTimeRequireTextField(text: String) {
@@ -174,7 +174,7 @@ extension AddCourseViewModel {
    
    func tapAddBtn(datePlace: String, timeRequire: String) {
       print(datePlace, timeRequire)
-      tableViewDataSource.append(AddCoursePlaceModel(placeTitle: datePlace, timeRequire: timeRequire))
+      addPlaceCollectionViewDataSource.append(AddCoursePlaceModel(placeTitle: datePlace, timeRequire: timeRequire))
       
       //viewmodel 값 초기화
       self.datePlace.value = ""
@@ -184,14 +184,14 @@ extension AddCourseViewModel {
    
    /// dataSource 개수 >= 2 라면 (다음 2/3) 버튼 활성화
    func isSourceMoreThanOne() {
-      let flag = (tableViewDataSource.count >= 2) ? true : false
-      print("지금 데이터소스 개수 : \(tableViewDataSource.count)\nflag: \(flag)")
+      let flag = (addPlaceCollectionViewDataSource.count >= 2) ? true : false
+      print("지금 데이터소스 개수 : \(addPlaceCollectionViewDataSource.count)\nflag: \(flag)")
       isValidOfSecondNextBtn.value = flag
    }
    
    /// 데이터 0개면 true 반환
    func isDataSourceNotEmpty() {
-      let flag = (tableViewDataSource.count >= 1) ? true : false
+      let flag = (addPlaceCollectionViewDataSource.count >= 1) ? true : false
       editBtnEnableState.value = flag
    }
    

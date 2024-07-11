@@ -120,7 +120,7 @@ extension AddCourseSecondViewController {
       }
       
       self.viewModel.isChange = { [weak self] in
-         print(self?.viewModel.tableViewDataSource ?? "")
+         print(self?.viewModel.addPlaceCollectionViewDataSource ?? "")
          self?.viewModel.isDataSourceNotEmpty()
          
          let state = self?.viewModel.editBtnEnableState.value ?? false
@@ -164,7 +164,7 @@ extension AddCourseSecondViewController {
    
    @objc
    private func didTapNextBtn() {
-      print("지금 장소 등록된 값 : ", viewModel.tableViewDataSource)
+      print("지금 장소 등록된 값 : ", viewModel.addPlaceCollectionViewDataSource)
       
       // 화면 전환 구현해야 함.
       //let vc = AddCourseThirdViewController()
@@ -176,12 +176,12 @@ extension AddCourseSecondViewController {
       guard let cell = sender.superview?.superview as? AddSecondViewCollectionViewCell,
             let indexPath = addCourseSecondView.collectionView2.indexPath(for: cell) else { return }
       
-      viewModel.tableViewDataSource.remove(at: indexPath.item)
+      viewModel.addPlaceCollectionViewDataSource.remove(at: indexPath.item)
       addCourseSecondView.collectionView2.deleteItems(at: [indexPath])
       viewModel.isSourceMoreThanOne()
       
       //여기서 datasource가 1개 미만이면
-      let dataSourceCnt = viewModel.tableViewDataSource.count
+      let dataSourceCnt = viewModel.addPlaceCollectionViewDataSource.count
       if dataSourceCnt < 1 {
          cell.updateEditMode(flag: false)
          addCourseSecondView.updateEditBtnText(flag: false)
@@ -283,9 +283,9 @@ extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectio
          
          return viewModel.getSampleImages() ? 1 : viewModel.dataSource.count
       } else {
-         let isEmpty = (viewModel.tableViewDataSource.count) < 1 ? true : false
+         let isEmpty = (viewModel.addPlaceCollectionViewDataSource.count) < 1 ? true : false
          
-         return viewModel.tableViewDataSource.count
+         return viewModel.addPlaceCollectionViewDataSource.count
       }
    }
    
@@ -307,7 +307,7 @@ extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectio
             for: indexPath
          ) as? AddSecondViewCollectionViewCell else { return UICollectionViewCell() }
          
-         cell.configure(model: viewModel.tableViewDataSource[indexPath.item])
+         cell.configure(model: viewModel.addPlaceCollectionViewDataSource[indexPath.item])
          cell.updateEditMode(flag: viewModel.isEditMode)
          cell.moveAbleButton.removeTarget(nil, action: nil, for: .allEvents)
          if viewModel.isEditMode {
@@ -357,9 +357,9 @@ extension AddCourseSecondViewController: UICollectionViewDropDelegate {
             let item = coordinator.items.first,
             let sourceIndexPath = item.sourceIndexPath {
             collectionView.performBatchUpdates({
-               let temp = viewModel.tableViewDataSource[sourceIndexPath.item]
-               viewModel.tableViewDataSource.remove(at: sourceIndexPath.item)
-               viewModel.tableViewDataSource.insert(temp, at: destinationIndexPath.item)
+               let temp = viewModel.addPlaceCollectionViewDataSource[sourceIndexPath.item]
+               viewModel.addPlaceCollectionViewDataSource.remove(at: sourceIndexPath.item)
+               viewModel.addPlaceCollectionViewDataSource.insert(temp, at: destinationIndexPath.item)
                collectionView.deleteItems(at: [sourceIndexPath])
                collectionView.insertItems(at: [destinationIndexPath])
             }) { done in
