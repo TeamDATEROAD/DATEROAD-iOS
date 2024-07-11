@@ -29,7 +29,7 @@ extension MainContentsModel {
     
     static let mainContents: MainContentsModel = MainContentsModel(
         date: "2024년 6월 27일",
-        title: "나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎",
+        title: "나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 ",
         coast: "10만원 초과",
         time: "10시간",
         location: "건대/성수/왕십리",

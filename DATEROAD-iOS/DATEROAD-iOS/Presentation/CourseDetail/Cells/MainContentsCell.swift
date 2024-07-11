@@ -23,7 +23,7 @@ final class MainContentsCell: BaseCollectionViewCell {
     
     override func setLayout() {
         mainTextLabel.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
         }
     }

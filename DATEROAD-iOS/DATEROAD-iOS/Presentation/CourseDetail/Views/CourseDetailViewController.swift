@@ -79,9 +79,6 @@ final class CourseDetailViewController: BaseViewController {
             $0.edges.equalToSuperview()
         }
         
-//        previewView.snp.makeConstraints {
-//            $0.bottom.horizontalEdges.equalToSuperview()
-//        }
     }
     
     override func setStyle() {
@@ -122,8 +119,6 @@ private extension CourseDetailViewController {
     
     func makeFlowLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { section, _ -> NSCollectionLayoutSection? in
-            let collectionViewWidth = self.view.frame.width
-            
             let sectionType = self.viewModel.fetchSection(at: section)
             
             switch sectionType {
@@ -177,11 +172,11 @@ private extension CourseDetailViewController {
     }
     
     func makeMainContentsLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(300))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(300))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)

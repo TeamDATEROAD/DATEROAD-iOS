@@ -30,6 +30,8 @@
 		0D9497BF2C3292D60004B442 /* CoastInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497BE2C3292D60004B442 /* CoastInfoCell.swift */; };
 		0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497D02C32A75A0004B442 /* InfoHeaderView.swift */; };
 		0D9497D32C33BD760004B442 /* BottomPageControllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497D22C33BD760004B442 /* BottomPageControllView.swift */; };
+		0D98CB992C405E0200E3618A /* InfoBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D98CB982C405E0200E3618A /* InfoBarView.swift */; };
+		0D98CB9B2C405E4100E3618A /* VisitDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D98CB9A2C405E4100E3618A /* VisitDateView.swift */; };
 		0DA138F52C3E8E1900682653 /* PriceButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA138F42C3E8E1900682653 /* PriceButtonCollectionViewCell.swift */; };
 		0DA138F72C3E8E3F00682653 /* DRPriceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA138F62C3E8E3F00682653 /* DRPriceButton.swift */; };
 		0DA1C7142C3DA94F00DF2B92 /* CourseListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA1C7132C3DA94F00DF2B92 /* CourseListModel.swift */; };
@@ -172,6 +174,8 @@
 		0D9497BE2C3292D60004B442 /* CoastInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoastInfoCell.swift; sourceTree = "<group>"; };
 		0D9497D02C32A75A0004B442 /* InfoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoHeaderView.swift; sourceTree = "<group>"; };
 		0D9497D22C33BD760004B442 /* BottomPageControllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPageControllView.swift; sourceTree = "<group>"; };
+		0D98CB982C405E0200E3618A /* InfoBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBarView.swift; sourceTree = "<group>"; };
+		0D98CB9A2C405E4100E3618A /* VisitDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitDateView.swift; sourceTree = "<group>"; };
 		0DA138F42C3E8E1900682653 /* PriceButtonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceButtonCollectionViewCell.swift; sourceTree = "<group>"; };
 		0DA138F62C3E8E3F00682653 /* DRPriceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRPriceButton.swift; sourceTree = "<group>"; };
 		0DA1C7132C3DA94F00DF2B92 /* CourseListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseListModel.swift; sourceTree = "<group>"; };
@@ -383,7 +387,9 @@
 			children = (
 				0D9497B72C328CD80004B442 /* Cells */,
 				0D9497B12C327D2D0004B442 /* CourseDetailViewController.swift */,
+				0D98CB9A2C405E4100E3618A /* VisitDateView.swift */,
 				0D9497D02C32A75A0004B442 /* InfoHeaderView.swift */,
+				0D98CB982C405E0200E3618A /* InfoBarView.swift */,
 				0D9497D22C33BD760004B442 /* BottomPageControllView.swift */,
 				0DF905BF2C3921AD0072EE65 /* ImageGradientView.swift */,
 				0DF905C92C399F750072EE65 /* PreviewView.swift */,
@@ -1144,6 +1150,7 @@
 				CAC80FC22C3C6CE500658EA6 /* PointSystemCollectionViewCell.swift in Sources */,
 				0D05FF0D2C3EFB2700E9BDDC /* CourseFilterView.swift in Sources */,
 				0DA1C71E2C3DCC2400DF2B92 /* Price.swift in Sources */,
+				0D98CB992C405E0200E3618A /* InfoBarView.swift in Sources */,
 				74BC165A2C3284A90084E832 /* BaseNavBarViewController.swift in Sources */,
 				CA78FE492C3866FD001B1403 /* DRErrorType.swift in Sources */,
 				CAC80FA42C3B34B400658EA6 /* UserInfoView.swift in Sources */,
@@ -1185,6 +1192,7 @@
 				0D06D9A82C36946C0094C505 /* TimelineInfoCell.swift in Sources */,
 				0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */,
 				0DA1C7142C3DA94F00DF2B92 /* CourseListModel.swift in Sources */,
+				0D98CB9B2C405E4100E3618A /* VisitDateView.swift in Sources */,
 				0D9497BD2C3292C20004B442 /* TitleInfoCell.swift in Sources */,
 				CAC80FAF2C3B56A800658EA6 /* MyPageModel.swift in Sources */,
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
