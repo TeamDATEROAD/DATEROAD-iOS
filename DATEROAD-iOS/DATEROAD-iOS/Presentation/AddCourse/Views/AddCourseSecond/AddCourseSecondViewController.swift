@@ -166,9 +166,8 @@ extension AddCourseSecondViewController {
    private func didTapNextBtn() {
       print("지금 장소 등록된 값 : ", viewModel.addPlaceCollectionViewDataSource)
       
-      // 화면 전환 구현해야 함.
-      //let vc = AddCourseThirdViewController()
-      //vc.navigationController?.pushViewController(vc, animated: true)
+      let thirdVC = AddCourseThirdViewController(viewModel: self.viewModel)
+      navigationController?.pushViewController(thirdVC, animated: true)
    }
    
    @objc
