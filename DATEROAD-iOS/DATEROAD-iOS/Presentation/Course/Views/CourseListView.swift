@@ -52,7 +52,7 @@ class CourseListView: BaseView {
         courseListCollectionView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(20)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.11)
+            $0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.11 + 20)
         }
         
     }
