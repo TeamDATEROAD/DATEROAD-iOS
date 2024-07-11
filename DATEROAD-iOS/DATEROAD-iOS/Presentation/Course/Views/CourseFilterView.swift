@@ -84,7 +84,7 @@ class CourseFilterView: BaseView {
             $0.backgroundColor = UIColor(resource: .gray100)
             $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
             $0.setImage(UIImage(resource: .icDropdown), for: .normal)
-            
+            $0.adjustsImageWhenHighlighted = false
             let gesture = UITapGestureRecognizer(target: self, action: #selector(locationFilterButtonTapped))
             $0.isUserInteractionEnabled = true
             $0.addGestureRecognizer(gesture)
@@ -93,6 +93,7 @@ class CourseFilterView: BaseView {
         resetButton.do {
             $0.setImage(UIImage(resource: .icReset), for: .normal)
             $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            $0.adjustsImageWhenHighlighted = false
             $0.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
         }
     }
