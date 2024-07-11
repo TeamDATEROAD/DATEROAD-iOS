@@ -108,4 +108,8 @@ enum StringLiterals {
         static let seePastDate = "지난 데이트 보기"
         
     }
+    
+    enum ViewedCourse {
+        static let registerSchedule = "열람한 코스로 데이트를 짜보세요"
+    }
 }

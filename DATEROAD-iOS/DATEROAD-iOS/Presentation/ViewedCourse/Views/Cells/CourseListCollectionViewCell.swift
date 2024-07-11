@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class ViewedCourseCollectionViewCell: BaseCollectionViewCell {
+class CourseListCollectionViewCell: BaseCollectionViewCell {
 
     // MARK: - UI Properties
     
@@ -107,8 +107,6 @@ class ViewedCourseCollectionViewCell: BaseCollectionViewCell {
             $0.roundCorners(cornerRadius: 12, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
-            $0.layer.borderColor = UIColor(resource: .alertRed).cgColor
-            $0.layer.borderWidth = 3
         }
         
         heartButton.do {
@@ -163,8 +161,8 @@ class ViewedCourseCollectionViewCell: BaseCollectionViewCell {
 
 }
 
-extension ViewedCourseCollectionViewCell {
-    func dataBind(_ viewedCourseData: ViewedCourseModel, _ viewedCourseItemRow: Int?) {
+extension CourseListCollectionViewCell {
+    func dataBind(_ viewedCourseData: CourseListModel, _ viewedCourseItemRow: Int?) {
         self.courseID = viewedCourseData.courseID
         self.heartButton.setTitle("\(viewedCourseData.courseLike ?? 0)", for: .normal)
         self.thumbnailImageView.image = UIImage(resource: .secondOnboardingBG)
