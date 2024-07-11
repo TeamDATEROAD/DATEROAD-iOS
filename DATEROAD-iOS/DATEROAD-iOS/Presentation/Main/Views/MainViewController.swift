@@ -61,6 +61,7 @@ extension MainViewController {
         self.mainView.mainCollectionView.register(HotDateCourseCell.self, forCellWithReuseIdentifier: HotDateCourseCell.cellIdentifier)
         self.mainView.mainCollectionView.register(BannerCell.self, forCellWithReuseIdentifier: BannerCell.cellIdentifier)
         self.mainView.mainCollectionView.register(NewDateCourseCell.self, forCellWithReuseIdentifier: NewDateCourseCell.cellIdentifier)
+        self.mainView.mainCollectionView.register(MainHeaderView.self, forSupplementaryViewOfKind: MainHeaderView.elementKinds, withReuseIdentifier: MainHeaderView.identifier)
     }
     
     func setDelegate() {
@@ -138,6 +139,7 @@ extension MainViewController: UICollectionViewDataSource {
             case .upcomingDate, .banner:
                 return header
             case .hotDateCourse:
+            header.setRoundedView()
             header.bindTitle(section: .hotDateCourse, nickname: mainViewModel.nickname.value)
             case .newDateCourse:
                 header.bindTitle(section: .newDateCourse, nickname: nil)

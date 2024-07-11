@@ -40,11 +40,6 @@ final class HotDateCourseCell: BaseCollectionViewCell {
     private var timeLabel: DRPaddingLabel = DRPaddingLabel()
 
     
-    // MARK: - Properties
-    
-
-    
-    
     // MARK: - Life Cycle
     
     override func setHierarchy() {
@@ -139,7 +134,6 @@ final class HotDateCourseCell: BaseCollectionViewCell {
         timeLabel.snp.makeConstraints {
             $0.verticalEdges.equalTo(timeView).inset(2)
             $0.leading.equalTo(timeImage.snp.trailing).offset(6)
-//            $0.height.equalTo(18)
         }
     }
     

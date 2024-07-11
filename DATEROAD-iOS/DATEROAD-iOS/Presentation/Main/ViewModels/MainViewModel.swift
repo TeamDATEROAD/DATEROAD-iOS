@@ -40,5 +40,6 @@ extension MainViewModel {
         hotCourseData.value = DateCourseModel.hotDateDummyData
         newCourseData.value = DateCourseModel.newDateDummyData
         bannerData.value = BannerModel.bannerDummyData
+        nickname.value = MainUserModel.dummyData.name
     }
 }

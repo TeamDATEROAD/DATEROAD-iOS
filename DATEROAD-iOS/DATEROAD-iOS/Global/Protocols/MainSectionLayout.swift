@@ -61,7 +61,7 @@ struct UpcomingDateLayout: MainSectionLayout {
     
     var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(343/375), heightDimension: .fractionalHeight(184 / 812))
             
-    var sectionContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 36, trailing: 16)
+    var sectionContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 50, trailing: 16)
     
 }
 
@@ -69,13 +69,13 @@ struct HotDateLayout: MainSectionLayout {
     
     var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(238/375), heightDimension: .estimated(356))
     
-    var groupContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16)
+    var groupContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0)
     
-    var sectionContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets(top: 21, leading: 16, bottom: 0, trailing: 0)
+    var sectionContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
     
-//    var elementKind: String? = HotDateCourseHeader.elementKind
+    var elementKind: String? = MainHeaderView.elementKinds
     
-    var supplemetaryItemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(86/812))
+    var supplemetaryItemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(119))
     
 }
 
@@ -93,10 +93,10 @@ struct NewDateLayout: MainSectionLayout {
     
     var groupContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
     
-    var sectionContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets(top: 30, leading: 16, bottom: 16, trailing: 16)
+    var sectionContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0)
     
-//    var elementKind: String? = NewDateCourseHeader.elementKind
+    var elementKind: String? = MainHeaderView.elementKinds
     
-    var supplemetaryItemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(50/812))
+    var supplemetaryItemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(80))
     
 }
