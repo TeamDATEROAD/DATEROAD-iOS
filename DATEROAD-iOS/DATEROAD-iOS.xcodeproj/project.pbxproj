@@ -65,6 +65,9 @@
 		9E443A4C2C37ACEF00C1F92C /* AddCourseFirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E443A4B2C37ACEF00C1F92C /* AddCourseFirstView.swift */; };
 		9E443A4E2C3819DB00C1F92C /* AddFirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E443A4D2C3819DB00C1F92C /* AddFirstView.swift */; };
 		9E443A502C39158100C1F92C /* AddSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E443A4F2C39158100C1F92C /* AddSheetViewController.swift */; };
+		9E50988C2C403C4B00F72CD0 /* AddThirdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E50988B2C403C4B00F72CD0 /* AddThirdView.swift */; };
+		9E50988E2C403C5800F72CD0 /* AddCourseThirdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E50988D2C403C5800F72CD0 /* AddCourseThirdView.swift */; };
+		9E5098902C403C7500F72CD0 /* AddCourseThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E50988F2C403C7500F72CD0 /* AddCourseThirdViewController.swift */; };
 		9E590B402C39375000039690 /* AddSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E590B3F2C39375000039690 /* AddSheetView.swift */; };
 		9E590B462C3C535500039690 /* AddCourseSecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E590B452C3C535500039690 /* AddCourseSecondViewController.swift */; };
 		9E590B482C3D1C5C00039690 /* AddCourseSecondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E590B472C3D1C5C00039690 /* AddCourseSecondView.swift */; };
@@ -201,6 +204,9 @@
 		9E443A4B2C37ACEF00C1F92C /* AddCourseFirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseFirstView.swift; sourceTree = "<group>"; };
 		9E443A4D2C3819DB00C1F92C /* AddFirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFirstView.swift; sourceTree = "<group>"; };
 		9E443A4F2C39158100C1F92C /* AddSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSheetViewController.swift; sourceTree = "<group>"; };
+		9E50988B2C403C4B00F72CD0 /* AddThirdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddThirdView.swift; sourceTree = "<group>"; };
+		9E50988D2C403C5800F72CD0 /* AddCourseThirdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseThirdView.swift; sourceTree = "<group>"; };
+		9E50988F2C403C7500F72CD0 /* AddCourseThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseThirdViewController.swift; sourceTree = "<group>"; };
 		9E590B3F2C39375000039690 /* AddSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSheetView.swift; sourceTree = "<group>"; };
 		9E590B452C3C535500039690 /* AddCourseSecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseSecondViewController.swift; sourceTree = "<group>"; };
 		9E590B472C3D1C5C00039690 /* AddCourseSecondView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseSecondView.swift; sourceTree = "<group>"; };
@@ -468,65 +474,6 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
-		9E590B432C3C2FDC00039690 /* AddCourseFirst */ = {
-			isa = PBXGroup;
-			children = (
-				9E63BB1F2C35CF7200D5ED5B /* AddCourseFirstViewController.swift */,
-				9E443A4B2C37ACEF00C1F92C /* AddCourseFirstView.swift */,
-				9E443A4D2C3819DB00C1F92C /* AddFirstView.swift */,
-			);
-			path = AddCourseFirst;
-			sourceTree = "<group>";
-		};
-		9E590B442C3C532D00039690 /* AddCourseSecond */ = {
-			isa = PBXGroup;
-			children = (
-				9E590B452C3C535500039690 /* AddCourseSecondViewController.swift */,
-				9E590B472C3D1C5C00039690 /* AddCourseSecondView.swift */,
-				9E590B4B2C3D276600039690 /* AddSecondView.swift */,
-			);
-			path = AddCourseSecond;
-			sourceTree = "<group>";
-		};
-		9E63BB1D2C35CEAF00D5ED5B /* AddCourse */ = {
-			isa = PBXGroup;
-			children = (
-				9EB91E792C36371800D7A836 /* ViewModels */,
-				9EB91E762C36288900D7A836 /* Cells */,
-				9E63BB1E2C35CF5900D5ED5B /* Views */,
-			);
-			path = AddCourse;
-			sourceTree = "<group>";
-		};
-		9E63BB1E2C35CF5900D5ED5B /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				9E590B432C3C2FDC00039690 /* AddCourseFirst */,
-				9E590B442C3C532D00039690 /* AddCourseSecond */,
-				9E443A4F2C39158100C1F92C /* AddSheetViewController.swift */,
-				9E590B3F2C39375000039690 /* AddSheetView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		9EB91E762C36288900D7A836 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */,
-				9E590B4D2C3DAA5100039690 /* AddSecondViewTableViewCell.swift */,
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
-		9EB91E792C36371800D7A836 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				9E443A472C37AAE400C1F92C /* AddCourseViewModel.swift */,
-				9E590B4F2C3DBE1C00039690 /* AddCoursePlaceModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
 		74CDE2622C3B11DE00A7459B /* DateSchedule */ = {
 			isa = PBXGroup;
 			children = (
@@ -577,6 +524,76 @@
 				7455476C2C3D03E100B526F3 /* PastDateCollectionViewCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		9E50988A2C403C0000F72CD0 /* AddCourseThird */ = {
+			isa = PBXGroup;
+			children = (
+				9E50988F2C403C7500F72CD0 /* AddCourseThirdViewController.swift */,
+				9E50988D2C403C5800F72CD0 /* AddCourseThirdView.swift */,
+				9E50988B2C403C4B00F72CD0 /* AddThirdView.swift */,
+			);
+			path = AddCourseThird;
+			sourceTree = "<group>";
+		};
+		9E590B432C3C2FDC00039690 /* AddCourseFirst */ = {
+			isa = PBXGroup;
+			children = (
+				9E63BB1F2C35CF7200D5ED5B /* AddCourseFirstViewController.swift */,
+				9E443A4B2C37ACEF00C1F92C /* AddCourseFirstView.swift */,
+				9E443A4D2C3819DB00C1F92C /* AddFirstView.swift */,
+			);
+			path = AddCourseFirst;
+			sourceTree = "<group>";
+		};
+		9E590B442C3C532D00039690 /* AddCourseSecond */ = {
+			isa = PBXGroup;
+			children = (
+				9E590B452C3C535500039690 /* AddCourseSecondViewController.swift */,
+				9E590B472C3D1C5C00039690 /* AddCourseSecondView.swift */,
+				9E590B4B2C3D276600039690 /* AddSecondView.swift */,
+			);
+			path = AddCourseSecond;
+			sourceTree = "<group>";
+		};
+		9E63BB1D2C35CEAF00D5ED5B /* AddCourse */ = {
+			isa = PBXGroup;
+			children = (
+				9EB91E792C36371800D7A836 /* ViewModels */,
+				9EB91E762C36288900D7A836 /* Cells */,
+				9E63BB1E2C35CF5900D5ED5B /* Views */,
+			);
+			path = AddCourse;
+			sourceTree = "<group>";
+		};
+		9E63BB1E2C35CF5900D5ED5B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9E590B432C3C2FDC00039690 /* AddCourseFirst */,
+				9E590B442C3C532D00039690 /* AddCourseSecond */,
+				9E50988A2C403C0000F72CD0 /* AddCourseThird */,
+				9E443A4F2C39158100C1F92C /* AddSheetViewController.swift */,
+				9E590B3F2C39375000039690 /* AddSheetView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9EB91E762C36288900D7A836 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */,
+				9E590B4D2C3DAA5100039690 /* AddSecondViewTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		9EB91E792C36371800D7A836 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				9E443A472C37AAE400C1F92C /* AddCourseViewModel.swift */,
+				9E590B4F2C3DBE1C00039690 /* AddCoursePlaceModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		CA0A963C2C2B12FC00F39EBE /* Base */ = {
@@ -1122,6 +1139,7 @@
 				CAC80FA22C3B10EA00658EA6 /* MyPageViewController.swift in Sources */,
 				CA4EF3C02C3285BA003B02B6 /* SocialType.swift in Sources */,
 				CAC80FAC2C3B567100658EA6 /* MyPageViewModel.swift in Sources */,
+				9E50988C2C403C4B00F72CD0 /* AddThirdView.swift in Sources */,
 				0D06D9A02C3561AF0094C505 /* ImageContents.swift in Sources */,
 				0D9497B42C327D620004B442 /* CourseDetailViewModel.swift in Sources */,
 				0D0DA3E62C3AF3FB004210EE /* PointDetailViewController.swift in Sources */,
@@ -1136,7 +1154,7 @@
 				74CDE2682C3B123100A7459B /* UpcomingDateScheduleViewController.swift in Sources */,
 				0D06D9A82C36946C0094C505 /* TimelineInfoCell.swift in Sources */,
 				0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */,
-				0D9497BD2C3292C20004B442 /* MainContentsCell.swift in Sources */,
+				0D9497BD2C3292C20004B442 /* TitleInfoCell.swift in Sources */,
 				CAC80FAF2C3B56A800658EA6 /* MyPageModel.swift in Sources */,
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
 				7455476D2C3D03E100B526F3 /* PastDateCollectionViewCell.swift in Sources */,
@@ -1150,6 +1168,7 @@
 				CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */,
 				CA4EF3B82C328542003B02B6 /* LoginView.swift in Sources */,
 				CA4EF3DA2C34791F003B02B6 /* OnboardingCollectionViewCell.swift in Sources */,
+				9E5098902C403C7500F72CD0 /* AddCourseThirdViewController.swift in Sources */,
 				CA4EF3E52C3538AA003B02B6 /* OnboardingViewModel.swift in Sources */,
 				745547672C3C67FE00B526F3 /* DateTimeLineCollectionViewCell.swift in Sources */,
 				0D9497D32C33BD760004B442 /* BottomPageControllView.swift in Sources */,
@@ -1184,6 +1203,7 @@
 				9E590B462C3C535500039690 /* AddCourseSecondViewController.swift in Sources */,
 				CA4EF3D72C347766003B02B6 /* OnboardingView.swift in Sources */,
 				CA4EF3BB2C328595003B02B6 /* ObservablePattern.swift in Sources */,
+				9E50988E2C403C5800F72CD0 /* AddCourseThirdView.swift in Sources */,
 				CA3D0D1A2C29AAAC00735097 /* UIView+.swift in Sources */,
 				7478193E2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift in Sources */,
 				741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */,
