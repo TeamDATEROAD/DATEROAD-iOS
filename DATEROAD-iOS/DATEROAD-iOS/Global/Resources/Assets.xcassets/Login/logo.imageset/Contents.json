@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ic_splashlogo.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
