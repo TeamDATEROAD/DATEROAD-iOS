@@ -54,7 +54,7 @@ struct DateCourseModel {
     }
     
     static var newDateDummyData: [DateCourseModel] {
-        return [DateCourseModel(courseId: 1, thumbnail: "www.asdfasdfds.jpg", title: "스리와 데이트 - 여의도편", city: "영등포/여의도", like: 3, cost: 10, duration: 10),
+        return [DateCourseModel(courseId: 1, thumbnail: "www.asdfasdfds.jpg", title: "스리와 데이트 - 여의도편 스리와 데이트 - 여의도편", city: "영등포/여의도", like: 3, cost: 10, duration: 10),
                 DateCourseModel(courseId: 1, thumbnail: "www.asdfasdfds.jpg", title: "스리와 데이트 - 해방촌편", city: "용산/이태원/한남", like: 3, cost: 10, duration: 10),
                 DateCourseModel(courseId: 1, thumbnail: "www.asdfasdfds.jpg", title: "스리와 데이트 - 신용산편", city: "용산/이태원/한남", like: 3, cost: 10, duration: 10),
                 DateCourseModel(courseId: 1, thumbnail: "www.asdfasdfds.jpg", title: "스리와 데이트 - 성수편", city: "건대/상수/왕십리", like: 3, cost: 10, duration: 10),

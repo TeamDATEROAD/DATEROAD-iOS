@@ -60,13 +60,16 @@ final class HotDateCourseCell: BaseCollectionViewCell {
     
     override func setLayout() {
         countryLabel.snp.makeConstraints {
-            $0.top.leading.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().inset(16)
             $0.height.equalTo(26)
         }
         
         courseImage.snp.makeConstraints {
             $0.top.equalTo(countryLabel.snp.bottom)
-            $0.horizontalEdges.equalToSuperview()
+            $0.leading.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview()
+            $0.width.equalTo(238)
             $0.height.equalTo(self.snp.width)
         }
         
@@ -91,24 +94,24 @@ final class HotDateCourseCell: BaseCollectionViewCell {
         
         dateNameView.snp.makeConstraints {
             $0.top.equalTo(courseImage.snp.bottom).offset(8)
-            $0.horizontalEdges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(48)
         }
         
         dateNameLabel.snp.makeConstraints {
             $0.top.equalTo(dateNameView)
-            $0.horizontalEdges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
         costView.snp.makeConstraints {
             $0.top.equalTo(dateNameView.snp.bottom).offset(10)
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().inset(16)
             $0.trailing.equalTo(costLabel)
             $0.height.equalTo(26)
         }
         
         costImage.snp.makeConstraints {
-            $0.verticalEdges.equalTo(costView).inset(2)
+            $0.centerY.equalTo(costView)
             $0.leading.equalTo(costView).inset(10)
             $0.size.equalTo(12)
         }
@@ -116,6 +119,7 @@ final class HotDateCourseCell: BaseCollectionViewCell {
         costLabel.snp.makeConstraints {
             $0.leading.equalTo(costImage.snp.trailing).offset(6)
             $0.verticalEdges.equalTo(costView).inset(2)
+            $0.height.equalTo(26)
         }
         
         timeView.snp.makeConstraints {
@@ -126,7 +130,7 @@ final class HotDateCourseCell: BaseCollectionViewCell {
         }
         
         timeImage.snp.makeConstraints {
-            $0.verticalEdges.equalTo(timeView).inset(2)
+            $0.centerY.equalTo(costView)
             $0.leading.equalTo(timeView).inset(10)
             $0.size.equalTo(12)
         }
@@ -134,11 +138,12 @@ final class HotDateCourseCell: BaseCollectionViewCell {
         timeLabel.snp.makeConstraints {
             $0.verticalEdges.equalTo(timeView).inset(2)
             $0.leading.equalTo(timeImage.snp.trailing).offset(6)
+            $0.height.equalTo(26)
         }
     }
     
     override func setStyle() {
-        self.backgroundColor = UIColor(resource: .lightLime)
+        self.backgroundColor = UIColor(resource: .drWhite)
         
         countryLabel.do {
             $0.backgroundColor = UIColor(resource: .mediumPurple)
@@ -186,7 +191,7 @@ final class HotDateCourseCell: BaseCollectionViewCell {
         
         costView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.roundCorners(cornerRadius: 12, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 10, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
         }
         
         costImage.do {
@@ -198,12 +203,12 @@ final class HotDateCourseCell: BaseCollectionViewCell {
             $0.textColor = UIColor(resource: .gray400)
             $0.font = UIFont.suit(.body_med_13)
             $0.setPadding(top: 4, left: 0, bottom: 4, right: 10)
-            $0.roundCorners(cornerRadius: 12, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 10, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
         }
         
         timeView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.roundCorners(cornerRadius: 12, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 10, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
         }
         
         timeImage.do {
@@ -214,7 +219,7 @@ final class HotDateCourseCell: BaseCollectionViewCell {
             $0.backgroundColor = UIColor(resource: .gray100)
             $0.textColor = UIColor(resource: .gray400)
             $0.font = UIFont.suit(.body_med_13)
-            $0.roundedLabel(cornerRadius: 12, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundedLabel(cornerRadius: 10, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
             $0.setPadding(top: 4, left: 0, bottom: 4, right: 10)
         }
     }
@@ -226,11 +231,13 @@ extension HotDateCourseCell {
     func bindData(hotDateData: DateCourseModel?) {
         guard let hotDateData else { return }
         self.countryLabel.text = hotDateData.city
-        if let url = URL(string: hotDateData.thumbnail) {
-            self.courseImage.kf.setImage(with: url)
-        } else {
-            self.courseImage.image = UIImage(resource: .emptyProfileImg)
-        }
+//        if let url = URL(string: hotDateData.thumbnail) {
+//            self.courseImage.kf.setImage(with: url)
+//        } else {
+//            self.courseImage.image = UIImage(resource: .emptyProfileImg)
+//        }
+        self.courseImage.image = UIImage(resource: .testImage2)
+
         self.likeLabel.text = " \(hotDateData.like)"
         self.dateNameLabel.text = hotDateData.title
         self.costLabel.text = " \(hotDateData.cost)만원"

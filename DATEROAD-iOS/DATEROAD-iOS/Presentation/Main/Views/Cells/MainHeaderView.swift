@@ -84,10 +84,10 @@ final class MainHeaderView: UICollectionReusableView {
 
 extension MainHeaderView {
     
-    func setRoundedView() {
-        self.clipsToBounds = true
-        self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMinYCorner])
-    }
+//    func setRoundedView(section: MainSection, ) {
+//        self.clipsToBounds = isRounded ? true : false
+//        self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMinYCorner])
+//    }
     
     func bindTitle(section: MainSection, nickname: String?) {
         let nickname = nickname ?? ""
@@ -99,7 +99,8 @@ extension MainHeaderView {
                 $0.textAlignment = .left
                 $0.numberOfLines = 2
             }
-            
+            self.clipsToBounds = true
+            self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMinYCorner])
             subLabel.do {
                 $0.text = StringLiterals.Main.hotDateSub
             }
@@ -109,7 +110,7 @@ extension MainHeaderView {
                 $0.textAlignment = .left
                 $0.numberOfLines = 0
             }
-            
+            self.clipsToBounds = false
             subLabel.do {
                 $0.text = StringLiterals.Main.newDateSub
             }

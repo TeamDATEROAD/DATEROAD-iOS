@@ -120,6 +120,7 @@ extension MainViewController: UICollectionViewDataSource {
                 return cell
             case .newDateCourse:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell else { return UICollectionViewCell() }
+                cell.bindData(newDateData: mainViewModel.newCourseData.value?[indexPath.row])
                 return cell
             }
         } else {
@@ -139,9 +140,10 @@ extension MainViewController: UICollectionViewDataSource {
             case .upcomingDate, .banner:
                 return header
             case .hotDateCourse:
-            header.setRoundedView()
+//            header.setRoundedView(isRounded: true)
             header.bindTitle(section: .hotDateCourse, nickname: mainViewModel.nickname.value)
             case .newDateCourse:
+//            header.setRoundedView(isRounded: false)
                 header.bindTitle(section: .newDateCourse, nickname: nil)
         }
         return header

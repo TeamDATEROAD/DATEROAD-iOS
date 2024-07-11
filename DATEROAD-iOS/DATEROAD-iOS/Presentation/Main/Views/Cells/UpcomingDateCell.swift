@@ -40,30 +40,31 @@ final class UpcomingDateCell: BaseCollectionViewCell {
     override func setLayout() {
         logoImage.snp.makeConstraints {
             $0.top.equalTo(self.safeAreaLayoutGuide)
+            $0.leading.equalToSuperview().inset(16)
             $0.size.equalTo(44)
         }
         
         pointLabel.snp.makeConstraints {
             $0.centerY.equalTo(logoImage)
-            $0.trailing.equalToSuperview().inset(17)
+            $0.trailing.equalToSuperview().inset(31)
             $0.height.equalTo(33)
         }
         
         profileImage.snp.makeConstraints {
             $0.centerY.equalTo(logoImage)
             $0.size.equalTo(33)
-            $0.trailing.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(16)
         }
         
         dateTicketView.snp.makeConstraints {
             $0.top.equalTo(logoImage.snp.bottom).offset(16)
-            $0.horizontalEdges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(104)
         }
         
         emptyTicketView.snp.makeConstraints {
             $0.top.equalTo(logoImage.snp.bottom).offset(16)
-            $0.horizontalEdges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(104)
         }
     }

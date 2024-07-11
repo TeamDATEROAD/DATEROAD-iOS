@@ -82,8 +82,9 @@ extension MainView {
         
         guard let type = layout.elementKind else { return section }
         let supplemetaryItem = makeSupplementaryLayout(layout: layout, type: type)
+        supplemetaryItem.zIndex = 2
         section.boundarySupplementaryItems = [supplemetaryItem]
-        
+        section.orthogonalScrollingBehavior = layout.scrollDirection
         return section
     }
     

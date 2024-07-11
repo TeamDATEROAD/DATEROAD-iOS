@@ -31,12 +31,14 @@ final class BannerImageCollectionViewCell: BaseCollectionViewCell {
     
     override func setLayout() {
         bannerImage.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.verticalEdges.equalToSuperview().inset(30)
         }
         
         tagLabel.snp.makeConstraints {
             $0.top.leading.equalTo(bannerImage).inset(13)
-            $0.leading.equalTo(bannerImage).inset(14)
+            $0.height.equalTo(22
+            )
         }
         
         titleView.snp.makeConstraints {
@@ -66,7 +68,7 @@ final class BannerImageCollectionViewCell: BaseCollectionViewCell {
             $0.backgroundColor = UIColor(resource: .deepPurple)
             $0.textColor = UIColor(resource: .drWhite)
             $0.font = UIFont.suit(.body_semi_13)
-            $0.roundedLabel(cornerRadius: 10, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundedLabel(cornerRadius: 12, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
             $0.setPadding(top: 2, left: 10, bottom: 2, right: 10)
         }
         

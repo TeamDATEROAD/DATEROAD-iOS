@@ -29,11 +29,13 @@ final class BannerCell: BaseCollectionViewCell {
     
     override func setLayout() {
         bannerCollectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+            $0.verticalEdges.equalToSuperview()
         }
 
         indexLabel.snp.makeConstraints {
-            $0.trailing.bottom.equalTo(bannerCollectionView).inset(6)
+            $0.bottom.equalTo(bannerCollectionView).inset(36)
+            $0.trailing.equalTo(bannerCollectionView).inset(22)
             $0.height.equalTo(19)
         }
 
@@ -43,7 +45,7 @@ final class BannerCell: BaseCollectionViewCell {
         self.backgroundColor = UIColor(resource: .drWhite)
         
         bannerCollectionView.do {
-            $0.backgroundColor = UIColor(resource: .lightLime)
+            $0.backgroundColor = UIColor(resource: .drWhite)
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFill
             $0.isPagingEnabled = true            
