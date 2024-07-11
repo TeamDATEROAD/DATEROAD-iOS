@@ -113,6 +113,7 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
         thumnailImgageView.do {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 14
+            $0.contentMode = .scaleAspectFill
         }
         
         likeBoxView.do {
