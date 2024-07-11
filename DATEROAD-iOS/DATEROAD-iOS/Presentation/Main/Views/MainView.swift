@@ -44,6 +44,7 @@ final class MainView: BaseView {
     override func setStyle() {
         mainCollectionView.do {
             $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.showsVerticalScrollIndicator = false
         }
     }
 

@@ -81,7 +81,9 @@ struct HotDateLayout: MainSectionLayout {
 
 struct BannerDateLayout: MainSectionLayout {
     
-    var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(132 / 812))
+    var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(343/375), heightDimension: .fractionalHeight(132 / 812))
+    
+    var sectionContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 36, trailing: 16)
 
 }
 

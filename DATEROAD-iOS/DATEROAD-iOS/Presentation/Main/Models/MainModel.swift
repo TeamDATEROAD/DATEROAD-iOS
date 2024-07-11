@@ -71,11 +71,11 @@ struct BannerModel {
     let tag: String
     
     static var bannerDummyData: [BannerModel] {
-        return [BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽"),
+        return [BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "스리 픽"),
                 BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽"),
+                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "스리 픽"),
                 BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽"),
-                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽"),
-                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽"),
+                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "스리 픽"),
                 BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽")
         ]
     }

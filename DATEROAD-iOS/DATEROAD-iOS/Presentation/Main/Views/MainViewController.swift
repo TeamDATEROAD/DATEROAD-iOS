@@ -79,36 +79,55 @@ extension MainViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch self.mainViewModel.sectionData[section] {
-        case .upcomingDate:
-            return 1
-        case .hotDateCourse:
-            return self.mainViewModel.hotCourseData.value?.count ?? 0
-        case .banner:
+        if collectionView == self.mainView.mainCollectionView {
+            switch self.mainViewModel.sectionData[section] {
+            case .upcomingDate:
+                return 1
+            case .hotDateCourse:
+                return self.mainViewModel.hotCourseData.value?.count ?? 0
+            case .banner:
+                return 1
+            case .newDateCourse:
+                return self.mainViewModel.newCourseData.value?.count ?? 0
+            }
+        } else {
             return self.mainViewModel.bannerData.value?.count ?? 0
-        case .newDateCourse:
-            return self.mainViewModel.newCourseData.value?.count ?? 0
         }
     }
     
     // TODO: - 다가오는 일정 없는 경우 로직 수정
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch self.mainViewModel.sectionData[indexPath.section] {
-        case .upcomingDate:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingDateCell.cellIdentifier, for: indexPath) as? UpcomingDateCell else { return UICollectionViewCell() }
-            cell.bindData(upcomingData: mainViewModel.upcomingData.value, mainUserData: mainViewModel.mainUserData.value)
-            return cell
-        case .hotDateCourse:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell else { return UICollectionViewCell() }
-            cell.bindData(hotDateData: mainViewModel.hotCourseData.value?[indexPath.row])
-            return cell
-        case .banner:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell else { return UICollectionViewCell() }
-            return cell
-        case .newDateCourse:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell else { return UICollectionViewCell() }
+        if collectionView == mainView.mainCollectionView {
+            switch self.mainViewModel.sectionData[indexPath.section] {
+            case .upcomingDate:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingDateCell.cellIdentifier, for: indexPath) as? UpcomingDateCell else { return UICollectionViewCell() }
+                cell.bindData(upcomingData: mainViewModel.upcomingData.value, mainUserData: mainViewModel.mainUserData.value)
+                return cell
+            case .hotDateCourse:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell else { return UICollectionViewCell() }
+                cell.bindData(hotDateData: mainViewModel.hotCourseData.value?[indexPath.row])
+                return cell
+            case .banner:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell else { return UICollectionViewCell() }
+                cell.bannerCollectionView.register(BannerImageCollectionViewCell.self, forCellWithReuseIdentifier: BannerImageCollectionViewCell.cellIdentifier)
+                cell.bannerCollectionView.dataSource = self
+                cell.bannerCollectionView.delegate = self
+                cell.bannerCollectionView.reloadData()
+                if let count = mainViewModel.bannerData.value?.count {
+                    cell.bindIndexData(currentIndex: 1, count: count)
+                }
+                return cell
+            case .newDateCourse:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell else { return UICollectionViewCell() }
+                return cell
+            }
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerImageCollectionViewCell.cellIdentifier, for: indexPath) as? BannerImageCollectionViewCell else { return UICollectionViewCell() }
+            cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
+            cell.prepareForReuse()
             return cell
         }
+       
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
