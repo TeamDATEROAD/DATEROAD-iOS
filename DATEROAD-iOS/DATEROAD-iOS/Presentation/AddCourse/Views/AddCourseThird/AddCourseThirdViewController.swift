@@ -41,7 +41,6 @@ class AddCourseThirdViewController: BaseNavBarViewController {
       setStyle()
       setTitleLabelStyle(title: StringLiterals.AddCourseOrSchedul.addCourseTitle, alignment: .center)
       setLeftBackButton()
-      //      setAddTarget()
       setDelegate()
       registerCell()
       //      bindViewModel()
@@ -99,6 +98,10 @@ extension AddCourseThirdViewController {
       addCourseThirdView.addThirdView.priceTextField.delegate = self
    }
    
+   private func addTarget() {
+      addCourseThirdView.addThirdView.priceTextField.addTarget(self, action: #selector(textFieldDidChanacge), for: .editingChanged)
+   }
+   
 }
 
 
@@ -119,11 +122,29 @@ extension AddCourseThirdViewController: UITextViewDelegate {
    }
    
    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-       if text == "\n" {
-           textView.resignFirstResponder()
-           return false
-       }
-       return true
+      let currentText = textView.text ?? ""
+      guard let stringRange = Range(range, in: currentText) else { return false }
+      
+      let changedText = currentText.replacingCharacters(in: stringRange, with: text)
+      
+      // 리턴 눌렸을 때의 "\n" 입력을 count로 계산하지 않음
+      let filteredTextCount = changedText.filter { $0 != "\n" }.count
+      addCourseThirdView.addThirdView.updateContentTextCount(textCnt: filteredTextCount)
+      
+      // 리턴 키 입력을 처리합니다.
+      if text == "\n" {
+         textView.resignFirstResponder()
+         return false
+      }
+      return true
+   }
+   
+   // 이거 안씀
+   /// priceTextField 실시간 변경 감지
+   @objc
+   func textFieldDidChanacge(_ textField: UITextField) {
+      print()
+      //      viewModel.isDateNameValid(cnt: ?.count ?? 0)
    }
    
 }
@@ -132,12 +153,6 @@ extension AddCourseThirdViewController: UITextViewDelegate {
 // MARK: - UITextFieldDelegate Methods
 
 extension AddCourseThirdViewController: UITextFieldDelegate {
-   
-   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-      textField.resignFirstResponder()
-      textField.tintColor = UIColor.clear
-      return true
-   }
    
    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
       return true

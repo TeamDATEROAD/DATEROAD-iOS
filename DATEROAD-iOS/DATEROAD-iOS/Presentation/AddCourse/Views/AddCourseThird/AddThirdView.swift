@@ -20,13 +20,13 @@ class AddThirdView: BaseView {
    
    let contentTextView: UITextView = UITextView()
    
-   private let contentTextCountLabel: UILabel = UILabel()
+   let contentTextCountLabel: UILabel = UILabel()
    
    private let priceTitleLabel: UILabel = UILabel()
    
-   let priceTextField: UITextField = UITextField()
+   var priceTextField: UITextField = UITextField()
    
-   private let addThirdDoneBtn: UIButton = UIButton()
+   let addThirdDoneBtn: UIButton = UIButton()
    
    
    // MARK: - Properties
@@ -61,7 +61,7 @@ class AddThirdView: BaseView {
       }
       
       contentTitleLabel.snp.makeConstraints {
-         $0.top.leading.equalToSuperview()
+         $0.top.horizontalEdges.equalToSuperview()
       }
       
       contentTextView.snp.makeConstraints {
@@ -72,12 +72,12 @@ class AddThirdView: BaseView {
       
       contentTextCountLabel.snp.makeConstraints {
          $0.top.equalTo(contentTextView.snp.bottom).offset(8)
-         $0.trailing.equalToSuperview()
+         $0.horizontalEdges.equalToSuperview()
       }
       
       priceTitleLabel.snp.makeConstraints {
          $0.top.equalTo(contentTextCountLabel.snp.bottom).offset(21)
-         $0.leading.equalToSuperview()
+         $0.horizontalEdges.equalToSuperview()
       }
       
       priceTextField.snp.makeConstraints {
@@ -97,6 +97,7 @@ class AddThirdView: BaseView {
    override func setStyle() {
       contentTitleLabel.do {
          $0.setLabel(
+            alignment: .left,
             textColor: UIColor(resource: .drBlack),
             font: .suit(.body_bold_17)
          )
@@ -121,6 +122,7 @@ class AddThirdView: BaseView {
       priceTextField.do {
          $0.setLeftPadding(amount: 16)
          $0.setRightPadding(amount: 16)
+         $0.keyboardType = .numberPad
          $0.font = .suit(.body_med_13)
          $0.textColor = UIColor(resource: .drBlack)
       }
@@ -129,6 +131,7 @@ class AddThirdView: BaseView {
       
       contentTextCountLabel.do {
          $0.setLabel(
+            alignment: .right,
             textColor: UIColor(resource: .gray300),
             font: .suit(.body_med_13)
          )
@@ -137,6 +140,7 @@ class AddThirdView: BaseView {
       
       priceTitleLabel.do {
          $0.setLabel(
+            alignment: .left,
             textColor: UIColor(resource: .drBlack),
             font: .suit(.body_bold_17)
          )
@@ -150,6 +154,15 @@ class AddThirdView: BaseView {
          $0.titleLabel?.font = .suit(.body_bold_15)
          $0.layer.cornerRadius = 14
       }
+   }
+   
+}
+
+
+extension AddThirdView {
+   
+   func updateContentTextCount(textCnt: Int) {
+      contentTextCountLabel.text = "\(textCnt)자 / 200자 이상"
    }
    
 }
