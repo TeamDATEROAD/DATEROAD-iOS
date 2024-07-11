@@ -44,7 +44,7 @@ private extension TabBarController {
     
     func setStyle() {
         
-        let iconOffset: Int = -7
+        let iconOffset = -(view.frame.height * 0.008)
         
         let font = UIFont.suit(.cap_reg_11)
         
@@ -126,14 +126,16 @@ private extension TabBarController {
     func setHierarchy() {
         let homeNavVC = UINavigationController(rootViewController: homeVC)
         homeNavVC.setNavigationBarHidden(true, animated: false)
-
+        
         let viewControllers = [homeNavVC, courseVC, dateVC, viewedCourseVC, mypageVC]
         self.setViewControllers(viewControllers, animated: true)
         
         if let items = tabBar.items {
             for item in items {
-                 item.imageInsets = UIEdgeInsets(top: -10, left: 0, bottom: 4, right: 0)
+                let imageInset = view.frame.height * 0.002
+                item.imageInsets = UIEdgeInsets(top: -imageInset, left: 0, bottom: imageInset, right: 0)
             }
         }
+        
     }
 }
