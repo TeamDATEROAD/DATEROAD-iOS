@@ -36,6 +36,7 @@ final class MainViewController: BaseViewController {
         
         registerCell()
         setDelegate()
+        setAddTarget()
     }
     
     override func setHierarchy() {
@@ -67,6 +68,16 @@ extension MainViewController {
     func setDelegate() {
         self.mainView.mainCollectionView.dataSource = self
         self.mainView.mainCollectionView.delegate = self
+    }
+    
+    func setAddTarget() {
+        self.mainView.floatingButton.addTarget(self, action: #selector(pushToAddCourseVC), for: .touchUpInside)
+    }
+    
+    // TODO: - 코스 등록 뷰컨 연결
+    @objc
+    func pushToAddCourseVC() {
+        print("pushToAddCourseVC")
     }
     
 }

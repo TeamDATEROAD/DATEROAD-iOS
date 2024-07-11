@@ -13,6 +13,9 @@ final class MainView: BaseView {
     
    lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeCompositionalLayout())
     
+    let floatingButton: UIButton = UIButton()
+    
+    
     // MARK: - Properties
     
     private var mainSectionData: [MainSection]
@@ -32,12 +35,18 @@ final class MainView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubview(mainCollectionView)
+        self.addSubviews(mainCollectionView, floatingButton)
     }
     
     override func setLayout() {
         mainCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        floatingButton.snp.makeConstraints {
+            $0.size.equalTo(50)
+            $0.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(10)
         }
     }
     
@@ -45,6 +54,12 @@ final class MainView: BaseView {
         mainCollectionView.do {
             $0.backgroundColor = UIColor(resource: .deepPurple)
             $0.showsVerticalScrollIndicator = false
+        }
+        
+        floatingButton.do {
+            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.setImage(UIImage(resource: .icPlus), for: .normal)
+            $0.roundedButton(cornerRadius: 25, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
         }
     }
 
