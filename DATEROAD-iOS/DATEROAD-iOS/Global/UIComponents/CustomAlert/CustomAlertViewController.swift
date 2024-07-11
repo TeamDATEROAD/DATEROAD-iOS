@@ -20,6 +20,7 @@ extension CustomAlertDelegate {
 }
 
 class CustomAlertViewController: BaseViewController {
+    
     // MARK: - UI Properties
     
     private var customAlertView = CustomAlertView()
@@ -42,6 +43,7 @@ class CustomAlertViewController: BaseViewController {
     private var rightButtonText: String?
 
     var delegate: CustomAlertDelegate?
+    
     
     // MARK: - LifeCycle
     
@@ -71,7 +73,6 @@ class CustomAlertViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .clear
         setUI()
     }
     
@@ -83,6 +84,10 @@ class CustomAlertViewController: BaseViewController {
         customAlertView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+    }
+    
+    override func setStyle() {
+        self.view.backgroundColor = .clear
     }
 
 }
@@ -115,6 +120,7 @@ extension CustomAlertViewController {
 }
 
 private extension CustomAlertViewController {
+    
     func setLongButton(text: String?) {
         customAlertView.longButton.isHidden = false
         customAlertView.longButton.setTitle(text, for: .normal)

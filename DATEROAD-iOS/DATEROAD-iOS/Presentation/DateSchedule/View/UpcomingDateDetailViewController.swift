@@ -87,7 +87,6 @@ extension UpcomingDateDetailViewController {
 // MARK: - Alert Methods
 
 extension UpcomingDateDetailViewController: CustomAlertDelegate {
-    
     @objc
     private func tapKakaoButton() {
         let customAlertVC = CustomAlertViewController(alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.kakaoAlert, rightButtonText: "열기")

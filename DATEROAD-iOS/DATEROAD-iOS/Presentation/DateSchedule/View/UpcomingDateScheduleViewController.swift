@@ -32,6 +32,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
         registerCell()
         setDelegate()
         setUIMethods()
+        setAddTarget()
     }
     
     override func setHierarchy() {
@@ -67,7 +68,9 @@ private extension UpcomingDateScheduleViewController {
         upcomingDateScheduleView.cardPageControl.do {
             $0.numberOfPages = upcomingDateScheduleData.dateCards.count
         }
-        
+    }
+    
+    func setAddTarget() {
         upcomingDateScheduleView.dateRegisterButton.do {
             $0.addTarget(self, action: #selector(dateRegisterButtonTapped), for: .touchUpInside)
         }
@@ -77,6 +80,8 @@ private extension UpcomingDateScheduleViewController {
         }
     }
 }
+
+// MARK: - Alert Delegate
 
 extension UpcomingDateScheduleViewController: CustomAlertDelegate {
     @objc
@@ -96,6 +101,7 @@ extension UpcomingDateScheduleViewController: CustomAlertDelegate {
 // MARK: - CollectionView Methods
 
 private extension UpcomingDateScheduleViewController {
+    
     func registerCell() {
         upcomingDateScheduleView.cardCollectionView.register(DateCardCollectionViewCell.self, forCellWithReuseIdentifier: DateCardCollectionViewCell.cellIdentifier)
     }
@@ -114,6 +120,7 @@ private extension UpcomingDateScheduleViewController {
 // MARK: - Delegate
 
 extension UpcomingDateScheduleViewController: UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return UpcomingDateScheduleView.dateCardCollectionViewLayout.itemSize
     }
@@ -140,6 +147,7 @@ extension UpcomingDateScheduleViewController: UICollectionViewDelegateFlowLayout
 // MARK: - DataSource
 
 extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return upcomingDateScheduleData.dateCards.count
     }
@@ -154,7 +162,8 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
         return cell
     }
     
-    @objc func pushToUpcomingDateDetailVC(_ sender: UITapGestureRecognizer) {
+    @objc 
+    func pushToUpcomingDateDetailVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: upcomingDateScheduleView.cardCollectionView)
         if let indexPath = upcomingDateScheduleView.cardCollectionView.indexPathForItem(at: location) {
             let upcomingDateDetailVC = UpcomingDateDetailViewController()
