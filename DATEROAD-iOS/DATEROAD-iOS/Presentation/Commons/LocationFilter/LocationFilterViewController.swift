@@ -10,6 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
+protocol LocationFilterDelegate: AnyObject {
+    func didSelectCity(_ city: LocationModel.City)
+}
+
 class LocationFilterViewController: BaseViewController {
     
     // MARK: - UI Properties
@@ -33,6 +37,8 @@ class LocationFilterViewController: BaseViewController {
     // MARK: - Properties
     
     private let viewModel = CourseViewModel()
+    
+    weak var delegate: LocationFilterDelegate?
     
     final let countryInset: CGFloat = 8
     
@@ -146,6 +152,7 @@ class LocationFilterViewController: BaseViewController {
             $0.setTitle("적용하기", for: .normal)
             $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_bold_15)
+            $0.addTarget(self, action: #selector(applyButtonTapped), for: .touchUpInside)
             
         }
         
@@ -163,6 +170,14 @@ class LocationFilterViewController: BaseViewController {
     @objc
     func didTapDimmedView(sender: UITapGestureRecognizer) {
         self.dismiss(animated: false)
+    }
+    
+    @objc 
+    func applyButtonTapped() {
+        guard let selectedCityIndex = viewModel.selectedCityIndex else { return }
+        let selectedCity = viewModel.cityData[selectedCityIndex]
+        delegate?.didSelectCity(selectedCity)
+        closeView()
     }
     
     

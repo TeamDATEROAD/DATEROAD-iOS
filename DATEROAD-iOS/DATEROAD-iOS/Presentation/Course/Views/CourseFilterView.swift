@@ -18,7 +18,7 @@ class CourseFilterView: BaseView {
     
     // MARK: - UI Properties
     
-    private let locationFilterButton = UIButton()
+    let locationFilterButton = UIButton()
     
     private let resetButton = UIButton()
     
