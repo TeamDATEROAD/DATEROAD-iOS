@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
+final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
    
    // MARK: - UI Properties
    

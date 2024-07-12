@@ -45,7 +45,7 @@ final class AddSheetViewController: BaseViewController {
       super.viewDidLoad()
       
       setAddTarget()
-      setupCustomPicker()
+      setCustomPicker()
       addSheetView.isCustomPicker(flag: isCustomPicker ?? false)
    }
    
@@ -72,7 +72,7 @@ final class AddSheetViewController: BaseViewController {
 
 extension AddSheetViewController {
    
-   private func setupCustomPicker() {
+   private func setCustomPicker() {
       if isCustomPicker == true {
          customPickerValues = Array(stride(from: 0.5, to: 6.5, by: 0.5))
          addSheetView.customPickerView.dataSource = self
@@ -100,16 +100,16 @@ extension AddSheetViewController {
          let selectedRow = addSheetView.customPickerView.selectedRow(inComponent: 0)
          let selectedValue = customPickerValues[selectedRow]
          viewModel?.updateTimeRequireTextField(text: String(selectedValue))
-         dismiss(animated: true, completion: nil)
+         dismiss(animated: true)
       } else {
          if addSheetView.datePicker.datePickerMode == .date {
             let selectedDate = addSheetView.datePicker.date
             viewModel?.isFutureDate(date: selectedDate, dateType: "date")
-            dismiss(animated: true, completion: nil)
+            dismiss(animated: true)
          } else {
             let formattedDate = addSheetView.datePicker.date
             viewModel?.isFutureDate(date: formattedDate, dateType: "time")
-            dismiss(animated: true, completion: nil)
+            dismiss(animated: true)
          }
       }
    }

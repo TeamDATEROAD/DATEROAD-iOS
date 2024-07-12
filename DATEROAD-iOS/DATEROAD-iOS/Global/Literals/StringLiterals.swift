@@ -84,7 +84,7 @@ enum StringLiterals {
         static let visitDateErrorLabel = "미래 날짜를 선택하셨어요"
     }
    
-   enum AddCourseOrSchedul {
+   enum AddCourseOrSchedule {
       static let addCourseTitle = "코스 등록하기"
       static let addScheduleTitle = "일정 등록하기"
       

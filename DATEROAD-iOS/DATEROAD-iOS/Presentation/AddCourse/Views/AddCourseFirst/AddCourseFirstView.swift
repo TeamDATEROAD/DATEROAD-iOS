@@ -124,9 +124,9 @@ final class AddCourseFirstView: BaseView {
       for i in [dateNameErrorLabel,visitDateErrorLabel] {
          i.do {
             if i == dateNameErrorLabel {
-               $0.setErrorLabel(text: StringLiterals.AddCourseOrSchedul.AddFirstView.dateNameErrorLabel, errorType: warningType)
+               $0.setErrorLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNameErrorLabel, errorType: warningType)
             } else {
-               $0.setErrorLabel(text: StringLiterals.AddCourseOrSchedul.AddFirstView.visitDateErrorLabel, errorType: warningType)
+               $0.setErrorLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateErrorLabel, errorType: warningType)
             }
             $0.isHidden = true
          }

@@ -31,7 +31,7 @@ class AddThirdView: BaseView {
    
    // MARK: - Properties
    
-   let textViewPlaceHolder = StringLiterals.AddCourseOrSchedul.AddThirdView.contentTextFieldPlaceHolder
+   let textViewPlaceHolder = StringLiterals.AddCourseOrSchedule.AddThirdView.contentTextFieldPlaceHolder
    
    private let enabledButtonType: DRButtonType = EnabledButton()
    
@@ -101,7 +101,7 @@ class AddThirdView: BaseView {
             textColor: UIColor(resource: .drBlack),
             font: .suit(.body_bold_17)
          )
-         $0.text = StringLiterals.AddCourseOrSchedul.AddThirdView.contentTitleLabel
+         $0.text = StringLiterals.AddCourseOrSchedule.AddThirdView.contentTitleLabel
       }
       
       [contentTextView, priceTextField].forEach {
@@ -128,7 +128,7 @@ class AddThirdView: BaseView {
          $0.textColor = UIColor(resource: .drBlack)
       }
       
-      priceTextField.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedul.AddThirdView.priceTextFieldPlaceHolder, fontColor: UIColor(resource: .gray300), font: .suit(.body_med_13))
+      priceTextField.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedule.AddThirdView.priceTextFieldPlaceHolder, fontColor: UIColor(resource: .gray300), font: .suit(.body_med_13))
       
       contentTextCountLabel.do {
          $0.setLabel(
@@ -136,7 +136,7 @@ class AddThirdView: BaseView {
             textColor: UIColor(resource: .gray300),
             font: .suit(.body_med_13)
          )
-         $0.text = StringLiterals.AddCourseOrSchedul.AddThirdView.contentTextCountLabel
+         $0.text = StringLiterals.AddCourseOrSchedule.AddThirdView.contentTextCountLabel
       }
       
       priceTitleLabel.do {
@@ -145,13 +145,13 @@ class AddThirdView: BaseView {
             textColor: UIColor(resource: .drBlack),
             font: .suit(.body_bold_17)
          )
-         $0.text = StringLiterals.AddCourseOrSchedul.AddThirdView.priceTitleLabel
+         $0.text = StringLiterals.AddCourseOrSchedule.AddThirdView.priceTitleLabel
       }
       
       addThirdDoneBtn.do {
          $0.setButtonStatus(buttonType: disabledButtonType)
          $0.layer.borderWidth = 0
-         $0.setTitle(StringLiterals.AddCourseOrSchedul.AddThirdView.addThirdDoneBtn, for: .normal)
+         $0.setTitle(StringLiterals.AddCourseOrSchedule.AddThirdView.addThirdDoneBtn, for: .normal)
          $0.titleLabel?.font = .suit(.body_bold_15)
          $0.layer.cornerRadius = 14
       }

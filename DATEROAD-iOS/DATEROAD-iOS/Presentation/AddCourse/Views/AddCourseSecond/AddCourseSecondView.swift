@@ -22,7 +22,7 @@ final class AddCourseSecondView: BaseView {
    
    private let guideLabel: UILabel = UILabel()
    
-   var collectionView2 = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+   var addPlaceCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
    
    
    // MARK: - Properties
@@ -37,11 +37,8 @@ final class AddCourseSecondView: BaseView {
    // MARK: - Methods
    
    override func setHierarchy() {
-      self.addSubviews (
-         collectionView,
-         addSecondView
-      )
-      addSecondView.addSubviews(editButton, guideLabel, collectionView2)
+      self.addSubviews (collectionView, addSecondView)
+      addSecondView.addSubviews(editButton, guideLabel, addPlaceCollectionView)
    }
    
    override func setLayout() {
@@ -69,7 +66,7 @@ final class AddCourseSecondView: BaseView {
          $0.centerY.equalTo(editButton)
       }
       
-      collectionView2.snp.makeConstraints {
+      addPlaceCollectionView.snp.makeConstraints {
          $0.top.equalTo(editButton.snp.bottom).offset(14)
          $0.horizontalEdges.equalToSuperview()
          $0.bottom.equalTo(addSecondView.nextBtn.snp.top).offset(-12)
@@ -90,7 +87,7 @@ final class AddCourseSecondView: BaseView {
          $0.clipsToBounds = true
       }
       
-      collectionView2.do {
+      addPlaceCollectionView.do {
          let layout = UICollectionViewFlowLayout()
          layout.scrollDirection = .vertical
          layout.minimumInteritemSpacing = 14.0
@@ -104,13 +101,13 @@ final class AddCourseSecondView: BaseView {
       }
       
       editButton.do {
-         $0.setTitle(StringLiterals.AddCourseOrSchedul.AddSecondView.edit, for: .normal)
+         $0.setTitle(StringLiterals.AddCourseOrSchedule.AddSecondView.edit, for: .normal)
          $0.setButtonStatus(buttonType: enabledButtonType)
       }
       
       guideLabel.do {
          $0.setLabel(alignment: .left, textColor: UIColor(resource: .gray400), font: .suit(.body_med_13))
-         $0.text = StringLiterals.AddCourseOrSchedul.AddSecondView.guideLabel
+         $0.text = StringLiterals.AddCourseOrSchedule.AddSecondView.guideLabel
       }
    }
    
