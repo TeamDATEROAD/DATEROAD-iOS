@@ -34,7 +34,12 @@ class PointDetailView: BaseView {
     // MARK: - LifeCycle
     
     override func setHierarchy() {
-        self.addSubviews(pointView, segmentControl, segmentControlUnderLineView, selectedSegmentUnderLineView, pointUsedCollectionView, pointGainedCollectionView)
+        self.addSubviews(pointView, 
+                         segmentControl,
+                         segmentControlUnderLineView,
+                         selectedSegmentUnderLineView,
+                         pointUsedCollectionView,
+                         pointGainedCollectionView)
         
         self.pointView.addSubviews(userNameLabel, totalPointLabel)
     }

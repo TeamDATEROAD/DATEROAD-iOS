@@ -43,9 +43,7 @@ class NavViewedCourseViewController: BaseNavBarViewController {
         super.setLayout()
         
         courseCollectionView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.bottom.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
     }
     

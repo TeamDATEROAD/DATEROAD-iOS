@@ -34,7 +34,7 @@ class PointDetailViewController: BaseNavBarViewController {
         setProfile(userName: "수민", totalPoint: 200) // 나중에 푸쉬 전 뷰(메인뷰, 마이페이지뷰)에서 실행
         registerCell()
         setDelegate()
-        
+        setAddTarget()
     }
     
     override func setHierarchy() {
@@ -60,7 +60,7 @@ extension PointDetailViewController {
         pointDetailView.totalPointLabel.text = "\(totalPoint) P"
     }
     
-    private func setUI() {
+    private func setAddTarget() {
         pointDetailView.segmentControl.addTarget(self, action: #selector(didChangeValue(segment:)), for: .valueChanged)
     }
 }
