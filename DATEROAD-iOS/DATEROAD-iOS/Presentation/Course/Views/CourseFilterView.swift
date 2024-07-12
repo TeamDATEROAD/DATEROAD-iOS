@@ -26,29 +26,31 @@ class CourseFilterView: BaseView {
     // MARK: - Properties
     
     private let enabledButtonType: DRButtonType = EnabledButton()
+    
     private let disabledButtonType: DRButtonType = DisabledButton()
+    
     weak var delegate: CourseFilterViewDelegate?
-    private var priceButtons: [UIButton] = []  // 배열로 가격 선택 버튼들을 저장
+    
+    private var priceButtons: [UIButton] = []
     
     // MARK: - Life Cycle
     
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
-        setupViews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func setupViews() {
-        setHierarchy()
-        setLayout()
-        setStyle()
-    }
+
     
     override func setHierarchy() {
-        self.addSubviews(locationFilterButton, resetButton, priceCollectionView)
+        self.addSubviews(
+            locationFilterButton,
+            resetButton,
+            priceCollectionView
+        )
     }
     
     override func setLayout() {
@@ -111,14 +113,14 @@ class CourseFilterView: BaseView {
     
     func updatePrice(button: UIButton, buttonType: DRButtonType, isSelected: Bool) {
         button.setButtonStatus(buttonType: buttonType)
-        isSelected ? button.setTitleColor(UIColor(resource: .drWhite), for: .normal)
-        : button.setTitleColor(UIColor(resource: .gray400), for: .normal)
-        
+    
         if isSelected {
             priceButtons.append(button)
+            button.setTitleColor(UIColor(resource: .drWhite), for: .normal)
         } else {
             if let index = priceButtons.firstIndex(of: button) {
                 priceButtons.remove(at: index)
+                button.setTitleColor(UIColor(resource: .gray400), for: .normal)
             }
         }
     }
