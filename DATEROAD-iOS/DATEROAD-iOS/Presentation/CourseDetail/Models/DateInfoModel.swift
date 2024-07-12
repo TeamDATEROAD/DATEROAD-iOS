@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct InfoContents {
+struct DateInfoModel {
     let coast: Int?
     let tag: String?
     
@@ -22,12 +22,12 @@ struct InfoContents {
     }
 }
 
-extension InfoContents {
+extension DateInfoModel {
     
     static let coast: Int = 50000
     
-    static let tagContents: [InfoContents] = [InfoContents(tag: "🚙 드라이브"),
-                                              InfoContents(tag: "🛍️ 쇼핑"),
-                                              InfoContents(tag: "🚪 실내")]
+    static let tagContents: [DateInfoModel] = [DateInfoModel(tag: "🚙 드라이브"),
+                                              DateInfoModel(tag: "🛍️ 쇼핑"),
+                                              DateInfoModel(tag: "🚪 실내")]
     
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct ImageContents {
+struct ImageModel {
     let image: UIImage?
     let likeSum: Int?
 
@@ -24,7 +24,7 @@ struct ImageContents {
     }
 }
 
-extension ImageContents {
+extension ImageModel {
     static let imageContents: [UIImage] = [
         UIImage(resource: .image1),
         UIImage(resource: .image2),

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MainContents {
+struct MainContentsModel {
     let date: String?
     let title: String?
     let coast: String?
@@ -25,9 +25,9 @@ struct MainContents {
     }
 }
 
-extension MainContents {
+extension MainContentsModel {
     
-    static let mainContents: MainContents = MainContents(
+    static let mainContents: MainContentsModel = MainContentsModel(
         date: "2024년 6월 27일",
         title: "나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎나랑 스껄하러 갈래?♥︎",
         coast: "10만원 초과",
