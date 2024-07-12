@@ -128,7 +128,8 @@ extension AddCourseFirstViewController: UICollectionViewDataSource, UICollection
       
       let isImageEmpty = viewModel.isImageEmpty.value ?? true
       isImageEmpty ? cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: nil)
-      : cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: self.viewModel.dataSource[indexPath.item])
+      : cell.updateImageCellUI(isImageEmpty: isImageEmpty,
+         image: self.viewModel.dataSource[indexPath.item])
       
       self.addCourseFirstView.updateImageCellUI(isEmpty: isImageEmpty,ImageDataCount: self.viewModel.dataSource.count )
       

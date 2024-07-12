@@ -38,13 +38,16 @@ final class AddCourseSecondView: BaseView {
    
    override func setHierarchy() {
       self.addSubviews (collectionView, addSecondView)
-      addSecondView.addSubviews(editButton, guideLabel, addPlaceCollectionView)
+      addSecondView.addSubviews(
+         editButton,
+         guideLabel,
+         addPlaceCollectionView
+      )
    }
    
    override func setLayout() {
       collectionView.snp.makeConstraints {
          $0.top.horizontalEdges.equalToSuperview()
-         //         $0.horizontalEdges.equalToSuperview()
          $0.height.equalTo(146)
       }
       

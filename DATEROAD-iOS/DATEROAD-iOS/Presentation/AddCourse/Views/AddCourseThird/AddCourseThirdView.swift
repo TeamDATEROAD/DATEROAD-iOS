@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import SnapKit
 import Then
 
@@ -55,7 +56,7 @@ final class AddCourseThirdView: BaseView {
    
    override func setStyle() {
       scrollView.do {
-         $0.isScrollEnabled = true
+         $0.backgroundColor = UIColor(resource: .deepPurple)
          $0.showsVerticalScrollIndicator = false
          $0.contentInsetAdjustmentBehavior = .always
       }
@@ -72,6 +73,7 @@ final class AddCourseThirdView: BaseView {
          $0.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 16)
          $0.clipsToBounds = true
       }
+      
    }
    
 }
