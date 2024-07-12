@@ -185,7 +185,7 @@ final class HotDateCourseCell: BaseCollectionViewCell {
             $0.textAlignment = .left
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.numberOfLines = 2
-            $0.lineBreakMode = .byCharWrapping
+            $0.lineBreakMode = .byWordWrapping
             $0.setLabel(alignment: .left, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_bold_17))
         }
         

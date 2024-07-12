@@ -79,7 +79,7 @@ final class BannerImageCollectionViewCell: BaseCollectionViewCell {
         titleLabel.do {
             $0.backgroundColor = UIColor.clear
             $0.numberOfLines = 2
-            $0.lineBreakMode = .byCharWrapping
+            $0.lineBreakMode = .byWordWrapping
             $0.setLabel(alignment: .left, textColor: UIColor(resource: .gray400), font: UIFont.suit(.body_bold_15))
         }
     }
