@@ -28,8 +28,24 @@ class InfoBarView: UICollectionReusableView {
     
     // MARK: - Properties
     
+    static let elementKinds: String = "infoBarView"
+    
+    static let identifier: String = "InfoBarView"
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setHierarchy()
+        setLayout()
+        setStyle()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     func setHierarchy() {
+        self.backgroundColor = .red
         self.addSubviews(
             coastLabel,
             coastIconImageView,
@@ -98,14 +114,4 @@ class InfoBarView: UICollectionReusableView {
         
     }
     
-}
-
-extension InfoBarView {
-    
-//    func setCell(mainContentsData: MainContentsModel) {
-//        titleLabel.text = mainContentsData.title
-//        coastLabel.text = mainContentsData.coast
-//        timeLabel.text = mainContentsData.time
-//        locationLabel.text = mainContentsData.location
-//    }
 }
