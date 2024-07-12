@@ -63,16 +63,11 @@ extension UpcomingDateDetailViewController {
         print("delete date course 바텀시트")
     }
     
-    @objc
-    private func kakaoShareCourse() {
-        print("카카오 공유하기")
-    }
-    
     private func setButton() {
         upcomingDateDetailContentView.kakaoShareButton.isHidden = false
         upcomingDateDetailContentView.courseShareButton.isHidden = true
         
-        upcomingDateDetailContentView.kakaoShareButton.addTarget(self, action: #selector(kakaoShareCourse), for: .touchUpInside)
+        upcomingDateDetailContentView.kakaoShareButton.addTarget(self, action: #selector(tapKakaoButton), for: .touchUpInside)
     }
     
     func setColor(index: Int) {
@@ -85,6 +80,23 @@ extension UpcomingDateDetailViewController {
             self.setBackgroundColor(color: UIColor(resource: .lime))
         }
         upcomingDateDetailContentView.setColor(index: index)
+    }
+    
+}
+
+// MARK: - Alert Methods
+
+extension UpcomingDateDetailViewController: CustomAlertDelegate {
+    @objc
+    private func tapKakaoButton() {
+        let customAlertVC = CustomAlertViewController(alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.kakaoAlert, rightButtonText: "열기")
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        self.present(customAlertVC, animated: false)
+    }
+    
+    func action() {
+        print("카카오 공유하기")
     }
 }
 

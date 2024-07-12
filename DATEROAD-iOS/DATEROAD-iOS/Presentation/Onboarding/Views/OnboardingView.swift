@@ -13,7 +13,7 @@ final class OnboardingView: BaseView {
 
     let onboardingCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    let pageControl: UIPageControl = UIPageControl()
+    let bottomControlView: BottomControlView = BottomControlView()
     
     
     // MARK: - Properties
@@ -23,7 +23,7 @@ final class OnboardingView: BaseView {
     // MARK: - Methods
     
     override func setHierarchy() {
-        self.addSubviews(onboardingCollectionView, pageControl)
+        self.addSubviews(onboardingCollectionView, bottomControlView)
     }
     
     override func setLayout() {
@@ -31,10 +31,10 @@ final class OnboardingView: BaseView {
             $0.edges.equalToSuperview()
         }
         
-        pageControl.snp.makeConstraints {
-            $0.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(35)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(8)
+        bottomControlView.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(ScreenUtils.height / 812 * 24)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(ScreenUtils.height / 812 * 90)
         }
     }
     
@@ -49,13 +49,7 @@ final class OnboardingView: BaseView {
             $0.isPagingEnabled = true
             $0.isScrollEnabled = true
         }
-        
-        pageControl.do {
-            $0.numberOfPages = 3
-            $0.currentPage = 0
-            $0.pageIndicatorTintColor = UIColor(resource: .gray200)
-            $0.currentPageIndicatorTintColor = UIColor(resource: .deepPurple)
-        }
+
     }
     
 }

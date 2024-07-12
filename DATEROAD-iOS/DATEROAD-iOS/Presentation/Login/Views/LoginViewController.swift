@@ -38,6 +38,10 @@ final class LoginViewController: BaseViewController {
             $0.edges.equalToSuperview()
         }
     }
+    
+    override func setStyle() {
+        self.view.backgroundColor = UIColor(resource: .deepPurple)
+    }
 
 }
 
@@ -57,7 +61,7 @@ extension LoginViewController {
     // TODO: - 추후 뷰컨 변경 예정
     
     func pushToPointSystemManualVC() {
-        let pointSystemManualVC = ViewController()
+        let pointSystemManualVC = OnboardingViewController()
         self.navigationController?.pushViewController(pointSystemManualVC, animated: true)
     }
     

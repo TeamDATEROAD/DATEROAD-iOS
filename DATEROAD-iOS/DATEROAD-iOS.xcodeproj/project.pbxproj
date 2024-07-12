@@ -56,6 +56,9 @@
 		0DF905CA2C399F750072EE65 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905C92C399F750072EE65 /* PreviewView.swift */; };
 		0DF905CC2C3ABAC30072EE65 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905CB2C3ABAC30072EE65 /* GradientView.swift */; };
 		741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */; };
+		7428400E2C3EC58700B21AA7 /* CustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428400D2C3EC58700B21AA7 /* CustomAlertViewController.swift */; };
+		742840102C3EC87300B21AA7 /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428400F2C3EC87300B21AA7 /* AlertType.swift */; };
+		742840122C3EC8C100B21AA7 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742840112C3EC8C100B21AA7 /* CustomAlertView.swift */; };
 		745547532C3B862100B526F3 /* DateScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745547522C3B862100B526F3 /* DateScheduleModel.swift */; };
 		745547552C3B8A0B00B526F3 /* DateScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745547542C3B8A0B00B526F3 /* DateScheduleViewModel.swift */; };
 		7455475D2C3C2A9A00B526F3 /* UpcomingDateDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7455475C2C3C2A9A00B526F3 /* UpcomingDateDetailViewController.swift */; };
@@ -92,7 +95,6 @@
 		CA0A96472C2C62C200F39EBE /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = CA0A96462C2C62C200F39EBE /* .gitkeep */; };
 		CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0CDA2C29A2F300735097 /* AppDelegate.swift */; };
 		CA3D0CDD2C29A2F300735097 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0CDC2C29A2F300735097 /* SceneDelegate.swift */; };
-		CA3D0CDF2C29A2F300735097 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0CDE2C29A2F300735097 /* ViewController.swift */; };
 		CA3D0CE42C29A2F500735097 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA3D0CE32C29A2F500735097 /* Assets.xcassets */; };
 		CA3D0CE72C29A2F500735097 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = CA3D0CE62C29A2F500735097 /* Base */; };
 		CA3D0CF02C29A4DB00735097 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = CA3D0CEF2C29A4DB00735097 /* Moya */; };
@@ -152,6 +154,10 @@
 		CAC80FC52C3C759B00658EA6 /* PointSystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FC42C3C759B00658EA6 /* PointSystemModel.swift */; };
 		CAC80FC82C3C75F200658EA6 /* PointSystemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FC72C3C75F200658EA6 /* PointSystemViewModel.swift */; };
 		CAC80FCA2C3C95A100658EA6 /* UICollectionViewFlowLayout+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FC92C3C95A000658EA6 /* UICollectionViewFlowLayout+.swift */; };
+		CAC80FCC2C3D2EA600658EA6 /* DRButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FCB2C3D2EA600658EA6 /* DRButton.swift */; };
+		CAC80FCE2C3D2FD800658EA6 /* BottomControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FCD2C3D2FD800658EA6 /* BottomControlView.swift */; };
+		CAC80FD02C3D723200658EA6 /* DRBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FCF2C3D723200658EA6 /* DRBottomSheetViewController.swift */; };
+		CAC80FD22C3D7E5100658EA6 /* ProfileImageSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FD12C3D7E5100658EA6 /* ProfileImageSettingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -204,6 +210,9 @@
 		0DF905C92C399F750072EE65 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		0DF905CB2C3ABAC30072EE65 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseViewController.swift; sourceTree = "<group>"; };
+		7428400D2C3EC58700B21AA7 /* CustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertViewController.swift; sourceTree = "<group>"; };
+		7428400F2C3EC87300B21AA7 /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
+		742840112C3EC8C100B21AA7 /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		745547522C3B862100B526F3 /* DateScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateScheduleModel.swift; sourceTree = "<group>"; };
 		745547542C3B8A0B00B526F3 /* DateScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateScheduleViewModel.swift; sourceTree = "<group>"; };
 		7455475C2C3C2A9A00B526F3 /* UpcomingDateDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingDateDetailViewController.swift; sourceTree = "<group>"; };
@@ -242,7 +251,6 @@
 		CA3D0CD72C29A2F300735097 /* DATEROAD-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DATEROAD-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA3D0CDA2C29A2F300735097 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA3D0CDC2C29A2F300735097 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CA3D0CDE2C29A2F300735097 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		CA3D0CE32C29A2F500735097 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA3D0CE62C29A2F500735097 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CA3D0CE82C29A2F500735097 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "DATEROAD-iOS/Global/Settings/Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -295,6 +303,10 @@
 		CAC80FC42C3C759B00658EA6 /* PointSystemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSystemModel.swift; sourceTree = "<group>"; };
 		CAC80FC72C3C75F200658EA6 /* PointSystemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSystemViewModel.swift; sourceTree = "<group>"; };
 		CAC80FC92C3C95A000658EA6 /* UICollectionViewFlowLayout+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewFlowLayout+.swift"; sourceTree = "<group>"; };
+		CAC80FCB2C3D2EA600658EA6 /* DRButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRButton.swift; sourceTree = "<group>"; };
+		CAC80FCD2C3D2FD800658EA6 /* BottomControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomControlView.swift; sourceTree = "<group>"; };
+		CAC80FCF2C3D723200658EA6 /* DRBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRBottomSheetViewController.swift; sourceTree = "<group>"; };
+		CAC80FD12C3D7E5100658EA6 /* ProfileImageSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageSettingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -561,6 +573,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		742840132C3EC8C600B21AA7 /* CustomAlert */ = {
+			isa = PBXGroup;
+			children = (
+				742840112C3EC8C100B21AA7 /* CustomAlertView.swift */,
+				7428400D2C3EC58700B21AA7 /* CustomAlertViewController.swift */,
+			);
+			path = CustomAlert;
+			sourceTree = "<group>";
+		};
 		7478193C2C3A97300040D5E7 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -788,7 +809,6 @@
 		CA3D0D0B2C29A7EC00735097 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				CA3D0CDE2C29A2F300735097 /* ViewController.swift */,
 				CA4EF3B52C328521003B02B6 /* LoginViewController.swift */,
 				CA4EF3B72C328542003B02B6 /* LoginView.swift */,
 			);
@@ -860,6 +880,7 @@
 				CA4EF3BF2C3285BA003B02B6 /* SocialType.swift */,
 				CAA30AE12C37497200835DE3 /* TendencyTag.swift */,
 				CAC80FB82C3BCE4E00658EA6 /* MyPageSection.swift */,
+				7428400F2C3EC87300B21AA7 /* AlertType.swift */,
 				0DA1C71D2C3DCC2400DF2B92 /* Price.swift */,
 			);
 			path = Enums;
@@ -915,6 +936,7 @@
 				CA4EF3D82C3478C9003B02B6 /* Cells */,
 				CA4EF3D42C34763B003B02B6 /* OnboardingViewController.swift */,
 				CA4EF3D62C347766003B02B6 /* OnboardingView.swift */,
+				CAC80FCD2C3D2FD800658EA6 /* BottomControlView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -967,6 +989,7 @@
 				CAA30AE62C37DA7E00835DE3 /* Cells */,
 				CAA30ADD2C3718C500835DE3 /* ProfileViewController.swift */,
 				CAA30ADF2C3733DF00835DE3 /* ProfileView.swift */,
+				CAC80FD12C3D7E5100658EA6 /* ProfileImageSettingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -974,10 +997,13 @@
 		CAA30AE32C37BC9800835DE3 /* UIComponents */ = {
 			isa = PBXGroup;
 			children = (
+				742840132C3EC8C600B21AA7 /* CustomAlert */,
 				CAA30AE42C37BCB200835DE3 /* DRTagButton.swift */,
 				0DA138F62C3E8E3F00682653 /* DRPriceButton.swift */,
 				CA78FE462C38667A001B1403 /* DRErrorLabel.swift */,
 				0D07420B2C3B0339004B3F59 /* TabBarController.swift */,
+				CAC80FCB2C3D2EA600658EA6 /* DRButton.swift */,
+				CAC80FCF2C3D723200658EA6 /* DRBottomSheetViewController.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -1185,7 +1211,6 @@
 				0D0DA3E02C3AF396004210EE /* PointModel.swift in Sources */,
 				0D9497BF2C3292D60004B442 /* CoastInfoCell.swift in Sources */,
 				CAC80FBD2C3C61BC00658EA6 /* PointSystemViewController.swift in Sources */,
-				CA3D0CDF2C29A2F300735097 /* ViewController.swift in Sources */,
 				CA3D0D1E2C2ACE3900735097 /* UIButton+.swift in Sources */,
 				0D9497B92C328D010004B442 /* ImageCarouselCell.swift in Sources */,
 				0DF905C02C3921AD0072EE65 /* ImageGradientView.swift in Sources */,
@@ -1205,6 +1230,7 @@
 				CAA30ADE2C3718C500835DE3 /* ProfileViewController.swift in Sources */,
 				7455475F2C3C2EC400B526F3 /* DateDetailViewModel.swift in Sources */,
 				0D0DA3D72C3AF2DE004210EE /* UIFont+.swift in Sources */,
+				742840102C3EC87300B21AA7 /* AlertType.swift in Sources */,
 				747819402C3AB7E10040D5E7 /* ViewedCourseViewModel.swift in Sources */,
 				CA4EF3B42C3284BB003B02B6 /* BaseView.swift in Sources */,
 				0DDFEE132C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift in Sources */,
@@ -1218,6 +1244,7 @@
 				0D05FF072C3EDAD000E9BDDC /* CourseCollectionViewCell.swift in Sources */,
 				0D98CBA52C41067B00E3618A /* CourseDetailViewController.swift in Sources */,
 				0D0DA3E42C3AF3CF004210EE /* PointCollectionView.swift in Sources */,
+				CAC80FCC2C3D2EA600658EA6 /* DRButton.swift in Sources */,
 				CAC80FA22C3B10EA00658EA6 /* MyPageViewController.swift in Sources */,
 				CA4EF3C02C3285BA003B02B6 /* SocialType.swift in Sources */,
 				CAC80FAC2C3B567100658EA6 /* MyPageViewModel.swift in Sources */,
@@ -1233,6 +1260,8 @@
 				CAC80FB32C3BBE9100658EA6 /* MyPageTableViewCell.swift in Sources */,
 				CAC80FA92C3B4CE800658EA6 /* TagCollectionViewCell.swift in Sources */,
 				74CDE2682C3B123100A7459B /* UpcomingDateScheduleViewController.swift in Sources */,
+				CAC80FD22C3D7E5100658EA6 /* ProfileImageSettingView.swift in Sources */,
+				CAC80FD02C3D723200658EA6 /* DRBottomSheetViewController.swift in Sources */,
 				0D06D9A82C36946C0094C505 /* TimelineInfoCell.swift in Sources */,
 				0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */,
 				0DA1C7142C3DA94F00DF2B92 /* CourseListModel.swift in Sources */,
@@ -1277,6 +1306,7 @@
 				0DA1C7162C3DA97400DF2B92 /* CourseViewModel.swift in Sources */,
 				0D05FF092C3EE1F700E9BDDC /* CourseListCollectionViewCell.swift in Sources */,
 				0DA920F22C3C0AF500A6A321 /* MainContentsCell.swift in Sources */,
+				742840122C3EC8C100B21AA7 /* CustomAlertView.swift in Sources */,
 				0DDFEE0D2C3C513E008C6022 /* LocationFilterViewController.swift in Sources */,
 				0D06D9A22C3605760094C505 /* TagInfoCell.swift in Sources */,
 				0DA1C7202C3E6D8000DF2B92 /* CourseView.swift in Sources */,
@@ -1287,6 +1317,7 @@
 				0D07420C2C3B0339004B3F59 /* TabBarController.swift in Sources */,
 				CA4EF3BD2C3285A1003B02B6 /* ScreenUtils.swift in Sources */,
 				CAA30AE02C3733DF00835DE3 /* ProfileView.swift in Sources */,
+				CAC80FCE2C3D2FD800658EA6 /* BottomControlView.swift in Sources */,
 				CA4EF3CB2C3287DA003B02B6 /* Config.swift in Sources */,
 				747819432C3ADFCE0040D5E7 /* NavViewedCourseViewController.swift in Sources */,
 				CA4EF3C72C3286C5003B02B6 /* SplashView.swift in Sources */,
@@ -1294,6 +1325,7 @@
 				CA4EF3BB2C328595003B02B6 /* ObservablePattern.swift in Sources */,
 				CA3D0D1A2C29AAAC00735097 /* UIView+.swift in Sources */,
 				7478193E2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift in Sources */,
+				7428400E2C3EC58700B21AA7 /* CustomAlertViewController.swift in Sources */,
 				741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */,
 				CAC80FC52C3C759B00658EA6 /* PointSystemModel.swift in Sources */,
 				0D06D9AA2C37CAFC0094C505 /* BringCourseCell.swift in Sources */,
