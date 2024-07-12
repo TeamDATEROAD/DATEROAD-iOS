@@ -25,17 +25,17 @@ final class CourseDetailViewController: BaseViewController {
     
     private let viewModel: CourseDetailViewModel
     
-    private var imageData: [ImageContents] = ImageContents.imageContents.map { ImageContents(image: $0) }
+    private var imageData: [ImageModel] = ImageModel.imageContents.map { ImageModel(image: $0) }
     
-    private var likeSum: Int = ImageContents.likeSum
+    private var likeSum: Int = ImageModel.likeSum
     
-    private var mainContentsData: MainContents = MainContents.mainContents
+    private var mainContentsData: MainContentsModel = MainContentsModel.mainContents
     
-    private var timelineData: [TimelineContents] = TimelineContents.timelineContents
+    private var timelineData: [TimelineModel] = TimelineModel.timelineContents
     
-    private var coastData: Int = InfoContents.coast
+    private var coastData: Int = DateInfoModel.coast
     
-    private var tagData: [InfoContents] = InfoContents.tagContents
+    private var tagData: [DateInfoModel] = DateInfoModel.tagContents
     
     private var currentPage: Int = 0
     

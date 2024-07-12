@@ -105,7 +105,7 @@ class TimelineInfoCell: BaseCollectionViewCell {
 
 extension TimelineInfoCell {
     
-    func setCell(_ timelineData: TimelineContents) {
+    func setCell(_ timelineData: TimelineModel) {
         if let index = timelineData.index {
             indexNumLabel.text = String(index)
         } else {

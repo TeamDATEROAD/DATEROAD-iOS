@@ -46,7 +46,7 @@ final class TagInfoCell: BaseCollectionViewCell {
 
 extension TagInfoCell {
     
-    func setCell(tagData: InfoContents) {
+    func setCell(tagData: DateInfoModel) {
         hashTagLabel.text = tagData.tag
     }
     

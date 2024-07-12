@@ -41,11 +41,11 @@ extension DRButtonType {
 
 struct NextButton: DRButtonType {
     
-    var bgColor: UIColor =  UIColor(resource: .drWhite)
+    var bgColor: UIColor =  UIColor(resource: .deepPurple)
     
-    var fontColor: UIColor = UIColor(resource: .deepPurple)
+    var fontColor: UIColor = UIColor(resource: .drWhite)
     
-    var borderWidth: CGFloat = 1
+    var cornerRadius: CGFloat = ScreenUtils.height / 812 * 29
 
 }
 
@@ -59,6 +59,7 @@ struct EnabledButton: DRButtonType {
     
 }
 
+
 struct DisabledButton: DRButtonType {
     
     var bgColor: UIColor = UIColor(resource: .gray200)
@@ -71,10 +72,15 @@ struct DisabledButton: DRButtonType {
         
 }
 
+
 struct KakaoLoginButton: DRButtonType {
     
-    var bgColor: UIColor = UIColor(resource: .drWhite)
-            
+    var bgColor: UIColor = UIColor(resource: .kakaoBg)
+    
+    var fontColor: UIColor = UIColor(resource: .drBlack).withAlphaComponent(0.85)
+    
+    var font: UIFont = UIFont.systemFont(ofSize: 15, weight: .semibold)
+
 }
 
 struct AppleLoginButton: DRButtonType {
@@ -82,6 +88,8 @@ struct AppleLoginButton: DRButtonType {
     var bgColor: UIColor = UIColor(resource: .drBlack)
     
     var fontColor: UIColor = UIColor(resource: .drWhite)
+    
+    var font: UIFont = UIFont.suit(.body_bold_15)
         
 }
 
@@ -91,11 +99,14 @@ struct UnselectedButton: DRButtonType {
 
     var font: UIFont = UIFont.suit(.body_med_13)
     
+    var fontColor: UIColor = UIColor(resource: .drBlack)
+    
     var cornerRadius: CGFloat = 15
     
     var borderWidth: CGFloat = 0
             
 }
+
 
 struct SelectedButton : DRButtonType {
     
@@ -211,4 +222,28 @@ struct addCourseEditDisableButton: DRButtonType {
    
    var font: UIFont = .suit(.body_med_13)
     
+}
+
+struct AlertLeftButton: DRButtonType {
+    
+    var bgColor: UIColor =  UIColor(resource: .gray100)
+    
+    var fontColor: UIColor = UIColor(resource: .gray400)
+    
+    var font: UIFont = UIFont.suit(.body_bold_15)
+    
+    var cornerRadius: CGFloat = 18
+
+}
+
+struct AlertRightButton: DRButtonType {
+    
+    var bgColor: UIColor =  UIColor(resource: .deepPurple)
+    
+    var fontColor: UIColor = UIColor(resource: .drWhite)
+    
+    var font: UIFont = UIFont.suit(.body_bold_15)
+    
+    var cornerRadius: CGFloat = 18
+
 }

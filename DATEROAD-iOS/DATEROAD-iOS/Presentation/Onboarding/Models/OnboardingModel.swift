@@ -14,20 +14,20 @@ struct OnboardingModel {
     let mainInfo: String
     
     let subInfo: String
-    
+
+    let hintInfo: String?
+
     let pointText: [String]
     
     let buttonText: String
-    
-    let buttonType: DRButtonType
-    
-    init(bgIMG: UIImage?, mainInfo: String, subInfo: String, pointText: [String], buttonText: String, buttonType: DRButtonType) {
+        
+    init(bgIMG: UIImage, mainInfo: String, subInfo: String, hintInfo: String?, pointText: [String], buttonText: String) {
         self.bgIMG = bgIMG
         self.mainInfo = mainInfo
         self.subInfo = subInfo
+        self.hintInfo = hintInfo
         self.pointText = pointText
         self.buttonText = buttonText
-        self.buttonType = buttonType
     }
     
 }

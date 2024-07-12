@@ -60,12 +60,12 @@ class BaseNavBarViewController: UIViewController {
       
       leftButton.snp.makeConstraints {
          $0.centerY.equalToSuperview()
-         $0.leading.equalToSuperview().inset(18) //탭바 확정 후 다시 수정 - 메인화면 로고 패딩과 다른 백버튼 패딩이 다름
+         $0.leading.equalToSuperview() //탭바 확정 후 다시 수정 - 메인화면 로고 패딩과 다른 백버튼 패딩이 다름
       }
       
       rightButton.snp.makeConstraints {
          $0.centerY.equalToSuperview()
-         $0.trailing.equalToSuperview().inset(20)//탭바 확정 후 다시 수정 - 메인화면 로고 패딩과 다른 백버튼 패딩이 다름 22
+         $0.trailing.equalToSuperview()//탭바 확정 후 다시 수정 - 메인화면 로고 패딩과 다른 백버튼 패딩이 다름 22
       }
       
       titleLabel.snp.makeConstraints {
