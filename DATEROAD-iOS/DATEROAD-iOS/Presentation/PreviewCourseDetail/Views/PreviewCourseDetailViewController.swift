@@ -193,7 +193,6 @@ extension PreviewCourseDetailViewController: ContentMaskViewDelegate {
             alertButtonType: .twoButton,
             titleText: StringLiterals.Alert.buyCourse,
             descriptionText: StringLiterals.Alert.canNotRefund,
-            leftButtonText: "취소",
             rightButtonText: "확인"
         )
         customAlertVC.delegate = self
