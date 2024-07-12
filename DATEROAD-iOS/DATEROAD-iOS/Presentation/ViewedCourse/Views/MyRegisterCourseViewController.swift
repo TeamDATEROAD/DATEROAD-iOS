@@ -1,8 +1,8 @@
 //
-//  NavViewedCourseViewController.swift
+//  MyRegisterCourseViewController.swift
 //  DATEROAD-iOS
 //
-//  Created by 이수민 on 7/7/24.
+//  Created by 이수민 on 7/11/24.
 //
 
 import UIKit
@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class NavViewedCourseViewController: BaseNavBarViewController {
+class MyRegisterCourseViewController: BaseNavBarViewController {
 
     // MARK: - UI Properties
     
@@ -18,9 +18,9 @@ class NavViewedCourseViewController: BaseNavBarViewController {
     
     // MARK: - Properties
     
-    private let viewedCourseViewModel = MyCourseListViewModel()
+    private let myRegisterCourseViewModel = MyCourseListViewModel()
     
-    private lazy var viewedCourseData = viewedCourseViewModel.viewedCourseDummyData
+    private lazy var myRegisterCourseData = myRegisterCourseViewModel.myRegisterCourseDummyData
     
     // MARK: - LifeCycle
     
@@ -28,7 +28,7 @@ class NavViewedCourseViewController: BaseNavBarViewController {
         super.viewDidLoad()
         
         setLeftBackButton()
-        setTitleLabelStyle(title: StringLiterals.ViewedCourse.title, alignment: .center)
+        setTitleLabelStyle(title: StringLiterals.MyRegisterCourse.title, alignment: .center)
         register()
         setDelegate()
     }
@@ -43,7 +43,9 @@ class NavViewedCourseViewController: BaseNavBarViewController {
         super.setLayout()
         
         courseCollectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
         }
     }
     
@@ -56,7 +58,7 @@ class NavViewedCourseViewController: BaseNavBarViewController {
 
 // MARK: - CollectionView Methods
 
-extension NavViewedCourseViewController {
+extension MyRegisterCourseViewController {
     private func register() {
         courseCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
     }
@@ -69,7 +71,7 @@ extension NavViewedCourseViewController {
 
 // MARK: - Delegate
 
-extension NavViewedCourseViewController : UICollectionViewDelegateFlowLayout {
+extension MyRegisterCourseViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: ScreenUtils.width, height: 140)
     }
@@ -77,16 +79,16 @@ extension NavViewedCourseViewController : UICollectionViewDelegateFlowLayout {
 
 // MARK: - DataSource
 
-extension NavViewedCourseViewController : UICollectionViewDataSource {
+extension MyRegisterCourseViewController : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewedCourseData.count
+        return myRegisterCourseData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier, for: indexPath) as? MyCourseListCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.dataBind(viewedCourseData[indexPath.item], indexPath.item)
+        cell.dataBind(myRegisterCourseData[indexPath.item], indexPath.item)
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToCourseDetailVC(_:))))
         return cell
     }
@@ -96,7 +98,7 @@ extension NavViewedCourseViewController : UICollectionViewDataSource {
         let indexPath = courseCollectionView.indexPathForItem(at: location)
 
        if let index = indexPath {
-           print("일정 등록 페이지로 이동 \(viewedCourseData[indexPath?.item ?? 0].courseID ?? 0)")
+           print("코스 상세 페이지로 이동 \(myRegisterCourseData[indexPath?.item ?? 0].courseID ?? 0)")
        }
     }
     

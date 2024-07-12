@@ -1,29 +1,28 @@
 //
-//  PointCollectionView.swift
+//  CoursedCollectionView.swift
 //  DATEROAD-iOS
 //
-//  Created by 이수민 on 7/4/24.
+//  Created by 이수민 on 7/7/24.
 //
 
 import UIKit
 
-import Then
+class MyCourseListCollectionView: UICollectionView {
 
-final class PointCollectionView: UICollectionView {
-    
     // MARK: - UI Properties
     
-    static var pointCollectionViewLayout = UICollectionViewFlowLayout()
+    static var courseListCollectionViewLayout = UICollectionViewFlowLayout()
     
     // MARK: - Properties
     
-    private var pointData: [PointDetailModel] = []
+    var courseListData : [MyCourseListModel] = []
     
     // MARK: - LifeCycle
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
-        let flowLayout = PointCollectionView.pointCollectionViewLayout
+        let flowLayout = MyCourseListCollectionView.courseListCollectionViewLayout
         super.init(frame: frame, collectionViewLayout: flowLayout)
+        
         setStyle()
     }
     
@@ -33,10 +32,9 @@ final class PointCollectionView: UICollectionView {
     
     func setStyle() {
         self.backgroundColor = UIColor(resource: .drWhite)
-        
-        PointCollectionView.pointCollectionViewLayout.do {
-            $0.scrollDirection = .vertical
+        MyCourseListCollectionView.courseListCollectionViewLayout.do {
             $0.minimumLineSpacing = 0
+            $0.scrollDirection = .vertical
         }
     }
 
