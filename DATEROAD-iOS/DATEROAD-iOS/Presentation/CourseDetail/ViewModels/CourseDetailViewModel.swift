@@ -28,7 +28,6 @@ class CourseDetailViewModel {
     let timelineInfoViewModel: TimelineInfoViewModel
     let coastInfoViewModel: CoastInfoViewModel
     let tagInfoViewModel: TagInfoViewModel
-    let bringCourseViewModel: BringCourseViewModel
     
     init() {
         self.imageCarouselViewModel = ImageCarouselViewModel()
@@ -37,11 +36,10 @@ class CourseDetailViewModel {
         self.timelineInfoViewModel = TimelineInfoViewModel()
         self.coastInfoViewModel = CoastInfoViewModel()
         self.tagInfoViewModel = TagInfoViewModel()
-        self.bringCourseViewModel = BringCourseViewModel()
     }
     
     var sections: [CourseDetailSection] {
-        return [.imageCarousel, .mainContents, .timelineInfo, .coastInfo, .tagInfo]
+        return [.imageCarousel, .titleInfo, .mainContents, .timelineInfo, .coastInfo, .tagInfo]
     }
     
     var numberOfSections: Int {
@@ -105,8 +103,3 @@ struct TagInfoViewModel {
     }
 }
 
-struct BringCourseViewModel {
-    var numberOfItems: Int {
-        return 1
-    }
-}

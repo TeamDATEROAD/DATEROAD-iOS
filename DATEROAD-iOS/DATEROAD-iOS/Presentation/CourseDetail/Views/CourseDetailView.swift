@@ -65,12 +65,18 @@ extension CourseDetailView {
         return UICollectionViewCompositionalLayout { section, _ -> NSCollectionLayoutSection? in
             
             switch self.courseDetailSection[section]  {
-            case .imageCarousel: return self.makeImageCarouselLayout()
-            case .titleInfo: return self.makeTitleInfoLayout()
-            case .mainContents: return self.makeMainContentsLayout()
-            case .timelineInfo: return self.makeTimelineInfoLayout()
-            case .coastInfo: return self.makeCoastInfoLayout()
-            case .tagInfo: return self.makeTagInfoLayout()
+            case .imageCarousel: 
+                return self.makeImageCarouselLayout()
+            case .titleInfo: 
+                return self.makeTitleInfoLayout()
+            case .mainContents: 
+                return self.makeMainContentsLayout()
+            case .timelineInfo:
+                return self.makeTimelineInfoLayout()
+            case .coastInfo: 
+                return self.makeCoastInfoLayout()
+            case .tagInfo: 
+                return self.makeTagInfoLayout()
             }
         }
     }
@@ -104,9 +110,9 @@ extension CourseDetailView {
         
         let section = NSCollectionLayoutSection(group: group)
         
-        let header = makeVisitDateView()
         let infoBar = makeInfoBarView()
-        section.boundarySupplementaryItems = [header,infoBar]
+        let date = makeVisitDateView()
+        section.boundarySupplementaryItems = [infoBar, date]
         
         return section
     }
@@ -120,7 +126,7 @@ extension CourseDetailView {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        
+
         return section
     }
     
@@ -170,28 +176,14 @@ extension CourseDetailView {
         group.interItemSpacing = .fixed(7)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 61, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 45, trailing: 0)
         
         let header = makeHeaderView()
         section.boundarySupplementaryItems = [header]
         
         return section
     }
-    
-    
-    func makeBringCourseLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(54))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0)
-        
-        return section
-    }
+
     
     func makeGradientView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let gradientSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.27))
