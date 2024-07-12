@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "img_0122_ios.png",
+      "filename" : "img_0121_ios.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "img_0122_ios@2x.png",
+      "filename" : "img_0121_ios@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "img_0122_ios@3x.png",
+      "filename" : "img_0121_ios@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

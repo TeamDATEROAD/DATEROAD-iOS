@@ -22,14 +22,17 @@ enum StringLiterals {
     }
     
     enum Onboarding {
+        static let blank = ""
         static let next = "다음"
         static let createProfile = "프로필 생성하기"
         static let firstMainInfoLabel = "데이트로드는 포인트로\n데이트 코스를 열람할 수 있어요."
-        static let firstSubInfoLabel = "최초 3회 찬스로 다른 사람의 데이트 코스를\n구경해보세요"
+        static let firstSubInfoLabel = "최초 3회 무료 찬스로\n다른 사람의 데이트 코스를 구경하세요!"
+        static let firstHintInfoLabel = "(이후에는 50포인트로 코스를 열람할 수 있어요)"
         static let secondMainInfoLabel = "데이트 코스를 등록하면\n100 포인트를 얻을 수 있어요"
         static let secondSubInfoLabel = "내 연인과 함께한 데이트 코스를 자랑하고\n포인트를 받아보세요"
         static let thirdMainInfoLabel = "쌓인 포인트로\n다양한 데이트 코스를 둘러보세요"
         static let thirdSubInfoLabel = "모인 포인트는 데이트 장소를 예약할 때\n현금처럼 사용 가능해요"
+        static let thirdHintInfoLabel = "(추후 제공될 기능이에요)"
         static let dateCourse = "데이트 코스"
         static let firstMainPoint = "포인트"
         static let secondMainPoint = "100 포인트"
@@ -43,7 +46,8 @@ enum StringLiterals {
         static let viewedCourse = "열람한 코스"
         static let myPage = "마이페이지"
     }
-    enum CourseDetail {
+    
+	enum CourseDetail {
         static let timelineInfoLabel = "코스 타임라인"
         static let coastInfoLabel = "총 비용"
         static let tagInfoLabel = "태그"
@@ -62,6 +66,9 @@ enum StringLiterals {
         static let dateTendency = "나의 데이트 성향 (0/3)"
         static let registerProfile = "프로필 등록하기"
         static let selectTag =  "최소 1개, 최대 3개를 선택해주세요."
+        static let settingImage = "프로필 사진 설정"
+        static let registerImage = "사진 등록"
+        static let deleteImage = "사진 삭제"
     }
    
    enum AddCourseOrScheduleFirst {
@@ -106,8 +113,19 @@ enum StringLiterals {
         static let upcomingDate = "데이트 일정"
         static let pastDate = "지난 데이트"
         static let seePastDate = "지난 데이트 보기"
-        
     }
+    
+    enum Alert {
+        static let kakaoAlert = "데이트로드에서 카카오톡을 열려고 해요"
+        static let noMoreSchedule = "데이트를 더 이상 등록할 수 없어요!"
+        static let noMoreThanFive = "데이트는 최대 5개까지만 등록 가능해요"
+        static let iChecked = "확인했어요"
+        static let realWithdrawal = "정말로 탈퇴하시겠어요?"
+        static let lastWarning = "삭제된 계정은 복구하실 수 없어요"
+        static let wouldYouLogOut = "로그아웃 하시겠어요?"
+    }
+    enum Common {
+        static let cancel = "취소"
     enum Course {
         static let course = "코스 둘러보기"
         static let priceLabelUnder30K = "3만원 이하"
