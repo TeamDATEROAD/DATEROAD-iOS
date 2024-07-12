@@ -123,6 +123,8 @@ enum StringLiterals {
         static let realWithdrawal = "정말로 탈퇴하시겠어요?"
         static let lastWarning = "삭제된 계정은 복구하실 수 없어요"
         static let wouldYouLogOut = "로그아웃 하시겠어요?"
+        static let buyCourse = "50P를 사용해서 코스를 확인해보시겠어요?"
+        static let canNotRefund = "구매 후 포인트는 환불되지 않아요"
     }
     
     enum Common {

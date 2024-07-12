@@ -11,7 +11,8 @@ import UIKit
 import SnapKit
 import Then
 
-final class PreviewCourseDetailViewController: BaseViewController {
+final class PreviewCourseDetailViewController: BaseViewController, CustomAlertDelegate {
+
     
     // MARK: - UI Properties
     
@@ -174,10 +175,30 @@ extension PreviewCourseDetailViewController: UICollectionViewDelegate, UICollect
             return footer
         } else if kind == ContentMaskView.elementKinds {
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ContentMaskView.identifier, for: indexPath) as? ContentMaskView else { return UICollectionReusableView() }
+            footer.delegate = self
             return footer
         } else {
             return UICollectionReusableView()
         }
+    }
+    
+}
+
+extension PreviewCourseDetailViewController: ContentMaskViewDelegate {
+    
+    func didTapReadCourseButton() {
+        print("야미")
+        let customAlertVC = CustomAlertViewController(
+            alertTextType: .hasDecription,
+            alertButtonType: .twoButton,
+            titleText: StringLiterals.Alert.buyCourse,
+            descriptionText: StringLiterals.Alert.canNotRefund,
+            leftButtonText: "취소",
+            rightButtonText: "확인"
+        )
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        self.present(customAlertVC, animated: false)
     }
     
 }

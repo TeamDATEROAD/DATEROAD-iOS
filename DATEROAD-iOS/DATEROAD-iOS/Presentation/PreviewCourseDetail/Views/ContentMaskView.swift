@@ -11,6 +11,11 @@ import SnapKit
 
 import Then
 
+
+protocol ContentMaskViewDelegate: AnyObject {
+    func didTapReadCourseButton()
+}
+
 class ContentMaskView: UICollectionReusableView {
     
     // MARK: - UI Properties
@@ -28,6 +33,8 @@ class ContentMaskView: UICollectionReusableView {
     private let gradient = CAGradientLayer()
     
     // MARK: - Properties
+    
+    weak var delegate: ContentMaskViewDelegate?
     
     static let elementKinds: String = "ContentMaskView"
     
@@ -76,7 +83,7 @@ class ContentMaskView: UICollectionReusableView {
         }
         
         subTitleLabel.snp.makeConstraints {
-            $0.bottom.equalTo(readCourseButton.snp.top).offset(-21)
+            $0.top.equalTo(mainTitleLabel.snp.bottom).offset(4)
             $0.centerX.equalToSuperview()
         }
         
@@ -106,6 +113,7 @@ class ContentMaskView: UICollectionReusableView {
             $0.setTitle(StringLiterals.CourseDetail.viewCoursewithPoint, for: .normal)
             $0.setTitleColor(.drWhite, for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_bold_15)
+            $0.addTarget(self, action: #selector(didReadCourseButton), for: .touchUpInside)
         }
         
         gradient.locations = [0, 1]
@@ -124,5 +132,11 @@ class ContentMaskView: UICollectionReusableView {
     override func layoutSubviews() {
         super.layoutSubviews()
         gradient.frame = gradientView.bounds
+    }
+    
+    @objc
+    func didReadCourseButton() {
+        delegate?.didTapReadCourseButton()
+        print("내가 죄송해")
     }
 }

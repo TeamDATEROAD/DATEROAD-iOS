@@ -50,6 +50,7 @@ class PreviewView: BaseView {
         mainCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+
     }
     
     override func setStyle() {
