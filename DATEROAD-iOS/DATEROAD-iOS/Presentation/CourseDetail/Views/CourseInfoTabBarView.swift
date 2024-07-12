@@ -1,17 +1,13 @@
-//
-//  BringCourseCell.swift
-//  DATEROAD-iOS
-//
-//  Created by 김민서 on 7/5/24.
-//
+// CourseInfoTabBarView.swift
+// DATEROAD-iOS
+// Created by 김민서 on 7/13/24.
 
 import UIKit
-
 import SnapKit
 import Then
 
-final class BringCourseCell: BaseCollectionViewCell {
-    
+class CourseInfoTabBarView: UIView {
+
     // MARK: - UI Properties
     
     private let likeButtonView = UIView()
@@ -27,17 +23,18 @@ final class BringCourseCell: BaseCollectionViewCell {
     }
     
     override init(frame: CGRect) {
-        
         super.init(frame: frame)
-
         setupTapGesture()
+        setHierarchy()
+        setLayout()
+        setStyle()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func setHierarchy() {
+    private func setHierarchy() {
         self.addSubviews(
             likeButtonView,
             likeButtonImageView,
@@ -45,9 +42,10 @@ final class BringCourseCell: BaseCollectionViewCell {
         )
     }
     
-    override func setLayout() {
+    private func setLayout() {
         likeButtonView.snp.makeConstraints {
-            $0.leading.verticalEdges.equalToSuperview()
+            $0.leading.top.equalToSuperview().inset(16)
+            $0.height.equalTo(54)
             $0.width.equalTo(72)
         }
         
@@ -58,12 +56,14 @@ final class BringCourseCell: BaseCollectionViewCell {
         }
         
         bringCourseButton.snp.makeConstraints {
-            $0.trailing.verticalEdges.equalToSuperview()
+            $0.top.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(16)
             $0.leading.equalTo(likeButtonView.snp.trailing).offset(16)
+            $0.height.equalTo(54)
         }
     }
     
-    override func setStyle() {
+    private func setStyle() {
         likeButtonView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
             $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
@@ -82,23 +82,18 @@ final class BringCourseCell: BaseCollectionViewCell {
             $0.titleLabel?.font = UIFont.suit(.body_bold_15)
         }
     }
-}
-
-// MARK: - Private Methods
-
-private extension BringCourseCell {
     
-    func setupTapGesture() {
+    private func setupTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(likeButtonTapped))
         likeButtonView.isUserInteractionEnabled = true
         likeButtonView.addGestureRecognizer(tapGesture)
     }
     
-    @objc func likeButtonTapped() {
+    @objc private func likeButtonTapped() {
         isLiked.toggle()
     }
     
-    func updateLikeButtonColor() {
+    private func updateLikeButtonColor() {
         if isLiked {
             likeButtonImageView.tintColor = UIColor(resource: .deepPurple)
         } else {

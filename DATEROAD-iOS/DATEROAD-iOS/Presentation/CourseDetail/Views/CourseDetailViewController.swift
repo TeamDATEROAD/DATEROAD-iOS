@@ -16,6 +16,8 @@ final class CourseDetailViewController: BaseNavBarViewController {
     
     private let courseDetailView: CourseDetailView
     
+    private let courseInfoTabBarView = CourseInfoTabBarView()
+    
     // MARK: - Properties
     
     private let courseDetailViewModel: CourseDetailViewModel
@@ -60,7 +62,7 @@ final class CourseDetailViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        contentView.addSubview(courseDetailView)
+        self.view.addSubviews(courseDetailView, courseInfoTabBarView)
         
     }
     
@@ -70,6 +72,12 @@ final class CourseDetailViewController: BaseNavBarViewController {
         courseDetailView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+        courseInfoTabBarView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(108)
+        }
+        
     }
     
     override func setStyle() {

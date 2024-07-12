@@ -21,6 +21,8 @@ class CourseDetailView: BaseView {
     
     private var courseDetailSection: [CourseDetailSection]
     
+    private var courseInfoTabBarView = CourseInfoTabBarView()
+    
     // MARK: - Life Cycle
     
     init(courseDetailSection: [CourseDetailSection]) {
@@ -35,7 +37,7 @@ class CourseDetailView: BaseView {
     
     
     override func setHierarchy() {
-        self.addSubview(mainCollectionView)
+        self.addSubviews(mainCollectionView)
     }
     
     override func setLayout() {
@@ -43,6 +45,7 @@ class CourseDetailView: BaseView {
         mainCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
     }
     
     override func setStyle() {
