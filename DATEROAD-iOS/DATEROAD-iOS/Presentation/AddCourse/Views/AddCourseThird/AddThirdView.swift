@@ -117,6 +117,7 @@ class AddThirdView: BaseView {
          $0.textContainerInset = UIEdgeInsets(top: 14, left: 16, bottom: 14, right: 16)
          $0.isScrollEnabled = true
          $0.textAlignment = .left
+         $0.showsVerticalScrollIndicator = false
       }
       
       priceTextField.do {
@@ -163,6 +164,19 @@ extension AddThirdView {
    
    func updateContentTextCount(textCnt: Int) {
       contentTextCountLabel.text = "\(textCnt)자 / 200자 이상"
+   }
+   
+   func updateAddThirdDoneBtn(isValid: Bool) {
+      print("현재 updateAddThirdDoneBtn \(isValid)")
+      let state = isValid ? enabledButtonType : disabledButtonType
+      addThirdDoneBtn.setButtonStatus(buttonType: state)
+   }
+   
+   func updatePriceText(price: Int) {
+      if price == 0 {
+      } else {
+         priceTextField.text = String(price.formattedWithSeparator)
+      }
    }
    
 }

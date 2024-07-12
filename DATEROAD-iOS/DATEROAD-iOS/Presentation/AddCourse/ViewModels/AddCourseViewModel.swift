@@ -59,6 +59,18 @@ final class AddCourseViewModel {
    
    //datePlace이 바뀌면 bind{} 파트에서 viewmodel안에 datePlace랑 timeRequire의 value.count 값을 비교해서 true false 반환토록하고, 이를  bind{} 바인드에 앞선 값들을 flag로 받고 이를 토대로 true false로 버튼 타입 바꿔줌
    var isEditMode: Bool = false
+   
+   
+   //MARK: - AddThirdView 전용 Viewmodel 변수
+   
+   var contentTextCount: ObservablePattern<Int> = ObservablePattern(0)
+   var contentFlag = false
+   
+   var priceText: ObservablePattern<Int> = ObservablePattern(nil)
+   var priceFlag = false
+   
+   var isDoneBtnOK: ObservablePattern<Bool> = ObservablePattern(false)
+   
 }
 
 extension AddCourseViewModel {
@@ -193,6 +205,30 @@ extension AddCourseViewModel {
    func isDataSourceNotEmpty() {
       let flag = (addPlaceCollectionViewDataSource.count >= 1) ? true : false
       editBtnEnableState.value = flag
+   }
+   
+   
+   //MARK: - AddThirdView 전용 func
+   
+   func isContentValid(cnt: Int) {
+      let flag = (cnt >= 200) ? true : false
+      contentFlag = flag
+      isDoneBtnValid()
+   }
+   
+   func isPriceValid() {
+      let flag = (priceText.value ?? 0 > 0) ? true : false
+      priceFlag = flag
+      isDoneBtnValid()
+   }
+   
+   func isDoneBtnValid() {
+      if contentFlag && priceFlag {
+         print("contentFlag : \(contentFlag)\npriceFlag : \(priceFlag)")
+         isDoneBtnOK.value = true
+      } else {
+         isDoneBtnOK.value = false
+      }
    }
    
 }

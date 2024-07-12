@@ -43,7 +43,7 @@ class AddCourseThirdViewController: BaseNavBarViewController {
       setLeftBackButton()
       setDelegate()
       registerCell()
-      //      bindViewModel()
+      bindViewModel()
       setupKeyboardDismissRecognizer()
    }
    
@@ -102,6 +102,24 @@ extension AddCourseThirdViewController {
       addCourseThirdView.addThirdView.priceTextField.addTarget(self, action: #selector(textFieldDidChanacge), for: .editingChanged)
    }
    
+   private func bindViewModel() {
+      viewModel.contentTextCount.bind { [weak self] date in
+         self?.addCourseThirdView.addThirdView.updateContentTextCount(textCnt: date ?? 0)
+         self?.viewModel.isContentValid(cnt: date ?? 0)
+         print("contentFlag :", self?.viewModel.contentFlag)
+         
+      }
+      viewModel.priceText.bind { [weak self] date in
+         self?.addCourseThirdView.addThirdView.updatePriceText(price: date ?? 0)
+         self?.viewModel.isPriceValid()
+         print("priceFlag :", self?.viewModel.priceFlag)
+      }
+      
+      viewModel.isDoneBtnOK.bind { [weak self] date in
+         self?.addCourseThirdView.addThirdView.updateAddThirdDoneBtn(isValid: date ?? false)
+      }
+   }
+   
 }
 
 
@@ -112,6 +130,7 @@ extension AddCourseThirdViewController: UITextViewDelegate {
          textView.text = nil
          textView.textColor = .black
       }
+      print(textView.text ?? "")
    }
    
    func textViewDidEndEditing(_ textView: UITextView) {
@@ -126,10 +145,11 @@ extension AddCourseThirdViewController: UITextViewDelegate {
       guard let stringRange = Range(range, in: currentText) else { return false }
       
       let changedText = currentText.replacingCharacters(in: stringRange, with: text)
-      
       // 리턴 눌렸을 때의 "\n" 입력을 count로 계산하지 않음
       let filteredTextCount = changedText.filter { $0 != "\n" }.count
-      addCourseThirdView.addThirdView.updateContentTextCount(textCnt: filteredTextCount)
+      
+//      addCourseThirdView.addThirdView.updateContentTextCount(textCnt: filteredTextCount)
+      viewModel.contentTextCount.value = filteredTextCount
       
       // 리턴 키 입력을 처리합니다.
       if text == "\n" {
@@ -141,11 +161,7 @@ extension AddCourseThirdViewController: UITextViewDelegate {
    
    // 이거 안씀
    /// priceTextField 실시간 변경 감지
-   @objc
-   func textFieldDidChanacge(_ textField: UITextField) {
-      print()
-      //      viewModel.isDateNameValid(cnt: ?.count ?? 0)
-   }
+   
    
 }
 
@@ -159,7 +175,17 @@ extension AddCourseThirdViewController: UITextFieldDelegate {
    }
    
    func textFieldDidEndEditing(_ textField: UITextField) {
+      print("textFieldDidEndEditing 에서 출력")
       print(textField.text)
+      viewModel.priceText.value = Int(textField.text ?? "0")
+   }
+   
+   
+   //이거 왜 입력받는거 출력이안되지~
+   @objc
+   func textFieldDidChanacge(_ textField: UITextField) {
+      print("~~~~~~~~~~~~~")
+      print(textField.text ?? "~~")
    }
    
 }
@@ -186,3 +212,15 @@ extension AddCourseThirdViewController: UICollectionViewDataSource, UICollection
       return cell
    }
 }
+
+/**
+ 1. viewModel에서 textViewText 값을 담는 옵저버블 변수 생성 O
+ 
+ 2. 이를 textView shouldChangeTextIn 함수 안에서 count를 던져줌 O
+ 
+ 3. 해당 변수 변경감지하는 bind 함수에서 실시간 countLabel 바꾸는 UI 함수 실행 O
+ 
+   더불어 Content의 유효성을 검사하는 viewModel 속 a함수를 실행시켜 반환 받는 값을 viewmodel 속 done버튼의 옵저버블 값에 대입될 함수를 파라미터로 받고 해당 값을 done버튼 값에 대입
+ 
+ 4. done버튼이 바뀔 때 일어날 bind 함수에서 done 버튼의 유효성을 검사하여 button state 업데이트 하는 ui 함수 실행
+ */
