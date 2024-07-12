@@ -17,7 +17,7 @@ class PointDetailView: BaseView {
     
     var totalPointLabel = UILabel()
     
-    var segmentControl = UISegmentedControl(items: ["획득 내역", "사용 내역"])
+    var segmentControl = UISegmentedControl(items: [StringLiterals.PointDetail.gainedDetail, StringLiterals.PointDetail.usedDetail])
     
     private let segmentControlUnderLineView = UIView()
     

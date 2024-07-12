@@ -139,6 +139,17 @@ enum StringLiterals {
     }
     
     enum ViewedCourse {
+        static let title = "내가 열람한 코스"
         static let registerSchedule = "열람한 코스로 데이트를 짜보세요"
+    }
+    
+    enum PointDetail {
+        static let gainedDetail = "획득 내역"
+        static let usedDetail = "사용 내역"
+        static let title = "포인트 내역"
+    }
+    
+    enum MyRegisterCourse {
+        static let title = "내가 등록한 코스"
     }
 }

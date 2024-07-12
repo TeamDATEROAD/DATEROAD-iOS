@@ -35,7 +35,7 @@ class ViewedCourseViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        register()
+        registerCell()
         setDelegate()
     }
     
@@ -114,7 +114,7 @@ class ViewedCourseViewController: BaseViewController {
 // MARK: - CollectionView Methods
 
 extension ViewedCourseViewController {
-    private func register() {
+    private func registerCell() {
         courseCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
     }
     

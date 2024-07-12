@@ -28,7 +28,7 @@ class NavViewedCourseViewController: BaseNavBarViewController {
         super.viewDidLoad()
         
         setLeftBackButton()
-        setTitleLabelStyle(title: "내가 열람한 코스", alignment: .center)
+        setTitleLabelStyle(title: StringLiterals.ViewedCourse.title, alignment: .center)
         register()
         setDelegate()
     }

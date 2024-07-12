@@ -30,7 +30,7 @@ class PointDetailViewController: BaseNavBarViewController {
         super.viewDidLoad()
         
         setLeftBackButton()
-        setTitleLabelStyle(title: "포인트 내역", alignment: .center)
+        setTitleLabelStyle(title: StringLiterals.PointDetail.title, alignment: .center)
         setProfile(userName: "수민", totalPoint: 200) // 나중에 푸쉬 전 뷰(메인뷰, 마이페이지뷰)에서 실행
         registerCell()
         setDelegate()

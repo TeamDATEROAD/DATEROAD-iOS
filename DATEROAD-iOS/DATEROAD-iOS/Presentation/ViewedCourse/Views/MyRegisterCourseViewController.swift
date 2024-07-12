@@ -28,7 +28,7 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
         super.viewDidLoad()
         
         setLeftBackButton()
-        setTitleLabelStyle(title: "내가 등록한 코스", alignment: .center)
+        setTitleLabelStyle(title: StringLiterals.MyRegisterCourse.title, alignment: .center)
         register()
         setDelegate()
     }
