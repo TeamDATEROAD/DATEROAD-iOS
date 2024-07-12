@@ -142,14 +142,14 @@ final class AddFirstView: BaseView {
       }
       
       dateNameTextField.setPlaceholder(
-         placeholder: StringLiterals.AddCourseOrSchedul.AddFirstView.dateNmaePlaceHolder,
+         placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNmaePlaceHolder,
          fontColor: .gray300,
          font: .suit(.body_semi_13)
       )
       
       visitDateTextField.do {
          $0.setPlaceholder(
-            placeholder: StringLiterals.AddCourseOrSchedul.AddFirstView.visitDateLabel,
+            placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateLabel,
             fontColor: .gray300,
             font: .suit(.body_semi_13)
          )
@@ -168,7 +168,7 @@ final class AddFirstView: BaseView {
       
       dateStartTimeTextField.do {
          $0.setPlaceholder(
-            placeholder: StringLiterals.AddCourseOrSchedul.AddFirstView.dateStartTimeLabel,
+            placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.dateStartTimeLabel,
             fontColor: .gray300,
             font: .suit(.body_semi_13)
          )
@@ -187,7 +187,7 @@ final class AddFirstView: BaseView {
       
       tagTitleLabel.do {
          $0.setLabel(alignment: .left, textColor: UIColor(resource: .drBlack), font: .suit(.body_semi_15))
-         $0.text = StringLiterals.AddCourseOrSchedul.AddFirstView.tagTitle
+         $0.text = StringLiterals.AddCourseOrSchedule.AddFirstView.tagTitle
       }
       
       tagVStackView.do {
@@ -208,7 +208,7 @@ final class AddFirstView: BaseView {
       
       datePlaceLabel.do {
          $0.setLabel(textColor: UIColor(resource: .gray300), font: .suit(.body_semi_13))
-         $0.text = StringLiterals.AddCourseOrSchedul.AddFirstView.datePlaceLabel
+         $0.text = StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel
       }
       
       datePlaceImage.do {
@@ -217,7 +217,7 @@ final class AddFirstView: BaseView {
       
       sixCheckNextButton.do {
          $0.setTitle(
-            StringLiterals.AddCourseOrSchedul.AddFirstView.addFirstNextBtnOfCourse,
+            StringLiterals.AddCourseOrSchedule.AddFirstView.addFirstNextBtnOfCourse,
             for: .normal
          )
          $0.titleLabel?.font = UIFont.suit(.body_med_13)
@@ -289,16 +289,9 @@ extension AddFirstView {
    }
    
    func updateTagButtonStyle(btn: UIButton, isSelected: Bool) {
-      if isSelected {
-         btn.do {
-            $0.configuration?.background.backgroundColor = UIColor(resource: .deepPurple)
-            $0.configuration?.baseForegroundColor = UIColor(resource: .drWhite)
-         }
-      } else {
-         btn.do {
-            $0.configuration?.background.backgroundColor = UIColor(resource: .gray100)
-            $0.configuration?.baseForegroundColor = UIColor(resource: .drBlack)
-         }
+      btn.do {
+         $0.configuration?.background.backgroundColor = isSelected ? UIColor(resource: .deepPurple) : UIColor(resource: .gray100)
+         $0.configuration?.baseForegroundColor = isSelected ? UIColor(resource: .drWhite) : UIColor(resource: .drBlack)
       }
    }
    

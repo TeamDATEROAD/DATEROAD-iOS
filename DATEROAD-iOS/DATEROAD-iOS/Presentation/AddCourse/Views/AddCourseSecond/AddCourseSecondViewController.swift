@@ -1,6 +1,9 @@
 import UIKit
 
-class AddCourseSecondViewController: BaseNavBarViewController {
+import SnapKit
+import Then
+
+final class AddCourseSecondViewController: BaseNavBarViewController {
    
    // MARK: - UI Properties
    
@@ -29,7 +32,7 @@ class AddCourseSecondViewController: BaseNavBarViewController {
       setHierarchy()
       setLayout()
       setStyle()
-      setTitleLabelStyle(title: StringLiterals.AddCourseOrSchedul.addCourseTitle, alignment: .center)
+      setTitleLabelStyle(title: StringLiterals.AddCourseOrSchedule.addCourseTitle, alignment: .center)
       setLeftBackButton()
       setAddTarget()
       setDelegate()
@@ -71,25 +74,25 @@ class AddCourseSecondViewController: BaseNavBarViewController {
 
 // MARK: - ViewController Methods
 
-extension AddCourseSecondViewController {
+private extension AddCourseSecondViewController {
    
-   private func registerCell() {
+   func registerCell() {
       addCourseSecondView.collectionView.do {
          $0.register(AddCourseImageCollectionViewCell.self, forCellWithReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier)
       }
       
-      addCourseSecondView.collectionView2.do {
+      addCourseSecondView.addPlaceCollectionView.do {
          $0.register(AddSecondViewCollectionViewCell.self, forCellWithReuseIdentifier: AddSecondViewCollectionViewCell.cellIdentifier)
       }
    }
    
-   private func setDelegate() {
+   func setDelegate() {
       addCourseSecondView.collectionView.do {
          $0.delegate = self
          $0.dataSource = self
       }
       
-      addCourseSecondView.collectionView2.do {
+      addCourseSecondView.addPlaceCollectionView.do {
          $0.delegate = self
          $0.dragDelegate = self
          $0.dropDelegate = self
@@ -102,7 +105,7 @@ extension AddCourseSecondViewController {
       }
    }
    
-   private func bindViewModel() {
+   func bindViewModel() {
       viewModel.isDataSourceNotEmpty()
       
       viewModel.editBtnEnableState.bind { [weak self] date in
@@ -137,7 +140,7 @@ extension AddCourseSecondViewController {
          self?.viewModel.isSourceMoreThanOne()
          
          
-         self?.addCourseSecondView.collectionView2.reloadData()
+         self?.addCourseSecondView.addPlaceCollectionView.reloadData()
       }
       
       self.viewModel.isValidOfSecondNextBtn.bind { [weak self] date in
@@ -158,12 +161,12 @@ extension AddCourseSecondViewController {
    // MARK: - @objc Methods
    
    @objc
-   private func tapAddPlaceBtn() {
+   func tapAddPlaceBtn() {
       viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")
    }
    
    @objc
-   private func didTapNextBtn() {
+   func didTapNextBtn() {
       print("지금 장소 등록된 값 : ", viewModel.addPlaceCollectionViewDataSource)
       
       // 화면 전환 구현해야 함.
@@ -172,12 +175,12 @@ extension AddCourseSecondViewController {
    }
    
    @objc
-   private func removeCell(sender: UIButton) {
+   func removeCell(sender: UIButton) {
       guard let cell = sender.superview?.superview as? AddSecondViewCollectionViewCell,
-            let indexPath = addCourseSecondView.collectionView2.indexPath(for: cell) else { return }
+            let indexPath = addCourseSecondView.addPlaceCollectionView.indexPath(for: cell) else { return }
       
       viewModel.addPlaceCollectionViewDataSource.remove(at: indexPath.item)
-      addCourseSecondView.collectionView2.deleteItems(at: [indexPath])
+      addCourseSecondView.addPlaceCollectionView.deleteItems(at: [indexPath])
       viewModel.isSourceMoreThanOne()
       
       //여기서 datasource가 1개 미만이면
@@ -190,15 +193,15 @@ extension AddCourseSecondViewController {
    }
    
    @objc
-   private func moveCell(sender: UIButton) {
+   func moveCell(sender: UIButton) {
       // Move cell logic here
    }
    
    @objc
-   private func toggleEditMode() {
+   func toggleEditMode() {
       print("EditButton 눌림")
       viewModel.isEditMode.toggle()
-      let collectionView = addCourseSecondView.collectionView2
+      let collectionView = addCourseSecondView.addPlaceCollectionView
       
       let flag = viewModel.isEditMode
       print("현재 editButton editBtnEnableState.value 값 ::: \(flag)")
@@ -353,9 +356,7 @@ extension AddCourseSecondViewController: UICollectionViewDropDelegate {
    
    private func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView) {
       if collectionView != addCourseSecondView.collectionView {
-         if
-            let item = coordinator.items.first,
-            let sourceIndexPath = item.sourceIndexPath {
+         if let item = coordinator.items.first, let sourceIndexPath = item.sourceIndexPath {
             collectionView.performBatchUpdates({
                let temp = viewModel.addPlaceCollectionViewDataSource[sourceIndexPath.item]
                viewModel.addPlaceCollectionViewDataSource.remove(at: sourceIndexPath.item)

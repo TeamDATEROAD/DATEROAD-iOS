@@ -64,7 +64,7 @@ enum StringLiterals {
         static let selectTag =  "최소 1개, 최대 3개를 선택해주세요."
     }
    
-   enum AddCourseOrSchedul {
+   enum AddCourseOrSchedule {
       static let addCourseTitle = "코스 등록하기"
       static let addScheduleTitle = "일정 등록하기"
       

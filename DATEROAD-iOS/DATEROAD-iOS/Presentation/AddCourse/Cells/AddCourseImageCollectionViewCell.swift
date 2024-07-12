@@ -55,8 +55,7 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
    // MARK: - Methods
    
    override func setHierarchy() {
-      contentView.addSubview(imageView)
-      contentView.addSubview(emptyView)
+      contentView.addSubviews(imageView, emptyView)
       emptyView.addSubviews(emptyCameraImage, emptyLabel)
    }
    
@@ -100,7 +99,7 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
             textColor: UIColor(resource: .gray300),
             font: .suit(.body_bold_11)
          )
-         $0.text = StringLiterals.AddCourseOrSchedul.AddFirstView.emptyImage
+         $0.text = StringLiterals.AddCourseOrSchedule.AddFirstView.emptyImage
       }
       
       imageView.do {

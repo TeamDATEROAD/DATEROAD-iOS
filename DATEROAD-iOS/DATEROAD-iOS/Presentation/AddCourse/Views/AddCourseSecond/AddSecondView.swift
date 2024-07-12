@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class AddSecondView: BaseView {
+final class AddSecondView: BaseView {
    
    // MARK: - UI Properties
    
@@ -114,7 +114,7 @@ class AddSecondView: BaseView {
             textColor: UIColor(resource: .drBlack),
             font: .suit(.body_bold_17)
          )
-         $0.text = StringLiterals.AddCourseOrSchedul.AddSecondView.contentTitleLabelOfCourse
+         $0.text = StringLiterals.AddCourseOrSchedule.AddSecondView.contentTitleLabelOfCourse
       }
       
       contentSubTitleLabel.do {
@@ -123,12 +123,12 @@ class AddSecondView: BaseView {
             textColor: UIColor(resource: .gray400),
             font: .suit(.body_med_13)
          )
-         $0.text = StringLiterals.AddCourseOrSchedul.AddSecondView.subTitleLabel
+         $0.text = StringLiterals.AddCourseOrSchedule.AddSecondView.subTitleLabel
       }
       
       datePlaceTextField.do {
          $0.setPlaceholder(
-            placeholder: StringLiterals.AddCourseOrSchedul.AddSecondView.datePlacePlaceHolder,
+            placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.datePlacePlaceHolder,
             fontColor: UIColor(resource: .gray300),
             font: .suit(.body_semi_13)
          )
@@ -143,7 +143,7 @@ class AddSecondView: BaseView {
       
       timeRequireTextField.do {
          $0.setPlaceholder(
-            placeholder: StringLiterals.AddCourseOrSchedul.AddSecondView.timeRequiredPlaceHolder,
+            placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder,
             fontColor: UIColor(resource: .gray300),
             font: .suit(.body_semi_13)
          )
@@ -170,7 +170,7 @@ class AddSecondView: BaseView {
       
       nextBtn.do {
          $0.setButtonStatus(buttonType: disabledButtonType)
-         $0.setTitle(StringLiterals.AddCourseOrSchedul.AddSecondView.addSecondNextBtnOfCourse, for: .normal)
+         $0.setTitle(StringLiterals.AddCourseOrSchedule.AddSecondView.addSecondNextBtnOfCourse, for: .normal)
       }
    }
    
