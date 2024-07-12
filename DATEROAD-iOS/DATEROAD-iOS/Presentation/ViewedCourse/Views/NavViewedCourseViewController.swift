@@ -14,13 +14,13 @@ class NavViewedCourseViewController: BaseNavBarViewController {
 
     // MARK: - UI Properties
     
-    private var courseCollectionView = ViewedCourseCollectionView()
+    private var courseCollectionView = MyCourseListCollectionView()
     
     // MARK: - Properties
     
-    private let viewedCourseViewModel = ViewedCourseViewModel()
+    private let viewedCourseViewModel = MyCourseListViewModel()
     
-    private lazy var viewedCourseDummyData = viewedCourseViewModel.viewedCourseDummyData
+    private lazy var viewedCourseData = viewedCourseViewModel.viewedCourseDummyData
     
     // MARK: - LifeCycle
     
@@ -28,8 +28,9 @@ class NavViewedCourseViewController: BaseNavBarViewController {
         super.viewDidLoad()
         
         setLeftBackButton()
-        setTitleLabelStyle(title: "내가 등록한 코스", alignment: .center)
-        // Do any additional setup after loading the view.
+        setTitleLabelStyle(title: StringLiterals.ViewedCourse.title, alignment: .center)
+        register()
+        setDelegate()
     }
     
     override func setHierarchy() {
@@ -42,19 +43,61 @@ class NavViewedCourseViewController: BaseNavBarViewController {
         super.setLayout()
         
         courseCollectionView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(88)
-            $0.horizontalEdges.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
     }
     
     override func setStyle() {
         super.setStyle()
         self.view.backgroundColor = UIColor(resource: .drWhite)
-        
-        courseCollectionView.do {
-            $0.setUpBindings(viewedCourseData: viewedCourseDummyData)
-        }
     }
 
+}
+
+// MARK: - CollectionView Methods
+
+extension NavViewedCourseViewController {
+    private func register() {
+        courseCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
+    }
+    
+    private func setDelegate() {
+        courseCollectionView.delegate = self
+        courseCollectionView.dataSource = self
+    }
+}
+
+// MARK: - Delegate
+
+extension NavViewedCourseViewController : UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: ScreenUtils.width, height: 140)
+    }
+}
+
+// MARK: - DataSource
+
+extension NavViewedCourseViewController : UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewedCourseData.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier, for: indexPath) as? MyCourseListCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        cell.dataBind(viewedCourseData[indexPath.item], indexPath.item)
+        cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToCourseDetailVC(_:))))
+        return cell
+    }
+    
+    @objc func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
+        let location = sender.location(in: courseCollectionView)
+        let indexPath = courseCollectionView.indexPathForItem(at: location)
+
+       if let index = indexPath {
+           print("일정 등록 페이지로 이동 \(viewedCourseData[indexPath?.item ?? 0].courseID ?? 0)")
+       }
+    }
+    
 }

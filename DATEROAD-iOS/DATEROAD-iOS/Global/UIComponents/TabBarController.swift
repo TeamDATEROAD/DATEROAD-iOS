@@ -17,11 +17,11 @@ final class TabBarController: UITabBarController {
     //여기 임의로 아무 뷰컨 넣었어용
     let homeVC = CourseDetailViewController()
     
-    let courseVC = PointDetailViewController()
+    let courseVC = CourseViewController(courseViewModel: CourseViewModel())
     
-    let dateVC = UIViewController()
+    let dateVC = UpcomingDateScheduleViewController()
     
-    let viewedCourseVC = UIViewController()
+    let viewedCourseVC = ViewedCourseViewController()
     
     let mypageVC = MyPageViewController(myPageViewModel: MyPageViewModel())
     
@@ -33,7 +33,7 @@ final class TabBarController: UITabBarController {
     }
     
     override func viewDidLayoutSubviews() {
-        self.tabBar.frame.size.height = view.frame.height * 0.1
+        self.tabBar.frame.size.height = view.frame.height * 0.11
         self.tabBar.frame.origin.y = view.frame.height - self.tabBar.frame.size.height
     }
 }
@@ -44,7 +44,7 @@ private extension TabBarController {
     
     func setStyle() {
         
-        let iconOffset: Int = -7
+        let iconOffset = -(view.frame.height * 0.008)
         
         let font = UIFont.suit(.cap_reg_11)
         
@@ -126,14 +126,16 @@ private extension TabBarController {
     func setHierarchy() {
         let homeNavVC = UINavigationController(rootViewController: homeVC)
         homeNavVC.setNavigationBarHidden(true, animated: false)
-
+        
         let viewControllers = [homeNavVC, courseVC, dateVC, viewedCourseVC, mypageVC]
         self.setViewControllers(viewControllers, animated: true)
         
         if let items = tabBar.items {
             for item in items {
-                 item.imageInsets = UIEdgeInsets(top: -4, left: 0, bottom: 2, right: 0)
+                let imageInset = view.frame.height * 0.002
+                item.imageInsets = UIEdgeInsets(top: -imageInset, left: 0, bottom: imageInset, right: 0)
             }
         }
+        
     }
 }

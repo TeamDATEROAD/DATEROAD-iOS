@@ -15,7 +15,7 @@ class BaseTableViewCell: UITableViewCell {
     // MARK: - Properties
     
     static var cellIdentifier: String {
-        return String(describing: BaseCollectionViewCell.self)
+        return String(describing: BaseTableViewCell.self)
     }
     
     
