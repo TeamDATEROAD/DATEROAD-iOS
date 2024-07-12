@@ -5,12 +5,13 @@
 //  Created by 김민서 on 7/12/24.
 //
 
-import UIKit
 
+import UIKit
 import SnapKit
+
 import Then
 
-class ContentMaskView: UICollectionReusableView{
+class ContentMaskView: UICollectionReusableView {
     
     // MARK: - UI Properties
     
@@ -31,6 +32,7 @@ class ContentMaskView: UICollectionReusableView{
     static let elementKinds: String = "ContentMaskView"
     
     static let identifier: String = "ContentMaskView"
+    
     // MARK: - Life Cycle
     
     override init(frame: CGRect) {
@@ -46,7 +48,6 @@ class ContentMaskView: UICollectionReusableView{
     }
     
     func setHierarchy() {
-        
         self.addSubviews(
             gradientView,
             pointImageView,
@@ -57,8 +58,7 @@ class ContentMaskView: UICollectionReusableView{
     }
     
     func setLayout() {
-
-        self.backgroundColor = .white
+        
         gradientView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -76,19 +76,18 @@ class ContentMaskView: UICollectionReusableView{
         }
         
         subTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(mainTitleLabel.snp.bottom).offset(4)
+            $0.bottom.equalTo(readCourseButton.snp.top).offset(-21)
             $0.centerX.equalToSuperview()
         }
         
         readCourseButton.snp.makeConstraints {
-            $0.top.equalTo(subTitleLabel.snp.bottom).offset(25)
+            $0.bottom.equalTo(gradientView).inset(32)
             $0.horizontalEdges.equalToSuperview().inset(60)
             $0.height.equalTo(54)
         }
     }
     
     func setStyle() {
-
         mainTitleLabel.do {
             $0.text = "코스 정보가 궁금하신가요?"
             $0.textColor = UIColor(resource: .drBlack)
@@ -109,7 +108,21 @@ class ContentMaskView: UICollectionReusableView{
             $0.titleLabel?.font = UIFont.suit(.body_bold_15)
         }
         
+        gradient.locations = [0, 1]
+        gradient.frame = gradientView.bounds
+        gradient.colors = [
+            UIColor(resource: .drWhite).withAlphaComponent(1).cgColor,
+            UIColor(resource: .drWhite).withAlphaComponent(0.7).cgColor,
+            UIColor(resource: .drWhite).withAlphaComponent(0.2).cgColor,
+            UIColor(resource: .drWhite).withAlphaComponent(0).cgColor
+                ]
+        gradient.startPoint = CGPoint(x: 0.5, y: 0.7)
+        gradient.endPoint = CGPoint(x: 0.5, y: 0.09)
+        gradientView.layer.insertSublayer(gradient, at: 0)
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        gradient.frame = gradientView.bounds
+    }
 }
-
