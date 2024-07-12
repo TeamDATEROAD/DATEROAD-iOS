@@ -18,6 +18,7 @@ final class MyPageViewController: BaseNavBarViewController {
     
     private var myPageViewModel: MyPageViewModel
     
+    private var selectedAlertFlag: Int = 0
     
     // MARK: - Life Cycle
     
@@ -94,7 +95,7 @@ private extension MyPageViewController {
     func setAddTarget() {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(pushToPointDetailVC))
         self.myPageView.userInfoView.goToPointHistoryStackView.addGestureRecognizer(gesture)
-        self.myPageView.withdrawalButton.addTarget(self, action: #selector(pushToWithdrawalVC), for: .touchUpInside)
+        self.myPageView.withdrawalButton.addTarget(self, action: #selector(withDrawalButtonTapped), for: .touchUpInside)
     }
     
     // TODO: - 추후 뷰컨 수정 예정
@@ -110,6 +111,38 @@ private extension MyPageViewController {
 
 }
 
+extension MyPageViewController: CustomAlertDelegate {
+    
+    @objc
+    private func logOutSectionTapped() {
+        let customAlertVC = CustomAlertViewController(alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.wouldYouLogOut, leftButtonText: "취소", rightButtonText: "로그아웃")
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        selectedAlertFlag = 0
+        self.present(customAlertVC, animated: false)
+    }
+    
+    @objc
+    private func withDrawalButtonTapped() {
+        let customAlertVC = CustomAlertViewController(alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.realWithdrawal, descriptionText: StringLiterals.Alert.lastWarning, leftButtonText: "탈퇴", rightButtonText: "취소")
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        selectedAlertFlag = 1
+        self.present(customAlertVC, animated: false)
+    }
+    
+    func action() {
+        if selectedAlertFlag == 0 {
+            print("로그아웃하세요 ~~")
+        }
+    }
+    
+    func exit() {
+        if selectedAlertFlag == 1 {
+            pushToWithdrawalVC()
+        }
+    }
+}
 
 // MARK: - UICollectionView Delegates
 
@@ -166,8 +199,11 @@ extension MyPageViewController: UITableViewDelegate {
             let inquiryVC = OnboardingViewController()
             self.navigationController?.pushViewController(inquiryVC, animated: false)
         case .logout:
+            logOutSectionTapped()
+            /*
             let pointSystemVC = ProfileViewController(profileViewModel: ProfileViewModel())
             self.navigationController?.pushViewController(pointSystemVC, animated: false)
+             */
         }
     }
     

@@ -39,7 +39,7 @@ final class MyPageView: BaseView {
         // TODO: - bottom 탭바 기준으로 수정 예정
         withdrawalButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview().inset(30)
+            $0.bottom.equalToSuperview().inset(110)
         }
     }
     

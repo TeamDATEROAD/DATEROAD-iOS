@@ -10,6 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
+protocol LocationFilterDelegate: AnyObject {
+    func didSelectCity(_ city: LocationModel.City)
+}
+
 class LocationFilterViewController: BaseViewController {
     
     // MARK: - UI Properties
@@ -26,42 +30,19 @@ class LocationFilterViewController: BaseViewController {
     
     private let lineView = UIView()
     
-    private let cityCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let cityCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLeftAlignFlowLayout())
     
     private let applyButton = UIButton()
     
     // MARK: - Properties
     
+    private let courseViewModel = CourseViewModel()
+    
+    weak var delegate: LocationFilterDelegate?
+    
     final let countryInset: CGFloat = 8
     
     final let cityInset: CGFloat = 8
-    
-    private var countryData = LocationModel.countryData() {
-        didSet {
-            self.countryCollectionView.reloadData()
-            selectedCityIndex = nil
-        }
-    }
-    
-    private var cityData = [LocationModel.City]() {
-        didSet {
-            self.cityCollectionView.reloadData()
-        }
-    }
-    
-    private var selectedCountryIndex: Int? {
-        didSet {
-            self.countryCollectionView.reloadData()
-            updateCityData()
-            selectedCityIndex = nil
-        }
-    }
-    
-    private var selectedCityIndex: Int? {
-        didSet {
-            self.cityCollectionView.reloadData()
-        }
-    }
     
     // MARK: - Life Cycles
     
@@ -70,13 +51,13 @@ class LocationFilterViewController: BaseViewController {
         
         register()
         setDelegate()
-        setupInitialSelection()
+        bindViewModel()
     }
     
     override func setHierarchy() {
-        self.view.addSubviews(
-            dimmedView,
-            bottomSheetView,
+        self.view.addSubviews(dimmedView, bottomSheetView)
+        
+        bottomSheetView.addSubviews(
             titleLabel,
             closeButton,
             countryCollectionView,
@@ -89,7 +70,7 @@ class LocationFilterViewController: BaseViewController {
     override func setLayout() {
         dimmedView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(bottomSheetView.snp.top)
+            $0.bottom.equalTo(bottomSheetView)
         }
         
         bottomSheetView.snp.makeConstraints {
@@ -134,12 +115,13 @@ class LocationFilterViewController: BaseViewController {
     }
     
     override func setStyle() {
+        self.navigationController?.navigationBar.isHidden = true
+        
         dimmedView.do {
             $0.alpha = 0.7
             $0.layer.backgroundColor = UIColor(resource: .drBlack).cgColor
-            $0.isUserInteractionEnabled = true
-            
             let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapDimmedView))
+            $0.isUserInteractionEnabled = true
             $0.addGestureRecognizer(gesture)
         }
         
@@ -169,17 +151,34 @@ class LocationFilterViewController: BaseViewController {
             $0.setTitle("적용하기", for: .normal)
             $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_bold_15)
+            $0.addTarget(self, action: #selector(applyButtonTapped), for: .touchUpInside)
+            
         }
         
     }
     
-    @objc func closeView() {
-        self.dismiss(animated: true)
+    @objc
+    func closeView() {
+        if self.navigationController == nil {
+            self.dismiss(animated: false)
+        } else {
+            self.navigationController?.popViewController(animated: false)
+        }
     }
     
-    @objc func didTapDimmedView(sender: UIGestureRecognizer) {
-        self.dismiss(animated: true)
+    @objc
+    func didTapDimmedView(sender: UITapGestureRecognizer) {
+        self.dismiss(animated: false)
     }
+    
+    @objc
+    func applyButtonTapped() {
+        guard let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
+        let selectedCity = courseViewModel.cityData[selectedCityIndex]
+        delegate?.didSelectCity(selectedCity)
+        closeView()
+    }
+    
     
 }
 
@@ -187,21 +186,39 @@ class LocationFilterViewController: BaseViewController {
 
 private extension LocationFilterViewController {
     
-    private func setupInitialSelection() {
-        //기본적으로 서울 선택되어있게 초기화
-        selectedCountryIndex = 0
+    private func bindViewModel() {
+        courseViewModel.didUpdateCityData = { [weak self] in
+            self?.cityCollectionView.reloadData()
+        }
+        courseViewModel.didUpdateApplyButtonState = { [weak self] isEnabled in
+            self?.updateApplyButtonState(isEnabled: isEnabled)
+        }
+        
+        self.courseViewModel.selectedCountryIndex.bind { [weak self] index in
+            self?.courseViewModel.updateCityData()
+            self?.courseViewModel.selectedCityIndex.value = nil
+            self?.courseViewModel.didUpdateSelectedCountryIndex?(index)
+            self?.courseViewModel.updateApplyButtonState()
+        }
+        
+        self.courseViewModel.selectedCityIndex.bind { [weak self] index in
+            self?.courseViewModel.didUpdateSelectedCityIndex?(index)
+            self?.courseViewModel.updateApplyButtonState()
+            
+        }
+        
+        self.courseViewModel.selectedPriceIndex.bind {[weak self] index in
+            self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
+        }
+        
+        self.courseViewModel.isApplyButtonEnabled.bind {[weak self] isApply in
+            self?.courseViewModel.didUpdateApplyButtonState?(isApply ?? false)
+        }
+        
     }
     
-    func updateCityData() {
-        guard let selectedCountryIndex = selectedCountryIndex else { return }
-        
-        let selectedCountry = countryData[selectedCountryIndex]
-        cityData = selectedCountry.cities
-    }
-    
-    func updateApplyButtonState() {
-        
-        if selectedCityIndex != nil {
+    private func updateApplyButtonState(isEnabled: Bool) {
+        if isEnabled {
             applyButton.setButtonStatus(buttonType: EnabledButton())
         } else {
             applyButton.setButtonStatus(buttonType: DisabledButton())
@@ -235,7 +252,7 @@ extension LocationFilterViewController: UICollectionViewDelegateFlowLayout {
             cellWidth = ((screenWidth - 50) - ( countryInset * 2 )) / 3
             cellHeight = 33
         } else if collectionView == cityCollectionView {
-            let text = cityData[indexPath.item].rawValue
+            let text = courseViewModel.cityData[indexPath.item].rawValue
             let font = UIFont.suit(.body_med_13)
             let textWidth = text.width(withConstrainedHeight: 30, font: font)
             cellWidth = textWidth + 28
@@ -259,7 +276,8 @@ extension LocationFilterViewController: UICollectionViewDelegateFlowLayout {
 
 extension LocationFilterViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return collectionView == countryCollectionView ? countryData.count : cityData.count
+        
+        return collectionView == countryCollectionView ? courseViewModel.countryData.count : courseViewModel.cityData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -269,12 +287,12 @@ extension LocationFilterViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
         
         if isCountryCollection, let countryCell = cell as? CountryLabelCollectionViewCell {
-            let country = countryData[indexPath.item]
-            let isSelected = indexPath.item == selectedCountryIndex
+            let country = courseViewModel.countryData[indexPath.item]
+            let isSelected = courseViewModel.selectedCountryIndex.value == indexPath.item
             countryCell.configure(with: country, isSelected: isSelected)
         } else if let cityCell = cell as? CityLabelCollectionViewCell {
-            let city = cityData[indexPath.item]
-            let isSelected = indexPath.item == selectedCityIndex
+            let city = courseViewModel.cityData[indexPath.item]
+            let isSelected = courseViewModel.selectedCityIndex.value == indexPath.item
             cityCell.configure(with: city, isSelected: isSelected)
         }
         
@@ -286,12 +304,12 @@ extension LocationFilterViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if collectionView == countryCollectionView {
-            selectedCountryIndex = indexPath.item
-        } else {
-            selectedCityIndex = indexPath.item
+            courseViewModel.selectedCountryIndex.value = indexPath.item
+        } else if collectionView == cityCollectionView {
+            courseViewModel.selectedCityIndex.value = indexPath.item
         }
         
-        updateApplyButtonState()
+        collectionView.reloadData()
     }
 }
 

@@ -11,7 +11,6 @@ import SnapKit
 import Then
 
 class PastDateDetailViewController: BaseNavBarViewController {
-
     // MARK: - UI Properties
     
     var pastDateDetailContentView = DateDetailContentView()
@@ -93,7 +92,6 @@ extension PastDateDetailViewController {
 // MARK: - CollectionView Methods
 
 private extension PastDateDetailViewController {
-    
     func registerCell() {
         pastDateDetailContentView.dateTimeLineCollectionView.register(DateTimeLineCollectionViewCell.self, forCellWithReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier)
     }

@@ -44,7 +44,7 @@ final class MainContentsCell: BaseCollectionViewCell {
 
 extension MainContentsCell {
     
-    func setCell(mainContentsData: MainContents) {
+    func setCell(mainContentsData: MainContentsModel) {
         mainTextLabel.text = mainContentsData.mainText
     }
 }
