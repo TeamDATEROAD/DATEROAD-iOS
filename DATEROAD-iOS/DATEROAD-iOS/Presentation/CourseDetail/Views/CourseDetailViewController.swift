@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class CourseDetailViewController: BaseViewController {
+final class CourseDetailViewController: BaseNavBarViewController {
     
     // MARK: - UI Properties
     
@@ -54,12 +54,13 @@ final class CourseDetailViewController: BaseViewController {
         
         setDelegate()
         registerCell()
+        setLeftBackButton()
     }
     
     override func setHierarchy() {
         super.setHierarchy()
         
-        view.self.addSubview(courseDetailView)
+        contentView.addSubview(courseDetailView)
         
     }
     
