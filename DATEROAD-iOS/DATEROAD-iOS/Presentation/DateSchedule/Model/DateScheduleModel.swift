@@ -64,3 +64,15 @@ struct DatePlaceModel {
         self.sequence = sequence
     }
 }
+
+
+struct KakaoPlaceModel {
+    let name: String?
+    let duration: Float?
+    
+    init(name: String?, duration: Float?) {
+        self.name = name
+        self.duration = duration
+    }
+}
+
