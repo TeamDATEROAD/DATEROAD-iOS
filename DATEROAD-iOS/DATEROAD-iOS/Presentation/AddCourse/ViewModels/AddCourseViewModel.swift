@@ -210,18 +210,6 @@ extension AddCourseViewModel {
    
    //MARK: - AddThirdView 전용 func
    
-   func isContentValid(cnt: Int) {
-      let flag = (cnt >= 200) ? true : false
-      contentFlag = flag
-      isDoneBtnValid()
-   }
-   
-   func isPriceValid() {
-      let flag = (priceText.value ?? 0 > 0) ? true : false
-      priceFlag = flag
-      isDoneBtnValid()
-   }
-   
    func isDoneBtnValid() {
       if contentFlag && priceFlag {
          print("contentFlag : \(contentFlag)\npriceFlag : \(priceFlag)")

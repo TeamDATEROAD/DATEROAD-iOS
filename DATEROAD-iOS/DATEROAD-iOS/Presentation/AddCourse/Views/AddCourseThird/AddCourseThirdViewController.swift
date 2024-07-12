@@ -105,13 +105,17 @@ extension AddCourseThirdViewController {
    private func bindViewModel() {
       viewModel.contentTextCount.bind { [weak self] date in
          self?.addCourseThirdView.addThirdView.updateContentTextCount(textCnt: date ?? 0)
-         self?.viewModel.isContentValid(cnt: date ?? 0)
+         let flag = (date ?? 0) >= 200 ? true : false
+         self?.viewModel.contentFlag = flag
+         self?.viewModel.isDoneBtnValid()
          print("contentFlag :", self?.viewModel.contentFlag)
          
       }
       viewModel.priceText.bind { [weak self] date in
          self?.addCourseThirdView.addThirdView.updatePriceText(price: date ?? 0)
-         self?.viewModel.isPriceValid()
+         let flag = (date ?? 0 > 0) ? true : false
+         self?.viewModel.priceFlag = flag
+         self?.viewModel.isDoneBtnValid()
          print("priceFlag :", self?.viewModel.priceFlag)
       }
       

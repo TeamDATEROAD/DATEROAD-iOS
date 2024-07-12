@@ -92,7 +92,7 @@ class AddThirdView: BaseView {
          $0.horizontalEdges.equalToSuperview()
          $0.height.equalTo(54)
       }
-   }
+                             }
    
    override func setStyle() {
       contentTitleLabel.do {
