@@ -45,7 +45,6 @@ class InfoBarView: UICollectionReusableView {
     }
     
     func setHierarchy() {
-        self.backgroundColor = .red
         self.addSubviews(
             coastLabel,
             coastIconImageView,

@@ -145,16 +145,13 @@ extension PreviewCourseDetailViewController: UICollectionViewDelegate, UICollect
             guard let titleInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleInfoCell.cellIdentifier, for: indexPath) as? TitleInfoCell else {
                 fatalError("Unable to dequeue MainContentsCell")
             }
-            titleInfoCell.backgroundColor = .red
             titleInfoCell.setCell(mainContentsData: mainContentsData)
             return titleInfoCell
         case .mainContents:
             guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.cellIdentifier, for: indexPath) as? MainContentsCell else {
                 fatalError("Unable to dequeue MainContentsCell")
             }
-            mainContentsCell.backgroundColor = .blue
             mainContentsCell.setCell(mainContentsData: mainContentsData)
-            
             return mainContentsCell
         }
         

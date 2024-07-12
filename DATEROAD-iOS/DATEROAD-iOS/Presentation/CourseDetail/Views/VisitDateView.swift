@@ -39,14 +39,12 @@ class VisitDateView: UICollectionReusableView {
     }
     
     func setLayout() {
-       
         dateLabel.snp.makeConstraints {
             $0.top.leading.equalToSuperview()
         }
     }
     
     func setStyle() {
-        self.backgroundColor = UIColor(resource: .lime)
         dateLabel.do {
             $0.text = "2024년 6월 27일"
             $0.font = UIFont.suit(.body_semi_15)

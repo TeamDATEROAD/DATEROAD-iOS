@@ -28,7 +28,6 @@ class ImageGradientView: BaseView {
     override func setStyle() {
         self.backgroundColor = .white
     }
-    
-    
+ 
 }
     
