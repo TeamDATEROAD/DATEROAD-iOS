@@ -60,20 +60,4 @@ class PreviewCourseDetailViewModel {
 }
 
 
-struct ImageCarouselViewModel {
-    var numberOfItems: Int {
-        return 1
-    }
-}
 
-struct TitleInfoViewModel {
-    var numberOfItems: Int {
-        return 1
-    }
-}
-
-struct MainContentsViewModel {
-    var numberOfItems: Int {
-        return 1
-    }
-}

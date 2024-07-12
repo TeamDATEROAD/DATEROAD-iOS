@@ -33,6 +33,9 @@
 		0D98CB9B2C405E4100E3618A /* VisitDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D98CB9A2C405E4100E3618A /* VisitDateView.swift */; };
 		0D98CBA12C40A2F100E3618A /* ContentMaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D98CBA02C40A2F100E3618A /* ContentMaskView.swift */; };
 		0D98CBA32C40AE7900E3618A /* PreviewCourseDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D98CBA22C40AE7900E3618A /* PreviewCourseDetailViewModel.swift */; };
+		0D98CBA52C41067B00E3618A /* CourseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D98CBA42C41067B00E3618A /* CourseDetailViewController.swift */; };
+		0D98CBA72C41099400E3618A /* CourseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D98CBA62C41099400E3618A /* CourseDetailView.swift */; };
+		0D98CBA92C410C7200E3618A /* CourseDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D98CBA82C410C7200E3618A /* CourseDetailViewModel.swift */; };
 		0DA138F52C3E8E1900682653 /* PriceButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA138F42C3E8E1900682653 /* PriceButtonCollectionViewCell.swift */; };
 		0DA138F72C3E8E3F00682653 /* DRPriceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA138F62C3E8E3F00682653 /* DRPriceButton.swift */; };
 		0DA1C7142C3DA94F00DF2B92 /* CourseListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA1C7132C3DA94F00DF2B92 /* CourseListModel.swift */; };
@@ -178,6 +181,9 @@
 		0D98CB9A2C405E4100E3618A /* VisitDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitDateView.swift; sourceTree = "<group>"; };
 		0D98CBA02C40A2F100E3618A /* ContentMaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentMaskView.swift; sourceTree = "<group>"; };
 		0D98CBA22C40AE7900E3618A /* PreviewCourseDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCourseDetailViewModel.swift; sourceTree = "<group>"; };
+		0D98CBA42C41067B00E3618A /* CourseDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailViewController.swift; sourceTree = "<group>"; };
+		0D98CBA62C41099400E3618A /* CourseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailView.swift; sourceTree = "<group>"; };
+		0D98CBA82C410C7200E3618A /* CourseDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailViewModel.swift; sourceTree = "<group>"; };
 		0DA138F42C3E8E1900682653 /* PriceButtonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceButtonCollectionViewCell.swift; sourceTree = "<group>"; };
 		0DA138F62C3E8E3F00682653 /* DRPriceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRPriceButton.swift; sourceTree = "<group>"; };
 		0DA1C7132C3DA94F00DF2B92 /* CourseListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseListModel.swift; sourceTree = "<group>"; };
@@ -379,6 +385,7 @@
 		0D9497AF2C327CC00004B442 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				0D98CBA82C410C7200E3618A /* CourseDetailViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -393,6 +400,8 @@
 				0D9497D22C33BD760004B442 /* BottomPageControllView.swift */,
 				0DF905BF2C3921AD0072EE65 /* ImageGradientView.swift */,
 				0DF905CB2C3ABAC30072EE65 /* GradientView.swift */,
+				0D98CBA42C41067B00E3618A /* CourseDetailViewController.swift */,
+				0D98CBA62C41099400E3618A /* CourseDetailView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1207,6 +1216,7 @@
 				0DA1C7182C3DA98100DF2B92 /* CourseViewController.swift in Sources */,
 				CAA30AED2C37E57400835DE3 /* String+.swift in Sources */,
 				0D05FF072C3EDAD000E9BDDC /* CourseCollectionViewCell.swift in Sources */,
+				0D98CBA52C41067B00E3618A /* CourseDetailViewController.swift in Sources */,
 				0D0DA3E42C3AF3CF004210EE /* PointCollectionView.swift in Sources */,
 				CAC80FA22C3B10EA00658EA6 /* MyPageViewController.swift in Sources */,
 				CA4EF3C02C3285BA003B02B6 /* SocialType.swift in Sources */,
@@ -1226,6 +1236,7 @@
 				0D06D9A82C36946C0094C505 /* TimelineInfoCell.swift in Sources */,
 				0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */,
 				0DA1C7142C3DA94F00DF2B92 /* CourseListModel.swift in Sources */,
+				0D98CBA72C41099400E3618A /* CourseDetailView.swift in Sources */,
 				0D98CB9B2C405E4100E3618A /* VisitDateView.swift in Sources */,
 				0D9497BD2C3292C20004B442 /* TitleInfoCell.swift in Sources */,
 				CAC80FAF2C3B56A800658EA6 /* MyPageModel.swift in Sources */,
@@ -1241,6 +1252,7 @@
 				CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */,
 				CA4EF3B82C328542003B02B6 /* LoginView.swift in Sources */,
 				CA4EF3DA2C34791F003B02B6 /* OnboardingCollectionViewCell.swift in Sources */,
+				0D98CBA92C410C7200E3618A /* CourseDetailViewModel.swift in Sources */,
 				CA4EF3E52C3538AA003B02B6 /* OnboardingViewModel.swift in Sources */,
 				745547672C3C67FE00B526F3 /* DateTimeLineCollectionViewCell.swift in Sources */,
 				0D9497D32C33BD760004B442 /* BottomPageControllView.swift in Sources */,
