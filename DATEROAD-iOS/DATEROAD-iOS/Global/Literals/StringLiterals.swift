@@ -111,6 +111,7 @@ enum StringLiterals {
         static let header = "header"
         static let cancel = "취소"
     }
+    
     enum Main {
         static let hotDateTitle = "님, 오늘은\n이런 데이트 어떠세요?"
         static let hotDateSub = "후기 보장 HOT 데이트 코스 둘러보기"
@@ -140,7 +141,6 @@ enum StringLiterals {
     }
     
     enum Course {
-    
         static let course = "코스 둘러보기"
         static let priceLabelUnder50K = "5만원 이하"
         static let priceLabelUnder30K = "3만원 이하"
@@ -148,8 +148,8 @@ enum StringLiterals {
         static let priceLabelOver100K = "10만원 초과"
         static let isCourseEmpty = "아직 등록된 코스가 없어요"
     }
-    enum ViewedCourse {
     
+    enum ViewedCourse {
         static let title = "내가 열람한 코스"
         static let registerSchedule = "열람한 코스로 데이트를 짜보세요"
     }
@@ -167,5 +167,10 @@ enum StringLiterals {
     enum EmptyView {
         static let emptyDateSchedule = "아직 연인과의 데이트 일정을\n등록하지 않으셨나요?"
         static let emptyPastSchedule = "지난 데이트가 없어요!"
+        static let emptyViewedCourse = "다른 커플들의 데이트 코스를 열람해보세요!"
+        static let emptyNavViewedCourse = "아직 열람한 코스가 없어요!"
+        static let emptyMyRegisterCourse = "아직 등록한 코스가 없어요!"
+        static let emptyGainedPoint = "아직 포인트 획득 내역이 없어요!"
+        static let emptyUsedPoint = "아직 포인트 사용 내역이 없어요!"
     }
 }
