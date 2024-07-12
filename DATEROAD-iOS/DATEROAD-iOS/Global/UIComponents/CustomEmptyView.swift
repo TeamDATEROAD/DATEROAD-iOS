@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class CustomEmptyView: BaseView {
+final class CustomEmptyView: BaseView {
     
     // MARK: - UI Properties
 
