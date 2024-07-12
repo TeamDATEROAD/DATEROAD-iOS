@@ -84,11 +84,6 @@ final class MainHeaderView: UICollectionReusableView {
 
 extension MainHeaderView {
     
-//    func setRoundedView(section: MainSection, ) {
-//        self.clipsToBounds = isRounded ? true : false
-//        self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMinYCorner])
-//    }
-    
     func bindTitle(section: MainSection, nickname: String?) {
         let nickname = nickname ?? ""
         

@@ -33,7 +33,6 @@ final class BannerCell: BaseCollectionViewCell {
             $0.trailing.equalTo(bannerCollectionView).inset(22)
             $0.height.equalTo(19)
         }
-
     }
     
     override func setStyle() {
