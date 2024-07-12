@@ -18,7 +18,7 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - Properties
     
-    var upcomingDateDetailData = DateTimeLineModel(startTime: "", places: [])
+    var upcomingDateDetailData = DateDetailModel(dateID: 0, title: "", startAt: "", city: "", tags: [], date: "", places: [])
     
     private let upcomingDateDetailViewModel = DateDetailViewModel()
 

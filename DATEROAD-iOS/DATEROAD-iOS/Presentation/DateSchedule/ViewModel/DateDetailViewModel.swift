@@ -8,27 +8,42 @@
 import Foundation
 
 class DateDetailViewModel {
-    var upcomingDateCardDummyData =
-        DateCardModel(courseID: 1, dateCalendar: "June 24", dDay: 3, tags: ["🎨 전시·팝업", "🎨 전시·팝업", "🎨 전시·팝업"], dateTitle: "성수동 당일치기 데이트 가볼까요?", dateLocation: "건대/성수/왕십리")
-    
-    var upcomingDateDetailDummyData = DateTimeLineModel(
-        startTime: "12:00 PM",
-        places: [DatePlacesModel(title: "성수미술관 성수점", duration: 2),
-                 DatePlacesModel(title: "성수미술관 성수점", duration: 2),
-                 DatePlacesModel(title: "성수미술관 성수점", duration: 2),
-                 DatePlacesModel(title: "성수미술관 성수점", duration: 2),
-                 DatePlacesModel(title: "성수미술관 성수점", duration: 2),
-                 DatePlacesModel(title: "성수미술관 성수점", duration: 2)]
+   
+    var upcomingDateDetailDummyData = DateDetailModel(
+        dateID: 1,
+        title: "성수동 당일치기 데이트 가볼까요? 이 정돈 어떠신지?",
+        startAt: "12:00",
+        city: "건대/성수/왕십리",
+        tags: ["🎨 전시·팝업", "🎨 전시·팝업", "🎨 전시·팝업"],
+        date: "June 24",
+        places: [DatePlaceModel(name: "성수미술관 연남점", duration: 2,           sequence: 1),
+                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
+                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
+                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
+                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
+                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
+                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1)]
     )
     
-    var pastDateDetailDummyData = DateTimeLineModel(
-        startTime: "10:00 PM",
-        places: [DatePlacesModel(title: "성수미술관 연남점", duration: 2),
-                 DatePlacesModel(title: "성수미술관 연남점", duration: 2),
-                 DatePlacesModel(title: "성수미술관 연남점", duration: 2),
-                 DatePlacesModel(title: "성수미술관 연남점", duration: 2),
-                 DatePlacesModel(title: "성수미술관 연남점", duration: 2),
-                 DatePlacesModel(title: "성수미술관 연남점", duration: 2),]
+    
+    var pastDateDetailDummyData = DateDetailModel(
+        dateID: 1,
+        title: "성수동 당일치기 데이트 가볼까요? 이 정돈 어떠신지?",
+        startAt: "12:00",
+        city: "건대/성수/왕십리",
+        tags: ["🎨 전시·팝업", "🎨 전시·팝업", "🎨 전시·팝업"],
+        date: "June 24",
+        places: [DatePlaceModel(name: "성수미술관 연남점", duration: 2,           sequence: 1),
+                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
+                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
+                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
+                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
+                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
+                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1)]
     )
+    
+    func shareToKaKao() {
+        
+    }
 }
 
