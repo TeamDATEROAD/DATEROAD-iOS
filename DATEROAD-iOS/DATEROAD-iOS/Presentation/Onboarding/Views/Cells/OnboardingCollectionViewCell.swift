@@ -16,24 +16,17 @@ final class OnboardingCollectionViewCell: BaseCollectionViewCell {
     private let mainInfoLabel: UILabel = UILabel()
     
     private let subInfoLabel: UILabel = UILabel()
-        
-    let nextButton: UIButton = UIButton()
-    
-    
-    // MARK: - Properties
-    
-    private let nextButtonType: DRButtonType = NextButton()
-    
-    private let enabledButtonType: DRButtonType = EnabledButton()
 
+    private let hintInfoLabel: UILabel = UILabel()
+    
     
     // MARK: - Methods
     
     override func setHierarchy() {
         self.contentView.addSubviews(backgroundImage,
-            mainInfoLabel,
-            subInfoLabel,
-            nextButton)
+                                     mainInfoLabel,
+                                     subInfoLabel,
+                                     hintInfoLabel)
     }
     
     override func setLayout() {
@@ -45,20 +38,20 @@ final class OnboardingCollectionViewCell: BaseCollectionViewCell {
         }
         
         mainInfoLabel.snp.makeConstraints {
-            $0.top.equalTo(self.contentView.safeAreaLayoutGuide.snp.top).offset(80)
+            $0.top.equalToSuperview().inset(ScreenUtils.height / 812  * 532)
             $0.centerX.equalToSuperview()
         }
         
         subInfoLabel.snp.makeConstraints {
-            $0.top.equalTo(mainInfoLabel.snp.bottom).offset(20)
+            $0.top.equalTo(mainInfoLabel.snp.bottom).offset(ScreenUtils.height / 812  * 10)
             $0.centerX.equalToSuperview()
         }
-        
-        nextButton.snp.makeConstraints {
-            $0.bottom.equalTo(backgroundImage).inset(38)
-            $0.height.equalTo(54)
-            $0.horizontalEdges.equalToSuperview().inset(16)
+
+        hintInfoLabel.snp.makeConstraints {
+            $0.top.equalTo(subInfoLabel.snp.bottom).offset(ScreenUtils.height / 812 * 6)
+            $0.centerX.equalToSuperview()
         }
+
     }
     
     override func setStyle() {
@@ -77,15 +70,14 @@ final class OnboardingCollectionViewCell: BaseCollectionViewCell {
             $0.setLabel(textColor: UIColor(resource: .gray500), font: UIFont.suit(.body_med_15))
         }
         
+        hintInfoLabel.do {
+            $0.setLabel(textColor: UIColor(resource: .gray400), font: UIFont.suit(.cap_reg_11))
+        }
     }
     
     // 각 온보딩 페이지에 맞는 데이터를 세팅해주는 메소드
     func setOnboardingData(data: OnboardingModel) {
-        if let bgIMG = data.bgIMG {
-            self.backgroundImage.image = bgIMG
-        } else {
-            self.backgroundImage.isHidden = true
-        }
+        self.backgroundImage.image = data.bgIMG
         
         for index in 0..<data.pointText.count {
             self.mainInfoLabel.setAttributedText(fullText: data.mainInfo,
@@ -96,8 +88,11 @@ final class OnboardingCollectionViewCell: BaseCollectionViewCell {
         
         self.subInfoLabel.text = data.subInfo
         
-        self.nextButton.setTitle(data.buttonText, for: .normal)
-        self.nextButton.setButtonStatus(buttonType: data.buttonType)
+        if let hintText = data.hintInfo {
+            self.hintInfoLabel.text = hintText
+        } else {
+            self.hintInfoLabel.isHidden = true
+        }
     }
     
 }

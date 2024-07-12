@@ -16,11 +16,16 @@ class DateScheduleViewModel {
         ]
     )
     
+    var isMoreThanFiveSchedule : Bool {
+        return (upcomingDateScheduleDummyData.dateCards.count >= 5)
+    }
+    
     
     var pastDateScheduleDummyData = DateScheduleModel(
         dateCards: [
         
         ]
     )
+    
 
 }
