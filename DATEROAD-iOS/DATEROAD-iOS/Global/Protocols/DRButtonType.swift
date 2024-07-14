@@ -122,7 +122,7 @@ struct SelectedButton : DRButtonType {
 
 }
 
-struct TagButton: DRButtonType {
+struct TendencyTagButton: DRButtonType {
     
     var bgColor: UIColor = UIColor(resource: .drWhite)
     

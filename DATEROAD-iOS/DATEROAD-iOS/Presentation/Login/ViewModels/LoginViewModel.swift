@@ -74,13 +74,18 @@ extension LoginViewModel {
     
     func loginWithApple(userInfo: ASAuthorizationAppleIDCredential) {
         guard let userIdentifier = userInfo.identityToken,
-                   let token = String(data: userIdentifier, encoding: .utf8)
+              let code = userInfo.authorizationCode,
+              let token = String(data: userIdentifier, encoding: .utf8)
         else { return }
         
         self.isKaKaoLogin.value = false
         self.socialType.value = .apple
         self.setToken(token: token)
         self.setUserInfo(userInfo: userInfo)
+        let authCode = String(data: code, encoding: .utf8)
+
+        print("identifier token: \(String(describing: token))")
+        print("authorization code: \(String(describing: authCode))")
     }
     
     // 유저 정보 세팅

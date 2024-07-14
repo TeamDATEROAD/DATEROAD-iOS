@@ -33,6 +33,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
         setDelegate()
         setUIMethods()
         setAddTarget()
+        setEmptyView()
     }
     
     override func setHierarchy() {
@@ -79,6 +80,13 @@ private extension UpcomingDateScheduleViewController {
             $0.addTarget(self, action: #selector(pushToPastDateVC), for: .touchUpInside)
         }
     }
+    
+    func setEmptyView() {
+        if upcomingDateScheduleData.dateCards.count == 0 {
+            upcomingDateScheduleView.emptyView.isHidden = false
+        }
+    }
+    
 }
 
 // MARK: - Alert Delegate

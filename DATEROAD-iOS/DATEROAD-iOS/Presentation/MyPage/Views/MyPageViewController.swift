@@ -189,7 +189,7 @@ extension MyPageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch MyPageSection.dataSource[indexPath.item] {
         case .myCourse:
-            let myCourseVC = PreviewCourseDetailViewController(viewModel: PreviewCourseDetailViewModel())
+            let myCourseVC = MyRegisterCourseViewController()
             self.navigationController?.pushViewController(myCourseVC, animated: false)
         case .pointSystem:
             let pointSystemVC = PointSystemViewController(pointSystemViewModel: PointSystemViewModel())
