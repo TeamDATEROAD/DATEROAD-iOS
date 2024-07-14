@@ -27,6 +27,10 @@ class PointDetailView: BaseView {
     
     var pointUsedCollectionView = PointCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
+    var emptyGainedPointView = CustomEmptyView()
+    
+    var emptyUsedPointView = CustomEmptyView()
+    
     // MARK: - Properties
     
     private let segmentBackgroundImage = UIImage()
@@ -39,7 +43,9 @@ class PointDetailView: BaseView {
                          segmentControlUnderLineView,
                          selectedSegmentUnderLineView,
                          pointUsedCollectionView,
-                         pointGainedCollectionView)
+                         pointGainedCollectionView,
+                         emptyUsedPointView,
+                         emptyGainedPointView)
         
         self.pointView.addSubviews(userNameLabel, totalPointLabel)
     }
@@ -92,6 +98,18 @@ class PointDetailView: BaseView {
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview().inset(34)
         }
+        
+        emptyGainedPointView.snp.makeConstraints {
+            $0.top.equalTo(segmentControl.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(ScreenUtils.height * 444/812)
+        }
+        
+        emptyUsedPointView.snp.makeConstraints {
+            $0.top.equalTo(segmentControl.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(ScreenUtils.height * 444/812)
+        }
     }
     
     override func setStyle() {
@@ -127,6 +145,27 @@ class PointDetailView: BaseView {
         
         selectedSegmentUnderLineView.do {
             $0.backgroundColor = UIColor(resource: .drBlack)
+        }
+        
+        pointGainedCollectionView.do {
+            $0.isHidden = true
+            $0.backgroundColor = .alertRed
+        }
+        
+        pointUsedCollectionView.do {
+            $0.isHidden = true
+        }
+        
+        emptyGainedPointView.do {
+            $0.isHidden = true
+            $0.setEmptyView(emptyImage: UIImage(resource: .emptyGainedPoint),
+         emptyTitle: StringLiterals.EmptyView.emptyGainedPoint)
+        }
+        
+        emptyUsedPointView.do {
+            $0.isHidden = true
+            $0.setEmptyView(emptyImage: UIImage(resource: .emptyUsedPoint),
+         emptyTitle: StringLiterals.EmptyView.emptyUsedPoint)
         }
     }
 
