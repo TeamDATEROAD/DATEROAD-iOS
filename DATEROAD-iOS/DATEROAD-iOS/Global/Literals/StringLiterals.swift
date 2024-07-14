@@ -96,6 +96,7 @@ enum StringLiterals {
          static let timeRequiredPlaceHolder = "소요시간"
          static let guideLabel = "최소 2개의 장소를 추가해 주세요"
          static let edit = "편집"
+         static let done = "완료"
          static let addSecondNextBtnOfCourse = "다음 (2/3)"
          static let addSecondDoneBtnOfSchedule = "완료"
       }

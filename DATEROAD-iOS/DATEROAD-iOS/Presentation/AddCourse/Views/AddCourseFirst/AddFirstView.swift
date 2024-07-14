@@ -293,24 +293,10 @@ extension AddFirstView {
          $0.configuration?.background.backgroundColor = isSelected ? UIColor(resource: .deepPurple) : UIColor(resource: .gray100)
          $0.configuration?.baseForegroundColor = isSelected ? UIColor(resource: .drWhite) : UIColor(resource: .drBlack)
       }
-//      if isSelected {
-//         btn.do {
-//            $0.configuration?.background.backgroundColor = UIColor(resource: .deepPurple)
-//            $0.configuration?.baseForegroundColor = UIColor(resource: .drWhite)
-//         }
-//      } else {
-//         btn.do {
-//            $0.configuration?.background.backgroundColor = UIColor(resource: .gray100)
-//            $0.configuration?.baseForegroundColor = UIColor(resource: .drBlack)
-//         }
-//      }
    }
    
    func updateSixCheckButton(isValid: Bool) {
       print("!!!!isValid : \(isValid)!!!!!!!")
-//      isValid ? sixCheckNextButton.setButtonStatus(buttonType: enabledButtonType)
-//       : sixCheckNextButton.setButtonStatus(buttonType: disabledButtonType)
-//      sixCheckNextButton.titleLabel?.font = UIFont.suit(.body_med_13)
    }
    
    func updateTagCount(count: Int) {

@@ -35,7 +35,7 @@ class AddThirdView: BaseView {
    
    private let enabledButtonType: DRButtonType = EnabledButton()
    
-   private let disabledButtonType: DRButtonType = DisabledButton()
+   private let disabledButtonType: DRButtonType = addCoursePlaceDisabledButton()
    
    
    // MARK: - Methods
@@ -129,7 +129,11 @@ class AddThirdView: BaseView {
          $0.textColor = UIColor(resource: .drBlack)
       }
       
-      priceTextField.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedule.AddThirdView.priceTextFieldPlaceHolder, fontColor: UIColor(resource: .gray300), font: .suit(.body_med_13))
+      priceTextField.setPlaceholder(
+         placeholder: StringLiterals.AddCourseOrSchedule.AddThirdView.priceTextFieldPlaceHolder,
+         fontColor: UIColor(resource: .gray300),
+         font: .suit(.body_med_13)
+      )
       
       contentTextCountLabel.do {
          $0.setLabel(
@@ -151,11 +155,9 @@ class AddThirdView: BaseView {
       
       addThirdDoneBtn.do {
          $0.setButtonStatus(buttonType: disabledButtonType)
-         $0.layer.borderWidth = 0
          $0.setTitle(StringLiterals.AddCourseOrSchedule.AddThirdView.addThirdDoneBtn, for: .normal)
          $0.titleLabel?.font = .suit(.body_bold_15)
-         $0.layer.cornerRadius = 14
-         $0.backgroundColor = UIColor(resource: .lime)
+//         $0.backgroundColor = UIColor(resource: .lime)
       }
    }
    

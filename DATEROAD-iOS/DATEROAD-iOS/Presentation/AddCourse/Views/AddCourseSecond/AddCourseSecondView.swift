@@ -85,7 +85,6 @@ final class AddCourseSecondView: BaseView {
          $0.collectionViewLayout =  layout
          $0.isScrollEnabled = true
          $0.showsHorizontalScrollIndicator = false
-         $0.showsVerticalScrollIndicator = false
          $0.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 16)
          $0.clipsToBounds = true
       }
@@ -98,7 +97,6 @@ final class AddCourseSecondView: BaseView {
          $0.contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 0, right: 0)
          $0.collectionViewLayout =  layout
          $0.isScrollEnabled = true
-         $0.showsHorizontalScrollIndicator = false
          $0.showsVerticalScrollIndicator = false
          $0.dragInteractionEnabled = true
       }
@@ -123,7 +121,7 @@ extension AddCourseSecondView {
    
    /// editMode 활성화라면
    func updateEditBtnText(flag: Bool) {
-      let text = flag ? "완료" : "편집"
+      let text = flag ? StringLiterals.AddCourseOrSchedule.AddSecondView.done : StringLiterals.AddCourseOrSchedule.AddSecondView.edit
       editButton.setTitle(text, for: .normal)
    }
    
