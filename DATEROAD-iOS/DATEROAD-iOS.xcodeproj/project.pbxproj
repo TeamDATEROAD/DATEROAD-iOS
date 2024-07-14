@@ -53,6 +53,7 @@
 		0DF905C82C39402A0072EE65 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905C72C39402A0072EE65 /* Int+.swift */; };
 		0DF905CA2C399F750072EE65 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905C92C399F750072EE65 /* PreviewView.swift */; };
 		0DF905CC2C3ABAC30072EE65 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905CB2C3ABAC30072EE65 /* GradientView.swift */; };
+		0DFBF92A2C43BB2A00762956 /* Float+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFBF9292C43BB2A00762956 /* Float+.swift */; };
 		741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */; };
 		7428400E2C3EC58700B21AA7 /* CustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428400D2C3EC58700B21AA7 /* CustomAlertViewController.swift */; };
 		742840102C3EC87300B21AA7 /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428400F2C3EC87300B21AA7 /* AlertType.swift */; };
@@ -205,6 +206,7 @@
 		0DF905C72C39402A0072EE65 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		0DF905C92C399F750072EE65 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		0DF905CB2C3ABAC30072EE65 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		0DFBF9292C43BB2A00762956 /* Float+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+.swift"; sourceTree = "<group>"; };
 		741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseViewController.swift; sourceTree = "<group>"; };
 		7428400D2C3EC58700B21AA7 /* CustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertViewController.swift; sourceTree = "<group>"; };
 		7428400F2C3EC87300B21AA7 /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
@@ -853,6 +855,7 @@
 				CAA30AEC2C37E57400835DE3 /* String+.swift */,
 				0D0DA3D62C3AF2DE004210EE /* UIFont+.swift */,
 				CAC80FC92C3C95A000658EA6 /* UICollectionViewFlowLayout+.swift */,
+				0DFBF9292C43BB2A00762956 /* Float+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1252,6 +1255,7 @@
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
 				CAC80FC82C3C75F200658EA6 /* PointSystemViewModel.swift in Sources */,
 				CAC80FB32C3BBE9100658EA6 /* MyPageTableViewCell.swift in Sources */,
+				0DFBF92A2C43BB2A00762956 /* Float+.swift in Sources */,
 				CAC80FA92C3B4CE800658EA6 /* TagCollectionViewCell.swift in Sources */,
 				74CDE2682C3B123100A7459B /* UpcomingDateScheduleViewController.swift in Sources */,
 				CAC80FD22C3D7E5100658EA6 /* ProfileImageSettingView.swift in Sources */,

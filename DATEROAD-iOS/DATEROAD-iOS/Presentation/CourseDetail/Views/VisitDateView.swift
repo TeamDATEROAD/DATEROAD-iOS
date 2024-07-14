@@ -54,12 +54,13 @@ class VisitDateView: UICollectionReusableView {
     
 }
 extension VisitDateView {
+    
     func bindDate(titleHeaderData: TitleHeaderModel) {
-            let dateString = titleHeaderData.date
-            if let formattedDate = dateString.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일 방문") {
-                dateLabel.text = formattedDate
-            } else {
-                print("날짜 포맷 변환에 실패했습니다.")
-            }
+        let dateString = titleHeaderData.date
+        if let formattedDate = dateString.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일 방문") {
+            dateLabel.text = formattedDate
+        } else {
+            print("날짜 포맷 변환에 실패했습니다.")
         }
+    }
 }

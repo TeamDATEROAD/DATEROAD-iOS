@@ -211,6 +211,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return visitDate
         } else if kind == InfoBarView.elementKinds {
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoBarView.identifier, for: indexPath) as? InfoBarView else { return UICollectionReusableView() }
+            footer.bindTitleHeader(titleHeaderData: titleHeaderData)
             return footer
         } else if kind == GradientView.elementKinds {
             guard let gradient = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: GradientView.identifier, for: indexPath) as? GradientView else { return UICollectionReusableView() }

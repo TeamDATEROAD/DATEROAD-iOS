@@ -69,7 +69,7 @@ class InfoBarView: UICollectionReusableView {
         
         timeIconImageView.snp.makeConstraints {
             $0.top.equalTo(coastIconImageView)
-            $0.leading.equalToSuperview().inset(116)
+            $0.leading.equalToSuperview().inset(106)
             $0.width.height.equalTo(14)
         }
         
@@ -114,8 +114,12 @@ class InfoBarView: UICollectionReusableView {
     }
     
 }
-//
-//extension InfoBarView {
-//    
-//    func
-//}
+
+extension InfoBarView {
+     
+    func bindTitleHeader(titleHeaderData: TitleHeaderModel) {
+        coastLabel.text = "\(titleHeaderData.coast)"
+        timeLabel.text = "\(titleHeaderData.totalTime.formatFloatTime())시간"
+        locationLabel.text = titleHeaderData.city
+    }
+}

@@ -108,7 +108,7 @@ extension TimelineInfoCell {
     func setCell(timelineData: TimelineModel) {
         indexNumLabel.text = "\(timelineData.sequence)"
         locationLabel.text = timelineData.title
-        timeLabel.text = "\(timelineData.duration)시간"
+        timeLabel.text = "\(timelineData.duration.formatFloatTime())시간"
     }
 }
 
