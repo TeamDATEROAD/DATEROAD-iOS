@@ -14,13 +14,14 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
    
    // MARK: - UI Properties
    
-   private let imageView = UIImageView()
+   private let imageView: UIImageView = UIImageView()
    
-   private let emptyView = UIView()
+   private let emptyView: UIView = UIView()
    
-   private let emptyCameraImage = UIImageView()
+   private let emptyCameraImage: UIImageView = UIImageView()
    
-   private let emptyLabel = UILabel()
+   private let emptyLabel: UILabel = UILabel()
+   
    
    // MARK: - Initializer
    
@@ -37,6 +38,9 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
       fatalError("init(coder:) has not been implemented")
    }
    
+   
+   // MARK: - Prepare Methods
+   
    override func prepareForReuse() {
       super.prepareForReuse()
       
@@ -47,9 +51,11 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
       self.imageView.image = image
    }
    
+   
+   // MARK: - Methods
+   
    override func setHierarchy() {
-      contentView.addSubview(imageView)
-      contentView.addSubview(emptyView)
+      contentView.addSubviews(imageView, emptyView)
       emptyView.addSubviews(emptyCameraImage, emptyLabel)
    }
    
@@ -93,7 +99,7 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
             textColor: UIColor(resource: .gray300),
             font: .suit(.body_bold_11)
          )
-         $0.text = StringLiterals.AddCourseOrScheduleFirst.emptyImage
+         $0.text = StringLiterals.AddCourseOrSchedule.AddFirstView.emptyImage
       }
       
       imageView.do {
@@ -106,11 +112,16 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
    
 }
 
+
+// MARK: - CollectionViewCell Methods
+
 extension AddCourseImageCollectionViewCell {
+   
    func updateImageCellUI(isImageEmpty: Bool, image: UIImage?) {
       emptyView.isHidden = !isImageEmpty
       imageView.isHidden = isImageEmpty
       
       self.prepare(image: image)
    }
+   
 }
