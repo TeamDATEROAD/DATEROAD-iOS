@@ -43,7 +43,8 @@ class CourseDetailView: BaseView {
     override func setLayout() {
         
         mainCollectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(108)
         }
         
     }
