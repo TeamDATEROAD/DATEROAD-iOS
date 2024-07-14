@@ -51,7 +51,7 @@ enum StringLiterals {
         static let timelineInfoLabel = "코스 타임라인"
         static let coastInfoLabel = "총 비용"
         static let tagInfoLabel = "태그"
-        static let bringCourseLabel = "코스 가져오기"
+        static let bringCourseLabel = "내 일정에 추가하기"
         static let viewCoursewithPoint = "포인트로 코스 열람하기"
         static let settingDateCourse = "데이트 코스 설정"
         static let deleteCourse = "글 삭제"

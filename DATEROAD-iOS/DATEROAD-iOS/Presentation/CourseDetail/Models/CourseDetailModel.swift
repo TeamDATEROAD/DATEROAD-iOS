@@ -7,14 +7,14 @@
 
 struct ConditionalModel {
     let courseId: Int
+    let isCourseMine: Bool
     let isAccess: Bool
     let free: Int
     let totalPoint: Int
-    let isCourseMine: Bool
     let isUserLiked: Bool
     
     static var conditionalDummyData: ConditionalModel {
-        return ConditionalModel(courseId: 0, isAccess: true, free: 2, totalPoint: 500, isCourseMine: false, isUserLiked: true)
+        return ConditionalModel(courseId: 0, isCourseMine: false, isAccess: true, free: 2, totalPoint: 500, isUserLiked: true)
     }
 }
 
