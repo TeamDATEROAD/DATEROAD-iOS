@@ -121,12 +121,12 @@ class CourseFilterView: BaseView {
         } else {
             if let index = priceButtons.firstIndex(of: button) {
                 priceButtons.remove(at: index)
-                button.setTitleColor(UIColor(resource: .gray400), for: .normal)
             }
+            button.setTitleColor(UIColor(resource: .gray400), for: .normal)
         }
     }
     
-    private func resetPriceButtons() {
+    func resetPriceButtons() {
         for button in priceButtons {
             updatePrice(button: button, buttonType: UnselectedButton(), isSelected: false)
         }

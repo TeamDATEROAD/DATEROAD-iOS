@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D05FF072C3EDAD000E9BDDC /* CourseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D05FF062C3EDAD000E9BDDC /* CourseCollectionViewCell.swift */; };
 		0D05FF092C3EE1F700E9BDDC /* CourseListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D05FF082C3EE1F700E9BDDC /* CourseListCollectionViewCell.swift */; };
 		0D05FF0B2C3EFACB00E9BDDC /* CourseNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D05FF0A2C3EFACB00E9BDDC /* CourseNavigationBarView.swift */; };
 		0D05FF0D2C3EFB2700E9BDDC /* CourseFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D05FF0C2C3EFB2700E9BDDC /* CourseFilterView.swift */; };
@@ -188,7 +187,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0D05FF062C3EDAD000E9BDDC /* CourseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCollectionViewCell.swift; sourceTree = "<group>"; };
 		0D05FF082C3EE1F700E9BDDC /* CourseListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseListCollectionViewCell.swift; sourceTree = "<group>"; };
 		0D05FF0A2C3EFACB00E9BDDC /* CourseNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseNavigationBarView.swift; sourceTree = "<group>"; };
 		0D05FF0C2C3EFB2700E9BDDC /* CourseFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseFilterView.swift; sourceTree = "<group>"; };
@@ -526,7 +524,6 @@
 			isa = PBXGroup;
 			children = (
 				0DA138F42C3E8E1900682653 /* PriceButtonCollectionViewCell.swift */,
-				0D05FF062C3EDAD000E9BDDC /* CourseCollectionViewCell.swift */,
 				0D05FF082C3EE1F700E9BDDC /* CourseListCollectionViewCell.swift */,
 			);
 			path = Cells;
@@ -1400,7 +1397,6 @@
 				CA4EF3DF2C347B4E003B02B6 /* DRButtonType.swift in Sources */,
 				0DA1C7182C3DA98100DF2B92 /* CourseViewController.swift in Sources */,
 				CAA30AED2C37E57400835DE3 /* String+.swift in Sources */,
-				0D05FF072C3EDAD000E9BDDC /* CourseCollectionViewCell.swift in Sources */,
 				0D98CBA52C41067B00E3618A /* CourseDetailViewController.swift in Sources */,
 				0D0DA3E42C3AF3CF004210EE /* PointCollectionView.swift in Sources */,
 				CAC80FCC2C3D2EA600658EA6 /* DRButton.swift in Sources */,
@@ -1408,7 +1404,7 @@
 				CA4EF3C02C3285BA003B02B6 /* SocialType.swift in Sources */,
 				CAC80FAC2C3B567100658EA6 /* MyPageViewModel.swift in Sources */,
 				9E50988C2C403C4B00F72CD0 /* AddThirdView.swift in Sources */,
-				0D06D9A02C3561AF0094C505 /* ImageContents.swift in Sources */,
+				0D06D9A02C3561AF0094C505 /* ImageModel.swift in Sources */,
 				0D06D9A02C3561AF0094C505 /* ImageModel.swift in Sources */,
 				0D0DA3E62C3AF3FB004210EE /* PointDetailViewController.swift in Sources */,
 				0DDFEE0F2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift in Sources */,
@@ -1416,11 +1412,9 @@
 				0DA138F72C3E8E3F00682653 /* DRPriceButton.swift in Sources */,
 				0D9497B22C327D2D0004B442 /* PreviewCourseDetailViewController.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
-				0DF905C42C39295F0072EE65 /* TimelineModel.swift in Sources */,
 				CAC80FEB2C3EC6F900658EA6 /* NewDateCourseCell.swift in Sources */,
-				0D9497B22C327D2D0004B442 /* CourseDetailViewController.swift in Sources */,
+				0D9497B22C327D2D0004B442 /* PreviewCourseDetailViewController.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
-				0DF905C42C39295F0072EE65 /* TimelineModel.swift in Sources */,
 				CAC80FE52C3EC6C500658EA6 /* HotDateCourseCell.swift in Sources */,
 				CAC80FC82C3C75F200658EA6 /* PointSystemViewModel.swift in Sources */,
 				CAC80FB32C3BBE9100658EA6 /* MyPageTableViewCell.swift in Sources */,
@@ -1463,18 +1457,14 @@
 				9E590B502C3DBE1C00039690 /* AddCoursePlaceModel.swift in Sources */,
 				0DF905C82C39402A0072EE65 /* Int+.swift in Sources */,
 				0D98CBA32C40AE7900E3618A /* PreviewCourseDetailViewModel.swift in Sources */,
-				0DF905C22C39294A0072EE65 /* MainContentsModel.swift in Sources */,
 				CAC80FE12C3E822000658EA6 /* MainModel.swift in Sources */,
-				0DF905C22C39294A0072EE65 /* MainContentsModel.swift in Sources */,
 				CA3D0D182C29AA7A00735097 /* UITextField+.swift in Sources */,
 				7455476F2C3D0A6300B526F3 /* PastDateContentView.swift in Sources */,
 				0DA138F52C3E8E1900682653 /* PriceButtonCollectionViewCell.swift in Sources */,
 				0D05FF0F2C3EFB3E00E9BDDC /* CourseListView.swift in Sources */,
-				0DF905C62C3929A30072EE65 /* DateInfoModel.swift in Sources */,
 				CA80C0C92C440F3C002CAA9B /* ProfileErrorType.swift in Sources */,
 				0D05FF0B2C3EFACB00E9BDDC /* CourseNavigationBarView.swift in Sources */,
 				7455476F2C3D0A6300B526F3 /* PastDateContentView.swift in Sources */,
-				0DF905C62C3929A30072EE65 /* DateInfoModel.swift in Sources */,
 				745547552C3B8A0B00B526F3 /* DateScheduleViewModel.swift in Sources */,
 				0DF905CC2C3ABAC30072EE65 /* GradientView.swift in Sources */,
 				CA4EF3C52C328698003B02B6 /* SplashViewController.swift in Sources */,

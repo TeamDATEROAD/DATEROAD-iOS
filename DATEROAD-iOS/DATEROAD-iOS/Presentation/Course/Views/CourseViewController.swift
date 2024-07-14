@@ -81,8 +81,8 @@ extension CourseViewController {
     func didTapResetButton() {
         courseViewModel.fetchPriceData()
         courseView.courseFilterView.priceCollectionView.reloadData()
-        
         courseViewModel.resetSelections()
+        courseView.courseFilterView.resetPriceButtons()
         self.courseView.courseFilterView.locationFilterButton.do {
             $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
             $0.setTitle("지역", for: .normal)
