@@ -79,13 +79,13 @@ final class PreviewCourseDetailViewController: BaseNavBarViewController, CustomA
         
         self.view.backgroundColor = UIColor(resource: .drWhite)
         self.navigationController?.navigationBar.isHidden = true
-        
     }
     
 }
 
 private extension PreviewCourseDetailViewController {
     
+ 
     func setDelegate() {
         previewView.mainCollectionView.delegate = self
         previewView.mainCollectionView.dataSource = self
@@ -154,9 +154,11 @@ extension PreviewCourseDetailViewController: UICollectionViewDelegate, UICollect
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == VisitDateView.elementKinds {
             guard let visitDate = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: VisitDateView.identifier, for: indexPath) as? VisitDateView else { return UICollectionReusableView() }
+            visitDate.bindDate(titleHeaderData: titleHeaderData)
             return visitDate
         } else if kind == InfoBarView.elementKinds {
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoBarView.identifier, for: indexPath) as? InfoBarView else { return UICollectionReusableView() }
+            footer.bindTitleHeader(titleHeaderData: titleHeaderData)
             return footer
         } else if kind == GradientView.elementKinds {
             guard let gradient = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: GradientView.identifier, for: indexPath) as? GradientView else { return UICollectionReusableView() }

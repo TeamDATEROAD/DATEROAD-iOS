@@ -53,6 +53,8 @@ enum StringLiterals {
         static let tagInfoLabel = "태그"
         static let bringCourseLabel = "코스 가져오기"
         static let viewCoursewithPoint = "포인트로 코스 열람하기"
+        static let settingDateCourse = "데이트 코스 설정"
+        static let deleteCourse = "글 삭제"
     }
     
     enum Profile {

@@ -54,6 +54,7 @@
 		0DF905CA2C399F750072EE65 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905C92C399F750072EE65 /* PreviewView.swift */; };
 		0DF905CC2C3ABAC30072EE65 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905CB2C3ABAC30072EE65 /* GradientView.swift */; };
 		0DFBF92A2C43BB2A00762956 /* Float+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFBF9292C43BB2A00762956 /* Float+.swift */; };
+		0DFBF92C2C43E42700762956 /* DeleteCourseSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFBF92B2C43E42700762956 /* DeleteCourseSettingView.swift */; };
 		741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */; };
 		7428400E2C3EC58700B21AA7 /* CustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428400D2C3EC58700B21AA7 /* CustomAlertViewController.swift */; };
 		742840102C3EC87300B21AA7 /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428400F2C3EC87300B21AA7 /* AlertType.swift */; };
@@ -207,6 +208,7 @@
 		0DF905C92C399F750072EE65 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		0DF905CB2C3ABAC30072EE65 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		0DFBF9292C43BB2A00762956 /* Float+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+.swift"; sourceTree = "<group>"; };
+		0DFBF92B2C43E42700762956 /* DeleteCourseSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCourseSettingView.swift; sourceTree = "<group>"; };
 		741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseViewController.swift; sourceTree = "<group>"; };
 		7428400D2C3EC58700B21AA7 /* CustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertViewController.swift; sourceTree = "<group>"; };
 		7428400F2C3EC87300B21AA7 /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
@@ -445,6 +447,7 @@
 				0D9497B12C327D2D0004B442 /* PreviewCourseDetailViewController.swift */,
 				0DF905C92C399F750072EE65 /* PreviewView.swift */,
 				0D98CBA02C40A2F100E3618A /* ContentMaskView.swift */,
+				0DFBF92B2C43E42700762956 /* DeleteCourseSettingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1233,6 +1236,7 @@
 				0DDFEE132C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift in Sources */,
 				0DF905CA2C399F750072EE65 /* PreviewView.swift in Sources */,
 				745547612C3C4CAC00B526F3 /* UpcomingDateScheduleView.swift in Sources */,
+				0DFBF92C2C43E42700762956 /* DeleteCourseSettingView.swift in Sources */,
 				74CDE26B2C3B7AA400A7459B /* DateCardCollectionViewCell.swift in Sources */,
 				0D9C431B2C41B3F500687CCC /* CourseInfoTabBarView.swift in Sources */,
 				745547532C3B862100B526F3 /* DateScheduleModel.swift in Sources */,

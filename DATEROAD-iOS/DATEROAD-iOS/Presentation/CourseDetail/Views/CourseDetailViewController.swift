@@ -18,6 +18,9 @@ final class CourseDetailViewController: BaseNavBarViewController {
     
     private let courseInfoTabBarView = CourseInfoTabBarView()
     
+    private let alertVC: DRBottomSheetViewController
+    
+    
     // MARK: - Properties
     
     private let courseDetailViewModel: CourseDetailViewModel
@@ -42,6 +45,7 @@ final class CourseDetailViewController: BaseNavBarViewController {
     init(viewModel: CourseDetailViewModel) {
         self.courseDetailViewModel = viewModel
         self.courseDetailView = CourseDetailView(courseDetailSection: self.courseDetailViewModel.sections)
+        self.alertVC = DRBottomSheetViewController(contentView: CourseDetailView(courseDetailSection: self.courseDetailViewModel.sections), height: 215, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -59,12 +63,13 @@ final class CourseDetailViewController: BaseNavBarViewController {
         setDelegate()
         registerCell()
         setLeftBackButton()
+        setRightButtonStyle(image: .moreButton)
     }
     
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(courseDetailView, courseInfoTabBarView)
+        self.contentView.addSubviews(courseDetailView, courseInfoTabBarView)
         
     }
     
@@ -88,11 +93,21 @@ final class CourseDetailViewController: BaseNavBarViewController {
         self.view.backgroundColor = UIColor(resource: .drWhite)
         self.navigationController?.navigationBar.isHidden = true
         
+        
+        setRightButtonAction(target: self, action: #selector(didTapMoreButton))
     }
     
 }
 
 private extension CourseDetailViewController {
+    
+    @objc
+    func didTapMoreButton() {
+        let alertVC = DRBottomSheetViewController(contentView: DeleteCourseSettingView(), height: 215, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
+        alertVC.modalPresentationStyle = .overFullScreen
+        self.present(alertVC, animated: true)
+        print("눌림")
+    }
     
     func setDelegate() {
         courseDetailView.mainCollectionView.delegate = self
