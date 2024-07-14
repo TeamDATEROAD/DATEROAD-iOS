@@ -59,6 +59,7 @@ struct EnabledButton: DRButtonType {
     
 }
 
+
 struct DisabledButton: DRButtonType {
     
     var bgColor: UIColor = UIColor(resource: .gray200)
@@ -70,6 +71,7 @@ struct DisabledButton: DRButtonType {
     var isEnabled: Bool = false
         
 }
+
 
 struct KakaoLoginButton: DRButtonType {
     
@@ -97,11 +99,14 @@ struct UnselectedButton: DRButtonType {
 
     var font: UIFont = UIFont.suit(.body_med_13)
     
+    var fontColor: UIColor = UIColor(resource: .drBlack)
+    
     var cornerRadius: CGFloat = 15
     
     var borderWidth: CGFloat = 0
             
 }
+
 
 struct SelectedButton : DRButtonType {
     
@@ -117,7 +122,7 @@ struct SelectedButton : DRButtonType {
 
 }
 
-struct TagButton: DRButtonType {
+struct TendencyTagButton: DRButtonType {
     
     var bgColor: UIColor = UIColor(resource: .drWhite)
     

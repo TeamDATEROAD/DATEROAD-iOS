@@ -97,10 +97,10 @@ class PointCollectionViewCell: BaseCollectionViewCell {
 }
 
 extension PointCollectionViewCell {
-    func dataBind(_ pointData : PointModel, _ pointItemRow: Int) {
-        self.pointAmountLabel.text = "\(pointData.pointSign ?? "+") \(pointData.pointAmount ?? 100) P"
-        self.pointDescriptionLabel.text = pointData.pointDescription
-        self.pointDateLabel.text = pointData.pointDate
+    func dataBind(_ pointData : PointDetailModel, _ pointItemRow: Int) {
+        self.pointAmountLabel.text = "\(pointData.sign) \(pointData.point ) P"
+        self.pointDescriptionLabel.text = pointData.description
+        self.pointDateLabel.text = pointData.createAt
         self.pointItemRow = pointItemRow
     }
 }

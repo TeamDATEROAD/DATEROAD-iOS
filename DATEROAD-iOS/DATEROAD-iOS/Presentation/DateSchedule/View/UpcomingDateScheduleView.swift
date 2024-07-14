@@ -20,6 +20,8 @@ class UpcomingDateScheduleView: BaseView {
     
     var cardPageControl = UIPageControl()
     
+    var emptyView = CustomEmptyView()
+    
     var dateRegisterButton = UIButton()
     
     var pastDateButton = UIButton()
@@ -34,10 +36,11 @@ class UpcomingDateScheduleView: BaseView {
     
     override func setHierarchy() {
         self.addSubviews(titleLabel,
-                          cardCollectionView,
-                          cardPageControl,
-                          dateRegisterButton,
-                          pastDateButton)
+                         cardCollectionView,
+                         cardPageControl,
+                         emptyView,
+                         dateRegisterButton,
+                         pastDateButton)
     }
     
     override func setLayout() {
@@ -65,6 +68,12 @@ class UpcomingDateScheduleView: BaseView {
             $0.top.equalTo(cardCollectionView.snp.bottom).offset(ScreenUtils.height*0.035)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(8)
+        }
+        
+        emptyView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(ScreenUtils.height * 127/812)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(ScreenUtils.height * 444/812)
         }
         
         pastDateButton.snp.makeConstraints {
@@ -101,6 +110,11 @@ class UpcomingDateScheduleView: BaseView {
             $0.currentPage = 0
             $0.pageIndicatorTintColor = UIColor(resource: .gray200)
             $0.currentPageIndicatorTintColor = UIColor(resource: .deepPurple)
+        }
+        
+        emptyView.do {
+            $0.isHidden = true
+            $0.setEmptyView(emptyImage: UIImage(resource: .emptyDateSchedule), emptyTitle: StringLiterals.EmptyView.emptyDateSchedule)
         }
         
         dateRegisterButton.do {
