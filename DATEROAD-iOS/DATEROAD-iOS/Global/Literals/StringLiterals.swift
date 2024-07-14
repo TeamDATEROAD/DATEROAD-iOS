@@ -167,7 +167,7 @@ enum StringLiterals {
     enum EmptyView {
         static let emptyDateSchedule = "아직 연인과의 데이트 일정을\n등록하지 않으셨나요?"
         static let emptyPastSchedule = "지난 데이트가 없어요!"
-        static let emptyViewedCourse = "다른 커플들의 데이트 코스를 열람해보세요!"
+        static let emptyViewedCourse = "다른 커플들의 데이트 코스를\n열람해보세요!"
         static let emptyNavViewedCourse = "아직 열람한 코스가 없어요!"
         static let emptyMyRegisterCourse = "아직 등록한 코스가 없어요!"
         static let emptyGainedPoint = "아직 포인트 획득 내역이 없어요!"
