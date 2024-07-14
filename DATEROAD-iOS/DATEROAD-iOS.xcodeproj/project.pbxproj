@@ -129,6 +129,7 @@
 		CA78FE492C3866FD001B1403 /* DRErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA78FE482C3866FC001B1403 /* DRErrorType.swift */; };
 		CA80C0CB2C445480002CAA9B /* BaseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA80C0CA2C445480002CAA9B /* BaseTargetType.swift */; };
 		CA80C0CD2C445BF3002CAA9B /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA80C0CC2C445BF3002CAA9B /* NetworkResult.swift */; };
+		CA80C0CF2C445D38002CAA9B /* MoyaLoggingPluggin.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA80C0CE2C445D38002CAA9B /* MoyaLoggingPluggin.swift */; };
 		CAA30ADE2C3718C500835DE3 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30ADD2C3718C500835DE3 /* ProfileViewController.swift */; };
 		CAA30AE02C3733DF00835DE3 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30ADF2C3733DF00835DE3 /* ProfileView.swift */; };
 		CAA30AE22C37497200835DE3 /* TendencyTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30AE12C37497200835DE3 /* TendencyTag.swift */; };
@@ -291,6 +292,7 @@
 		CA78FE482C3866FC001B1403 /* DRErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRErrorType.swift; sourceTree = "<group>"; };
 		CA80C0CA2C445480002CAA9B /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
 		CA80C0CC2C445BF3002CAA9B /* NetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
+		CA80C0CE2C445D38002CAA9B /* MoyaLoggingPluggin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaLoggingPluggin.swift; sourceTree = "<group>"; };
 		CAA30ADD2C3718C500835DE3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CAA30ADF2C3733DF00835DE3 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		CAA30AE12C37497200835DE3 /* TendencyTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TendencyTag.swift; sourceTree = "<group>"; };
@@ -835,6 +837,7 @@
 			children = (
 				CA80C0CA2C445480002CAA9B /* BaseTargetType.swift */,
 				CA80C0CC2C445BF3002CAA9B /* NetworkResult.swift */,
+				CA80C0CE2C445D38002CAA9B /* MoyaLoggingPluggin.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1397,6 +1400,7 @@
 				0D06D9AA2C37CAFC0094C505 /* BringCourseCell.swift in Sources */,
 				CAA30AE52C37BCB200835DE3 /* DRTagButton.swift in Sources */,
 				CAA30AE82C37DAA600835DE3 /* TendencyTagCollectionViewCell.swift in Sources */,
+				CA80C0CF2C445D38002CAA9B /* MoyaLoggingPluggin.swift in Sources */,
 				CAC80FB92C3BCE4E00658EA6 /* MyPageSection.swift in Sources */,
 				CAC80FDE2C3E7F0100658EA6 /* MainViewModel.swift in Sources */,
 				CA78FE472C38667A001B1403 /* DRErrorLabel.swift in Sources */,
