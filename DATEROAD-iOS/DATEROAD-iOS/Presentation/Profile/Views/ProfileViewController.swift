@@ -117,6 +117,12 @@ private extension ProfileViewController {
             guard let isValid else { return }
             self?.profileView.updateRegisterButton(isValid: isValid)
         }
+        
+        self.profileViewModel.isOverCount.bind { [weak self] isOver in
+            guard let isOver else { return }
+            
+            
+        }
     }
     
     @objc
@@ -134,10 +140,22 @@ private extension ProfileViewController {
     
     @objc
     func didTapTagButton(_ sender: UIButton) {
-        sender.isSelected = !sender.isSelected
-        sender.isSelected ? self.profileView.updateTag(button: sender, buttonType: SelectedButton())
-        : self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
-        self.profileViewModel.countSelectedTag(isSelected: sender.isSelected)
+        // 0 ~ 2개 선택되어 있는 경우
+        if self.profileViewModel.tagCount.value != 3 {
+            sender.isSelected = !sender.isSelected
+            sender.isSelected ? self.profileView.updateTag(button: sender, buttonType: SelectedButton())
+            : self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
+            self.profileViewModel.countSelectedTag(isSelected: sender.isSelected)
+        } 
+        // 3개 선택되어 있는 경우
+        else {
+            // 취소 하려는 경우
+            if sender.isSelected {
+                sender.isSelected = !sender.isSelected
+                self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
+                self.profileViewModel.countSelectedTag(isSelected: sender.isSelected)
+            }
+        }
     }
     
     @objc
@@ -180,6 +198,7 @@ extension ProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
         cell.updateButtonTitle(title: self.profileViewModel.tagData[indexPath.item])
+        cell.tendencyTagButton.tag = indexPath.item
         cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
         return cell
     }

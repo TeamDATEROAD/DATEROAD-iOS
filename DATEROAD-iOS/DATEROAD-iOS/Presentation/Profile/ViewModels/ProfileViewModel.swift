@@ -19,6 +19,8 @@ final class ProfileViewModel {
     
     var isValidNickname: ObservablePattern<Bool> = ObservablePattern(false)
     
+    var isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
+    
     var isValidTag: ObservablePattern<Bool> = ObservablePattern(false)
     
     var isValidRegistration: ObservablePattern<Bool> = ObservablePattern(false)
@@ -36,7 +38,6 @@ extension ProfileViewModel {
     func fetchTagData() {
         tagData = TendencyTag.allCases.map { $0.tagTitle }
     }
-    
     
     func checkValidNickname() {
         let nickname = self.nickname.value ?? ""
@@ -68,8 +69,12 @@ extension ProfileViewModel {
 
         if count >= 1 && count <= 3 {
             self.isValidTag.value = true
+            self.isOverCount.value = false
         } else {
             self.isValidTag.value = false
+            if count > 3 {
+                self.isOverCount.value = true
+            }
         }
         print(count)
     }
