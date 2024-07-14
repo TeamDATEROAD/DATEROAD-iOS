@@ -128,6 +128,7 @@
 		CA78FE442C383D53001B1403 /* SUIT-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF62C329A6400855E61 /* SUIT-Medium.otf */; };
 		CA78FE472C38667A001B1403 /* DRErrorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA78FE462C38667A001B1403 /* DRErrorLabel.swift */; };
 		CA78FE492C3866FD001B1403 /* DRErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA78FE482C3866FC001B1403 /* DRErrorType.swift */; };
+		CA80C0C92C440F3C002CAA9B /* ProfileErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA80C0C82C440F3C002CAA9B /* ProfileErrorType.swift */; };
 		CAA30ADE2C3718C500835DE3 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30ADD2C3718C500835DE3 /* ProfileViewController.swift */; };
 		CAA30AE02C3733DF00835DE3 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30ADF2C3733DF00835DE3 /* ProfileView.swift */; };
 		CAA30AE22C37497200835DE3 /* TendencyTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30AE12C37497200835DE3 /* TendencyTag.swift */; };
@@ -289,6 +290,7 @@
 		CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		CA78FE462C38667A001B1403 /* DRErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRErrorLabel.swift; sourceTree = "<group>"; };
 		CA78FE482C3866FC001B1403 /* DRErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRErrorType.swift; sourceTree = "<group>"; };
+		CA80C0C82C440F3C002CAA9B /* ProfileErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileErrorType.swift; sourceTree = "<group>"; };
 		CAA30ADD2C3718C500835DE3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CAA30ADF2C3733DF00835DE3 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		CAA30AE12C37497200835DE3 /* TendencyTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TendencyTag.swift; sourceTree = "<group>"; };
@@ -872,6 +874,7 @@
 				CAC80FDA2C3E7C3D00658EA6 /* MainSection.swift */,
 				7428400F2C3EC87300B21AA7 /* AlertType.swift */,
 				0DA1C71D2C3DCC2400DF2B92 /* Price.swift */,
+				CA80C0C82C440F3C002CAA9B /* ProfileErrorType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1310,7 +1313,7 @@
 				CAC80FEB2C3EC6F900658EA6 /* NewDateCourseCell.swift in Sources */,
 				0D9497B22C327D2D0004B442 /* CourseDetailViewController.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
-				0DF905C42C39295F0072EE65 /* TimelineContents.swift in Sources */,
+				0DF905C42C39295F0072EE65 /* TimelineModel.swift in Sources */,
 				CAC80FE52C3EC6C500658EA6 /* HotDateCourseCell.swift in Sources */,
 				CAC80FC82C3C75F200658EA6 /* PointSystemViewModel.swift in Sources */,
 				CAC80FB32C3BBE9100658EA6 /* MyPageTableViewCell.swift in Sources */,
@@ -1348,15 +1351,16 @@
 				0DF905C82C39402A0072EE65 /* Int+.swift in Sources */,
 				0DF905C22C39294A0072EE65 /* MainContentsModel.swift in Sources */,
 				CAC80FE12C3E822000658EA6 /* MainModel.swift in Sources */,
-				0DF905C22C39294A0072EE65 /* MainContents.swift in Sources */,
+				0DF905C22C39294A0072EE65 /* MainContentsModel.swift in Sources */,
 				CA3D0D182C29AA7A00735097 /* UITextField+.swift in Sources */,
-				7455476F2C3D0A6300B526F3 /* PastDateCollectionView.swift in Sources */,
+				7455476F2C3D0A6300B526F3 /* PastDateContentView.swift in Sources */,
 				0DA138F52C3E8E1900682653 /* PriceButtonCollectionViewCell.swift in Sources */,
 				0D05FF0F2C3EFB3E00E9BDDC /* CourseListView.swift in Sources */,
 				0DF905C62C3929A30072EE65 /* DateInfoModel.swift in Sources */,
+				CA80C0C92C440F3C002CAA9B /* ProfileErrorType.swift in Sources */,
 				0D05FF0B2C3EFACB00E9BDDC /* CourseNavigationBarView.swift in Sources */,
 				7455476F2C3D0A6300B526F3 /* PastDateContentView.swift in Sources */,
-				0DF905C62C3929A30072EE65 /* InfoContents.swift in Sources */,
+				0DF905C62C3929A30072EE65 /* DateInfoModel.swift in Sources */,
 				745547552C3B8A0B00B526F3 /* DateScheduleViewModel.swift in Sources */,
 				0DF905CC2C3ABAC30072EE65 /* GradientView.swift in Sources */,
 				CA4EF3C52C328698003B02B6 /* SplashViewController.swift in Sources */,
@@ -1385,7 +1389,7 @@
 				CA4EF3BB2C328595003B02B6 /* ObservablePattern.swift in Sources */,
 				CA3D0D1A2C29AAAC00735097 /* UIView+.swift in Sources */,
 				CAC80FE32C3EC06200658EA6 /* MainSectionLayout.swift in Sources */,
-				7478193E2C3A97440040D5E7 /* ViewedCourseCollectionViewCell.swift in Sources */,
+				7478193E2C3A97440040D5E7 /* MyCourseListCollectionViewCell.swift in Sources */,
 				7478193E2C3A97440040D5E7 /* MyCourseListCollectionViewCell.swift in Sources */,
 				7428400E2C3EC58700B21AA7 /* CustomAlertViewController.swift in Sources */,
 				741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */,
