@@ -83,7 +83,12 @@ extension CourseViewController {
         courseView.courseFilterView.priceCollectionView.reloadData()
         
         courseViewModel.resetSelections()
-        courseView.courseFilterView.locationFilterButton.setTitle("지역", for: .normal)
+        self.courseView.courseFilterView.locationFilterButton.do {
+            $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
+            $0.setTitle("지역", for: .normal)
+            $0.layer.borderWidth = 0
+            $0.tintColor = UIColor(resource: .gray400)
+        }
     }
     
     @objc
@@ -126,7 +131,16 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
     
     func didSelectCity(_ city: LocationModel.City) {
         print("Selected city: \(city.rawValue)")
-        self.courseView.courseFilterView.locationFilterButton.setTitle("\(city.rawValue)", for: .normal)
+  
+        self.courseView.courseFilterView.locationFilterButton.do {
+            $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
+            $0.setTitle("\(city.rawValue)", for: .normal)
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
+            let image = UIImage(resource: .icDropdown).withRenderingMode(.alwaysTemplate)
+            $0.setImage(image, for: .normal)
+            $0.tintColor = UIColor(resource: .deepPurple)
+        }
     }
 }
 

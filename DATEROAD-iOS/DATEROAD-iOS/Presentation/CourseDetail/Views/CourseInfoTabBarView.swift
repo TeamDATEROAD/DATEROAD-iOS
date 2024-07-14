@@ -43,7 +43,8 @@ class CourseInfoTabBarView: UIView {
     }
     
     private func setLayout() {
- 
+        self.backgroundColor = UIColor(resource: .drWhite)
+        
         likeButtonView.snp.makeConstraints {
             $0.leading.top.equalToSuperview().inset(16)
             $0.height.equalTo(54)

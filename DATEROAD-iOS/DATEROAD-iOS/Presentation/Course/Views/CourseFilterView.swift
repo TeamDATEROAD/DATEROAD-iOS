@@ -20,7 +20,9 @@ class CourseFilterView: BaseView {
     // MARK: - UI Properties
     
     let locationFilterButton = UIButton()
+    
     let resetButton = UIButton()
+    
     let priceCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     // MARK: - Properties
