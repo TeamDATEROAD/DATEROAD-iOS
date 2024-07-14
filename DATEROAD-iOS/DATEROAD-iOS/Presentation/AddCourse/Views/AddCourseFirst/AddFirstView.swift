@@ -297,9 +297,6 @@ extension AddFirstView {
    
    func updateSixCheckButton(isValid: Bool) {
       print("!!!!isValid : \(isValid)!!!!!!!")
-//      isValid ? sixCheckNextButton.setButtonStatus(buttonType: enabledButtonType)
-//       : sixCheckNextButton.setButtonStatus(buttonType: disabledButtonType)
-//      sixCheckNextButton.titleLabel?.font = UIFont.suit(.body_med_13)
    }
    
    func updateTagCount(count: Int) {

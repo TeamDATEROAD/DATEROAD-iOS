@@ -74,7 +74,7 @@ final class AddSheetViewController: BaseViewController {
 
 private extension AddSheetViewController {
    
-    func setAddTarget() {
+   func setAddTarget() {
       addSheetView.doneBtn.addTarget(self, action: #selector(didTapDoneBtn), for: .touchUpInside)
    }
    

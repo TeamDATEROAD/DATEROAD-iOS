@@ -22,19 +22,22 @@ enum StringLiterals {
     }
     
     enum Onboarding {
+        static let blank = ""
         static let next = "다음"
         static let createProfile = "프로필 생성하기"
         static let firstMainInfoLabel = "데이트로드는 포인트로\n데이트 코스를 열람할 수 있어요."
-        static let firstSubInfoLabel = "최초 3회 찬스로 다른 사람의 데이트 코스를\n구경해보세요"
+        static let firstSubInfoLabel = "최초 3회 무료 찬스로\n다른 사람의 데이트 코스를 구경하세요!"
+        static let firstHintInfoLabel = "(이후에는 50포인트로 코스를 열람할 수 있어요)"
         static let secondMainInfoLabel = "데이트 코스를 등록하면\n100 포인트를 얻을 수 있어요"
         static let secondSubInfoLabel = "내 연인과 함께한 데이트 코스를 자랑하고\n포인트를 받아보세요"
         static let thirdMainInfoLabel = "쌓인 포인트로\n다양한 데이트 코스를 둘러보세요"
         static let thirdSubInfoLabel = "모인 포인트는 데이트 장소를 예약할 때\n현금처럼 사용 가능해요"
+        static let thirdHintInfoLabel = "(추후 제공될 기능이에요)"
         static let dateCourse = "데이트 코스"
         static let firstMainPoint = "포인트"
         static let secondMainPoint = "100 포인트"
         static let thirdMainPoint = "다양한 데이트 코스"
-	}
+    }
     
     enum TabBar {
         static let home = "홈"
@@ -43,6 +46,7 @@ enum StringLiterals {
         static let viewedCourse = "열람한 코스"
         static let myPage = "마이페이지"
     }
+    
 	enum CourseDetail {
         static let timelineInfoLabel = "코스 타임라인"
         static let coastInfoLabel = "총 비용"
@@ -62,6 +66,10 @@ enum StringLiterals {
         static let dateTendency = "나의 데이트 성향 (0/3)"
         static let registerProfile = "프로필 등록하기"
         static let selectTag =  "최소 1개, 최대 3개를 선택해주세요."
+        static let settingImage = "프로필 사진 설정"
+        static let registerImage = "사진 등록"
+        static let deleteImage = "사진 삭제"
+        static let minimumNickname = "최소 2글자를 입력해야 해요"
     }
    
    enum AddCourseOrSchedule {
@@ -78,7 +86,7 @@ enum StringLiterals {
          static let dateNameErrorLabel = "최소 5글자 이상 입력해주세요"
          static let visitDateErrorLabel = "미래 날짜를 선택하셨어요"
          static let addFirstNextBtnOfCourse = "다음 (1/3)"
-         static let addFirstNextBtnOfSchedul = "다음"
+         static let addFirstNextBtnOfSchedule = "다음"
       }
       
       enum AddSecondView {
@@ -89,8 +97,24 @@ enum StringLiterals {
          static let timeRequiredPlaceHolder = "소요시간"
          static let guideLabel = "최소 2개의 장소를 추가해 주세요"
          static let edit = "편집"
+         static let done = "완료"
          static let addSecondNextBtnOfCourse = "다음 (2/3)"
-         static let addSecondDoneBtnOfSchedul = "완료"
+         static let addSecondDoneBtnOfSchedule = "완료"
+      }
+      
+      enum AddThirdView {
+         static let contentTitleLabel = "어떤 코스로 이동하셨나요?"
+         static let contentTextFieldPlaceHolder = "데이트 내용을 입력해 주세요.\n예약 정보, 웨이팅 정보, 꿀팁 등을 작성해 주세요.\n(최소 200자)"
+         static let contentTextCountLabel = "0자 / 200자 이상"
+         static let priceTitleLabel = "총 비용을 입력해 주세요"
+         static let priceTextFieldPlaceHolder = "데이트 예상 총 비용을 숫자로만 입력해 주세요"
+         static let addThirdDoneBtn = "완료"
+      }
+      
+      enum AddCourseAlert {
+         static let alertTitleLabel = "코스 등록이 되었어요"
+         static let alertSubTitleLabel = "100P가 적립되었어요!"
+         static let doneButton = "확인했어요"
       }
    }
     
@@ -117,12 +141,65 @@ enum StringLiterals {
         static let fourthSubSystem = "추후 만들어질 기능을 기대해주세요!"
     }
     
+    enum Common {
+        static let header = "header"
+        static let cancel = "취소"
+    }
+    enum Main {
+        static let hotDateTitle = "님, 오늘은\n이런 데이트 어떠세요?"
+        static let hotDateSub = "후기 보장 HOT 데이트 코스 둘러보기"
+        static let viewMore = "더보기"
+        static let newDateTitle = "새로 올라왔어요"
+        static let newDateSub = "가장 최근에 올라온 코스 보러가기"
+        static let emptyDateTitle = "다가오는 데이트 일정이 없어요"
+        static let emptyDateSub = "일정을 등록하러 가볼까요?"
+    }
+    
     enum DateSchedule {
         static let kakaoShare = "카카오톡으로 공유하기"
         static let courseShare = "데이트 코스 올리고 50P 받기"
         static let upcomingDate = "데이트 일정"
-        static let pastDate = "지난 데이트"
         static let seePastDate = "지난 데이트 보기"
-        
+        static let pastDate = "지난 데이트"
+    }
+    
+    enum Alert {
+        static let kakaoAlert = "데이트로드에서 카카오톡을 열려고 해요"
+        static let noMoreSchedule = "데이트를 더 이상 등록할 수 없어요!"
+        static let noMoreThanFive = "데이트는 최대 5개까지만 등록 가능해요"
+        static let iChecked = "확인했어요"
+        static let realWithdrawal = "정말로 탈퇴하시겠어요?"
+        static let lastWarning = "삭제된 계정은 복구하실 수 없어요"
+        static let wouldYouLogOut = "로그아웃 하시겠어요?"
+    }
+    
+    enum Course {
+    
+        static let course = "코스 둘러보기"
+        static let priceLabelUnder50K = "5만원 이하"
+        static let priceLabelUnder30K = "3만원 이하"
+        static let priceLabelUnder100K = "10만원 이하"
+        static let priceLabelOver100K = "10만원 초과"
+        static let isCourseEmpty = "아직 등록된 코스가 없어요"
+    }
+    enum ViewedCourse {
+    
+        static let title = "내가 열람한 코스"
+        static let registerSchedule = "열람한 코스로 데이트를 짜보세요"
+    }
+    
+    enum PointDetail {
+        static let gainedDetail = "획득 내역"
+        static let usedDetail = "사용 내역"
+        static let title = "포인트 내역"
+    }
+    
+    enum MyRegisterCourse {
+        static let title = "내가 등록한 코스"
+    }
+    
+    enum EmptyView {
+        static let emptyDateSchedule = "아직 연인과의 데이트 일정을\n등록하지 않으셨나요?"
+        static let emptyPastSchedule = "지난 데이트가 없어요!"
     }
 }

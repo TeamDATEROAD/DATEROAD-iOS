@@ -11,26 +11,27 @@ final class SplashView: BaseView {
     
     // MARK: - UI Properties
     
-    private let splashLabel: UILabel = UILabel()
+    private let splashLogo: UIImageView = UIImageView()
     
     
     // MARK: - Methods
     
     override func setHierarchy() {
-        self.addSubview(splashLabel)
+        self.addSubview(splashLogo)
     }
     
     override func setLayout() {
-        splashLabel.snp.makeConstraints {
+        splashLogo.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
     
     override func setStyle() {
-        splashLabel.do {
-            $0.font = UIFont.systemFont(ofSize: 50, weight: .bold)
-            $0.textColor = .black
-            $0.text = StringLiterals.Login.splash
+        self.backgroundColor = UIColor(resource: .deepPurple)
+        
+        splashLogo.do {
+            $0.image = UIImage(resource: .logo)
+            $0.contentMode = .scaleAspectFit
         }
     }
 

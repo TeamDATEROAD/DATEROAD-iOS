@@ -34,8 +34,13 @@ final class SplashViewController: BaseViewController {
 
     override func setLayout() {
         splashView.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(ScreenUtils.height / 812 * 210)
+            $0.centerX.equalToSuperview()
         }
+    }
+    
+    override func setStyle() {
+        self.view.backgroundColor = UIColor(resource: .deepPurple)
     }
     
 }

@@ -109,17 +109,22 @@ private extension AddCourseSecondViewController {
       viewModel.isDataSourceNotEmpty()
       
       viewModel.editBtnEnableState.bind { [weak self] date in
-         self?.addCourseSecondView.editBtnState(isAble: date ?? false)
+         guard let date = date else {return}
+         self?.addCourseSecondView.editBtnState(isAble: date)
       }
       
       viewModel.datePlace.bind { [weak self] date in
-         self?.addCourseSecondView.addSecondView.datePlaceTextField.text = date
-         self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: self?.viewModel.isAbleAddBtn() ?? false)
+          self?.addCourseSecondView.addSecondView.datePlaceTextField.text = date
+          if let flag = self?.viewModel.isAbleAddBtn() {
+              self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: flag)
+          }
       }
       
       viewModel.timeRequire.bind { [weak self] date in
          self?.addCourseSecondView.addSecondView.timeRequireTextField.text = date
-         self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: self?.viewModel.isAbleAddBtn() ?? false)
+         if let flag = self?.viewModel.isAbleAddBtn() {
+            self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: flag)
+         }
       }
       
       self.viewModel.isChange = { [weak self] in
@@ -149,7 +154,7 @@ private extension AddCourseSecondViewController {
       
    }
    
-   private func setAddTarget() {
+   func setAddTarget() {
       addCourseSecondView.editButton.addTarget(self, action: #selector(toggleEditMode), for: .touchUpInside)
       // 🔥🔥🔥여기까지 완벽🔥🔥🔥
       addCourseSecondView.addSecondView.addPlaceButton.addTarget(self, action: #selector(tapAddPlaceBtn), for: .touchUpInside)
@@ -169,9 +174,8 @@ private extension AddCourseSecondViewController {
    func didTapNextBtn() {
       print("지금 장소 등록된 값 : ", viewModel.addPlaceCollectionViewDataSource)
       
-      // 화면 전환 구현해야 함.
-      //let vc = AddCourseThirdViewController()
-      //vc.navigationController?.pushViewController(vc, animated: true)
+      let thirdVC = AddCourseThirdViewController(viewModel: self.viewModel)
+      navigationController?.pushViewController(thirdVC, animated: true)
    }
    
    @objc
@@ -286,7 +290,7 @@ extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectio
          
          return viewModel.getSampleImages() ? 1 : viewModel.dataSource.count
       } else {
-         let isEmpty = (viewModel.addPlaceCollectionViewDataSource.count) < 1 ? true : false
+         _ = (viewModel.addPlaceCollectionViewDataSource.count) < 1 ? true : false
          
          return viewModel.addPlaceCollectionViewDataSource.count
       }

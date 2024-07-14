@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "secondOnboardingBg.png",
+      "filename" : "img_0122_ios.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "secondOnboardingBg@2x.png",
+      "filename" : "img_0122_ios@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "secondOnboardingBg@3x.png",
+      "filename" : "img_0122_ios@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

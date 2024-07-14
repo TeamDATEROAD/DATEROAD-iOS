@@ -128,7 +128,8 @@ extension AddCourseFirstViewController: UICollectionViewDataSource, UICollection
       
       let isImageEmpty = viewModel.isImageEmpty.value ?? true
       isImageEmpty ? cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: nil)
-      : cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: self.viewModel.dataSource[indexPath.item])
+      : cell.updateImageCellUI(isImageEmpty: isImageEmpty,
+         image: self.viewModel.dataSource[indexPath.item])
       
       self.addCourseFirstView.updateImageCellUI(isEmpty: isImageEmpty,ImageDataCount: self.viewModel.dataSource.count )
       
@@ -158,7 +159,7 @@ extension AddCourseFirstViewController: UITextFieldDelegate {
    
    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
       textField.resignFirstResponder()
-      textField.tintColor = UIColor.clear
+//      textField.tintColor = UIColor.clear
       return true
    }
    

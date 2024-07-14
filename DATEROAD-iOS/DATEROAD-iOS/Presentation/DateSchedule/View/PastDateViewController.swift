@@ -33,6 +33,7 @@ class PastDateViewController: BaseNavBarViewController {
         
         registerCell()
         setDelegate()
+        setEmptyView()
     }
     
     override func setHierarchy() {
@@ -51,6 +52,15 @@ class PastDateViewController: BaseNavBarViewController {
 
 }
 
+// MARK: - UI Setting Methods
+
+private extension PastDateViewController {
+    func setEmptyView() {
+        if pastDateScheduleData.dateCards.count == 0 {
+            pastDateContentView.emptyView.isHidden = false
+        }
+    }
+}
 // MARK: - CollectionView Methods
 
 private extension PastDateViewController {

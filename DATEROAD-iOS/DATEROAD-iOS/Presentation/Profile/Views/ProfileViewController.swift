@@ -13,6 +13,7 @@ final class ProfileViewController: BaseNavBarViewController {
     
     private let profileView = ProfileView()
     
+    private let alertVC = DRBottomSheetViewController(contentView: ProfileImageSettingView(), height: 288, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
     
     // MARK: - Properties
 
@@ -76,21 +77,29 @@ private extension ProfileViewController {
         let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(self.view.endEditing(_:)))
         self.view.addGestureRecognizer(tapGesture)
         
-        let editImageButtonGesture = UITapGestureRecognizer(target: self, action: #selector(presentEditBottomSheet))
-        self.profileView.editImageButton.addGestureRecognizer(editImageButtonGesture)
+        self.profileView.editImageButton.addTarget(self, action: #selector(presentEditBottomSheet), for: .touchUpInside)
         
         self.profileView.doubleCheckButton.addTarget(self, action: #selector(doubleCheckNickname), for: .touchUpInside)
         
-        self.profileView.nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .editingChanged)
+        self.profileView.nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .allEditingEvents)
     }
     
+    // TODO: - 추후 중복확인 연결 시 수정 예정
     func bindViewModel() {
         self.profileViewModel.isValidNickname.bind { [weak self] isValid in
             guard let isValid else { return }
-            self?.profileView.nicknameErrMessageLabel.isHidden = isValid ? false : true
-            self?.profileView.updateNicknameErrLabel(isValid: isValid)
+//            self?.profileView.nicknameErrMessageLabel.isHidden = isValid ? false : true
+//            isValid ? self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isValid) : self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValid)
             self?.profileView.updateDoubleCheckButton(isValid: isValid)
             self?.profileViewModel.checkValidRegistration()
+        }
+        
+        self.profileViewModel.isValidNicknameCount.bind { [weak self] isValidCount in
+            guard let isValidCount, let initial = self?.initial else { return }
+            if initial {
+                self?.profileView.nicknameErrMessageLabel.isHidden = isValidCount ? true : false
+                self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValidCount)
+            }
         }
         
         self.profileViewModel.isValidTag.bind { [weak self] isValid in
@@ -117,11 +126,14 @@ private extension ProfileViewController {
             guard let isValid else { return }
             self?.profileView.updateRegisterButton(isValid: isValid)
         }
+    
     }
     
     @objc
-    func presentEditBottomSheet(sender: UITapGestureRecognizer) {
-        // TODO: - 프로필 편집 바텀 시트 띄우기
+    func presentEditBottomSheet() {
+        let alertVC = DRBottomSheetViewController(contentView: ProfileImageSettingView(), height: 288, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
+        alertVC.modalPresentationStyle = .overFullScreen
+        self.present(alertVC, animated: true)
     }
     
     @objc
@@ -132,15 +144,27 @@ private extension ProfileViewController {
     
     @objc
     func didTapTagButton(_ sender: UIButton) {
-        sender.isSelected = !sender.isSelected
-        sender.isSelected ? self.profileView.updateTag(button: sender, buttonType: SelectedButton())
-        : self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
-        self.profileViewModel.countSelectedTag(isSelected: sender.isSelected)
+        // 0 ~ 2개 선택되어 있는 경우
+        if self.profileViewModel.tagCount.value != 3 {
+            sender.isSelected = !sender.isSelected
+            sender.isSelected ? self.profileView.updateTag(button: sender, buttonType: SelectedButton())
+            : self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
+            self.profileViewModel.countSelectedTag(isSelected: sender.isSelected)
+        } 
+        // 3개 선택되어 있는 경우
+        else {
+            // 취소 하려는 경우
+            if sender.isSelected {
+                sender.isSelected = !sender.isSelected
+                self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
+                self.profileViewModel.countSelectedTag(isSelected: sender.isSelected)
+            }
+        }
     }
     
     @objc
     func didChangeTextfield() {
-        let text = self.profileView.nicknameTextfield.text ?? ""
+        guard let text = self.profileView.nicknameTextfield.text else { return }
         self.profileViewModel.nickname.value = text
     }
     
@@ -178,6 +202,7 @@ extension ProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
         cell.updateButtonTitle(title: self.profileViewModel.tagData[indexPath.item])
+        cell.tendencyTagButton.tag = indexPath.item
         cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
         return cell
     }
