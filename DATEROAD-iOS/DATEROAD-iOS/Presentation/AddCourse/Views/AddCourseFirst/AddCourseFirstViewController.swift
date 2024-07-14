@@ -169,10 +169,10 @@ extension AddCourseFirstViewController: UITextFieldDelegate {
    private func textFieldTapped(_ textField: UITextField) {
       let addSheetVC = AddSheetViewController(viewModel: self.viewModel)
       if textField == addCourseFirstView.addFirstView.visitDateTextField {
-         addSheetVC.addCourseFirstView = self.addCourseFirstView
+//         addSheetVC.addCourseFirstView = self.addCourseFirstView
          addSheetVC.addSheetView.datePicker.datePickerMode = .date
       } else if textField == addCourseFirstView.addFirstView.dateStartTimeTextField {
-         addSheetVC.addCourseFirstView = self.addCourseFirstView
+//         addSheetVC.addCourseFirstView = self.addCourseFirstView
          addSheetVC.addSheetView.datePicker.datePickerMode = .time
       }
       DispatchQueue.main.async {

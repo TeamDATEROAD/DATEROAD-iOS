@@ -1,5 +1,8 @@
 import UIKit
 
+import SnapKit
+import Then
+
 final class AddCourseSecondViewController: BaseNavBarViewController {
    
    // MARK: - UI Properties
