@@ -47,7 +47,7 @@ enum StringLiterals {
         static let myPage = "마이페이지"
     }
     
-    enum CourseDetail {
+	enum CourseDetail {
         static let timelineInfoLabel = "코스 타임라인"
         static let coastInfoLabel = "총 비용"
         static let tagInfoLabel = "태그"
@@ -107,12 +107,26 @@ enum StringLiterals {
         static let fourthSubSystem = "추후 만들어질 기능을 기대해주세요!"
     }
     
+    enum Common {
+        static let header = "header"
+        static let cancel = "취소"
+    }
+    enum Main {
+        static let hotDateTitle = "님, 오늘은\n이런 데이트 어떠세요?"
+        static let hotDateSub = "후기 보장 HOT 데이트 코스 둘러보기"
+        static let viewMore = "더보기"
+        static let newDateTitle = "새로 올라왔어요"
+        static let newDateSub = "가장 최근에 올라온 코스 보러가기"
+        static let emptyDateTitle = "다가오는 데이트 일정이 없어요"
+        static let emptyDateSub = "일정을 등록하러 가볼까요?"
+    }
+    
     enum DateSchedule {
         static let kakaoShare = "카카오톡으로 공유하기"
         static let courseShare = "데이트 코스 올리고 50P 받기"
         static let upcomingDate = "데이트 일정"
-        static let pastDate = "지난 데이트"
         static let seePastDate = "지난 데이트 보기"
+        static let pastDate = "지난 데이트"
     }
     
     enum Alert {
@@ -125,16 +139,33 @@ enum StringLiterals {
         static let wouldYouLogOut = "로그아웃 하시겠어요?"
     }
     
-    enum Common {
-        static let cancel = "취소"
-    }
-    
     enum Course {
+    
         static let course = "코스 둘러보기"
-        static let priceLabelUnder30K = "3만원 이하"
         static let priceLabelUnder50K = "5만원 이하"
+        static let priceLabelUnder30K = "3만원 이하"
         static let priceLabelUnder100K = "10만원 이하"
         static let priceLabelOver100K = "10만원 초과"
         static let isCourseEmpty = "아직 등록된 코스가 없어요"
+    }
+    enum ViewedCourse {
+    
+        static let title = "내가 열람한 코스"
+        static let registerSchedule = "열람한 코스로 데이트를 짜보세요"
+    }
+    
+    enum PointDetail {
+        static let gainedDetail = "획득 내역"
+        static let usedDetail = "사용 내역"
+        static let title = "포인트 내역"
+    }
+    
+    enum MyRegisterCourse {
+        static let title = "내가 등록한 코스"
+    }
+    
+    enum EmptyView {
+        static let emptyDateSchedule = "아직 연인과의 데이트 일정을\n등록하지 않으셨나요?"
+        static let emptyPastSchedule = "지난 데이트가 없어요!"
     }
 }

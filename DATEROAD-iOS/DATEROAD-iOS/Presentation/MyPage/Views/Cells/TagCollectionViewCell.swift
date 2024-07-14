@@ -16,7 +16,7 @@ final class TagCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - Properties
     
-     var tendencyTag:  DRButtonType = TagButton()
+     var tendencyTag:  DRButtonType = TendencyTagButton()
     
     
     // MARK: - Life Cycle
