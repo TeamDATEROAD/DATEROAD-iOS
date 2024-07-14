@@ -185,6 +185,13 @@ extension AddCourseFirstViewController: UICollectionViewDataSource, UICollection
        return cell
    }
    
+   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+      let isImageEmpty = (viewModel.pickedImageArr.count<1) ? true : false
+      if isImageEmpty  && collectionView == addCourseFirstView.collectionView {
+         print("~~")
+      }
+   }
+   
 }
 
 extension AddCourseFirstViewController: UITextFieldDelegate {
