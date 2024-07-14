@@ -61,6 +61,7 @@ final class MyPageViewController: BaseNavBarViewController {
     override func setStyle() {
         super.setStyle()
         
+        self.view.backgroundColor = UIColor(resource: .drWhite)
         self.topInsetView.backgroundColor = UIColor(resource: .gray100)
         self.navigationBarView.backgroundColor = UIColor(resource: .gray100)
         self.titleLabel.isHidden = false
