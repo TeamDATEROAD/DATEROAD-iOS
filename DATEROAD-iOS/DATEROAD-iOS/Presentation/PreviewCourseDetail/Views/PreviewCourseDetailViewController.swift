@@ -151,7 +151,7 @@ extension PreviewCourseDetailViewController: ContentMaskViewDelegate {
     }
     
     func didTapAddCourseButton() {
-        let addCourseVC = AddCourseViewController()
+        let addCourseVC = AddCourseFirstViewController()
         self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
     
