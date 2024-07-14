@@ -69,6 +69,7 @@ enum StringLiterals {
         static let settingImage = "프로필 사진 설정"
         static let registerImage = "사진 등록"
         static let deleteImage = "사진 삭제"
+        static let minimumNickname = "최소 2글자를 입력해야 해요"
     }
     
     enum AddCourseOrScheduleFirst {

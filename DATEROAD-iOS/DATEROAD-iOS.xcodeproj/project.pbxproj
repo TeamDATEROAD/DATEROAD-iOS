@@ -131,6 +131,7 @@
 		CA80C0CD2C445BF3002CAA9B /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA80C0CC2C445BF3002CAA9B /* NetworkResult.swift */; };
 		CA80C0CF2C445D38002CAA9B /* MoyaLoggingPluggin.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA80C0CE2C445D38002CAA9B /* MoyaLoggingPluggin.swift */; };
 		CA80C0D12C44611E002CAA9B /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA80C0D02C44611E002CAA9B /* BaseService.swift */; };
+		CA80C0C92C440F3C002CAA9B /* ProfileErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA80C0C82C440F3C002CAA9B /* ProfileErrorType.swift */; };
 		CAA30ADE2C3718C500835DE3 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30ADD2C3718C500835DE3 /* ProfileViewController.swift */; };
 		CAA30AE02C3733DF00835DE3 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30ADF2C3733DF00835DE3 /* ProfileView.swift */; };
 		CAA30AE22C37497200835DE3 /* TendencyTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30AE12C37497200835DE3 /* TendencyTag.swift */; };
@@ -295,6 +296,7 @@
 		CA80C0CC2C445BF3002CAA9B /* NetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
 		CA80C0CE2C445D38002CAA9B /* MoyaLoggingPluggin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaLoggingPluggin.swift; sourceTree = "<group>"; };
 		CA80C0D02C44611E002CAA9B /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
+		CA80C0C82C440F3C002CAA9B /* ProfileErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileErrorType.swift; sourceTree = "<group>"; };
 		CAA30ADD2C3718C500835DE3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CAA30ADF2C3733DF00835DE3 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		CAA30AE12C37497200835DE3 /* TendencyTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TendencyTag.swift; sourceTree = "<group>"; };
@@ -881,6 +883,7 @@
 				CAC80FDA2C3E7C3D00658EA6 /* MainSection.swift */,
 				7428400F2C3EC87300B21AA7 /* AlertType.swift */,
 				0DA1C71D2C3DCC2400DF2B92 /* Price.swift */,
+				CA80C0C82C440F3C002CAA9B /* ProfileErrorType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1364,6 +1367,7 @@
 				0DA138F52C3E8E1900682653 /* PriceButtonCollectionViewCell.swift in Sources */,
 				0D05FF0F2C3EFB3E00E9BDDC /* CourseListView.swift in Sources */,
 				0DF905C62C3929A30072EE65 /* DateInfoModel.swift in Sources */,
+				CA80C0C92C440F3C002CAA9B /* ProfileErrorType.swift in Sources */,
 				0D05FF0B2C3EFACB00E9BDDC /* CourseNavigationBarView.swift in Sources */,
 				7455476F2C3D0A6300B526F3 /* PastDateContentView.swift in Sources */,
 				0DF905C62C3929A30072EE65 /* DateInfoModel.swift in Sources */,
