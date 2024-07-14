@@ -26,13 +26,13 @@ final class PreviewCourseDetailViewController: BaseViewController, CustomAlertDe
     
     private var likeSum: Int = ImageModel.likeSum
     
-    private var mainContentsData: MainContentsModel = MainContentsModel.mainContents
+    private var titleHeaderData: TitleHeaderModel = TitleHeaderModel.titleHeaderDummyData
     
-    private var timelineData: [TimelineModel] = TimelineModel.timelineContents
+    private var mainContentsData: MainContentsModel = MainContentsModel.descriptionDummyData
     
-    private var coastData: Int = DateInfoModel.coast
+    private var coastData: Int = CoastModel.coastDummyData.totalCoast
     
-    private var tagData: [DateInfoModel] = DateInfoModel.tagContents
+    private var tagData: [TagModel] = TagModel.tagDummyData
     
     private var currentPage: Int = 0
     
@@ -104,16 +104,6 @@ private extension PreviewCourseDetailViewController {
     }
 }
 
-extension PreviewCourseDetailViewController: ImageCarouselDelegate {
-    
-    func didSwipeImage(index: Int, vc: UIPageViewController, vcData: [UIViewController]) {
-        currentPage = index
-        if let bottomPageControllView = previewView.mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
-            bottomPageControllView.pageIndex = currentPage
-        }
-    }
-}
-
 extension PreviewCourseDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return previewCourseDetailViewModel.numberOfSections
@@ -140,13 +130,13 @@ extension PreviewCourseDetailViewController: UICollectionViewDelegate, UICollect
                 fatalError("Unable to dequeue ImageCarouselCell")
             }
             imageCarouselCell.setPageVC(imageData: imageData)
-            imageCarouselCell.delegate = self
+            //imageCarouselCell.delegate = self
             return imageCarouselCell
         case .titleInfo:
             guard let titleInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleInfoCell.cellIdentifier, for: indexPath) as? TitleInfoCell else {
                 fatalError("Unable to dequeue MainContentsCell")
             }
-            titleInfoCell.setCell(mainContentsData: mainContentsData)
+            titleInfoCell.setCell(titleHeaderData: titleHeaderData)
             return titleInfoCell
         case .mainContents:
             guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.cellIdentifier, for: indexPath) as? MainContentsCell else {

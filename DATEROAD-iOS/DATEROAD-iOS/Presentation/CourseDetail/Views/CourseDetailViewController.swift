@@ -26,13 +26,15 @@ final class CourseDetailViewController: BaseNavBarViewController {
     
     private var likeSum: Int = ImageModel.likeSum
     
-    private var mainContentsData: MainContentsModel = MainContentsModel.mainContents
+    private var titleHeaderData: TitleHeaderModel = TitleHeaderModel.titleHeaderDummyData
     
-    private var timelineData: [TimelineModel] = TimelineModel.timelineContents
+    private var mainContentsData: MainContentsModel = MainContentsModel.descriptionDummyData
     
-    private var coastData: Int = DateInfoModel.coast
+    private var timelineData: [TimelineModel] = TimelineModel.timelineDummyData
     
-    private var tagData: [DateInfoModel] = DateInfoModel.tagContents
+    private var coastData: Int = CoastModel.coastDummyData.totalCoast
+    
+    private var tagData: [TagModel] = TagModel.tagDummyData
     
     private var currentPage: Int = 0
     
@@ -167,7 +169,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             guard let titleInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleInfoCell.cellIdentifier, for: indexPath) as? TitleInfoCell else {
                 fatalError("Unable to dequeue MainContentsCell")
             }
-            titleInfoCell.setCell(mainContentsData: mainContentsData)
+            titleInfoCell.setCell(titleHeaderData: titleHeaderData)
             return titleInfoCell
             
         case .mainContents:
@@ -181,7 +183,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             guard let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.cellIdentifier, for: indexPath) as? TimelineInfoCell else {
                 fatalError("Unable to dequeue MainContentsCell")
             }
-            timelineInfoCell.setCell(timelineData[indexPath.row])
+            timelineInfoCell.setCell(timelineData: timelineData[indexPath.row])
             return timelineInfoCell
             
         case .coastInfo:

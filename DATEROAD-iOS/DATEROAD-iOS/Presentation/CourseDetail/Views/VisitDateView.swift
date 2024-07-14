@@ -56,12 +56,12 @@ class VisitDateView: UICollectionReusableView {
 
 extension VisitDateView{
     func updateDate(mainContentsData: MainContentsModel) {
-    
-        if let date = mainContentsData.date {
-            dateLabel.text = String(date)
-        } else {
-            dateLabel.text = nil
-        }
+//    
+//        if let date = mainContentsData.date {
+//            dateLabel.text = String(date)
+//        } else {
+//            dateLabel.text = nil
+//        }
 
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 class TimelineInfoCell: BaseCollectionViewCell {
-    
+
     // MARK: - UI Properties
     
     private let timelineBackgroundView = UIView()
@@ -105,18 +105,10 @@ class TimelineInfoCell: BaseCollectionViewCell {
 
 extension TimelineInfoCell {
     
-    func setCell(_ timelineData: TimelineModel) {
-        if let index = timelineData.index {
-            indexNumLabel.text = String(index)
-        } else {
-            indexNumLabel.text = nil
-        }
-        locationLabel.text = timelineData.location
-        if let time = timelineData.time {
-            timeLabel.text = String(time) + "시간"
-        } else {
-            timeLabel.text = nil
-        }
+    func setCell(timelineData: TimelineModel) {
+        indexNumLabel.text = "\(timelineData.sequence)"
+        locationLabel.text = timelineData.title
+        timeLabel.text = "\(timelineData.duration)시간"
     }
 }
 

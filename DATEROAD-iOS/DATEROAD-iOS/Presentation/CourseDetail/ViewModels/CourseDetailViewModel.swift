@@ -33,7 +33,7 @@ class CourseDetailViewModel {
         self.imageCarouselViewModel = ImageCarouselViewModel()
         self.titleInfoViewModel = TitleInfoViewModel()
         self.mainContentsViewModel = MainContentsViewModel()
-        self.timelineInfoViewModel = TimelineInfoViewModel()
+        self.timelineInfoViewModel = TimelineInfoViewModel(timelineData: TimelineModel.timelineDummyData)
         self.coastInfoViewModel = CoastInfoViewModel()
         self.tagInfoViewModel = TagInfoViewModel()
     }
@@ -86,10 +86,18 @@ struct MainContentsViewModel {
 }
 
 struct TimelineInfoViewModel {
+    var timelineData: [TimelineModel]
+    
     var numberOfItems: Int {
-        return 1
+        return timelineData.count
     }
+    
+//    init(timelineData: [TimelineModel] = []) {
+//        self.timelineData = timelineData
+//    }
 }
+
+
 
 struct CoastInfoViewModel {
     var numberOfItems: Int {

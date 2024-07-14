@@ -46,7 +46,7 @@ final class TitleInfoCell: BaseCollectionViewCell {
 
 extension TitleInfoCell {
     
-    func setCell(mainContentsData: MainContentsModel) {
-        titleLabel.text = mainContentsData.title
+    func setCell(titleHeaderData: TitleHeaderModel) {
+        titleLabel.text = titleHeaderData.title
     }
 }
