@@ -22,11 +22,22 @@ enum CourseDetailSection {
 
 class CourseDetailViewModel {
     
+    var currentPage: ObservablePattern<Int> = ObservablePattern(0)
+    
+    var freeViewChance: ObservablePattern<Int> = ObservablePattern(3)
+    
+    var isFreeView: ObservablePattern<Bool> = ObservablePattern(true)
+    
     let imageCarouselViewModel: ImageCarouselViewModel
+    
     let titleInfoViewModel: TitleInfoViewModel
+    
     let mainContentsViewModel: MainContentsViewModel
+    
     let timelineInfoViewModel: TimelineInfoViewModel
+    
     let coastInfoViewModel: CoastInfoViewModel
+    
     let tagInfoViewModel: TagInfoViewModel
     
     init() {
@@ -46,6 +57,7 @@ class CourseDetailViewModel {
         return sections.count
     }
     
+
     func fetchSection(at index: Int) -> CourseDetailSection {
         return sections[index]
     }
@@ -65,6 +77,10 @@ class CourseDetailViewModel {
         case .tagInfo:
             return tagInfoViewModel.numberOfItems
         }
+    }
+    
+    func didSwipeImage(to index: Int) {
+        currentPage.value = index
     }
 }
 struct ImageCarouselViewModel {

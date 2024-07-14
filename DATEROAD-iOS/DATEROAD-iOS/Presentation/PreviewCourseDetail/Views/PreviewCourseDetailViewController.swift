@@ -22,6 +22,8 @@ final class PreviewCourseDetailViewController: BaseNavBarViewController, CustomA
     
     private let previewCourseDetailViewModel: PreviewCourseDetailViewModel
     
+    private var conditionalModel: ConditionalModel = ConditionalModel.conditionalDummyData
+    
     private var imageData: [ImageModel] = ImageModel.imageContents.map { ImageModel(image: $0) }
     
     private var likeSum: Int = ImageModel.likeSum
@@ -83,9 +85,81 @@ final class PreviewCourseDetailViewController: BaseNavBarViewController, CustomA
     
 }
 
+
+extension PreviewCourseDetailViewController: ContentMaskViewDelegate {
+    
+    func action(rightButtonAction: RightButtonType) {
+        
+        switch rightButtonAction {
+        case .addCourse:
+            didTapAddCourseButton()
+        case .checkCourse:
+            didTapBuyButton()
+        case .none:
+            return
+        }
+    }
+    
+    func didTapButton() {
+        if conditionalModel.free > 0 {
+            didTapFreeViewButton()
+        } else {
+            didTapReadCourseButton()
+        }
+    }
+    
+    func didTapFreeViewButton() {
+        let customAlertVC = CustomAlertViewController(
+            rightActionType: RightButtonType.checkCourse,
+            alertTextType: .hasDecription,
+            alertButtonType: .twoButton,
+            titleText: "무료 열람 기회를 사용해 보시겠어요?",
+            descriptionText: "무료 열람 기회는 한번 사용하면 취소할 수 없어요",
+            rightButtonText: "확인"
+        )
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        self.present(customAlertVC, animated: false)
+    }
+    
+    func didTapReadCourseButton() {
+        let customAlertVC = CustomAlertViewController(
+            rightActionType: RightButtonType.checkCourse,
+            alertTextType: .hasDecription,
+            alertButtonType: .twoButton,
+            titleText: StringLiterals.Alert.buyCourse,
+            descriptionText: StringLiterals.Alert.canNotRefund,
+            rightButtonText: "확인"
+        )
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        self.present(customAlertVC, animated: false)
+    }
+    
+    func didTapBuyButton(){
+        let customAlertVC = CustomAlertViewController(
+            rightActionType: RightButtonType.addCourse, 
+            alertTextType: .hasDecription,
+            alertButtonType: .twoButton,
+            titleText: "코스를 열람하기에 포인트가 부족해요",
+            descriptionText: "코스를 등록하고 포인트를 모아보세요",
+            rightButtonText: "코스 등록하기"
+        )
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        self.present(customAlertVC, animated: false)
+    }
+    
+    func didTapAddCourseButton() {
+        let addCourseVC = AddCourseViewController()
+        self.navigationController?.pushViewController(addCourseVC, animated: false)
+    }
+    
+}
+
+
 private extension PreviewCourseDetailViewController {
     
- 
     func setDelegate() {
         previewView.mainCollectionView.delegate = self
         previewView.mainCollectionView.dataSource = self
@@ -106,6 +180,7 @@ private extension PreviewCourseDetailViewController {
 }
 
 extension PreviewCourseDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return previewCourseDetailViewModel.numberOfSections
     }
@@ -169,6 +244,7 @@ extension PreviewCourseDetailViewController: UICollectionViewDelegate, UICollect
             return footer
         } else if kind == ContentMaskView.elementKinds {
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ContentMaskView.identifier, for: indexPath) as? ContentMaskView else { return UICollectionReusableView() }
+            footer.checkFree(conditionalModel: conditionalModel)
             footer.delegate = self
             return footer
         } else {
@@ -178,20 +254,3 @@ extension PreviewCourseDetailViewController: UICollectionViewDelegate, UICollect
     
 }
 
-extension PreviewCourseDetailViewController: ContentMaskViewDelegate {
-    
-    func didTapReadCourseButton() {
-        print("야미")
-        let customAlertVC = CustomAlertViewController(
-            alertTextType: .hasDecription,
-            alertButtonType: .twoButton,
-            titleText: StringLiterals.Alert.buyCourse,
-            descriptionText: StringLiterals.Alert.canNotRefund,
-            rightButtonText: "확인"
-        )
-        customAlertVC.delegate = self
-        customAlertVC.modalPresentationStyle = .overFullScreen
-        self.present(customAlertVC, animated: false)
-    }
-    
-}

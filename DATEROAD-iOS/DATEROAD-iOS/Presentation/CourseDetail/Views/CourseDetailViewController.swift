@@ -12,6 +12,7 @@ import Then
 
 final class CourseDetailViewController: BaseNavBarViewController {
     
+    
     // MARK: - UI Properties
     
     private let courseDetailView: CourseDetailView
@@ -64,6 +65,7 @@ final class CourseDetailViewController: BaseNavBarViewController {
         registerCell()
         setLeftBackButton()
         setRightButtonStyle(image: .moreButton)
+        bindViewModel()
     }
     
     override func setHierarchy() {
@@ -92,21 +94,30 @@ final class CourseDetailViewController: BaseNavBarViewController {
         
         self.view.backgroundColor = UIColor(resource: .drWhite)
         self.navigationController?.navigationBar.isHidden = true
-        
+     
         
         setRightButtonAction(target: self, action: #selector(didTapMoreButton))
+    }
+    
+    func bindViewModel() {
+        courseDetailViewModel.currentPage.bind { [weak self] currentPage in
+            guard let self = self else { return }
+            if let bottomPageControllView = self.courseDetailView.mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
+                bottomPageControllView.pageIndex = currentPage ?? 0
+            }
+        }
     }
     
 }
 
 private extension CourseDetailViewController {
     
+    //더보기 버튼
     @objc
     func didTapMoreButton() {
         let alertVC = DRBottomSheetViewController(contentView: DeleteCourseSettingView(), height: 215, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
         alertVC.modalPresentationStyle = .overFullScreen
         self.present(alertVC, animated: true)
-        print("눌림")
     }
     
     func setDelegate() {
@@ -144,10 +155,7 @@ private extension CourseDetailViewController {
 extension CourseDetailViewController: ImageCarouselDelegate {
     
     func didSwipeImage(index: Int, vc: UIPageViewController, vcData: [UIViewController]) {
-        currentPage = index
-        if let bottomPageControllView = courseDetailView.mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
-            bottomPageControllView.pageIndex = currentPage
-        }
+        courseDetailViewModel.didSwipeImage(to: index)
     }
 }
 

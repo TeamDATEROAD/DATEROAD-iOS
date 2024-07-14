@@ -13,7 +13,7 @@ import Then
 
 
 protocol ContentMaskViewDelegate: AnyObject {
-    func didTapReadCourseButton()
+    func didTapButton()
 }
 
 class ContentMaskView: UICollectionReusableView {
@@ -136,7 +136,15 @@ class ContentMaskView: UICollectionReusableView {
     
     @objc
     func didReadCourseButton() {
-        delegate?.didTapReadCourseButton()
+        delegate?.didTapButton()
         print("내가 죄송해")
+    }
+    
+    func checkFree(conditionalModel: ConditionalModel) {
+        if conditionalModel.free < 3 {
+            readCourseButton.setTitle("무료 열람 기회 쓰기(\(conditionalModel.free)/3)", for: .normal)
+        } else {
+            readCourseButton.setTitle(StringLiterals.CourseDetail.viewCoursewithPoint, for: .normal)
+        }
     }
 }

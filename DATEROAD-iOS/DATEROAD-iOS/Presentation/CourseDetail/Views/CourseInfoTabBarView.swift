@@ -43,6 +43,7 @@ class CourseInfoTabBarView: UIView {
     }
     
     private func setLayout() {
+ 
         likeButtonView.snp.makeConstraints {
             $0.leading.top.equalToSuperview().inset(16)
             $0.height.equalTo(54)
