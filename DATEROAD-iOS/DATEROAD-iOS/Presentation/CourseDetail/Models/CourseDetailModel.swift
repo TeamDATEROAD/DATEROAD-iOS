@@ -75,7 +75,7 @@ struct CoastModel {
     let totalCoast: Int
     
     static var coastDummyData: CoastModel {
-        return CoastModel(totalCoast: 60000)
+        return CoastModel(totalCoast: 10000)
     }
 }
 
