@@ -114,3 +114,8 @@ class InfoBarView: UICollectionReusableView {
     }
     
 }
+//
+//extension InfoBarView {
+//    
+//    func
+//}

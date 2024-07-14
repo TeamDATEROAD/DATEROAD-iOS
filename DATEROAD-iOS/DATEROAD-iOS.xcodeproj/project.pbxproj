@@ -36,6 +36,7 @@
 		0D98CBA72C41099400E3618A /* CourseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D98CBA62C41099400E3618A /* CourseDetailView.swift */; };
 		0D98CBA92C410C7200E3618A /* CourseDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D98CBA82C410C7200E3618A /* CourseDetailViewModel.swift */; };
 		0D9C431B2C41B3F500687CCC /* CourseInfoTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9C431A2C41B3F500687CCC /* CourseInfoTabBarView.swift */; };
+		0D9C43372C41F14C00687CCC /* CourseDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9C43362C41F14C00687CCC /* CourseDetailModel.swift */; };
 		0DA138F52C3E8E1900682653 /* PriceButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA138F42C3E8E1900682653 /* PriceButtonCollectionViewCell.swift */; };
 		0DA138F72C3E8E3F00682653 /* DRPriceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA138F62C3E8E3F00682653 /* DRPriceButton.swift */; };
 		0DA1C7142C3DA94F00DF2B92 /* CourseListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA1C7132C3DA94F00DF2B92 /* CourseListModel.swift */; };
@@ -49,9 +50,6 @@
 		0DDFEE112C3C6576008C6022 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE102C3C6576008C6022 /* LocationModel.swift */; };
 		0DDFEE132C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE122C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift */; };
 		0DF905C02C3921AD0072EE65 /* ImageGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905BF2C3921AD0072EE65 /* ImageGradientView.swift */; };
-		0DF905C22C39294A0072EE65 /* MainContentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905C12C39294A0072EE65 /* MainContentsModel.swift */; };
-		0DF905C42C39295F0072EE65 /* TimelineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905C32C39295F0072EE65 /* TimelineModel.swift */; };
-		0DF905C62C3929A30072EE65 /* DateInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905C52C3929A30072EE65 /* DateInfoModel.swift */; };
 		0DF905C82C39402A0072EE65 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905C72C39402A0072EE65 /* Int+.swift */; };
 		0DF905CA2C399F750072EE65 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905C92C399F750072EE65 /* PreviewView.swift */; };
 		0DF905CC2C3ABAC30072EE65 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905CB2C3ABAC30072EE65 /* GradientView.swift */; };
@@ -190,6 +188,7 @@
 		0D98CBA62C41099400E3618A /* CourseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailView.swift; sourceTree = "<group>"; };
 		0D98CBA82C410C7200E3618A /* CourseDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailViewModel.swift; sourceTree = "<group>"; };
 		0D9C431A2C41B3F500687CCC /* CourseInfoTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseInfoTabBarView.swift; sourceTree = "<group>"; };
+		0D9C43362C41F14C00687CCC /* CourseDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailModel.swift; sourceTree = "<group>"; };
 		0DA138F42C3E8E1900682653 /* PriceButtonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceButtonCollectionViewCell.swift; sourceTree = "<group>"; };
 		0DA138F62C3E8E3F00682653 /* DRPriceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRPriceButton.swift; sourceTree = "<group>"; };
 		0DA1C7132C3DA94F00DF2B92 /* CourseListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseListModel.swift; sourceTree = "<group>"; };
@@ -203,9 +202,6 @@
 		0DDFEE102C3C6576008C6022 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
 		0DDFEE122C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityLabelCollectionViewCell.swift; sourceTree = "<group>"; };
 		0DF905BF2C3921AD0072EE65 /* ImageGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGradientView.swift; sourceTree = "<group>"; };
-		0DF905C12C39294A0072EE65 /* MainContentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentsModel.swift; sourceTree = "<group>"; };
-		0DF905C32C39295F0072EE65 /* TimelineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineModel.swift; sourceTree = "<group>"; };
-		0DF905C52C3929A30072EE65 /* DateInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateInfoModel.swift; sourceTree = "<group>"; };
 		0DF905C72C39402A0072EE65 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		0DF905C92C399F750072EE65 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		0DF905CB2C3ABAC30072EE65 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
@@ -387,9 +383,7 @@
 			isa = PBXGroup;
 			children = (
 				0D06D99F2C3561AF0094C505 /* ImageModel.swift */,
-				0DF905C12C39294A0072EE65 /* MainContentsModel.swift */,
-				0DF905C32C39295F0072EE65 /* TimelineModel.swift */,
-				0DF905C52C3929A30072EE65 /* DateInfoModel.swift */,
+				0D9C43362C41F14C00687CCC /* CourseDetailModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1256,7 +1250,6 @@
 				0DA138F72C3E8E3F00682653 /* DRPriceButton.swift in Sources */,
 				0D9497B22C327D2D0004B442 /* PreviewCourseDetailViewController.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
-				0DF905C42C39295F0072EE65 /* TimelineModel.swift in Sources */,
 				CAC80FC82C3C75F200658EA6 /* PointSystemViewModel.swift in Sources */,
 				CAC80FB32C3BBE9100658EA6 /* MyPageTableViewCell.swift in Sources */,
 				CAC80FA92C3B4CE800658EA6 /* TagCollectionViewCell.swift in Sources */,
@@ -1294,12 +1287,10 @@
 				CA4EF3C32C3285F8003B02B6 /* StringLiterals.swift in Sources */,
 				0DF905C82C39402A0072EE65 /* Int+.swift in Sources */,
 				0D98CBA32C40AE7900E3618A /* PreviewCourseDetailViewModel.swift in Sources */,
-				0DF905C22C39294A0072EE65 /* MainContentsModel.swift in Sources */,
 				CA3D0D182C29AA7A00735097 /* UITextField+.swift in Sources */,
 				7455476F2C3D0A6300B526F3 /* PastDateCollectionView.swift in Sources */,
 				0DA138F52C3E8E1900682653 /* PriceButtonCollectionViewCell.swift in Sources */,
 				0D05FF0F2C3EFB3E00E9BDDC /* CourseListView.swift in Sources */,
-				0DF905C62C3929A30072EE65 /* DateInfoModel.swift in Sources */,
 				0D05FF0B2C3EFACB00E9BDDC /* CourseNavigationBarView.swift in Sources */,
 				745547552C3B8A0B00B526F3 /* DateScheduleViewModel.swift in Sources */,
 				0DF905CC2C3ABAC30072EE65 /* GradientView.swift in Sources */,
@@ -1342,6 +1333,7 @@
 				CAC80FCA2C3C95A100658EA6 /* UICollectionViewFlowLayout+.swift in Sources */,
 				0D98CBA12C40A2F100E3618A /* ContentMaskView.swift in Sources */,
 				9E443A4E2C3819DB00C1F92C /* AddFirstView.swift in Sources */,
+				0D9C43372C41F14C00687CCC /* CourseDetailModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

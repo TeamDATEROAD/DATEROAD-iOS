@@ -207,6 +207,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             guard let visitDate = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: VisitDateView.identifier, for: indexPath) as? VisitDateView else {
                 return UICollectionReusableView()
             }
+            visitDate.bindDate(titleHeaderData: titleHeaderData)
             return visitDate
         } else if kind == InfoBarView.elementKinds {
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoBarView.identifier, for: indexPath) as? InfoBarView else { return UICollectionReusableView() }

@@ -31,7 +31,7 @@ struct TitleHeaderModel {
     let city: String
     
     static var titleHeaderDummyData: TitleHeaderModel {
-        return TitleHeaderModel(date: "2024년 7월 14일", title: "만원으로 데이트 하기 챌린지", coast: 10000, totalTime: 10, city: "건대/성수/왕십리")
+        return TitleHeaderModel(date: "2024.7.14", title: "만원으로 데이트 하기 챌린지", coast: 10000, totalTime: 10, city: "건대/성수/왕십리")
     }
 }
 

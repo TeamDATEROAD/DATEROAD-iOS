@@ -11,7 +11,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class PreviewCourseDetailViewController: BaseViewController, CustomAlertDelegate {
+final class PreviewCourseDetailViewController: BaseNavBarViewController, CustomAlertDelegate {
 
     
     // MARK: - UI Properties
@@ -56,12 +56,13 @@ final class PreviewCourseDetailViewController: BaseViewController, CustomAlertDe
         
         setDelegate()
         registerCell()
+        setLeftBackButton()
     }
     
     override func setHierarchy() {
         super.setHierarchy()
         
-        view.self.addSubview(previewView)
+        self.contentView.addSubview(previewView)
         
     }
     
@@ -130,7 +131,7 @@ extension PreviewCourseDetailViewController: UICollectionViewDelegate, UICollect
                 fatalError("Unable to dequeue ImageCarouselCell")
             }
             imageCarouselCell.setPageVC(imageData: imageData)
-            //imageCarouselCell.delegate = self
+            print(imageData)
             return imageCarouselCell
         case .titleInfo:
             guard let titleInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleInfoCell.cellIdentifier, for: indexPath) as? TitleInfoCell else {
