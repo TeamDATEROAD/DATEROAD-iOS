@@ -57,27 +57,6 @@ class DateDetailViewModel {
     
     var kakaoPlacesInfo : [KakaoPlaceModel] = []
     
-    /*
-    func setItemInfo(maxPlaces: Int) {
-        switch upcomingDateDetailDummyData.places.count <= 5 {
-        case true:
-            for i in 1...maxPlaces {
-                kakaoPlaces.append(KakaoPlaceModel(
-                    name: upcomingDateDetailDummyData.places[i].name,
-                    duration: upcomingDateDetailDummyData.places[i].duration))
-            }
-            for i in maxPlaces+1...5 {
-                kakaoPlaces.append(KakaoPlaceModel(name: nil, duration: nil))
-            }
-        case false:
-            for i in 1...5 {
-                kakaoPlaces.append(KakaoPlaceModel(
-                    name: upcomingDateDetailDummyData.places[i].name,
-                    duration: upcomingDateDetailDummyData.places[i].duration))
-            }
-        }
-    }*/
-    
     func setTempArgs() {
         kakaoShareInfo["userName"] = userName
         kakaoShareInfo["title"] = upcomingDateDetailDummyData.title
