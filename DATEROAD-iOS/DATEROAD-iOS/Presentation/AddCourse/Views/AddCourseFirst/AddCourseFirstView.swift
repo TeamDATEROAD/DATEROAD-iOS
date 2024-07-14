@@ -97,11 +97,11 @@ final class AddCourseFirstView: BaseView {
          layout.minimumInteritemSpacing = 12.0
          layout.itemSize = CGSize(width: 130, height: 130)
          $0.collectionViewLayout =  layout
-         $0.isScrollEnabled = true
          $0.showsHorizontalScrollIndicator = false
          $0.showsVerticalScrollIndicator = false
          $0.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 16)
          $0.clipsToBounds = true
+         $0.isUserInteractionEnabled = true
       }
       
       cameraBtn.do {

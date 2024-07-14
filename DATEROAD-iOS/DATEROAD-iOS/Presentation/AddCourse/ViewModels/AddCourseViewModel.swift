@@ -9,23 +9,48 @@ import UIKit
 
 final class AddCourseViewModel {
    
-   var dataSource = [UIImage]()
-   
-   var dateName: ObservablePattern<String> = ObservablePattern("")
-   
-   var visitDate: ObservablePattern<String> = ObservablePattern("")
-   
    /// ImageCollection 유효성 판별
-   var isImageEmpty: ObservablePattern<Bool> = ObservablePattern(false)
+   var pickedImageArr = [UIImage]()
+   var pickedImageArrs: ObservablePattern<[UIImage]> = ObservablePattern([])
+   var isPickedImageVaild = false
    
    /// 데이트 이름 유효성 판별 (true는 통과)
-   var isDateNameValid: ObservablePattern<Bool> = ObservablePattern(nil)
+   var dateName: ObservablePattern<String> = ObservablePattern("")
+   var isDateNameVaild = false
    
    /// 방문 일자 유효성 판별 (true는 통과)
-   var isVisitDateValid: ObservablePattern<Bool> = ObservablePattern(nil)
+   var visitDate: ObservablePattern<String> = ObservablePattern("")
+   var isVisitDate = false
    
    /// 데이트 시작시간 유효성 판별 (self.count > 0 인지)
-   var dateStartTime: ObservablePattern<String> = ObservablePattern("")
+   var dateStartAt: ObservablePattern<String> = ObservablePattern("")
+   var isDateStartAtVaild = false
+   
+   
+   var dateTagArr: ObservablePattern<[String]> = ObservablePattern([])
+   var isDateTagVaild = false
+   
+   
+   var dateLocation: ObservablePattern<String> = ObservablePattern("")
+   var isDateLocationVaild = false
+   
+   
+   var dataSource = [UIImage]()
+   
+   
+   
+   
+   
+   
+   var isImageEmpty: ObservablePattern<Bool> = ObservablePattern(false)
+   
+   
+   var isDateNameValid: ObservablePattern<Bool> = ObservablePattern(nil)
+   
+   
+   var isVisitDateValid: ObservablePattern<Bool> = ObservablePattern(nil)
+   
+   
    
    var isTagButtonValid: ObservablePattern<Bool> = ObservablePattern(false)
    
@@ -111,7 +136,7 @@ extension AddCourseViewModel {
          dateformatter.dateStyle = .none
          dateformatter.timeStyle = .short
          let formattedDate = dateformatter.string(from: date)
-         dateStartTime.value = formattedDate
+         dateStartAt.value = formattedDate
       }
    }
    
@@ -145,17 +170,20 @@ extension AddCourseViewModel {
       print(count)
    }
    
-   func getSampleImages() -> Bool {
+   func getSampleImages() {
       let t = (1...9).map { _ in
          UIImage(resource: .test)
       }
       
       // 이미지 개수 대응 관련 코드
       for i in t {
-         dataSource.append(i)
+         pickedImageArr.append(i)
       }
-      isImageEmpty.value = dataSource.isEmpty
-      return isImageEmpty.value ?? true
+   }
+   
+   func isPickedImageEmpty(cnt: Int) -> Bool {
+      print("현재 isPickedImageEmpty cnt = \(cnt)")
+      return (cnt < 1) ? true : false
    }
    
    

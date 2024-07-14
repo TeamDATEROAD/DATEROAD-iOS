@@ -16,9 +16,11 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
    
    var addCourseFirstView = AddCourseFirstView()
    
+   
    // MARK: - Properties
    
    private let viewModel = AddCourseViewModel()
+   
    
    // MARK: - Life Cycle
    
@@ -30,8 +32,10 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
       setStyle()
       setTitleLabelStyle(title: StringLiterals.AddCourseOrSchedule.addCourseTitle, alignment: .center)
       setLeftBackButton()
+      viewModel.getSampleImages()
       setAddTarget()
       registerCell()
+      setDelegate()
       bindViewModel()
       setupKeyboardDismissRecognizer()
    }
@@ -65,16 +69,16 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
    
 }
 
-extension AddCourseFirstViewController {
+private extension AddCourseFirstViewController {
    
-   private func bindViewModel() {
+   func bindViewModel() {
       viewModel.dateName.bind { [weak self] date in
          self?.addCourseFirstView.addFirstView.dateNameTextField.text = date
       }
       viewModel.visitDate.bind { [weak self] date in
          self?.addCourseFirstView.addFirstView.visitDateTextField.text = date
       }
-      viewModel.dateStartTime.bind { [weak self] date in
+      viewModel.dateStartAt.bind { [weak self] date in
          self?.addCourseFirstView.addFirstView.dateStartTimeTextField.text = date
       }
       viewModel.isDateNameValid.bind { [weak self] date in
@@ -87,13 +91,25 @@ extension AddCourseFirstViewController {
          self?.addCourseFirstView.addFirstView.updateTagCount(count: count ?? 0)
       }
       //보완 예정
-//      viewModel.isSixCheckPass.bind { [weak self] date in
-//         self?.viewModel.isPassSixCheckBtn()
-//      }
+      //      viewModel.isSixCheckPass.bind { [weak self] date in
+      //         self?.viewModel.isPassSixCheckBtn()
+      //      }
       
    }
    
-   private func setAddTarget() {
+   func registerCell() {
+      addCourseFirstView.collectionView.register(AddCourseImageCollectionViewCell.self, forCellWithReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier)
+   }
+   
+   func setDelegate() {
+      addCourseFirstView.collectionView.do {
+         $0.delegate = self
+         $0.dataSource = self
+      }
+      addCourseFirstView.addFirstView.dateNameTextField.delegate = self
+   }
+   
+   func setAddTarget() {
       addCourseFirstView.addFirstView.dateNameTextField.addTarget(self, action: #selector(textFieldDidChanacge(_:)), for: .editingChanged)
       addCourseFirstView.addFirstView.visitDateTextField.addTarget(self, action: #selector(textFieldTapped(_:)), for: .touchDown)
       addCourseFirstView.addFirstView.dateStartTimeTextField.addTarget(self, action: #selector(textFieldTapped(_:)), for: .touchDown)
@@ -102,46 +118,71 @@ extension AddCourseFirstViewController {
       }
       addCourseFirstView.addFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
    }
+   @objc
+   func removeCell(sender: UIButton) {
+      guard let cell = sender.superview?.superview as? AddCourseImageCollectionViewCell,
+            let indexPath = addCourseFirstView.collectionView.indexPath(for: cell) else { return }
+      
+      viewModel.pickedImageArr.remove(at: indexPath.item)
+      
+      let dataSourceCnt = viewModel.pickedImageArr.count
+      if dataSourceCnt < 1 {
+         cell.updateImageCellUI(isImageEmpty: true, vcCnt: 1)
+         addCourseFirstView.collectionView.reloadData()
+      } else {
+         addCourseFirstView.collectionView.deleteItems(at: [indexPath])
+      }
+   }
+   
+   @objc
+   func changeTagBtnState(sender: UIButton) {
+      sender.isSelected.toggle()
+      addCourseFirstView.addFirstView.updateTagButtonStyle(btn: sender, isSelected: sender.isSelected)
+      viewModel.countSelectedTag(isSelected: sender.isSelected)
+   }
+   
+   @objc
+   func sixCheckBtnTapped() {
+      let secondVC = AddCourseSecondViewController(viewModel: self.viewModel)
+      navigationController?.pushViewController(secondVC, animated: true)
+   }
+   
    
 }
 
 extension AddCourseFirstViewController: UICollectionViewDataSource, UICollectionViewDelegate {
    
-   private func registerCell() {
-      addCourseFirstView.collectionView.do {
-         $0.register(AddCourseImageCollectionViewCell.self, forCellWithReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier)
-         $0.delegate = self
-         $0.dataSource = self
-      }
-      addCourseFirstView.addFirstView.dateNameTextField.delegate = self
+   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+      let cnt = viewModel.pickedImageArr.count
+      return viewModel.isPickedImageEmpty(cnt: cnt) ? 1 : viewModel.pickedImageArr.count
    }
    
-   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-      return viewModel.getSampleImages() ? 1 : viewModel.dataSource.count
-   }
+   //완벽
    
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-      guard let cell = collectionView.dequeueReusableCell(
-         withReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier,
-         for: indexPath
-      ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
-      
-      let isImageEmpty = viewModel.isImageEmpty.value ?? true
-      isImageEmpty ? cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: nil)
-      : cell.updateImageCellUI(isImageEmpty: isImageEmpty,
-         image: self.viewModel.dataSource[indexPath.item])
-      
-      self.addCourseFirstView.updateImageCellUI(isEmpty: isImageEmpty,ImageDataCount: self.viewModel.dataSource.count )
-      
-      return cell
-   }
-   
-   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-      if viewModel.dataSource.isEmpty {
-         print("Empty cell selected")
-      } else {
-         print("Cell \(indexPath.item) selected")
-      }
+       guard let cell = collectionView.dequeueReusableCell(
+           withReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier,
+           for: indexPath
+       ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
+       
+       let cnt = viewModel.pickedImageArr.count
+       let flag = viewModel.isPickedImageEmpty(cnt: cnt)
+       
+      cell.updateImageCellUI(isImageEmpty: flag, vcCnt: 1)
+       
+       if !flag {
+           self.addCourseFirstView.updateImageCellUI(isEmpty: flag, ImageDataCount: cnt)
+           print(viewModel.pickedImageArr.count)
+           cell.configurePickedImage(pickedImage: viewModel.pickedImageArr[indexPath.row])
+           cell.prepare(image: viewModel.pickedImageArr[indexPath.row])
+           
+           cell.deleteImageBtn.tag = indexPath.row
+           cell.deleteImageBtn.addTarget(self, action: #selector(removeCell(sender:)), for: .touchUpInside)
+       } else {
+           print(viewModel.pickedImageArr.count)
+           self.addCourseFirstView.updateImageCellUI(isEmpty: flag, ImageDataCount: 0)
+       }
+       return cell
    }
    
 }
@@ -159,7 +200,7 @@ extension AddCourseFirstViewController: UITextFieldDelegate {
    
    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
       textField.resignFirstResponder()
-//      textField.tintColor = UIColor.clear
+      //      textField.tintColor = UIColor.clear
       return true
    }
    
@@ -184,19 +225,6 @@ extension AddCourseFirstViewController: UITextFieldDelegate {
    @objc
    func textFieldDidChanacge(_ textField: UITextField) {
       viewModel.isDateNameValid(cnt: textField.text?.count ?? 0)
-   }
-   
-   @objc
-   func changeTagBtnState(sender: UIButton) {
-      sender.isSelected.toggle()
-      addCourseFirstView.addFirstView.updateTagButtonStyle(btn: sender, isSelected: sender.isSelected)
-      viewModel.countSelectedTag(isSelected: sender.isSelected)
-   }
-   
-   @objc
-   func sixCheckBtnTapped() {
-      let secondVC = AddCourseSecondViewController(viewModel: self.viewModel)
-      navigationController?.pushViewController(secondVC, animated: true)
    }
    
 }

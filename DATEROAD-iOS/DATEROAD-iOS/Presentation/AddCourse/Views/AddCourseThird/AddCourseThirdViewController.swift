@@ -152,7 +152,7 @@ extension AddCourseThirdViewController: UITextViewDelegate {
       // 리턴 눌렸을 때의 "\n" 입력을 count로 계산하지 않음
       let filteredTextCount = changedText.filter { $0 != "\n" }.count
       
-//      addCourseThirdView.addThirdView.updateContentTextCount(textCnt: filteredTextCount)
+      //      addCourseThirdView.addThirdView.updateContentTextCount(textCnt: filteredTextCount)
       viewModel.contentTextCount.value = filteredTextCount
       
       // 리턴 키 입력을 처리합니다.
@@ -200,7 +200,8 @@ extension AddCourseThirdViewController: UITextFieldDelegate {
 extension AddCourseThirdViewController: UICollectionViewDataSource, UICollectionViewDelegate {
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-      return viewModel.getSampleImages() ? 1 : viewModel.dataSource.count
+      let cnt = viewModel.pickedImageArr.count
+      return viewModel.isPickedImageEmpty(cnt: cnt) ? 1 : viewModel.dataSource.count
    }
    
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -209,9 +210,9 @@ extension AddCourseThirdViewController: UICollectionViewDataSource, UICollection
          for: indexPath
       ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
       
-      let isImageEmpty = viewModel.isImageEmpty.value ?? true
-      isImageEmpty ? cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: nil)
-      : cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: self.viewModel.dataSource[indexPath.item])
+      cell.updateImageCellUI(isImageEmpty: false, vcCnt: 3)
+      cell.configurePickedImage(pickedImage: viewModel.pickedImageArr[indexPath.item])
+      cell.prepare(image: viewModel.pickedImageArr[indexPath.item])
       
       return cell
    }
@@ -224,7 +225,7 @@ extension AddCourseThirdViewController: UICollectionViewDataSource, UICollection
  
  3. 해당 변수 변경감지하는 bind 함수에서 실시간 countLabel 바꾸는 UI 함수 실행 O
  
-   더불어 Content의 유효성을 검사하는 viewModel 속 a함수를 실행시켜 반환 받는 값을 viewmodel 속 done버튼의 옵저버블 값에 대입될 함수를 파라미터로 받고 해당 값을 done버튼 값에 대입
+ 더불어 Content의 유효성을 검사하는 viewModel 속 a함수를 실행시켜 반환 받는 값을 viewmodel 속 done버튼의 옵저버블 값에 대입될 함수를 파라미터로 받고 해당 값을 done버튼 값에 대입
  
  4. done버튼이 바뀔 때 일어날 bind 함수에서 done 버튼의 유효성을 검사하여 button state 업데이트 하는 ui 함수 실행
  */

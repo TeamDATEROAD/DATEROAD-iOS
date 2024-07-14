@@ -232,7 +232,7 @@ extension AddCourseSecondViewController: UITextFieldDelegate {
    
    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
       textField.resignFirstResponder()
-      textField.tintColor = UIColor.clear
+//      textField.tintColor = UIColor.clear
       return true
    }
    
@@ -279,8 +279,9 @@ extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectio
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
       if collectionView == addCourseSecondView.collectionView {
-         
-         return viewModel.getSampleImages() ? 1 : viewModel.dataSource.count
+//         let cnt = viewModel.pickedImageArr.count
+//         return viewModel.isPickedImageEmpty(cnt: cnt) ? 1 : viewModel.pickedImageArr.count
+         return viewModel.pickedImageArr.count
       } else {
          _ = (viewModel.addPlaceCollectionViewDataSource.count) < 1 ? true : false
          
@@ -294,10 +295,11 @@ extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectio
             withReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier,
             for: indexPath
          ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
+//         let flag = viewModel.isPickedImageEmpty(cnt: cnt)
          
-         let isImageEmpty = viewModel.isImageEmpty.value ?? true
-         isImageEmpty ? cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: nil)
-         : cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: self.viewModel.dataSource[indexPath.item])
+         cell.updateImageCellUI(isImageEmpty: false, vcCnt: 2)
+         cell.configurePickedImage(pickedImage: viewModel.pickedImageArr[indexPath.item])
+         cell.prepare(image: viewModel.pickedImageArr[indexPath.item])
          
          return cell
       } else {
