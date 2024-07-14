@@ -81,16 +81,25 @@ private extension ProfileViewController {
         
         self.profileView.doubleCheckButton.addTarget(self, action: #selector(doubleCheckNickname), for: .touchUpInside)
         
-        self.profileView.nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .editingChanged)
+        self.profileView.nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .allEditingEvents)
     }
     
+    // TODO: - 추후 중복확인 연결 시 수정 예정
     func bindViewModel() {
         self.profileViewModel.isValidNickname.bind { [weak self] isValid in
             guard let isValid else { return }
-            self?.profileView.nicknameErrMessageLabel.isHidden = isValid ? false : true
-            self?.profileView.updateNicknameErrLabel(isValid: isValid)
+//            self?.profileView.nicknameErrMessageLabel.isHidden = isValid ? false : true
+//            isValid ? self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isValid) : self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValid)
             self?.profileView.updateDoubleCheckButton(isValid: isValid)
             self?.profileViewModel.checkValidRegistration()
+        }
+        
+        self.profileViewModel.isValidNicknameCount.bind { [weak self] isValidCount in
+            guard let isValidCount, let initial = self?.initial else { return }
+            if initial {
+                self?.profileView.nicknameErrMessageLabel.isHidden = isValidCount ? true : false
+                self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValidCount)
+            }
         }
         
         self.profileViewModel.isValidTag.bind { [weak self] isValid in
@@ -117,12 +126,7 @@ private extension ProfileViewController {
             guard let isValid else { return }
             self?.profileView.updateRegisterButton(isValid: isValid)
         }
-        
-        self.profileViewModel.isOverCount.bind { [weak self] isOver in
-            guard let isOver else { return }
-            
-            
-        }
+    
     }
     
     @objc
@@ -160,7 +164,7 @@ private extension ProfileViewController {
     
     @objc
     func didChangeTextfield() {
-        let text = self.profileView.nicknameTextfield.text ?? ""
+        guard let text = self.profileView.nicknameTextfield.text else { return }
         self.profileViewModel.nickname.value = text
     }
     
