@@ -15,7 +15,7 @@ final class MainContentsCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
-    private let mainTextLabel = UILabel()
+    let mainTextLabel = UILabel()
     
     override func setHierarchy() {
         self.addSubviews(mainTextLabel)
@@ -37,7 +37,7 @@ final class MainContentsCell: BaseCollectionViewCell {
 
             $0.font = UIFont.suit(.body_med_13)
             $0.textColor = UIColor(resource: .drBlack)
-            $0.numberOfLines = 3
+            $0.numberOfLines = 0
         }
     }
     

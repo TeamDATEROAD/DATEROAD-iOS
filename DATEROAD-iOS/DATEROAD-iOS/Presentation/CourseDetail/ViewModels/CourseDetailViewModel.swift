@@ -35,7 +35,7 @@ class CourseDetailViewModel {
         self.mainContentsViewModel = MainContentsViewModel()
         self.timelineInfoViewModel = TimelineInfoViewModel(timelineData: TimelineModel.timelineDummyData)
         self.coastInfoViewModel = CoastInfoViewModel()
-        self.tagInfoViewModel = TagInfoViewModel()
+        self.tagInfoViewModel = TagInfoViewModel(tagInfoData: TagModel.tagDummyData)
     }
     
     var sections: [CourseDetailSection] {
@@ -91,10 +91,7 @@ struct TimelineInfoViewModel {
     var numberOfItems: Int {
         return timelineData.count
     }
-    
-//    init(timelineData: [TimelineModel] = []) {
-//        self.timelineData = timelineData
-//    }
+
 }
 
 
@@ -106,8 +103,10 @@ struct CoastInfoViewModel {
 }
 
 struct TagInfoViewModel {
+    var tagInfoData: [TagModel]
+    
     var numberOfItems: Int {
-        return 1
+        return tagInfoData.count
     }
 }
 

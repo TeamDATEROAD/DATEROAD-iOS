@@ -143,6 +143,7 @@ extension PreviewCourseDetailViewController: UICollectionViewDelegate, UICollect
             guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.cellIdentifier, for: indexPath) as? MainContentsCell else {
                 fatalError("Unable to dequeue MainContentsCell")
             }
+            mainContentsCell.mainTextLabel.numberOfLines = 3
             mainContentsCell.setCell(mainContentsData: mainContentsData)
             return mainContentsCell
         }
