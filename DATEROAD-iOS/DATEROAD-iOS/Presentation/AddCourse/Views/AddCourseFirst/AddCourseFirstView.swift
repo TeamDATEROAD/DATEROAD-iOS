@@ -95,7 +95,7 @@ final class AddCourseFirstView: BaseView {
          let layout = UICollectionViewFlowLayout()
          layout.scrollDirection = .horizontal
          layout.minimumInteritemSpacing = 12.0
-         layout.itemSize = CGSize(width: 130, height: 130)
+//         layout.itemSize = CGSize(width: 130, height: 130)
          $0.collectionViewLayout =  layout
          $0.showsHorizontalScrollIndicator = false
          $0.showsVerticalScrollIndicator = false

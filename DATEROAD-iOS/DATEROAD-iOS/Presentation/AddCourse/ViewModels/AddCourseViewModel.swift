@@ -29,8 +29,11 @@ final class AddCourseViewModel {
    var isDateStartAtVaild = false
    
    
-   var dateTagArr: ObservablePattern<[String]> = ObservablePattern([])
-   var isDateTagVaild = false
+   var tagData: [ProfileModel] = []
+   var isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
+   var isValidTag: ObservablePattern<Bool> = ObservablePattern(false)
+//   var dateTagArr: ObservablePattern<[String]> = ObservablePattern([])
+//   var isDateTagVaild = false
    
    
    var dateLocation: ObservablePattern<String> = ObservablePattern("")
@@ -98,22 +101,59 @@ final class AddCourseViewModel {
    
    var isDoneBtnOK: ObservablePattern<Bool> = ObservablePattern(false)
    
+   
+   init() {
+       fetchTagData()
+   }
 }
 
 extension AddCourseViewModel {
    
-   func fetchTableViewData() {
-      addPlaceCollectionViewDataSource.append(contentsOf: [
-         AddCoursePlaceModel(placeTitle: "경북궁",timeRequire: "2시간"),
-         AddCoursePlaceModel(placeTitle: "숭례문", timeRequire: "1시간"),
-         AddCoursePlaceModel(placeTitle: "남대문", timeRequire: "3시간"),
-         AddCoursePlaceModel(placeTitle: "문상훈", timeRequire: "30분"),
-         AddCoursePlaceModel(placeTitle: "경북궁2",timeRequire: "2시간"),
-         AddCoursePlaceModel(placeTitle: "숭례문2", timeRequire: "1시간"),
-         AddCoursePlaceModel(placeTitle: "남대문2", timeRequire: "3시간"),
-         AddCoursePlaceModel(placeTitle: "문상훈2", timeRequire: "30분")
-      ])
+   func fetchTagData() {
+       tagData = TendencyTag.allCases.map { $0.tag }
    }
+   
+   func countSelectedTag(isSelected: Bool) {
+       guard let oldCount = tagCount.value else { return }
+       
+       if isSelected {
+           tagCount.value = oldCount + 1
+       } else {
+           if oldCount != 0 {
+               tagCount.value = oldCount - 1
+           }
+       }
+       
+       checkTagCount()
+   }
+   
+   func checkTagCount() {
+       guard let count = tagCount.value else { return }
+
+       if count >= 1 && count <= 3 {
+           self.isValidTag.value = true
+           self.isOverCount.value = false
+       } else {
+           self.isValidTag.value = false
+           if count > 3 {
+               self.isOverCount.value = true
+           }
+       }
+       print(count)
+   }
+   
+//   func fetchTableViewData() {
+//      addPlaceCollectionViewDataSource.append(contentsOf: [
+//         AddCoursePlaceModel(placeTitle: "경북궁",timeRequire: "2시간"),
+//         AddCoursePlaceModel(placeTitle: "숭례문", timeRequire: "1시간"),
+//         AddCoursePlaceModel(placeTitle: "남대문", timeRequire: "3시간"),
+//         AddCoursePlaceModel(placeTitle: "문상훈", timeRequire: "30분"),
+//         AddCoursePlaceModel(placeTitle: "경북궁2",timeRequire: "2시간"),
+//         AddCoursePlaceModel(placeTitle: "숭례문2", timeRequire: "1시간"),
+//         AddCoursePlaceModel(placeTitle: "남대문2", timeRequire: "3시간"),
+//         AddCoursePlaceModel(placeTitle: "문상훈2", timeRequire: "30분")
+//      ])
+//   }
    
    func isFutureDate(date: Date, dateType: String) {
       let dateFormatter = DateFormatter()
@@ -144,31 +184,6 @@ extension AddCourseViewModel {
    func isDateNameValid(cnt: Int) {
       let flag = cnt >= 5
       isDateNameValid.value = flag
-   }
-   
-   func countSelectedTag(isSelected: Bool) {
-      guard let oldCount = tagCount.value else { return }
-      
-      if isSelected {
-         tagCount.value = oldCount + 1
-      } else {
-         if oldCount != 0 {
-            tagCount.value = oldCount - 1
-         }
-      }
-      
-      checkTagCount()
-   }
-   
-   func checkTagCount() {
-      guard let count = tagCount.value else { return }
-      
-      if count >= 1 && count <= 3 {
-         self.isTagButtonValid.value = true
-      } else {
-         self.isTagButtonValid.value = false
-      }
-      print(count)
    }
    
    func getSampleImages() {

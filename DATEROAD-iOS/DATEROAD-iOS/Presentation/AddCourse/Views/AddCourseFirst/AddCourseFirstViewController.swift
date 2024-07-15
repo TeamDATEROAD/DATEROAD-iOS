@@ -100,11 +100,16 @@ private extension AddCourseFirstViewController {
    }
    
    func registerCell() {
-      addCourseFirstView.collectionView.register(AddCourseImageCollectionViewCell.self, forCellWithReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier)
-   }
+           addCourseFirstView.collectionView.register(AddCourseImageCollectionViewCell.self, forCellWithReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier)
+           addCourseFirstView.addFirstView.tendencyTagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
+       }
    
    func setDelegate() {
       addCourseFirstView.collectionView.do {
+         $0.delegate = self
+         $0.dataSource = self
+      }
+      addCourseFirstView.addFirstView.tendencyTagCollectionView.do {
          $0.delegate = self
          $0.dataSource = self
       }
@@ -116,9 +121,9 @@ private extension AddCourseFirstViewController {
       addCourseFirstView.addFirstView.dateNameTextField.addTarget(self, action: #selector(textFieldDidChanacge(_:)), for: .editingChanged)
       addCourseFirstView.addFirstView.visitDateTextField.addTarget(self, action: #selector(textFieldTapped(_:)), for: .touchDown)
       addCourseFirstView.addFirstView.dateStartTimeTextField.addTarget(self, action: #selector(textFieldTapped(_:)), for: .touchDown)
-      for button in addCourseFirstView.addFirstView.tagBtns {
-         button.addTarget(self, action: #selector(changeTagBtnState), for: .touchUpInside)
-      }
+//      for button in addCourseFirstView.addFirstView.tagBtns {
+//         button.addTarget(self, action: #selector(changeTagBtnState), for: .touchUpInside)
+//      }
       addCourseFirstView.addFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
    }
    
@@ -136,6 +141,8 @@ private extension AddCourseFirstViewController {
       } else {
          addCourseFirstView.collectionView.deleteItems(at: [indexPath])
       }
+      
+      self.addCourseFirstView.addFirstView.tendencyTagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
    }
    
    @objc
@@ -151,50 +158,116 @@ private extension AddCourseFirstViewController {
    }
    
    @objc
+   func didTapTagButton(_ sender: UIButton) {
+      // 0 ~ 2개 선택되어 있는 경우
+      if self.viewModel.tagCount.value != 3 {
+         sender.isSelected = !sender.isSelected
+         sender.isSelected ? self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
+         : self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: UnselectedButton())
+         self.viewModel.countSelectedTag(isSelected: sender.isSelected)
+      }
+      // 3개 선택되어 있는 경우
+      else {
+         // 취소 하려는 경우
+         if sender.isSelected {
+            sender.isSelected = !sender.isSelected
+            self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: UnselectedButton())
+            self.viewModel.countSelectedTag(isSelected: sender.isSelected)
+         }
+      }
+   }
+   
+   @objc
    func sixCheckBtnTapped() {
       let secondVC = AddCourseSecondViewController(viewModel: self.viewModel)
       navigationController?.pushViewController(secondVC, animated: true)
    }
 }
+extension AddCourseFirstViewController: UICollectionViewDelegateFlowLayout {
+   
+   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+      if collectionView == addCourseFirstView.collectionView {
+         return CGSize(width: 130, height: 130)
+      } else {
+         let tagTitle = viewModel.tagData[indexPath.item].tagTitle
+         let font = UIFont.suit(.body_med_13)
+         let textWidth = tagTitle.width(withConstrainedHeight: 30, font: font)
+         let padding: CGFloat = 44
+         
+         return CGSize(width: textWidth + padding, height: 30)
+      }
+   }
+   
+   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+      if collectionView == addCourseFirstView.collectionView {
+         return 12
+      } else {
+         return 8
+      }
+   }
+   
+   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+      if collectionView == addCourseFirstView.collectionView {
+         return 0
+      } else {
+         return 7
+      }
+   }
+   
+}
 
 extension AddCourseFirstViewController: UICollectionViewDataSource, UICollectionViewDelegate {
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-      let cnt = viewModel.pickedImageArr.count
-      return viewModel.isPickedImageEmpty(cnt: cnt) ? 1 : viewModel.pickedImageArr.count
+      if collectionView == addCourseFirstView.collectionView {
+         let cnt = viewModel.pickedImageArr.count
+         return viewModel.isPickedImageEmpty(cnt: cnt) ? 1 : viewModel.pickedImageArr.count
+      } else {
+         return viewModel.tagData.count
+      }
    }
    
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-      guard let cell = collectionView.dequeueReusableCell(
-         withReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier,
-         for: indexPath
-      ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
-      
-      let cnt = viewModel.pickedImageArr.count
-      let flag = viewModel.isPickedImageEmpty(cnt: cnt)
-      
-      cell.updateImageCellUI(isImageEmpty: flag, vcCnt: 1)
-      
-      if !flag {
-         self.addCourseFirstView.updateImageCellUI(isEmpty: flag, ImageDataCount: cnt)
-         print(viewModel.pickedImageArr.count)
-         cell.configurePickedImage(pickedImage: viewModel.pickedImageArr[indexPath.row])
-         cell.prepare(image: viewModel.pickedImageArr[indexPath.row])
+      if collectionView == addCourseFirstView.collectionView {
+         guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier,
+            for: indexPath
+         ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
          
-         cell.deleteImageBtn.tag = indexPath.row
-         cell.deleteImageBtn.addTarget(self, action: #selector(removeCell(sender:)), for: .touchUpInside)
-         addCourseFirstView.cameraBtn.addTarget(self, action: #selector(didTapCameraBtn), for: .touchUpInside)
+         let cnt = viewModel.pickedImageArr.count
+         let flag = viewModel.isPickedImageEmpty(cnt: cnt)
+         
+         cell.updateImageCellUI(isImageEmpty: flag, vcCnt: 1)
+         
+         if !flag {
+            self.addCourseFirstView.updateImageCellUI(isEmpty: flag, ImageDataCount: cnt)
+            print(viewModel.pickedImageArr.count)
+            cell.configurePickedImage(pickedImage: viewModel.pickedImageArr[indexPath.row])
+            cell.prepare(image: viewModel.pickedImageArr[indexPath.row])
+            
+            cell.deleteImageBtn.tag = indexPath.row
+            cell.deleteImageBtn.addTarget(self, action: #selector(removeCell(sender:)), for: .touchUpInside)
+            addCourseFirstView.cameraBtn.addTarget(self, action: #selector(didTapCameraBtn), for: .touchUpInside)
+         } else {
+            print(viewModel.pickedImageArr.count)
+            self.addCourseFirstView.updateImageCellUI(isEmpty: flag, ImageDataCount: 0)
+         }
+         return cell
       } else {
-         print(viewModel.pickedImageArr.count)
-         self.addCourseFirstView.updateImageCellUI(isEmpty: flag, ImageDataCount: 0)
+         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
+         cell.updateButtonTitle(tag: self.viewModel.tagData[indexPath.item])
+         cell.tendencyTagButton.tag = indexPath.item
+         cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
+         return cell
       }
-      return cell
    }
    
    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-      let isImageEmpty = (viewModel.pickedImageArr.count<1) ? true : false
-      if isImageEmpty  && collectionView == addCourseFirstView.collectionView {
-         imagePickerViewController.presentPicker(from: self)
+      if collectionView == addCourseFirstView.collectionView {
+         let isImageEmpty = (viewModel.pickedImageArr.count<1) ? true : false
+         if isImageEmpty  && collectionView == addCourseFirstView.collectionView {
+            imagePickerViewController.presentPicker(from: self)
+         }
       }
    }
    

@@ -36,6 +36,8 @@ final class AddFirstView: BaseView {
    
    let sixCheckNextButton = UIButton() //추후 Captin 버튼으로 수정 예정
    
+   let tendencyTagCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+   
    // MARK: - Properties
    
    private let enabledButtonType: DRButtonType = EnabledButton()
@@ -64,6 +66,7 @@ final class AddFirstView: BaseView {
          tagContainer,
          datePlaceContainer,
          sixCheckNextButton
+//         tendencyTagCollectionView
       )
       
       textFieldStackView.addArrangedSubviews(
@@ -72,12 +75,18 @@ final class AddFirstView: BaseView {
          dateStartTimeTextField
       )
       
-      tagContainer.addSubviews(tagTitleLabel, tagVStackView)
+      tagContainer.addSubviews(tagTitleLabel, tendencyTagCollectionView)
       
       datePlaceContainer.addSubviews(datePlaceLabel, datePlaceImage)
    }
    
    override func setLayout() {
+//      tendencyTagCollectionView.snp.makeConstraints {
+//         $0.top.equalTo(tagTitleLabel.snp.bottom).offset(12)
+//          $0.horizontalEdges.equalToSuperview()
+//          $0.height.equalTo(106)
+//      }
+      
       textFieldStackView.snp.makeConstraints {
          $0.top.horizontalEdges.equalToSuperview()
          $0.height.equalTo(184)
@@ -93,7 +102,7 @@ final class AddFirstView: BaseView {
          $0.top.leading.trailing.equalToSuperview()
       }
       
-      tagVStackView.snp.makeConstraints {
+      tendencyTagCollectionView.snp.makeConstraints {
          $0.top.equalTo(tagTitleLabel.snp.bottom).offset(12)
          $0.horizontalEdges.bottom.equalToSuperview()
       }
@@ -123,6 +132,14 @@ final class AddFirstView: BaseView {
    }
    
    override func setStyle() {
+      tendencyTagCollectionView.do {
+          $0.contentInsetAdjustmentBehavior = .never
+          $0.showsVerticalScrollIndicator = false
+          let layout = CollectionViewLeftAlignFlowLayout()
+          layout.cellSpacing = 8
+          $0.collectionViewLayout = layout
+
+      }
       textFieldStackView.do {
          $0.axis = .vertical
          $0.spacing = 20
@@ -301,6 +318,10 @@ extension AddFirstView {
    
    func updateTagCount(count: Int) {
       tagTitleLabel.text = "데이트 코스와 어울리는 태그를 선택해 주세요 (\(count)/3)"
+   }
+   
+   func updateTag(button: UIButton, buttonType: DRButtonType) {
+       button.setButtonStatus(buttonType: buttonType)
    }
    
 }
