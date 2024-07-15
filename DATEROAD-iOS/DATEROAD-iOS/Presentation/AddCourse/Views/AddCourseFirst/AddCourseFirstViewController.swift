@@ -9,7 +9,6 @@ import UIKit
 
 import SnapKit
 import Then
-import PhotosUI
 
 final class AddCourseFirstViewController: BaseNavBarViewController {
    
@@ -17,16 +16,25 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
    
    var addCourseFirstView = AddCourseFirstView()
    
+   let addSheetView = AddSheetView(isCustomPicker: false)
+   
+   lazy var alertVC = DRBottomSheetViewController(contentView: addSheetView, height: 304, buttonType: EnabledButton(), buttonTitle: StringLiterals.AddCourseOrSchedule.AddBottomSheetView.datePickerBtnTitle)
+   
+   private let imagePickerViewController = CustomImagePicker(isProfilePicker: false)
+   
+   
+   
    
    // MARK: - Properties
    
    private let viewModel = AddCourseViewModel()
    
    // Identifier와 PHPickerResult로 만든 Dictionary (이미지 데이터를 저장하기 위해 만들어 줌)
-   private var selections = [String : PHPickerResult]()
-   // 선택한 사진의 순서에 맞게 Identifier들을 배열로 저장해줄 겁니다.
-   // selections은 딕셔너리이기 때문에 순서가 없습니다. 그래서 따로 식별자를 담을 배열 생성
-   private var selectedAssetIdentifiers = [String]()
+   //   private var selections = [String : PHPickerResult]()
+   //
+   //   // 선택한 사진의 순서에 맞게 Identifier들을 배열로 저장해줄 겁니다.
+   //   // selections은 딕셔너리이기 때문에 순서가 없습니다. 그래서 따로 식별자를 담을 배열 생성
+   //   private var selectedAssetIdentifiers = [String]()
    
    
    // MARK: - Life Cycle
@@ -114,6 +122,7 @@ private extension AddCourseFirstViewController {
          $0.dataSource = self
       }
       addCourseFirstView.addFirstView.dateNameTextField.delegate = self
+      imagePickerViewController.delegate = self
    }
    
    func setAddTarget() {
@@ -145,7 +154,7 @@ private extension AddCourseFirstViewController {
    
    @objc
    func didTapCameraBtn() {
-      presentPicker()
+      imagePickerViewController.presentPicker(from: self)
    }
    
    @objc
@@ -170,8 +179,6 @@ extension AddCourseFirstViewController: UICollectionViewDataSource, UICollection
       let cnt = viewModel.pickedImageArr.count
       return viewModel.isPickedImageEmpty(cnt: cnt) ? 1 : viewModel.pickedImageArr.count
    }
-   
-   //완벽
    
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
       guard let cell = collectionView.dequeueReusableCell(
@@ -203,7 +210,7 @@ extension AddCourseFirstViewController: UICollectionViewDataSource, UICollection
    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
       let isImageEmpty = (viewModel.pickedImageArr.count<1) ? true : false
       if isImageEmpty  && collectionView == addCourseFirstView.collectionView {
-         presentPicker()
+         imagePickerViewController.presentPicker(from: self)
       }
    }
    
@@ -229,17 +236,27 @@ extension AddCourseFirstViewController: UITextFieldDelegate {
    
    @objc
    private func textFieldTapped(_ textField: UITextField) {
-      let addSheetVC = AddSheetViewController(viewModel: self.viewModel)
       if textField == addCourseFirstView.addFirstView.visitDateTextField {
-         addSheetVC.addCourseFirstView = self.addCourseFirstView
-         addSheetVC.addSheetView.datePicker.datePickerMode = .date
+         addSheetView.datePickerMode(isDatePicker: true)
       } else if textField == addCourseFirstView.addFirstView.dateStartTimeTextField {
-         addSheetVC.addCourseFirstView = self.addCourseFirstView
-         addSheetVC.addSheetView.datePicker.datePickerMode = .time
+         addSheetView.datePickerMode(isDatePicker: false)
       }
+      
+      alertVC.bottomButtonAction = { [weak self] in
+         guard let self = self else { return }
+         if textField == self.addCourseFirstView.addFirstView.visitDateTextField {
+            let selectedDate = addSheetView.datePicker.date
+            viewModel.isFutureDate(date: selectedDate, dateType: "date")
+            dismiss(animated: true)
+         } else if textField == addCourseFirstView.addFirstView.dateStartTimeTextField {
+            let formattedDate = addSheetView.datePicker.date
+            viewModel.isFutureDate(date: formattedDate, dateType: "time")
+         }
+      }
+      
       DispatchQueue.main.async {
-         addSheetVC.modalPresentationStyle = .overFullScreen
-         self.present(addSheetVC, animated: true, completion: nil)
+         self.alertVC.modalPresentationStyle = .overFullScreen
+         self.present(self.alertVC, animated: true, completion: nil)
       }
    }
    
@@ -250,82 +267,12 @@ extension AddCourseFirstViewController: UITextFieldDelegate {
    
 }
 
-extension AddCourseFirstViewController: PHPickerViewControllerDelegate {
+extension AddCourseFirstViewController: ImagePickerDelegate {
    
-   /// 이미지 피커 종료시 실행
-   func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-      
-      picker.dismiss(animated: true)
-      
-      var newSelections = [String: PHPickerResult]()
-      
-      for result in results {
-         let identifier = result.assetIdentifier ?? ""
-         newSelections[identifier] = selections[identifier] ?? result
-      }
-      
-      selections = newSelections
-      selectedAssetIdentifiers = results.compactMap { $0.assetIdentifier }
-      
-      /// 선택한 이미지가 어
-      if selections.isEmpty {
-         viewModel.pickedImageArr.removeAll()
-         addCourseFirstView.collectionView.reloadData()
-      } else {
-         displayImage()
-      }
-      selections.removeAll()
+   func didPickImages(_ images: [UIImage]) {
+      print("images : \(images)")
+      viewModel.pickedImageArr = images
+      addCourseFirstView.collectionView.reloadData()
    }
    
-   private func presentPicker() {
-      viewModel.pickedImageArr.removeAll()
-      // 이미지의 Identifier를 사용하기 위해서는 초기화를 shared로 해줘야 합니다.
-      var config = PHPickerConfiguration(photoLibrary: .shared())
-      config.filter = PHPickerFilter.any(of: [.images])
-      config.selectionLimit = 10
-      config.selection = .ordered
-      config.preferredAssetRepresentationMode = .current
-      
-      // 이 동작이 있어야 PHPicker를 실행 시, 선택했던 이미지를 기억해 표시할 수 있다. (델리게이트 코드 참고)
-      // config.preselectedAssetIdentifiers = selectedAssetIdentifiers
-      
-      // 만들어준 Configuration를 사용해 PHPicker 컨트롤러 객체 생성
-      let imagePicker = PHPickerViewController(configuration: config)
-      imagePicker.delegate = self
-      
-      self.present(imagePicker, animated: true)
-   }
-   
-   private func displayImage() {
-      let dispatchGroup = DispatchGroup()
-      // identifier와 이미지로 dictionary를 만듦 (selectedAssetIdentifiers의 순서에 따라 이미지를 받을 예정입니다.)
-      var imagesDict = [String: UIImage]()
-      
-      for (identifier, result) in selections {
-         dispatchGroup.enter()
-         let itemProvider = result.itemProvider
-         
-         // 만약 itemProvider에서 UIImage로 로드가 가능하다면?
-         if itemProvider.canLoadObject(ofClass: UIImage.self) {
-            // 로드 핸들러를 통해 UIImage를 처리해 줍시다. (비동기적으로 동작)
-            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-               guard let image = image as? UIImage else { return }
-               imagesDict[identifier] = image
-               dispatchGroup.leave()
-            }
-         }
-      }
-      
-      dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
-         guard let self = self else { return }
-         
-         // 선택한 이미지의 순서대로 정렬하여 스택뷰에 올리기
-         for identifier in self.selectedAssetIdentifiers {
-            guard let image = imagesDict[identifier] else { return }
-            self.viewModel.pickedImageArr.append(image)
-         }
-         
-         addCourseFirstView.collectionView.reloadData()
-      }
-   }
 }
