@@ -149,7 +149,7 @@ class PointDetailView: BaseView {
         
         pointGainedCollectionView.do {
             $0.isHidden = true
-            $0.backgroundColor = .alertRed
+            $0.backgroundColor = .systemCyan
         }
         
         pointUsedCollectionView.do {

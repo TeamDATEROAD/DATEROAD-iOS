@@ -30,8 +30,8 @@ final class PointViewModel {
     var isEarnedPointHidden : ObservablePattern<Bool> = ObservablePattern(false)
     
     init () {
-        changeSegment(segmentIndex: 0)
         fetchData()
+        changeSegment(segmentIndex: 0)
     }
     
     func changeSegment(segmentIndex: Int) {
@@ -46,6 +46,7 @@ final class PointViewModel {
                      PointDetailModel(sign: "+", point: 100, description: "코스 등록하기", createAt: "2024.7.4."),
                      PointDetailModel(sign: "+", point: 100, description: "코스 등록하기", createAt: "2024.7.4.")],
             used: [])
+        
         self.gainedDummyData = self.pointDummyData.gained
         self.usedDummyData = self.pointDummyData.used
     }

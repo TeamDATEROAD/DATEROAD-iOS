@@ -27,7 +27,7 @@ class PointDetailViewController: BaseNavBarViewController {
     // MARK: - LifeCycle
     
     init(pointViewModel: PointViewModel) {
-        self.pointViewModel = PointViewModel()
+        self.pointViewModel = pointViewModel
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -128,8 +128,8 @@ private extension PointDetailViewController {
 
 extension PointDetailViewController {
     private func registerCell() {
+        print("ho")
         pointDetailView.pointGainedCollectionView.register(PointCollectionViewCell.self, forCellWithReuseIdentifier: PointCollectionViewCell.cellIdentifier)
-        
         pointDetailView.pointUsedCollectionView.register(PointCollectionViewCell.self, forCellWithReuseIdentifier: PointCollectionViewCell.cellIdentifier)
     }
     
@@ -146,6 +146,7 @@ extension PointDetailViewController {
 
 extension PointDetailViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        print("cellsize")
         return CGSize(width: ScreenUtils.width, height: 86)
     }
 }
@@ -156,6 +157,7 @@ extension PointDetailViewController : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == pointDetailView.pointGainedCollectionView {
+            print(pointViewModel.gainedDummyData.count)
             return pointViewModel.gainedDummyData.count
         } else {
             return pointViewModel.usedDummyData.count
@@ -163,19 +165,11 @@ extension PointDetailViewController : UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print("in")
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PointCollectionViewCell.cellIdentifier, for: indexPath) as? PointCollectionViewCell else { return UICollectionViewCell() }
-        
-        print("hi")
-        switch collectionView {
-        case pointDetailView.pointGainedCollectionView:
+        if collectionView == pointDetailView.pointGainedCollectionView {
             cell.dataBind(pointViewModel.gainedDummyData[indexPath.item], indexPath.item)
-            print("xi")
-        case pointDetailView.pointUsedCollectionView:
+        } else {
             cell.dataBind(pointViewModel.usedDummyData[indexPath.item], indexPath.item)
-            print("y")
-        default:
-            print("그 컬뷰 없어요")
         }
         return cell
     }
