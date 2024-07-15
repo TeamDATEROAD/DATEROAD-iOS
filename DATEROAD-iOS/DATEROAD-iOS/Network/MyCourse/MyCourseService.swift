@@ -32,4 +32,19 @@ extension MyCourseService {
         }
     }
     
+    func getMyRegisterCourse(completion: (@escaping (NetworkResult<MyCourseListDTO>) -> Void)) {
+        myCourseProvider.request(.myRegisterCourse) {
+            result in
+            switch result {
+            case .success(let response):
+                let statusCode = response.statusCode
+                let data = response.data
+                let networkResult: NetworkResult<MyCourseListDTO> = self.judgeStatus(statusCode: statusCode, data: data)
+                completion(networkResult)
+            case .failure(_):
+                completion(NetworkResult.networkFail)
+            }
+        }
+    }
+    
 }

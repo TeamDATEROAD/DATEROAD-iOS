@@ -20,7 +20,7 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
     
     private let myRegisterCourseViewModel = MyCourseListViewModel()
     
-    private lazy var myRegisterCourseData = myRegisterCourseViewModel.myRegisterCourseDummyData
+    private lazy var myRegisterCourseData = myRegisterCourseViewModel.myRegisterCourseData
     
     // MARK: - LifeCycle
     
