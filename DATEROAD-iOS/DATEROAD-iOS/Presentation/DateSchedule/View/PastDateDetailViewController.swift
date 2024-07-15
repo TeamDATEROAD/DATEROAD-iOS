@@ -17,7 +17,7 @@ class PastDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - Properties
     
-    var pastDateDetailData = DateTimeLineModel(startTime: "", places: [])
+    var pastDateDetailData = DateDetailModel(dateID: 0, title: "", startAt: "", city: "", tags: [], date: "", places: [])
     
     private let pastDateDetailViewModel = DateDetailViewModel()
 
