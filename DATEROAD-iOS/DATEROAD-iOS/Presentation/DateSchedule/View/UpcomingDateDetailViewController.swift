@@ -21,6 +21,8 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     var upcomingDateDetailData = DateTimeLineModel(startTime: "", places: [])
     
     private let upcomingDateDetailViewModel = DateDetailViewModel()
+    
+    private var selectedAlertFlag : Int = 0
 
     
     // MARK: - LifeCycle
@@ -60,7 +62,19 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
 extension UpcomingDateDetailViewController {
     @objc
     private func deleteDateCourse() {
-        print("delete date course 바텀시트")
+        let dateScheduleDeleteView = DateScheduleDeleteView()
+        let bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView, height: 222, buttonType: DisabledButton(), buttonTitle: StringLiterals.DateSchedule.quit)
+        bottomSheetVC.setCustomAction(dateScheduleDeleteView.deleteLabel)
+        bottomSheetVC.modalPresentationStyle = .overFullScreen
+        bottomSheetVC.customActionFlag.bind { [weak self] newValue in
+            if newValue == true {
+                self?.tapDeleteLabel()
+            }
+        }
+        self.present(bottomSheetVC, animated: false)
+        if bottomSheetVC.customActionFlag.value == true {
+            tapDeleteLabel()
+        }
     }
     
     private func setButton() {
@@ -87,19 +101,31 @@ extension UpcomingDateDetailViewController {
 // MARK: - Alert Methods
 
 extension UpcomingDateDetailViewController: CustomAlertDelegate {
+    func tapDeleteLabel() {
+        let customAlertVC = CustomAlertViewController(alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deleteDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        selectedAlertFlag = 0
+        self.present(customAlertVC, animated: false)
+    }
+    
     @objc
     private func tapKakaoButton() {
         let customAlertVC = CustomAlertViewController(alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.kakaoAlert, rightButtonText: "열기")
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
+        selectedAlertFlag = 1
         self.present(customAlertVC, animated: false)
     }
     
     func action() {
-        print("카카오 공유하기")
+        if selectedAlertFlag == 0 {
+            print("헉 헤어졌나??? 서버연결 delete")
+        } else {
+            print("카카오 공유하기")
+        }
     }
 }
-
 
 // MARK: - CollectionView Methods
 

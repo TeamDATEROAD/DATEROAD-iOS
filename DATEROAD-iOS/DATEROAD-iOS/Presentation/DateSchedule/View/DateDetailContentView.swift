@@ -160,7 +160,7 @@ class DateDetailContentView: BaseView {
         self.backgroundColor = UIColor(resource: .lilac)
 
         ribbonImageView.do {
-            $0.contentMode = .scaleAspectFit
+            $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
         }
         

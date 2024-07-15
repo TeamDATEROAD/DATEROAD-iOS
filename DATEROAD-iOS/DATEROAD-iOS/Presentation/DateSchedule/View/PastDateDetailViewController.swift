@@ -20,6 +20,7 @@ class PastDateDetailViewController: BaseNavBarViewController {
     var pastDateDetailData = DateTimeLineModel(startTime: "", places: [])
     
     private let pastDateDetailViewModel = DateDetailViewModel()
+    
 
     
     // MARK: - LifeCycle
@@ -28,7 +29,7 @@ class PastDateDetailViewController: BaseNavBarViewController {
         super.viewDidLoad()
 
         setLeftBackButton()
-        setTitleLabelStyle(title: "지난 데이트", alignment: .center)
+        setTitleLabelStyle(title: StringLiterals.DateSchedule.pastDate, alignment: .center)
         setRightButtonStyle(image: UIImage(resource: .moreButton))
         setRightButtonAction(target: self, action: #selector(deleteDateCourse))
         
@@ -55,13 +56,37 @@ class PastDateDetailViewController: BaseNavBarViewController {
     }
 }
 
+extension PastDateDetailViewController: CustomAlertDelegate {
+    func tapDeleteLabel() {
+        let customAlertVC = CustomAlertViewController(alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deletePastDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        self.present(customAlertVC, animated: false)
+    }
+    
+    func action() {
+        print("헉 헤어졌나??? 서버연결 delete")
+    }
+}
 
 // MARK: - UI Setting Methods
 
 extension PastDateDetailViewController {
     @objc
     private func deleteDateCourse() {
-        print("delete date course 바텀시트")
+        let dateScheduleDeleteView = DateScheduleDeleteView()
+        let bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView, height: 222, buttonType: DisabledButton(), buttonTitle: StringLiterals.DateSchedule.quit)
+        bottomSheetVC.setCustomAction(dateScheduleDeleteView.deleteLabel)
+        bottomSheetVC.modalPresentationStyle = .overFullScreen
+        bottomSheetVC.customActionFlag.bind { [weak self] newValue in
+            if newValue == true {
+                self?.tapDeleteLabel()
+            }
+        }
+        self.present(bottomSheetVC, animated: false)
+        if bottomSheetVC.customActionFlag.value == true {
+            tapDeleteLabel()
+        }
     }
     
     @objc

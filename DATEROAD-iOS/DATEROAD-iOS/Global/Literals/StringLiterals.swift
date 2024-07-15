@@ -128,6 +128,9 @@ enum StringLiterals {
         static let upcomingDate = "데이트 일정"
         static let seePastDate = "지난 데이트 보기"
         static let pastDate = "지난 데이트"
+        static let dateSetting = "데이트 일정 설정"
+        static let deleteDate = "글 삭제"
+        static let quit = "취소"
     }
     
     enum Alert {
@@ -138,6 +141,9 @@ enum StringLiterals {
         static let realWithdrawal = "정말로 탈퇴하시겠어요?"
         static let lastWarning = "삭제된 계정은 복구하실 수 없어요"
         static let wouldYouLogOut = "로그아웃 하시겠어요?"
+        static let deleteDateSchedule = "데이트 일정을 삭제하시겠어요?"
+        static let deletePastDateSchedule = "지난 데이트를 삭제하시겠어요?"
+        static let noMercy = "삭제된 일정은 복구하실 수 없어요"
     }
     
     enum Course {

@@ -26,6 +26,8 @@ final class DRBottomSheetViewController: BaseViewController {
     
     private var buttonTitle: String
     
+    var customActionFlag: ObservablePattern<Bool> = ObservablePattern(false)
+    
     
     // MARK: - Life Cycle
     
@@ -67,7 +69,7 @@ final class DRBottomSheetViewController: BaseViewController {
         bottomButton.snp.makeConstraints {
             $0.height.equalTo(54)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview().inset(24)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(16)
         }
     }
     
@@ -107,4 +109,17 @@ final class DRBottomSheetViewController: BaseViewController {
         self.dismiss(animated: true)
     }
     
+}
+
+extension DRBottomSheetViewController {
+    @objc
+    func dismissCustomAction() {
+        self.dismiss(animated: false)
+        customActionFlag.value = true
+    }
+    
+    func setCustomAction(_ target: UILabel) {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissCustomAction))
+        target.addGestureRecognizer(tapGesture)
+    }
 }
