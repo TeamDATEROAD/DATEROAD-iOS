@@ -14,13 +14,12 @@ class CourseView: BaseView {
     
     // MARK: - UI Properties
    
-    private let courseNavigationBarView = CourseNavigationBarView()
+    let courseNavigationBarView = CourseNavigationBarView()
     
     let courseFilterView = CourseFilterView()
     
     let courseListView = CourseListView()
     
-    // MARK: - Properties
    
     // MARK: - Life Cycle
 

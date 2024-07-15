@@ -56,12 +56,13 @@ final class CourseViewController: BaseViewController {
 }
 
 extension CourseViewController {
+    
     func bindViewModel() {
         self.courseViewModel.selectedPriceIndex.bind { [weak self] index in
             self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
         }
-        
     }
+    
     func registerCell() {
         self.courseView.courseFilterView.priceCollectionView.register(PriceButtonCollectionViewCell.self, forCellWithReuseIdentifier: PriceButtonCollectionViewCell.cellIdentifier)
         self.courseView.courseListView.courseListCollectionView.register(CourseListCollectionViewCell.self, forCellWithReuseIdentifier: CourseListCollectionViewCell.cellIdentifier)
@@ -74,6 +75,7 @@ extension CourseViewController {
         self.courseView.courseListView.courseListCollectionView.delegate = self
         
         self.courseView.courseFilterView.delegate = self
+        self.courseView.courseNavigationBarView.delegate = self
         self.courseView.courseFilterView.resetButton.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
     }
     
@@ -120,6 +122,17 @@ extension CourseViewController {
     }
     
 }
+
+extension CourseViewController: CourseNavigationBarViewDelegate {
+    
+    func didTapAddCourseButton() {
+        
+        print("제발 넘어와 ㅠ")
+        let addCourseFirstVC = AddCourseFirstViewController()
+        self.navigationController?.pushViewController(addCourseFirstVC, animated: true)
+    }
+}
+
 extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate {
     
     func didTapLocationFilter() {
@@ -131,7 +144,7 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
     
     func didSelectCity(_ city: LocationModel.City) {
         print("Selected city: \(city.rawValue)")
-  
+        
         self.courseView.courseFilterView.locationFilterButton.do {
             $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
             $0.setTitle("\(city.rawValue)", for: .normal)
@@ -142,6 +155,7 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
             $0.tintColor = UIColor(resource: .deepPurple)
         }
     }
+
 }
 
 

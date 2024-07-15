@@ -10,6 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
+protocol CourseNavigationBarViewDelegate: AnyObject {
+    func didTapAddCourseButton()
+}
+
 class CourseNavigationBarView: BaseView {
     
     // MARK: - UI Properties
@@ -17,6 +21,10 @@ class CourseNavigationBarView: BaseView {
     private let courseLabel = UILabel()
     
     private let addCourseButton = UIButton()
+    
+    // MARK: - Properties
+    
+    weak var delegate: CourseNavigationBarViewDelegate?
     
     // MARK: - Life Cycle
 
@@ -60,8 +68,14 @@ class CourseNavigationBarView: BaseView {
             $0.roundedButton(cornerRadius: 15, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
             $0.backgroundColor = UIColor(resource: .deepPurple)
             $0.setImage(.plusSchedule, for: .normal)
+            $0.addTarget(self, action: #selector(didTapAddCourseButton), for: .touchUpInside)
         }
     }
     
+    @objc
+    func didTapAddCourseButton() {
+        print("나 눌렸어!")
+        delegate?.didTapAddCourseButton()
+    }
 }
 
