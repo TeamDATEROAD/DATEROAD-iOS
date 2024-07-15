@@ -5,7 +5,7 @@
 //  Created by 윤희슬 on 7/5/24.
 //
 
-import Foundation
+import UIKit
 
 enum TendencyTag: Int, CaseIterable {
     case drive
@@ -20,30 +20,30 @@ enum TendencyTag: Int, CaseIterable {
     case show
     case popUp
     
-    var tagTitle: String {
+    var tag: ProfileModel {
         switch self {
         case .drive:
-            return "🚙 드라이브"
+            return ProfileModel(tagIcon: UIImage(resource: .tagCar), tagTitle: "드라이브")
         case .shopping:
-            return "🛍️ 쇼핑"
+            return ProfileModel(tagIcon: UIImage(resource: .tagShopping), tagTitle: "쇼핑")
         case .inside:
-            return "🚪 실내"
+            return ProfileModel(tagIcon: UIImage(resource: .tagDoor), tagTitle: "실내")
         case .healing:
-            return "🍵 힐링"
+            return ProfileModel(tagIcon: UIImage(resource: .tagTea), tagTitle: "힐링")
         case .alcohol:
-            return "🥂 알콜"
+            return ProfileModel(tagIcon: UIImage(resource: .tagAlcohol), tagTitle: "알콜")
         case .epicurism:
-            return"🍜 식도락"
+            return ProfileModel(tagIcon: UIImage(resource: .tagRamen), tagTitle: "식도락")
         case .atelier:
-            return "💍 공방"
+            return ProfileModel(tagIcon: UIImage(resource: .tagRing), tagTitle: "공방")
         case .nature:
-            return "🌊 자연"
+            return ProfileModel(tagIcon: UIImage(resource: .tagMountain), tagTitle: "자연")
         case .activity:
-            return "🛼️ 액티비티"
+            return ProfileModel(tagIcon: UIImage(resource: .tagSkate), tagTitle: "액티비티")
         case .show:
-            return "🎭 공연·음악"
+            return ProfileModel(tagIcon: UIImage(resource: .tagMasks), tagTitle: "공연·음악")
         case .popUp:
-            return "🎨 전시·팝업"
+            return ProfileModel(tagIcon: UIImage(resource: .tagPaint), tagTitle: "전시·팝업")
         }
     }
 }

@@ -26,6 +26,8 @@ final class DRBottomSheetViewController: BaseViewController {
     
     private var buttonTitle: String
     
+    weak var delegate: DRBottomSheetDelegate?
+    
     
     // MARK: - Life Cycle
     
@@ -104,7 +106,17 @@ final class DRBottomSheetViewController: BaseViewController {
     
     @objc
     func didTapBottomButton() {
-        self.dismiss(animated: true)
+        self.delegate?.didTapBottomButton()
+    }
+    
+    @objc
+    func didTapTopLabel() {
+        self.delegate?.didTapFirstLabel()
+    }
+    
+    @objc
+    func didTapBottomLabel() {
+        self.delegate?.didTapSecondLabel()
     }
     
 }

@@ -54,6 +54,7 @@ final class MainView: BaseView {
         mainCollectionView.do {
             $0.backgroundColor = UIColor(resource: .deepPurple)
             $0.showsVerticalScrollIndicator = false
+            $0.isScrollEnabled = true
         }
         
         floatingButton.do {

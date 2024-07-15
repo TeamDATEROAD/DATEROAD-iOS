@@ -20,8 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // 2.
         self.window = UIWindow(windowScene: windowScene)
         // 3.
-//        let navigationController = UINavigationController(rootViewController: ProfileViewController(profileViewModel: ProfileViewModel()))
-        let navigationController = UINavigationController(rootViewController: PreviewCourseDetailViewController(viewModel: PreviewCourseDetailViewModel()))
+//        let navigationController = UINavigationController(rootViewController: TabBarController())
+        let navigationController = UINavigationController(rootViewController: MainViewController(viewModel: MainViewModel()))
+
         navigationController.navigationBar.isHidden = true
         self.window?.rootViewController = navigationController
         // 4.

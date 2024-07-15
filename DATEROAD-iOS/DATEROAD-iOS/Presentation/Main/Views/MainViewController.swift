@@ -151,14 +151,11 @@ extension MainViewController: UICollectionViewDataSource {
             case .upcomingDate, .banner:
                 return header
             case .hotDateCourse:
-//            header.setRoundedView(isRounded: true)
             header.bindTitle(section: .hotDateCourse, nickname: mainViewModel.nickname.value)
             case .newDateCourse:
-//            header.setRoundedView(isRounded: false)
                 header.bindTitle(section: .newDateCourse, nickname: nil)
         }
         return header
     }
-    
-    
+        
 }
