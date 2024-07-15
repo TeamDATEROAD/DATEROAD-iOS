@@ -195,6 +195,7 @@ private extension AddCourseSecondViewController {
          cell.updateEditMode(flag: false)
          addCourseSecondView.updateEditBtnText(flag: false)
          addCourseSecondView.editBtnState(isAble: false)
+         viewModel.isEditMode = false
       }
    }
    
