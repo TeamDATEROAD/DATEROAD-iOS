@@ -6,7 +6,7 @@ import UIKit
 import SnapKit
 import Then
 
-class CourseInfoTabBarView: UIView {
+class CourseInfoTabBarView: BaseView {
 
     // MARK: - UI Properties
     
@@ -16,6 +16,8 @@ class CourseInfoTabBarView: UIView {
     
     private let bringCourseButton = UIButton()
     
+    // MARK: - Properties
+    
     private var isLiked: Bool = false {
         didSet {
             updateLikeButtonColor()
@@ -24,17 +26,15 @@ class CourseInfoTabBarView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         setupTapGesture()
-        setHierarchy()
-        setLayout()
-        setStyle()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setHierarchy() {
+    override func setHierarchy() {
         self.addSubviews(
             likeButtonView,
             likeButtonImageView,
@@ -42,9 +42,8 @@ class CourseInfoTabBarView: UIView {
         )
     }
     
-    private func setLayout() {
-        self.backgroundColor = UIColor(resource: .drWhite)
-        
+    override func setLayout() {
+ 
         likeButtonView.snp.makeConstraints {
             $0.leading.top.equalToSuperview().inset(16)
             $0.height.equalTo(54)
@@ -65,7 +64,7 @@ class CourseInfoTabBarView: UIView {
         }
     }
     
-    private func setStyle() {
+    override func setStyle() {
         likeButtonView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
             $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
@@ -85,17 +84,21 @@ class CourseInfoTabBarView: UIView {
         }
     }
     
-    private func setupTapGesture() {
+    
+    @objc private func likeButtonTapped() {
+        isLiked.toggle()
+    }
+}
+
+private extension CourseInfoTabBarView {
+    
+    func setupTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(likeButtonTapped))
         likeButtonView.isUserInteractionEnabled = true
         likeButtonView.addGestureRecognizer(tapGesture)
     }
     
-    @objc private func likeButtonTapped() {
-        isLiked.toggle()
-    }
-    
-    private func updateLikeButtonColor() {
+    func updateLikeButtonColor() {
         if isLiked {
             likeButtonImageView.tintColor = UIColor(resource: .deepPurple)
         } else {

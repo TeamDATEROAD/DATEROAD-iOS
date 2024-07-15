@@ -9,6 +9,8 @@ import Foundation
 
 final class MainViewModel {
     
+    var currentIndex: ObservablePattern<IndexPath> = ObservablePattern(IndexPath(item: 0, section: 2))
+    
     var nickname: ObservablePattern<String> = ObservablePattern(nil)
     
     var upcomingData: ObservablePattern<UpcomingDateModel> = ObservablePattern(nil)

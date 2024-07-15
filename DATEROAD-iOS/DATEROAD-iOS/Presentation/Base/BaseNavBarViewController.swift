@@ -75,6 +75,7 @@ class BaseNavBarViewController: UIViewController {
     }
     
     func setStyle() {
+        
         self.view.backgroundColor = UIColor(resource: .drWhite)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         

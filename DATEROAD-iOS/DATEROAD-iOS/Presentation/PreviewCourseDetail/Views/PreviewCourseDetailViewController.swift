@@ -13,7 +13,6 @@ import Then
 
 final class PreviewCourseDetailViewController: BaseNavBarViewController, CustomAlertDelegate {
 
-    
     // MARK: - UI Properties
     
     private let previewView: PreviewView
@@ -76,13 +75,6 @@ final class PreviewCourseDetailViewController: BaseNavBarViewController, CustomA
         }
     }
     
-    override func setStyle() {
-        super.setStyle()
-        
-        self.view.backgroundColor = UIColor(resource: .drWhite)
-        self.navigationController?.navigationBar.isHidden = true
-    }
-    
 }
 
 
@@ -101,6 +93,7 @@ extension PreviewCourseDetailViewController: ContentMaskViewDelegate {
     }
     
     func didTapButton() {
+        
         if conditionalModel.free > 0 {
             didTapFreeViewButton()
         } else {
@@ -226,31 +219,63 @@ extension PreviewCourseDetailViewController: UICollectionViewDelegate, UICollect
         
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == VisitDateView.elementKinds {
-            guard let visitDate = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: VisitDateView.identifier, for: indexPath) as? VisitDateView else { return UICollectionReusableView() }
-            visitDate.bindDate(titleHeaderData: titleHeaderData)
-            return visitDate
-        } else if kind == InfoBarView.elementKinds {
-            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoBarView.identifier, for: indexPath) as? InfoBarView else { return UICollectionReusableView() }
-            footer.bindTitleHeader(titleHeaderData: titleHeaderData)
-            return footer
-        } else if kind == GradientView.elementKinds {
-            guard let gradient = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: GradientView.identifier, for: indexPath) as? GradientView else { return UICollectionReusableView() }
-            return gradient
-        } else if kind == BottomPageControllView.elementKinds {
-            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else { return UICollectionReusableView() }
-            footer.pageIndexSum = imageData.count
-            return footer
-        } else if kind == ContentMaskView.elementKinds {
-            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ContentMaskView.identifier, for: indexPath) as? ContentMaskView else { return UICollectionReusableView() }
-            footer.checkFree(conditionalModel: conditionalModel)
-            footer.delegate = self
-            return footer
-        } else {
+        switch kind {
+        case VisitDateView.elementKinds:
+            return configureVisitDateView(for: collectionView, at: indexPath)
+        case InfoBarView.elementKinds:
+            return configureInfoBarView(for: collectionView, at: indexPath)
+        case GradientView.elementKinds:
+            return configureGradientView(for: collectionView, at: indexPath)
+        case BottomPageControllView.elementKinds:
+            return configureBottomPageControlView(for: collectionView, at: indexPath)
+        case ContentMaskView.elementKinds:
+            return configureContentMaskView(for: collectionView, at: indexPath)
+        default:
             return UICollectionReusableView()
         }
     }
-    
+
+    private func configureVisitDateView(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let visitDate = collectionView.dequeueReusableSupplementaryView(ofKind: VisitDateView.elementKinds, withReuseIdentifier: VisitDateView.identifier, for: indexPath) as? VisitDateView else {
+            return UICollectionReusableView()
+        }
+        visitDate.bindDate(titleHeaderData: titleHeaderData)
+        return visitDate
+    }
+
+    private func configureInfoBarView(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: InfoBarView.elementKinds, withReuseIdentifier: InfoBarView.identifier, for: indexPath) as? InfoBarView else {
+            return UICollectionReusableView()
+        }
+        footer.bindTitleHeader(titleHeaderData: titleHeaderData)
+        return footer
+    }
+
+    private func configureGradientView(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let gradient = collectionView.dequeueReusableSupplementaryView(ofKind: GradientView.elementKinds, withReuseIdentifier: GradientView.identifier, for: indexPath) as? GradientView else {
+            return UICollectionReusableView()
+        }
+        return gradient
+    }
+
+    private func configureBottomPageControlView(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: BottomPageControllView.elementKinds, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else {
+            return UICollectionReusableView()
+        }
+        footer.pageIndexSum = imageData.count
+        return footer
+    }
+
+    private func configureContentMaskView(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: ContentMaskView.elementKinds, withReuseIdentifier: ContentMaskView.identifier, for: indexPath) as? ContentMaskView else {
+            return UICollectionReusableView()
+        }
+        footer.checkFree(conditionalModel: conditionalModel)
+        footer.delegate = self
+        return footer
+    }
+
 }
 

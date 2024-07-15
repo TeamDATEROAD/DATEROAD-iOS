@@ -6,11 +6,10 @@
 //
 
 
-import UIKit
-import SnapKit
-
 import Then
 
+import UIKit
+import SnapKit
 
 protocol ContentMaskViewDelegate: AnyObject {
     func didTapButton()

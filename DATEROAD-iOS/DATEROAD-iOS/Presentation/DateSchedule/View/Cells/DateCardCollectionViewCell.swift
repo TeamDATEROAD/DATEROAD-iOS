@@ -209,8 +209,8 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
 
 extension DateCardCollectionViewCell {
     func dataBind(_ dateCardData : DateCardModel, _ dateCardItemRow: Int) {
-        self.dateLabel.text = dateCardData.dateCalendar
-        self.dDayButton.setTitle("D-\(dateCardData.dDay ?? 0)", for: .normal)
+        self.dateLabel.text = dateCardData.date
+        self.dDayButton.setTitle("D-\(dateCardData.dDay)", for: .normal)
         self.firstTagButton.setTitle(dateCardData.tags[0], for: .normal)
         if dateCardData.tags.count >= 2 {
             self.secondTagButton.isHidden = false
@@ -220,8 +220,8 @@ extension DateCardCollectionViewCell {
             self.thirdTagButton.isHidden = false
             self.thirdTagButton.setTitle(dateCardData.tags[2], for: .normal)
         }
-        self.locationLabel.text = dateCardData.dateLocation
-        self.titleLabel.text = dateCardData.dateTitle
+        self.locationLabel.text = dateCardData.city
+        self.titleLabel.text = dateCardData.title
     }
     
     private func setColorToLabel(bgColor : UIColor, topImage: UIImage, bottomImage: UIImage, buttonColor: UIColor) {

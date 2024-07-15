@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCameraUsageDescription</key>
+	<string>사진 접근을 위해 권한이 필요합니다. 허용하시겠습니까?</string>
+	<key>KAKAO_APPSTORE</key>
+	<string>$(KAKAO_APPSTORE)</string>
+	<key>BASE_URL</key>
+	<string>$(BASE_URL)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -15,11 +21,11 @@
 	</array>
 	<key>KAKAO_NATIVE_APP_KEY</key>
 	<string>${KAKAO_NATIVE_APP_KEY}</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>kakaokompassauth</string>
-		<string>kakaolink</string>
-	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SUIT-SemiBold.otf</string>

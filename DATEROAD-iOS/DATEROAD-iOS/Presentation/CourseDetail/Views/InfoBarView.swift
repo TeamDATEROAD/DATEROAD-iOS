@@ -56,10 +56,10 @@ class InfoBarView: UICollectionReusableView {
     }
     
     func setLayout() {
+        
         coastIconImageView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalToSuperview()
-            $0.width.height.equalTo(14)
+            $0.top.leading.equalToSuperview()
+            $0.size.equalTo(14)
         }
         
         coastLabel.snp.makeConstraints {
@@ -70,7 +70,7 @@ class InfoBarView: UICollectionReusableView {
         timeIconImageView.snp.makeConstraints {
             $0.top.equalTo(coastIconImageView)
             $0.leading.equalToSuperview().inset(106)
-            $0.width.height.equalTo(14)
+            $0.size.equalTo(14)
         }
         
         timeLabel.snp.makeConstraints {

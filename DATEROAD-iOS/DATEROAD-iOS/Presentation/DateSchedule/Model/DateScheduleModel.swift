@@ -8,20 +8,20 @@
 import Foundation
 
 struct DateCardModel {
-    let courseID: Int?
-    let dateCalendar: String?
-    let dDay: Int?
-    let tags: [String?]
-    let dateTitle: String?
-    let dateLocation: String?
+    let dateID: Int
+    let title: String
+    let date: String
+    let city: String
+    let tags: [String]
+    let dDay: Int
     
-    init(courseID: Int?, dateCalendar: String?, dDay: Int?, tags: [String?], dateTitle: String?, dateLocation: String?) {
-        self.courseID = courseID
-        self.dateCalendar = dateCalendar
-        self.dDay = dDay
+    init(dateID: Int, title: String, date: String, city: String, tags: [String], dDay: Int) {
+        self.dateID = dateID
+        self.title = title
+        self.date = date
+        self.city = city
         self.tags = tags
-        self.dateTitle = dateTitle
-        self.dateLocation = dateLocation
+        self.dDay = dDay
     }
 }
 
@@ -33,22 +33,46 @@ struct DateScheduleModel {
     }
 }
 
-struct DateTimeLineModel {
-    let startTime: String?
-    let places: [DatePlacesModel]
+struct DateDetailModel {
+    let dateID: Int
+    let title: String
+    let startAt: String
+    let city: String
+    let tags: [String]
+    let date: String
+    let places: [DatePlaceModel]
     
-    init(startTime: String?, places: [DatePlacesModel]) {
-        self.startTime = startTime
+    init(dateID: Int, title: String, startAt: String, city: String, tags: [String], date: String, places: [DatePlaceModel]) {
+        self.dateID = dateID
+        self.title = title
+        self.startAt = startAt
+        self.city = city
+        self.tags = tags
+        self.date = date
         self.places = places
     }
 }
 
-struct DatePlacesModel {
-    let title: String?
+struct DatePlaceModel {
+    let name: String
+    let duration: Float
+    let sequence: Int
+    
+    init(name: String, duration: Float, sequence: Int) {
+        self.name = name
+        self.duration = duration
+        self.sequence = sequence
+    }
+}
+
+
+struct KakaoPlaceModel {
+    let name: String?
     let duration: Float?
     
-    init(title: String?, duration: Float?) {
-        self.title = title
+    init(name: String?, duration: Float?) {
+        self.name = name
         self.duration = duration
     }
 }
+

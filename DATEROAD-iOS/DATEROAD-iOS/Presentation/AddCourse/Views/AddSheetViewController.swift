@@ -70,9 +70,15 @@ final class AddSheetViewController: BaseViewController {
    
 }
 
-extension AddSheetViewController {
+// MARK: - ViewController Methods
+
+private extension AddSheetViewController {
    
-   private func setCustomPicker() {
+   func setAddTarget() {
+      addSheetView.doneBtn.addTarget(self, action: #selector(didTapDoneBtn), for: .touchUpInside)
+   }
+   
+   func setCustomPicker() {
       if isCustomPicker == true {
          customPickerValues = Array(stride(from: 0.5, to: 6.5, by: 0.5))
          addSheetView.customPickerView.dataSource = self
@@ -81,21 +87,10 @@ extension AddSheetViewController {
       }
    }
    
-}
-
-
-// MARK: - ViewController Methods
-
-extension AddSheetViewController {
-   
-   private func setAddTarget() {
-      addSheetView.doneBtn.addTarget(self, action: #selector(didTapDoneBtn), for: .touchUpInside)
-   }
-   
    // MARK: - @objc Methods
    
    @objc
-   private func didTapDoneBtn() {
+   func didTapDoneBtn() {
       if isCustomPicker == true {
          let selectedRow = addSheetView.customPickerView.selectedRow(inComponent: 0)
          let selectedValue = customPickerValues[selectedRow]

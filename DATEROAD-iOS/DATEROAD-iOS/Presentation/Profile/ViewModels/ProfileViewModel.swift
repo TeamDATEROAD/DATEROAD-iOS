@@ -11,7 +11,7 @@ final class ProfileViewModel {
     
     // TODO: - 중복 확인 로직 추가 예정
 
-    var tagData: [String] = []
+    var tagData: [ProfileModel] = []
     
     var nickname: ObservablePattern<String> = ObservablePattern("")
     
@@ -38,7 +38,7 @@ final class ProfileViewModel {
 extension ProfileViewModel {
     
     func fetchTagData() {
-        tagData = TendencyTag.allCases.map { $0.tagTitle }
+        tagData = TendencyTag.allCases.map { $0.tag }
     }
     
     func checkValidNickname() {
