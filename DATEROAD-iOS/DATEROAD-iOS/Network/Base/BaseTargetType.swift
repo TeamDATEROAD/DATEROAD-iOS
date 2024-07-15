@@ -25,7 +25,8 @@ extension BaseTargetType {
     }
     
     var headers: [String : String]? {
-        let headers = ["Content-Type" : "application/json"]
+        let headers = ["Content-Type" : "application/json",
+                       "Authorization" : Config.accessToken]
         return headers
     }
     
