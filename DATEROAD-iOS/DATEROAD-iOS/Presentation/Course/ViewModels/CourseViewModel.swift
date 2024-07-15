@@ -39,7 +39,6 @@ final class CourseViewModel {
         fetchPriceData()
     }
     
-    
     func resetSelections() {
         selectedCountryIndex.value = nil
         selectedCityIndex.value = nil
@@ -61,7 +60,6 @@ final class CourseViewModel {
     func updateApplyButtonState() {
         isApplyButtonEnabled.value = selectedCityIndex.value != nil
     }
-    
     
 }
 

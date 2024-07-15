@@ -52,7 +52,6 @@ final class CourseViewController: BaseViewController {
             $0.edges.equalToSuperview()
         }
     }
-    
 }
 
 extension CourseViewController {
@@ -103,7 +102,6 @@ extension CourseViewController {
         self.courseView.courseFilterView.priceCollectionView.delegate = self
         self.courseView.courseListView.courseListCollectionView.dataSource = self
         self.courseView.courseListView.courseListCollectionView.delegate = self
-        
         self.courseView.courseFilterView.delegate = self
         self.courseView.courseNavigationBarView.delegate = self
         self.courseView.courseFilterView.resetButton.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
@@ -131,6 +129,17 @@ extension CourseViewController: CourseNavigationBarViewDelegate {
     }
 }
 
+extension CourseViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == courseView.courseFilterView.priceCollectionView {
+            let selectedCourse = courseListModel[indexPath.item]
+            print("넘어가라")
+            let courseDetailVC = CourseDetailViewController(viewModel: CourseDetailViewModel())
+            navigationController?.pushViewController(courseDetailVC, animated: true)
+        }
+    }
+}
 extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate {
     
     func didTapLocationFilter() {
@@ -156,6 +165,43 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
 
 }
 
+extension CourseViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        //엠티뷰 분기 처리
+        isCellEmpty(cellCount: self.courseListModel.count)
+        
+        return collectionView == courseView.courseFilterView.priceCollectionView ? self.courseViewModel.priceData.count : self.courseListModel.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let isPriceCollection = collectionView == courseView.courseFilterView.priceCollectionView
+        
+        let cellIdentifier = isPriceCollection ? PriceButtonCollectionViewCell.cellIdentifier : CourseListCollectionViewCell.cellIdentifier
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
+        
+        if isPriceCollection, let priceCell = cell as? PriceButtonCollectionViewCell {
+            priceCell.updateButtonTitle(title: self.courseViewModel.priceData[indexPath.item])
+            priceCell.priceButton.addTarget(self, action: #selector(didTapPriceButton(_:)), for: .touchUpInside)
+        } else if let courseListCell = cell as? CourseListCollectionViewCell {
+            let course = self.courseListModel[indexPath.item]
+            courseListCell.configure(with: course)
+            courseListCell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToCourseDetialVC(_:))))
+        }
+        return cell
+    }
+    
+    //코스 상세로 화면 전환
+    @objc
+    func pushToCourseDetialVC(_ sender: UITapGestureRecognizer) {
+        let location = sender.location(in: courseView.courseListView)
+        if let indexPath = courseView.courseListView.courseListCollectionView.indexPathForItem(at: location) {
+            let courseDetailVC = CourseDetailViewController(viewModel: CourseDetailViewModel())
+            self.navigationController?.pushViewController(courseDetailVC, animated: true)
+        }
+    }
+}
 
 extension CourseViewController: UICollectionViewDelegateFlowLayout {
     
@@ -192,27 +238,3 @@ extension CourseViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
-extension CourseViewController: UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //엠티뷰 분기 처리
-        isCellEmpty(cellCount: self.courseListModel.count)
-        return collectionView == courseView.courseFilterView.priceCollectionView ? self.courseViewModel.priceData.count : self.courseListModel.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let isPriceCollection = collectionView == courseView.courseFilterView.priceCollectionView
-        let cellIdentifier = isPriceCollection ? PriceButtonCollectionViewCell.cellIdentifier : CourseListCollectionViewCell.cellIdentifier
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
-        
-        if isPriceCollection, let priceCell = cell as? PriceButtonCollectionViewCell {
-            priceCell.updateButtonTitle(title: self.courseViewModel.priceData[indexPath.item])
-            priceCell.priceButton.addTarget(self, action: #selector(didTapPriceButton(_:)), for: .touchUpInside)
-        } else if let courseListCell = cell as? CourseListCollectionViewCell {
-            let course = self.courseListModel[indexPath.item]
-            courseListCell.configure(with: course)
-        }
-        
-        return cell
-    }
-}

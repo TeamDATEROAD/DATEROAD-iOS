@@ -10,6 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
+protocol CourseListCollectionViewCellDelegate: AnyObject {
+    func didTapCourseListCell()
+}
+
 class CourseListCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
@@ -34,8 +38,30 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
     
     private let timeLabel = UILabel()
     
-    override func setHierarchy() {
+    // MARK: - Properties
     
+    weak var delegate: CourseListCollectionViewCellDelegate?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+ 
+        // 탭 제스처 추가
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
+        addGestureRecognizer(tapGesture)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+
+    @objc private func handleTapGesture(_ sender: UITapGestureRecognizer) {
+        print("눌림?")
+        delegate?.didTapCourseListCell()
+    }
+    
+    override func setHierarchy() {
+        
         self.addSubviews(
             thumnailImgageView,
             likeBoxView,
@@ -183,5 +209,5 @@ extension CourseListCollectionViewCell {
             timeLabel.text = nil
         }
     }
-
+    
 }
