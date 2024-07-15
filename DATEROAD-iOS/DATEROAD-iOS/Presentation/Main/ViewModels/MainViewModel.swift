@@ -45,6 +45,7 @@ extension MainViewModel {
         bannerData.value = BannerModel.bannerDummyData
         nickname.value = MainUserModel.dummyData.name
         getUserProfile()
+        getBanner()
     }
     
     func getUserProfile() {
@@ -60,5 +61,19 @@ extension MainViewModel {
             }
         }
     }
+    
+    func getBanner() {
+        NetworkService.shared.mainService.getBanner() { response in
+            switch response {
+            case .success(let data):
+                for i in data.advertisementDtoResList {
+                    self.bannerData.value?.append(BannerModel(advertisementId: i.advertisementID, imageUrl: i.thumbnail))
+                }
+                self.isSuccessGetBanner.value = true
+            default:
+                print("Failed to fetch user profile")
+                return
+            }
+        }
     }
 }
