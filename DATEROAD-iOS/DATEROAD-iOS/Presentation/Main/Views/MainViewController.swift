@@ -37,6 +37,7 @@ final class MainViewController: BaseViewController {
         registerCell()
         setDelegate()
         setAddTarget()
+        bindViewModel()
     }
     
     override func setHierarchy() {

@@ -226,12 +226,11 @@ extension NewDateCourseCell {
     func bindData(newDateData: DateCourseModel?) {
         guard let newDateData else { return }
         self.countryLabel.text = newDateData.city
-//        if let url = URL(string: newDateData.thumbnail) {
-//            self.courseImage.kf.setImage(with: url)
-//        } else {
-//            self.courseImage.image = UIImage(resource: .emptyProfileImg)
-//        }
-        self.courseImage.image = UIImage(resource: .testImage2)
+        if let url = URL(string: newDateData.thumbnail) {
+            self.courseImage.kf.setImage(with: url)
+        } else {
+            self.courseImage.image = UIImage(resource: .testImage2)
+        }
         self.likeLabel.text = "\(newDateData.like)"
         self.dateNameLabel.text = newDateData.title
         self.costLabel.text = "\(newDateData.cost)만원"

@@ -10,6 +10,15 @@ import Foundation
 final class MainViewModel {
     
     var isSuccessGetUserInfo: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var isSuccessGetHotDate: ObservablePattern<Bool> = ObservablePattern(false)
+
+    var isSuccessGetBanner: ObservablePattern<Bool> = ObservablePattern(false)
+
+    var isSuccessGetNewDate: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var isSuccessGetUpcomingDate: ObservablePattern<Bool> = ObservablePattern(false)
+        
     var currentIndex: ObservablePattern<IndexPath> = ObservablePattern(IndexPath(item: 0, section: 2))
     
     var nickname: ObservablePattern<String> = ObservablePattern(nil)
