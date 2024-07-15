@@ -21,7 +21,7 @@ class PastDateDetailViewController: BaseNavBarViewController {
     
     private let pastDateDetailViewModel = DateDetailViewModel()
     
-
+    private let dateScheduleDeleteView = DateScheduleDeleteView()
     
     // MARK: - LifeCycle
     
@@ -69,26 +69,31 @@ extension PastDateDetailViewController: CustomAlertDelegate {
     }
 }
 
+// MARK: - BottomSheet Methods
+
+extension PastDateDetailViewController: DRBottomSheetDelegate {
+    @objc
+    private func deleteDateCourse() {
+        let bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView, height: 222, buttonType: DisabledButton(), buttonTitle: StringLiterals.DateSchedule.quit)
+        bottomSheetVC.modalPresentationStyle = .overFullScreen
+        bottomSheetVC.delegate = self
+        self.present(bottomSheetVC, animated: false)
+    }
+    
+    func didTapBottomButton() {
+        self.dismiss(animated: false)
+    }
+    
+    @objc
+    func didTapFirstLabel() {
+        self.dismiss(animated: false)
+        tapDeleteLabel()
+    }
+}
+
 // MARK: - UI Setting Methods
 
 extension PastDateDetailViewController {
-    @objc
-    private func deleteDateCourse() {
-        let dateScheduleDeleteView = DateScheduleDeleteView()
-        let bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView, height: 222, buttonType: DisabledButton(), buttonTitle: StringLiterals.DateSchedule.quit)
-        bottomSheetVC.setCustomAction(dateScheduleDeleteView.deleteLabel)
-        bottomSheetVC.modalPresentationStyle = .overFullScreen
-        bottomSheetVC.customActionFlag.bind { [weak self] newValue in
-            if newValue == true {
-                self?.tapDeleteLabel()
-            }
-        }
-        self.present(bottomSheetVC, animated: false)
-        if bottomSheetVC.customActionFlag.value == true {
-            tapDeleteLabel()
-        }
-    }
-    
     @objc
     private func tapShareCourse() {
         print("일정 공유하기")
@@ -124,6 +129,9 @@ private extension PastDateDetailViewController {
     func setDelegate() {
         pastDateDetailContentView.dateTimeLineCollectionView.delegate = self
         pastDateDetailContentView.dateTimeLineCollectionView.dataSource = self
+        
+        let deleteGesture = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
+        dateScheduleDeleteView.deleteLabel.addGestureRecognizer(deleteGesture)
     }
     
     func setUpBindings() {

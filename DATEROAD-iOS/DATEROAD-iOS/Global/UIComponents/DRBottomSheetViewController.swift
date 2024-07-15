@@ -27,7 +27,6 @@ final class DRBottomSheetViewController: BaseViewController {
     private var buttonTitle: String
     
     weak var delegate: DRBottomSheetDelegate?
-    var customActionFlag: ObservablePattern<Bool> = ObservablePattern(false)
     
     
     // MARK: - Life Cycle
@@ -120,17 +119,4 @@ final class DRBottomSheetViewController: BaseViewController {
         self.delegate?.didTapSecondLabel()
     }
     
-}
-
-extension DRBottomSheetViewController {
-    @objc
-    func dismissCustomAction() {
-        self.dismiss(animated: false)
-        customActionFlag.value = true
-    }
-    
-    func setCustomAction(_ target: UILabel) {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissCustomAction))
-        target.addGestureRecognizer(tapGesture)
-    }
 }

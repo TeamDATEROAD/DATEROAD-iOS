@@ -22,6 +22,8 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     private let upcomingDateDetailViewModel = DateDetailViewModel()
     
+    private let dateScheduleDeleteView = DateScheduleDeleteView()
+    
     private var selectedAlertFlag : Int = 0
 
     
@@ -60,22 +62,6 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
 // MARK: - UI Setting Methods
 
 extension UpcomingDateDetailViewController {
-    @objc
-    private func deleteDateCourse() {
-        let dateScheduleDeleteView = DateScheduleDeleteView()
-        let bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView, height: 222, buttonType: DisabledButton(), buttonTitle: StringLiterals.DateSchedule.quit)
-        bottomSheetVC.setCustomAction(dateScheduleDeleteView.deleteLabel)
-        bottomSheetVC.modalPresentationStyle = .overFullScreen
-        bottomSheetVC.customActionFlag.bind { [weak self] newValue in
-            if newValue == true {
-                self?.tapDeleteLabel()
-            }
-        }
-        self.present(bottomSheetVC, animated: false)
-        if bottomSheetVC.customActionFlag.value == true {
-            tapDeleteLabel()
-        }
-    }
     
     private func setButton() {
         upcomingDateDetailContentView.kakaoShareButton.isHidden = false
@@ -101,6 +87,7 @@ extension UpcomingDateDetailViewController {
 // MARK: - Alert Methods
 
 extension UpcomingDateDetailViewController: CustomAlertDelegate {
+    @objc
     func tapDeleteLabel() {
         let customAlertVC = CustomAlertViewController(alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deleteDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
         customAlertVC.delegate = self
@@ -127,6 +114,27 @@ extension UpcomingDateDetailViewController: CustomAlertDelegate {
     }
 }
 
+extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
+    @objc
+    private func deleteDateCourse() {
+        let bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView, height: 222, buttonType: DisabledButton(), buttonTitle: StringLiterals.DateSchedule.quit)
+        bottomSheetVC.modalPresentationStyle = .overFullScreen
+        bottomSheetVC.delegate = self
+        self.present(bottomSheetVC, animated: false)
+    }
+    
+    func didTapBottomButton() {
+        self.dismiss(animated: false)
+    }
+    
+    @objc
+    func didTapFirstLabel() {
+        self.dismiss(animated: false)
+        tapDeleteLabel()
+    }
+}
+
+
 // MARK: - CollectionView Methods
 
 private extension UpcomingDateDetailViewController {
@@ -137,6 +145,10 @@ private extension UpcomingDateDetailViewController {
     func setDelegate() {
         upcomingDateDetailContentView.dateTimeLineCollectionView.delegate = self
         upcomingDateDetailContentView.dateTimeLineCollectionView.dataSource = self
+        
+        let deleteGesture = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
+        dateScheduleDeleteView.deleteLabel.addGestureRecognizer(deleteGesture)
+        
     }
     
     func setUpBindings() {
