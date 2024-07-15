@@ -57,6 +57,8 @@
 		7428400E2C3EC58700B21AA7 /* CustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428400D2C3EC58700B21AA7 /* CustomAlertViewController.swift */; };
 		742840102C3EC87300B21AA7 /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428400F2C3EC87300B21AA7 /* AlertType.swift */; };
 		742840122C3EC8C100B21AA7 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742840112C3EC8C100B21AA7 /* CustomAlertView.swift */; };
+		742C9D9A2C4599EB007FFB51 /* ViewedCourseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C9D992C4599EB007FFB51 /* ViewedCourseService.swift */; };
+		742C9D9D2C459B3C007FFB51 /* ViewedCourseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C9D9C2C459B3C007FFB51 /* ViewedCourseAPI.swift */; };
 		743D5BF02C3FB7ED007C156C /* MyCourseListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D5BEF2C3FB7ED007C156C /* MyCourseListModel.swift */; };
 		743D5BF22C3FC60F007C156C /* MyRegisterCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D5BF12C3FC60F007C156C /* MyRegisterCourseViewController.swift */; };
 		743D5BF42C401FF9007C156C /* PointDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D5BF32C401FF8007C156C /* PointDetailView.swift */; };
@@ -241,6 +243,8 @@
 		7428400D2C3EC58700B21AA7 /* CustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertViewController.swift; sourceTree = "<group>"; };
 		7428400F2C3EC87300B21AA7 /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
 		742840112C3EC8C100B21AA7 /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
+		742C9D992C4599EB007FFB51 /* ViewedCourseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseService.swift; sourceTree = "<group>"; };
+		742C9D9C2C459B3C007FFB51 /* ViewedCourseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseAPI.swift; sourceTree = "<group>"; };
 		743D5BEF2C3FB7ED007C156C /* MyCourseListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseListModel.swift; sourceTree = "<group>"; };
 		743D5BF12C3FC60F007C156C /* MyRegisterCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRegisterCourseViewController.swift; sourceTree = "<group>"; };
 		743D5BF32C401FF8007C156C /* PointDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointDetailView.swift; sourceTree = "<group>"; };
@@ -641,6 +645,15 @@
 			path = CustomAlert;
 			sourceTree = "<group>";
 		};
+		742C9D9B2C4599F0007FFB51 /* ViewedCourse */ = {
+			isa = PBXGroup;
+			children = (
+				742C9D992C4599EB007FFB51 /* ViewedCourseService.swift */,
+				742C9D9C2C459B3C007FFB51 /* ViewedCourseAPI.swift */,
+			);
+			path = ViewedCourse;
+			sourceTree = "<group>";
+		};
 		7478193C2C3A97300040D5E7 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -926,6 +939,7 @@
 		CA3D0D122C29A9BB00735097 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				742C9D9B2C4599F0007FFB51 /* ViewedCourse */,
 				CA3D0D132C29A9C500735097 /* Base */,
 			);
 			path = Network;
@@ -1478,6 +1492,7 @@
 				0D98CBA32C40AE7900E3618A /* PreviewCourseDetailViewModel.swift in Sources */,
 				CAC80FE12C3E822000658EA6 /* MainModel.swift in Sources */,
 				CA3D0D182C29AA7A00735097 /* UITextField+.swift in Sources */,
+				742C9D9D2C459B3C007FFB51 /* ViewedCourseAPI.swift in Sources */,
 				7455476F2C3D0A6300B526F3 /* PastDateContentView.swift in Sources */,
 				0DA138F52C3E8E1900682653 /* PriceButtonCollectionViewCell.swift in Sources */,
 				0D05FF0F2C3EFB3E00E9BDDC /* CourseListView.swift in Sources */,
@@ -1539,6 +1554,7 @@
 				CAC80FCA2C3C95A100658EA6 /* UICollectionViewFlowLayout+.swift in Sources */,
 				0D98CBA12C40A2F100E3618A /* ContentMaskView.swift in Sources */,
 				9E443A4E2C3819DB00C1F92C /* AddFirstView.swift in Sources */,
+				742C9D9A2C4599EB007FFB51 /* ViewedCourseService.swift in Sources */,
 				0D9C43372C41F14C00687CCC /* CourseDetailModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
