@@ -10,3 +10,7 @@
 
 // key
 KAKAO_NATIVE_APP_KEY = 88a3ac99ca375540b12b24516c36751a
+
+BASE_URL = http:/$()/43.202.136.114/
+
+KAKAO_APPSTORE = itms-apps://itunes.apple.com/app/362057947

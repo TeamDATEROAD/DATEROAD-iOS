@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ic_movecourse.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

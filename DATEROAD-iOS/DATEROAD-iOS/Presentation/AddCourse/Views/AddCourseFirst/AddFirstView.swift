@@ -34,11 +34,13 @@ final class AddFirstView: BaseView {
    
    private let datePlaceImage = UIImageView()
    
-   let nextBtn = UIButton() //추후 Captin 버튼으로 수정 예정
-   
-   private let nextBtnTitleLabel = UILabel()
+   let sixCheckNextButton = UIButton() //추후 Captin 버튼으로 수정 예정
    
    // MARK: - Properties
+   
+   private let enabledButtonType: DRButtonType = EnabledButton()
+   
+   private let disabledButtonType: DRButtonType = DisabledButton()
    
    private let tagStringArr = [
       ["드라이브", "쇼핑", "실내", "힐링"],
@@ -61,7 +63,7 @@ final class AddFirstView: BaseView {
          textFieldStackView,
          tagContainer,
          datePlaceContainer,
-         nextBtn
+         sixCheckNextButton
       )
       
       textFieldStackView.addArrangedSubviews(
@@ -73,8 +75,6 @@ final class AddFirstView: BaseView {
       tagContainer.addSubviews(tagTitleLabel, tagVStackView)
       
       datePlaceContainer.addSubviews(datePlaceLabel, datePlaceImage)
-      
-      nextBtn.addSubview(nextBtnTitleLabel)
    }
    
    override func setLayout() {
@@ -116,13 +116,9 @@ final class AddFirstView: BaseView {
          $0.height.equalTo(5)
       }
       
-      nextBtn.snp.makeConstraints {
+      sixCheckNextButton.snp.makeConstraints {
          $0.bottom.horizontalEdges.equalToSuperview()
          $0.height.equalTo(54)
-      }
-      
-      nextBtnTitleLabel.snp.makeConstraints {
-         $0.center.equalToSuperview()
       }
    }
    
@@ -145,12 +141,15 @@ final class AddFirstView: BaseView {
          }
       }
       
-      dateNameTextField.setPlaceholder(placeholder: StringLiterals.AddCourseOrScheduleFirst.dateNmaePlaceHolder,
-                                       fontColor: .gray300, font: .suit(.body_semi_13))
+      dateNameTextField.setPlaceholder(
+         placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNmaePlaceHolder,
+         fontColor: .gray300,
+         font: .suit(.body_semi_13)
+      )
       
       visitDateTextField.do {
          $0.setPlaceholder(
-            placeholder: StringLiterals.AddCourseOrScheduleFirst.visitDateLabel,
+            placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateLabel,
             fontColor: .gray300,
             font: .suit(.body_semi_13)
          )
@@ -169,7 +168,7 @@ final class AddFirstView: BaseView {
       
       dateStartTimeTextField.do {
          $0.setPlaceholder(
-            placeholder: StringLiterals.AddCourseOrScheduleFirst.dateStartTimeLabel,
+            placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.dateStartTimeLabel,
             fontColor: .gray300,
             font: .suit(.body_semi_13)
          )
@@ -187,8 +186,8 @@ final class AddFirstView: BaseView {
       }
       
       tagTitleLabel.do {
-         $0.setLabel(textColor: UIColor(resource: .drBlack), font: .suit(.body_semi_15))
-         $0.text = StringLiterals.AddCourseOrScheduleFirst.tagTitle
+         $0.setLabel(alignment: .left, textColor: UIColor(resource: .drBlack), font: .suit(.body_semi_15))
+         $0.text = StringLiterals.AddCourseOrSchedule.AddFirstView.tagTitle
       }
       
       tagVStackView.do {
@@ -209,21 +208,20 @@ final class AddFirstView: BaseView {
       
       datePlaceLabel.do {
          $0.setLabel(textColor: UIColor(resource: .gray300), font: .suit(.body_semi_13))
-         $0.text = StringLiterals.AddCourseOrScheduleFirst.datePlaceLabel
+         $0.text = StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel
       }
       
       datePlaceImage.do {
          $0.image = UIImage(resource: .downArrow)
       }
       
-      nextBtn.do {
-         $0.backgroundColor = .gray200
-         $0.layer.cornerRadius = 14
-      }
-      
-      nextBtnTitleLabel.do {
-         $0.setLabel(textColor: UIColor(resource: .gray400), font: .suit(.body_bold_15))
-         $0.text = "다음 (1/3)"
+      sixCheckNextButton.do {
+         $0.setTitle(
+            StringLiterals.AddCourseOrSchedule.AddFirstView.addFirstNextBtnOfCourse,
+            for: .normal
+         )
+         $0.titleLabel?.font = UIFont.suit(.body_med_13)
+         $0.setButtonStatus(buttonType: enabledButtonType)
       }
    }
    
@@ -290,11 +288,19 @@ extension AddFirstView {
       return btn
    }
    
-   func updateTagButtonStyle(btn: UIButton) {
+   func updateTagButtonStyle(btn: UIButton, isSelected: Bool) {
       btn.do {
-         $0.configuration?.baseBackgroundColor = .deepPurple
-         $0.configuration?.baseForegroundColor = .drWhite
+         $0.configuration?.background.backgroundColor = isSelected ? UIColor(resource: .deepPurple) : UIColor(resource: .gray100)
+         $0.configuration?.baseForegroundColor = isSelected ? UIColor(resource: .drWhite) : UIColor(resource: .drBlack)
       }
+   }
+   
+   func updateSixCheckButton(isValid: Bool) {
+      print("!!!!isValid : \(isValid)!!!!!!!")
+   }
+   
+   func updateTagCount(count: Int) {
+      tagTitleLabel.text = "데이트 코스와 어울리는 태그를 선택해 주세요 (\(count)/3)"
    }
    
 }

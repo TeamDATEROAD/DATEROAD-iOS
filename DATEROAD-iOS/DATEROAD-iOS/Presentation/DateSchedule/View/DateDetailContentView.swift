@@ -206,7 +206,7 @@ class DateDetailContentView: BaseView {
         }
         
         dateStartTimeLabel.do {
-            $0.setLabel(text: "시작시간: \(upcomingDataDetailData.startTime ?? "12:00")", textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
+            $0.setLabel(text: StringLiterals.DateSchedule.startTime + upcomingDataDetailData.startAt, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
         }
         
         dateTimeLineCollectionView.do {
@@ -256,8 +256,8 @@ class DateDetailContentView: BaseView {
 extension DateDetailContentView {
     
     func dataBind(_ dateCardData : DateCardModel) {
-        self.dateLabel.text = dateCardData.dateCalendar
-        self.dDayButton.setTitle("D-\(dateCardData.dDay ?? 0)", for: .normal)
+        self.dateLabel.text = dateCardData.date
+        self.dDayButton.setTitle("D-\(dateCardData.dDay)", for: .normal)
         self.firstTagButton.setTitle(dateCardData.tags[0], for: .normal)
         if dateCardData.tags.count >= 2 {
             self.secondTagButton.isHidden = false
@@ -267,8 +267,8 @@ extension DateDetailContentView {
             self.thirdTagButton.isHidden = false
             self.thirdTagButton.setTitle(dateCardData.tags[2], for: .normal)
         }
-        self.locationLabel.text = dateCardData.dateLocation
-        self.titleLabel.text = dateCardData.dateTitle
+        self.locationLabel.text = dateCardData.city
+        self.titleLabel.text = dateCardData.title
     }
     
     private func setColorToLabel(bgColor : UIColor, ribbonImage: UIImage, buttonColor: UIColor) {
