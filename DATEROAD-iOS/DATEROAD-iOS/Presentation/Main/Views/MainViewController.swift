@@ -57,6 +57,43 @@ final class MainViewController: BaseViewController {
 
 extension MainViewController {
     
+    func bindViewModel() {
+        self.mainViewModel.isSuccessGetUserInfo.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.mainView.mainCollectionView.reloadData()
+            }
+        }
+        
+        self.mainViewModel.isSuccessGetHotDate.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.mainView.mainCollectionView.reloadData()
+            }
+        }
+        
+        self.mainViewModel.isSuccessGetBanner.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.mainView.mainCollectionView.reloadData()
+            }
+        }
+        
+        self.mainViewModel.isSuccessGetNewDate.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.mainView.mainCollectionView.reloadData()
+            }
+        }
+        
+        self.mainViewModel.isSuccessGetUpcomingDate.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.mainView.mainCollectionView.reloadData()
+            }
+        }
+    }
+    
     func registerCell() {
         self.mainView.mainCollectionView.register(UpcomingDateCell.self, forCellWithReuseIdentifier: UpcomingDateCell.cellIdentifier)
         self.mainView.mainCollectionView.register(HotDateCourseCell.self, forCellWithReuseIdentifier: HotDateCourseCell.cellIdentifier)

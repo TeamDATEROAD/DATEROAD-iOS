@@ -38,14 +38,11 @@ extension MainViewModel {
     // TODO: - 서버 통신 후 수정 예정
     
     func fetchSectionData() {
-        upcomingData.value = UpcomingDateModel.dummyData
-        mainUserData.value = MainUserModel.dummyData
-        hotCourseData.value = DateCourseModel.hotDateDummyData
-        newCourseData.value = DateCourseModel.newDateDummyData
-        bannerData.value = BannerModel.bannerDummyData
-        nickname.value = MainUserModel.dummyData.name
         getUserProfile()
+        getDateCourse(sortBy: "POPULAR")
+        getDateCourse(sortBy: "LATEST")
         getBanner()
+        getUpcomingDateCourse()
     }
     
     func getUserProfile() {
