@@ -62,6 +62,35 @@ extension MainViewModel {
         }
     }
     
+    func getDateCourse(sortBy: String) {
+        NetworkService.shared.mainService.getFilteredDateCourse(sortBy: sortBy) { response in
+            switch response {
+            case .success(let data):
+                if sortBy == "POPULAR" {
+                    self.hotCourseData.value = data.courses.map { DateCourseModel(courseId: $0.courseID,
+                                                                                  thumbnail: $0.thumbnail,
+                                                                                  title: $0.title,
+                                                                                  city: $0.city,
+                                                                                  like: $0.like,
+                                                                                  cost: $0.cost,
+                                                                                  duration: $0.duration) }
+                    self.isSuccessGetHotDate.value = true
+                } else {
+                    self.newCourseData.value = data.courses.map { DateCourseModel(courseId: $0.courseID,
+                                                                                  thumbnail: $0.thumbnail,
+                                                                                  title: $0.title,
+                                                                                  city: $0.city,
+                                                                                  like: $0.like,
+                                                                                  cost: $0.cost,
+                                                                                  duration: $0.duration) }
+                    self.isSuccessGetNewDate.value = true
+                }
+            default:
+                print("Failed to fetch filtered date course")
+                return
+            }
+        }
+    }
     
     func getUpcomingDateCourse() {
         NetworkService.shared.mainService.getUpcomingDate() { response in
