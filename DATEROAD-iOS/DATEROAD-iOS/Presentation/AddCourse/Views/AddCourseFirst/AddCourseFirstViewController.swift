@@ -23,18 +23,9 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
    private let imagePickerViewController = CustomImagePicker(isProfilePicker: false)
    
    
-   
-   
    // MARK: - Properties
    
    private let viewModel = AddCourseViewModel()
-   
-   // Identifier와 PHPickerResult로 만든 Dictionary (이미지 데이터를 저장하기 위해 만들어 줌)
-   //   private var selections = [String : PHPickerResult]()
-   //
-   //   // 선택한 사진의 순서에 맞게 Identifier들을 배열로 저장해줄 겁니다.
-   //   // selections은 딕셔너리이기 때문에 순서가 없습니다. 그래서 따로 식별자를 담을 배열 생성
-   //   private var selectedAssetIdentifiers = [String]()
    
    
    // MARK: - Life Cycle
@@ -54,6 +45,7 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
       bindViewModel()
       setupKeyboardDismissRecognizer()
    }
+   
    
    // MARK: - Methods
    
@@ -105,11 +97,6 @@ private extension AddCourseFirstViewController {
       viewModel.tagCount.bind { [weak self] count in
          self?.addCourseFirstView.addFirstView.updateTagCount(count: count ?? 0)
       }
-      //보완 예정
-      //      viewModel.isSixCheckPass.bind { [weak self] date in
-      //         self?.viewModel.isPassSixCheckBtn()
-      //      }
-      
    }
    
    func registerCell() {
@@ -134,7 +121,6 @@ private extension AddCourseFirstViewController {
       }
       addCourseFirstView.addFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
    }
-   
    
    @objc
    func removeCell(sender: UIButton) {
@@ -169,8 +155,6 @@ private extension AddCourseFirstViewController {
       let secondVC = AddCourseSecondViewController(viewModel: self.viewModel)
       navigationController?.pushViewController(secondVC, animated: true)
    }
-   
-   
 }
 
 extension AddCourseFirstViewController: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -231,8 +215,6 @@ extension AddCourseFirstViewController: UITextFieldDelegate {
       textField.resignFirstResponder()
       return true
    }
-   
-   // MARK: - @objc Methods
    
    @objc
    private func textFieldTapped(_ textField: UITextField) {
