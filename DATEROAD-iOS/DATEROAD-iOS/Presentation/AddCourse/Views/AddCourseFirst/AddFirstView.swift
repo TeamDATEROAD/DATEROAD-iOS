@@ -224,12 +224,17 @@ final class AddFirstView: BaseView {
       }
       
       datePlaceLabel.do {
-         $0.setLabel(textColor: UIColor(resource: .gray300), font: .suit(.body_semi_13))
-         $0.text = StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel
+         $0.setLabel(
+            text: StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel,
+            alignment: .left,
+            textColor: UIColor(resource: .gray300),
+            font: .suit(.body_semi_13)
+         )
       }
       
       datePlaceImage.do {
          $0.image = UIImage(resource: .downArrow)
+         $0.contentMode = .scaleAspectFill
       }
       
       sixCheckNextButton.do {
@@ -322,6 +327,24 @@ extension AddFirstView {
    
    func updateTag(button: UIButton, buttonType: DRButtonType) {
        button.setButtonStatus(buttonType: buttonType)
+   }
+   
+   func updateDateLocation(text: String) {
+      if text.count != 0 {
+         datePlaceLabel.do {
+            $0.textColor = UIColor(resource: .drBlack)
+            $0.text = text
+         }
+      } else {
+         datePlaceLabel.do {
+            $0.setLabel(
+               text: StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel,
+               alignment: .left,
+               textColor: UIColor(resource: .gray300),
+               font: .suit(.body_semi_13)
+            )
+         }
+      }
    }
    
 }

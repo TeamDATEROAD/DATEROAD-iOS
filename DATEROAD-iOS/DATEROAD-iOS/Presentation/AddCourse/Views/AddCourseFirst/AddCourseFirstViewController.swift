@@ -97,6 +97,10 @@ private extension AddCourseFirstViewController {
       viewModel.tagCount.bind { [weak self] count in
          self?.addCourseFirstView.addFirstView.updateTagCount(count: count ?? 0)
       }
+      viewModel.dateLocation.bind { [weak self] date in
+         guard let date = date else {return}
+         self?.addCourseFirstView.addFirstView.updateDateLocation(text: date)
+      }
    }
    
    func registerCell() {
@@ -121,10 +125,10 @@ private extension AddCourseFirstViewController {
       addCourseFirstView.addFirstView.dateNameTextField.addTarget(self, action: #selector(textFieldDidChanacge(_:)), for: .editingChanged)
       addCourseFirstView.addFirstView.visitDateTextField.addTarget(self, action: #selector(textFieldTapped(_:)), for: .touchDown)
       addCourseFirstView.addFirstView.dateStartTimeTextField.addTarget(self, action: #selector(textFieldTapped(_:)), for: .touchDown)
-//      for button in addCourseFirstView.addFirstView.tagBtns {
-//         button.addTarget(self, action: #selector(changeTagBtnState), for: .touchUpInside)
-//      }
       addCourseFirstView.addFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
+      let tapGesture = UITapGestureRecognizer(target: self, action: #selector(datePlaceContainerTapped))
+      addCourseFirstView.addFirstView.datePlaceContainer.addGestureRecognizer(tapGesture)
+      addCourseFirstView.addFirstView.datePlaceContainer.isUserInteractionEnabled = true // 제스처 인식을 위해 필요
    }
    
    @objc
@@ -181,6 +185,16 @@ private extension AddCourseFirstViewController {
    func sixCheckBtnTapped() {
       let secondVC = AddCourseSecondViewController(viewModel: self.viewModel)
       navigationController?.pushViewController(secondVC, animated: true)
+   }
+   
+   @objc
+   private func datePlaceContainerTapped() {
+      // datePlaceContainer가 탭되었을 때 수행할 동작을 여기에 구현합니다.
+      print("datePlaceContainer tapped!")
+      let locationFilterVC = LocationFilterViewController()
+      locationFilterVC.modalPresentationStyle = .overFullScreen
+      locationFilterVC.delegate = self
+      self.present(locationFilterVC, animated: true)
    }
 }
 extension AddCourseFirstViewController: UICollectionViewDelegateFlowLayout {
@@ -343,4 +357,15 @@ extension AddCourseFirstViewController: DRBottomSheetDelegate {
       }
    }
    
+}
+
+extension AddCourseFirstViewController: LocationFilterDelegate {
+    
+    func didSelectCity(_ city: LocationModel.City) {
+        print("Selected city: \(city.rawValue)")
+       viewModel.dateLocation.value = city.rawValue
+       
+//        self.courseView.courseFilterView.locationFilterButton.setTitle("\(city.rawValue)", for: .normal)
+       
+    }
 }
