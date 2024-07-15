@@ -42,7 +42,7 @@ class CourseView: BaseView {
     
     override func setLayout() {
         courseNavigationBarView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(54)
+            $0.top.equalToSuperview().inset(50)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(54)
         }
