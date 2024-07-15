@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct GetUserProfileResponse: Codable {
+    let name: String
+    let point: Int
+    let image: String
+}
