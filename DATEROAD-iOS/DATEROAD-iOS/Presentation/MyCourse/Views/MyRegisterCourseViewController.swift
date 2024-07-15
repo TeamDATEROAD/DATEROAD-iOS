@@ -98,7 +98,7 @@ extension MyRegisterCourseViewController : UICollectionViewDataSource {
         let indexPath = courseCollectionView.indexPathForItem(at: location)
 
        if let index = indexPath {
-           print("코스 상세 페이지로 이동 \(myRegisterCourseData[indexPath?.item ?? 0].courseID ?? 0)")
+           print("코스 상세 페이지로 이동 \(myRegisterCourseData[indexPath?.item ?? 0].courseId)")
        }
     }
     

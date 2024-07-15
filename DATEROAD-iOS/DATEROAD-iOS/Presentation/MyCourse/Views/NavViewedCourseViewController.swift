@@ -20,7 +20,7 @@ class NavViewedCourseViewController: BaseNavBarViewController {
     
     private let viewedCourseViewModel = MyCourseListViewModel()
     
-    private lazy var viewedCourseData = viewedCourseViewModel.viewedCourseDummyData
+    private lazy var viewedCourseData = viewedCourseViewModel.viewedCourseData
     
     // MARK: - LifeCycle
     
@@ -96,7 +96,7 @@ extension NavViewedCourseViewController : UICollectionViewDataSource {
         let indexPath = courseCollectionView.indexPathForItem(at: location)
 
        if let index = indexPath {
-           print("일정 등록 페이지로 이동 \(viewedCourseData[indexPath?.item ?? 0].courseID ?? 0)")
+           print("일정 등록 페이지로 이동 \(viewedCourseData[indexPath?.item ?? 0].courseId )")
        }
     }
     

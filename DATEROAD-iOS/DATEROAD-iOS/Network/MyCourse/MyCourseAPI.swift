@@ -16,7 +16,7 @@ enum MyCourseAPI {
 
 extension MyCourseAPI: BaseTargetType {
     var utilPath: String {
-        return "/api/v1/courses"
+        return "api/v1/courses"
     }
     
     var method: Moya.Method {
@@ -36,5 +36,11 @@ extension MyCourseAPI: BaseTargetType {
         return .requestPlain
     }
 
+    var headers: [String : String]? {
+        return [
+            "Content-Type": "application/json",
+            "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiaWF0IjoxNzIxMDYwNTExLCJleHAiOjE3MjM0Nzk2MTF9.w78wPvOFfLWLgYTLfBqcTqYJ2AOTePOCR0EqFr5IZbA"
+        ]
+    }
 
 }

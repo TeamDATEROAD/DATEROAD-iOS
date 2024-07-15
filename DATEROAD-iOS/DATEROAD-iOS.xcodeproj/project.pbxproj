@@ -59,6 +59,7 @@
 		742840122C3EC8C100B21AA7 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742840112C3EC8C100B21AA7 /* CustomAlertView.swift */; };
 		742C9D9A2C4599EB007FFB51 /* MyCourseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C9D992C4599EB007FFB51 /* MyCourseService.swift */; };
 		742C9D9D2C459B3C007FFB51 /* MyCourseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C9D9C2C459B3C007FFB51 /* MyCourseAPI.swift */; };
+		742C9D9F2C45A9C8007FFB51 /* MyCourseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C9D9E2C45A9C8007FFB51 /* MyCourseDTO.swift */; };
 		743D5BF02C3FB7ED007C156C /* MyCourseListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D5BEF2C3FB7ED007C156C /* MyCourseListModel.swift */; };
 		743D5BF22C3FC60F007C156C /* MyRegisterCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D5BF12C3FC60F007C156C /* MyRegisterCourseViewController.swift */; };
 		743D5BF42C401FF9007C156C /* PointDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D5BF32C401FF8007C156C /* PointDetailView.swift */; };
@@ -245,6 +246,7 @@
 		742840112C3EC8C100B21AA7 /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		742C9D992C4599EB007FFB51 /* MyCourseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseService.swift; sourceTree = "<group>"; };
 		742C9D9C2C459B3C007FFB51 /* MyCourseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseAPI.swift; sourceTree = "<group>"; };
+		742C9D9E2C45A9C8007FFB51 /* MyCourseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseDTO.swift; sourceTree = "<group>"; };
 		743D5BEF2C3FB7ED007C156C /* MyCourseListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseListModel.swift; sourceTree = "<group>"; };
 		743D5BF12C3FC60F007C156C /* MyRegisterCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRegisterCourseViewController.swift; sourceTree = "<group>"; };
 		743D5BF32C401FF8007C156C /* PointDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointDetailView.swift; sourceTree = "<group>"; };
@@ -650,6 +652,7 @@
 			children = (
 				742C9D992C4599EB007FFB51 /* MyCourseService.swift */,
 				742C9D9C2C459B3C007FFB51 /* MyCourseAPI.swift */,
+				742C9D9E2C45A9C8007FFB51 /* MyCourseDTO.swift */,
 			);
 			path = MyCourse;
 			sourceTree = "<group>";
@@ -1449,6 +1452,7 @@
 				0D9497B22C327D2D0004B442 /* PreviewCourseDetailViewController.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
 				CAC80FE52C3EC6C500658EA6 /* HotDateCourseCell.swift in Sources */,
+				742C9D9F2C45A9C8007FFB51 /* MyCourseDTO.swift in Sources */,
 				CAC80FC82C3C75F200658EA6 /* PointSystemViewModel.swift in Sources */,
 				CAC80FB32C3BBE9100658EA6 /* MyPageTableViewCell.swift in Sources */,
 				CAC80FDB2C3E7C3D00658EA6 /* MainSection.swift in Sources */,
