@@ -209,8 +209,7 @@ extension AddCourseThirdViewController: UITextFieldDelegate {
 extension AddCourseThirdViewController: UICollectionViewDataSource, UICollectionViewDelegate {
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-      let cnt = viewModel.pickedImageArr.count
-      return viewModel.isPickedImageEmpty(cnt: cnt) ? 1 : viewModel.dataSource.count
+      return viewModel.pickedImageArr.count
    }
    
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -219,7 +218,7 @@ extension AddCourseThirdViewController: UICollectionViewDataSource, UICollection
          for: indexPath
       ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
       
-      cell.updateImageCellUI(isImageEmpty: false, vcCnt: 3)
+      cell.updateImageCellUI(isImageEmpty: false, vcCnt: 2)
       cell.configurePickedImage(pickedImage: viewModel.pickedImageArr[indexPath.item])
       cell.prepare(image: viewModel.pickedImageArr[indexPath.item])
       
