@@ -10,12 +10,12 @@ import UIKit
 import SnapKit
 
 protocol CustomAlertDelegate {
-    func action()
+    func action(rightButtonAction: RightButtonType)
     func exit()
 }
 
 extension CustomAlertDelegate {
-    func action() {}
+    func action(rightButtonAction: RightButtonType) {}
     func exit() {}
 }
 
@@ -27,6 +27,8 @@ class CustomAlertViewController: BaseViewController {
     
     
     // MARK: - Properties
+    
+    private var rightActionType: RightButtonType
     
     private var alertTextType: AlertTextType
     
@@ -47,7 +49,8 @@ class CustomAlertViewController: BaseViewController {
     
     // MARK: - LifeCycle
     
-    init(alertTextType: AlertTextType,
+    init(rightActionType: RightButtonType,
+         alertTextType: AlertTextType,
          alertButtonType: AlertButtonType,
          titleText: String,
          descriptionText: String? = "",
@@ -55,6 +58,7 @@ class CustomAlertViewController: BaseViewController {
          leftButtonText: String? = "취소",
          rightButtonText: String? = "") {
         
+        self.rightActionType = rightActionType
         self.alertTextType = alertTextType
         self.alertButtonType = alertButtonType
         self.titleText = titleText
@@ -156,7 +160,7 @@ private extension CustomAlertViewController {
     @objc
     func rightButtonTapped() {
         self.dismiss(animated: false) {
-            self.delegate?.action()
+            self.delegate?.action(rightButtonAction: self.rightActionType)
         }
     }
 }

@@ -2,7 +2,7 @@
 //  CourseDetailViewModel.swift
 //  DATEROAD-iOS
 //
-//  Created by 김민서 on 7/1/24.
+//  Created by 김민서 on 7/12/24.
 //
 
 import Foundation
@@ -14,54 +14,50 @@ enum CourseDetailSection {
     case timelineInfo
     case coastInfo
     case tagInfo
-    case bringCourse
     
     static var dataSource: [CourseDetailSection] {
-        return [.imageCarousel,
-                .titleInfo,
-                .mainContents,
-                .timelineInfo,
-                .coastInfo,
-                .tagInfo]
+        return [.imageCarousel, .titleInfo, .mainContents, .timelineInfo, .coastInfo, .tagInfo]
     }
 }
 
 class CourseDetailViewModel {
     
+    var currentPage: ObservablePattern<Int> = ObservablePattern(0)
+    
+    var freeViewChance: ObservablePattern<Int> = ObservablePattern(3)
+    
+    var isFreeView: ObservablePattern<Bool> = ObservablePattern(true)
+    
     let imageCarouselViewModel: ImageCarouselViewModel
+    
     let titleInfoViewModel: TitleInfoViewModel
+    
     let mainContentsViewModel: MainContentsViewModel
+    
     let timelineInfoViewModel: TimelineInfoViewModel
+    
     let coastInfoViewModel: CoastInfoViewModel
+    
     let tagInfoViewModel: TagInfoViewModel
-    let bringCourseViewModel: BringCourseViewModel
     
     init() {
         self.imageCarouselViewModel = ImageCarouselViewModel()
         self.titleInfoViewModel = TitleInfoViewModel()
         self.mainContentsViewModel = MainContentsViewModel()
-        self.timelineInfoViewModel = TimelineInfoViewModel()
+        self.timelineInfoViewModel = TimelineInfoViewModel(timelineData: TimelineModel.timelineDummyData)
         self.coastInfoViewModel = CoastInfoViewModel()
-        self.tagInfoViewModel = TagInfoViewModel()
-        self.bringCourseViewModel = BringCourseViewModel()
+        self.tagInfoViewModel = TagInfoViewModel(tagInfoData: TagModel.tagDummyData)
     }
     
     var sections: [CourseDetailSection] {
-        return [
-            .imageCarousel,
-            .titleInfo,
-            .mainContents,
-            .timelineInfo,
-            .coastInfo,
-            .tagInfo,
-            .bringCourse
-        ]
+        return [.imageCarousel, .titleInfo, .mainContents, .timelineInfo, .coastInfo, .tagInfo]
     }
     
     var numberOfSections: Int {
         return sections.count
     }
     
+
     func fetchSection(at index: Int) -> CourseDetailSection {
         return sections[index]
     }
@@ -80,13 +76,13 @@ class CourseDetailViewModel {
             return coastInfoViewModel.numberOfItems
         case .tagInfo:
             return tagInfoViewModel.numberOfItems
-        case .bringCourse:
-            return bringCourseViewModel.numberOfItems
         }
     }
+    
+    func didSwipeImage(to index: Int) {
+        currentPage.value = index
+    }
 }
-
-
 struct ImageCarouselViewModel {
     var numberOfItems: Int {
         return 1
@@ -106,10 +102,15 @@ struct MainContentsViewModel {
 }
 
 struct TimelineInfoViewModel {
+    var timelineData: [TimelineModel]
+    
     var numberOfItems: Int {
-        return 1
+        return timelineData.count
     }
+
 }
+
+
 
 struct CoastInfoViewModel {
     var numberOfItems: Int {
@@ -118,15 +119,10 @@ struct CoastInfoViewModel {
 }
 
 struct TagInfoViewModel {
+    var tagInfoData: [TagModel]
+    
     var numberOfItems: Int {
-        return 1
+        return tagInfoData.count
     }
 }
-
-struct BringCourseViewModel {
-    var numberOfItems: Int {
-        return 1
-    }
-}
-
 

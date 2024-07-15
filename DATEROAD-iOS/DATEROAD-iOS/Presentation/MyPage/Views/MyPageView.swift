@@ -44,6 +44,7 @@ final class MyPageView: BaseView {
     }
     
     override func setStyle() {
+        self.backgroundColor = UIColor(resource: .drWhite)
         userInfoView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
             $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner])
