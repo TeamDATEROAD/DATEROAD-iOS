@@ -57,15 +57,18 @@ class PastDateDetailViewController: BaseNavBarViewController {
 }
 
 extension PastDateDetailViewController: CustomAlertDelegate {
+    @objc
     func tapDeleteLabel() {
-        let customAlertVC = CustomAlertViewController(alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deletePastDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
+        let customAlertVC = CustomAlertViewController(rightActionType: .deleteCourse, alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deletePastDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         self.present(customAlertVC, animated: false)
     }
-    
-    func action() {
-        print("헉 헤어졌나??? 서버연결 delete")
+
+    func action(rightButtonAction: RightButtonType) {
+        if rightButtonAction == .deleteCourse {
+            print("헉 헤어졌나??? 서버연결 delete")
+        }
     }
 }
 

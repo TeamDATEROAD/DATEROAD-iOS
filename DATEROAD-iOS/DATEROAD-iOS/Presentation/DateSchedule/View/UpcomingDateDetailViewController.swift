@@ -23,8 +23,6 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     private let upcomingDateDetailViewModel = DateDetailViewModel()
     
     private let dateScheduleDeleteView = DateScheduleDeleteView()
-    
-    private var selectedAlertFlag : Int = 0
 
     
     // MARK: - LifeCycle
@@ -89,30 +87,28 @@ extension UpcomingDateDetailViewController {
 extension UpcomingDateDetailViewController: CustomAlertDelegate {
     @objc
     func tapDeleteLabel() {
-        let customAlertVC = CustomAlertViewController(alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deleteDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
+        let customAlertVC = CustomAlertViewController(rightActionType: .deleteCourse, alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deleteDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
-        selectedAlertFlag = 0
         self.present(customAlertVC, animated: false)
     }
     
     @objc
     private func tapKakaoButton() {
-        let customAlertVC = CustomAlertViewController(rightActionType: RightButtonType.none,
+        let customAlertVC = CustomAlertViewController(rightActionType: .kakaoShare,
                                                       alertTextType: .noDescription,
                                                       alertButtonType: .twoButton,
                                                       titleText: StringLiterals.Alert.kakaoAlert,
                                                       rightButtonText: "열기")
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
-        selectedAlertFlag = 1
         self.present(customAlertVC, animated: false)
     }
     
-    func action() {
-        if selectedAlertFlag == 0 {
+    func action(rightButtonAction: RightButtonType) {
+        if rightButtonAction == .deleteCourse {
             print("헉 헤어졌나??? 서버연결 delete")
-        } else {
+        } else if rightButtonAction == .kakaoShare {
             print("카카오 공유하기")
         }
     }
