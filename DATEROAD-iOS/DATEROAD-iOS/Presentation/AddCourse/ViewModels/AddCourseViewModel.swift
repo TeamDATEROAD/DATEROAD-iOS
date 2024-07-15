@@ -40,13 +40,6 @@ final class AddCourseViewModel {
    var isDateLocationVaild = false
    
    
-   var dataSource = [UIImage]()
-   
-   
-   
-   
-   
-   
    var isImageEmpty: ObservablePattern<Bool> = ObservablePattern(false)
    
    
@@ -54,8 +47,7 @@ final class AddCourseViewModel {
    
    
    var isVisitDateValid: ObservablePattern<Bool> = ObservablePattern(nil)
-   
-   
+
    
    var isTagButtonValid: ObservablePattern<Bool> = ObservablePattern(false)
    
@@ -142,19 +134,6 @@ extension AddCourseViewModel {
        print(count)
    }
    
-//   func fetchTableViewData() {
-//      addPlaceCollectionViewDataSource.append(contentsOf: [
-//         AddCoursePlaceModel(placeTitle: "경북궁",timeRequire: "2시간"),
-//         AddCoursePlaceModel(placeTitle: "숭례문", timeRequire: "1시간"),
-//         AddCoursePlaceModel(placeTitle: "남대문", timeRequire: "3시간"),
-//         AddCoursePlaceModel(placeTitle: "문상훈", timeRequire: "30분"),
-//         AddCoursePlaceModel(placeTitle: "경북궁2",timeRequire: "2시간"),
-//         AddCoursePlaceModel(placeTitle: "숭례문2", timeRequire: "1시간"),
-//         AddCoursePlaceModel(placeTitle: "남대문2", timeRequire: "3시간"),
-//         AddCoursePlaceModel(placeTitle: "문상훈2", timeRequire: "30분")
-//      ])
-//   }
-   
    func isFutureDate(date: Date, dateType: String) {
       let dateFormatter = DateFormatter()
       
@@ -184,17 +163,6 @@ extension AddCourseViewModel {
    func isDateNameValid(cnt: Int) {
       let flag = cnt >= 5
       isDateNameValid.value = flag
-   }
-   
-   func getSampleImages() {
-      let t = (1...2).map { _ in
-         UIImage(resource: .test)
-      }
-      
-      // 이미지 개수 대응 관련 코드
-      for i in t {
-         pickedImageArr.append(i)
-      }
    }
    
    func isPickedImageEmpty(cnt: Int) -> Bool {
