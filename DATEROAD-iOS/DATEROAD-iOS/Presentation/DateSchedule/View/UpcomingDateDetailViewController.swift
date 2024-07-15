@@ -84,10 +84,10 @@ extension UpcomingDateDetailViewController {
 
 // MARK: - Alert Methods
 
-extension UpcomingDateDetailViewController: CustomAlertDelegate {
+extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     @objc
     func tapDeleteLabel() {
-        let customAlertVC = CustomAlertViewController(rightActionType: .deleteCourse, alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deleteDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
+        let customAlertVC = DRCustomAlertViewController(rightActionType: .deleteCourse, alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deleteDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         self.present(customAlertVC, animated: false)
@@ -95,7 +95,7 @@ extension UpcomingDateDetailViewController: CustomAlertDelegate {
     
     @objc
     private func tapKakaoButton() {
-        let customAlertVC = CustomAlertViewController(rightActionType: .kakaoShare,
+        let customAlertVC = DRCustomAlertViewController(rightActionType: .kakaoShare,
                                                       alertTextType: .noDescription,
                                                       alertButtonType: .twoButton,
                                                       titleText: StringLiterals.Alert.kakaoAlert,
@@ -109,6 +109,7 @@ extension UpcomingDateDetailViewController: CustomAlertDelegate {
         if rightButtonAction == .deleteCourse {
             print("헉 헤어졌나??? 서버연결 delete")
         } else if rightButtonAction == .kakaoShare {
+            upcomingDateDetailViewModel.shareToKaKao()
             print("카카오 공유하기")
         }
     }

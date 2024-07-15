@@ -112,11 +112,11 @@ private extension MyPageViewController {
 
 }
 
-extension MyPageViewController: CustomAlertDelegate {
+extension MyPageViewController: DRCustomAlertDelegate {
     
     @objc
     private func logOutSectionTapped() {
-        let customAlertVC = CustomAlertViewController(rightActionType: RightButtonType.none, alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.wouldYouLogOut, leftButtonText: "취소", rightButtonText: "로그아웃")
+        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none, alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.wouldYouLogOut, leftButtonText: "취소", rightButtonText: "로그아웃")
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         selectedAlertFlag = 0
@@ -125,7 +125,7 @@ extension MyPageViewController: CustomAlertDelegate {
     
     @objc
     private func withDrawalButtonTapped() {
-        let customAlertVC = CustomAlertViewController(rightActionType: RightButtonType.none, alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.realWithdrawal, descriptionText: StringLiterals.Alert.lastWarning, leftButtonText: "탈퇴", rightButtonText: "취소")
+        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none, alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.realWithdrawal, descriptionText: StringLiterals.Alert.lastWarning, leftButtonText: "탈퇴", rightButtonText: "취소")
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         selectedAlertFlag = 1
