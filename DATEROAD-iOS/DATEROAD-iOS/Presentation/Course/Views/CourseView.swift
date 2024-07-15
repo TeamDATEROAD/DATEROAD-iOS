@@ -14,13 +14,12 @@ class CourseView: BaseView {
     
     // MARK: - UI Properties
    
-    private let courseNavigationBarView = CourseNavigationBarView()
+    let courseNavigationBarView = CourseNavigationBarView()
     
     let courseFilterView = CourseFilterView()
     
     let courseListView = CourseListView()
     
-    // MARK: - Properties
    
     // MARK: - Life Cycle
 
@@ -43,7 +42,7 @@ class CourseView: BaseView {
     
     override func setLayout() {
         courseNavigationBarView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(54)
+            $0.top.equalToSuperview().inset(50)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(54)
         }

@@ -46,13 +46,13 @@ class UpcomingDateScheduleView: BaseView {
     override func setLayout() {
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(64)
+            $0.centerY.equalTo(dateRegisterButton)
             $0.leading.equalToSuperview().inset(16)
             $0.height.equalTo(28)
         }
         
         dateRegisterButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(63)
+            $0.top.equalToSuperview().offset(62)
             $0.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(30)
             $0.width.equalTo(44)
@@ -120,7 +120,7 @@ class UpcomingDateScheduleView: BaseView {
         dateRegisterButton.do {
             $0.backgroundColor = UIColor(resource: .deepPurple)
             $0.setImage(UIImage(resource: .plusSchedule), for: .normal)
-            $0.roundedButton(cornerRadius: 14, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundedButton(cornerRadius: 15, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
         }
         
         pastDateButton.do {

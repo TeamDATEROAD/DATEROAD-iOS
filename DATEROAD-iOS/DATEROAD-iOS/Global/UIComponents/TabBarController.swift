@@ -14,8 +14,7 @@ final class TabBarController: UITabBarController {
     
     // MARK: - UI Properties
     
-    //여기 임의로 아무 뷰컨 넣었어용
-    let homeVC = CourseDetailViewController()
+    let homeVC = MainViewController(viewModel: MainViewModel())
     
     let courseVC = CourseViewController(courseViewModel: CourseViewModel())
     

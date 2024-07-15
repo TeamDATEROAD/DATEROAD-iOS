@@ -16,3 +16,9 @@ enum AlertTextType {
     case hasDecription
     case noDescription
 }
+
+enum RightButtonType {
+    case addCourse
+    case checkCourse
+    case none
+}

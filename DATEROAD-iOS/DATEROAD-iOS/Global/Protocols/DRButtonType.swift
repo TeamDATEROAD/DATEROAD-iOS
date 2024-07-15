@@ -232,7 +232,7 @@ struct AlertLeftButton: DRButtonType {
     
     var font: UIFont = UIFont.suit(.body_bold_15)
     
-    var cornerRadius: CGFloat = 18
+    var cornerRadius: CGFloat = 10
 
 }
 
@@ -244,7 +244,7 @@ struct AlertRightButton: DRButtonType {
     
     var font: UIFont = UIFont.suit(.body_bold_15)
     
-    var cornerRadius: CGFloat = 18
+    var cornerRadius: CGFloat = 10
 
 }
 

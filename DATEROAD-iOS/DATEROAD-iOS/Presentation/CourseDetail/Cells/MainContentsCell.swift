@@ -15,7 +15,7 @@ final class MainContentsCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
-    private let mainTextLabel = UILabel()
+    let mainTextLabel = UILabel()
     
     override func setHierarchy() {
         self.addSubviews(mainTextLabel)
@@ -24,6 +24,7 @@ final class MainContentsCell: BaseCollectionViewCell {
     override func setLayout() {
         mainTextLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-34)
             $0.leading.trailing.equalToSuperview()
         }
     }
@@ -45,6 +46,6 @@ final class MainContentsCell: BaseCollectionViewCell {
 extension MainContentsCell {
     
     func setCell(mainContentsData: MainContentsModel) {
-        mainTextLabel.text = mainContentsData.mainText
+        mainTextLabel.text = mainContentsData.description
     }
 }
