@@ -107,7 +107,7 @@ class DateDetailViewModel {
         } else {
             // 없을 경우 카카오톡 앱스토어로 이동 (URL Scheme에 itms-apps 추가확인)
             // 나중에 히슬언니 로직이랑 합치기...?
-            let url = "itms-apps://itunes.apple.com/app/362057947"
+            let url = Config.kakaoAppStore
             if let url = URL(string: url), UIApplication.shared.canOpenURL(url) {
                 if #available(iOS 10.0, *) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)

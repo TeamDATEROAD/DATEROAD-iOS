@@ -206,7 +206,7 @@ class DateDetailContentView: BaseView {
         }
         
         dateStartTimeLabel.do {
-            $0.setLabel(text: "시작시간: \(upcomingDataDetailData.startAt)", textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
+            $0.setLabel(text: StringLiterals.DateSchedule.startTime + upcomingDataDetailData.startAt, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
         }
         
         dateTimeLineCollectionView.do {
