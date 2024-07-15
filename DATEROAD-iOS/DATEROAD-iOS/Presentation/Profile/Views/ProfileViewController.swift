@@ -13,7 +13,8 @@ final class ProfileViewController: BaseNavBarViewController {
     
     private let profileView = ProfileView()
     
-    private let alertVC = DRBottomSheetViewController(contentView: ProfileImageSettingView(), height: 288, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
+    private var profileImageSettingView: ProfileImageSettingView = ProfileImageSettingView()
+
     
     // MARK: - Properties
 
@@ -82,6 +83,16 @@ private extension ProfileViewController {
         self.profileView.doubleCheckButton.addTarget(self, action: #selector(doubleCheckNickname), for: .touchUpInside)
         
         self.profileView.nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .allEditingEvents)
+        
+        let deleteGesture = UITapGestureRecognizer(target: self, action: #selector(deletePhoto))
+        self.profileImageSettingView.deleteLabel.addGestureRecognizer(deleteGesture)
+        
+        let registerGesture = UITapGestureRecognizer(target: self, action: #selector(registerPhoto))
+        self.profileImageSettingView.registerLabel.addGestureRecognizer(registerGesture)
+        
+        let cancelGesture = UITapGestureRecognizer(target: self, action: #selector(cancel))
+        self.profileImageSettingView.registerLabel.addGestureRecognizer(cancelGesture)
+
     }
     
     // TODO: - 추후 중복확인 연결 시 수정 예정
@@ -131,7 +142,11 @@ private extension ProfileViewController {
     
     @objc
     func presentEditBottomSheet() {
-        let alertVC = DRBottomSheetViewController(contentView: ProfileImageSettingView(), height: 288, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
+        let alertVC = DRBottomSheetViewController(contentView: profileImageSettingView,
+                                                  height: 288,
+                                                  buttonType: DisabledButton(),
+                                                  buttonTitle: StringLiterals.Common.cancel)
+        alertVC.delegate = self
         alertVC.modalPresentationStyle = .overFullScreen
         self.present(alertVC, animated: true)
     }
@@ -166,6 +181,20 @@ private extension ProfileViewController {
     func didChangeTextfield() {
         guard let text = self.profileView.nicknameTextfield.text else { return }
         self.profileViewModel.nickname.value = text
+    }
+    
+    @objc
+    func deletePhoto() {
+        print("delete")    }
+    
+    @objc
+    func registerPhoto() {
+        print("register")
+    }
+    
+    @objc
+    func cancel() {
+        print("cancel")
     }
     
 }
@@ -228,3 +257,17 @@ extension ProfileViewController: UITextFieldDelegate {
     }
 }
 
+extension ProfileViewController: DRBottomSheetDelegate {
+    
+    func didTapBottomButton() {
+        self.dismiss(animated: true)
+    }
+    
+    func didTapFirstLabel() {
+        self.registerPhoto()
+    }
+    
+    func didTapSecondLabel() {
+        self.deletePhoto()
+    }
+}
