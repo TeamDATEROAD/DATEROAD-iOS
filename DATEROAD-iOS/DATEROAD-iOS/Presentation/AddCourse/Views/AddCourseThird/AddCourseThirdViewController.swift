@@ -43,6 +43,7 @@ class AddCourseThirdViewController: BaseNavBarViewController {
       setLeftBackButton()
       setDelegate()
       registerCell()
+      addTarget()
       bindViewModel()
       setupKeyboardDismissRecognizer()
    }
@@ -100,6 +101,7 @@ extension AddCourseThirdViewController {
    
    private func addTarget() {
       addCourseThirdView.addThirdView.priceTextField.addTarget(self, action: #selector(textFieldDidChanacge), for: .editingChanged)
+      addCourseThirdView.addThirdView.addThirdDoneBtn.addTarget(self, action: #selector(didTapAddCourseBtn), for: .touchUpInside)
    }
    
    private func bindViewModel() {
@@ -121,6 +123,13 @@ extension AddCourseThirdViewController {
       
       viewModel.isDoneBtnOK.bind { [weak self] date in
          self?.addCourseThirdView.addThirdView.updateAddThirdDoneBtn(isValid: date ?? false)
+      }
+   }
+   
+   /// navigationController를 통해 뷰컨트롤러 스택에서 originVC로 돌아가는 코드
+   func goBackOriginVC() {
+      if let navigationController = self.navigationController {
+         navigationController.popToRootViewController(animated: true)
       }
    }
    
@@ -218,14 +227,21 @@ extension AddCourseThirdViewController: UICollectionViewDataSource, UICollection
    }
 }
 
-/**
- 1. viewModel에서 textViewText 값을 담는 옵저버블 변수 생성 O
- 
- 2. 이를 textView shouldChangeTextIn 함수 안에서 count를 던져줌 O
- 
- 3. 해당 변수 변경감지하는 bind 함수에서 실시간 countLabel 바꾸는 UI 함수 실행 O
- 
- 더불어 Content의 유효성을 검사하는 viewModel 속 a함수를 실행시켜 반환 받는 값을 viewmodel 속 done버튼의 옵저버블 값에 대입될 함수를 파라미터로 받고 해당 값을 done버튼 값에 대입
- 
- 4. done버튼이 바뀔 때 일어날 bind 함수에서 done 버튼의 유효성을 검사하여 button state 업데이트 하는 ui 함수 실행
- */
+
+// MARK: - Alert Delegate
+
+extension AddCourseThirdViewController: CustomAlertDelegate {
+   
+   @objc
+   private func didTapAddCourseBtn() {
+      let customAlertVC = CustomAlertViewController(alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertTitleLabel, descriptionText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertSubTitleLabel, longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton)
+      customAlertVC.delegate = self
+      customAlertVC.modalPresentationStyle = .overFullScreen
+      self.present(customAlertVC, animated: false)
+   }
+   
+   func exit() {
+      goBackOriginVC()
+   }
+   
+}
