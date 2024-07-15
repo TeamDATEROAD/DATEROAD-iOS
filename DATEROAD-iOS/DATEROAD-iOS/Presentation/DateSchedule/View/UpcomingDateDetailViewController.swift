@@ -18,7 +18,7 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - Properties
     
-    var upcomingDateDetailData = DateTimeLineModel(startTime: "", places: [])
+    var upcomingDateDetailData = DateDetailModel(dateID: 0, title: "", startAt: "", city: "", tags: [], date: "", places: [])
     
     private let upcomingDateDetailViewModel = DateDetailViewModel()
 
@@ -96,7 +96,7 @@ extension UpcomingDateDetailViewController: CustomAlertDelegate {
     }
     
     func action() {
-        print("카카오 공유하기")
+        upcomingDateDetailViewModel.shareToKaKao()
     }
 }
 
