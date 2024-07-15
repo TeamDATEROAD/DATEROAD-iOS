@@ -75,5 +75,3 @@ class CourseListView: BaseView {
     
 }
 
-
-

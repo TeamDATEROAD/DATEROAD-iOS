@@ -42,6 +42,7 @@ final class CourseDetailViewController: BaseNavBarViewController {
     
     private var currentPage: Int = 0
     
+    var courseId: Int?
     
     init(viewModel: CourseDetailViewModel) {
         self.courseDetailViewModel = viewModel
@@ -94,7 +95,7 @@ final class CourseDetailViewController: BaseNavBarViewController {
         
         self.view.backgroundColor = UIColor(resource: .drWhite)
         self.navigationController?.navigationBar.isHidden = true
-     
+        
         
         setRightButtonAction(target: self, action: #selector(didTapMoreButton))
     }
@@ -157,6 +158,7 @@ private extension CourseDetailViewController {
         }
     }
 }
+
 
 extension CourseDetailViewController: ImageCarouselDelegate {
     
@@ -269,6 +271,8 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return UICollectionReusableView()
         }
     }
+    
+    
     
 }
 

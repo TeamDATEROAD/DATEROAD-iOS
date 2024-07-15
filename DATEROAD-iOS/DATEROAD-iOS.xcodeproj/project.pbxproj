@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D05FF072C3EDAD000E9BDDC /* CourseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D05FF062C3EDAD000E9BDDC /* CourseCollectionViewCell.swift */; };
 		0D05FF092C3EE1F700E9BDDC /* CourseListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D05FF082C3EE1F700E9BDDC /* CourseListCollectionViewCell.swift */; };
 		0D05FF0B2C3EFACB00E9BDDC /* CourseNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D05FF0A2C3EFACB00E9BDDC /* CourseNavigationBarView.swift */; };
 		0D05FF0D2C3EFB2700E9BDDC /* CourseFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D05FF0C2C3EFB2700E9BDDC /* CourseFilterView.swift */; };
@@ -192,7 +191,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0D05FF062C3EDAD000E9BDDC /* CourseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCollectionViewCell.swift; sourceTree = "<group>"; };
 		0D05FF082C3EE1F700E9BDDC /* CourseListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseListCollectionViewCell.swift; sourceTree = "<group>"; };
 		0D05FF0A2C3EFACB00E9BDDC /* CourseNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseNavigationBarView.swift; sourceTree = "<group>"; };
 		0D05FF0C2C3EFB2700E9BDDC /* CourseFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseFilterView.swift; sourceTree = "<group>"; };
@@ -533,7 +531,6 @@
 			isa = PBXGroup;
 			children = (
 				0DA138F42C3E8E1900682653 /* PriceButtonCollectionViewCell.swift */,
-				0D05FF062C3EDAD000E9BDDC /* CourseCollectionViewCell.swift */,
 				0D05FF082C3EE1F700E9BDDC /* CourseListCollectionViewCell.swift */,
 			);
 			path = Cells;
@@ -1420,7 +1417,6 @@
 				CA4EF3DF2C347B4E003B02B6 /* DRButtonType.swift in Sources */,
 				0DA1C7182C3DA98100DF2B92 /* CourseViewController.swift in Sources */,
 				CAA30AED2C37E57400835DE3 /* String+.swift in Sources */,
-				0D05FF072C3EDAD000E9BDDC /* CourseCollectionViewCell.swift in Sources */,
 				0D98CBA52C41067B00E3618A /* CourseDetailViewController.swift in Sources */,
 				0D0DA3E42C3AF3CF004210EE /* PointCollectionView.swift in Sources */,
 				CAC80FCC2C3D2EA600658EA6 /* DRButton.swift in Sources */,
@@ -1428,8 +1424,6 @@
 				CA4EF3C02C3285BA003B02B6 /* SocialType.swift in Sources */,
 				CAC80FAC2C3B567100658EA6 /* MyPageViewModel.swift in Sources */,
 				9E50988C2C403C4B00F72CD0 /* AddThirdView.swift in Sources */,
-				0D06D9A02C3561AF0094C505 /* ImageModel.swift in Sources */,
-				0D06D9A02C3561AF0094C505 /* ImageModel.swift in Sources */,
 				0D06D9A02C3561AF0094C505 /* ImageModel.swift in Sources */,
 				0D0DA3E62C3AF3FB004210EE /* PointDetailViewController.swift in Sources */,
 				0DDFEE0F2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift in Sources */,

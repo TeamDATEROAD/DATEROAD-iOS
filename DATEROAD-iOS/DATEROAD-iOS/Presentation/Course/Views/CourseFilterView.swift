@@ -20,7 +20,9 @@ class CourseFilterView: BaseView {
     // MARK: - UI Properties
     
     let locationFilterButton = UIButton()
+    
     let resetButton = UIButton()
+    
     let priceCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     // MARK: - Properties
@@ -53,6 +55,7 @@ class CourseFilterView: BaseView {
     }
     
     override func setLayout() {
+        
         locationFilterButton.snp.makeConstraints {
             $0.centerY.equalTo(resetButton)
             $0.leading.equalToSuperview().inset(16)
@@ -80,12 +83,12 @@ class CourseFilterView: BaseView {
             $0.titleLabel?.font = UIFont.suit(.body_med_13)
             $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
             $0.contentHorizontalAlignment = .left
-            $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 128, bottom: 0, right: 0)
-            $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 2, bottom: 0, right: 0)
             $0.backgroundColor = UIColor(resource: .gray100)
             $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
             $0.setImage(UIImage(resource: .icDropdown), for: .normal)
             $0.adjustsImageWhenHighlighted = false
+            $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 128, bottom: 0, right: 0)
+            $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 2, bottom: 0, right: 0)
             let gesture = UITapGestureRecognizer(target: self, action: #selector(locationFilterButtonTapped))
             $0.isUserInteractionEnabled = true
             $0.addGestureRecognizer(gesture)
@@ -113,18 +116,21 @@ class CourseFilterView: BaseView {
     func updatePrice(button: UIButton, buttonType: DRButtonType, isSelected: Bool) {
         button.setButtonStatus(buttonType: buttonType)
     
+        //버튼 선택했을 때
         if isSelected {
+            //버튼 배열에 저장
             priceButtons.append(button)
-            button.setTitleColor(UIColor(resource: .drWhite), for: .normal)
         } else {
+            //배열에서 선택된 인덱스 찾기
             if let index = priceButtons.firstIndex(of: button) {
+                //해당 인덱스를 배열에서 제거
                 priceButtons.remove(at: index)
-                button.setTitleColor(UIColor(resource: .gray400), for: .normal)
             }
+            button.setTitleColor(UIColor(resource: .gray400), for: .normal)
         }
     }
     
-    private func resetPriceButtons() {
+    func resetPriceButtons() {
         for button in priceButtons {
             updatePrice(button: button, buttonType: UnselectedButton(), isSelected: false)
         }
