@@ -69,20 +69,54 @@ enum StringLiterals {
         static let settingImage = "프로필 사진 설정"
         static let registerImage = "사진 등록"
         static let deleteImage = "사진 삭제"
+        static let minimumNickname = "최소 2글자를 입력해야 해요"
     }
-    
-    enum AddCourseOrScheduleFirst {
-        static let addCourseTitle = "코스 등록하기"
-        static let addScheduleTitle = "일정 등록하기"
-        static let emptyImage = "이미지를 삽입해주세요\n(최소 1장, 최대 10장)"
-        static let dateNmaePlaceHolder = "데이트 이름을 입력해 주세요 (필수)"
-        static let visitDateLabel = "방문일자를 선택해 주세요 (필수)"
-        static let dateStartTimeLabel = "데이트 시작 시간을 선택해 주세요 (필수)"
-        static let tagTitle = "데이트코스와 어울리는 태그를 선택해 주세요 (0/3)"
-        static let datePlaceLabel = "데이트 지역을 선택해 주세요 (필수)"
-        static let dateNameErrorLabel = "최소 5글자 이상 입력해주세요"
-        static let visitDateErrorLabel = "미래 날짜를 선택하셨어요"
-    }
+   
+   enum AddCourseOrSchedule {
+      static let addCourseTitle = "코스 등록하기"
+      static let addScheduleTitle = "일정 등록하기"
+      
+      enum AddFirstView {
+         static let emptyImage = "이미지를 삽입해주세요\n(최소 1장, 최대 10장)"
+         static let dateNmaePlaceHolder = "데이트 이름을 입력해 주세요 (필수)"
+         static let visitDateLabel = "방문일자를 선택해 주세요 (필수)"
+         static let dateStartTimeLabel = "데이트 시작 시간을 선택해 주세요 (필수)"
+         static let tagTitle = "데이트코스와 어울리는 태그를 선택해 주세요 (0/3)"
+         static let datePlaceLabel = "데이트 지역을 선택해 주세요 (필수)"
+         static let dateNameErrorLabel = "최소 5글자 이상 입력해주세요"
+         static let visitDateErrorLabel = "미래 날짜를 선택하셨어요"
+         static let addFirstNextBtnOfCourse = "다음 (1/3)"
+         static let addFirstNextBtnOfSchedule = "다음"
+      }
+      
+      enum AddSecondView {
+         static let contentTitleLabelOfCourse = "어떤 코스로 이동하셨나요?"
+         static let contentTitleLabelOfSchedul = "어떤 코스로 이동하시나요?"
+         static let subTitleLabel = "장소와 소요시간을 입력하여 코스를 추가해 주세요"
+         static let datePlacePlaceHolder = "장소명을 입력해주세요"
+         static let timeRequiredPlaceHolder = "소요시간"
+         static let guideLabel = "최소 2개의 장소를 추가해 주세요"
+         static let edit = "편집"
+         static let done = "완료"
+         static let addSecondNextBtnOfCourse = "다음 (2/3)"
+         static let addSecondDoneBtnOfSchedule = "완료"
+      }
+      
+      enum AddThirdView {
+         static let contentTitleLabel = "어떤 코스로 이동하셨나요?"
+         static let contentTextFieldPlaceHolder = "데이트 내용을 입력해 주세요.\n예약 정보, 웨이팅 정보, 꿀팁 등을 작성해 주세요.\n(최소 200자)"
+         static let contentTextCountLabel = "0자 / 200자 이상"
+         static let priceTitleLabel = "총 비용을 입력해 주세요"
+         static let priceTextFieldPlaceHolder = "데이트 예상 총 비용을 숫자로만 입력해 주세요"
+         static let addThirdDoneBtn = "완료"
+      }
+      
+      enum AddCourseAlert {
+         static let alertTitleLabel = "코스 등록이 되었어요"
+         static let alertSubTitleLabel = "100P가 적립되었어요!"
+         static let doneButton = "확인했어요"
+      }
+   }
     
     enum MyPage {
         static let myPage = "마이페이지"

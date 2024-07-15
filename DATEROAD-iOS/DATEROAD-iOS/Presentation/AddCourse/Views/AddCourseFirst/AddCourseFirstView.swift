@@ -124,9 +124,9 @@ final class AddCourseFirstView: BaseView {
       for i in [dateNameErrorLabel,visitDateErrorLabel] {
          i.do {
             if i == dateNameErrorLabel {
-               $0.setErrorLabel(text: StringLiterals.AddCourseOrScheduleFirst.dateNameErrorLabel, errorType: warningType)
+               $0.setErrorLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNameErrorLabel, errorType: warningType)
             } else {
-               $0.setErrorLabel(text: StringLiterals.AddCourseOrScheduleFirst.visitDateErrorLabel, errorType: warningType)
+               $0.setErrorLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateErrorLabel, errorType: warningType)
             }
             $0.isHidden = true
          }
@@ -139,32 +139,17 @@ extension AddCourseFirstView {
    
    // MARK: - Methods
    
-   func updateVisitDateTextField(isPassValid: Bool) {
-      if isPassValid {
-         visitDateErrorLabel.isHidden = true
-         addFirstView.visitDateTextField.do {
-            $0.layer.borderWidth = 0
-         }
-      } else {
-         print("지금 미래 날짜")
-         visitDateErrorLabel.isHidden = false
-         addFirstView.visitDateTextField.do {
-            $0.layer.borderWidth = 1
-         }
+   func updateDateNameTextField(isPassValid: Bool) {
+      dateNameErrorLabel.isHidden = isPassValid
+      addFirstView.dateNameTextField.do {
+         $0.layer.borderWidth = isPassValid ? 0 : 1
       }
    }
    
-   func updateDateNameTextField(isPassValid: Bool) {
-      if isPassValid {
-         dateNameErrorLabel.isHidden = true
-         addFirstView.dateNameTextField.do {
-            $0.layer.borderWidth = 0
-         }
-      } else {
-         dateNameErrorLabel.isHidden = false
-         addFirstView.dateNameTextField.do {
-            $0.layer.borderWidth = 1
-         }
+   func updateVisitDateTextField(isPassValid: Bool) {
+      visitDateErrorLabel.isHidden = isPassValid
+      addFirstView.visitDateTextField.do {
+         $0.layer.borderWidth = isPassValid ? 0 : 1
       }
    }
    

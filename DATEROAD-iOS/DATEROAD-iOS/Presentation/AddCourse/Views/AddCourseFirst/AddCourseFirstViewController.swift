@@ -10,11 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
-final class AddCourseViewController: BaseNavBarViewController {
+final class AddCourseFirstViewController: BaseNavBarViewController {
    
    // MARK: - UI Properties
    
-   private var addCourseFirstView = AddCourseFirstView()
+   var addCourseFirstView = AddCourseFirstView()
    
    // MARK: - Properties
    
@@ -28,11 +28,12 @@ final class AddCourseViewController: BaseNavBarViewController {
       setHierarchy()
       setLayout()
       setStyle()
-       setTitleLabelStyle(title: StringLiterals.AddCourseOrScheduleFirst.addCourseTitle, alignment: .center)
+      setTitleLabelStyle(title: StringLiterals.AddCourseOrSchedule.addCourseTitle, alignment: .center)
       setLeftBackButton()
       setAddTarget()
       registerCell()
       bindViewModel()
+      setupKeyboardDismissRecognizer()
    }
    
    // MARK: - Methods
@@ -64,7 +65,7 @@ final class AddCourseViewController: BaseNavBarViewController {
    
 }
 
-extension AddCourseViewController {
+extension AddCourseFirstViewController {
    
    private func bindViewModel() {
       viewModel.dateName.bind { [weak self] date in
@@ -76,12 +77,19 @@ extension AddCourseViewController {
       viewModel.dateStartTime.bind { [weak self] date in
          self?.addCourseFirstView.addFirstView.dateStartTimeTextField.text = date
       }
-      viewModel.isDateNameError = { [weak self] date in
-         self?.addCourseFirstView.updateDateNameTextField(isPassValid: !date)
+      viewModel.isDateNameValid.bind { [weak self] date in
+         self?.addCourseFirstView.updateDateNameTextField(isPassValid: date ?? true)
       }
-      viewModel.isVisitDateError = { [weak self] date in
-         self?.addCourseFirstView.updateVisitDateTextField(isPassValid: !date)
+      viewModel.isVisitDateValid.bind { [weak self] date in
+         self?.addCourseFirstView.updateVisitDateTextField(isPassValid: date ?? true)
       }
+      viewModel.tagCount.bind { [weak self] count in
+         self?.addCourseFirstView.addFirstView.updateTagCount(count: count ?? 0)
+      }
+      //보완 예정
+//      viewModel.isSixCheckPass.bind { [weak self] date in
+//         self?.viewModel.isPassSixCheckBtn()
+//      }
       
    }
    
@@ -92,12 +100,12 @@ extension AddCourseViewController {
       for button in addCourseFirstView.addFirstView.tagBtns {
          button.addTarget(self, action: #selector(changeTagBtnState), for: .touchUpInside)
       }
-      setupKeyboardDismissRecognizer()
+      addCourseFirstView.addFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
    }
    
 }
 
-extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension AddCourseFirstViewController: UICollectionViewDataSource, UICollectionViewDelegate {
    
    private func registerCell() {
       addCourseFirstView.collectionView.do {
@@ -120,7 +128,8 @@ extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewD
       
       let isImageEmpty = viewModel.isImageEmpty.value ?? true
       isImageEmpty ? cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: nil)
-      : cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: self.viewModel.dataSource[indexPath.item])
+      : cell.updateImageCellUI(isImageEmpty: isImageEmpty,
+         image: self.viewModel.dataSource[indexPath.item])
       
       self.addCourseFirstView.updateImageCellUI(isEmpty: isImageEmpty,ImageDataCount: self.viewModel.dataSource.count )
       
@@ -137,7 +146,7 @@ extension AddCourseViewController: UICollectionViewDataSource, UICollectionViewD
    
 }
 
-extension AddCourseViewController: UITextFieldDelegate {
+extension AddCourseFirstViewController: UITextFieldDelegate {
    
    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
       if textField == addCourseFirstView.addFirstView.dateNameTextField {
@@ -150,7 +159,7 @@ extension AddCourseViewController: UITextFieldDelegate {
    
    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
       textField.resignFirstResponder()
-      textField.tintColor = UIColor.clear
+//      textField.tintColor = UIColor.clear
       return true
    }
    
@@ -160,10 +169,10 @@ extension AddCourseViewController: UITextFieldDelegate {
    private func textFieldTapped(_ textField: UITextField) {
       let addSheetVC = AddSheetViewController(viewModel: self.viewModel)
       if textField == addCourseFirstView.addFirstView.visitDateTextField {
-         addSheetVC.addCourseFirstView = self.addCourseFirstView
+//         addSheetVC.addCourseFirstView = self.addCourseFirstView
          addSheetVC.addSheetView.datePicker.datePickerMode = .date
       } else if textField == addCourseFirstView.addFirstView.dateStartTimeTextField {
-         addSheetVC.addCourseFirstView = self.addCourseFirstView
+//         addSheetVC.addCourseFirstView = self.addCourseFirstView
          addSheetVC.addSheetView.datePicker.datePickerMode = .time
       }
       DispatchQueue.main.async {
@@ -179,12 +188,15 @@ extension AddCourseViewController: UITextFieldDelegate {
    
    @objc
    func changeTagBtnState(sender: UIButton) {
-      viewModel.tagButtonsArr.append(sender)
-      if viewModel.tagButtonsArr.count <= 3 {
-         self.addCourseFirstView.addFirstView.updateTagButtonStyle(btn: sender)
-      } else {
-         print("지금 3개야!")
-      }
+      sender.isSelected.toggle()
+      addCourseFirstView.addFirstView.updateTagButtonStyle(btn: sender, isSelected: sender.isSelected)
+      viewModel.countSelectedTag(isSelected: sender.isSelected)
+   }
+   
+   @objc
+   func sixCheckBtnTapped() {
+      let secondVC = AddCourseSecondViewController(viewModel: self.viewModel)
+      navigationController?.pushViewController(secondVC, animated: true)
    }
    
 }
