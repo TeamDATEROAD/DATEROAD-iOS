@@ -63,7 +63,7 @@ final class CourseDetailViewController: BaseNavBarViewController {
         
         setDelegate()
         registerCell()
-        setLeftBackButton()
+        setNavigationBar()
         setRightButtonStyle(image: .moreButton)
         bindViewModel()
     }
@@ -97,6 +97,12 @@ final class CourseDetailViewController: BaseNavBarViewController {
      
         
         setRightButtonAction(target: self, action: #selector(didTapMoreButton))
+    }
+    
+    func setNavigationBar() {
+        setBackgroundColor(color: .clear)
+        setLeftBackButton()
+        setLeftBackButton()
     }
     
     func bindViewModel() {
