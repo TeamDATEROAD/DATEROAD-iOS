@@ -12,6 +12,8 @@ import Moya
 protocol MainServiceProtocol {
     func getUserProfile(
                         completion: @escaping (NetworkResult<GetUserProfileResponse>) -> ())
+    func getFilteredDateCourse(sortBy: String,
+                        completion: @escaping (NetworkResult<GetFilteredDateCourseResponse>) -> ())
     func getBanner(
                    completion: @escaping (NetworkResult<GetBannerResponse>) -> ())
     func getUpcomingDate(completion: @escaping (NetworkResult<GetUpcomingDateResponse>) -> ())
@@ -33,6 +35,17 @@ final class MainService: BaseService, MainServiceProtocol {
         }
     }
     
+    func getFilteredDateCourse(sortBy: String, completion: @escaping (NetworkResult<GetFilteredDateCourseResponse>) -> ()) {
+        provider.request(.getFilteredDateCourse(sortBy: sortBy)) { result in
+            switch result {
+            case .success(let response):
+                let networkResult: NetworkResult<GetFilteredDateCourseResponse> = self.judgeStatus(statusCode: response.statusCode, data: response.data)
+                completion(networkResult)
+            case .failure(let err):
+                print(err)
+            }
+        }
+    }
     
     func getBanner(completion: @escaping (NetworkResult<GetBannerResponse>) -> ()) {
         provider.request(.getBanner) { result in
