@@ -13,7 +13,8 @@ final class ProfileViewController: BaseNavBarViewController {
     
     private let profileView = ProfileView()
     
-    private let alertVC = DRBottomSheetViewController(contentView: ProfileImageSettingView(), height: 288, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
+    private var profileImageSettingView: ProfileImageSettingView = ProfileImageSettingView()
+
     
     // MARK: - Properties
 
@@ -82,6 +83,16 @@ private extension ProfileViewController {
         self.profileView.doubleCheckButton.addTarget(self, action: #selector(doubleCheckNickname), for: .touchUpInside)
         
         self.profileView.nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .allEditingEvents)
+        
+        let deleteGesture = UITapGestureRecognizer(target: self, action: #selector(deletePhoto))
+        self.profileImageSettingView.deleteLabel.addGestureRecognizer(deleteGesture)
+        
+        let registerGesture = UITapGestureRecognizer(target: self, action: #selector(registerPhoto))
+        self.profileImageSettingView.registerLabel.addGestureRecognizer(registerGesture)
+        
+        let cancelGesture = UITapGestureRecognizer(target: self, action: #selector(cancel))
+        self.profileImageSettingView.registerLabel.addGestureRecognizer(cancelGesture)
+
     }
     
     // TODO: - 추후 중복확인 연결 시 수정 예정
@@ -131,7 +142,11 @@ private extension ProfileViewController {
     
     @objc
     func presentEditBottomSheet() {
-        let alertVC = DRBottomSheetViewController(contentView: ProfileImageSettingView(), height: 288, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
+        let alertVC = DRBottomSheetViewController(contentView: profileImageSettingView,
+                                                  height: 288,
+                                                  buttonType: DisabledButton(),
+                                                  buttonTitle: StringLiterals.Common.cancel)
+        alertVC.delegate = self
         alertVC.modalPresentationStyle = .overFullScreen
         self.present(alertVC, animated: true)
     }
@@ -168,6 +183,20 @@ private extension ProfileViewController {
         self.profileViewModel.nickname.value = text
     }
     
+    @objc
+    func deletePhoto() {
+        print("delete")    }
+    
+    @objc
+    func registerPhoto() {
+        print("register")
+    }
+    
+    @objc
+    func cancel() {
+        print("cancel")
+    }
+    
 }
 
 // MARK: - Delegates
@@ -175,10 +204,10 @@ private extension ProfileViewController {
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let tagTitle = self.profileViewModel.tagData[indexPath.item]
+        let tagTitle = self.profileViewModel.tagData[indexPath.item].tagTitle
         let font = UIFont.suit(.body_med_13)
         let textWidth = tagTitle.width(withConstrainedHeight: 30, font: font)
-        let padding: CGFloat = 28
+        let padding: CGFloat = 44
                 
        return CGSize(width: textWidth + padding, height: 30)
     }
@@ -201,7 +230,7 @@ extension ProfileViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
-        cell.updateButtonTitle(title: self.profileViewModel.tagData[indexPath.item])
+        cell.updateButtonTitle(tag: self.profileViewModel.tagData[indexPath.item])
         cell.tendencyTagButton.tag = indexPath.item
         cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
         return cell
@@ -228,3 +257,17 @@ extension ProfileViewController: UITextFieldDelegate {
     }
 }
 
+extension ProfileViewController: DRBottomSheetDelegate {
+    
+    func didTapBottomButton() {
+        self.dismiss(animated: true)
+    }
+    
+    func didTapFirstLabel() {
+        self.registerPhoto()
+    }
+    
+    func didTapSecondLabel() {
+        self.deletePhoto()
+    }
+}

@@ -26,6 +26,7 @@ final class DRBottomSheetViewController: BaseViewController {
     
     private var buttonTitle: String
     
+    weak var delegate: DRBottomSheetDelegate?
     var customActionFlag: ObservablePattern<Bool> = ObservablePattern(false)
     
     
@@ -106,7 +107,17 @@ final class DRBottomSheetViewController: BaseViewController {
     
     @objc
     func didTapBottomButton() {
-        self.dismiss(animated: true)
+        self.delegate?.didTapBottomButton()
+    }
+    
+    @objc
+    func didTapTopLabel() {
+        self.delegate?.didTapFirstLabel()
+    }
+    
+    @objc
+    func didTapBottomLabel() {
+        self.delegate?.didTapSecondLabel()
     }
     
 }

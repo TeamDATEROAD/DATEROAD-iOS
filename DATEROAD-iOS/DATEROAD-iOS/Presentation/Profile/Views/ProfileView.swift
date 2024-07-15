@@ -11,7 +11,7 @@ final class ProfileView: BaseView {
     
     // MARK: - UI Properties
     
-    private let profileImageView: UIImageView = UIImageView()
+    let profileImageView: UIImageView = UIImageView()
     
     let editImageButton: UIButton = UIButton()
     
