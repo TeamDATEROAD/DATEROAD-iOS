@@ -5,7 +5,7 @@
 //  Created by 윤희슬 on 7/10/24.
 //
 
-import Foundation
+import UIKit
 
 struct UpcomingDateModel {
     let dateId : Int
@@ -65,18 +65,22 @@ struct DateCourseModel {
 }
 
 struct BannerModel {
-    let advertismentId: Int
-    let imageUrl: String
-    let title: String
-    let tag: String
+    let imageUrl: UIImage
     
     static var bannerDummyData: [BannerModel] {
-        return [BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "스리 픽"),
-                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽"),
-                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "스리 픽"),
-                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽"),
-                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "스리 픽"),
-                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽")
+//        return [BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "스리 픽"),
+//                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽"),
+//                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "스리 픽"),
+//                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽"),
+//                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "스리 픽"),
+//                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽")
+//        ]
+        return [BannerModel(imageUrl: UIImage(resource: .testImage2)),
+                BannerModel(imageUrl: UIImage(resource: .test)),
+                BannerModel(imageUrl: UIImage(resource: .testImage2)),
+                BannerModel(imageUrl: UIImage(resource: .test)),
+                BannerModel(imageUrl: UIImage(resource: .testImage2)),
+                BannerModel(imageUrl: UIImage(resource: .test))
         ]
     }
 }
