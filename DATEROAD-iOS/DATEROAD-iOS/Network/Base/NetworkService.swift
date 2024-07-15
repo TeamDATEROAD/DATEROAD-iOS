@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+final class NetworkService {
+    
+    static let shared = NetworkService()
+    
+    private init() {}
+    
+    let mainService: MainService = MainService()
+
+}
