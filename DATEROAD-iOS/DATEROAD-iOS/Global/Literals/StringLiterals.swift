@@ -109,6 +109,10 @@ enum StringLiterals {
          static let addThirdDoneBtn = "완료"
       }
       
+      enum AddBottomSheetView {
+         static let datePickerBtnTitle = "선택하기"
+      }
+      
       enum AddCourseAlert {
          static let alertTitleLabel = "코스 등록이 되었어요"
          static let alertSubTitleLabel = "100P가 적립되었어요!"
