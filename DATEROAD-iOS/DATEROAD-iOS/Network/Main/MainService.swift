@@ -12,6 +12,7 @@ import Moya
 protocol MainServiceProtocol {
     func getUserProfile(
                         completion: @escaping (NetworkResult<GetUserProfileResponse>) -> ())
+    func getUpcomingDate(completion: @escaping (NetworkResult<GetUpcomingDateResponse>) -> ())
 }
 
 final class MainService: BaseService, MainServiceProtocol {
@@ -23,6 +24,18 @@ final class MainService: BaseService, MainServiceProtocol {
             switch result {
             case .success(let response):
                 let networkResult: NetworkResult<GetUserProfileResponse> = self.judgeStatus(statusCode: response.statusCode, data: response.data) 
+                completion(networkResult)
+            case .failure(let err):
+                print(err)
+            }
+        }
+    }
+    
+    func getUpcomingDate(completion: @escaping (NetworkResult<GetUpcomingDateResponse>) -> ()) {
+        provider.request(.getUpcomingDate) { result in
+            switch result {
+            case .success(let response):
+                let networkResult: NetworkResult<GetUpcomingDateResponse> = self.judgeStatus(statusCode: response.statusCode, data: response.data)
                 completion(networkResult)
             case .failure(let err):
                 print(err)
