@@ -57,28 +57,6 @@ final class CourseViewController: BaseViewController {
 
 extension CourseViewController {
     
-    func bindViewModel() {
-        self.courseViewModel.selectedPriceIndex.bind { [weak self] index in
-            self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
-        }
-    }
-    
-    func registerCell() {
-        self.courseView.courseFilterView.priceCollectionView.register(PriceButtonCollectionViewCell.self, forCellWithReuseIdentifier: PriceButtonCollectionViewCell.cellIdentifier)
-        self.courseView.courseListView.courseListCollectionView.register(CourseListCollectionViewCell.self, forCellWithReuseIdentifier: CourseListCollectionViewCell.cellIdentifier)
-    }
-    
-    func setDelegate() {
-        self.courseView.courseFilterView.priceCollectionView.dataSource = self
-        self.courseView.courseFilterView.priceCollectionView.delegate = self
-        self.courseView.courseListView.courseListCollectionView.dataSource = self
-        self.courseView.courseListView.courseListCollectionView.delegate = self
-        
-        self.courseView.courseFilterView.delegate = self
-        self.courseView.courseNavigationBarView.delegate = self
-        self.courseView.courseFilterView.resetButton.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
-    }
-    
     @objc
     func didTapResetButton() {
         courseViewModel.fetchPriceData()
@@ -109,6 +87,28 @@ extension CourseViewController {
         selectedButton = sender.isSelected ? sender : nil
     }
     
+    func bindViewModel() {
+        self.courseViewModel.selectedPriceIndex.bind { [weak self] index in
+            self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
+        }
+    }
+    
+    func registerCell() {
+        self.courseView.courseFilterView.priceCollectionView.register(PriceButtonCollectionViewCell.self, forCellWithReuseIdentifier: PriceButtonCollectionViewCell.cellIdentifier)
+        self.courseView.courseListView.courseListCollectionView.register(CourseListCollectionViewCell.self, forCellWithReuseIdentifier: CourseListCollectionViewCell.cellIdentifier)
+    }
+    
+    func setDelegate() {
+        self.courseView.courseFilterView.priceCollectionView.dataSource = self
+        self.courseView.courseFilterView.priceCollectionView.delegate = self
+        self.courseView.courseListView.courseListCollectionView.dataSource = self
+        self.courseView.courseListView.courseListCollectionView.delegate = self
+        
+        self.courseView.courseFilterView.delegate = self
+        self.courseView.courseNavigationBarView.delegate = self
+        self.courseView.courseFilterView.resetButton.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
+    }
+    
     func isCellEmpty(cellCount: Int) {
         if cellCount == 0 {
             self.courseView.courseListView.courseListCollectionView.isHidden = true
@@ -126,8 +126,6 @@ extension CourseViewController {
 extension CourseViewController: CourseNavigationBarViewDelegate {
     
     func didTapAddCourseButton() {
-        
-        print("제발 넘어와 ㅠ")
         let addCourseFirstVC = AddCourseFirstViewController()
         self.navigationController?.pushViewController(addCourseFirstVC, animated: true)
     }

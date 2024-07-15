@@ -75,6 +75,7 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
             $0.centerY.equalTo(likeBoxView)
             $0.leading.equalTo(likeButton.snp.trailing).offset(5)
         }
+        
         locationLabel.snp.makeConstraints {
             $0.top.equalTo(thumnailImgageView.snp.bottom).offset(5)
             $0.leading.equalToSuperview()

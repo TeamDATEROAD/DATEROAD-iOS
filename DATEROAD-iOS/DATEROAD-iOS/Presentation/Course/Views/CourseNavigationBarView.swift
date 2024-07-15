@@ -58,6 +58,7 @@ class CourseNavigationBarView: BaseView {
     }
     
     override func setStyle() {
+        
         courseLabel.do {
             $0.text = StringLiterals.Course.course
             $0.textColor = UIColor(resource: .drBlack)
