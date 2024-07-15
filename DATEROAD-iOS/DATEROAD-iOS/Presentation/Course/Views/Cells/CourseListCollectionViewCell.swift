@@ -170,7 +170,7 @@ extension CourseListCollectionViewCell {
         
         locationLabel.text = course.location
         titleLabel.text = course.title
-        if let coast = course.coast {
+        if let coast = course.cost {
             coastLabel.text = "\(coast)만원 이하"
         } else {
             coastLabel.text = nil
