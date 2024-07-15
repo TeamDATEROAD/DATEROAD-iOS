@@ -9,6 +9,7 @@ import Foundation
 
 final class MainViewModel {
     
+    var isSuccessGetUserInfo: ObservablePattern<Bool> = ObservablePattern(false)
     var currentIndex: ObservablePattern<IndexPath> = ObservablePattern(IndexPath(item: 0, section: 2))
     
     var nickname: ObservablePattern<String> = ObservablePattern(nil)
@@ -43,5 +44,21 @@ extension MainViewModel {
         newCourseData.value = DateCourseModel.newDateDummyData
         bannerData.value = BannerModel.bannerDummyData
         nickname.value = MainUserModel.dummyData.name
+        getUserProfile()
+    }
+    
+    func getUserProfile() {
+        NetworkService.shared.mainService.getUserProfile() { response in
+            switch response {
+            case .success(let data):
+                self.mainUserData.value = MainUserModel(name: data.name, point: data.point, imageUrl: data.image)
+                self.nickname.value = data.name
+                self.isSuccessGetUserInfo.value = true
+            default:
+                print("Failed to fetch user profile")
+                return
+            }
+        }
+    }
     }
 }
