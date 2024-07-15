@@ -56,7 +56,6 @@ class AddThirdView: BaseView {
    override func setLayout() {
       container.snp.makeConstraints {
          $0.edges.equalToSuperview()
-//         $0.horizontalEdges.equalToSuperview()
       }
       
       contentTitleLabel.snp.makeConstraints {
@@ -87,7 +86,7 @@ class AddThirdView: BaseView {
       
       addThirdDoneBtn.snp.makeConstraints {
          $0.height.equalTo(54)
-         $0.top.equalTo(priceTextField.snp.bottom).offset(50)
+//         $0.top.equalTo(priceTextField.snp.bottom).offset(50)
          $0.bottom.equalToSuperview().inset(4)
          $0.horizontalEdges.equalToSuperview()
          
@@ -95,14 +94,13 @@ class AddThirdView: BaseView {
    }
    
    override func setStyle() {
-      container.backgroundColor = UIColor(resource: .gray200)
       contentTitleLabel.do {
          $0.setLabel(
+            text: StringLiterals.AddCourseOrSchedule.AddThirdView.contentTitleLabel,
             alignment: .left,
             textColor: UIColor(resource: .drBlack),
             font: .suit(.body_bold_17)
          )
-         $0.text = StringLiterals.AddCourseOrSchedule.AddThirdView.contentTitleLabel
       }
       
       [contentTextView, priceTextField].forEach {

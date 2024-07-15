@@ -34,12 +34,13 @@ final class AddCourseThirdView: BaseView {
    override func setLayout() {
       scrollView.snp.makeConstraints {
          $0.top.horizontalEdges.equalToSuperview()
-         $0.bottom.equalTo(self.keyboardLayoutGuide.snp.top).offset(-10)
+         $0.bottom.equalToSuperview().inset(14)
       }
       
       scrollContentView.snp.makeConstraints {
-         $0.edges.equalToSuperview()
+         $0.verticalEdges.equalToSuperview()
          $0.width.equalToSuperview()
+         $0.height.greaterThanOrEqualTo(scrollView.snp.height)
       }
       
       collectionView.snp.makeConstraints {
@@ -50,13 +51,12 @@ final class AddCourseThirdView: BaseView {
       addThirdView.snp.makeConstraints {
          $0.top.equalTo(collectionView.snp.bottom).offset(7)
          $0.horizontalEdges.equalToSuperview().inset(16)
-         $0.bottom.equalToSuperview().inset(4) // Add some bottom padding
+         $0.bottom.equalToSuperview().inset(4)
       }
    }
    
    override func setStyle() {
       scrollView.do {
-         $0.backgroundColor = UIColor(resource: .deepPurple)
          $0.showsVerticalScrollIndicator = false
          $0.contentInsetAdjustmentBehavior = .always
       }
@@ -75,12 +75,5 @@ final class AddCourseThirdView: BaseView {
       }
       
    }
-   
-}
-
-
-// MARK: - Keyboard Handling
-
-extension AddCourseThirdView {
    
 }

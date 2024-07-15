@@ -18,6 +18,8 @@ class AddCourseThirdViewController: BaseNavBarViewController {
    
    private let viewModel: AddCourseViewModel
    
+   private var keyboardHeight: CGFloat = 0.0
+   
    
    // MARK: - Initializer
    
@@ -46,6 +48,8 @@ class AddCourseThirdViewController: BaseNavBarViewController {
       addTarget()
       bindViewModel()
       setupKeyboardDismissRecognizer()
+      NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+      NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
    }
    
    
@@ -82,6 +86,28 @@ class AddCourseThirdViewController: BaseNavBarViewController {
 // MARK: - ViewController Methods
 
 extension AddCourseThirdViewController {
+   @objc private func keyboardWillShow(_ notification: Notification) {
+      if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+         keyboardHeight = keyboardSize.height
+         adjustScrollViewForKeyboard(showKeyboard: true)
+      }
+   }
+   
+   @objc private func keyboardWillHide(_ notification: Notification) {
+      adjustScrollViewForKeyboard(showKeyboard: false)
+   }
+   
+   private func adjustScrollViewForKeyboard(showKeyboard: Bool) {
+      let maxKeyboardHeight: CGFloat = 80 // 키보드 높이 제한을 200 포인트로 설정
+      
+      let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: showKeyboard ? min(keyboardHeight, maxKeyboardHeight) : 0, right: 0)
+      addCourseThirdView.scrollView.contentInset = contentInsets
+      addCourseThirdView.scrollView.scrollIndicatorInsets = contentInsets
+      
+      var visibleRect = CGRect()
+      visibleRect.size = addCourseThirdView.scrollView.contentSize
+      addCourseThirdView.scrollView.scrollRectToVisible(visibleRect, animated: true)
+   }
    
    private func registerCell() {
       addCourseThirdView.collectionView.do {
@@ -100,7 +126,7 @@ extension AddCourseThirdViewController {
    }
    
    private func addTarget() {
-      addCourseThirdView.addThirdView.priceTextField.addTarget(self, action: #selector(textFieldDidChanacge), for: .editingChanged)
+      //      addCourseThirdView.addThirdView.priceTextField.addTarget(self, action: #selector(textFieldDidChanacge), for: .editingChanged)
       addCourseThirdView.addThirdView.addThirdDoneBtn.addTarget(self, action: #selector(didTapAddCourseBtn), for: .touchUpInside)
    }
    
@@ -110,7 +136,6 @@ extension AddCourseThirdViewController {
          let flag = (date ?? 0) >= 200 ? true : false
          self?.viewModel.contentFlag = flag
          self?.viewModel.isDoneBtnValid()
-         print("contentFlag :", self?.viewModel.contentFlag)
          
       }
       viewModel.priceText.bind { [weak self] date in
@@ -118,7 +143,6 @@ extension AddCourseThirdViewController {
          let flag = (date ?? 0 > 0) ? true : false
          self?.viewModel.priceFlag = flag
          self?.viewModel.isDoneBtnValid()
-         print("priceFlag :", self?.viewModel.priceFlag)
       }
       
       viewModel.isDoneBtnOK.bind { [weak self] date in
@@ -187,18 +211,20 @@ extension AddCourseThirdViewController: UITextFieldDelegate {
       return true
    }
    
-   func textFieldDidEndEditing(_ textField: UITextField) {
-      print("textFieldDidEndEditing 에서 출력")
-      print(textField.text)
-      viewModel.priceText.value = Int(textField.text ?? "0")
+   func textFieldDidBeginEditing(_ textField: UITextField) {
+      UIView.animate(withDuration: 0.3) {
+         let transform = CGAffineTransform(translationX: 0, y: -200)
+         self.view.transform = transform
+      }
    }
    
-   
-   //이거 왜 입력받는거 출력이안되지~
-   @objc
-   func textFieldDidChanacge(_ textField: UITextField) {
-      print("~~~~~~~~~~~~~")
-      print(textField.text ?? "~~")
+   func textFieldDidEndEditing(_ textField: UITextField) {
+      print("textFieldDidEndEditing 에서 출력")
+      UIView.animate(withDuration: 0.3) {
+         let transform = CGAffineTransform(translationX: 0, y: 0)
+         self.view.transform = transform
+      }
+      viewModel.priceText.value = Int(textField.text ?? "0")
    }
    
 }
