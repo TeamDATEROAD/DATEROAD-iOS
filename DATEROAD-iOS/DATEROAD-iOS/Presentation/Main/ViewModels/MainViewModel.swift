@@ -62,6 +62,25 @@ extension MainViewModel {
         }
     }
     
+    
+    func getUpcomingDateCourse() {
+        NetworkService.shared.mainService.getUpcomingDate() { response in
+            switch response {
+            case .success(let data):
+                self.upcomingData.value = UpcomingDateModel(dateId: data.dateID,
+                                                            dDay: data.dDay,
+                                                            dateName: data.dateName,
+                                                            month: data.month,
+                                                            day: data.day,
+                                                            startAt: data.startAt)
+                self.isSuccessGetUpcomingDate.value = true
+            default:
+                print("Failed to fetch upcoming date course")
+                return
+            }
+        }
+    }
+    
     func getBanner() {
         NetworkService.shared.mainService.getBanner() { response in
             switch response {
