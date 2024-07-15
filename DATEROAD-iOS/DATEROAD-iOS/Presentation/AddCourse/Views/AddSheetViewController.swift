@@ -39,7 +39,6 @@ final class AddSheetViewController: BaseViewController {
    override func viewDidLoad() {
       super.viewDidLoad()
       
-      setAddTarget()
       setCustomPicker()
    }
    
@@ -69,10 +68,11 @@ final class AddSheetViewController: BaseViewController {
 private extension AddSheetViewController {
    
    private func setCustomPicker() {
-         customPickerValues = Array(stride(from: 0.5, to: 6.5, by: 0.5))
-         addSheetView.customPickerView.dataSource = self
-         addSheetView.customPickerView.delegate = self
-         addSheetView.customPickerView.reloadAllComponents()
+      customPickerValues = Array(stride(from: 0.5, to: 6.5, by: 0.5))
+      addSheetView.customPickerView.dataSource = self
+      addSheetView.customPickerView.delegate = self
+      addSheetView.customPickerView.reloadAllComponents()
+      addSheetView.doneBtn.addTarget(self, action: #selector(didTapDoneBtn), for: .touchUpInside)
    }
    
    // MARK: - @objc Methods

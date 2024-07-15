@@ -14,6 +14,8 @@ final class AddCourseViewModel {
    var pickedImageArrs: ObservablePattern<[UIImage]> = ObservablePattern([])
    var isPickedImageVaild = false
    
+   var isTimePicker: Bool?
+   
    /// 데이트 이름 유효성 판별 (true는 통과)
    var dateName: ObservablePattern<String> = ObservablePattern("")
    var isDateNameVaild = false

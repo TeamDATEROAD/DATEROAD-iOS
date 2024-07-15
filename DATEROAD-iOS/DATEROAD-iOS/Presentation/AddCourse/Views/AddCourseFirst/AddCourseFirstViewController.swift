@@ -220,22 +220,12 @@ extension AddCourseFirstViewController: UITextFieldDelegate {
    private func textFieldTapped(_ textField: UITextField) {
       if textField == addCourseFirstView.addFirstView.visitDateTextField {
          addSheetView.datePickerMode(isDatePicker: true)
+         viewModel.isTimePicker = false
       } else if textField == addCourseFirstView.addFirstView.dateStartTimeTextField {
          addSheetView.datePickerMode(isDatePicker: false)
+         viewModel.isTimePicker = true
       }
-      
-      alertVC.bottomButtonAction = { [weak self] in
-         guard let self = self else { return }
-         if textField == self.addCourseFirstView.addFirstView.visitDateTextField {
-            let selectedDate = addSheetView.datePicker.date
-            viewModel.isFutureDate(date: selectedDate, dateType: "date")
-            dismiss(animated: true)
-         } else if textField == addCourseFirstView.addFirstView.dateStartTimeTextField {
-            let formattedDate = addSheetView.datePicker.date
-            viewModel.isFutureDate(date: formattedDate, dateType: "time")
-         }
-      }
-      
+      alertVC.delegate = self
       DispatchQueue.main.async {
          self.alertVC.modalPresentationStyle = .overFullScreen
          self.present(self.alertVC, animated: true, completion: nil)
@@ -255,6 +245,29 @@ extension AddCourseFirstViewController: ImagePickerDelegate {
       print("images : \(images)")
       viewModel.pickedImageArr = images
       addCourseFirstView.collectionView.reloadData()
+   }
+   
+}
+
+extension AddCourseFirstViewController: DRBottomSheetDelegate {
+    
+    func didTapBottomButton() {
+       print("")
+       self.dismiss(animated: true)
+       updateTextField()
+    }
+   
+   func updateTextField() {
+      let isTimePickerFlag = viewModel.isTimePicker ?? false
+      
+      if !isTimePickerFlag {
+         let selectedDate = addSheetView.datePicker.date
+         viewModel.isFutureDate(date: selectedDate, dateType: "date")
+         dismiss(animated: true)
+      } else {
+         let formattedDate = addSheetView.datePicker.date
+         viewModel.isFutureDate(date: formattedDate, dateType: "time")
+      }
    }
    
 }
