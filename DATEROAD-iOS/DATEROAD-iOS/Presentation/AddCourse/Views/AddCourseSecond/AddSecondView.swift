@@ -78,12 +78,12 @@ final class AddSecondView: BaseView {
       }
       
       datePlaceTextField.snp.makeConstraints {
-         $0.top.leading.bottom.equalToSuperview()
+         $0.verticalEdges.leading.equalToSuperview()
          $0.width.equalTo(206)
       }
       
       timeRequireTextField.snp.makeConstraints {
-         $0.top.bottom.equalToSuperview()
+         $0.verticalEdges.equalToSuperview()
          $0.leading.equalTo(datePlaceTextField.snp.trailing).offset(8)
          $0.width.equalTo(77)
       }
@@ -110,20 +110,20 @@ final class AddSecondView: BaseView {
    override func setStyle() {
       contentTitleLabel.do {
          $0.setLabel(
+            text: StringLiterals.AddCourseOrSchedule.AddSecondView.contentTitleLabelOfCourse,
             alignment: .left,
             textColor: UIColor(resource: .drBlack),
             font: .suit(.body_bold_17)
          )
-         $0.text = StringLiterals.AddCourseOrSchedule.AddSecondView.contentTitleLabelOfCourse
       }
       
       contentSubTitleLabel.do {
          $0.setLabel(
+            text: StringLiterals.AddCourseOrSchedule.AddSecondView.subTitleLabel,
             alignment: .left,
             textColor: UIColor(resource: .gray400),
             font: .suit(.body_med_13)
          )
-         $0.text = StringLiterals.AddCourseOrSchedule.AddSecondView.subTitleLabel
       }
       
       datePlaceTextField.do {
@@ -158,10 +158,10 @@ final class AddSecondView: BaseView {
       addPlaceButton.do {
          $0.setImage(UIImage(resource: .icAddcourseWhite), for: .normal)
          $0.setImage(UIImage(resource: .icAddcourseGray), for: .disabled)
+         $0.setButtonStatus(buttonType: addCourseDisabledButtonType)
          $0.imageView?.snp.makeConstraints {
             $0.size.equalTo(14)
          }
-         $0.setButtonStatus(buttonType: addCourseDisabledButtonType)
       }
       
       separatorLine.do {

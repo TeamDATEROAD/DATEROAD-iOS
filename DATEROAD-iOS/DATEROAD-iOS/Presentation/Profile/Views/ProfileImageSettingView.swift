@@ -15,14 +15,14 @@ final class ProfileImageSettingView: BaseView {
     
     private let titleLabel: UILabel = UILabel()
     
-    private let registerLabel: UILabel = UILabel()
+    let registerLabel: UILabel = UILabel()
     
-    private let deleteLabel: UILabel = UILabel()
+    let deleteLabel: UILabel = UILabel()
     
     
     // MARK: - Properties
         
-    private let disabledButtonType: DRButtonType = DisabledButton()
+    let disabledButtonType: DRButtonType = DisabledButton()
     
     
     // MARK: - Life Cycle
@@ -53,6 +53,7 @@ final class ProfileImageSettingView: BaseView {
         }
         
         registerLabel.do {
+            $0.isUserInteractionEnabled = true
             $0.setLabel(text: StringLiterals.Profile.registerImage,
                         alignment: .center,
                         textColor: UIColor(resource: .deepPurple),
@@ -60,6 +61,7 @@ final class ProfileImageSettingView: BaseView {
         }
         
         deleteLabel.do {
+            $0.isUserInteractionEnabled = true
             $0.setLabel(text: StringLiterals.Profile.deleteImage,
                         alignment: .center,
                         textColor: UIColor(resource: .deepPurple),

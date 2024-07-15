@@ -69,6 +69,7 @@ enum StringLiterals {
         static let settingImage = "프로필 사진 설정"
         static let registerImage = "사진 등록"
         static let deleteImage = "사진 삭제"
+        static let minimumNickname = "최소 2글자를 입력해야 해요"
     }
    
    enum AddCourseOrSchedule {
@@ -96,6 +97,7 @@ enum StringLiterals {
          static let timeRequiredPlaceHolder = "소요시간"
          static let guideLabel = "최소 2개의 장소를 추가해 주세요"
          static let edit = "편집"
+         static let done = "완료"
          static let addSecondNextBtnOfCourse = "다음 (2/3)"
          static let addSecondDoneBtnOfSchedule = "완료"
       }
@@ -147,6 +149,7 @@ enum StringLiterals {
         static let header = "header"
         static let cancel = "취소"
     }
+    
     enum Main {
         static let hotDateTitle = "님, 오늘은\n이런 데이트 어떠세요?"
         static let hotDateSub = "후기 보장 HOT 데이트 코스 둘러보기"
@@ -163,6 +166,7 @@ enum StringLiterals {
         static let upcomingDate = "데이트 일정"
         static let seePastDate = "지난 데이트 보기"
         static let pastDate = "지난 데이트"
+        static let startTime = "시작시간: "
     }
     
     enum Alert {

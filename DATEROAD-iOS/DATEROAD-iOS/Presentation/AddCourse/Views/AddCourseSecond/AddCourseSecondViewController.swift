@@ -1,5 +1,8 @@
 import UIKit
 
+import SnapKit
+import Then
+
 final class AddCourseSecondViewController: BaseNavBarViewController {
    
    // MARK: - UI Properties
@@ -108,17 +111,22 @@ private extension AddCourseSecondViewController {
       viewModel.isDataSourceNotEmpty()
       
       viewModel.editBtnEnableState.bind { [weak self] date in
-         self?.addCourseSecondView.editBtnState(isAble: date ?? false)
+         guard let date = date else {return}
+         self?.addCourseSecondView.editBtnState(isAble: date)
       }
       
       viewModel.datePlace.bind { [weak self] date in
-         self?.addCourseSecondView.addSecondView.datePlaceTextField.text = date
-         self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: self?.viewModel.isAbleAddBtn() ?? false)
+          self?.addCourseSecondView.addSecondView.datePlaceTextField.text = date
+          if let flag = self?.viewModel.isAbleAddBtn() {
+              self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: flag)
+          }
       }
       
       viewModel.timeRequire.bind { [weak self] date in
          self?.addCourseSecondView.addSecondView.timeRequireTextField.text = date
-         self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: self?.viewModel.isAbleAddBtn() ?? false)
+         if let flag = self?.viewModel.isAbleAddBtn() {
+            self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: flag)
+         }
       }
       
       self.viewModel.isChange = { [weak self] in

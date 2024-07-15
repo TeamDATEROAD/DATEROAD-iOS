@@ -36,9 +36,16 @@ final class TendencyTagCollectionViewCell: BaseCollectionViewCell {
             $0.horizontalEdges.equalToSuperview()
         }
     }
+    
+    override func setStyle() {
+        tendencyTagButton.do {
+            $0.contentEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12)
+        }
+    }
 
-    func updateButtonTitle(title: String) {
-        self.tendencyTagButton.setTitle(title, for: .normal)
+    func updateButtonTitle(tag: ProfileModel) {
+        self.tendencyTagButton.setTitle(tag.tagTitle, for: .normal)
+        self.tendencyTagButton.setImage(tag.tagIcon, for: .normal)
     }
     
 }

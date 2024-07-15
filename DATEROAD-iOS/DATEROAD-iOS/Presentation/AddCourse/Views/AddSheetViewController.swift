@@ -64,24 +64,15 @@ final class AddSheetViewController: BaseViewController {
    
 }
 
-extension AddSheetViewController {
+// MARK: - ViewController Methods
+
+private extension AddSheetViewController {
    
    private func setCustomPicker() {
          customPickerValues = Array(stride(from: 0.5, to: 6.5, by: 0.5))
          addSheetView.customPickerView.dataSource = self
          addSheetView.customPickerView.delegate = self
          addSheetView.customPickerView.reloadAllComponents()
-   }
-   
-}
-
-
-// MARK: - ViewController Methods
-
-extension AddSheetViewController {
-   
-   private func setAddTarget() {
-      addSheetView.doneBtn.addTarget(self, action: #selector(didTapDoneBtn), for: .touchUpInside)
    }
    
    // MARK: - @objc Methods

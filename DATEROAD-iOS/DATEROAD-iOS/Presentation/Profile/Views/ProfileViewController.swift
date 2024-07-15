@@ -13,7 +13,8 @@ final class ProfileViewController: BaseNavBarViewController {
     
     private let profileView = ProfileView()
     
-    private let alertVC = DRBottomSheetViewController(contentView: ProfileImageSettingView(), height: 288, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
+    private var profileImageSettingView: ProfileImageSettingView = ProfileImageSettingView()
+
     
     // MARK: - Properties
 
@@ -81,16 +82,35 @@ private extension ProfileViewController {
         
         self.profileView.doubleCheckButton.addTarget(self, action: #selector(doubleCheckNickname), for: .touchUpInside)
         
-        self.profileView.nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .editingChanged)
+        self.profileView.nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .allEditingEvents)
+        
+        let deleteGesture = UITapGestureRecognizer(target: self, action: #selector(deletePhoto))
+        self.profileImageSettingView.deleteLabel.addGestureRecognizer(deleteGesture)
+        
+        let registerGesture = UITapGestureRecognizer(target: self, action: #selector(registerPhoto))
+        self.profileImageSettingView.registerLabel.addGestureRecognizer(registerGesture)
+        
+        let cancelGesture = UITapGestureRecognizer(target: self, action: #selector(cancel))
+        self.profileImageSettingView.registerLabel.addGestureRecognizer(cancelGesture)
+
     }
     
+    // TODO: - 추후 중복확인 연결 시 수정 예정
     func bindViewModel() {
         self.profileViewModel.isValidNickname.bind { [weak self] isValid in
             guard let isValid else { return }
-            self?.profileView.nicknameErrMessageLabel.isHidden = isValid ? false : true
-            self?.profileView.updateNicknameErrLabel(isValid: isValid)
+//            self?.profileView.nicknameErrMessageLabel.isHidden = isValid ? false : true
+//            isValid ? self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isValid) : self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValid)
             self?.profileView.updateDoubleCheckButton(isValid: isValid)
             self?.profileViewModel.checkValidRegistration()
+        }
+        
+        self.profileViewModel.isValidNicknameCount.bind { [weak self] isValidCount in
+            guard let isValidCount, let initial = self?.initial else { return }
+            if initial {
+                self?.profileView.nicknameErrMessageLabel.isHidden = isValidCount ? true : false
+                self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValidCount)
+            }
         }
         
         self.profileViewModel.isValidTag.bind { [weak self] isValid in
@@ -117,11 +137,16 @@ private extension ProfileViewController {
             guard let isValid else { return }
             self?.profileView.updateRegisterButton(isValid: isValid)
         }
+    
     }
     
     @objc
     func presentEditBottomSheet() {
-        let alertVC = DRBottomSheetViewController(contentView: ProfileImageSettingView(), height: 288, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
+        let alertVC = DRBottomSheetViewController(contentView: profileImageSettingView,
+                                                  height: 288,
+                                                  buttonType: DisabledButton(),
+                                                  buttonTitle: StringLiterals.Common.cancel)
+        alertVC.delegate = self
         alertVC.modalPresentationStyle = .overFullScreen
         self.present(alertVC, animated: true)
     }
@@ -134,16 +159,42 @@ private extension ProfileViewController {
     
     @objc
     func didTapTagButton(_ sender: UIButton) {
-        sender.isSelected = !sender.isSelected
-        sender.isSelected ? self.profileView.updateTag(button: sender, buttonType: SelectedButton())
-        : self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
-        self.profileViewModel.countSelectedTag(isSelected: sender.isSelected)
+        // 0 ~ 2개 선택되어 있는 경우
+        if self.profileViewModel.tagCount.value != 3 {
+            sender.isSelected = !sender.isSelected
+            sender.isSelected ? self.profileView.updateTag(button: sender, buttonType: SelectedButton())
+            : self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
+            self.profileViewModel.countSelectedTag(isSelected: sender.isSelected)
+        } 
+        // 3개 선택되어 있는 경우
+        else {
+            // 취소 하려는 경우
+            if sender.isSelected {
+                sender.isSelected = !sender.isSelected
+                self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
+                self.profileViewModel.countSelectedTag(isSelected: sender.isSelected)
+            }
+        }
     }
     
     @objc
     func didChangeTextfield() {
-        let text = self.profileView.nicknameTextfield.text ?? ""
+        guard let text = self.profileView.nicknameTextfield.text else { return }
         self.profileViewModel.nickname.value = text
+    }
+    
+    @objc
+    func deletePhoto() {
+        print("delete")    }
+    
+    @objc
+    func registerPhoto() {
+        print("register")
+    }
+    
+    @objc
+    func cancel() {
+        print("cancel")
     }
     
 }
@@ -153,10 +204,10 @@ private extension ProfileViewController {
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let tagTitle = self.profileViewModel.tagData[indexPath.item]
+        let tagTitle = self.profileViewModel.tagData[indexPath.item].tagTitle
         let font = UIFont.suit(.body_med_13)
         let textWidth = tagTitle.width(withConstrainedHeight: 30, font: font)
-        let padding: CGFloat = 28
+        let padding: CGFloat = 44
                 
        return CGSize(width: textWidth + padding, height: 30)
     }
@@ -179,7 +230,8 @@ extension ProfileViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
-        cell.updateButtonTitle(title: self.profileViewModel.tagData[indexPath.item])
+        cell.updateButtonTitle(tag: self.profileViewModel.tagData[indexPath.item])
+        cell.tendencyTagButton.tag = indexPath.item
         cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
         return cell
     }
@@ -205,3 +257,17 @@ extension ProfileViewController: UITextFieldDelegate {
     }
 }
 
+extension ProfileViewController: DRBottomSheetDelegate {
+    
+    func didTapBottomButton() {
+        self.dismiss(animated: true)
+    }
+    
+    func didTapFirstLabel() {
+        self.registerPhoto()
+    }
+    
+    func didTapSecondLabel() {
+        self.deletePhoto()
+    }
+}

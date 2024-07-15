@@ -98,7 +98,6 @@
 		CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A963D2C2B131300F39EBE /* BaseViewController.swift */; };
 		CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96422C2C60E800F39EBE /* LoginModel.swift */; };
 		CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96442C2C610900F39EBE /* LoginViewModel.swift */; };
-		CA0A96472C2C62C200F39EBE /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = CA0A96462C2C62C200F39EBE /* .gitkeep */; };
 		CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0CDA2C29A2F300735097 /* AppDelegate.swift */; };
 		CA3D0CDD2C29A2F300735097 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0CDC2C29A2F300735097 /* SceneDelegate.swift */; };
 		CA3D0CE42C29A2F500735097 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA3D0CE32C29A2F500735097 /* Assets.xcassets */; };
@@ -137,6 +136,13 @@
 		CA78FE442C383D53001B1403 /* SUIT-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF62C329A6400855E61 /* SUIT-Medium.otf */; };
 		CA78FE472C38667A001B1403 /* DRErrorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA78FE462C38667A001B1403 /* DRErrorLabel.swift */; };
 		CA78FE492C3866FD001B1403 /* DRErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA78FE482C3866FC001B1403 /* DRErrorType.swift */; };
+		CA80C0C92C440F3C002CAA9B /* ProfileErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA80C0C82C440F3C002CAA9B /* ProfileErrorType.swift */; };
+		CA80C0CB2C445480002CAA9B /* BaseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA80C0CA2C445480002CAA9B /* BaseTargetType.swift */; };
+		CA80C0CD2C445BF3002CAA9B /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA80C0CC2C445BF3002CAA9B /* NetworkResult.swift */; };
+		CA80C0CF2C445D38002CAA9B /* MoyaLoggingPluggin.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA80C0CE2C445D38002CAA9B /* MoyaLoggingPluggin.swift */; };
+		CA80C0D12C44611E002CAA9B /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA80C0D02C44611E002CAA9B /* BaseService.swift */; };
+		CA80C0D52C448971002CAA9B /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA80C0D42C448971002CAA9B /* ProfileModel.swift */; };
+		CA80C0D72C4523A2002CAA9B /* DRBottomSheetAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA80C0D62C4523A2002CAA9B /* DRBottomSheetAction.swift */; };
 		CAA30ADE2C3718C500835DE3 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30ADD2C3718C500835DE3 /* ProfileViewController.swift */; };
 		CAA30AE02C3733DF00835DE3 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30ADF2C3733DF00835DE3 /* ProfileView.swift */; };
 		CAA30AE22C37497200835DE3 /* TendencyTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30AE12C37497200835DE3 /* TendencyTag.swift */; };
@@ -274,7 +280,6 @@
 		CA0A963D2C2B131300F39EBE /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CA0A96422C2C60E800F39EBE /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		CA0A96442C2C610900F39EBE /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
-		CA0A96462C2C62C200F39EBE /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		CA3D0CD72C29A2F300735097 /* DATEROAD-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DATEROAD-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA3D0CDA2C29A2F300735097 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA3D0CDC2C29A2F300735097 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -307,6 +312,13 @@
 		CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		CA78FE462C38667A001B1403 /* DRErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRErrorLabel.swift; sourceTree = "<group>"; };
 		CA78FE482C3866FC001B1403 /* DRErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRErrorType.swift; sourceTree = "<group>"; };
+		CA80C0C82C440F3C002CAA9B /* ProfileErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileErrorType.swift; sourceTree = "<group>"; };
+		CA80C0CA2C445480002CAA9B /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
+		CA80C0CC2C445BF3002CAA9B /* NetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
+		CA80C0CE2C445D38002CAA9B /* MoyaLoggingPluggin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaLoggingPluggin.swift; sourceTree = "<group>"; };
+		CA80C0D02C44611E002CAA9B /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
+		CA80C0D42C448971002CAA9B /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		CA80C0D62C4523A2002CAA9B /* DRBottomSheetAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRBottomSheetAction.swift; sourceTree = "<group>"; };
 		CAA30ADD2C3718C500835DE3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CAA30ADF2C3733DF00835DE3 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		CAA30AE12C37497200835DE3 /* TendencyTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TendencyTag.swift; sourceTree = "<group>"; };
@@ -881,7 +893,10 @@
 		CA3D0D132C29A9C500735097 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				CA0A96462C2C62C200F39EBE /* .gitkeep */,
+				CA80C0CA2C445480002CAA9B /* BaseTargetType.swift */,
+				CA80C0CC2C445BF3002CAA9B /* NetworkResult.swift */,
+				CA80C0CE2C445D38002CAA9B /* MoyaLoggingPluggin.swift */,
+				CA80C0D02C44611E002CAA9B /* BaseService.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -922,6 +937,7 @@
 				CAC80FDA2C3E7C3D00658EA6 /* MainSection.swift */,
 				7428400F2C3EC87300B21AA7 /* AlertType.swift */,
 				0DA1C71D2C3DCC2400DF2B92 /* Price.swift */,
+				CA80C0C82C440F3C002CAA9B /* ProfileErrorType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -995,6 +1011,7 @@
 				CA4EF3DE2C347B4E003B02B6 /* DRButtonType.swift */,
 				CA78FE482C3866FC001B1403 /* DRErrorType.swift */,
 				CAC80FE22C3EC06200658EA6 /* MainSectionLayout.swift */,
+				CA80C0D62C4523A2002CAA9B /* DRBottomSheetAction.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1015,9 +1032,18 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		CA80C0D22C44895F002CAA9B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CA80C0D42C448971002CAA9B /* ProfileModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		CAA30ADB2C37182A00835DE3 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				CA80C0D22C44895F002CAA9B /* Models */,
 				CAA30AE92C37DCD500835DE3 /* ViewModels */,
 				CAA30ADC2C37183200835DE3 /* Views */,
 			);
@@ -1285,7 +1311,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA0A96472C2C62C200F39EBE /* .gitkeep in Resources */,
 				CA78FE442C383D53001B1403 /* SUIT-Medium.otf in Resources */,
 				74A70C012C329AB000855E61 /* SUIT-ExtraBold.otf in Resources */,
 				74A70C022C329AB200855E61 /* SUIT-Bold.otf in Resources */,
@@ -1320,6 +1345,7 @@
 				74BC165A2C3284A90084E832 /* BaseNavBarViewController.swift in Sources */,
 				CA78FE492C3866FD001B1403 /* DRErrorType.swift in Sources */,
 				CAC80FF72C3FCAE500658EA6 /* BannerImageCollectionViewCell.swift in Sources */,
+				CA80C0D12C44611E002CAA9B /* BaseService.swift in Sources */,
 				CAC80FA42C3B34B400658EA6 /* UserInfoView.swift in Sources */,
 				CAC80FE92C3EC6E100658EA6 /* BannerCell.swift in Sources */,
 				CAC80FA02C3B10D100658EA6 /* MyPageView.swift in Sources */,
@@ -1341,6 +1367,7 @@
 				745547612C3C4CAC00B526F3 /* UpcomingDateScheduleView.swift in Sources */,
 				743D5BF02C3FB7ED007C156C /* MyCourseListModel.swift in Sources */,
 				74CDE26B2C3B7AA400A7459B /* DateCardCollectionViewCell.swift in Sources */,
+				CA80C0CB2C445480002CAA9B /* BaseTargetType.swift in Sources */,
 				743D5BF22C3FC60F007C156C /* MyRegisterCourseViewController.swift in Sources */,
 				745547532C3B862100B526F3 /* DateScheduleModel.swift in Sources */,
 				CA4EF3DF2C347B4E003B02B6 /* DRButtonType.swift in Sources */,
@@ -1413,6 +1440,7 @@
 				0DA138F52C3E8E1900682653 /* PriceButtonCollectionViewCell.swift in Sources */,
 				0D05FF0F2C3EFB3E00E9BDDC /* CourseListView.swift in Sources */,
 				0DF905C62C3929A30072EE65 /* DateInfoModel.swift in Sources */,
+				CA80C0C92C440F3C002CAA9B /* ProfileErrorType.swift in Sources */,
 				0D05FF0B2C3EFACB00E9BDDC /* CourseNavigationBarView.swift in Sources */,
 				7455476F2C3D0A6300B526F3 /* PastDateContentView.swift in Sources */,
 				0DF905C62C3929A30072EE65 /* DateInfoModel.swift in Sources */,
@@ -1433,6 +1461,7 @@
 				CA4EF3B62C328521003B02B6 /* LoginViewController.swift in Sources */,
 				0D07420C2C3B0339004B3F59 /* TabBarController.swift in Sources */,
 				CAC80FD92C3E7BBA00658EA6 /* MainView.swift in Sources */,
+				CA80C0CD2C445BF3002CAA9B /* NetworkResult.swift in Sources */,
 				CA4EF3BD2C3285A1003B02B6 /* ScreenUtils.swift in Sources */,
 				CAC80FF32C3F203800658EA6 /* EmptyTicketView.swift in Sources */,
 				CAA30AE02C3733DF00835DE3 /* ProfileView.swift in Sources */,
@@ -1443,6 +1472,7 @@
 				9E590B462C3C535500039690 /* AddCourseSecondViewController.swift in Sources */,
 				CA4EF3D72C347766003B02B6 /* OnboardingView.swift in Sources */,
 				CA4EF3BB2C328595003B02B6 /* ObservablePattern.swift in Sources */,
+				CA80C0D52C448971002CAA9B /* ProfileModel.swift in Sources */,
 				9E50988E2C403C5800F72CD0 /* AddCourseThirdView.swift in Sources */,
 				CA3D0D1A2C29AAAC00735097 /* UIView+.swift in Sources */,
 				CAC80FE32C3EC06200658EA6 /* MainSectionLayout.swift in Sources */,
@@ -1454,10 +1484,12 @@
 				0D06D9AA2C37CAFC0094C505 /* BringCourseCell.swift in Sources */,
 				CAA30AE52C37BCB200835DE3 /* DRTagButton.swift in Sources */,
 				CAA30AE82C37DAA600835DE3 /* TendencyTagCollectionViewCell.swift in Sources */,
+				CA80C0CF2C445D38002CAA9B /* MoyaLoggingPluggin.swift in Sources */,
 				CAC80FB92C3BCE4E00658EA6 /* MyPageSection.swift in Sources */,
 				CAC80FDE2C3E7F0100658EA6 /* MainViewModel.swift in Sources */,
 				CA78FE472C38667A001B1403 /* DRErrorLabel.swift in Sources */,
 				9E443A482C37AAE400C1F92C /* AddCourseViewModel.swift in Sources */,
+				CA80C0D72C4523A2002CAA9B /* DRBottomSheetAction.swift in Sources */,
 				743D5BF42C401FF9007C156C /* PointDetailView.swift in Sources */,
 				9E443A502C39158100C1F92C /* AddSheetViewController.swift in Sources */,
 				CAC80FD72C3E7BB100658EA6 /* MainViewController.swift in Sources */,

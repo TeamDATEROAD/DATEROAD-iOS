@@ -180,7 +180,7 @@ class PastDateCollectionViewCell: BaseCollectionViewCell {
 
 extension PastDateCollectionViewCell {
     func dataBind(_ dateCardData : DateCardModel, _ dateCardItemRow: Int) {
-        dateLabel.text = dateCardData.dateCalendar
+        dateLabel.text = dateCardData.date
         firstTagButton.setTitle(dateCardData.tags[0], for: .normal)
         if dateCardData.tags.count >= 2 {
             secondTagButton.isHidden = false
@@ -190,8 +190,8 @@ extension PastDateCollectionViewCell {
             thirdTagButton.isHidden = false
             thirdTagButton.setTitle(dateCardData.tags[2], for: .normal)
         }
-        locationLabel.text = dateCardData.dateLocation
-        titleLabel.text = dateCardData.dateTitle
+        locationLabel.text = dateCardData.date
+        titleLabel.text = dateCardData.title
     }
     
     private func setColorToLabel(bgColor : UIColor, ribbonImage: UIImage, buttonColor: UIColor) {

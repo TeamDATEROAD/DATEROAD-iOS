@@ -117,10 +117,10 @@ class DateTimeLineCollectionViewCell: BaseCollectionViewCell {
 }
 
 extension DateTimeLineCollectionViewCell {
-    func dataBind(_ placeData: DatePlacesModel, _ dateDetailItemRow: Int) {
-        indexNumLabel.text = String(dateDetailItemRow + 1)
-        locationLabel.text = placeData.title
-        timeLabel.text = "\(Int(placeData.duration ?? 0)) 시간"
+    func dataBind(_ placeData: DatePlaceModel, _ dateDetailItemRow: Int) {
+        indexNumLabel.text = "\(placeData.sequence)"
+        locationLabel.text = placeData.name
+        timeLabel.text = "\(Int(placeData.duration)) 시간"
         self.dateDetailItemRow = dateDetailItemRow
     }
 }

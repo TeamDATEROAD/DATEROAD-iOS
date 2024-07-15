@@ -11,13 +11,17 @@ final class ProfileViewModel {
     
     // TODO: - 중복 확인 로직 추가 예정
 
-    var tagData: [String] = []
+    var tagData: [ProfileModel] = []
     
     var nickname: ObservablePattern<String> = ObservablePattern("")
     
     var tagCount: ObservablePattern<Int> = ObservablePattern(0)
     
+    var isValidNicknameCount: ObservablePattern<Bool> = ObservablePattern(false)
+    
     var isValidNickname: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
     
     var isValidTag: ObservablePattern<Bool> = ObservablePattern(false)
     
@@ -34,17 +38,20 @@ final class ProfileViewModel {
 extension ProfileViewModel {
     
     func fetchTagData() {
-        tagData = TendencyTag.allCases.map { $0.tagTitle }
+        tagData = TendencyTag.allCases.map { $0.tag }
     }
     
-    
     func checkValidNickname() {
-        let nickname = self.nickname.value ?? ""
+        guard let nickname = self.nickname.value else { return }
         if nickname.count >= 2 && nickname.count <= 5 {
             // TODO: - 닉네임이 글자 수 충족 -> 중복 확인 처리 로직 추가 예정
 
+            self.isValidNicknameCount.value = true
             self.isValidNickname.value = true
         } else {
+            if nickname.count < 2 {
+                self.isValidNicknameCount.value = false
+            }
             self.isValidNickname.value = false
         }
     }
@@ -68,8 +75,12 @@ extension ProfileViewModel {
 
         if count >= 1 && count <= 3 {
             self.isValidTag.value = true
+            self.isOverCount.value = false
         } else {
             self.isValidTag.value = false
+            if count > 3 {
+                self.isOverCount.value = true
+            }
         }
         print(count)
     }

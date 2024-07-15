@@ -11,7 +11,7 @@ final class ProfileView: BaseView {
     
     // MARK: - UI Properties
     
-    private let profileImageView: UIImageView = UIImageView()
+    let profileImageView: UIImageView = UIImageView()
     
     let editImageButton: UIButton = UIButton()
     
@@ -212,9 +212,15 @@ final class ProfileView: BaseView {
 
 extension ProfileView {
     
-    func updateNicknameErrLabel(isValid: Bool) {
-        isValid ? nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.enabledNickname, errorType: self.correctType)
-        : nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.disabledNickname, errorType: self.warningType)
+    func updateNicknameErrLabel(errorType: ProfileErrorType) {
+        switch errorType {
+        case .isNotValidCount:
+            nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.minimumNickname, errorType: self.warningType)
+        case .isValid:
+            nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.enabledNickname, errorType: self.correctType)
+        case .isNotValid:
+            nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.disabledNickname, errorType: self.warningType)
+        }
     }
     
     func updateTagErrLabel(isValid: Bool) {
