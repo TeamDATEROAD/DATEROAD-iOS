@@ -6,3 +6,17 @@
 //
 
 import Foundation
+
+struct GetBannerResponse: Codable {
+    let advertisementDtoResList: [AdvertisementDtoResList]
+}
+
+struct AdvertisementDtoResList: Codable {
+    let advertisementID: Int
+    let thumbnail, title, tag: String
+
+    enum CodingKeys: String, CodingKey {
+        case advertisementID = "advertisementId"
+        case thumbnail, title, tag
+    }
+}
