@@ -37,7 +37,7 @@ final class CourseViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        getCourse()
         registerCell()
         setDelegate()
         bindViewModel()
@@ -120,12 +120,11 @@ extension CourseViewController {
     }
     
     func getCourse() {
-        NetworkService.shared.mainService.getUserProfile() { response in
+        CourseService().getCourseInfo(city:"INCHEON_ENTIRE", cost: 0){ response in
             switch response {
             case .success(let data):
-                self.mainUserData.value = MainUserModel(name: data.name, point: data.point, imageUrl: data.image)
-                self.nickname.value = data.name
-                self.isSuccessGetUserInfo.value = true
+                self.courseListModel = CourseListModel.courseContents
+                print(self.courseListModel)
             default:
                 print("Failed to fetch user profile")
                 return
@@ -148,7 +147,6 @@ extension CourseViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == courseView.courseFilterView.priceCollectionView {
             let selectedCourse = courseListModel[indexPath.item]
-            print("넘어가라")
             let courseDetailVC = CourseDetailViewController(viewModel: CourseDetailViewModel())
             navigationController?.pushViewController(courseDetailVC, animated: true)
         }
