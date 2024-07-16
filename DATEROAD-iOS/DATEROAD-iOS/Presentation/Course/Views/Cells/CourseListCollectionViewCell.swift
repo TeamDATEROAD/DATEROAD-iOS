@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 import Then
+import Kingfisher
 
 protocol CourseListCollectionViewCellDelegate: AnyObject {
     func didTapCourseListCell()
@@ -44,7 +45,7 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
- 
+        
         // 탭 제스처 추가
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
         addGestureRecognizer(tapGesture)
@@ -54,7 +55,7 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-
+    
     @objc private func handleTapGesture(_ sender: UITapGestureRecognizer) {
         print("눌림?")
         delegate?.didTapCourseListCell()
@@ -187,7 +188,13 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
 extension CourseListCollectionViewCell {
     
     func configure(with course: CourseListModel) {
-       // thumnailImgageView.image = course.thumbnail
+        if let urlString = course.thumbnail, let url = URL(string: urlString) {
+            // Kingfisher를 사용하여 이미지 다운로드 및 설정
+            thumnailImgageView.kf.setImage(with: url)
+        } else {
+            // 썸네일 이미지가 없는 경우에 대한 처리
+            thumnailImgageView.image = UIImage(named: "placeholder_image")
+        }
         
         if let likeCount = course.like {
             likeNumLabel.text = "\(likeCount)"
@@ -198,16 +205,15 @@ extension CourseListCollectionViewCell {
         locationLabel.text = course.location
         titleLabel.text = course.title
         if let coast = course.cost {
-            coastLabel.text = "\(coast)만원 이하"
+            coastLabel.text = "\(coast.priceRangeTag())"
         } else {
             coastLabel.text = nil
         }
         
         if let time = course.time {
-            timeLabel.text = "\(time)시간"
+            timeLabel.text = "\(time.formatFloatTime())시간"
         } else {
             timeLabel.text = nil
         }
     }
-    
 }

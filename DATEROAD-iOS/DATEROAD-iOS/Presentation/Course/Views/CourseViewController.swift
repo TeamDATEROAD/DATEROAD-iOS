@@ -120,14 +120,28 @@ extension CourseViewController {
     }
     
     func getCourse() {
-        CourseService().getCourseInfo(city:"INCHEON_ENTIRE", cost: 0){ response in
+        CourseService().getCourseInfo(city: "INCHEON_ENTIRE", cost: 0) { response in
             switch response {
             case .success(let data):
-                self.courseListModel = CourseListModel.courseContents
-                print(self.courseListModel)
+                // Assuming data.courses is of type [CourseFilterList]
+                let courseModels = data.courses.map { filterList in
+                    CourseListModel(
+                        courseId: filterList.courseID,
+                        thumbnail: filterList.thumbnail,
+                        location: filterList.city,
+                        title: filterList.title,
+                        cost: filterList.cost,
+                        time: filterList.duration,
+                        like: filterList.like
+                    )
+            
+                }
+                self.courseListModel = courseModels
+                print(self.courseListModel, "♥︎")
+                // Perform any necessary updates or UI operations with self.courseListModel
             default:
-                print("Failed to fetch user profile")
-                return
+                        print("Failed to fetch user profile")
+                        return
             }
         }
     }
