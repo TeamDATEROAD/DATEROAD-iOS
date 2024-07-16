@@ -7,75 +7,105 @@
 
 import Foundation
 
-public enum SubRegion: String {
+import Foundation
+
+public enum MainRegion: String {
+    case SEOUL = "서울"
+    case GYEONGGI = "경기"
+    case INCHEON = "인천"
+}
+
+public enum SubRegion {
     // 서울 소분류
-    case SEOUL_ENTIRE = "서울 전체"
-    case GANGNAM_SEOCHO = "강남/서초"
-    case JAMSIL_SONGPA_GANGDONG = "잠실/송파/강동"
-    case KONDAE_SUNGSOO_WANGSIMNI = "건대/성수/왕십리"
-    case JONGNO_JUNGRO = "종로/중구"
-    case HONGDAE_HAPJEONG_MAPO = "홍대/합정/마포"
-    case YEONGDEUNGPO_YEOUIDO = "영등포/여의도"
-    case YONGSAN_ITAEWON_HANNAM = "용산/이태원/한남"
-    case YANGCHEON_GANGSEO = "양천/강서"
-    case SEONGBUK_NOWON_JUNGBANG = "성북/노원/중랑"
-    case GURO_GWANAK_DONGJAK = "구로/관악/동작"
+    case SEOUL_ENTIRE
+    case GANGNAM_SEOCHO
+    case JAMSIL_SONGPA_GANGDONG
+    case KONDAE_SUNGSOO_WANGSIMNI
+    case JONGNO_JUNGRO
+    case HONGDAE_HAPJEONG_MAPO
+    case YEONGDEUNGPO_YEOUIDO
+    case YONGSAN_ITAEWON_HANNAM
+    case YANGCHEON_GANGSEO
+    case SEONGBUK_NOWON_JUNGBANG
+    case GURO_GWANAK_DONGJAK
 
     // 경기 소분류
-    case GYEONGGI_ENTIRE = "경기 전체"
-    case SEONGNAM = "성남"
-    case SUWON = "수원"
-    case GOYANG_PAJU = "고양/파주"
-    case GIMPO = "김포"
-    case YONGIN_HWASEONG = "용인/화성"
-    case ANYANG_GWACHEON = "안양/과천"
-    case POCHEON_YANGJU = "포천/양주"
-    case NAMYANGJU_UIJEONGBU = "남양주/의정부"
-    case GWANGJU_ICHEON_YEOJU = "광주/이천/여주"
-    case GAPYEONG_YANGPYEONG = "가평/양평"
-    case GUNPO_UIWANG = "군포/의왕"
-    case HANAM_GURI = "하남/구리"
-    case SIHEUNG_GWANGMYEONG = "시흥/광명"
-    case BUCHEON_ANSHAN = "부천/안산"
-    case DONGDUCHEON_YEONCHEON = "동두천/연천"
-    case PYEONGTAEK_OSAN_ANSEONG = "평택/오산/안성"
+    case GYEONGGI_ENTIRE
+    case SEONGNAM
+    case SUWON
+    case GOYANG_PAJU
+    case GIMPO
+    case YONGIN_HWASEONG
+    case ANYANG_GWACHEON
+    case POCHEON_YANGJU
+    case NAMYANGJU_UIJEONGBU
+    case GWANGJU_ICHEON_YEOJU
+    case GAPYEONG_YANGPYEONG
+    case GUNPO_UIWANG
+    case HANAM_GURI
+    case SIHEUNG_GWANGMYEONG
+    case BUCHEON_ANSHAN
+    case DONGDUCHEON_YEONCHEON
+    case PYEONGTAEK_OSAN_ANSEONG
 
     // 인천 소분류
-    case INCHEON_ENTIRE = "인천 전체"
-    
-    // Enum 초기화 메서드 추가
-    public init?(rawValue: String) {
+    case INCHEON_ENTIRE
+
+    // Initialization with raw string values and main region association
+    init?(rawValue: String) {
         switch rawValue {
-        case SubRegion.SEOUL_ENTIRE.rawValue: self = .SEOUL_ENTIRE
-        case SubRegion.GANGNAM_SEOCHO.rawValue: self = .GANGNAM_SEOCHO
-        case SubRegion.JAMSIL_SONGPA_GANGDONG.rawValue: self = .JAMSIL_SONGPA_GANGDONG
-        case SubRegion.KONDAE_SUNGSOO_WANGSIMNI.rawValue: self = .KONDAE_SUNGSOO_WANGSIMNI
-        case SubRegion.JONGNO_JUNGRO.rawValue: self = .JONGNO_JUNGRO
-        case SubRegion.HONGDAE_HAPJEONG_MAPO.rawValue: self = .HONGDAE_HAPJEONG_MAPO
-        case SubRegion.YEONGDEUNGPO_YEOUIDO.rawValue: self = .YEONGDEUNGPO_YEOUIDO
-        case SubRegion.YONGSAN_ITAEWON_HANNAM.rawValue: self = .YONGSAN_ITAEWON_HANNAM
-        case SubRegion.YANGCHEON_GANGSEO.rawValue: self = .YANGCHEON_GANGSEO
-        case SubRegion.SEONGBUK_NOWON_JUNGBANG.rawValue: self = .SEONGBUK_NOWON_JUNGBANG
-        case SubRegion.GURO_GWANAK_DONGJAK.rawValue: self = .GURO_GWANAK_DONGJAK
-        case SubRegion.GYEONGGI_ENTIRE.rawValue: self = .GYEONGGI_ENTIRE
-        case SubRegion.SEONGNAM.rawValue: self = .SEONGNAM
-        case SubRegion.SUWON.rawValue: self = .SUWON
-        case SubRegion.GOYANG_PAJU.rawValue: self = .GOYANG_PAJU
-        case SubRegion.GIMPO.rawValue: self = .GIMPO
-        case SubRegion.YONGIN_HWASEONG.rawValue: self = .YONGIN_HWASEONG
-        case SubRegion.ANYANG_GWACHEON.rawValue: self = .ANYANG_GWACHEON
-        case SubRegion.POCHEON_YANGJU.rawValue: self = .POCHEON_YANGJU
-        case SubRegion.NAMYANGJU_UIJEONGBU.rawValue: self = .NAMYANGJU_UIJEONGBU
-        case SubRegion.GWANGJU_ICHEON_YEOJU.rawValue: self = .GWANGJU_ICHEON_YEOJU
-        case SubRegion.GAPYEONG_YANGPYEONG.rawValue: self = .GAPYEONG_YANGPYEONG
-        case SubRegion.GUNPO_UIWANG.rawValue: self = .GUNPO_UIWANG
-        case SubRegion.HANAM_GURI.rawValue: self = .HANAM_GURI
-        case SubRegion.SIHEUNG_GWANGMYEONG.rawValue: self = .SIHEUNG_GWANGMYEONG
-        case SubRegion.BUCHEON_ANSHAN.rawValue: self = .BUCHEON_ANSHAN
-        case SubRegion.DONGDUCHEON_YEONCHEON.rawValue: self = .DONGDUCHEON_YEONCHEON
-        case SubRegion.PYEONGTAEK_OSAN_ANSEONG.rawValue: self = .PYEONGTAEK_OSAN_ANSEONG
-        case SubRegion.INCHEON_ENTIRE.rawValue: self = .INCHEON_ENTIRE
-        default: return nil
+        // 서울 소분류
+        case "서울 전체": self = .SEOUL_ENTIRE
+        case "강남/서초": self = .GANGNAM_SEOCHO
+        case "잠실/송파/강동": self = .JAMSIL_SONGPA_GANGDONG
+        case "건대/성수/왕십리": self = .KONDAE_SUNGSOO_WANGSIMNI
+        case "종로/중구": self = .JONGNO_JUNGRO
+        case "홍대/합정/마포": self = .HONGDAE_HAPJEONG_MAPO
+        case "영등포/여의도": self = .YEONGDEUNGPO_YEOUIDO
+        case "용산/이태원/한남": self = .YONGSAN_ITAEWON_HANNAM
+        case "양천/강서": self = .YANGCHEON_GANGSEO
+        case "성북/노원/중랑": self = .SEONGBUK_NOWON_JUNGBANG
+        case "구로/관악/동작": self = .GURO_GWANAK_DONGJAK
+
+        // 경기 소분류
+        case "경기 전체": self = .GYEONGGI_ENTIRE
+        case "성남": self = .SEONGNAM
+        case "수원": self = .SUWON
+        case "고양/파주": self = .GOYANG_PAJU
+        case "김포": self = .GIMPO
+        case "용인/화성": self = .YONGIN_HWASEONG
+        case "안양/과천": self = .ANYANG_GWACHEON
+        case "포천/양주": self = .POCHEON_YANGJU
+        case "남양주/의정부": self = .NAMYANGJU_UIJEONGBU
+        case "광주/이천/여주": self = .GWANGJU_ICHEON_YEOJU
+        case "가평/양평": self = .GAPYEONG_YANGPYEONG
+        case "군포/의왕": self = .GUNPO_UIWANG
+        case "하남/구리": self = .HANAM_GURI
+        case "시흥/광명": self = .SIHEUNG_GWANGMYEONG
+        case "부천/안산": self = .BUCHEON_ANSHAN
+        case "동두천/연천": self = .DONGDUCHEON_YEONCHEON
+        case "평택/오산/안성": self = .PYEONGTAEK_OSAN_ANSEONG
+
+        // 인천 소분류
+        case "인천 전체": self = .INCHEON_ENTIRE
+
+        default:
+            return nil
+        }
+    }
+
+    var mainRegion: MainRegion {
+        switch self {
+        case .SEOUL_ENTIRE, .GANGNAM_SEOCHO, .JAMSIL_SONGPA_GANGDONG, .KONDAE_SUNGSOO_WANGSIMNI, .JONGNO_JUNGRO,
+             .HONGDAE_HAPJEONG_MAPO, .YEONGDEUNGPO_YEOUIDO, .YONGSAN_ITAEWON_HANNAM, .YANGCHEON_GANGSEO, .SEONGBUK_NOWON_JUNGBANG,
+             .GURO_GWANAK_DONGJAK:
+            return .SEOUL
+        case .GYEONGGI_ENTIRE, .SEONGNAM, .SUWON, .GOYANG_PAJU, .GIMPO, .YONGIN_HWASEONG, .ANYANG_GWACHEON, .POCHEON_YANGJU,
+             .NAMYANGJU_UIJEONGBU, .GWANGJU_ICHEON_YEOJU, .GAPYEONG_YANGPYEONG, .GUNPO_UIWANG, .HANAM_GURI, .SIHEUNG_GWANGMYEONG,
+             .BUCHEON_ANSHAN, .DONGDUCHEON_YEONCHEON, .PYEONGTAEK_OSAN_ANSEONG:
+            return .GYEONGGI
+        case .INCHEON_ENTIRE:
+            return .INCHEON
         }
     }
 }
