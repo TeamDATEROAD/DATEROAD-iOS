@@ -43,6 +43,9 @@
 		0DA1C7182C3DA98100DF2B92 /* CourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA1C7172C3DA98100DF2B92 /* CourseViewController.swift */; };
 		0DA1C71E2C3DCC2400DF2B92 /* Price.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA1C71D2C3DCC2400DF2B92 /* Price.swift */; };
 		0DA1C7202C3E6D8000DF2B92 /* CourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA1C71F2C3E6D8000DF2B92 /* CourseView.swift */; };
+		0DA8535C2C45CA9700DF7F99 /* CourseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA8535B2C45CA9700DF7F99 /* CourseTargetType.swift */; };
+		0DA8535E2C45CD6B00DF7F99 /* CourseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA8535D2C45CD6B00DF7F99 /* CourseService.swift */; };
+		0DA853612C45CE7C00DF7F99 /* GetCourseFilterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA853602C45CE7C00DF7F99 /* GetCourseFilterResponse.swift */; };
 		0DA920F22C3C0AF500A6A321 /* MainContentsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA920F12C3C0AF500A6A321 /* MainContentsCell.swift */; };
 		0DDFEE0D2C3C513E008C6022 /* LocationFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE0C2C3C513E008C6022 /* LocationFilterViewController.swift */; };
 		0DDFEE0F2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE0E2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift */; };
@@ -227,6 +230,9 @@
 		0DA1C7172C3DA98100DF2B92 /* CourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseViewController.swift; sourceTree = "<group>"; };
 		0DA1C71D2C3DCC2400DF2B92 /* Price.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Price.swift; sourceTree = "<group>"; };
 		0DA1C71F2C3E6D8000DF2B92 /* CourseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseView.swift; sourceTree = "<group>"; };
+		0DA8535B2C45CA9700DF7F99 /* CourseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseTargetType.swift; sourceTree = "<group>"; };
+		0DA8535D2C45CD6B00DF7F99 /* CourseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseService.swift; sourceTree = "<group>"; };
+		0DA853602C45CE7C00DF7F99 /* GetCourseFilterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCourseFilterResponse.swift; sourceTree = "<group>"; };
 		0DA920F12C3C0AF500A6A321 /* MainContentsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentsCell.swift; sourceTree = "<group>"; };
 		0DDFEE0C2C3C513E008C6022 /* LocationFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFilterViewController.swift; sourceTree = "<group>"; };
 		0DDFEE0E2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryLabelCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -573,6 +579,24 @@
 				0DA1C7132C3DA94F00DF2B92 /* CourseListModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		0DA8535A2C45CA2E00DF7F99 /* Course */ = {
+			isa = PBXGroup;
+			children = (
+				0DA8535F2C45CE5800DF7F99 /* DTO */,
+				0DA8535B2C45CA9700DF7F99 /* CourseTargetType.swift */,
+				0DA8535D2C45CD6B00DF7F99 /* CourseService.swift */,
+			);
+			path = Course;
+			sourceTree = "<group>";
+		};
+		0DA8535F2C45CE5800DF7F99 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				0DA853602C45CE7C00DF7F99 /* GetCourseFilterResponse.swift */,
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 		0DDFEE0A2C3C50F7008C6022 /* Commons */ = {
@@ -926,6 +950,7 @@
 		CA3D0D122C29A9BB00735097 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				0DA8535A2C45CA2E00DF7F99 /* Course */,
 				CA3D0D132C29A9C500735097 /* Base */,
 			);
 			path = Network;
@@ -1453,6 +1478,7 @@
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
 				7455476D2C3D03E100B526F3 /* PastDateCollectionViewCell.swift in Sources */,
 				7455475D2C3C2A9A00B526F3 /* UpcomingDateDetailViewController.swift in Sources */,
+				0DA853612C45CE7C00DF7F99 /* GetCourseFilterResponse.swift in Sources */,
 				CAA30AEB2C37DCE300835DE3 /* ProfileViewModel.swift in Sources */,
 				CAC80FB52C3BBEA900658EA6 /* BaseTableViewCell.swift in Sources */,
 				CAC80FBF2C3C642300658EA6 /* PointSystemView.swift in Sources */,
@@ -1494,6 +1520,7 @@
 				0DDFEE0D2C3C513E008C6022 /* LocationFilterViewController.swift in Sources */,
 				CAC80FF12C3EFF6600658EA6 /* DRPaddingLabel.swift in Sources */,
 				74C88EF02C4047E400A4C638 /* CustomEmptyView.swift in Sources */,
+				0DA8535E2C45CD6B00DF7F99 /* CourseService.swift in Sources */,
 				0D06D9A22C3605760094C505 /* TagInfoCell.swift in Sources */,
 				0DA1C7202C3E6D8000DF2B92 /* CourseView.swift in Sources */,
 				747819392C3A93760040D5E7 /* MyCourseListCollectionView.swift in Sources */,
@@ -1524,6 +1551,7 @@
 				CAA30AE52C37BCB200835DE3 /* DRTagButton.swift in Sources */,
 				CAA30AE82C37DAA600835DE3 /* TendencyTagCollectionViewCell.swift in Sources */,
 				CA80C0CF2C445D38002CAA9B /* MoyaLoggingPluggin.swift in Sources */,
+				0DA8535C2C45CA9700DF7F99 /* CourseTargetType.swift in Sources */,
 				CAC80FB92C3BCE4E00658EA6 /* MyPageSection.swift in Sources */,
 				CAC80FDE2C3E7F0100658EA6 /* MainViewModel.swift in Sources */,
 				CA78FE472C38667A001B1403 /* DRErrorLabel.swift in Sources */,

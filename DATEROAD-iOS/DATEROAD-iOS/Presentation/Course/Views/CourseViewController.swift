@@ -119,6 +119,20 @@ extension CourseViewController {
         }
     }
     
+    func getCourse() {
+        NetworkService.shared.mainService.getUserProfile() { response in
+            switch response {
+            case .success(let data):
+                self.mainUserData.value = MainUserModel(name: data.name, point: data.point, imageUrl: data.image)
+                self.nickname.value = data.name
+                self.isSuccessGetUserInfo.value = true
+            default:
+                print("Failed to fetch user profile")
+                return
+            }
+        }
+    }
+    
 }
 
 extension CourseViewController: CourseNavigationBarViewDelegate {
