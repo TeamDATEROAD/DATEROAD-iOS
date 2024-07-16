@@ -21,11 +21,15 @@ final class CourseViewModel {
     
     var selectedCityIndex: ObservablePattern<Int>  = ObservablePattern(0)
     
+    var selectedCityName: ObservablePattern<String>  = ObservablePattern(nil)
+    
     var selectedPriceIndex: ObservablePattern<Int> = ObservablePattern(0)
     
     var isApplyButtonEnabled: ObservablePattern<Bool> = ObservablePattern(false)
     
     var didUpdateCityData: (() -> Void)?
+    
+    var didUpdateselectedCityName: ((String?) -> Void)?
     
     var didUpdateSelectedCountryIndex: ((Int?) -> Void)?
     
@@ -40,11 +44,12 @@ final class CourseViewModel {
     }
     
     func resetSelections() {
-        selectedCountryIndex.value = nil
-        selectedCityIndex.value = nil
-        selectedPriceIndex.value = nil
+        selectedCountryIndex.value = 0
+        selectedCityIndex.value = 0
+        selectedPriceIndex.value = 0
         updateCityData()
     }
+
     
     func updateCityData() {
         guard let selectedCountryIndex = selectedCountryIndex.value else {

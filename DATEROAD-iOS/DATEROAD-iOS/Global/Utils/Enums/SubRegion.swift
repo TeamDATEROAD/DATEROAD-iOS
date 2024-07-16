@@ -94,6 +94,7 @@ public enum SubRegion {
         }
     }
 
+
     var mainRegion: MainRegion {
         switch self {
         case .SEOUL_ENTIRE, .GANGNAM_SEOCHO, .JAMSIL_SONGPA_GANGDONG, .KONDAE_SUNGSOO_WANGSIMNI, .JONGNO_JUNGRO,

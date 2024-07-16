@@ -74,6 +74,7 @@ extension CourseViewController {
             $0.layer.borderWidth = 0
             $0.tintColor = UIColor(resource: .gray400)
         }
+        courseViewModel.selectedCityName.value = ""
         courseViewModel.selectedPriceIndex.value = 0
         getCourse()
     }
@@ -105,6 +106,10 @@ extension CourseViewController {
         self.courseViewModel.selectedPriceIndex.bind { [weak self] index in
             self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
         }
+        
+        self.courseViewModel.selectedCityName.bind { [weak self] index in
+            self?.courseViewModel.didUpdateselectedCityName?(index)
+        }
     }
     
     func registerCell() {
@@ -135,16 +140,12 @@ extension CourseViewController {
     }
     
     func getCourse() {
-        guard let priceIndex = courseViewModel.selectedPriceIndex.value else {
-            print("selectedPriceIndex is nil")
-            return
-        }
-        
-        var cost = courseViewModel.selectedPriceIndex.value?.costNum() ?? 0 // Defaulting to 0 if costNum is nil
-        
+ 
+        let cost = courseViewModel.selectedPriceIndex.value?.costNum() ?? 0
+        let city = courseViewModel.selectedCityName.value ?? ""
         print(cost, "✅")
-        
-        CourseService().getCourseInfo(city: "", cost: cost) { response in
+        print(city, "✅")
+        CourseService().getCourseInfo(city: city, cost: cost) { response in
             switch response {
             case .success(let data):
                 let courseModels = data.courses.map { filterList in
@@ -200,10 +201,23 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
     }
     
     func didSelectCity(_ city: LocationModel.City) {
+        // 'Seoul.jongnoJunggu'와 같은 rawValue에서 'jongnoJunggu'만 추출
+        let cityNameComponents = city.rawValue.split(separator: ".")
+        let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
+        
+        if let subRegion = SubRegion(rawValue: cityName) {
+            print(subRegion)
+            
+            let selectedSubRegion = "\(subRegion)"
+            
+            courseViewModel.selectedCityName.value = selectedSubRegion
+        } else {
+            print(cityName)
+        }
         
         self.courseView.courseFilterView.locationFilterButton.do {
             $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
-            $0.setTitle("\(city.rawValue)", for: .normal)
+            $0.setTitle(cityName, for: .normal)
             $0.layer.borderWidth = 1
             $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
             let image = UIImage(resource: .icDropdown).withRenderingMode(.alwaysTemplate)
@@ -211,6 +225,7 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
             $0.tintColor = UIColor(resource: .deepPurple)
         }
     }
+
     
 }
 
@@ -244,7 +259,7 @@ extension CourseViewController: UICollectionViewDataSource {
     @objc
     func pushToCourseDetialVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: courseView.courseListView)
-        if let indexPath = courseView.courseListView.courseListCollectionView.indexPathForItem(at: location) {
+        if courseView.courseListView.courseListCollectionView.indexPathForItem(at: location) != nil {
             let courseDetailVC = CourseDetailViewController(viewModel: CourseDetailViewModel())
             self.navigationController?.pushViewController(courseDetailVC, animated: true)
         }
