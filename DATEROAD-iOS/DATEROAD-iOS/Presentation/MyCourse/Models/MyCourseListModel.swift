@@ -20,11 +20,11 @@ struct MyCourseModel {
     let thumbnail: String
     let title: String
     let city: String
-    let cost: Int
+    let cost: String
     let duration: Float
     let like: Int
     
-    init(courseId: Int, thumbnail: String, title: String, city: String, cost: Int, duration: Float, like: Int) {
+    init(courseId: Int, thumbnail: String, title: String, city: String, cost: String, duration: Float, like: Int) {
         self.courseId = courseId
         self.thumbnail = thumbnail
         self.title = title

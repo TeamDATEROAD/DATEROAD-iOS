@@ -29,6 +29,9 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
         
         setLeftBackButton()
         setTitleLabelStyle(title: StringLiterals.MyRegisterCourse.title, alignment: .center)
+        print("before: ", myRegisterCourseData)
+        bindViewModel()
+        print("after: ", myRegisterCourseData)
         register()
         setDelegate()
     }
@@ -54,6 +57,20 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
         self.view.backgroundColor = UIColor(resource: .drWhite)
     }
 
+}
+
+// MARK: - DataBind
+
+extension MyRegisterCourseViewController {
+    func bindViewModel() {
+        self.myRegisterCourseViewModel.isSuccessGetMyRegisterCourseInfo.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                print("@log - Data Bind Successful: \(self?.myRegisterCourseData)")
+                self?.courseCollectionView.reloadData()
+            }
+        }
+    }
 }
 
 // MARK: - CollectionView Methods

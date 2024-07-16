@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 import Then
+import Kingfisher
 
 class MyCourseListCollectionViewCell: BaseCollectionViewCell {
 
@@ -165,13 +166,12 @@ extension MyCourseListCollectionViewCell {
     func dataBind(_ viewedCourseData: MyCourseModel, _ viewedCourseItemRow: Int?) {
         self.courseID = viewedCourseData.courseId
         self.heartButton.setTitle("\(viewedCourseData.like)", for: .normal)
-        self.thumbnailImageView.image = UIImage(resource: .secondOnboardingBG)
+        self.thumbnailImageView.kf.setImage(with: URL(string: viewedCourseData.thumbnail))
         self.locationLabel.text = viewedCourseData.city
         self.titleLabel.text = viewedCourseData.title
-        self.expenseButton.setTitle("\(viewedCourseData.cost)원", for: .normal)
+        self.expenseButton.setTitle(viewedCourseData.cost, for: .normal)
         self.timeButton.setTitle("\(viewedCourseData.duration)시간", for: .normal)
         self.viewedCourseItemRow = viewedCourseItemRow
     }
-    
     
 }

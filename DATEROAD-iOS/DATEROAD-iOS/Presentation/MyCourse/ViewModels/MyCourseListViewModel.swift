@@ -17,21 +17,26 @@ class MyCourseListViewModel {
     
     var myRegisterCourseData : [MyCourseModel] = []
     
+    var isSuccessGetViewedCourseInfo: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var isSuccessGetMyRegisterCourseInfo: ObservablePattern<Bool> = ObservablePattern(false)
+    
     init(userName: String = "수민") {
         self.userName = userName
         setViewedCourseData()
         setMyRegisterCourseData()
+        print("@log", myRegisterCourseData)
     }
     
     func setViewedCourseData() {
         myCourseService.getViewedCourse() { [weak self] response in
             switch response {
             case .success(let data):
-                let viewedCourseData = data.courses.map {
-                    MyCourseModel(courseId: $0.courseID, thumbnail: $0.thumbnail, title: $0.title, city: $0.city, cost: $0.cost, duration: $0.duration, like: $0.like)
+                let viewedCourseInfo = data.courses.map {
+                    MyCourseModel(courseId: $0.courseID, thumbnail: $0.thumbnail, title: $0.title, city: $0.city, cost: $0.cost.priceRangeTag(), duration: $0.duration, like: $0.like)
                 }
-                self?.viewedCourseData = viewedCourseData
-                print(viewedCourseData)
+                self?.viewedCourseData = viewedCourseInfo
+                self?.isSuccessGetViewedCourseInfo.value = true
             case .requestErr:
                 print("requestError")
             case .decodedErr:
@@ -50,11 +55,14 @@ class MyCourseListViewModel {
         myCourseService.getMyRegisterCourse() { [weak self] response in
             switch response {
             case .success(let data):
-                let myRegisterCourseData = data.courses.map {
-                    MyCourseModel(courseId: $0.courseID, thumbnail: $0.thumbnail, title: $0.title, city: $0.city, cost: $0.cost, duration: $0.duration, like: $0.like)
+                let myRegisterCourseInfo = data.courses.map {
+                    MyCourseModel(courseId: $0.courseID, thumbnail: $0.thumbnail, title: $0.title, city: $0.city, cost: ($0.cost).priceRangeTag(), duration: $0.duration, like: $0.like)
                 }
-                self?.myRegisterCourseData = myRegisterCourseData
-                print(myRegisterCourseData)
+                self?.myRegisterCourseData = myRegisterCourseInfo
+                self?.isSuccessGetMyRegisterCourseInfo.value = true
+                print("@log-------")
+                print(myRegisterCourseInfo)
+                print(self?.myRegisterCourseData)
             case .requestErr:
                 print("requestError")
             case .decodedErr:
@@ -68,21 +76,4 @@ class MyCourseListViewModel {
             }
         }
     }
-    
-    /*
-    var viewedCourseDummyData = [
-        MyCourseListModel(courseID: 1, courseLike: 5000, courseThumbnail: "", courseTitle: "여기 야끼니쿠 꼭 먹으러 가세요\n하지만 일본에 있습니다.", courseLocation: "건대/성수/왕십리", courseExpense: "10만원 초과", courseTime: "10시간"),
-        MyCourseListModel(courseID: 2, courseLike: 5, courseThumbnail: "", courseTitle: "여기 야끼니쿠 꼭 먹으러 가세요\n하지만 일본에 있습니다.", courseLocation: "건대/성수/왕십리", courseExpense: "10만원 초과", courseTime: "10시간"),
-        MyCourseListModel(courseID: 3, courseLike: 5, courseThumbnail: "", courseTitle: "여기 야끼니쿠 꼭 먹으러 가세요\n하지만 일본에 있습니다.", courseLocation: "건대/성수/왕십리", courseExpense: "10만원 초과", courseTime: "10시간"),
-        MyCourseListModel(courseID: 4, courseLike: 5, courseThumbnail: "", courseTitle: "여기 야끼니쿠 꼭 먹으러 가세요\n하지만 일본에 있습니다.", courseLocation: "건대/성수/왕십리", courseExpense: "10만원 초과", courseTime: "10시간"),
-        MyCourseListModel(courseID: 5, courseLike: 5, courseThumbnail: "", courseTitle: "여기 야끼니쿠 꼭 먹으러 가세요\n하지만 일본에 있습니다.", courseLocation: "건대/성수/왕십리", courseExpense: "10만원 초과", courseTime: "10시간"),
-        MyCourseListModel(courseID: 6, courseLike: 5, courseThumbnail: "", courseTitle: "여기 야끼니쿠 꼭 먹으러 가세요\n하지만 일본에 있습니다.", courseLocation: "건대/성수/왕십리", courseExpense: "10만원 초과", courseTime: "10시간"),
-        MyCourseListModel(courseID: 7, courseLike: 5, courseThumbnail: "", courseTitle: "여기 야끼니쿠 꼭 먹으러 가세요\n하지만 일본에 있습니다.", courseLocation: "건대/성수/왕십리", courseExpense: "10만원 초과", courseTime: "10시간"),
-        MyCourseListModel(courseID: 8, courseLike: 5, courseThumbnail: "", courseTitle: "여기 야끼니쿠 꼭 먹으러 가세요\n하지만 일본에 있습니다.", courseLocation: "건대/성수/왕십리", courseExpense: "10만원 초과", courseTime: "10시간"),
-    ]*/
-    
-    /*
-    var myRegisterCourseDummyData = [
-        MyCourseModel(courseId: 1, thumbnail: "", title: "여기 야끼니쿠 꼭 먹으러 가세요\n하지만 일본에 있습니다.", city: "건대/성수/왕십리", cost: 10, duration: 6.5, like: 5)
-    ]*/
 }
