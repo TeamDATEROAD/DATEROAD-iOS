@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 public enum MainRegion: String {
     case SEOUL = "서울"
     case GYEONGGI = "경기"
