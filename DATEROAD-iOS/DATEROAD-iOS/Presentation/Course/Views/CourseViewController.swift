@@ -85,22 +85,26 @@ extension CourseViewController {
             previousButton.isSelected = false
             self.courseView.courseFilterView.updatePrice(button: previousButton, buttonType: UnselectedButton(), isSelected: false)
         }
-        
+
         guard let cell = sender.superview?.superview as? UICollectionViewCell,
               let indexPath = courseView.courseFilterView.priceCollectionView.indexPath(for: cell) else {
             return
         }
         sender.isSelected = !sender.isSelected
-        
-        sender.isSelected ? self.courseView.courseFilterView.updatePrice(button: sender, buttonType: SelectedButton(), isSelected: sender.isSelected)
-        : self.courseView.courseFilterView.updatePrice(button: sender, buttonType: UnselectedButton(), isSelected: sender.isSelected)
-        
-        
+
+        if sender.isSelected {
+            self.courseView.courseFilterView.updatePrice(button: sender, buttonType: SelectedButton(), isSelected: true)
+            courseViewModel.selectedPriceIndex.value = indexPath.row + 1
+        } else {
+            self.courseView.courseFilterView.updatePrice(button: sender, buttonType: UnselectedButton(), isSelected: false)
+            courseViewModel.selectedPriceIndex.value = 0
+        }
+
         // 현재 버튼이 선택되었다면 selectedButton으로 비활성화되었다면 nil로 설정
         selectedButton = sender.isSelected ? sender : nil
-        courseViewModel.selectedPriceIndex.value = indexPath.row + 1
         getCourse()
     }
+
     
     func bindViewModel() {
         self.courseViewModel.selectedPriceIndex.bind { [weak self] index in
