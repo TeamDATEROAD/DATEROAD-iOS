@@ -19,9 +19,9 @@ final class CourseViewModel {
     
     var selectedCountryIndex: ObservablePattern<Int> = ObservablePattern(0)
     
-    var selectedCityIndex: ObservablePattern<Int>  = ObservablePattern(nil)
+    var selectedCityIndex: ObservablePattern<Int>  = ObservablePattern(0)
     
-    var selectedPriceIndex: ObservablePattern<Int> = ObservablePattern(nil)
+    var selectedPriceIndex: ObservablePattern<Int> = ObservablePattern(0)
     
     var isApplyButtonEnabled: ObservablePattern<Bool> = ObservablePattern(false)
     
@@ -60,6 +60,7 @@ final class CourseViewModel {
     func updateApplyButtonState() {
         isApplyButtonEnabled.value = selectedCityIndex.value != nil
     }
+ 
     
 }
 
@@ -68,4 +69,5 @@ extension CourseViewModel {
     func fetchPriceData() {
         priceData = Price.allCases.map { $0.priceTitle }
     }
+
 }

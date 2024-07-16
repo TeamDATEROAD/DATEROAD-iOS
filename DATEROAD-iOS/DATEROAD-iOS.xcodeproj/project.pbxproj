@@ -46,6 +46,7 @@
 		0DA8535C2C45CA9700DF7F99 /* CourseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA8535B2C45CA9700DF7F99 /* CourseTargetType.swift */; };
 		0DA8535E2C45CD6B00DF7F99 /* CourseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA8535D2C45CD6B00DF7F99 /* CourseService.swift */; };
 		0DA853612C45CE7C00DF7F99 /* GetCourseFilterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA853602C45CE7C00DF7F99 /* GetCourseFilterResponse.swift */; };
+		0DA853632C46DC8400DF7F99 /* SubRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA853622C46DC8400DF7F99 /* SubRegion.swift */; };
 		0DA920F22C3C0AF500A6A321 /* MainContentsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA920F12C3C0AF500A6A321 /* MainContentsCell.swift */; };
 		0DDFEE0D2C3C513E008C6022 /* LocationFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE0C2C3C513E008C6022 /* LocationFilterViewController.swift */; };
 		0DDFEE0F2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE0E2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift */; };
@@ -233,6 +234,7 @@
 		0DA8535B2C45CA9700DF7F99 /* CourseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseTargetType.swift; sourceTree = "<group>"; };
 		0DA8535D2C45CD6B00DF7F99 /* CourseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseService.swift; sourceTree = "<group>"; };
 		0DA853602C45CE7C00DF7F99 /* GetCourseFilterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCourseFilterResponse.swift; sourceTree = "<group>"; };
+		0DA853622C46DC8400DF7F99 /* SubRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubRegion.swift; sourceTree = "<group>"; };
 		0DA920F12C3C0AF500A6A321 /* MainContentsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentsCell.swift; sourceTree = "<group>"; };
 		0DDFEE0C2C3C513E008C6022 /* LocationFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFilterViewController.swift; sourceTree = "<group>"; };
 		0DDFEE0E2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryLabelCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1005,6 +1007,7 @@
 				7428400F2C3EC87300B21AA7 /* AlertType.swift */,
 				0DA1C71D2C3DCC2400DF2B92 /* Price.swift */,
 				CA80C0C82C440F3C002CAA9B /* ProfileErrorType.swift */,
+				0DA853622C46DC8400DF7F99 /* SubRegion.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1459,6 +1462,7 @@
 				CAC80FEB2C3EC6F900658EA6 /* NewDateCourseCell.swift in Sources */,
 				0D9497B22C327D2D0004B442 /* PreviewCourseDetailViewController.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
+				0DA853632C46DC8400DF7F99 /* SubRegion.swift in Sources */,
 				CAC80FE52C3EC6C500658EA6 /* HotDateCourseCell.swift in Sources */,
 				CAC80FC82C3C75F200658EA6 /* PointSystemViewModel.swift in Sources */,
 				CAC80FB32C3BBE9100658EA6 /* MyPageTableViewCell.swift in Sources */,
