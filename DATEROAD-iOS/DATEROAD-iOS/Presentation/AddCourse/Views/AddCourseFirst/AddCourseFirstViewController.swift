@@ -78,34 +78,62 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
 private extension AddCourseFirstViewController {
    
    func bindViewModel() {
-      viewModel.dateName.bind { [weak self] date in
-         self?.addCourseFirstView.addFirstView.dateNameTextField.text = date
+      viewModel.isPickedImageVaild.bind { date in
+         let flag = self.viewModel.isOkSixBtn()
+         self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
-      viewModel.visitDate.bind { [weak self] date in
-         self?.addCourseFirstView.addFirstView.visitDateTextField.text = date
-      }
-      viewModel.dateStartAt.bind { [weak self] date in
-         self?.addCourseFirstView.addFirstView.dateStartTimeTextField.text = date
-      }
-      viewModel.isDateNameValid.bind { [weak self] date in
-         self?.addCourseFirstView.updateDateNameTextField(isPassValid: date ?? true)
-      }
-      viewModel.isVisitDateValid.bind { [weak self] date in
-         self?.addCourseFirstView.updateVisitDateTextField(isPassValid: date ?? true)
-      }
-      viewModel.tagCount.bind { [weak self] count in
-         self?.addCourseFirstView.addFirstView.updateTagCount(count: count ?? 0)
-      }
-      viewModel.dateLocation.bind { [weak self] date in
+      viewModel.isDateNameVaild.bind { date in
          guard let date = date else {return}
-         self?.addCourseFirstView.addFirstView.updateDateLocation(text: date)
+         self.addCourseFirstView.updateDateNameTextField(isPassValid: date)
+         
+         let flag = self.viewModel.isOkSixBtn()
+         self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
+      }
+      viewModel.isVisitDateVaild.bind { date in
+         guard let date = date else {return}
+         self.addCourseFirstView.updateVisitDateTextField(isPassValid: date)
+         
+         let flag = self.viewModel.isOkSixBtn()
+         self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
+      }
+      viewModel.isDateStartAtVaild.bind { date in
+         let flag = self.viewModel.isOkSixBtn()
+         self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
+      }
+      viewModel.isValidTag.bind { date in
+         let flag = self.viewModel.isOkSixBtn()
+         self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
+      }
+      viewModel.isDateLocationVaild.bind { date in
+         let flag = self.viewModel.isOkSixBtn()
+         self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
+      }
+      
+      viewModel.dateName.bind { date in
+         guard let text = date else {return}
+         self.addCourseFirstView.addFirstView.updateDateName(text: text)
+      }
+      viewModel.visitDate.bind { date in
+         guard let text = date else {return}
+         self.addCourseFirstView.addFirstView.updateVisitDate(text: text)
+      }
+      viewModel.dateStartAt.bind { date in
+         guard let text = date else {return}
+         self.addCourseFirstView.addFirstView.updatedateStartTime(text: text)
+      }
+      viewModel.tagCount.bind { count in
+         self.addCourseFirstView.addFirstView.updateTagCount(count: count ?? 0)
+      }
+      viewModel.dateLocation.bind { date in
+         guard let date = date else {return}
+         self.addCourseFirstView.addFirstView.updateDateLocation(text: date)
       }
    }
    
    func registerCell() {
-           addCourseFirstView.collectionView.register(AddCourseImageCollectionViewCell.self, forCellWithReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier)
-           addCourseFirstView.addFirstView.tendencyTagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
-       }
+      addCourseFirstView.collectionView.register(AddCourseImageCollectionViewCell.self, forCellWithReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier)
+      addCourseFirstView.addFirstView.tendencyTagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
+   }
    
    func setDelegate() {
       addCourseFirstView.collectionView.do {
@@ -131,6 +159,28 @@ private extension AddCourseFirstViewController {
    }
    
    @objc
+   func textFieldTapped(_ textField: UITextField) {
+      if textField == addCourseFirstView.addFirstView.visitDateTextField {
+         addSheetView.datePickerMode(isDatePicker: true)
+         viewModel.isTimePicker = false
+      } else if textField == addCourseFirstView.addFirstView.dateStartTimeTextField {
+         addSheetView.datePickerMode(isDatePicker: false)
+         viewModel.isTimePicker = true
+      }
+      alertVC.delegate = self
+      DispatchQueue.main.async {
+         self.alertVC.modalPresentationStyle = .overFullScreen
+         self.present(self.alertVC, animated: true, completion: nil)
+      }
+   }
+   
+   @objc
+   func textFieldDidChanacge(_ textField: UITextField) {
+      viewModel.dateName.value = textField.text ?? ""
+      viewModel.satisfyDateName(str: textField.text ?? "")
+   }
+   
+   @objc
    func removeCell(sender: UIButton) {
       guard let cell = sender.superview?.superview as? AddCourseImageCollectionViewCell,
             let indexPath = addCourseFirstView.collectionView.indexPath(for: cell) else { return }
@@ -140,6 +190,7 @@ private extension AddCourseFirstViewController {
       let dataSourceCnt = viewModel.pickedImageArr.count
       if dataSourceCnt < 1 {
          cell.updateImageCellUI(isImageEmpty: true, vcCnt: 1)
+         viewModel.isPickedImageVaild.value = false
          addCourseFirstView.collectionView.reloadData()
       } else {
          addCourseFirstView.collectionView.deleteItems(at: [indexPath])
@@ -234,7 +285,12 @@ extension AddCourseFirstViewController: UICollectionViewDataSource, UICollection
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
       if collectionView == addCourseFirstView.collectionView {
          let cnt = viewModel.pickedImageArr.count
-         return viewModel.isPickedImageEmpty(cnt: cnt) ? 1 : viewModel.pickedImageArr.count
+         if cnt < 1 {
+            return 1
+         } else {
+            viewModel.isPickedImageVaild.value = true
+            return cnt
+         }
       } else {
          return viewModel.tagData.count
       }
@@ -248,22 +304,23 @@ extension AddCourseFirstViewController: UICollectionViewDataSource, UICollection
          ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
          
          let cnt = viewModel.pickedImageArr.count
-         let flag = viewModel.isPickedImageEmpty(cnt: cnt)
+         guard let imageIsNotEmpty = viewModel.isPickedImageVaild.value else {return UICollectionViewCell()}
          
-         cell.updateImageCellUI(isImageEmpty: flag, vcCnt: 1)
+         cell.updateImageCellUI(isImageEmpty: !imageIsNotEmpty, vcCnt: 1)
          
-         if !flag {
-            self.addCourseFirstView.updateImageCellUI(isEmpty: flag, ImageDataCount: cnt)
-            print(viewModel.pickedImageArr.count)
-            cell.configurePickedImage(pickedImage: viewModel.pickedImageArr[indexPath.row])
-            cell.prepare(image: viewModel.pickedImageArr[indexPath.row])
+         if imageIsNotEmpty {
+            self.addCourseFirstView.updateImageCellUI(isEmpty: !imageIsNotEmpty, ImageDataCount: cnt)
             
+            cell.configurePickedImage(
+               pickedImage: viewModel.pickedImageArr[indexPath.row])
+            cell.prepare(image: viewModel.pickedImageArr[indexPath.row])
             cell.deleteImageBtn.tag = indexPath.row
+            
             cell.deleteImageBtn.addTarget(self, action: #selector(removeCell(sender:)), for: .touchUpInside)
+            
             addCourseFirstView.cameraBtn.addTarget(self, action: #selector(didTapCameraBtn), for: .touchUpInside)
          } else {
-            print(viewModel.pickedImageArr.count)
-            self.addCourseFirstView.updateImageCellUI(isEmpty: flag, ImageDataCount: 0)
+            self.addCourseFirstView.updateImageCellUI(isEmpty: !imageIsNotEmpty, ImageDataCount: 0)
          }
          return cell
       } else {
@@ -302,27 +359,6 @@ extension AddCourseFirstViewController: UITextFieldDelegate {
       return true
    }
    
-   @objc
-   private func textFieldTapped(_ textField: UITextField) {
-      if textField == addCourseFirstView.addFirstView.visitDateTextField {
-         addSheetView.datePickerMode(isDatePicker: true)
-         viewModel.isTimePicker = false
-      } else if textField == addCourseFirstView.addFirstView.dateStartTimeTextField {
-         addSheetView.datePickerMode(isDatePicker: false)
-         viewModel.isTimePicker = true
-      }
-      alertVC.delegate = self
-      DispatchQueue.main.async {
-         self.alertVC.modalPresentationStyle = .overFullScreen
-         self.present(self.alertVC, animated: true, completion: nil)
-      }
-   }
-   
-   @objc
-   func textFieldDidChanacge(_ textField: UITextField) {
-      viewModel.isDateNameValid(cnt: textField.text?.count ?? 0)
-   }
-   
 }
 
 extension AddCourseFirstViewController: ImagePickerDelegate {
@@ -336,12 +372,12 @@ extension AddCourseFirstViewController: ImagePickerDelegate {
 }
 
 extension AddCourseFirstViewController: DRBottomSheetDelegate {
-    
-    func didTapBottomButton() {
-       print("")
-       self.dismiss(animated: true)
-       updateTextField()
-    }
+   
+   func didTapBottomButton() {
+      print("")
+      self.dismiss(animated: true)
+      updateTextField()
+   }
    
    func updateTextField() {
       let isTimePickerFlag = viewModel.isTimePicker ?? false
@@ -359,12 +395,11 @@ extension AddCourseFirstViewController: DRBottomSheetDelegate {
 }
 
 extension AddCourseFirstViewController: LocationFilterDelegate {
-    
-    func didSelectCity(_ city: LocationModel.City) {
-        print("Selected city: \(city.rawValue)")
-       viewModel.dateLocation.value = city.rawValue
-       
-//        self.courseView.courseFilterView.locationFilterButton.setTitle("\(city.rawValue)", for: .normal)
-       
-    }
+   
+   func didSelectCity(_ city: LocationModel.City) {
+      print("Selected city: \(city.rawValue)")
+      viewModel.dateLocation.value = city.rawValue
+      viewModel.satisfyDateLocation(str: city.rawValue)
+   }
+   
 }

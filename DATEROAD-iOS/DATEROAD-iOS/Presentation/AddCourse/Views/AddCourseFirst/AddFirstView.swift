@@ -243,7 +243,7 @@ final class AddFirstView: BaseView {
             for: .normal
          )
          $0.titleLabel?.font = UIFont.suit(.body_med_13)
-         $0.setButtonStatus(buttonType: enabledButtonType)
+         $0.setButtonStatus(buttonType: disabledButtonType)
       }
    }
    
@@ -310,6 +310,18 @@ extension AddFirstView {
       return btn
    }
    
+   func updateDateName(text: String) {
+      dateNameTextField.text = text
+   }
+   
+   func updateVisitDate(text: String) {
+      visitDateTextField.text = text
+   }
+   
+   func updatedateStartTime(text: String) {
+      dateStartTimeTextField.text = text
+   }
+   
    func updateTagButtonStyle(btn: UIButton, isSelected: Bool) {
       btn.do {
          $0.configuration?.background.backgroundColor = isSelected ? UIColor(resource: .deepPurple) : UIColor(resource: .gray100)
@@ -318,7 +330,8 @@ extension AddFirstView {
    }
    
    func updateSixCheckButton(isValid: Bool) {
-      print("!!!!isValid : \(isValid)!!!!!!!")
+      let btnState = isValid ? enabledButtonType : disabledButtonType
+      sixCheckNextButton.setButtonStatus(buttonType: btnState)
    }
    
    func updateTagCount(count: Int) {
