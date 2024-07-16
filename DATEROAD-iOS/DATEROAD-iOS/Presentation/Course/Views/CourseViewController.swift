@@ -144,11 +144,8 @@ extension CourseViewController {
     }
     
     func getCourse() {
- 
         let cost = courseViewModel.selectedPriceIndex.value?.costNum() ?? 0
         let city = courseViewModel.selectedCityName.value ?? ""
-        print(cost, "✅")
-        print(city, "✅")
         CourseService().getCourseInfo(city: city, cost: cost) { response in
             switch response {
             case .success(let data):
