@@ -34,7 +34,7 @@ extension LoginViewModel {
     // Kakao 로그인
     
     func checkKakaoInstallation(completion: @escaping (Bool) -> Void) {
-        self.socialType.value = .kakao
+        self.socialType.value = .KAKAO
         self.isKaKaoLogin.value = true
         if UserApi.isKakaoTalkLoginAvailable() {
             completion(true)
@@ -79,7 +79,7 @@ extension LoginViewModel {
         else { return }
         
         self.isKaKaoLogin.value = false
-        self.socialType.value = .apple
+        self.socialType.value = .APPLE
 
         self.setToken(token: token)
         self.setUserInfo(userInfo: userInfo)

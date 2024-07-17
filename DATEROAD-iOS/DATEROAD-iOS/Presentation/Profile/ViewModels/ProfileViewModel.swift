@@ -49,12 +49,12 @@ extension ProfileViewModel {
             // TODO: - 닉네임이 글자 수 충족 -> 중복 확인 처리 로직 추가 예정
 
             self.isValidNicknameCount.value = true
-            self.isValidNickname.value = true
+//            self.isValidNickname.value = true
         } else {
             if nickname.count < 2 {
                 self.isValidNicknameCount.value = false
             }
-            self.isValidNickname.value = false
+//            self.isValidNickname.value = false
         }
     }
     
@@ -99,8 +99,8 @@ extension ProfileViewModel {
         
         guard let name = self.nickname.value else { return }
 
-        var requestBody = PostSignUpRequest(userSignUpReq: UserSignUpReq(name: name,
-                                                                         platform: socialType ? SocialType.kakao.rawValue : SocialType.apple.rawValue),
+        let requestBody = PostSignUpRequest(userSignUpReq: UserSignUpReq(name: name,
+                                                                         platform: socialType ? SocialType.KAKAO.rawValue : SocialType.APPLE.rawValue),
                                             image: image,
                                             tag: self.selectedTagData)
         
@@ -115,6 +115,24 @@ extension ProfileViewModel {
             default:
                 print("Failed to fetch post signup")
                 self.onSuccessRegister?(false)
+                return
+            }
+            
+        }
+    }
+    
+    func getDoubleCheck() {
+        guard let name = self.nickname.value else { return }
+        
+        NetworkService.shared.authService.getDoubleCheck(name: name) { response in
+            switch response {
+            case .success(_):
+                self.isValidNickname.value = true
+            case .requestErr:
+                self.isValidNickname.value = false
+            default:
+                print("Failed to fetch get double check")
+                self.isValidNickname.value = false
                 return
             }
             

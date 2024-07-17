@@ -100,11 +100,13 @@ private extension ProfileViewController {
     // TODO: - 추후 중복확인 연결 시 수정 예정
     func bindViewModel() {
         self.profileViewModel.isValidNickname.bind { [weak self] isValid in
-            guard let isValid else { return }
-//            self?.profileView.nicknameErrMessageLabel.isHidden = isValid ? false : true
-//            isValid ? self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isValid) : self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValid)
-            self?.profileView.updateDoubleCheckButton(isValid: isValid)
-            self?.profileViewModel.checkValidRegistration()
+            guard let isValid,  let initial = self?.initial else { return }
+            if initial {
+                self?.profileView.nicknameErrMessageLabel.isHidden = false
+                isValid ? self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isValid) : self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValid)
+
+                self?.profileViewModel.checkValidRegistration()
+            }
         }
         
         self.profileViewModel.isValidNicknameCount.bind { [weak self] isValidCount in
@@ -112,6 +114,7 @@ private extension ProfileViewController {
             if initial {
                 self?.profileView.nicknameErrMessageLabel.isHidden = isValidCount ? true : false
                 self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValidCount)
+                self?.profileView.updateDoubleCheckButton(isValid: isValidCount)
             }
         }
         
@@ -168,6 +171,7 @@ private extension ProfileViewController {
     func doubleCheckNickname(sender: UITapGestureRecognizer) {
         // TODO: - 중복 확인 서버 통신
         print("double check")
+        self.profileViewModel.getDoubleCheck()
     }
     
     @objc
