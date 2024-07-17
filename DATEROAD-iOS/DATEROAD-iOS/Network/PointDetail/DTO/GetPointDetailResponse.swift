@@ -5,16 +5,17 @@
 //  Created by 이수민 on 7/17/24.
 //
 
-import UIKit
+import Foundation
 
-class GetPointDetailResponse: UIView {
+struct GetPointDetailResponse: Codable {
+    let gained: [PointDetail]
+    let used: [PointDetail]
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
+}
+
+struct PointDetail: Codable {
+    let point: Int
+    let description: String
+    let createAt: String
 
 }

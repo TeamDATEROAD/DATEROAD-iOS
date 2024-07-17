@@ -5,16 +5,39 @@
 //  Created by 이수민 on 7/17/24.
 //
 
-import UIKit
+import Foundation
 
-class PointDetailTargetType: UIView {
+import Moya
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+enum PointDetailTargetType {
+    case getPointDetail
+}
+
+extension PointDetailTargetType: BaseTargetType {
+    
+    var utilPath: String {
+        return "api/v1/"
     }
-    */
-
+    
+    var method: Moya.Method {
+        switch self {
+        case .getPointDetail:
+            return .get
+        }
+    }
+    
+    var path: String {
+        switch self {
+        case .getPointDetail:
+            return utilPath + "points"
+        }
+    }
+    
+    var task: Task {
+        switch self {
+        case .getPointDetail:
+            return .requestPlain
+        }
+    }
+    
 }

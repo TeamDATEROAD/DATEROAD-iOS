@@ -5,16 +5,29 @@
 //  Created by 이수민 on 7/17/24.
 //
 
-import UIKit
+import Foundation
 
-class PointDetailService: UIView {
+import Moya
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+protocol PointDetailServiceProtocol {
+    func getPointDetail(completion: @escaping (NetworkResult<GetPointDetailResponse>) -> Void)
+}
+
+final class PointDetailService: BaseService, PointDetailServiceProtocol {
+    
+    let pointDetailProvider = MoyaProvider<PointDetailTargetType>(plugins: [MoyaLoggingPlugin()])
+        
+    func getPointDetail(completion: @escaping (NetworkResult<GetPointDetailResponse>) -> Void) {
+        pointDetailProvider.request(.getPointDetail) { result in
+            switch result {
+            case .success(let response):
+                let statusCode = response.statusCode
+                let data = response.data
+                let networkResult: NetworkResult<GetPointDetailResponse> = self.judgeStatus(statusCode: statusCode, data: data)
+                completion(networkResult)
+            case .failure(let err):
+                print(err)
+            }
+        }
     }
-    */
-
 }
