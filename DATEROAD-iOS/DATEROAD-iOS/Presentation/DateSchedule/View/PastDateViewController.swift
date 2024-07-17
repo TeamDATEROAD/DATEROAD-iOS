@@ -30,6 +30,7 @@ class PastDateViewController: BaseNavBarViewController {
         
         registerCell()
         setDelegate()
+        bindViewModel()
         setEmptyView()
     }
     
@@ -55,6 +56,15 @@ private extension PastDateViewController {
     func setEmptyView() {
         if pastDateScheduleViewModel.pastDateScheduleData.value?.count == 0 {
             pastDateContentView.emptyView.isHidden = false
+        }
+    }
+    
+    func bindViewModel() {
+        self.pastDateScheduleViewModel.isSuccessGetPastDateScheduleData.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.pastDateContentView.pastDateCollectionView.reloadData()
+            }
         }
     }
 }

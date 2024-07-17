@@ -173,12 +173,14 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
         }
         
         secondTagButton.do {
+            $0.isHidden = true
             $0.setButtonStatus(buttonType: tagButtonType)
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
             $0.transform = CGAffineTransform(rotationAngle: CGFloat(15 * Double.pi / 180))
         }
         
         thirdTagButton.do {
+            $0.isHidden = true
             $0.setButtonStatus(buttonType: tagButtonType)
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
             $0.transform = CGAffineTransform(rotationAngle: CGFloat(-12 * Double.pi / 180))

@@ -31,6 +31,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
         setUIMethods()
         setAddTarget()
         setEmptyView()
+        bindViewModel()
     }
     
     override func setHierarchy() {
@@ -84,6 +85,14 @@ private extension UpcomingDateScheduleViewController {
         }
     }
     
+    func bindViewModel() {
+        self.upcomingDateScheduleViewModel.isSuccessGetUpcomingDateScheduleData.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.upcomingDateScheduleView.cardCollectionView.reloadData()
+            }
+        }
+    }
 }
 
 // MARK: - Alert Delegate
@@ -114,11 +123,6 @@ private extension UpcomingDateScheduleViewController {
     func setDelegate() {
         upcomingDateScheduleView.cardCollectionView.delegate = self
         upcomingDateScheduleView.cardCollectionView.dataSource = self
-    }
-    
-    func setUpBindings(upcomingDateScheduleData: DateScheduleModel) {
-        upcomingDateScheduleView.upcomingDateScheduleData = upcomingDateScheduleData
-        upcomingDateScheduleView.cardCollectionView.reloadData()
     }
 }
 

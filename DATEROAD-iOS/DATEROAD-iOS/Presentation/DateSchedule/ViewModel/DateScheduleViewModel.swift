@@ -28,9 +28,9 @@ class DateScheduleViewModel {
     
     let dateScheduleService = DateScheduleService()
     
-    var upcomingDateScheduleData: ObservablePattern<[DateCardModel]> = ObservablePattern([])
+    var upcomingDateScheduleData: ObservablePattern<[DateCardModel]> = ObservablePattern(nil)
     
-    var pastDateScheduleData: ObservablePattern<[DateCardModel]> = ObservablePattern([])
+    var pastDateScheduleData: ObservablePattern<[DateCardModel]> = ObservablePattern(nil)
     
     var isSuccessGetPastDateScheduleData: ObservablePattern<Bool> = ObservablePattern(false)
     
