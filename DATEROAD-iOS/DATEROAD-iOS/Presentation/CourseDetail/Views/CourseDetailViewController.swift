@@ -12,14 +12,14 @@ import Then
 
 final class CourseDetailViewController: BaseViewController, CustomAlertDelegate {
 
+
     // MARK: - UI Properties
     
     private let courseDetailView: CourseDetailView
     
     private let courseInfoTabBarView = CourseBottomTabBarView()
-    
-//    private let alertVC: DRBottomSheetViewController
-    
+
+    private var deleteCourseSettingView = DeleteCourseSettingView()
     
     // MARK: - Properties
     
@@ -123,6 +123,7 @@ private extension CourseDetailViewController {
     func setDelegate() {
         courseDetailView.mainCollectionView.delegate = self
         courseDetailView.mainCollectionView.dataSource = self
+        courseDetailView.stickyHeaderNavBarView.delegate = self
     }
     
     func registerCell() {
@@ -257,7 +258,6 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             } else {
                 guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ContentMaskView.identifier, for: indexPath) as? ContentMaskView else { return UICollectionReusableView() }
                 footer.checkFree(conditionalData: conditionalData)
-//                footer.isHidden = isAccess()
                 footer.delegate = self
                 return footer
             }
@@ -288,6 +288,7 @@ extension CourseDetailViewController {
     //1번째 분기처리 - 내가 쓴 글/남이 쓴 글
     func isCourseMine() -> Bool {
         setTabBar()
+        setNavBar()
         return conditionalData.isCourseMine
     }
 
@@ -320,6 +321,15 @@ extension CourseDetailViewController {
         }
     }
     
+    //네비게이션 바 삭제 버튼 유무 분기 처리
+    func setNavBar() {
+        if conditionalData.isCourseMine {
+            courseDetailView.stickyHeaderNavBarView.moreButton.isHidden = false
+        } else {
+            courseDetailView.stickyHeaderNavBarView.moreButton.isHidden = true
+
+        }
+    }
     
 
 }
@@ -411,3 +421,33 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     
 }
 
+extension CourseDetailViewController: StickyHeaderNavBarViewDelegate {
+    
+    func didTapBackButton() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func didTapDeleteButton() {
+        let deleteBottomSheetVC = DRBottomSheetViewController(contentView: deleteCourseSettingView,
+                                                  height: 188,
+                                                  buttonType: DisabledButton(),
+                                                  buttonTitle: StringLiterals.Common.close)
+        deleteBottomSheetVC.delegate = self
+        deleteBottomSheetVC.modalPresentationStyle = .overFullScreen
+        self.present(deleteBottomSheetVC, animated: true)
+    }
+}
+
+extension CourseDetailViewController: DRBottomSheetDelegate {
+    
+    func didTapBottomButton() {
+        self.dismiss(animated: true)
+    }
+    
+    func didTapFirstLabel() {
+        print("나 삭제임")
+        self.dismiss(animated: true)
+        //self.registerPhoto()
+    }
+    
+}

@@ -14,7 +14,7 @@ struct ConditionalModel {
     let isUserLiked: Bool
     
     static var conditionalDummyData: ConditionalModel {
-        return ConditionalModel(courseId: 0, isCourseMine: false, isAccess: false, free: 0, totalPoint: 500, isUserLiked: true)
+        return ConditionalModel(courseId: 0, isCourseMine: true, isAccess: true, free: 0, totalPoint: 0, isUserLiked: true)
     }
 }
 

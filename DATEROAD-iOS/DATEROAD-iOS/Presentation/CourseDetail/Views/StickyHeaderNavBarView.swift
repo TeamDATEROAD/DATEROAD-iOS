@@ -10,13 +10,20 @@ import UIKit
 import SnapKit
 import Then
 
+protocol StickyHeaderNavBarViewDelegate: AnyObject {
+    func didTapBackButton()
+    func didTapDeleteButton()
+}
+
 final class StickyHeaderNavBarView: UIView {
     
     // MARK: - UI Properties
     
     private let previousButton = UIButton()
     
-    private let moreButton = UIButton()
+    weak var delegate: StickyHeaderNavBarViewDelegate?
+    
+    let moreButton = UIButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,22 +59,31 @@ private extension StickyHeaderNavBarView {
     }
     
     func setStyle() {
-        
         self.backgroundColor = .clear
         
         previousButton.do {
             let image = UIImage(resource: .leftArrow).withRenderingMode(.alwaysTemplate)
             $0.setImage(image, for: .normal)
             $0.tintColor = UIColor(resource: .drWhite)
+            $0.addTarget(self, action: #selector(didTapPreviousButton), for: .touchUpInside)
         }
         
         moreButton.do {
             let image = UIImage(resource: .moreButton).withRenderingMode(.alwaysTemplate)
             $0.setImage(image, for: .normal)
             $0.tintColor = UIColor(resource: .drWhite)
+            $0.addTarget(self, action: #selector(didTapMoreButton), for: .touchUpInside)
         }
-        
-       
+    }
+    
+    @objc
+    func didTapPreviousButton() {
+        delegate?.didTapBackButton()
+    }
+    
+    @objc
+    func didTapMoreButton() {
+        delegate?.didTapDeleteButton()
     }
     
 }

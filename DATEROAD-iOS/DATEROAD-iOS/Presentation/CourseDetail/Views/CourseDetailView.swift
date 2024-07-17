@@ -16,9 +16,8 @@ class CourseDetailView: BaseView {
     
     lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
     
-    private let stickyHeaderNavBarView = StickyHeaderNavBarView()
-    
-//    private let headerView = StickyHeaderNavBarView()
+    let stickyHeaderNavBarView = StickyHeaderNavBarView()
+
 
     
     // MARK: - UI Properties
@@ -60,8 +59,6 @@ class CourseDetailView: BaseView {
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(54)
         }
-
-        
     }
     
     override func setStyle() {
@@ -78,10 +75,6 @@ class CourseDetailView: BaseView {
             $0.backgroundColor = .clear
         }
         
-//        headerView.do {
-//            $0.isHidden = false
-//            $0.backgroundColor = .black
-//        }
         
     }
     
