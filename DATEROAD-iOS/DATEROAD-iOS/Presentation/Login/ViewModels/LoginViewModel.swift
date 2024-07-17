@@ -80,6 +80,7 @@ extension LoginViewModel {
         
         self.isKaKaoLogin.value = false
         self.socialType.value = .apple
+
         self.setToken(token: token)
         self.setUserInfo(userInfo: userInfo)
         let authCode = String(data: code, encoding: .utf8)
@@ -91,10 +92,11 @@ extension LoginViewModel {
     // 유저 정보 세팅
     
     func setToken(token: String) {
-        guard let key = self.socialType.value?.rawValue else { return }
+//        guard let key = self.socialType.value?.rawValue else { return }
         guard let value = self.isKaKaoLogin.value else { return }
-        UserDefaults.standard.setValue(value, forKey: key)
+        UserDefaults.standard.setValue(value, forKey: "SocialType")
         self.socialToken.value = token
+        UserDefaults.standard.setValue(token, forKey: "Token")
         self.onLoginSuccess?()
     }
     
