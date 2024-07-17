@@ -184,10 +184,11 @@ extension CourseViewController: CourseNavigationBarViewDelegate {
 extension CourseViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == courseView.courseFilterView.priceCollectionView {
-            _ = courseListModel[indexPath.item]
-            let courseDetailVC = CourseDetailViewController(viewModel: CourseDetailViewModel())
-            navigationController?.pushViewController(courseDetailVC, animated: true)
+        let selectedCourse = courseListModel[indexPath.row]
+        if let courseId = selectedCourse.courseId {
+            let detailViewModel = CourseDetailViewModel(courseId: courseId)
+            let detailViewController = CourseDetailViewController(viewModel: detailViewModel)
+            navigationController?.pushViewController(detailViewController, animated: true)
         }
     }
 }
@@ -258,10 +259,18 @@ extension CourseViewController: UICollectionViewDataSource {
     //코스 상세로 화면 전환
     @objc
     func pushToCourseDetialVC(_ sender: UITapGestureRecognizer) {
-        let location = sender.location(in: courseView.courseListView)
-        if courseView.courseListView.courseListCollectionView.indexPathForItem(at: location) != nil {
-            let courseDetailVC = CourseDetailViewController(viewModel: CourseDetailViewModel())
-            self.navigationController?.pushViewController(courseDetailVC, animated: true)
+        let location = sender.location(in: courseView.courseListView.courseListCollectionView)
+        if let indexPath = courseView.courseListView.courseListCollectionView.indexPathForItem(at: location) {
+            let selectedCourse = courseListModel[indexPath.row]
+
+            if let courseId = selectedCourse.courseId {
+                print(courseId,"😆")
+                let viewModel = CourseDetailViewModel(courseId: courseId)
+                let courseDetailVC = CourseDetailViewController(viewModel: viewModel)
+                self.navigationController?.pushViewController(courseDetailVC, animated: true)
+            } else {
+                print("Error: Selected course does not have a valid courseId.")
+            }
         }
     }
 }

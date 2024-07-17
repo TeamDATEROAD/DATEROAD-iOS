@@ -203,14 +203,9 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         let sectionType = courseDetailViewModel.fetchSection(at: section)
         
         return courseDetailViewModel.numberOfItemsInSection(section)
-//        switch sectionType {
-//        case .imageCarousel:
-//            return courseDetailViewModel.numberOfItemsInSection(section)
-//        default:
-//            return courseDetailViewModel.numberOfItemsInSection(section)
-//        }
     }
     
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let sectionType = courseDetailViewModel.fetchSection(at: indexPath.section)
         

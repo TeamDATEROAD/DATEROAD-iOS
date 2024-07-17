@@ -22,6 +22,8 @@ enum CourseDetailSection {
 
 class CourseDetailViewModel {
     
+    var courseId: Int
+    
     var currentPage: ObservablePattern<Int> = ObservablePattern(0)
     
     var freeViewChance: ObservablePattern<Int> = ObservablePattern(3)
@@ -67,13 +69,9 @@ class CourseDetailViewModel {
     
     var numberOfSections: Int = 6
     
-    init() {
-//        self.imageCarouselViewModel = ImageCarouselViewModel()
-//        self.titleInfoViewModel = TitleInfoViewModel()
-//        self.mainContentsViewModel = MainContentsViewModel()
-//        self.timelineInfoViewModel = TimelineInfoViewModel(timelineData: TimelineModel.timelineContents)
-//        self.coastInfoViewModel = CoastInfoViewModel()
-//        self.tagInfoViewModel = TagInfoViewModel(tagInfoData: TagModel.tagDummyData)
+ 
+    init(courseId: Int) {
+        self.courseId = courseId
         getCourseDetail()
     }
     
@@ -111,10 +109,10 @@ class CourseDetailViewModel {
 
 extension CourseDetailViewModel {
     func getCourseDetail() {
-        CourseDetailService().getCourseDetailInfo(courseId: 31){ response in
+        CourseDetailService().getCourseDetailInfo(courseId: courseId){ response in
             switch response {
             case .success(let data):
-                self.conditionalData.value = ConditionalModel(courseId: 31, isCourseMine: data.isCourseMine, isAccess: data.isAccess, free: data.free, totalPoint: data.totalPoint, isUserLiked: data.isUserLiked)
+                self.conditionalData.value = ConditionalModel(courseId: self.courseId, isCourseMine: data.isCourseMine, isAccess: data.isAccess, free: data.free, totalPoint: data.totalPoint, isUserLiked: data.isUserLiked)
 
                 if data.totalPoint >= 50 {
                     self.havePoint.value = true
