@@ -14,7 +14,7 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
 
     // MARK: - UI Properties
     
-    private var courseCollectionView = MyCourseListCollectionView()
+    private var myRegisterCourseView = MyCourseListView()
     
     // MARK: - Properties
     
@@ -31,18 +31,19 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
         setTitleLabelStyle(title: StringLiterals.MyRegisterCourse.title, alignment: .center)
         register()
         setDelegate()
+        setEmptyView()
     }
     
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.contentView.addSubviews(courseCollectionView)
+        self.contentView.addSubviews(myRegisterCourseView)
     }
     
     override func setLayout() {
         super.setLayout()
         
-        courseCollectionView.snp.makeConstraints {
+        myRegisterCourseView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.bottom.equalToSuperview()
             $0.horizontalEdges.equalToSuperview()
@@ -56,16 +57,30 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
 
 }
 
+// MARK: - EmptyView Methods
+
+extension MyRegisterCourseViewController {
+    private func setEmptyView() {
+        if myRegisterCourseData.count == 0 {
+            myRegisterCourseView.emptyView.do {
+                $0.isHidden = false
+                $0.setEmptyView(emptyImage: UIImage(resource: .emptyMyRegisterCourse),
+                 emptyTitle: StringLiterals.EmptyView.emptyMyRegisterCourse)
+            }
+        }
+    }
+}
+
 // MARK: - CollectionView Methods
 
 extension MyRegisterCourseViewController {
     private func register() {
-        courseCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
+        myRegisterCourseView.myCourseListCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
     }
     
     private func setDelegate() {
-        courseCollectionView.delegate = self
-        courseCollectionView.dataSource = self
+        myRegisterCourseView.myCourseListCollectionView.delegate = self
+        myRegisterCourseView.myCourseListCollectionView.dataSource = self
     }
 }
 
@@ -94,8 +109,8 @@ extension MyRegisterCourseViewController : UICollectionViewDataSource {
     }
     
     @objc func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
-        let location = sender.location(in: courseCollectionView)
-        let indexPath = courseCollectionView.indexPathForItem(at: location)
+        let location = sender.location(in: myRegisterCourseView.myCourseListCollectionView)
+        let indexPath = myRegisterCourseView.myCourseListCollectionView.indexPathForItem(at: location)
 
        if let index = indexPath {
            print("코스 상세 페이지로 이동 \(myRegisterCourseData[indexPath?.item ?? 0].courseID ?? 0)")

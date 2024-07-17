@@ -15,10 +15,6 @@ final class PointCollectionView: UICollectionView {
     
     static var pointCollectionViewLayout = UICollectionViewFlowLayout()
     
-    // MARK: - Properties
-    
-    private var pointData: [PointDetailModel] = []
-    
     // MARK: - LifeCycle
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
@@ -32,8 +28,6 @@ final class PointCollectionView: UICollectionView {
     }
     
     func setStyle() {
-        self.backgroundColor = UIColor(resource: .drWhite)
-        
         PointCollectionView.pointCollectionViewLayout.do {
             $0.scrollDirection = .vertical
             $0.minimumLineSpacing = 0
