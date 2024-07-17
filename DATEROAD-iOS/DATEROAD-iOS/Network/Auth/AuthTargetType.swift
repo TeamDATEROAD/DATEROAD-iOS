@@ -12,6 +12,7 @@ import Moya
 enum AuthTargetType {
     case postSignUp(requestBody: PostSignUpRequest)
     case getDoubleCheck(name: String)
+    case postSignIn(requestBody: PostSignInRequest)
 }
 
 extension AuthTargetType: BaseTargetType {
@@ -22,9 +23,9 @@ extension AuthTargetType: BaseTargetType {
     
     var method: Moya.Method {
         switch self {
-        case .postSignUp:
+        case .postSignUp, .postSignIn:
             return .post
-        case .getDoubleCheck(let name):
+        case .getDoubleCheck:
             return .get
         }
     }
@@ -33,8 +34,12 @@ extension AuthTargetType: BaseTargetType {
         switch self {
         case .postSignUp:
             return utilPath + "/signup"
-        case .getDoubleCheck(let name):
+        case .getDoubleCheck:
             return utilPath + "/check"
+        case .deleteLogout:
+            return utilPath + "/logout"
+        case .postSignIn:
+            return utilPath + "/signin"
         }
     }
 
@@ -55,21 +60,13 @@ extension AuthTargetType: BaseTargetType {
                 multipartData.append(imagePart)
             }
             
-            // Add tags as separate parts
-//            for tag in requestBody.tag {
-//                if let tagData = tag.data(using: .utf8) {
-//                    let tagPart = MultipartFormData(provider: .data(tagData), name: "tag")
-//                    multipartData.append(tagPart)
-//                }
-//            }
-            
             if let tagData = try? JSONSerialization.data(withJSONObject: requestBody.tag, options: []) {
                 multipartData.append(MultipartFormData(provider: .data(tagData), name: "tag"))
             }
             
             return .uploadMultipart(multipartData)
             
-        case .getDoubleCheck(let name):
+        case .getDoubleCheck:
             if let parameter = parameter {
                 return .requestParameters(parameters: parameter, encoding: URLEncoding.default)
             } else {
@@ -89,11 +86,15 @@ extension AuthTargetType: BaseTargetType {
     
     var headers: [String : String]? {
         switch self {
-        case .postSignUp(_):
+        case .postSignUp:
             let token = UserDefaults.standard.string(forKey: "Token") ?? ""
             let headers = ["Accept": "application/json",
                            "Content-Type" : "multipart/form-data",
                            "Authorization" : token]
+            return headers
+        case .postSignIn:
+            let token = UserDefaults.standard.string(forKey: "Token") ?? ""
+            let headers = ["Content-Type" : "application/json", "Authorization" : token]
             return headers
         default:
             let headers = ["Content-Type" : "application/json"]
