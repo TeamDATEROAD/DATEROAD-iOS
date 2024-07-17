@@ -10,15 +10,15 @@ import UIKit
 import SnapKit
 import Then
 
-final class CourseDetailViewController: BaseNavBarViewController, CustomAlertDelegate {
+final class CourseDetailViewController: BaseViewController, CustomAlertDelegate {
 
     // MARK: - UI Properties
     
     private let courseDetailView: CourseDetailView
     
-    private let courseInfoTabBarView = CourseInfoTabBarView()
+    private let courseInfoTabBarView = CourseBottomTabBarView()
     
-    private let alertVC: DRBottomSheetViewController
+//    private let alertVC: DRBottomSheetViewController
     
     
     // MARK: - Properties
@@ -47,8 +47,8 @@ final class CourseDetailViewController: BaseNavBarViewController, CustomAlertDel
     
     init(viewModel: CourseDetailViewModel) {
         self.courseDetailViewModel = viewModel
-        self.courseDetailView = CourseDetailView(courseDetailSection: self.courseDetailViewModel.sections)
-        self.alertVC = DRBottomSheetViewController(contentView: CourseDetailView(courseDetailSection: self.courseDetailViewModel.sections), height: 215, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
+        self.courseDetailView = CourseDetailView(courseDetailSection:self.courseDetailViewModel.sections, isAccess: conditionalData.isAccess)
+//        self.alertVC = DRBottomSheetViewController(contentView: CourseDetailView(courseDetailSection: self.courseDetailViewModel.sections), height: 215, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -66,15 +66,13 @@ final class CourseDetailViewController: BaseNavBarViewController, CustomAlertDel
         setSetctionCount()
         setDelegate()
         registerCell()
-        setNavigationBar()
-        setRightButtonStyle(image: .moreButton)
         bindViewModel()
     }
     
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.contentView.addSubviews(courseDetailView, courseInfoTabBarView)
+        self.view.addSubviews(courseDetailView, courseInfoTabBarView)
     }
     
     override func setLayout() {
@@ -88,7 +86,7 @@ final class CourseDetailViewController: BaseNavBarViewController, CustomAlertDel
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(108)
         }
-        
+
     }
     
     override func setStyle() {
@@ -97,19 +95,9 @@ final class CourseDetailViewController: BaseNavBarViewController, CustomAlertDel
         self.view.backgroundColor = UIColor(resource: .drWhite)
         self.navigationController?.navigationBar.isHidden = true
         
-        
-        setRightButtonAction(target: self, action: #selector(didTapMoreButton))
     }
     
-    func setNavigationBar() {
-        if isCourseMine() {
-            setLeftBackButton()
-            setLeftBackButton()
-        } else {
-            setLeftBackButton()
-        }
-       
-    }
+  
     
     func bindViewModel() {
         courseDetailViewModel.currentPage.bind { [weak self] currentPage in
@@ -264,11 +252,15 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             footer.pageIndexSum = imageData.count
             return footer
         } else if kind == ContentMaskView.elementKinds {
-            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ContentMaskView.identifier, for: indexPath) as? ContentMaskView else { return UICollectionReusableView() }
-            footer.checkFree(conditionalData: conditionalData)
-            footer.isHidden = isAccess()
-            footer.delegate = self
-            return footer
+            if isAccess() {
+                return UICollectionReusableView()
+            } else {
+                guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ContentMaskView.identifier, for: indexPath) as? ContentMaskView else { return UICollectionReusableView() }
+                footer.checkFree(conditionalData: conditionalData)
+//                footer.isHidden = isAccess()
+                footer.delegate = self
+                return footer
+            }
         } else if kind == InfoHeaderView.elementKinds {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoHeaderView.identifier, for: indexPath) as? InfoHeaderView else { return UICollectionReusableView() }
             switch courseDetailViewModel.fetchSection(at: indexPath.section) {

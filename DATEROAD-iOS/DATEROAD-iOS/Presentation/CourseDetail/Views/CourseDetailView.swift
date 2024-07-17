@@ -15,16 +15,24 @@ class CourseDetailView: BaseView {
     // MARK: - UI Properties
     
     lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
+    
+    private let stickyHeaderNavBarView = StickyHeaderNavBarView()
+    
+//    private let headerView = StickyHeaderNavBarView()
 
     
     // MARK: - UI Properties
     
     private var courseDetailSection: [CourseDetailSection]
     
+    private var isAccess: Bool
+    
+    
     // MARK: - Life Cycle
     
-    init(courseDetailSection: [CourseDetailSection]) {
+    init(courseDetailSection: [CourseDetailSection], isAccess: Bool) {
         self.courseDetailSection = courseDetailSection
+        self.isAccess = isAccess
         
         super.init(frame: .zero)
     }
@@ -35,7 +43,8 @@ class CourseDetailView: BaseView {
     
     
     override func setHierarchy() {
-        self.addSubviews(mainCollectionView)
+        self.addSubviews(mainCollectionView,stickyHeaderNavBarView)
+       // mainCollectionView.addSubview(headerView)
     }
     
     override func setLayout() {
@@ -44,6 +53,14 @@ class CourseDetailView: BaseView {
             $0.top.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
+        
+        stickyHeaderNavBarView.snp.makeConstraints {
+            
+            $0.top.equalToSuperview().inset(50)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(54)
+        }
+
         
     }
     
@@ -56,6 +73,15 @@ class CourseDetailView: BaseView {
             $0.isScrollEnabled = true
             $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }
+        
+        stickyHeaderNavBarView.do {
+            $0.backgroundColor = .clear
+        }
+        
+//        headerView.do {
+//            $0.isHidden = false
+//            $0.backgroundColor = .black
+//        }
         
     }
     
@@ -128,9 +154,13 @@ extension CourseDetailView {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        let header = makeContentMaskView()
-        section.boundarySupplementaryItems = [header]
-
+        
+        if !isAccess {
+            let header = makeContentMaskView()
+            section.boundarySupplementaryItems = [header]
+        }
+        
+        
         return section
     }
     

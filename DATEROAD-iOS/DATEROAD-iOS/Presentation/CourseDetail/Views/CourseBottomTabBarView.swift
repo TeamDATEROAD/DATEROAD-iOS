@@ -6,7 +6,7 @@ import UIKit
 import SnapKit
 import Then
 
-class CourseInfoTabBarView: BaseView {
+class CourseBottomTabBarView: BaseView {
 
     // MARK: - UI Properties
     
@@ -92,7 +92,7 @@ class CourseInfoTabBarView: BaseView {
     }
 }
 
-private extension CourseInfoTabBarView {
+private extension CourseBottomTabBarView {
     
     func setupTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(likeButtonTapped))
