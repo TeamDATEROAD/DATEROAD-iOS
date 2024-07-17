@@ -12,6 +12,7 @@ import Moya
 enum AuthTargetType {
     case postSignUp(requestBody: PostSignUpRequest)
     case getDoubleCheck(name: String)
+    case deleteLogout
     case postSignIn(requestBody: PostSignInRequest)
 }
 
@@ -27,6 +28,8 @@ extension AuthTargetType: BaseTargetType {
             return .post
         case .getDoubleCheck:
             return .get
+        case .deleteLogout:
+            return .delete
         }
     }
     
@@ -72,6 +75,13 @@ extension AuthTargetType: BaseTargetType {
             } else {
                 return .requestPlain
             }
+            
+        case .postSignIn(let requstBody):
+            return .requestJSONEncodable(requstBody)
+            
+        default:
+            return .requestPlain
+            
         }
     }
     
@@ -91,6 +101,10 @@ extension AuthTargetType: BaseTargetType {
             let headers = ["Accept": "application/json",
                            "Content-Type" : "multipart/form-data",
                            "Authorization" : token]
+            return headers
+        case .deleteLogout:
+            let token = UserDefaults.standard.string(forKey: "accessToken") ?? ""
+            let headers = ["Content-Type" : "application/json", "Authorization" : "Bearer " + token]
             return headers
         case .postSignIn:
             let token = UserDefaults.standard.string(forKey: "Token") ?? ""
