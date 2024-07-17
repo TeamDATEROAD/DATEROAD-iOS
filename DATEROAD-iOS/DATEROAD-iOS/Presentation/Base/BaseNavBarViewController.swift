@@ -40,7 +40,6 @@ class BaseNavBarViewController: UIViewController {
         self.view.addSubviews(topInsetView, navigationBarView, contentView)
         self.navigationBarView.addSubviews(leftButton, titleLabel, rightButton)
     }
-    
     func setLayout() {
         topInsetView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()

@@ -10,9 +10,8 @@ import UIKit
 import SnapKit
 import Then
 
-final class CourseDetailViewController: BaseNavBarViewController {
-    
-    
+final class CourseDetailViewController: BaseNavBarViewController, CustomAlertDelegate {
+
     // MARK: - UI Properties
     
     private let courseDetailView: CourseDetailView
@@ -64,7 +63,6 @@ final class CourseDetailViewController: BaseNavBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        setTabBar()
         setSetctionCount()
         setDelegate()
         registerCell()
@@ -77,7 +75,6 @@ final class CourseDetailViewController: BaseNavBarViewController {
         super.setHierarchy()
         
         self.contentView.addSubviews(courseDetailView, courseInfoTabBarView)
-        
     }
     
     override func setLayout() {
@@ -178,6 +175,7 @@ extension CourseDetailViewController: ImageCarouselDelegate {
 }
 
 extension CourseDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return courseDetailViewModel.numberOfSections
     }
@@ -267,7 +265,9 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return footer
         } else if kind == ContentMaskView.elementKinds {
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ContentMaskView.identifier, for: indexPath) as? ContentMaskView else { return UICollectionReusableView() }
+            footer.checkFree(conditionalData: conditionalData)
             footer.isHidden = isAccess()
+            footer.delegate = self
             return footer
         } else if kind == InfoHeaderView.elementKinds {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoHeaderView.identifier, for: indexPath) as? InfoHeaderView else { return UICollectionReusableView() }
@@ -330,5 +330,92 @@ extension CourseDetailViewController {
     
     
 
+}
+
+extension CourseDetailViewController: ContentMaskViewDelegate {
+    
+    func action(rightButtonAction: RightButtonType) {
+        
+        switch rightButtonAction {
+        case .addCourse:
+            didTapAddCourseButton()
+        case .checkCourse:
+            //무료 열람 기회 확인 & 잔여 포인트
+            if conditionalData.free > 0 && conditionalData.free < 3 {
+                dismiss(animated: false)
+            } else {
+                if conditionalData.totalPoint >= 50 {
+                    dismiss(animated: false)
+                } else {
+                    didTapBuyButton()
+                }
+            }
+        case .none:
+            return
+        }
+    }
+    
+    //버튼 분기 처리하기
+    func didTapButton() {
+        if conditionalData.free > 0 {
+            didTapFreeViewButton()
+        } else {
+            didTapReadCourseButton()
+        }
+    }
+    
+    
+    //열람 전 분기 처리 - 무료 사용 기회 다 쓴 경우
+    func didTapReadCourseButton() {
+        let customAlertVC = CustomAlertViewController(
+            rightActionType: RightButtonType.checkCourse,
+            alertTextType: .hasDecription,
+            alertButtonType: .twoButton,
+            titleText: StringLiterals.Alert.buyCourse,
+            descriptionText: StringLiterals.Alert.canNotRefund,
+            rightButtonText: "확인"
+        )
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        self.present(customAlertVC, animated: false)
+    }
+    
+    //열람 전 분기 처리 - 무료 사용 기회 남은 경우
+    func didTapFreeViewButton() {
+        let customAlertVC = CustomAlertViewController(
+            rightActionType: RightButtonType.checkCourse,
+            alertTextType: .hasDecription,
+            alertButtonType: .twoButton,
+            titleText: "무료 열람 기회를 사용해 보시겠어요?",
+            descriptionText: "무료 열람 기회는 한번 사용하면 취소할 수 없어요",
+            rightButtonText: "확인"
+        )
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        self.present(customAlertVC, animated: false)
+    }
+    
+  
+    //포인트가 부족할 때
+    func didTapBuyButton(){
+        let customAlertVC = CustomAlertViewController(
+            rightActionType: RightButtonType.addCourse,
+            alertTextType: .hasDecription,
+            alertButtonType: .twoButton,
+            titleText: "코스를 열람하기에 포인트가 부족해요",
+            descriptionText: "코스를 등록하고 포인트를 모아보세요",
+            rightButtonText: "코스 등록하기"
+        )
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        self.present(customAlertVC, animated: false)
+    }
+    
+    //코스 등록하기로 화면 전환
+    func didTapAddCourseButton() {
+        let addCourseVC = AddCourseFirstViewController()
+        self.navigationController?.pushViewController(addCourseVC, animated: false)
+    }
+    
 }
 

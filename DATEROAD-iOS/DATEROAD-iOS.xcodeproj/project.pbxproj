@@ -474,6 +474,7 @@
 			children = (
 				0D9497B72C328CD80004B442 /* Cells */,
 				0DFBF92B2C43E42700762956 /* DeleteCourseSettingView.swift */,
+				0D98CBA02C40A2F100E3618A /* ContentMaskView.swift */,
 				0D98CB9A2C405E4100E3618A /* VisitDateView.swift */,
 				0D9497D02C32A75A0004B442 /* InfoHeaderView.swift */,
 				0D98CB982C405E0200E3618A /* InfoBarView.swift */,
@@ -489,7 +490,6 @@
 		0D9497B72C328CD80004B442 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				0D98CBA02C40A2F100E3618A /* ContentMaskView.swift */,
 				0D9497B82C328D010004B442 /* ImageCarouselCell.swift */,
 				0D9497BC2C3292C20004B442 /* TitleInfoCell.swift */,
 				0DA920F12C3C0AF500A6A321 /* MainContentsCell.swift */,
