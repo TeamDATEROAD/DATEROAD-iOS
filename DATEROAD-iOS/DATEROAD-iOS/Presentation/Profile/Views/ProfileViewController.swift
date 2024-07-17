@@ -84,6 +84,8 @@ private extension ProfileViewController {
         
         self.profileView.nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .allEditingEvents)
         
+        self.profileView.registerButton.addTarget(self, action: #selector(registerProfile), for: .touchUpInside)
+        
         let deleteGesture = UITapGestureRecognizer(target: self, action: #selector(deletePhoto))
         self.profileImageSettingView.deleteLabel.addGestureRecognizer(deleteGesture)
         
@@ -137,6 +139,17 @@ private extension ProfileViewController {
             guard let isValid else { return }
             self?.profileView.updateRegisterButton(isValid: isValid)
         }
+        
+        self.profileViewModel.onSuccessRegister = { [weak self] isSuccess in
+            if isSuccess {
+                let mainVC = MainViewController(viewModel: MainViewModel())
+                self?.navigationController?.pushViewController(mainVC, animated: false)
+            } else {
+                let loginVC = LoginViewController()
+                self?.navigationController?.pushViewController(loginVC, animated: false)
+            }
+            
+        }
     
     }
     
@@ -159,13 +172,16 @@ private extension ProfileViewController {
     
     @objc
     func didTapTagButton(_ sender: UIButton) {
+        guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
+
         // 0 ~ 2개 선택되어 있는 경우
         if self.profileViewModel.tagCount.value != 3 {
             sender.isSelected = !sender.isSelected
             sender.isSelected ? self.profileView.updateTag(button: sender, buttonType: SelectedButton())
             : self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
             self.profileViewModel.countSelectedTag(isSelected: sender.isSelected)
-        } 
+            self.profileViewModel.selectedTagData.append(tag)
+        }
         // 3개 선택되어 있는 경우
         else {
             // 취소 하려는 경우
@@ -173,6 +189,7 @@ private extension ProfileViewController {
                 sender.isSelected = !sender.isSelected
                 self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
                 self.profileViewModel.countSelectedTag(isSelected: sender.isSelected)
+                self.profileViewModel.selectedTagData.remove(at: sender.tag)
             }
         }
     }
@@ -195,6 +212,11 @@ private extension ProfileViewController {
     @objc
     func cancel() {
         print("cancel")
+    }
+    
+    @objc
+    func registerProfile() {
+        self.profileViewModel.postSignUp(image: self.profileView.profileImageView.image)
     }
     
 }

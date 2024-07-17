@@ -5,13 +5,15 @@
 //  Created by 윤희슬 on 7/5/24.
 //
 
-import Foundation
+import UIKit
 
 final class ProfileViewModel {
     
     // TODO: - 중복 확인 로직 추가 예정
 
     var tagData: [ProfileModel] = []
+    
+    var selectedTagData: [String] = []
     
     var nickname: ObservablePattern<String> = ObservablePattern("")
     
@@ -90,5 +92,32 @@ extension ProfileViewModel {
             let isValidTag = isValidTag.value else { return }
         
         self.isValidRegistration.value = isValidNickname && isValidTag ? true : false
+    }
+    
+    func postSignUp(image: UIImage?) {
+        let socialType = UserDefaults.standard.bool(forKey: "SocialType")
+        
+        guard let name = self.nickname.value else { return }
+
+        var requestBody = PostSignUpRequest(userSignUpReq: UserSignUpReq(name: name,
+                                                                         platform: socialType ? SocialType.kakao.rawValue : SocialType.apple.rawValue),
+                                            image: image,
+                                            tag: self.selectedTagData)
+        
+        NetworkService.shared.authService.postSignUp(requestBody: requestBody) { response in
+            switch response {
+            case .success(let data):
+                UserDefaults.standard.setValue(data.userID, forKey: "userID")
+                UserDefaults.standard.setValue(data.accessToken, forKey: "accessToken")
+                UserDefaults.standard.setValue(data.refreshToken, forKey: "refreshToken")
+                print("post \(data)")
+                self.onSuccessRegister?(true)
+            default:
+                print("Failed to fetch post signup")
+                self.onSuccessRegister?(false)
+                return
+            }
+            
+        }
     }
 }
