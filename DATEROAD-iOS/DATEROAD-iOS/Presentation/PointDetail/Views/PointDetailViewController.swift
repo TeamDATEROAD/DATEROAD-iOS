@@ -64,6 +64,10 @@ class PointDetailViewController: BaseNavBarViewController {
 
 extension PointDetailViewController {
     func bindViewModel() {
+//        self.pointViewModel.isSuccessGetPointInfo.bind { [weak self] data in
+//            self?.pointDetailView.pointCollectionView.reloadData()
+//        }
+        
         self.pointViewModel.nowPointData.bind { [weak self] data in
             self?.pointDetailView.pointCollectionView.reloadData()
         }

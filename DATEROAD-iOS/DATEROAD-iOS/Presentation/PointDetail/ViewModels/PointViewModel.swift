@@ -56,8 +56,8 @@ final class PointViewModel {
                 }
                 self.gainedPointData.value = pointGainedInfo
                 self.usedPointData.value = pointUsedInfo
-                print(pointGainedInfo, pointUsedInfo)
-                self.isSuccessGetPointInfo.value = true
+//                print(pointGainedInfo, pointUsedInfo)
+//                self.isSuccessGetPointInfo.value = true
             case .requestErr:
                  print("requestError")
              case .decodedErr:
