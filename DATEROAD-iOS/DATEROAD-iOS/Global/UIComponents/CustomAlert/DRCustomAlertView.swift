@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CustomAlertView: BaseView {
+class DRCustomAlertView: BaseView {
     
     // MARK: - UI Properties
     

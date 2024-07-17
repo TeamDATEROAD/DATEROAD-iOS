@@ -9,21 +9,21 @@ import UIKit
 
 import SnapKit
 
-protocol CustomAlertDelegate {
+protocol DRCustomAlertDelegate {
     func action(rightButtonAction: RightButtonType)
     func exit()
 }
 
-extension CustomAlertDelegate {
+extension DRCustomAlertDelegate {
     func action(rightButtonAction: RightButtonType) {}
     func exit() {}
 }
 
-class CustomAlertViewController: BaseViewController {
+class DRCustomAlertViewController: BaseViewController {
     
     // MARK: - UI Properties
     
-    private var customAlertView = CustomAlertView()
+    private var customAlertView = DRCustomAlertView()
     
     
     // MARK: - Properties
@@ -44,7 +44,7 @@ class CustomAlertViewController: BaseViewController {
     
     private var rightButtonText: String?
 
-    var delegate: CustomAlertDelegate?
+    var delegate: DRCustomAlertDelegate?
     
     
     // MARK: - LifeCycle
@@ -96,7 +96,7 @@ class CustomAlertViewController: BaseViewController {
 
 }
 
-extension CustomAlertViewController {
+extension DRCustomAlertViewController {
     func setUI() {
         customAlertView.titleLabel.text = titleText
         
@@ -123,7 +123,7 @@ extension CustomAlertViewController {
     }
 }
 
-private extension CustomAlertViewController {
+private extension DRCustomAlertViewController {
     
     func setLongButton(text: String?) {
         customAlertView.longButton.isHidden = false

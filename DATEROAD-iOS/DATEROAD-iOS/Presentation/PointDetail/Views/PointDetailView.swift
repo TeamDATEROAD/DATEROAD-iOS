@@ -23,9 +23,11 @@ class PointDetailView: BaseView {
     
     let selectedSegmentUnderLineView = UIView()
     
-    var pointGainedCollectionView = PointCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    var pointCollectionView = PointCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    var pointUsedCollectionView = PointCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    var emptyGainedPointView = CustomEmptyView()
+    
+    var emptyUsedPointView = CustomEmptyView()
     
     // MARK: - Properties
     
@@ -38,8 +40,9 @@ class PointDetailView: BaseView {
                          segmentControl,
                          segmentControlUnderLineView,
                          selectedSegmentUnderLineView,
-                         pointUsedCollectionView,
-                         pointGainedCollectionView)
+                         pointCollectionView,
+                         emptyUsedPointView,
+                         emptyGainedPointView)
         
         self.pointView.addSubviews(userNameLabel, totalPointLabel)
     }
@@ -81,16 +84,22 @@ class PointDetailView: BaseView {
             $0.width.equalToSuperview().dividedBy(2)
         }
         
-        pointGainedCollectionView.snp.makeConstraints{
+        pointCollectionView.snp.makeConstraints{
             $0.top.equalTo(segmentControl.snp.bottom)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview().inset(34)
         }
         
-        pointUsedCollectionView.snp.makeConstraints{
+        emptyGainedPointView.snp.makeConstraints {
             $0.top.equalTo(segmentControl.snp.bottom)
             $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(34)
+            $0.height.equalTo(ScreenUtils.height * 444/812)
+        }
+        
+        emptyUsedPointView.snp.makeConstraints {
+            $0.top.equalTo(segmentControl.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(ScreenUtils.height * 444/812)
         }
     }
     
@@ -127,6 +136,22 @@ class PointDetailView: BaseView {
         
         selectedSegmentUnderLineView.do {
             $0.backgroundColor = UIColor(resource: .drBlack)
+        }
+        
+        pointCollectionView.do {
+            $0.isHidden = true
+        }
+        
+        emptyGainedPointView.do {
+            $0.isHidden = true
+            $0.setEmptyView(emptyImage: UIImage(resource: .emptyGainedPoint),
+         emptyTitle: StringLiterals.EmptyView.emptyGainedPoint)
+        }
+        
+        emptyUsedPointView.do {
+            $0.isHidden = true
+            $0.setEmptyView(emptyImage: UIImage(resource: .emptyUsedPoint),
+         emptyTitle: StringLiterals.EmptyView.emptyUsedPoint)
         }
     }
 
