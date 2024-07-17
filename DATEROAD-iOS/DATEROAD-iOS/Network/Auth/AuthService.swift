@@ -12,6 +12,7 @@ import Moya
 protocol AuthServiceProtocol {
     func postSignUp(requestBody: PostSignUpRequest, completion: @escaping (NetworkResult<PostSignUpResponse>) -> ())
     func getDoubleCheck(name: String, completion: @escaping (NetworkResult<EmptyResponse>) -> ())
+    func deleteLogout(completion: @escaping (NetworkResult<EmptyResponse>) -> ())
     func postSignIn(requestBody: PostSignInRequest, completion: @escaping (NetworkResult<PostSignUpResponse>) -> ())
 }
 
@@ -43,6 +44,17 @@ final class AuthService: BaseService, AuthServiceProtocol {
         }
     }
     
+    func deleteLogout(completion: @escaping (NetworkResult<EmptyResponse>) -> ()) {
+        provider.request(.deleteLogout) { result in
+            switch result {
+            case .success(let response):
+                let networkResult: NetworkResult<EmptyResponse> = self.judgeStatus(statusCode: response.statusCode, data: response.data)
+                completion(networkResult)
+            case .failure(let err):
+                print(err)
+            }
+        }
+    }
     
     func postSignIn(requestBody : PostSignInRequest, completion: @escaping (NetworkResult<PostSignUpResponse>) -> ()) {
         provider.request(.postSignIn(requestBody: requestBody)) { result in
