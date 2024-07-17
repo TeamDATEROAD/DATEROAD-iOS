@@ -15,7 +15,7 @@ class DateDetailContentView: BaseView {
     
     private var dateLabel = UILabel()
     
-    private var dDayButton = UIButton()
+    var dDayButton = UIButton()
     
     private var firstTagButton = UIButton()
     
@@ -163,6 +163,7 @@ class DateDetailContentView: BaseView {
         }
         
         dDayButton.do {
+            $0.isHidden = true
             $0.titleLabel?.font = UIFont.suit(.cap_bold_11)
             $0.titleLabel?.textColor = UIColor(resource: .drWhite)
             $0.backgroundColor = UIColor(resource: .deepPurple)

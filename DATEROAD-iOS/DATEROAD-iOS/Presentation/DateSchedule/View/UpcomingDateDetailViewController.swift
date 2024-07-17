@@ -67,6 +67,7 @@ extension UpcomingDateDetailViewController {
     }
     
     private func setButton() {
+        upcomingDateDetailContentView.dDayButton.isHidden = false
         upcomingDateDetailContentView.kakaoShareButton.isHidden = false
         upcomingDateDetailContentView.courseShareButton.isHidden = true
         
