@@ -120,8 +120,7 @@ extension MainViewModel {
         NetworkService.shared.mainService.getBanner() { response in
             switch response {
             case .success(let data):
-                for i in data.advertisementDtoResList {
-                    self.bannerData.value?.append(BannerModel(advertisementId: i.advertisementID, imageUrl: i.thumbnail))
+                self.bannerData.value = data.advertisementDtoResList.map { BannerModel(advertisementId: $0.advertisementID, imageUrl: $0.thumbnail)
                 }
                 self.isSuccessGetBanner.value = true
             default:
