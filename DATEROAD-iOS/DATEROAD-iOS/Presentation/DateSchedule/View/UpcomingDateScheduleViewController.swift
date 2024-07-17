@@ -175,7 +175,7 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
             guard let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] else { return }
             let upcomingDateDetailVC = UpcomingDateDetailViewController()
             self.navigationController?.pushViewController(upcomingDateDetailVC, animated: true)
-            upcomingDateDetailVC.upcomingDateDetailContentView.dataBind(data)
+            upcomingDateDetailVC.upcomingDateDetailViewModel = DateDetailViewModel(dateID: data.dateID)
             upcomingDateDetailVC.setColor(index: indexPath.item)
         }
     }

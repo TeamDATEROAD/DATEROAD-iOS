@@ -18,12 +18,9 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - Properties
     
-    var upcomingDateDetailData = DateDetailModel(dateID: 0, title: "", startAt: "", city: "", tags: [], date: "", places: [])
-    
-    private let upcomingDateDetailViewModel = DateDetailViewModel()
+    var upcomingDateDetailViewModel: DateDetailViewModel? = nil
     
     private let dateScheduleDeleteView = DateScheduleDeleteView()
-
     
     // MARK: - LifeCycle
     
@@ -34,11 +31,10 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
         setTitleLabelStyle(title: StringLiterals.DateSchedule.upcomingDate, alignment: .center)
         setRightButtonStyle(image: UIImage(resource: .moreButton))
         setRightButtonAction(target: self, action: #selector(deleteDateCourse))
-        
+        bindViewModel()
         setButton()
         registerCell()
         setDelegate()
-        setUpBindings()
     }
     
     override func setHierarchy() {
@@ -60,6 +56,15 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
 // MARK: - UI Setting Methods
 
 extension UpcomingDateDetailViewController {
+    func bindViewModel() {
+        self.upcomingDateDetailViewModel?.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
+            guard let isSuccess, let data = self?.upcomingDateDetailViewModel?.dateDetailData.value else { return }
+            if isSuccess {
+                self?.upcomingDateDetailContentView.dataBind(data)
+                self?.upcomingDateDetailContentView.dateTimeLineCollectionView.reloadData()
+            }
+        }
+    }
     
     private func setButton() {
         upcomingDateDetailContentView.kakaoShareButton.isHidden = false
@@ -109,7 +114,7 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
         if rightButtonAction == .deleteCourse {
             print("헉 헤어졌나??? 서버연결 delete")
         } else if rightButtonAction == .kakaoShare {
-            upcomingDateDetailViewModel.shareToKaKao()
+            upcomingDateDetailViewModel?.shareToKaKao()
             print("카카오 공유하기")
         }
     }
@@ -151,10 +156,6 @@ private extension UpcomingDateDetailViewController {
         dateScheduleDeleteView.deleteLabel.addGestureRecognizer(deleteGesture)
         
     }
-    
-    func setUpBindings() {
-        self.upcomingDateDetailData = upcomingDateDetailViewModel.upcomingDateDetailDummyData
-    }
 
 }
 
@@ -175,13 +176,14 @@ extension UpcomingDateDetailViewController: UICollectionViewDelegateFlowLayout {
 
 extension UpcomingDateDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return upcomingDateDetailData.places.count
+        return upcomingDateDetailViewModel?.dateDetailData.value?.places.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let data = upcomingDateDetailViewModel?.dateDetailData.value?.places[indexPath.item] else { return UICollectionViewCell() }
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier, for: indexPath) as? DateTimeLineCollectionViewCell else {
             return UICollectionViewCell() }
-        cell.dataBind(upcomingDateDetailData.places[indexPath.item], indexPath.item)
+        cell.dataBind(data, indexPath.item)
         return cell
     }
 

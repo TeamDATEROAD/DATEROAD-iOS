@@ -26,7 +26,7 @@ struct GetDateDetailResponse: Codable {
 // MARK: - Place
 struct Place: Codable {
     let title: String
-    let duration: Double
+    let duration: Float
     let sequence: Int
 }
 

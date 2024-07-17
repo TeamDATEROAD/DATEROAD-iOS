@@ -43,12 +43,6 @@ class DateDetailContentView: BaseView {
     
     static var dateTimeLineCollectionViewLayout = UICollectionViewFlowLayout()
     
-    // MARK: - Properties
-    
-    private let upcomingDateCardViewModel = DateDetailViewModel()
-    
-    private lazy var upcomingDataDetailData = upcomingDateCardViewModel.upcomingDateDetailDummyData
-    
     // MARK: - LifeCycle
     
     override init(frame: CGRect) {
@@ -206,7 +200,7 @@ class DateDetailContentView: BaseView {
         }
         
         dateStartTimeLabel.do {
-            $0.setLabel(text: StringLiterals.DateSchedule.startTime + upcomingDataDetailData.startAt, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
+            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
         }
         
         dateTimeLineCollectionView.do {
@@ -255,20 +249,21 @@ class DateDetailContentView: BaseView {
 
 extension DateDetailContentView {
     
-    func dataBind(_ dateCardData : DateCardModel) {
-        self.dateLabel.text = dateCardData.date
-        self.dDayButton.setTitle("D-\(dateCardData.dDay)", for: .normal)
-        self.firstTagButton.setTitle("\(dateCardData.tags[0])", for: .normal)
-        if dateCardData.tags.count >= 2 {
+    func dataBind(_ dateDetailData : DateDetailModel) {
+        self.dateLabel.text = dateDetailData.date
+        self.dDayButton.setTitle("D-\(dateDetailData.dDay)", for: .normal)
+        self.firstTagButton.setTitle("\(dateDetailData.tags[0])", for: .normal)
+        self.dateStartTimeLabel.text = StringLiterals.DateSchedule.startTime + "\(dateDetailData.startAt)"
+        if dateDetailData.tags.count >= 2 {
             self.secondTagButton.isHidden = false
-            self.secondTagButton.setTitle("\(dateCardData.tags[1])", for: .normal)
+            self.secondTagButton.setTitle("\(dateDetailData.tags[1])", for: .normal)
         }
-        if dateCardData.tags.count == 3 {
+        if dateDetailData.tags.count == 3 {
             self.thirdTagButton.isHidden = false
-            self.thirdTagButton.setTitle("\(dateCardData.tags[2])", for: .normal)
+            self.thirdTagButton.setTitle("\(dateDetailData.tags[2])", for: .normal)
         }
-        self.locationLabel.text = dateCardData.city
-        self.titleLabel.text = dateCardData.title
+        self.locationLabel.text = dateDetailData.city
+        self.titleLabel.text = dateDetailData.title
     }
     
     private func setColorToLabel(bgColor : UIColor, ribbonImage: UIImage, buttonColor: UIColor) {
