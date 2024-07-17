@@ -12,16 +12,24 @@ struct DateCardModel {
     let title: String
     let date: String
     let city: String
-    let tags: [String]
+    let tags: [TagsModel]
     let dDay: Int
     
-    init(dateID: Int, title: String, date: String, city: String, tags: [String], dDay: Int) {
+    init(dateID: Int, title: String, date: String, city: String, tags: [TagsModel], dDay: Int) {
         self.dateID = dateID
         self.title = title
         self.date = date
         self.city = city
         self.tags = tags
         self.dDay = dDay
+    }
+}
+
+struct TagsModel {
+    let tag: String
+    
+    init(tag: String) {
+        self.tag = tag
     }
 }
 

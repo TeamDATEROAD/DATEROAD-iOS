@@ -14,5 +14,7 @@ final class NetworkService {
     private init() {}
     
     let mainService: MainService = MainService()
+    
+    let dateScheduleService: DateScheduleService = DateScheduleService()
 
 }

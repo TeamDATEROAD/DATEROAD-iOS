@@ -258,14 +258,14 @@ extension DateDetailContentView {
     func dataBind(_ dateCardData : DateCardModel) {
         self.dateLabel.text = dateCardData.date
         self.dDayButton.setTitle("D-\(dateCardData.dDay)", for: .normal)
-        self.firstTagButton.setTitle(dateCardData.tags[0], for: .normal)
+        self.firstTagButton.setTitle("\(dateCardData.tags[0])", for: .normal)
         if dateCardData.tags.count >= 2 {
             self.secondTagButton.isHidden = false
-            self.secondTagButton.setTitle(dateCardData.tags[1], for: .normal)
+            self.secondTagButton.setTitle("\(dateCardData.tags[1])", for: .normal)
         }
         if dateCardData.tags.count == 3 {
             self.thirdTagButton.isHidden = false
-            self.thirdTagButton.setTitle(dateCardData.tags[2], for: .normal)
+            self.thirdTagButton.setTitle("\(dateCardData.tags[2])", for: .normal)
         }
         self.locationLabel.text = dateCardData.city
         self.titleLabel.text = dateCardData.title

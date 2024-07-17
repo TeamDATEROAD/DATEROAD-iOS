@@ -21,9 +21,6 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     private let upcomingDateScheduleViewModel = DateScheduleViewModel()
     
-    private lazy var upcomingDateScheduleData = upcomingDateScheduleViewModel.upcomingDateScheduleDummyData
-    
-    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -52,7 +49,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
 private extension UpcomingDateScheduleViewController {
     @objc
     func pushToDateRegisterVC() {
-        if (upcomingDateScheduleData.dateCards.count) >= 5 {
+        if (upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0) >= 5 {
             dateRegisterButtonTapped()
         } else {
             print("일정 등록으로 이동")
@@ -67,7 +64,7 @@ private extension UpcomingDateScheduleViewController {
     
     func setUIMethods() {
         upcomingDateScheduleView.cardPageControl.do {
-            $0.numberOfPages = upcomingDateScheduleData.dateCards.count
+            $0.numberOfPages = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0
         }
     }
     
@@ -82,7 +79,7 @@ private extension UpcomingDateScheduleViewController {
     }
     
     func setEmptyView() {
-        if upcomingDateScheduleData.dateCards.count == 0 {
+        if upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count == 0 {
             upcomingDateScheduleView.emptyView.isHidden = false
         }
     }
@@ -157,14 +154,15 @@ extension UpcomingDateScheduleViewController: UICollectionViewDelegateFlowLayout
 extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return upcomingDateScheduleData.dateCards.count
+        return upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] else { return UICollectionViewCell()}
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateCardCollectionViewCell.cellIdentifier, for: indexPath) as? DateCardCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.dataBind(upcomingDateScheduleData.dateCards[indexPath.item], indexPath.item)
+        cell.dataBind(data, indexPath.item)
         cell.setColor(index: indexPath.item)
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToUpcomingDateDetailVC(_:))))
         return cell
@@ -174,9 +172,10 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
     func pushToUpcomingDateDetailVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: upcomingDateScheduleView.cardCollectionView)
         if let indexPath = upcomingDateScheduleView.cardCollectionView.indexPathForItem(at: location) {
+            guard let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] else { return }
             let upcomingDateDetailVC = UpcomingDateDetailViewController()
             self.navigationController?.pushViewController(upcomingDateDetailVC, animated: true)
-            upcomingDateDetailVC.upcomingDateDetailContentView.dataBind(upcomingDateScheduleData.dateCards[indexPath.item])
+            upcomingDateDetailVC.upcomingDateDetailContentView.dataBind(data)
             upcomingDateDetailVC.setColor(index: indexPath.item)
         }
     }

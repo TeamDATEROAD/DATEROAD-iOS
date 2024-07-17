@@ -181,14 +181,14 @@ class PastDateCollectionViewCell: BaseCollectionViewCell {
 extension PastDateCollectionViewCell {
     func dataBind(_ dateCardData : DateCardModel, _ dateCardItemRow: Int) {
         dateLabel.text = dateCardData.date
-        firstTagButton.setTitle(dateCardData.tags[0], for: .normal)
+        firstTagButton.setTitle("\(dateCardData.tags[0])", for: .normal)
         if dateCardData.tags.count >= 2 {
             secondTagButton.isHidden = false
-           secondTagButton.setTitle(dateCardData.tags[1], for: .normal)
+           secondTagButton.setTitle("\(dateCardData.tags[1])", for: .normal)
         }
         if dateCardData.tags.count == 3 {
             thirdTagButton.isHidden = false
-            thirdTagButton.setTitle(dateCardData.tags[2], for: .normal)
+            thirdTagButton.setTitle("\(dateCardData.tags[2])", for: .normal)
         }
         locationLabel.text = dateCardData.date
         titleLabel.text = dateCardData.title
