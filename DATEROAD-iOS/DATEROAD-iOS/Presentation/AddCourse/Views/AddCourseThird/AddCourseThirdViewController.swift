@@ -157,6 +157,25 @@ extension AddCourseThirdViewController {
       }
    }
    
+//   func postAddCourse() {
+//      guard let dateName = viewModel.dateName.value else {return}
+//      guard let visitDate = viewModel.visitDate.value else {return}
+//      guard let dateStartAt = viewModel.dateStartAt.value else {return}
+//      guard let dateLocation = viewModel.dateLocation.value else {return}
+//      guard let dateName = viewModel.dateName.value else {return}
+//      guard let dateName = viewModel.dateName.value else {return}
+//      guard let dateName = viewModel.dateName.value else {return}
+//      NetworkService.shared.addCourseService.createCourse(course: PostAddCourse(title: dateName, date: visitDate, startAt: dateStartAt, country: dateLocation, city: <#T##String#>, description: <#T##String#>, cost: <#T##Int#>).toDictionary(), tags: tags, places: places, images: images) { result in
+//          switch result {
+//          case .success(let response):
+//              print("Success: \(response)")
+//          default:
+//              print("Failed to fetch user profile")
+//              return
+//          }
+//       }
+//   }
+   
 }
 
 

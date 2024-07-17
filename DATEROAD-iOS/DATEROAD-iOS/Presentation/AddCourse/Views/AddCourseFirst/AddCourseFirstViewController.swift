@@ -25,7 +25,7 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
    
    // MARK: - Properties
    
-   private let viewModel = AddCourseViewModel()
+    let viewModel = AddCourseViewModel()
    
    
    // MARK: - Life Cycle
@@ -120,7 +120,6 @@ private extension AddCourseFirstViewController {
       viewModel.dateStartAt.bind { date in
          guard let text = date else {return}
          self.addCourseFirstView.addFirstView.updatedateStartTime(text: text)
-         print(text)
       }
       viewModel.tagCount.bind { count in
          self.addCourseFirstView.addFirstView.updateTagCount(count: count ?? 0)
@@ -168,14 +167,47 @@ private extension AddCourseFirstViewController {
       addCourseFirstView.addFirstView.datePlaceContainer.isUserInteractionEnabled = true
    }
    
+   func createCourseExample() {
+//      viewModel.postAddCourseCourse.city = "~~"
+      let qwe = PostAddCourse(
+         title: "string",
+         date: "2024.07.04",
+         startAt: "12:30 PM",
+         country: "SEOUL",
+         city: "SEOUL_ENTIRE",
+         description: "string",
+         cost: 30000
+     )
+       
+       let tag: [String: Any] =
+           ["tag": "DRIVE"]
+      let tags = [tag]
+//      print(Tag(tag: "dd").toDictionary())
+       
+       let places: [[String: Any]] = [
+           ["title": "string", "duration": 3, "sequence": 0]
+       ]
+      
+      let images = viewModel.pickedImageArr
+      
+      NetworkService.shared.addCourseService.createCourse(course: qwe.toDictionary(), tags: tags, places: places, images: images) { result in
+          switch result {
+          case .success(let response):
+              print("Success: \(response)")
+          default:
+              print("Failed to fetch user profile")
+              return
+          }
+       }
+      
+   }
+   
+   
+   
    @objc
    func visitDate() {
          addSheetView.datePickerMode(isDatePicker: true)
          viewModel.isTimePicker = false
-//      else if textField == addCourseFirstView.addFirstView.dateStartTimeTextField {
-//         addSheetView.datePickerMode(isDatePicker: false)
-//         viewModel.isTimePicker = true
-//      }
       alertVC.delegate = self
       DispatchQueue.main.async {
          self.alertVC.modalPresentationStyle = .overFullScreen
@@ -386,6 +418,7 @@ extension AddCourseFirstViewController: ImagePickerDelegate {
       print("images : \(images)")
       viewModel.pickedImageArr = images
       addCourseFirstView.collectionView.reloadData()
+      createCourseExample()
    }
    
 }
@@ -416,6 +449,7 @@ extension AddCourseFirstViewController: DRBottomSheetDelegate {
 extension AddCourseFirstViewController: LocationFilterDelegate {
    
    func didSelectCity(_ city: LocationModel.City) {
+      print("selected : \(city)")
       print("Selected city: \(city.rawValue)")
       viewModel.dateLocation.value = city.rawValue
       viewModel.satisfyDateLocation(str: city.rawValue)

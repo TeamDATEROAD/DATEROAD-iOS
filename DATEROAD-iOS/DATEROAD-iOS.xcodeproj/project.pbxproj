@@ -99,6 +99,10 @@
 		9E590B4E2C3DAA5100039690 /* AddSecondViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E590B4D2C3DAA5100039690 /* AddSecondViewTableViewCell.swift */; };
 		9E590B502C3DBE1C00039690 /* AddCoursePlaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E590B4F2C3DBE1C00039690 /* AddCoursePlaceModel.swift */; };
 		9E63BB202C35CF7200D5ED5B /* AddCourseFirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E63BB1F2C35CF7200D5ED5B /* AddCourseFirstViewController.swift */; };
+		9E754CD02C47FCA600E2CA91 /* AddCourseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E754CCF2C47FCA600E2CA91 /* AddCourseTargetType.swift */; };
+		9E754CD22C47FCB300E2CA91 /* PostAddCourseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E754CD12C47FCB300E2CA91 /* PostAddCourseResponse.swift */; };
+		9E754CD42C47FECC00E2CA91 /* AddCourseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E754CD32C47FECC00E2CA91 /* AddCourseService.swift */; };
+		9E754CD62C48092200E2CA91 /* PostAddCourseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E754CD52C48092200E2CA91 /* PostAddCourseRequest.swift */; };
 		9EB91E782C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */; };
 		CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A963D2C2B131300F39EBE /* BaseViewController.swift */; };
 		CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96422C2C60E800F39EBE /* LoginModel.swift */; };
@@ -293,6 +297,10 @@
 		9E590B4D2C3DAA5100039690 /* AddSecondViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSecondViewTableViewCell.swift; sourceTree = "<group>"; };
 		9E590B4F2C3DBE1C00039690 /* AddCoursePlaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCoursePlaceModel.swift; sourceTree = "<group>"; };
 		9E63BB1F2C35CF7200D5ED5B /* AddCourseFirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseFirstViewController.swift; sourceTree = "<group>"; };
+		9E754CCF2C47FCA600E2CA91 /* AddCourseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseTargetType.swift; sourceTree = "<group>"; };
+		9E754CD12C47FCB300E2CA91 /* PostAddCourseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddCourseResponse.swift; sourceTree = "<group>"; };
+		9E754CD32C47FECC00E2CA91 /* AddCourseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseService.swift; sourceTree = "<group>"; };
+		9E754CD52C48092200E2CA91 /* PostAddCourseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddCourseRequest.swift; sourceTree = "<group>"; };
 		9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		CA0A963D2C2B131300F39EBE /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CA0A96422C2C60E800F39EBE /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
@@ -784,6 +792,25 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		9E754CCD2C47FC8B00E2CA91 /* AddCourse */ = {
+			isa = PBXGroup;
+			children = (
+				9E754CCE2C47FC9500E2CA91 /* DTO */,
+				9E754CCF2C47FCA600E2CA91 /* AddCourseTargetType.swift */,
+				9E754CD32C47FECC00E2CA91 /* AddCourseService.swift */,
+			);
+			path = AddCourse;
+			sourceTree = "<group>";
+		};
+		9E754CCE2C47FC9500E2CA91 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				9E754CD12C47FCB300E2CA91 /* PostAddCourseResponse.swift */,
+				9E754CD52C48092200E2CA91 /* PostAddCourseRequest.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
 		9EB91E762C36288900D7A836 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -945,6 +972,7 @@
 		CA3D0D122C29A9BB00735097 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				9E754CCD2C47FC8B00E2CA91 /* AddCourse */,
 				CAE8C1922C457F4A00F153B3 /* Main */,
 				CA3D0D132C29A9C500735097 /* Base */,
 			);
@@ -1418,6 +1446,7 @@
 				CAC80FED2C3ED3B600658EA6 /* MainHeaderView.swift in Sources */,
 				CA3D0D1E2C2ACE3900735097 /* UIButton+.swift in Sources */,
 				CAC80FEF2C3EE58500658EA6 /* DateTicketView.swift in Sources */,
+				9E754CD62C48092200E2CA91 /* PostAddCourseRequest.swift in Sources */,
 				0D9497B92C328D010004B442 /* ImageCarouselCell.swift in Sources */,
 				9E590B482C3D1C5C00039690 /* AddCourseSecondView.swift in Sources */,
 				CAC80FB72C3BC2F800658EA6 /* Constants.swift in Sources */,
@@ -1469,6 +1498,7 @@
 				CAC80FCC2C3D2EA600658EA6 /* DRButton.swift in Sources */,
 				CAC80FA22C3B10EA00658EA6 /* MyPageViewController.swift in Sources */,
 				CA4EF3C02C3285BA003B02B6 /* SocialType.swift in Sources */,
+				9E754CD22C47FCB300E2CA91 /* PostAddCourseResponse.swift in Sources */,
 				CAC80FAC2C3B567100658EA6 /* MyPageViewModel.swift in Sources */,
 				9E50988C2C403C4B00F72CD0 /* AddThirdView.swift in Sources */,
 				0D06D9A02C3561AF0094C505 /* ImageModel.swift in Sources */,
@@ -1558,6 +1588,7 @@
 				CAC80FCE2C3D2FD800658EA6 /* BottomControlView.swift in Sources */,
 				CA4EF3CB2C3287DA003B02B6 /* Config.swift in Sources */,
 				747819432C3ADFCE0040D5E7 /* NavViewedCourseViewController.swift in Sources */,
+				9E754CD02C47FCA600E2CA91 /* AddCourseTargetType.swift in Sources */,
 				CA4EF3C72C3286C5003B02B6 /* SplashView.swift in Sources */,
 				9E590B462C3C535500039690 /* AddCourseSecondViewController.swift in Sources */,
 				CA4EF3D72C347766003B02B6 /* OnboardingView.swift in Sources */,
@@ -1583,6 +1614,7 @@
 				CA80C0D72C4523A2002CAA9B /* DRBottomSheetAction.swift in Sources */,
 				743D5BF42C401FF9007C156C /* PointDetailView.swift in Sources */,
 				9E443A502C39158100C1F92C /* AddSheetViewController.swift in Sources */,
+				9E754CD42C47FECC00E2CA91 /* AddCourseService.swift in Sources */,
 				CAC80FD72C3E7BB100658EA6 /* MainViewController.swift in Sources */,
 				9EB91E782C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift in Sources */,
 				9E63BB202C35CF7200D5ED5B /* AddCourseFirstViewController.swift in Sources */,
