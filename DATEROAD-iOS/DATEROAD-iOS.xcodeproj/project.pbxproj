@@ -664,9 +664,9 @@
 		742C9D9B2C4599F0007FFB51 /* MyCourse */ = {
 			isa = PBXGroup;
 			children = (
+				74CB3DFA2C47DD62005F864F /* DTO */,
 				742C9D992C4599EB007FFB51 /* MyCourseService.swift */,
 				742C9D9C2C459B3C007FFB51 /* MyCourseAPI.swift */,
-				742C9D9E2C45A9C8007FFB51 /* MyCourseDTO.swift */,
 			);
 			path = MyCourse;
 			sourceTree = "<group>";
@@ -689,6 +689,14 @@
 				74BC16652C329A110084E832 /* SUIT-Bold.otf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		74CB3DFA2C47DD62005F864F /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				742C9D9E2C45A9C8007FFB51 /* MyCourseDTO.swift */,
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 		74CDE2622C3B11DE00A7459B /* DateSchedule */ = {
