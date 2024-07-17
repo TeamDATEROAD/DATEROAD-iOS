@@ -101,7 +101,7 @@ private extension PointDetailViewController {
     
     func changeSelectedSegmentLayout(isEarnedPointHidden: Bool?) {
         guard let isEarnedPointHidden = isEarnedPointHidden else { return }
-        print(isEarnedPointHidden)
+//        print(isEarnedPointHidden)
         if isEarnedPointHidden {
             switch pointViewModel.usedPointData.value?.count == 0 {
             case true:

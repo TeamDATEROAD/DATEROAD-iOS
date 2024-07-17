@@ -11,13 +11,13 @@ final class PointViewModel {
     
     let pointDetailService = PointDetailService()
     
-    var gainedPointData: ObservablePattern<[PointDetailModel]> = ObservablePattern(nil)
+    var gainedPointData: ObservablePattern<[PointDetailModel]> = ObservablePattern([])
     
-    var usedPointData: ObservablePattern<[PointDetailModel]> = ObservablePattern(nil)
+    var usedPointData: ObservablePattern<[PointDetailModel]> = ObservablePattern([])
     
     var isSuccessGetPointInfo: ObservablePattern<Bool> = ObservablePattern(false)
     
-    var nowPointData: ObservablePattern<[PointDetailModel]> = ObservablePattern(nil)
+    var nowPointData: ObservablePattern<[PointDetailModel]> = ObservablePattern([])
     
     var isEarnedPointHidden : ObservablePattern<Bool> = ObservablePattern(false)
     
