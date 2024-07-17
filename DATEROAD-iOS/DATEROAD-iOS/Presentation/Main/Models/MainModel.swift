@@ -65,21 +65,6 @@ struct DateCourseModel {
 }
 
 struct BannerModel {
-    let imageUrl: UIImage
-    
-    static var bannerDummyData: [BannerModel] {
-//        return [BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "스리 픽"),
-//                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽"),
-//                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "스리 픽"),
-//                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽"),
-//                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "스리 픽"),
-//                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽")
-//        ]
-        return [BannerModel(imageUrl: UIImage(resource: .imgBanner1)),
-                BannerModel(imageUrl: UIImage(resource: .imgBanner2)),
-                BannerModel(imageUrl: UIImage(resource: .imgBanner3)),
-                BannerModel(imageUrl: UIImage(resource: .imgBanner4)),
-                BannerModel(imageUrl: UIImage(resource: .imgBanner5))
-        ]
-    }
+    let advertisementId: Int
+    let imageUrl: String
 }

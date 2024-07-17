@@ -18,7 +18,7 @@ class InfoHeaderView: UICollectionReusableView {
     
     // MARK: - Properties
     
-    static let elementKinds: String = "header"
+    static let elementKinds: String = "infoHeaderView"
     
     static let identifier: String = "InfoHeaderView"
 

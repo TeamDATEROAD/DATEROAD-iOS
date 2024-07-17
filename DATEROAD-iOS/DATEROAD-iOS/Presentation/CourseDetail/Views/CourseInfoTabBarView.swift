@@ -1,17 +1,13 @@
-//
-//  BringCourseCell.swift
-//  DATEROAD-iOS
-//
-//  Created by 김민서 on 7/5/24.
-//
+// CourseInfoTabBarView.swift
+// DATEROAD-iOS
+// Created by 김민서 on 7/13/24.
 
 import UIKit
-
 import SnapKit
 import Then
 
-final class BringCourseCell: BaseCollectionViewCell {
-    
+class CourseInfoTabBarView: BaseView {
+
     // MARK: - UI Properties
     
     private let likeButtonView = UIView()
@@ -20,6 +16,8 @@ final class BringCourseCell: BaseCollectionViewCell {
     
     private let bringCourseButton = UIButton()
     
+    // MARK: - Properties
+    
     private var isLiked: Bool = false {
         didSet {
             updateLikeButtonColor()
@@ -27,9 +25,8 @@ final class BringCourseCell: BaseCollectionViewCell {
     }
     
     override init(frame: CGRect) {
-        
         super.init(frame: frame)
-
+        
         setupTapGesture()
     }
     
@@ -46,8 +43,10 @@ final class BringCourseCell: BaseCollectionViewCell {
     }
     
     override func setLayout() {
+ 
         likeButtonView.snp.makeConstraints {
-            $0.leading.verticalEdges.equalToSuperview()
+            $0.leading.top.equalToSuperview().inset(16)
+            $0.height.equalTo(54)
             $0.width.equalTo(72)
         }
         
@@ -58,8 +57,10 @@ final class BringCourseCell: BaseCollectionViewCell {
         }
         
         bringCourseButton.snp.makeConstraints {
-            $0.trailing.verticalEdges.equalToSuperview()
+            $0.top.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(16)
             $0.leading.equalTo(likeButtonView.snp.trailing).offset(16)
+            $0.height.equalTo(54)
         }
     }
     
@@ -82,20 +83,19 @@ final class BringCourseCell: BaseCollectionViewCell {
             $0.titleLabel?.font = UIFont.suit(.body_bold_15)
         }
     }
+    
+    
+    @objc private func likeButtonTapped() {
+        isLiked.toggle()
+    }
 }
 
-// MARK: - Private Methods
-
-private extension BringCourseCell {
+private extension CourseInfoTabBarView {
     
     func setupTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(likeButtonTapped))
         likeButtonView.isUserInteractionEnabled = true
         likeButtonView.addGestureRecognizer(tapGesture)
-    }
-    
-    @objc func likeButtonTapped() {
-        isLiked.toggle()
     }
     
     func updateLikeButtonColor() {

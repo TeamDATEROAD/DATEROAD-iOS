@@ -51,8 +51,10 @@ enum StringLiterals {
         static let timelineInfoLabel = "코스 타임라인"
         static let coastInfoLabel = "총 비용"
         static let tagInfoLabel = "태그"
-        static let bringCourseLabel = "코스 가져오기"
+        static let bringCourseLabel = "내 일정에 추가하기"
         static let viewCoursewithPoint = "포인트로 코스 열람하기"
+        static let settingDateCourse = "데이트 코스 설정"
+        static let deleteCourse = "글 삭제"
     }
     
     enum Profile {
@@ -177,6 +179,8 @@ enum StringLiterals {
         static let realWithdrawal = "정말로 탈퇴하시겠어요?"
         static let lastWarning = "삭제된 계정은 복구하실 수 없어요"
         static let wouldYouLogOut = "로그아웃 하시겠어요?"
+        static let buyCourse = "50P를 사용해서 코스를 확인해보시겠어요?"
+        static let canNotRefund = "구매 후 포인트는 환불되지 않아요"
     }
     
     enum Course {

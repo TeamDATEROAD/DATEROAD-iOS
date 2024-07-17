@@ -10,6 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
+protocol CourseListCollectionViewCellDelegate: AnyObject {
+    func didTapCourseListCell()
+}
+
 class CourseListCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
@@ -34,8 +38,30 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
     
     private let timeLabel = UILabel()
     
-    override func setHierarchy() {
+    // MARK: - Properties
     
+    weak var delegate: CourseListCollectionViewCellDelegate?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+ 
+        // 탭 제스처 추가
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
+        addGestureRecognizer(tapGesture)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+
+    @objc private func handleTapGesture(_ sender: UITapGestureRecognizer) {
+        print("눌림?")
+        delegate?.didTapCourseListCell()
+    }
+    
+    override func setHierarchy() {
+        
         self.addSubviews(
             thumnailImgageView,
             likeBoxView,
@@ -75,6 +101,7 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
             $0.centerY.equalTo(likeBoxView)
             $0.leading.equalTo(likeButton.snp.trailing).offset(5)
         }
+        
         locationLabel.snp.makeConstraints {
             $0.top.equalTo(thumnailImgageView.snp.bottom).offset(5)
             $0.leading.equalToSuperview()
@@ -170,7 +197,7 @@ extension CourseListCollectionViewCell {
         
         locationLabel.text = course.location
         titleLabel.text = course.title
-        if let coast = course.coast {
+        if let coast = course.cost {
             coastLabel.text = "\(coast)만원 이하"
         } else {
             coastLabel.text = nil
@@ -182,5 +209,5 @@ extension CourseListCollectionViewCell {
             timeLabel.text = nil
         }
     }
-
+    
 }

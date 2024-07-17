@@ -31,7 +31,7 @@ class BaseView: UIView {
     func setLayout() {}
     
     func setStyle() {
-        self.backgroundColor = .white
+        self.backgroundColor = UIColor(resource: .drWhite)
     }
     
 }
