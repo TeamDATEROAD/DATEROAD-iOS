@@ -11,7 +11,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class PreviewCourseDetailViewController: BaseNavBarViewController, CustomAlertDelegate {
+final class PreviewCourseDetailViewController: BaseNavBarViewController, DRCustomAlertDelegate {
 
     // MARK: - UI Properties
     
@@ -87,7 +87,7 @@ extension PreviewCourseDetailViewController: ContentMaskViewDelegate {
             didTapAddCourseButton()
         case .checkCourse:
             didTapBuyButton()
-        case .none:
+        default:
             return
         }
     }
@@ -102,7 +102,7 @@ extension PreviewCourseDetailViewController: ContentMaskViewDelegate {
     }
     
     func didTapFreeViewButton() {
-        let customAlertVC = CustomAlertViewController(
+        let customAlertVC = DRCustomAlertViewController(
             rightActionType: RightButtonType.checkCourse,
             alertTextType: .hasDecription,
             alertButtonType: .twoButton,
@@ -116,7 +116,7 @@ extension PreviewCourseDetailViewController: ContentMaskViewDelegate {
     }
     
     func didTapReadCourseButton() {
-        let customAlertVC = CustomAlertViewController(
+        let customAlertVC = DRCustomAlertViewController(
             rightActionType: RightButtonType.checkCourse,
             alertTextType: .hasDecription,
             alertButtonType: .twoButton,
@@ -130,7 +130,7 @@ extension PreviewCourseDetailViewController: ContentMaskViewDelegate {
     }
     
     func didTapBuyButton(){
-        let customAlertVC = CustomAlertViewController(
+        let customAlertVC = DRCustomAlertViewController(
             rightActionType: RightButtonType.addCourse, 
             alertTextType: .hasDecription,
             alertButtonType: .twoButton,

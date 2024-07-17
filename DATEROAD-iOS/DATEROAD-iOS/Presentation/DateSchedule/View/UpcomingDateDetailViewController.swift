@@ -21,6 +21,8 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     var upcomingDateDetailData = DateDetailModel(dateID: 0, title: "", startAt: "", city: "", tags: [], date: "", places: [])
     
     private let upcomingDateDetailViewModel = DateDetailViewModel()
+    
+    private let dateScheduleDeleteView = DateScheduleDeleteView()
 
     
     // MARK: - LifeCycle
@@ -58,10 +60,6 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
 // MARK: - UI Setting Methods
 
 extension UpcomingDateDetailViewController {
-    @objc
-    private func deleteDateCourse() {
-        print("delete date course 바텀시트")
-    }
     
     private func setButton() {
         upcomingDateDetailContentView.kakaoShareButton.isHidden = false
@@ -86,10 +84,18 @@ extension UpcomingDateDetailViewController {
 
 // MARK: - Alert Methods
 
-extension UpcomingDateDetailViewController: CustomAlertDelegate {
+extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
+    @objc
+    func tapDeleteLabel() {
+        let customAlertVC = DRCustomAlertViewController(rightActionType: .deleteCourse, alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deleteDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        self.present(customAlertVC, animated: false)
+    }
+    
     @objc
     private func tapKakaoButton() {
-        let customAlertVC = CustomAlertViewController(rightActionType: RightButtonType.none,
+        let customAlertVC = DRCustomAlertViewController(rightActionType: .kakaoShare,
                                                       alertTextType: .noDescription,
                                                       alertButtonType: .twoButton,
                                                       titleText: StringLiterals.Alert.kakaoAlert,
@@ -99,8 +105,33 @@ extension UpcomingDateDetailViewController: CustomAlertDelegate {
         self.present(customAlertVC, animated: false)
     }
     
-    func action() {
-        upcomingDateDetailViewModel.shareToKaKao()
+    func action(rightButtonAction: RightButtonType) {
+        if rightButtonAction == .deleteCourse {
+            print("헉 헤어졌나??? 서버연결 delete")
+        } else if rightButtonAction == .kakaoShare {
+            upcomingDateDetailViewModel.shareToKaKao()
+            print("카카오 공유하기")
+        }
+    }
+}
+
+extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
+    @objc
+    private func deleteDateCourse() {
+        let bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView, height: 222, buttonType: DisabledButton(), buttonTitle: StringLiterals.DateSchedule.quit)
+        bottomSheetVC.modalPresentationStyle = .overFullScreen
+        bottomSheetVC.delegate = self
+        self.present(bottomSheetVC, animated: false)
+    }
+    
+    @objc
+    func didTapFirstLabel() {
+        self.dismiss(animated: false)
+        tapDeleteLabel()
+    }
+    
+    func didTapBottomButton() {
+        self.dismiss(animated: false)
     }
 }
 
@@ -115,6 +146,10 @@ private extension UpcomingDateDetailViewController {
     func setDelegate() {
         upcomingDateDetailContentView.dateTimeLineCollectionView.delegate = self
         upcomingDateDetailContentView.dateTimeLineCollectionView.dataSource = self
+        
+        let deleteGesture = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
+        dateScheduleDeleteView.deleteLabel.addGestureRecognizer(deleteGesture)
+        
     }
     
     func setUpBindings() {
