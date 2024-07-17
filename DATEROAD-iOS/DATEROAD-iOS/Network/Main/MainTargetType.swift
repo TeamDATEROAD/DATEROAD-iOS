@@ -60,8 +60,8 @@ extension MainTargetType: BaseTargetType {
     }
     
     var headers: [String : String]? {
-        let token = UserDefaults.standard.string(forKey: "Token") ?? ""
-        let headers = ["Content-Type" : "application/json", "Authorization" : token]
+        let token = UserDefaults.standard.string(forKey: "accessToken") ?? ""
+        let headers = ["Content-Type" : "application/json", "Authorization" : "Bearer " + token]
         return headers
     }
 }
