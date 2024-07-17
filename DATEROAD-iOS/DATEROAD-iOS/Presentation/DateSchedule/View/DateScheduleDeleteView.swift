@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DateScheduleDeleteView: BaseView {
+final class DateScheduleDeleteView: BaseView {
     
     // MARK: - UI Properties
     

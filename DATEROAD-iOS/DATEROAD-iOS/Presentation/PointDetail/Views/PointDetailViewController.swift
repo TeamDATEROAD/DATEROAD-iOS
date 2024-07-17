@@ -93,7 +93,6 @@ private extension PointDetailViewController {
         pointDetailView.emptyUsedPointView.isHidden = true
         pointDetailView.emptyGainedPointView.isHidden = true
         view.isHidden = false
-        print(view)
     }
     
     func changeSelectedSegmentLayout(isEarnedPointHidden: Bool?) {

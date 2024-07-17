@@ -17,11 +17,11 @@ class PastDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - Properties
     
-    var pastDateDetailData = DateDetailModel(dateID: 0, title: "", startAt: "", city: "", tags: [], date: "", places: [])
-    
     private let pastDateDetailViewModel = DateDetailViewModel()
     
     private let dateScheduleDeleteView = DateScheduleDeleteView()
+    
+    private lazy var pastDateDetailData = pastDateDetailViewModel.emptyDateDetailData
     
     // MARK: - LifeCycle
     

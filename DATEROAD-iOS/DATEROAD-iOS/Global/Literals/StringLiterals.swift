@@ -128,6 +128,7 @@ enum StringLiterals {
         static let inquiry = "문의하기"
         static let logout = "로그아웃"
         static let withdrawal = "탈퇴하기"
+        static let alertWithdrawal = "탈퇴"
     }
     
     enum PointSystem {

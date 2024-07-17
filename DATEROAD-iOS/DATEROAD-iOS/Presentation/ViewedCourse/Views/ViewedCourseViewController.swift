@@ -115,8 +115,8 @@ class ViewedCourseViewController: BaseViewController {
 
 // MARK: - EmptyView Methods
 
-extension ViewedCourseViewController {
-    private func setEmptyView() {
+private extension ViewedCourseViewController {
+    func setEmptyView() {
         if viewedCourseData.count == 0 {
             topLabel.text = "수민님,\n아직 열람한\n데이트코스가 없어요"
             createCourseView.isHidden = true

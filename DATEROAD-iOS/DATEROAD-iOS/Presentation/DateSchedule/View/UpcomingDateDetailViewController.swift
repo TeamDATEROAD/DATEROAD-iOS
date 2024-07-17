@@ -124,14 +124,14 @@ extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
         self.present(bottomSheetVC, animated: false)
     }
     
-    func didTapBottomButton() {
-        self.dismiss(animated: false)
-    }
-    
     @objc
     func didTapFirstLabel() {
         self.dismiss(animated: false)
         tapDeleteLabel()
+    }
+    
+    func didTapBottomButton() {
+        self.dismiss(animated: false)
     }
 }
 
