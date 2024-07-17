@@ -20,10 +20,6 @@ class PointDetailViewController: BaseNavBarViewController {
     
     private var pointViewModel: PointViewModel
     
-//    private lazy var gainedPointDummyData = pointViewModel.pointDummyData.gained
-//    
-//    private lazy var usedPointDummyData = pointViewModel.pointDummyData.used
-    
     // MARK: - LifeCycle
     
     init(pointViewModel: PointViewModel) {
@@ -45,6 +41,7 @@ class PointDetailViewController: BaseNavBarViewController {
         registerCell()
         setDelegate()
         setAddTarget()
+        bindViewModel()
         changeSelectedSegmentLayout(isEarnedPointHidden: false)
     }
     
@@ -66,6 +63,12 @@ class PointDetailViewController: BaseNavBarViewController {
 
 
 extension PointDetailViewController {
+    func bindViewModel() {
+        self.pointViewModel.nowPointData.bind { [weak self] data in
+            self?.pointDetailView.pointCollectionView.reloadData()
+        }
+    }
+    
     func setProfile(userName: String, totalPoint: Int) {
         pointDetailView.userNameLabel.text = "\(userName) 님의 포인트"
         pointDetailView.totalPointLabel.text = "\(totalPoint) P"
@@ -86,8 +89,7 @@ private extension PointDetailViewController {
     }
     
     func setSegmentViewHidden(_ view: UIView) {
-        pointDetailView.pointUsedCollectionView.isHidden = true
-        pointDetailView.pointGainedCollectionView.isHidden = true
+        pointDetailView.pointCollectionView.isHidden = true
         pointDetailView.emptyUsedPointView.isHidden = true
         pointDetailView.emptyGainedPointView.isHidden = true
         view.isHidden = false
@@ -98,22 +100,24 @@ private extension PointDetailViewController {
         guard let isEarnedPointHidden = isEarnedPointHidden else { return }
         print(isEarnedPointHidden)
         if isEarnedPointHidden {
-            switch pointViewModel.usedDummyData.count == 0 {
+            switch pointViewModel.usedDummyData.value?.count == 0 {
             case true:
                 setSegmentViewHidden(pointDetailView.emptyUsedPointView)
             case false:
-                setSegmentViewHidden(pointDetailView.pointUsedCollectionView)
+                setSegmentViewHidden(pointDetailView.pointCollectionView)
+                pointDetailView.pointCollectionView.reloadData()
             }
             
             pointDetailView.selectedSegmentUnderLineView.snp.updateConstraints {
                 $0.leading.equalToSuperview().inset(ScreenUtils.width/2)
             }
         } else {
-            switch pointViewModel.gainedDummyData.count == 0 {
+            switch pointViewModel.gainedDummyData.value?.count == 0 {
             case true:
                 setSegmentViewHidden(pointDetailView.emptyGainedPointView)
             case false:
-                setSegmentViewHidden(pointDetailView.pointGainedCollectionView)
+                setSegmentViewHidden(pointDetailView.pointCollectionView)
+                pointDetailView.pointCollectionView.reloadData()
             }
 
             pointDetailView.selectedSegmentUnderLineView.snp.updateConstraints {
@@ -128,17 +132,12 @@ private extension PointDetailViewController {
 
 extension PointDetailViewController {
     private func registerCell() {
-        print("ho")
-        pointDetailView.pointGainedCollectionView.register(PointCollectionViewCell.self, forCellWithReuseIdentifier: PointCollectionViewCell.cellIdentifier)
-        pointDetailView.pointUsedCollectionView.register(PointCollectionViewCell.self, forCellWithReuseIdentifier: PointCollectionViewCell.cellIdentifier)
+        pointDetailView.pointCollectionView.register(PointCollectionViewCell.self, forCellWithReuseIdentifier: PointCollectionViewCell.cellIdentifier)
     }
     
     private func setDelegate() {
-        pointDetailView.pointGainedCollectionView.delegate = self
-        pointDetailView.pointGainedCollectionView.dataSource = self
-        
-        pointDetailView.pointUsedCollectionView.delegate = self
-        pointDetailView.pointUsedCollectionView.dataSource = self
+        pointDetailView.pointCollectionView.delegate = self
+        pointDetailView.pointCollectionView.dataSource = self
     }
 }
 
@@ -146,7 +145,6 @@ extension PointDetailViewController {
 
 extension PointDetailViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        print("cellsize")
         return CGSize(width: ScreenUtils.width, height: 86)
     }
 }
@@ -156,21 +154,15 @@ extension PointDetailViewController : UICollectionViewDelegateFlowLayout {
 extension PointDetailViewController : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == pointDetailView.pointGainedCollectionView {
-            print(pointViewModel.gainedDummyData.count)
-            return pointViewModel.gainedDummyData.count
-        } else {
-            return pointViewModel.usedDummyData.count
-        }
+        return pointViewModel.nowPointData.value?.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PointCollectionViewCell.cellIdentifier, for: indexPath) as? PointCollectionViewCell else { return UICollectionViewCell() }
-        if collectionView == pointDetailView.pointGainedCollectionView {
-            cell.dataBind(pointViewModel.gainedDummyData[indexPath.item], indexPath.item)
-        } else {
-            cell.dataBind(pointViewModel.usedDummyData[indexPath.item], indexPath.item)
-        }
+        pointViewModel.updateData(nowEarnedPointHidden: pointViewModel.isEarnedPointHidden.value ?? false)
+        cell.prepareForReuse()
+        let data = pointViewModel.nowPointData.value?[indexPath.item] ?? PointDetailModel(sign: "", point: 0, description: "", createAt: "")
+        cell.dataBind(data, indexPath.item)
         return cell
     }
 }

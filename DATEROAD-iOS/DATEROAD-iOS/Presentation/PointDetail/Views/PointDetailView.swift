@@ -23,9 +23,7 @@ class PointDetailView: BaseView {
     
     let selectedSegmentUnderLineView = UIView()
     
-    var pointGainedCollectionView = PointCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    
-    var pointUsedCollectionView = PointCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    var pointCollectionView = PointCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     var emptyGainedPointView = CustomEmptyView()
     
@@ -42,8 +40,7 @@ class PointDetailView: BaseView {
                          segmentControl,
                          segmentControlUnderLineView,
                          selectedSegmentUnderLineView,
-                         pointUsedCollectionView,
-                         pointGainedCollectionView,
+                         pointCollectionView,
                          emptyUsedPointView,
                          emptyGainedPointView)
         
@@ -87,13 +84,7 @@ class PointDetailView: BaseView {
             $0.width.equalToSuperview().dividedBy(2)
         }
         
-        pointGainedCollectionView.snp.makeConstraints{
-            $0.top.equalTo(segmentControl.snp.bottom)
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(34)
-        }
-        
-        pointUsedCollectionView.snp.makeConstraints{
+        pointCollectionView.snp.makeConstraints{
             $0.top.equalTo(segmentControl.snp.bottom)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview().inset(34)
@@ -147,12 +138,7 @@ class PointDetailView: BaseView {
             $0.backgroundColor = UIColor(resource: .drBlack)
         }
         
-        pointGainedCollectionView.do {
-            $0.isHidden = true
-            $0.backgroundColor = .systemCyan
-        }
-        
-        pointUsedCollectionView.do {
+        pointCollectionView.do {
             $0.isHidden = true
         }
         
