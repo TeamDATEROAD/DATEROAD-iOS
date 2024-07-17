@@ -20,8 +20,6 @@ class NavViewedCourseViewController: BaseNavBarViewController {
     
     private let viewedCourseViewModel = MyCourseListViewModel()
     
-    private lazy var viewedCourseData = viewedCourseViewModel.viewedCourseData
-    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -32,6 +30,7 @@ class NavViewedCourseViewController: BaseNavBarViewController {
         register()
         setDelegate()
         setEmptyView()
+        bindViewModel()
     }
     
     override func setHierarchy() {
@@ -59,7 +58,7 @@ class NavViewedCourseViewController: BaseNavBarViewController {
 
 extension NavViewedCourseViewController {
     private func setEmptyView() {
-        if viewedCourseData.count == 0 {
+        if viewedCourseViewModel.viewedCourseData.value?.count == 0 {
             navViewedCourseView.emptyView.do {
                 $0.isHidden = false
                 $0.setEmptyView(emptyImage: UIImage(resource: .emptyNavViewedCourse),
@@ -68,6 +67,20 @@ extension NavViewedCourseViewController {
         }
     }
 }
+
+// MARK: - DataBind
+
+extension NavViewedCourseViewController {
+    func bindViewModel() {
+        self.viewedCourseViewModel.isSuccessGetViewedCourseInfo.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.navViewedCourseView.myCourseListCollectionView.reloadData()
+            }
+        }
+    }
+}
+
 
 // MARK: - CollectionView Methods
 
@@ -94,14 +107,14 @@ extension NavViewedCourseViewController : UICollectionViewDelegateFlowLayout {
 
 extension NavViewedCourseViewController : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewedCourseData.count
+        return viewedCourseViewModel.viewedCourseData.value?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier, for: indexPath) as? MyCourseListCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.dataBind(viewedCourseData[indexPath.item], indexPath.item)
+        cell.dataBind(viewedCourseViewModel.viewedCourseData.value?[indexPath.item], indexPath.item)
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToCourseDetailVC(_:))))
         return cell
     }
@@ -111,7 +124,7 @@ extension NavViewedCourseViewController : UICollectionViewDataSource {
         let indexPath = navViewedCourseView.myCourseListCollectionView.indexPathForItem(at: location)
 
        if let index = indexPath {
-           print("일정 등록 페이지로 이동 \(viewedCourseData[indexPath?.item ?? 0].courseId )")
+           print("일정 등록 페이지로 이동 \(viewedCourseViewModel.viewedCourseData.value?[indexPath?.item ?? 0].courseId ?? 0 )")
        }
     }
     

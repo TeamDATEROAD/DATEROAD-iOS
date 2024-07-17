@@ -13,9 +13,9 @@ class MyCourseListViewModel {
     
     let myCourseService = MyCourseService()
     
-    var viewedCourseData : [MyCourseModel] = []
+    var viewedCourseData: ObservablePattern<[MyCourseModel]> = ObservablePattern(nil)
     
-    var myRegisterCourseData : [MyCourseModel] = []
+    var myRegisterCourseData: ObservablePattern<[MyCourseModel]> = ObservablePattern(nil)
     
     var isSuccessGetViewedCourseInfo: ObservablePattern<Bool> = ObservablePattern(false)
     
@@ -29,14 +29,14 @@ class MyCourseListViewModel {
     }
     
     func setViewedCourseData() {
-        myCourseService.getViewedCourse() { [weak self] response in
+        NetworkService.shared.myCourseService.getViewedCourse() { response in
             switch response {
             case .success(let data):
                 let viewedCourseInfo = data.courses.map {
-                    MyCourseModel(courseId: $0.courseID, thumbnail: $0.thumbnail, title: $0.title, city: $0.city, cost: $0.cost.priceRangeTag(), duration: $0.duration, like: $0.like)
+                    MyCourseModel(courseId: $0.courseID, thumbnail: $0.thumbnail, title: $0.title, city: $0.city, cost: $0.cost.priceRangeTag(), duration: ($0.duration).formatFloatTime(), like: $0.like)
                 }
-                self?.viewedCourseData = viewedCourseInfo
-                self?.isSuccessGetViewedCourseInfo.value = true
+                self.viewedCourseData.value = viewedCourseInfo
+                self.isSuccessGetViewedCourseInfo.value = true
             case .requestErr:
                 print("requestError")
             case .decodedErr:
@@ -52,17 +52,15 @@ class MyCourseListViewModel {
     }
     
     func setMyRegisterCourseData() {
-        myCourseService.getMyRegisterCourse() { [weak self] response in
+        NetworkService.shared.myCourseService.getMyRegisterCourse() { response in
             switch response {
             case .success(let data):
                 let myRegisterCourseInfo = data.courses.map {
-                    MyCourseModel(courseId: $0.courseID, thumbnail: $0.thumbnail, title: $0.title, city: $0.city, cost: ($0.cost).priceRangeTag(), duration: $0.duration, like: $0.like)
+                    MyCourseModel(courseId: $0.courseID, thumbnail: $0.thumbnail, title: $0.title, city: $0.city, cost: ($0.cost).priceRangeTag(), duration: ($0.duration).formatFloatTime(), like: $0.like)
                 }
-                self?.myRegisterCourseData = myRegisterCourseInfo
-                self?.isSuccessGetMyRegisterCourseInfo.value = true
-                print("@log-------")
-                print(myRegisterCourseInfo)
-                print(self?.myRegisterCourseData)
+                self.myRegisterCourseData.value = myRegisterCourseInfo
+                self.isSuccessGetMyRegisterCourseInfo.value = true
+                print("isUpdate>", self.myRegisterCourseData)
             case .requestErr:
                 print("requestError")
             case .decodedErr:

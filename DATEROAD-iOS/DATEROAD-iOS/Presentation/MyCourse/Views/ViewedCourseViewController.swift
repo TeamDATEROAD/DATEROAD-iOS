@@ -28,8 +28,6 @@ class ViewedCourseViewController: BaseViewController {
     
     private let viewedCourseViewModel = MyCourseListViewModel()
     
-    private lazy var viewedCourseData = viewedCourseViewModel.viewedCourseData
-    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -38,6 +36,7 @@ class ViewedCourseViewController: BaseViewController {
         registerCell()
         setDelegate()
         setEmptyView()
+        bindViewModel()
     }
     
     override func setHierarchy() {
@@ -87,7 +86,7 @@ class ViewedCourseViewController: BaseViewController {
         
         topLabel.do {
             $0.font = UIFont.suit(.title_extra_24)
-            $0.setAttributedText(fullText: "\(viewedCourseViewModel.userName)님이 지금까지\n열람한 데이트 코스\n\(viewedCourseData.count)개", pointText: "\(viewedCourseData.count)", pointColor: UIColor(resource: .mediumPurple), lineHeight: 1)
+            $0.setAttributedText(fullText: "\(viewedCourseViewModel.userName)님이 지금까지\n열람한 데이트 코스\n\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개", pointText: "\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)", pointColor: UIColor(resource: .mediumPurple), lineHeight: 1)
             $0.numberOfLines = 3
         }
         
@@ -117,7 +116,7 @@ class ViewedCourseViewController: BaseViewController {
 
 private extension ViewedCourseViewController {
     func setEmptyView() {
-        if viewedCourseData.count == 0 {
+        if viewedCourseViewModel.viewedCourseData.value?.count == 0 {
             topLabel.text = "수민님,\n아직 열람한\n데이트코스가 없어요"
             createCourseView.isHidden = true
             viewedCourseView.emptyView.snp.makeConstraints {
@@ -132,6 +131,18 @@ private extension ViewedCourseViewController {
     }
 }
 
+// MARK: - DataBind
+
+extension ViewedCourseViewController {
+    func bindViewModel() {
+        self.viewedCourseViewModel.isSuccessGetViewedCourseInfo.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.viewedCourseView.myCourseListCollectionView.reloadData()
+            }
+        }
+    }
+}
 
 // MARK: - CollectionView Methods
 
@@ -158,14 +169,14 @@ extension ViewedCourseViewController : UICollectionViewDelegateFlowLayout {
 
 extension ViewedCourseViewController : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewedCourseData.count
+        return viewedCourseViewModel.viewedCourseData.value?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier, for: indexPath) as? MyCourseListCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.dataBind(viewedCourseData[indexPath.item], indexPath.item)
+        cell.dataBind(viewedCourseViewModel.viewedCourseData.value?[indexPath.item], indexPath.item)
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToCourseDetailVC(_:))))
         return cell
     }
@@ -175,7 +186,7 @@ extension ViewedCourseViewController : UICollectionViewDataSource {
         let indexPath = viewedCourseView.myCourseListCollectionView.indexPathForItem(at: location)
 
        if let index = indexPath {
-           print("일정 상세 페이지로 이동 \(viewedCourseData[indexPath?.item ?? 0].courseId )")
+           print("일정 상세 페이지로 이동 \(viewedCourseViewModel.viewedCourseData.value?[indexPath?.item ?? 0].courseId ?? 0 )")
        }
     }
     
