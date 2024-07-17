@@ -255,11 +255,11 @@ extension AddCourseThirdViewController: UICollectionViewDataSource, UICollection
 
 // MARK: - Alert Delegate
 
-extension AddCourseThirdViewController: CustomAlertDelegate {
+extension AddCourseThirdViewController: DRCustomAlertDelegate {
    
    @objc
    private func didTapAddCourseBtn() {
-      let customAlertVC = CustomAlertViewController(rightActionType: .none, alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertTitleLabel, descriptionText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertSubTitleLabel, longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton)
+      let customAlertVC = DRCustomAlertViewController(rightActionType: .none, alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertTitleLabel, descriptionText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertSubTitleLabel, longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton)
       customAlertVC.delegate = self
       customAlertVC.modalPresentationStyle = .overFullScreen
       self.present(customAlertVC, animated: false)
