@@ -63,9 +63,11 @@ final class CourseDetailViewController: BaseViewController, CustomAlertDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        getCourseDetail()
         setSetctionCount()
         setDelegate()
         registerCell()
+        setAddTarget()
         bindViewModel()
     }
     
@@ -106,6 +108,11 @@ final class CourseDetailViewController: BaseViewController, CustomAlertDelegate 
                 bottomPageControllView.pageIndex = currentPage ?? 0
             }
         }
+    }
+    
+    func setAddTarget() {
+        let deleteGesture = UITapGestureRecognizer(target: self, action: #selector(didTapDeleteLabel(sender:)))
+        deleteCourseSettingView.deleteLabel.addGestureRecognizer(deleteGesture)
     }
     
 }
@@ -285,6 +292,18 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
 
 extension CourseDetailViewController {
     
+    func getCourseDetail() {
+        CourseDetailService().getCourseDetailInfo(courseId: 11){ response in
+            switch response {
+            case .success(let data):
+                let courseDetailModels = data.isCourseMine
+                print(courseDetailModels)
+            default:
+                print("Failed to fetch course data")
+            }
+        }
+    }
+    
     //1번째 분기처리 - 내가 쓴 글/남이 쓴 글
     func isCourseMine() -> Bool {
         setTabBar()
@@ -419,6 +438,11 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
     
+    @objc
+    func didTapDeleteLabel(sender: UITapGestureRecognizer) {
+        print("didTapDeleteLabel")
+        self.dismiss(animated: true)
+    }
 }
 
 extension CourseDetailViewController: StickyHeaderNavBarViewDelegate {
@@ -443,11 +467,4 @@ extension CourseDetailViewController: DRBottomSheetDelegate {
     func didTapBottomButton() {
         self.dismiss(animated: true)
     }
-    
-    func didTapFirstLabel() {
-        print("나 삭제임")
-        self.dismiss(animated: true)
-        //self.registerPhoto()
-    }
-    
 }
