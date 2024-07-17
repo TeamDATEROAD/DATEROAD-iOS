@@ -290,7 +290,9 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return gradient
         } else if kind == BottomPageControllView.elementKinds {
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else { return UICollectionReusableView() }
+            let likeNum = self.courseDetailViewModel.likeSum.value ?? 0
             footer.pageIndexSum = imageData.count
+            footer.bindData(like: likeNum)
             return footer
         } else if kind == ContentMaskView.elementKinds {
             if isAccess {

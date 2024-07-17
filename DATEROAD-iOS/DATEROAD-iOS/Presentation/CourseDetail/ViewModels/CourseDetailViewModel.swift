@@ -30,18 +30,6 @@ class CourseDetailViewModel {
     
     var isFreeView: ObservablePattern<Bool> = ObservablePattern(true)
     
-//    let imageCarouselViewModel: ImageCarouselViewModel
-//    
-//    let titleInfoViewModel: TitleInfoViewModel
-//    
-//    let mainContentsViewModel: MainContentsViewModel
-//    
-//    let timelineInfoViewModel: TimelineInfoViewModel
-//    
-//    let coastInfoViewModel: CoastInfoViewModel
-//    
-//    let tagInfoViewModel: TagInfoViewModel
-        
     var conditionalData: ObservablePattern<ConditionalModel> = ObservablePattern(nil)
     
     var imageData: ObservablePattern<[ThumbnailModel]> = ObservablePattern(nil)
@@ -131,15 +119,9 @@ extension CourseDetailViewModel {
                 
                 self.imageData.value = data.images.map {ThumbnailModel(imageUrl: $0.imageURL, sequence: $0.sequence)}
                 
-//                let updatedImageData = data.images.map { (imageUrl: $0.imageURL, sequence: $0.sequence) }
-//                self.imageData = updatedImageData
                 self.likeSum.value = data.like
                 self.titleHeaderData.value = TitleHeaderModel(date: data.date, title: data.title, cost: data.totalCost, totalTime: data.totalTime, city: data.city)
-//                self.titleHeaderData.date = data.date
-//                self.titleHeaderData.title = data.title
-//                self.titleHeaderData.city = data.city
-//                self.titleHeaderData.totalTime = data.totalTime
-//                self.titleHeaderData.cost = data.totalCost
+
         
                 self.mainContentsData.value = MainContentsModel(description: data.description)
                 
@@ -148,8 +130,6 @@ extension CourseDetailViewModel {
                 }
                 print(self.timelineData,"🚨")
 
-            
-//                self.coastData = data.totalCost
                 self.tagData.value = data.tags.map { tag in
                     TagModel(tag: tag.tag)
                 }
@@ -163,45 +143,3 @@ extension CourseDetailViewModel {
         }
     }
 }
-//
-//struct ImageCarouselViewModel {
-//    var numberOfItems: Int {
-//        return 1
-//    }
-//}
-//
-//struct TitleInfoViewModel {
-//    var numberOfItems: Int {
-//        return 1
-//    }
-//}
-//
-//struct MainContentsViewModel {
-//    var numberOfItems: Int {
-//        return 1
-//    }
-//}
-//
-//struct TimelineInfoViewModel {
-//    var timelineData: [TimelineModel]
-//    
-//    var numberOfItems: Int {
-//        return timelineData.count
-//    }
-//}
-//
-//
-//struct CoastInfoViewModel {
-//    var numberOfItems: Int {
-//        return 1
-//    }
-//}
-//
-//struct TagInfoViewModel {
-//    var tagInfoData: [TagModel]
-//    
-//    var numberOfItems: Int {
-//        return tagInfoData.count
-//    }
-//}
-//

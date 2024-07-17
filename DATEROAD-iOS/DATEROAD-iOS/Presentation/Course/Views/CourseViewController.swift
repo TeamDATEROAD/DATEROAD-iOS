@@ -99,8 +99,7 @@ extension CourseViewController {
             self.courseView.courseFilterView.updatePrice(button: sender, buttonType: UnselectedButton(), isSelected: false)
             courseViewModel.selectedPriceIndex.value = 0
         }
-
-        // 현재 버튼이 선택되었다면 selectedButton으로 비활성화되었다면 nil로 설정
+        
         selectedButton = sender.isSelected ? sender : nil
         getCourse()
     }
@@ -264,7 +263,6 @@ extension CourseViewController: UICollectionViewDataSource {
             let selectedCourse = courseListModel[indexPath.row]
 
             if let courseId = selectedCourse.courseId {
-                print(courseId,"😆")
                 let viewModel = CourseDetailViewModel(courseId: courseId)
                 let courseDetailVC = CourseDetailViewController(viewModel: viewModel)
                 self.navigationController?.pushViewController(courseDetailVC, animated: true)
