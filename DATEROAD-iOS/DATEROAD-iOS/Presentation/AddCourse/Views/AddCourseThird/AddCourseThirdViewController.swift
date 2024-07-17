@@ -259,7 +259,7 @@ extension AddCourseThirdViewController: CustomAlertDelegate {
    
    @objc
    private func didTapAddCourseBtn() {
-      let customAlertVC = CustomAlertViewController(alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertTitleLabel, descriptionText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertSubTitleLabel, longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton)
+      let customAlertVC = CustomAlertViewController(rightActionType: .none, alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertTitleLabel, descriptionText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertSubTitleLabel, longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton)
       customAlertVC.delegate = self
       customAlertVC.modalPresentationStyle = .overFullScreen
       self.present(customAlertVC, animated: false)

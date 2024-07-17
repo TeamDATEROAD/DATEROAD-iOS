@@ -20,11 +20,11 @@ final class AddCourseViewModel {
    var isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    /// 방문 일자 유효성 판별 (true는 통과)
-   var visitDate: ObservablePattern<String> = ObservablePattern("")
+   var visitDate: ObservablePattern<String> = ObservablePattern(nil)
    var isVisitDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    /// 데이트 시작시간 유효성 판별 (self.count > 0 인지)
-   var dateStartAt: ObservablePattern<String> = ObservablePattern("")
+   var dateStartAt: ObservablePattern<String> = ObservablePattern(nil)
    var isDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    /// 코스 등록 태그

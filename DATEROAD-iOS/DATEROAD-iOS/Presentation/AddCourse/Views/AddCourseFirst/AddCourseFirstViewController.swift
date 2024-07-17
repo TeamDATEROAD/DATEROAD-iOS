@@ -120,6 +120,7 @@ private extension AddCourseFirstViewController {
       viewModel.dateStartAt.bind { date in
          guard let text = date else {return}
          self.addCourseFirstView.addFirstView.updatedateStartTime(text: text)
+         print(text)
       }
       viewModel.tagCount.bind { count in
          self.addCourseFirstView.addFirstView.updateTagCount(count: count ?? 0)
@@ -150,23 +151,42 @@ private extension AddCourseFirstViewController {
    
    func setAddTarget() {
       addCourseFirstView.addFirstView.dateNameTextField.addTarget(self, action: #selector(textFieldDidChanacge(_:)), for: .editingChanged)
-      addCourseFirstView.addFirstView.visitDateTextField.addTarget(self, action: #selector(textFieldTapped(_:)), for: .touchDown)
-      addCourseFirstView.addFirstView.dateStartTimeTextField.addTarget(self, action: #selector(textFieldTapped(_:)), for: .touchDown)
+      
       addCourseFirstView.addFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
-      let tapGesture = UITapGestureRecognizer(target: self, action: #selector(datePlaceContainerTapped))
-      addCourseFirstView.addFirstView.datePlaceContainer.addGestureRecognizer(tapGesture)
-      addCourseFirstView.addFirstView.datePlaceContainer.isUserInteractionEnabled = true // 제스처 인식을 위해 필요
+      
+      let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(visitDate))
+      addCourseFirstView.addFirstView.visitDateContainer.addGestureRecognizer(tapGesture1)
+      addCourseFirstView.addFirstView.visitDateContainer.isUserInteractionEnabled = true
+      
+      let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(dateStartAt))
+      addCourseFirstView.addFirstView.dateStartAtContainer.addGestureRecognizer(tapGesture2)
+      addCourseFirstView.addFirstView.dateStartAtContainer.isUserInteractionEnabled = true
+      
+      
+      let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(datePlaceContainerTapped))
+      addCourseFirstView.addFirstView.datePlaceContainer.addGestureRecognizer(tapGesture3)
+      addCourseFirstView.addFirstView.datePlaceContainer.isUserInteractionEnabled = true
    }
    
    @objc
-   func textFieldTapped(_ textField: UITextField) {
-      if textField == addCourseFirstView.addFirstView.visitDateTextField {
+   func visitDate() {
          addSheetView.datePickerMode(isDatePicker: true)
          viewModel.isTimePicker = false
-      } else if textField == addCourseFirstView.addFirstView.dateStartTimeTextField {
+//      else if textField == addCourseFirstView.addFirstView.dateStartTimeTextField {
+//         addSheetView.datePickerMode(isDatePicker: false)
+//         viewModel.isTimePicker = true
+//      }
+      alertVC.delegate = self
+      DispatchQueue.main.async {
+         self.alertVC.modalPresentationStyle = .overFullScreen
+         self.present(self.alertVC, animated: true, completion: nil)
+      }
+   }
+   
+   @objc
+   func dateStartAt() {
          addSheetView.datePickerMode(isDatePicker: false)
          viewModel.isTimePicker = true
-      }
       alertVC.delegate = self
       DispatchQueue.main.async {
          self.alertVC.modalPresentationStyle = .overFullScreen
@@ -349,7 +369,6 @@ extension AddCourseFirstViewController: UITextFieldDelegate {
       if textField == addCourseFirstView.addFirstView.dateNameTextField {
          return true
       } else {
-         textFieldTapped(textField)
          return false
       }
    }
