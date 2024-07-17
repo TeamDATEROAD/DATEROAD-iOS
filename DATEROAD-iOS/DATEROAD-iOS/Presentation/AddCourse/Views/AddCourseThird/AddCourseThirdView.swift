@@ -34,7 +34,7 @@ final class AddCourseThirdView: BaseView {
    override func setLayout() {
       scrollView.snp.makeConstraints {
          $0.top.horizontalEdges.equalToSuperview()
-         $0.bottom.equalToSuperview().inset(14)
+         $0.bottom.equalToSuperview().inset(4)
       }
       
       scrollContentView.snp.makeConstraints {
@@ -51,7 +51,7 @@ final class AddCourseThirdView: BaseView {
       addThirdView.snp.makeConstraints {
          $0.top.equalTo(collectionView.snp.bottom).offset(7)
          $0.horizontalEdges.equalToSuperview().inset(16)
-         $0.bottom.equalToSuperview().inset(4)
+         $0.bottom.equalToSuperview()
       }
    }
    

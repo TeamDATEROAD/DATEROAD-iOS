@@ -86,10 +86,9 @@ class AddThirdView: BaseView {
       
       addThirdDoneBtn.snp.makeConstraints {
          $0.height.equalTo(54)
-//         $0.top.equalTo(priceTextField.snp.bottom).offset(50)
-         $0.bottom.equalToSuperview().inset(4)
+         $0.top.equalTo(priceTextField.snp.bottom).offset(50)
          $0.horizontalEdges.equalToSuperview()
-         
+         $0.bottom.equalToSuperview()
       }
    }
    
