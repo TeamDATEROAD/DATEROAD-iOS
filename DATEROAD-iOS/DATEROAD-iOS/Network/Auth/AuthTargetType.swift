@@ -11,6 +11,7 @@ import Moya
 
 enum AuthTargetType {
     case postSignUp(requestBody: PostSignUpRequest)
+    case getDoubleCheck(name: String)
 }
 
 extension AuthTargetType: BaseTargetType {
@@ -23,6 +24,8 @@ extension AuthTargetType: BaseTargetType {
         switch self {
         case .postSignUp:
             return .post
+        case .getDoubleCheck(let name):
+            return .get
         }
     }
     
@@ -30,6 +33,8 @@ extension AuthTargetType: BaseTargetType {
         switch self {
         case .postSignUp:
             return utilPath + "/signup"
+        case .getDoubleCheck(let name):
+            return utilPath + "/check"
         }
     }
 
@@ -51,14 +56,34 @@ extension AuthTargetType: BaseTargetType {
             }
             
             // Add tags as separate parts
-            for tag in requestBody.tag {
-                if let tagData = tag.data(using: .utf8) {
-                    let tagPart = MultipartFormData(provider: .data(tagData), name: "tag")
-                    multipartData.append(tagPart)
-                }
+//            for tag in requestBody.tag {
+//                if let tagData = tag.data(using: .utf8) {
+//                    let tagPart = MultipartFormData(provider: .data(tagData), name: "tag")
+//                    multipartData.append(tagPart)
+//                }
+//            }
+            
+            if let tagData = try? JSONSerialization.data(withJSONObject: requestBody.tag, options: []) {
+                multipartData.append(MultipartFormData(provider: .data(tagData), name: "tag"))
             }
             
             return .uploadMultipart(multipartData)
+            
+        case .getDoubleCheck(let name):
+            if let parameter = parameter {
+                return .requestParameters(parameters: parameter, encoding: URLEncoding.default)
+            } else {
+                return .requestPlain
+            }
+        }
+    }
+    
+    var parameter: [String : Any]? {
+        switch self {
+        case .getDoubleCheck(let name):
+            return ["name" : name]
+        default:
+            return .none
         }
     }
     
@@ -66,9 +91,12 @@ extension AuthTargetType: BaseTargetType {
         switch self {
         case .postSignUp(_):
             let token = UserDefaults.standard.string(forKey: "Token") ?? ""
-            let headers = ["accept": "application/json",
+            let headers = ["Accept": "application/json",
                            "Content-Type" : "multipart/form-data",
                            "Authorization" : token]
+            return headers
+        default:
+            let headers = ["Content-Type" : "application/json"]
             return headers
         }
     }
