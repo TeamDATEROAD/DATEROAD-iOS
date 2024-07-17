@@ -202,7 +202,6 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
     }
     
     func didSelectCity(_ city: LocationModel.City) {
-        // 'Seoul.jongnoJunggu'와 같은 rawValue에서 'jongnoJunggu'만 추출
         let cityNameComponents = city.rawValue.split(separator: ".")
         let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
         

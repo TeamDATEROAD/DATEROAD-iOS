@@ -24,14 +24,13 @@ class CourseDetailView: BaseView {
     
     private var courseDetailSection: [CourseDetailSection]
     
-    private var isAccess: Bool
+    var isAccess: Bool = false
     
     
     // MARK: - Life Cycle
     
-    init(courseDetailSection: [CourseDetailSection], isAccess: Bool) {
+    init(courseDetailSection: [CourseDetailSection]) {
         self.courseDetailSection = courseDetailSection
-        self.isAccess = isAccess
         
         super.init(frame: .zero)
     }
