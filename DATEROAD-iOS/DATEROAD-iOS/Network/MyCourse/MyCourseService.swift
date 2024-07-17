@@ -9,14 +9,15 @@ import Foundation
 
 import Moya
 
-class MyCourseService: BaseService {
-    static let shared = MyCourseService()
+protocol MyCourseServiceProtocol {
+    func getViewedCourse(completion: (@escaping (NetworkResult<MyCourseListDTO>) -> Void))
 
-    private var myCourseProvider = MoyaProvider<MyCourseAPI>(plugins: [MoyaLoggingPlugin()])
-
+    func getMyRegisterCourse(completion: (@escaping (NetworkResult<MyCourseListDTO>) -> Void))
 }
 
-extension MyCourseService {
+final class MyCourseService: BaseService, MyCourseServiceProtocol {
+    private var myCourseProvider = MoyaProvider<MyCourseAPI>(plugins: [MoyaLoggingPlugin()])
+    
     func getViewedCourse(completion: (@escaping (NetworkResult<MyCourseListDTO>) -> Void)) {
         myCourseProvider.request(.viewedCourse) {
             result in
