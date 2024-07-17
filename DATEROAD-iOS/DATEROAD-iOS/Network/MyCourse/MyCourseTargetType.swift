@@ -9,12 +9,12 @@ import Foundation
 
 import Moya
 
-enum MyCourseAPI {
+enum MyCourseTargetType {
     case viewedCourse
     case myRegisterCourse
 }
 
-extension MyCourseAPI: BaseTargetType {
+extension MyCourseTargetType: BaseTargetType {
     var utilPath: String {
         return "api/v1/courses"
     }

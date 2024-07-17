@@ -16,7 +16,7 @@ protocol MyCourseServiceProtocol {
 }
 
 final class MyCourseService: BaseService, MyCourseServiceProtocol {
-    private var myCourseProvider = MoyaProvider<MyCourseAPI>(plugins: [MoyaLoggingPlugin()])
+    private var myCourseProvider = MoyaProvider<MyCourseTargetType>(plugins: [MoyaLoggingPlugin()])
     
     func getViewedCourse(completion: (@escaping (NetworkResult<MyCourseListDTO>) -> Void)) {
         myCourseProvider.request(.viewedCourse) {

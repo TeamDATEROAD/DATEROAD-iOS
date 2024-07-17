@@ -58,7 +58,7 @@
 		742840102C3EC87300B21AA7 /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428400F2C3EC87300B21AA7 /* AlertType.swift */; };
 		742840122C3EC8C100B21AA7 /* DRCustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742840112C3EC8C100B21AA7 /* DRCustomAlertView.swift */; };
 		742C9D9A2C4599EB007FFB51 /* MyCourseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C9D992C4599EB007FFB51 /* MyCourseService.swift */; };
-		742C9D9D2C459B3C007FFB51 /* MyCourseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C9D9C2C459B3C007FFB51 /* MyCourseAPI.swift */; };
+		742C9D9D2C459B3C007FFB51 /* MyCourseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C9D9C2C459B3C007FFB51 /* MyCourseTargetType.swift */; };
 		742C9D9F2C45A9C8007FFB51 /* MyCourseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C9D9E2C45A9C8007FFB51 /* MyCourseDTO.swift */; };
 		743D5BF02C3FB7ED007C156C /* MyCourseListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D5BEF2C3FB7ED007C156C /* MyCourseListModel.swift */; };
 		743D5BF22C3FC60F007C156C /* MyRegisterCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D5BF12C3FC60F007C156C /* MyRegisterCourseViewController.swift */; };
@@ -253,7 +253,7 @@
 		7428400F2C3EC87300B21AA7 /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
 		742840112C3EC8C100B21AA7 /* DRCustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCustomAlertView.swift; sourceTree = "<group>"; };
 		742C9D992C4599EB007FFB51 /* MyCourseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseService.swift; sourceTree = "<group>"; };
-		742C9D9C2C459B3C007FFB51 /* MyCourseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseAPI.swift; sourceTree = "<group>"; };
+		742C9D9C2C459B3C007FFB51 /* MyCourseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseTargetType.swift; sourceTree = "<group>"; };
 		742C9D9E2C45A9C8007FFB51 /* MyCourseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseDTO.swift; sourceTree = "<group>"; };
 		743D5BEF2C3FB7ED007C156C /* MyCourseListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseListModel.swift; sourceTree = "<group>"; };
 		743D5BF12C3FC60F007C156C /* MyRegisterCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRegisterCourseViewController.swift; sourceTree = "<group>"; };
@@ -668,7 +668,7 @@
 			children = (
 				74CB3DFA2C47DD62005F864F /* DTO */,
 				742C9D992C4599EB007FFB51 /* MyCourseService.swift */,
-				742C9D9C2C459B3C007FFB51 /* MyCourseAPI.swift */,
+				742C9D9C2C459B3C007FFB51 /* MyCourseTargetType.swift */,
 			);
 			path = MyCourse;
 			sourceTree = "<group>";
@@ -1550,7 +1550,7 @@
 				CAC80FE12C3E822000658EA6 /* MainModel.swift in Sources */,
 				CAE8C19B2C45930E00F153B3 /* GetFilteredDateCourseResponse.swift in Sources */,
 				CA3D0D182C29AA7A00735097 /* UITextField+.swift in Sources */,
-				742C9D9D2C459B3C007FFB51 /* MyCourseAPI.swift in Sources */,
+				742C9D9D2C459B3C007FFB51 /* MyCourseTargetType.swift in Sources */,
 				7455476F2C3D0A6300B526F3 /* PastDateContentView.swift in Sources */,
 				0DA138F52C3E8E1900682653 /* PriceButtonCollectionViewCell.swift in Sources */,
 				0D05FF0F2C3EFB3E00E9BDDC /* CourseListView.swift in Sources */,
