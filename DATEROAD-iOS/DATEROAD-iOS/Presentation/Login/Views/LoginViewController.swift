@@ -48,8 +48,9 @@ final class LoginViewController: BaseViewController {
 extension LoginViewController {
     
     func bindViewModel() {
-        self.loginViewModel.onLoginSuccess = { [weak self] in
-            self?.pushToPointSystemManualVC()
+        self.loginViewModel.isSignIn.bind { [weak self] isSignIn in
+            guard let isSignIn else { return }
+            self?.pushToNextVC(isSignIn: isSignIn)
         }
     }
     

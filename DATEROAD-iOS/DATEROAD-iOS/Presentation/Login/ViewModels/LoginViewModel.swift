@@ -17,16 +17,17 @@ final class LoginViewModel {
     var isKaKaoLogin: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var socialType: ObservablePattern<SocialType> = ObservablePattern(nil)
-        
+    
     var socialToken: ObservablePattern<String> = ObservablePattern(nil)
     
     var kakaoUserInfo: ObservablePattern<KakaoUserInfo> = ObservablePattern(nil)
     
     var appleUserInfo: ObservablePattern<AppleUserInfo> = ObservablePattern(nil)
     
-    var onLoginSuccess: (() -> Void)?
+    var isSignIn: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    var onLoginFailure: ((Error) -> Void)?
+    var onLoginSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+    
 }
 
 extension LoginViewModel {
@@ -58,7 +59,7 @@ extension LoginViewModel {
     func handleKakaoLoginResult(oauthToken: OAuthToken?, error: Error?) {
         if let error {
             print("로그인 실패: \(error.localizedDescription)")
-            self.onLoginFailure?(error)
+            self.onLoginSuccess.value = false
         } else {
             guard let oauthToken = oauthToken else { return }
             UserApi.shared.me { (user, error) in
@@ -92,12 +93,11 @@ extension LoginViewModel {
     // 유저 정보 세팅
     
     func setToken(token: String) {
-//        guard let key = self.socialType.value?.rawValue else { return }
         guard let value = self.isKaKaoLogin.value else { return }
         UserDefaults.standard.setValue(value, forKey: "SocialType")
         self.socialToken.value = token
         UserDefaults.standard.setValue(token, forKey: "Token")
-        self.onLoginSuccess?()
+        postSignIn()
     }
     
     func setUserInfo(userInfo: ASAuthorizationAppleIDCredential) {
@@ -108,5 +108,30 @@ extension LoginViewModel {
         
         self.appleUserInfo.value = AppleUserInfo(identifier: userInfo.user, nickname: nickname, email: email)
     }
-    
+
+    func postSignIn() {
+        let socialType = UserDefaults.standard.bool(forKey: "SocialType")
+        
+        let requestBody = PostSignInRequest(platform: socialType ? SocialType.KAKAO.rawValue : SocialType.APPLE.rawValue)
+        
+        NetworkService.shared.authService.postSignIn(requestBody: requestBody) { response in
+            switch response {
+            case .success(let data):
+                self.onLoginSuccess.value = true
+                UserDefaults.standard.setValue(data.userID, forKey: "userID")
+                UserDefaults.standard.setValue(data.accessToken, forKey: "accessToken")
+                UserDefaults.standard.setValue(data.refreshToken, forKey: "refreshToken")
+                print("login \(data)")
+                self.isSignIn.value = true
+            case .requestErr:
+                self.isSignIn.value = false
+                
+            default:
+                print("Failed to fetch post signin")
+                self.onLoginSuccess.value = false
+                return
+            }
+            
+        }
+    }
 }
