@@ -91,6 +91,11 @@ private extension MyPageViewController {
             guard let data else { return }
             self?.myPageView.userInfoView.bindData(userInfo: data)
         }
+        
+        self.myPageViewModel.onSuccessLogout.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            self?.navigationController?.popToRootViewController(animated: false)
+        }
     }
     
     func setAddTarget() {
@@ -116,7 +121,7 @@ extension MyPageViewController: DRCustomAlertDelegate {
     
     @objc
     private func logOutSectionTapped() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none, alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.wouldYouLogOut, leftButtonText: StringLiterals.Common.cancel, rightButtonText: StringLiterals.MyPage.logout)
+        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.logout, alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.wouldYouLogOut, leftButtonText: StringLiterals.Common.cancel, rightButtonText: StringLiterals.MyPage.logout)
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         selectedAlertFlag = 0
@@ -132,9 +137,10 @@ extension MyPageViewController: DRCustomAlertDelegate {
         self.present(customAlertVC, animated: false)
     }
     
-    func action() {
+    func action(rightButtonAction: RightButtonType) {
         if selectedAlertFlag == 0 {
             print("로그아웃하세요 ~~")
+            myPageViewModel.deleteLogout()
         }
     }
     

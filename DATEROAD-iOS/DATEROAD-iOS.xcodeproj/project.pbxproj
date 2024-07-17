@@ -160,6 +160,7 @@
 		CABDCE732C47FA5C00631FB3 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE722C47FA5C00631FB3 /* AuthService.swift */; };
 		CABDCE752C47FAFD00631FB3 /* PostSignUpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE742C47FAFD00631FB3 /* PostSignUpResponse.swift */; };
 		CABDCE792C481ABB00631FB3 /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE782C481ABB00631FB3 /* EmptyResponse.swift */; };
+		CABDCE7B2C48498200631FB3 /* PostSignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE7A2C48498200631FB3 /* PostSignInRequest.swift */; };
 		CAC80FA02C3B10D100658EA6 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80F9F2C3B10D100658EA6 /* MyPageView.swift */; };
 		CAC80FA22C3B10EA00658EA6 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FA12C3B10EA00658EA6 /* MyPageViewController.swift */; };
 		CAC80FA42C3B34B400658EA6 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FA32C3B34B400658EA6 /* UserInfoView.swift */; };
@@ -352,6 +353,7 @@
 		CABDCE722C47FA5C00631FB3 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		CABDCE742C47FAFD00631FB3 /* PostSignUpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSignUpResponse.swift; sourceTree = "<group>"; };
 		CABDCE782C481ABB00631FB3 /* EmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
+		CABDCE7A2C48498200631FB3 /* PostSignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSignInRequest.swift; sourceTree = "<group>"; };
 		CAC80F9F2C3B10D100658EA6 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		CAC80FA12C3B10EA00658EA6 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		CAC80FA32C3B34B400658EA6 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
@@ -1181,6 +1183,7 @@
 			children = (
 				CABDCE702C47D8F400631FB3 /* PostSignUpRequest.swift */,
 				CABDCE742C47FAFD00631FB3 /* PostSignUpResponse.swift */,
+				CABDCE7A2C48498200631FB3 /* PostSignInRequest.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -1501,6 +1504,7 @@
 				CA4EF3C02C3285BA003B02B6 /* SocialType.swift in Sources */,
 				CAC80FAC2C3B567100658EA6 /* MyPageViewModel.swift in Sources */,
 				9E50988C2C403C4B00F72CD0 /* AddThirdView.swift in Sources */,
+				CABDCE7B2C48498200631FB3 /* PostSignInRequest.swift in Sources */,
 				0D06D9A02C3561AF0094C505 /* ImageModel.swift in Sources */,
 				0D0DA3E62C3AF3FB004210EE /* PointDetailViewController.swift in Sources */,
 				0DDFEE0F2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift in Sources */,
