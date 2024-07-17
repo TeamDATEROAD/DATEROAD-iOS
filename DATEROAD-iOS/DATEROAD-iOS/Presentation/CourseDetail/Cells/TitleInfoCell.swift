@@ -37,7 +37,7 @@ final class TitleInfoCell: BaseCollectionViewCell {
             $0.text = "나랑 스껄 할래?"
             $0.font = UIFont.suit(.title_extra_24)
             $0.textColor = UIColor(resource: .drBlack)
-            $0.numberOfLines = 0
+            $0.numberOfLines = 2
         }
 
     }

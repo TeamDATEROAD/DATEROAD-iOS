@@ -39,7 +39,10 @@ class CourseDetailViewModel {
     let coastInfoViewModel: CoastInfoViewModel
     
     let tagInfoViewModel: TagInfoViewModel
-
+    
+    var isCourseMine: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var numberOfSections: Int = 6
     
     init() {
         self.imageCarouselViewModel = ImageCarouselViewModel()
@@ -54,11 +57,11 @@ class CourseDetailViewModel {
         return [.imageCarousel, .titleInfo, .mainContents, .timelineInfo, .coastInfo, .tagInfo]
     }
     
-    var numberOfSections: Int {
-        return sections.count
+    func setNumberOfSections(_ count: Int) {
+        self.numberOfSections = count
     }
     
-
+    
     func fetchSection(at index: Int) -> CourseDetailSection {
         return sections[index]
     }
@@ -84,6 +87,7 @@ class CourseDetailViewModel {
         currentPage.value = index
     }
 }
+
 struct ImageCarouselViewModel {
     var numberOfItems: Int {
         return 1
@@ -108,7 +112,7 @@ struct TimelineInfoViewModel {
     var numberOfItems: Int {
         return timelineData.count
     }
-
+    
 }
 
 

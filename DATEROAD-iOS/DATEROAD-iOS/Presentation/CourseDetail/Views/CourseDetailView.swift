@@ -128,6 +128,8 @@ extension CourseDetailView {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
+        let header = makeContentMaskView()
+        section.boundarySupplementaryItems = [header]
 
         return section
     }
@@ -220,6 +222,14 @@ extension CourseDetailView {
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(36))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: InfoBarView.elementKinds, alignment: .bottom, absoluteOffset: CGPoint(x: 0, y: 20))
         footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        return footer
+    }
+    
+    func makeContentMaskView() -> NSCollectionLayoutBoundarySupplementaryItem {
+
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(360))
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: ContentMaskView.elementKinds, alignment: .bottom, absoluteOffset: CGPoint(x: 0, y: -70))
+        footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         return footer
     }
     

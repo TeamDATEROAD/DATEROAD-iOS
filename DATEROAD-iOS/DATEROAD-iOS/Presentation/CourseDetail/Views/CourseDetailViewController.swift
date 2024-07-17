@@ -26,6 +26,8 @@ final class CourseDetailViewController: BaseNavBarViewController {
     
     private let courseDetailViewModel: CourseDetailViewModel
     
+    private var conditionalData: ConditionalModel = ConditionalModel.conditionalDummyData
+    
     private var imageData: [ImageModel] = ImageModel.imageContents.map { ImageModel(image: $0) }
     
     private var likeSum: Int = ImageModel.likeSum
@@ -62,6 +64,8 @@ final class CourseDetailViewController: BaseNavBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        setTabBar()
+        setSetctionCount()
         setDelegate()
         registerCell()
         setNavigationBar()
@@ -101,9 +105,13 @@ final class CourseDetailViewController: BaseNavBarViewController {
     }
     
     func setNavigationBar() {
-        //setBackgroundColor(color: .clear)
-        setLeftBackButton()
-        setLeftBackButton()
+        if isCourseMine() {
+            setLeftBackButton()
+            setLeftBackButton()
+        } else {
+            setLeftBackButton()
+        }
+       
     }
     
     func bindViewModel() {
@@ -155,6 +163,8 @@ private extension CourseDetailViewController {
             $0.register(GradientView.self, forSupplementaryViewOfKind: GradientView.elementKinds, withReuseIdentifier: GradientView.identifier)
             
             $0.register(BottomPageControllView.self, forSupplementaryViewOfKind: BottomPageControllView.elementKinds, withReuseIdentifier: BottomPageControllView.identifier)
+            
+            $0.register(ContentMaskView.self, forSupplementaryViewOfKind: ContentMaskView.elementKinds, withReuseIdentifier: ContentMaskView.identifier)
         }
     }
 }
@@ -208,8 +218,12 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
                 fatalError("Unable to dequeue MainContentsCell")
             }
             mainContentsCell.setCell(mainContentsData: mainContentsData)
+            if isCourseMine() {
+                mainContentsCell.mainTextLabel.numberOfLines = 0
+            } else {
+                mainContentsCell.mainTextLabel.numberOfLines = 3
+            }
             return mainContentsCell
-            
         case .timelineInfo:
             guard let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.cellIdentifier, for: indexPath) as? TimelineInfoCell else {
                 fatalError("Unable to dequeue MainContentsCell")
@@ -253,6 +267,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return footer
         } else if kind == ContentMaskView.elementKinds {
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ContentMaskView.identifier, for: indexPath) as? ContentMaskView else { return UICollectionReusableView() }
+            footer.isHidden = isAccess()
             return footer
         } else if kind == InfoHeaderView.elementKinds {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoHeaderView.identifier, for: indexPath) as? InfoHeaderView else { return UICollectionReusableView() }
@@ -272,7 +287,48 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         }
     }
     
+}
+
+//분기처리 시작합니닷
+
+extension CourseDetailViewController {
+    
+    //1번째 분기처리 - 내가 쓴 글/남이 쓴 글
+    func isCourseMine() -> Bool {
+        setTabBar()
+        return conditionalData.isCourseMine
+    }
+
+    func isAccess() -> Bool {
+        return conditionalData.isAccess
+    }
+    
+    func setSetctionCount() {
+        if conditionalData.isCourseMine {
+            courseDetailViewModel.setNumberOfSections(6)
+        } else {
+            if conditionalData.isAccess {
+                courseDetailViewModel.setNumberOfSections(6)
+            } else {
+                courseDetailViewModel.setNumberOfSections(3)
+            }
+        }
+        courseDetailView.mainCollectionView.reloadData()
+    }
+    
+    func setTabBar() {
+        if conditionalData.isCourseMine {
+            courseInfoTabBarView.isHidden = true
+        } else {
+            if conditionalData.isAccess {
+                courseInfoTabBarView.isHidden = false
+            } else {
+                courseInfoTabBarView.isHidden = true
+            }
+        }
+    }
     
     
+
 }
 
