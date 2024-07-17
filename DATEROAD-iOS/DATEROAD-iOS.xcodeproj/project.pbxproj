@@ -54,6 +54,9 @@
 		0DFBF92A2C43BB2A00762956 /* Float+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFBF9292C43BB2A00762956 /* Float+.swift */; };
 		0DFBF92C2C43E42700762956 /* DeleteCourseSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFBF92B2C43E42700762956 /* DeleteCourseSettingView.swift */; };
 		741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */; };
+		742547032C47F0780075DD81 /* GetPointDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742547022C47F0780075DD81 /* GetPointDetailResponse.swift */; };
+		742547052C47F0880075DD81 /* PointDetailTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742547042C47F0880075DD81 /* PointDetailTargetType.swift */; };
+		742547072C47F0980075DD81 /* PointDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742547062C47F0980075DD81 /* PointDetailService.swift */; };
 		7428400E2C3EC58700B21AA7 /* DRCustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428400D2C3EC58700B21AA7 /* DRCustomAlertViewController.swift */; };
 		742840102C3EC87300B21AA7 /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428400F2C3EC87300B21AA7 /* AlertType.swift */; };
 		742840122C3EC8C100B21AA7 /* DRCustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742840112C3EC8C100B21AA7 /* DRCustomAlertView.swift */; };
@@ -246,6 +249,9 @@
 		0DFBF9292C43BB2A00762956 /* Float+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+.swift"; sourceTree = "<group>"; };
 		0DFBF92B2C43E42700762956 /* DeleteCourseSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCourseSettingView.swift; sourceTree = "<group>"; };
 		741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseViewController.swift; sourceTree = "<group>"; };
+		742547022C47F0780075DD81 /* GetPointDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPointDetailResponse.swift; sourceTree = "<group>"; };
+		742547042C47F0880075DD81 /* PointDetailTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointDetailTargetType.swift; sourceTree = "<group>"; };
+		742547062C47F0980075DD81 /* PointDetailService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointDetailService.swift; sourceTree = "<group>"; };
 		7428400D2C3EC58700B21AA7 /* DRCustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCustomAlertViewController.swift; sourceTree = "<group>"; };
 		7428400F2C3EC87300B21AA7 /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
 		742840112C3EC8C100B21AA7 /* DRCustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCustomAlertView.swift; sourceTree = "<group>"; };
@@ -648,6 +654,24 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		742547002C47EF350075DD81 /* PointDetail */ = {
+			isa = PBXGroup;
+			children = (
+				742547012C47EF440075DD81 /* DTO */,
+				742547042C47F0880075DD81 /* PointDetailTargetType.swift */,
+				742547062C47F0980075DD81 /* PointDetailService.swift */,
+			);
+			path = PointDetail;
+			sourceTree = "<group>";
+		};
+		742547012C47EF440075DD81 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				742547022C47F0780075DD81 /* GetPointDetailResponse.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
 		742840132C3EC8C600B21AA7 /* CustomAlert */ = {
 			isa = PBXGroup;
 			children = (
@@ -943,6 +967,7 @@
 		CA3D0D122C29A9BB00735097 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				742547002C47EF350075DD81 /* PointDetail */,
 				CAE8C1922C457F4A00F153B3 /* Main */,
 				CA3D0D132C29A9C500735097 /* Base */,
 			);
@@ -1416,10 +1441,12 @@
 				CA3D0D1E2C2ACE3900735097 /* UIButton+.swift in Sources */,
 				CAC80FEF2C3EE58500658EA6 /* DateTicketView.swift in Sources */,
 				0D9497B92C328D010004B442 /* ImageCarouselCell.swift in Sources */,
+				742547032C47F0780075DD81 /* GetPointDetailResponse.swift in Sources */,
 				9E590B482C3D1C5C00039690 /* AddCourseSecondView.swift in Sources */,
 				CAC80FB72C3BC2F800658EA6 /* Constants.swift in Sources */,
 				CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */,
 				CAC80FC22C3C6CE500658EA6 /* PointSystemCollectionViewCell.swift in Sources */,
+				742547052C47F0880075DD81 /* PointDetailTargetType.swift in Sources */,
 				0D05FF0D2C3EFB2700E9BDDC /* CourseFilterView.swift in Sources */,
 				0DA1C71E2C3DCC2400DF2B92 /* Price.swift in Sources */,
 				0D98CB992C405E0200E3618A /* InfoBarView.swift in Sources */,
@@ -1536,6 +1563,7 @@
 				0DA1C7162C3DA97400DF2B92 /* CourseViewModel.swift in Sources */,
 				0D05FF092C3EE1F700E9BDDC /* CourseListCollectionViewCell.swift in Sources */,
 				0DA920F22C3C0AF500A6A321 /* MainContentsCell.swift in Sources */,
+				742547072C47F0980075DD81 /* PointDetailService.swift in Sources */,
 				742840122C3EC8C100B21AA7 /* DRCustomAlertView.swift in Sources */,
 				0DDFEE0D2C3C513E008C6022 /* LocationFilterViewController.swift in Sources */,
 				CAC80FF12C3EFF6600658EA6 /* DRPaddingLabel.swift in Sources */,
