@@ -1,5 +1,5 @@
 //
-//  AddScheduleInFirstView.swift
+//  InAddScheduleFirstView.swift
 //  DATEROAD-iOS
 //
 //  Created by 박신영 on 7/18/24.
@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class AddScheduleInFirstView: BaseView {
+final class InAddScheduleFirstView: BaseView {
    
    // MARK: - UI Properties
    
@@ -254,7 +254,7 @@ final class AddScheduleInFirstView: BaseView {
    
 }
 
-extension AddScheduleInFirstView {
+extension InAddScheduleFirstView {
    
    // MARK: - Methods
    

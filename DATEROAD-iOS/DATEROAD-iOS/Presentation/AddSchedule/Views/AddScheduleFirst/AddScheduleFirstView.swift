@@ -14,7 +14,7 @@ final class AddScheduleFirstView: BaseView {
    
    // MARK: - UI Properties
    
-   let addScheduleInFirstView = AddScheduleInFirstView()
+   let inAddScheduleFirstView = InAddScheduleFirstView()
    
    let dateNameErrorLabel = UILabel()
    
@@ -24,25 +24,25 @@ final class AddScheduleFirstView: BaseView {
    
    override func setHierarchy() {
       self.addSubviews(
-         addScheduleInFirstView,
+         inAddScheduleFirstView,
          dateNameErrorLabel,
          visitDateErrorLabel
       )
    }
    
    override func setLayout() {
-      addScheduleInFirstView.snp.makeConstraints {
+      inAddScheduleFirstView.snp.makeConstraints {
          $0.edges.equalToSuperview()
       }
       
       dateNameErrorLabel.snp.makeConstraints {
-         $0.top.equalTo(addScheduleInFirstView.dateNameTextField.snp.bottom).offset(2)
-         $0.leading.equalTo(addScheduleInFirstView.dateNameTextField).offset(9)
+         $0.top.equalTo(inAddScheduleFirstView.dateNameTextField.snp.bottom).offset(2)
+         $0.leading.equalTo(inAddScheduleFirstView.dateNameTextField).offset(9)
       }
       
       visitDateErrorLabel.snp.makeConstraints {
-         $0.top.equalTo(addScheduleInFirstView.visitDateContainer.snp.bottom).offset(2)
-         $0.leading.equalTo(addScheduleInFirstView.visitDateContainer.snp.leading).offset(9)
+         $0.top.equalTo(inAddScheduleFirstView.visitDateContainer.snp.bottom).offset(2)
+         $0.leading.equalTo(inAddScheduleFirstView.visitDateContainer.snp.leading).offset(9)
       }
    }
    
@@ -101,14 +101,14 @@ extension AddScheduleFirstView {
    
    func updateDateNameTextField(isPassValid: Bool) {
       dateNameErrorLabel.isHidden = isPassValid
-      addScheduleInFirstView.dateNameTextField.do {
+      inAddScheduleFirstView.dateNameTextField.do {
          $0.layer.borderWidth = isPassValid ? 0 : 1
       }
    }
    
    func updateVisitDateTextField(isPassValid: Bool) {
       visitDateErrorLabel.isHidden = isPassValid
-      addScheduleInFirstView.visitDateContainer.do {
+      inAddScheduleFirstView.visitDateContainer.do {
          $0.layer.borderWidth = isPassValid ? 0 : 1
       }
    }

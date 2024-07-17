@@ -72,78 +72,78 @@ extension AddScheduleFirstViewController {
          self.addScheduleFirstView.updateDateNameTextField(isPassValid: date)
          
          let flag = self.viewModel.isOkSixBtn()
-         self.addScheduleFirstView.addScheduleInFirstView.updateSixCheckButton(isValid: flag)
+         self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
       }
       viewModel.isVisitDateVaild.bind { date in
          guard let date = date else {return}
          self.addScheduleFirstView.updateVisitDateTextField(isPassValid: date)
          
          let flag = self.viewModel.isOkSixBtn()
-         self.addScheduleFirstView.addScheduleInFirstView.updateSixCheckButton(isValid: flag)
+         self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
       }
       viewModel.isDateStartAtVaild.bind { date in
          let flag = self.viewModel.isOkSixBtn()
-         self.addScheduleFirstView.addScheduleInFirstView.updateSixCheckButton(isValid: flag)
+         self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
       }
       viewModel.isValidTag.bind { date in
          let flag = self.viewModel.isOkSixBtn()
-         self.addScheduleFirstView.addScheduleInFirstView.updateSixCheckButton(isValid: flag)
+         self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
       }
       viewModel.isDateLocationVaild.bind { date in
          let flag = self.viewModel.isOkSixBtn()
-         self.addScheduleFirstView.addScheduleInFirstView.updateSixCheckButton(isValid: flag)
+         self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
       }
       
       viewModel.dateName.bind { date in
          guard let text = date else {return}
-         self.addScheduleFirstView.addScheduleInFirstView.updateDateName(text: text)
+         self.addScheduleFirstView.inAddScheduleFirstView.updateDateName(text: text)
       }
       viewModel.visitDate.bind { date in
          guard let text = date else {return}
-         self.addScheduleFirstView.addScheduleInFirstView.updateVisitDate(text: text)
+         self.addScheduleFirstView.inAddScheduleFirstView.updateVisitDate(text: text)
       }
       viewModel.dateStartAt.bind { date in
          guard let text = date else {return}
-         self.addScheduleFirstView.addScheduleInFirstView.updatedateStartTime(text: text)
+         self.addScheduleFirstView.inAddScheduleFirstView.updatedateStartTime(text: text)
       }
       viewModel.tagCount.bind { count in
-         self.addScheduleFirstView.addScheduleInFirstView.updateTagCount(count: count ?? 0)
+         self.addScheduleFirstView.inAddScheduleFirstView.updateTagCount(count: count ?? 0)
       }
       viewModel.dateLocation.bind { date in
          guard let date = date else {return}
-         self.addScheduleFirstView.addScheduleInFirstView.updateDateLocation(text: date)
+         self.addScheduleFirstView.inAddScheduleFirstView.updateDateLocation(text: date)
       }
    }
    
    func registerCell() {
-      addScheduleFirstView.addScheduleInFirstView.tendencyTagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
+      addScheduleFirstView.inAddScheduleFirstView.tendencyTagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
    }
    
    func setDelegate() {
-      addScheduleFirstView.addScheduleInFirstView.tendencyTagCollectionView.do {
+      addScheduleFirstView.inAddScheduleFirstView.tendencyTagCollectionView.do {
          $0.delegate = self
          $0.dataSource = self
       }
-      addScheduleFirstView.addScheduleInFirstView.dateNameTextField.delegate = self
+      addScheduleFirstView.inAddScheduleFirstView.dateNameTextField.delegate = self
    }
    
    func setAddTarget() {
-      addScheduleFirstView.addScheduleInFirstView.dateNameTextField.addTarget(self, action: #selector(textFieldDidChanacge(_:)), for: .editingChanged)
+      addScheduleFirstView.inAddScheduleFirstView.dateNameTextField.addTarget(self, action: #selector(textFieldDidChanacge(_:)), for: .editingChanged)
       
-      addScheduleFirstView.addScheduleInFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
+      addScheduleFirstView.inAddScheduleFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
       
       let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(visitDate))
-      addScheduleFirstView.addScheduleInFirstView.visitDateContainer.addGestureRecognizer(tapGesture1)
-      addScheduleFirstView.addScheduleInFirstView.visitDateContainer.isUserInteractionEnabled = true
+      addScheduleFirstView.inAddScheduleFirstView.visitDateContainer.addGestureRecognizer(tapGesture1)
+      addScheduleFirstView.inAddScheduleFirstView.visitDateContainer.isUserInteractionEnabled = true
       
       let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(dateStartAt))
-      addScheduleFirstView.addScheduleInFirstView.dateStartAtContainer.addGestureRecognizer(tapGesture2)
-      addScheduleFirstView.addScheduleInFirstView.dateStartAtContainer.isUserInteractionEnabled = true
+      addScheduleFirstView.inAddScheduleFirstView.dateStartAtContainer.addGestureRecognizer(tapGesture2)
+      addScheduleFirstView.inAddScheduleFirstView.dateStartAtContainer.isUserInteractionEnabled = true
       
       
       let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(datePlaceContainerTapped))
-      addScheduleFirstView.addScheduleInFirstView.datePlaceContainer.addGestureRecognizer(tapGesture3)
-      addScheduleFirstView.addScheduleInFirstView.datePlaceContainer.isUserInteractionEnabled = true
+      addScheduleFirstView.inAddScheduleFirstView.datePlaceContainer.addGestureRecognizer(tapGesture3)
+      addScheduleFirstView.inAddScheduleFirstView.datePlaceContainer.isUserInteractionEnabled = true
    }
    
    @objc
@@ -177,7 +177,7 @@ extension AddScheduleFirstViewController {
    @objc
    func changeTagBtnState(sender: UIButton) {
       sender.isSelected.toggle()
-      addScheduleFirstView.addScheduleInFirstView.updateTagButtonStyle(btn: sender, isSelected: sender.isSelected)
+      addScheduleFirstView.inAddScheduleFirstView.updateTagButtonStyle(btn: sender, isSelected: sender.isSelected)
       viewModel.countSelectedTag(isSelected: sender.isSelected)
    }
    
@@ -186,8 +186,8 @@ extension AddScheduleFirstViewController {
       // 0 ~ 2개 선택되어 있는 경우
       if self.viewModel.tagCount.value != 3 {
          sender.isSelected = !sender.isSelected
-         sender.isSelected ? self.addScheduleFirstView.addScheduleInFirstView.updateTag(button: sender, buttonType: SelectedButton())
-         : self.addScheduleFirstView.addScheduleInFirstView.updateTag(button: sender, buttonType: UnselectedButton())
+         sender.isSelected ? self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: SelectedButton())
+         : self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: UnselectedButton())
          self.viewModel.countSelectedTag(isSelected: sender.isSelected)
       }
       // 3개 선택되어 있는 경우
@@ -195,7 +195,7 @@ extension AddScheduleFirstViewController {
          // 취소 하려는 경우
          if sender.isSelected {
             sender.isSelected = !sender.isSelected
-            self.addScheduleFirstView.addScheduleInFirstView.updateTag(button: sender, buttonType: UnselectedButton())
+            self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: UnselectedButton())
             self.viewModel.countSelectedTag(isSelected: sender.isSelected)
          }
       }
@@ -203,8 +203,8 @@ extension AddScheduleFirstViewController {
    
    @objc
    func sixCheckBtnTapped() {
-//      let secondVC = AddCourseSecondViewController(viewModel: self.viewModel)
-//      navigationController?.pushViewController(secondVC, animated: true)
+      let secondVC = AddScheduleSecondViewController(viewModel: self.viewModel)
+      navigationController?.pushViewController(secondVC, animated: true)
    }
    
    @objc
@@ -267,7 +267,7 @@ extension AddScheduleFirstViewController: UICollectionViewDataSource, UICollecti
 extension AddScheduleFirstViewController: UITextFieldDelegate {
    
    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-      if textField == addScheduleFirstView.addScheduleInFirstView.dateNameTextField {
+      if textField == addScheduleFirstView.inAddScheduleFirstView.dateNameTextField {
          return true
       } else {
          return false
