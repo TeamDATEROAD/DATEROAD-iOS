@@ -17,8 +17,16 @@ class AddScheduleFirstViewController: BaseNavBarViewController {
    
    // MARK: - Properties
    
-    let viewModel = AddScheduleViewModel()
+   let viewModel: AddScheduleViewModel
    
+   init(viewModel: AddScheduleViewModel) {
+      self.viewModel = viewModel
+      super.init(nibName: nil, bundle: nil)
+   }
+   
+   required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+   }
 
    override func viewDidLoad() {
       super.viewDidLoad()
@@ -253,15 +261,6 @@ extension AddScheduleFirstViewController: UICollectionViewDataSource, UICollecti
          return cell
    }
    
-//   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//      if collectionView == addCourseFirstView.collectionView {
-//         let isImageEmpty = (viewModel.pickedImageArr.count<1) ? true : false
-//         if isImageEmpty  && collectionView == addCourseFirstView.collectionView {
-//            imagePickerViewController.presentPicker(from: self)
-//         }
-//      }
-//   }
-   
 }
 
 extension AddScheduleFirstViewController: UITextFieldDelegate {
@@ -284,7 +283,6 @@ extension AddScheduleFirstViewController: UITextFieldDelegate {
 extension AddScheduleFirstViewController: DRBottomSheetDelegate {
    
    func didTapBottomButton() {
-      print("")
       self.dismiss(animated: true)
       updateTextField()
    }
@@ -306,11 +304,15 @@ extension AddScheduleFirstViewController: DRBottomSheetDelegate {
 
 extension AddScheduleFirstViewController: LocationFilterDelegate {
    
-   func didSelectCity(_ city: LocationModel.City) {
-      print("selected : \(city)")
+   func didSelectLocation(country: LocationModel.Country, city: LocationModel.City) {
+      print("selected country : \(country.rawValue)")
       print("Selected city: \(city.rawValue)")
       viewModel.dateLocation.value = city.rawValue
       viewModel.satisfyDateLocation(str: city.rawValue)
+      let country = LocationModelCountryKorToEng.Country(rawValue: country.rawValue).rawValue
+      let city = LocationModelCityKorToEng.City(rawValue: city.rawValue).rawValue
+      viewModel.country = country
+      viewModel.city = city
    }
    
 }

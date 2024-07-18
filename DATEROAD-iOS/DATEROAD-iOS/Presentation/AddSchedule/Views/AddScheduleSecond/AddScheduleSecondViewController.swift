@@ -135,15 +135,9 @@ private extension AddScheduleSecondViewController {
          
          self?.addScheduleSecondView.editBtnState(isAble: state)
          
-         // 🔥🔥🔥여기까지 완벽🔥🔥🔥
-         
-         // 텍스트필드 초기화 및 addPlace버튼 비활성화
          self?.addScheduleSecondView.inAddScheduleSecondView.finishAddPlace()
          
-         
-         // 다음 버튼 활성화 여부 판별 함수
          self?.viewModel.isSourceMoreThanOne()
-         
          
          self?.addScheduleSecondView.addPlaceCollectionView.reloadData()
       }
@@ -156,10 +150,22 @@ private extension AddScheduleSecondViewController {
    
    func setAddTarget() {
       addScheduleSecondView.editButton.addTarget(self, action: #selector(toggleEditMode), for: .touchUpInside)
-      // 🔥🔥🔥여기까지 완벽🔥🔥🔥
       addScheduleSecondView.inAddScheduleSecondView.addPlaceButton.addTarget(self, action: #selector(tapAddPlaceBtn), for: .touchUpInside)
-      
       addScheduleSecondView.inAddScheduleSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
+   }
+   
+   func successDone() {
+      let customAlertVC = DRCustomAlertViewController(rightActionType: .none, alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertScheduelTitleLabel, longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton)
+      customAlertVC.delegate = self
+      customAlertVC.modalPresentationStyle = .overFullScreen
+      self.present(customAlertVC, animated: false)
+   }
+   
+   /// navigationController를 통해 뷰컨트롤러 스택에서 originVC로 돌아가는 코드
+   func goBackOriginVC() {
+      if let navigationController = self.navigationController {
+         navigationController.popToRootViewController(animated: true)
+      }
    }
    
    
@@ -172,10 +178,8 @@ private extension AddScheduleSecondViewController {
    
    @objc
    func didTapNextBtn() {
-//      print("지금 장소 등록된 값 : ", viewModel.addPlaceCollectionViewDataSource)
-//      
-//      let thirdVC = AddCourseThirdViewController(viewModel: self.viewModel)
-//      navigationController?.pushViewController(thirdVC, animated: true)
+      viewModel.postAddScheduel()
+      successDone()
    }
    
    @objc
@@ -222,15 +226,12 @@ private extension AddScheduleSecondViewController {
             }
          }
       }
-      
       addScheduleSecondView.updateEditBtnText(flag: flag)
-      //여기까지 뒤지게 완벽 like 미친놈
       
       Dispatch.DispatchQueue.main.async {
          collectionView.reloadData()
       }
    }
-   // 얘 통과 진짜 미친놈
 }
 
 
@@ -240,7 +241,6 @@ extension AddScheduleSecondViewController: UITextFieldDelegate {
    
    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
       textField.resignFirstResponder()
-      //      textField.tintColor = UIColor.clear
       return true
    }
    
@@ -371,3 +371,13 @@ extension AddScheduleSecondViewController: UICollectionViewDragDelegate {
       return []
    }
 }
+
+
+extension AddScheduleSecondViewController: DRCustomAlertDelegate {
+   
+   func exit() {
+      goBackOriginVC()
+   }
+   
+}
+

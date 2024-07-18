@@ -16,5 +16,7 @@ final class NetworkService {
     let mainService: MainService = MainService()
    
    let addCourseService: AddCourseService = AddCourseService()
+   
+   let addScheduleService: AddScheduleService = AddScheduleService()
 
 }

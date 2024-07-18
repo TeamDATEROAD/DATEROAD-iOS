@@ -33,6 +33,9 @@ final class AddScheduleViewModel {
    var dateLocation: ObservablePattern<String> = ObservablePattern("")
    var isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
+   var country = ""
+   var city = ""
+   
    var isTimePicker: Bool?
    
    
@@ -73,7 +76,7 @@ final class AddScheduleViewModel {
 
 extension AddScheduleViewModel {
    
-   //MARK: - AddCourse First 함수
+   //MARK: - AddSchedule First 함수
    
    func satisfyDateName(str: String) {
       let flag = (str.count >= 5) ? true : false
@@ -100,7 +103,7 @@ extension AddScheduleViewModel {
       } else {
          dateFormatter.dateStyle = .none
          dateFormatter.timeStyle = .short
-         
+         dateFormatter.dateFormat = "hh:mm a"
          let formattedDate = dateFormatter.string(from: date)
          dateStartAt.value = formattedDate
          let flag = ((dateStartAt.value?.count ?? 0) > 0) ? true : false
@@ -207,6 +210,40 @@ extension AddScheduleViewModel {
    func isDataSourceNotEmpty() {
       let flag = (addPlaceCollectionViewDataSource.count >= 1) ? true : false
       editBtnEnableState.value = flag
+   }
+   
+   func postAddScheduel() {
+      var places: [Place] = []
+      for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
+         if let duration = Float(model.timeRequire) {
+            let place = Place(title: model.placeTitle, duration: duration, sequence: index)
+            places.append(place)
+         } else {
+            print("Invalid duration format for \(model.placeTitle): \(model.timeRequire)")
+         }
+      }
+      
+      guard let dateName = dateName.value else {return}
+      guard let visitDate = visitDate.value else {return}
+      guard let dateStartAt = dateStartAt.value else {return}
+      let country = country
+      let city = city
+      NetworkService.shared.addScheduleService.postAddSchedule(course: PostAddScheduleRequest(
+          title: dateName,
+          date: visitDate,
+          startAt: dateStartAt,
+          tags: [Tag(tag: "SHOPPING")],
+          country: country,
+          city: city,
+          places: places)) { result in
+          switch result {
+          case .success(let response):
+              print("Success: \(response)")
+          default:
+              print("Failed to fetch user profile")
+              return
+          }
+      }
    }
    
 }
