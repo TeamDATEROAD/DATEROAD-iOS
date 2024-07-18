@@ -18,13 +18,19 @@ class PointDetailViewController: BaseNavBarViewController {
     
     // MARK: - Properties
     
-    private let pointViewModel = PointViewModel()
-    
-    private lazy var gainedPointDummyData = pointViewModel.pointDummyData.gained
-    
-    private lazy var usedPointDummyData = pointViewModel.pointDummyData.used
+    private var pointViewModel: PointViewModel
     
     // MARK: - LifeCycle
+    
+    init(pointViewModel: PointViewModel) {
+        self.pointViewModel = pointViewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +41,8 @@ class PointDetailViewController: BaseNavBarViewController {
         registerCell()
         setDelegate()
         setAddTarget()
+        bindViewModel()
+        changeSelectedSegmentLayout(isEarnedPointHidden: false)
     }
     
     override func setHierarchy() {
@@ -84,6 +92,13 @@ private extension PointDetailViewController {
         changeSelectedSegmentLayout(isEarnedPointHidden: pointViewModel.isEarnedPointHidden.value)
     }
     
+    func setSegmentViewHidden(_ view: UIView) {
+        pointDetailView.pointCollectionView.isHidden = true
+        pointDetailView.emptyUsedPointView.isHidden = true
+        pointDetailView.emptyGainedPointView.isHidden = true
+        view.isHidden = false
+    }
+    
     func changeSelectedSegmentLayout(isEarnedPointHidden: Bool?) {
         guard let isEarnedPointHidden = isEarnedPointHidden else { return }
 //        print(isEarnedPointHidden)
@@ -115,21 +130,17 @@ private extension PointDetailViewController {
     }
 }
 
+
 // MARK: - CollectionView Methods
 
 extension PointDetailViewController {
     private func registerCell() {
-        pointDetailView.pointGainedCollectionView.register(PointCollectionViewCell.self, forCellWithReuseIdentifier: PointCollectionViewCell.cellIdentifier)
-        
-        pointDetailView.pointUsedCollectionView.register(PointCollectionViewCell.self, forCellWithReuseIdentifier: PointCollectionViewCell.cellIdentifier)
+        pointDetailView.pointCollectionView.register(PointCollectionViewCell.self, forCellWithReuseIdentifier: PointCollectionViewCell.cellIdentifier)
     }
     
     private func setDelegate() {
-        pointDetailView.pointGainedCollectionView.delegate = self
-        pointDetailView.pointGainedCollectionView.dataSource = self
-        
-        pointDetailView.pointUsedCollectionView.delegate = self
-        pointDetailView.pointUsedCollectionView.dataSource = self
+        pointDetailView.pointCollectionView.delegate = self
+        pointDetailView.pointCollectionView.dataSource = self
     }
 }
 
@@ -146,28 +157,15 @@ extension PointDetailViewController : UICollectionViewDelegateFlowLayout {
 extension PointDetailViewController : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch collectionView {
-        case pointDetailView.pointGainedCollectionView:
-            return gainedPointDummyData.count
-        case pointDetailView.pointUsedCollectionView:
-            return usedPointDummyData.count
-        default:
-            return 0
-        }
+        return pointViewModel.nowPointData.value?.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PointCollectionViewCell.cellIdentifier, for: indexPath) as? PointCollectionViewCell else { return UICollectionViewCell() }
-        
-        switch collectionView {
-        case pointDetailView.pointGainedCollectionView:
-            cell.dataBind(gainedPointDummyData[indexPath.item], indexPath.item)
-        case pointDetailView.pointUsedCollectionView:
-            cell.dataBind(usedPointDummyData[indexPath.item], indexPath.item)
-        default:
-            print("그 컬뷰 없어요")
-        }
-        
+        pointViewModel.updateData(nowEarnedPointHidden: pointViewModel.isEarnedPointHidden.value ?? false)
+        cell.prepareForReuse()
+        let data = pointViewModel.nowPointData.value?[indexPath.item] ?? PointDetailModel(sign: "", point: 0, description: "", createAt: "")
+        cell.dataBind(data, indexPath.item)
         return cell
     }
 }
