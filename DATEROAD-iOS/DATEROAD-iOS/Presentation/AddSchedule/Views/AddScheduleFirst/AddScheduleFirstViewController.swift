@@ -36,6 +36,8 @@ class AddScheduleFirstViewController: BaseNavBarViewController {
       setStyle()
       setTitleLabelStyle(title: StringLiterals.AddCourseOrSchedule.addScheduleTitle, alignment: .center)
       setLeftBackButton()
+      setRightBtnStyle()
+      setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
 //      setRightButtonStyle(image: UIImage(resource: .pu))
       setAddTarget()
       registerCell()
@@ -153,6 +155,12 @@ extension AddScheduleFirstViewController {
       let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(datePlaceContainerTapped))
       addScheduleFirstView.inAddScheduleFirstView.datePlaceContainer.addGestureRecognizer(tapGesture3)
       addScheduleFirstView.inAddScheduleFirstView.datePlaceContainer.isUserInteractionEnabled = true
+   }
+   
+   @objc
+   func didTapNavRightBtn() {
+      let vc = NavViewedCourseViewController()
+      self.navigationController?.pushViewController(vc, animated: true)
    }
    
    @objc
