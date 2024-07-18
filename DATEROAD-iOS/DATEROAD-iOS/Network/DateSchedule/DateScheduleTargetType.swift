@@ -59,4 +59,10 @@ extension DateScheduleTargetType: BaseTargetType {
             return .requestPlain
         }
     }
+    
+    var headers: [String : String]? {
+        let token = UserDefaults.standard.string(forKey: "accessToken") ?? ""
+        let headers = ["Content-Type" : "application/json", "Authorization" : "Bearer " + token]
+        return headers
+    }
 }

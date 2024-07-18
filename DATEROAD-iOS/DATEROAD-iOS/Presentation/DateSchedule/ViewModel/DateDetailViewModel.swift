@@ -124,7 +124,7 @@ class DateDetailViewModel {
     
     func setTempArgs() {
         kakaoShareInfo["userName"] = userName
-        kakaoShareInfo["title"] = dateDetailData.value?.title
+//        kakaoShareInfo["title"] = dateDetailData.value?.title
         kakaoShareInfo["startAt"] = dateDetailData.value?.startAt
         
         switch dateDetailData.value?.places.count ?? 0 <= 5 {
