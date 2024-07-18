@@ -84,7 +84,6 @@ final class NewDateCourseCell: BaseCollectionViewCell {
         likeLabel.snp.makeConstraints {
             $0.leading.equalTo(likeImage.snp.trailing).offset(5)
             $0.verticalEdges.equalTo(likeView).inset(2)
-            $0.height.equalTo(22)
         }
         
         dateNameView.snp.makeConstraints {
@@ -116,7 +115,6 @@ final class NewDateCourseCell: BaseCollectionViewCell {
         costLabel.snp.makeConstraints {
             $0.leading.equalTo(costImage.snp.trailing).offset(6)
             $0.verticalEdges.equalTo(costView).inset(2)
-            $0.height.equalTo(26)
         }
         
         timeView.snp.makeConstraints {
@@ -133,7 +131,6 @@ final class NewDateCourseCell: BaseCollectionViewCell {
         }
         
         timeLabel.snp.makeConstraints {
-            $0.height.equalTo(26)
             $0.verticalEdges.equalTo(timeView).inset(2)
             $0.leading.equalTo(timeImage.snp.trailing).offset(6)
         }
