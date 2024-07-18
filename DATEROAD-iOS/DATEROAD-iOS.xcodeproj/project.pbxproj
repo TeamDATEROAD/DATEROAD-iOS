@@ -203,6 +203,7 @@
 		CABDCE9F2C4903B900631FB3 /* MainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE8C1952C4590B400F153B3 /* MainService.swift */; };
 		CABDCEA02C49042800631FB3 /* MainTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE8C1932C4581B500F153B3 /* MainTargetType.swift */; };
 		CABDCEA22C4904C600631FB3 /* DateScheduleDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCEA12C4904C600631FB3 /* DateScheduleDeleteView.swift */; };
+		CABDCEA42C49545400631FB3 /* DRWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCEA32C49545400631FB3 /* DRWebViewController.swift */; };
 		CAC80FA02C3B10D100658EA6 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80F9F2C3B10D100658EA6 /* MyPageView.swift */; };
 		CAC80FA22C3B10EA00658EA6 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FA12C3B10EA00658EA6 /* MyPageViewController.swift */; };
 		CAC80FA42C3B34B400658EA6 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FA32C3B34B400658EA6 /* UserInfoView.swift */; };
@@ -429,6 +430,7 @@
 		CABDCE992C49034100631FB3 /* GetFilteredDateCourseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFilteredDateCourseResponse.swift; sourceTree = "<group>"; };
 		CABDCE9B2C49037600631FB3 /* GetUpcomingDateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUpcomingDateResponse.swift; sourceTree = "<group>"; };
 		CABDCEA12C4904C600631FB3 /* DateScheduleDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateScheduleDeleteView.swift; sourceTree = "<group>"; };
+		CABDCEA32C49545400631FB3 /* DRWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRWebViewController.swift; sourceTree = "<group>"; };
 		CAC80F9F2C3B10D100658EA6 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		CAC80FA12C3B10EA00658EA6 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		CAC80FA32C3B34B400658EA6 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
@@ -1392,6 +1394,7 @@
 				CAC80FCF2C3D723200658EA6 /* DRBottomSheetViewController.swift */,
 				74C88EEF2C4047E400A4C638 /* CustomEmptyView.swift */,
 				9E0789192C4547C200B9F9B8 /* CustomImagePicker.swift */,
+				CABDCEA32C49545400631FB3 /* DRWebViewController.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -1731,6 +1734,7 @@
 				CA80C0D12C44611E002CAA9B /* BaseService.swift in Sources */,
 				CAC80FA42C3B34B400658EA6 /* UserInfoView.swift in Sources */,
 				CAC80FE92C3EC6E100658EA6 /* BannerCell.swift in Sources */,
+				CABDCEA42C49545400631FB3 /* DRWebViewController.swift in Sources */,
 				CAC80FA02C3B10D100658EA6 /* MyPageView.swift in Sources */,
 				745547712C3D12CD00B526F3 /* PastDateDetailViewController.swift in Sources */,
 				CA4EF3E22C3537F3003B02B6 /* OnboardingModel.swift in Sources */,
@@ -1753,7 +1757,7 @@
 				0DF905CA2C399F750072EE65 /* PreviewView.swift in Sources */,
 				CAE8C1992C45920E00F153B3 /* GetMainUserProfileResponse.swift in Sources */,
 				9E754CF72C48460400E2CA91 /* PostAddScheduleRequest.swift in Sources */,
-				CAE8C1992C45920E00F153B3 /* GetUserProfileResponse.swift in Sources */,
+				CAE8C1992C45920E00F153B3 /* GetMainUserProfileResponse.swift in Sources */,
 				745547612C3C4CAC00B526F3 /* UpcomingDateScheduleView.swift in Sources */,
 				0DFBF92C2C43E42700762956 /* DeleteCourseSettingView.swift in Sources */,
 				74CDE26B2C3B7AA400A7459B /* DateCardCollectionViewCell.swift in Sources */,
@@ -1838,7 +1842,6 @@
 				0D0DA3DE2C3AF37C004210EE /* PointCollectionViewCell.swift in Sources */,
 				9E754CEF2C483ED100E2CA91 /* AddScheduleBottomSheetView.swift in Sources */,
 				9E754CE72C48389200E2CA91 /* AddScheduleSecondViewController.swift in Sources */,
-				CAE8C19D2C45962B00F153B3 /* GetBannerResponse.swift in Sources */,
 				CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */,
 				CA3D0CDD2C29A2F300735097 /* SceneDelegate.swift in Sources */,
 				745547692C3C8D3200B526F3 /* DateDetailContentView.swift in Sources */,
@@ -1910,7 +1913,6 @@
 				0DA8535C2C45CA9700DF7F99 /* CourseTargetType.swift in Sources */,
 				9E754CED2C483E5B00E2CA91 /* AddScheduleBottomSheetViewController.swift in Sources */,
 				CAC80FC52C3C759B00658EA6 /* PointSystemModel.swift in Sources */,
-				CAE8C19F2C459AC500F153B3 /* NetworkService.swift in Sources */,
 				9E754CE92C48398D00E2CA91 /* AddScheduleSecondView.swift in Sources */,
 				CA80C0CF2C445D38002CAA9B /* MoyaLoggingPluggin.swift in Sources */,
 				9E754CF32C4841BE00E2CA91 /* AddScheduleService.swift in Sources */,
