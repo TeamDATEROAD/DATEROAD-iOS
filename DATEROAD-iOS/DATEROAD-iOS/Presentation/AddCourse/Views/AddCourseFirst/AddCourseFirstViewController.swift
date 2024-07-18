@@ -229,31 +229,36 @@ private extension AddCourseFirstViewController {
       imagePickerViewController.presentPicker(from: self)
    }
    
-   @objc
-   func changeTagBtnState(sender: UIButton) {
-      sender.isSelected.toggle()
-      addCourseFirstView.addFirstView.updateTagButtonStyle(btn: sender, isSelected: sender.isSelected)
-      viewModel.countSelectedTag(isSelected: sender.isSelected)
-   }
+//   @objc
+//   func changeTagBtnState(sender: UIButton) {
+//      sender.isSelected.toggle()
+//      addCourseFirstView.addFirstView.updateTagButtonStyle(btn: sender, isSelected: sender.isSelected)
+//      viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
+//   }
    
    @objc
    func didTapTagButton(_ sender: UIButton) {
-      // 0 ~ 2개 선택되어 있는 경우
-      if self.viewModel.tagCount.value != 3 {
-         sender.isSelected = !sender.isSelected
-         sender.isSelected ? self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
-         : self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: UnselectedButton())
-         self.viewModel.countSelectedTag(isSelected: sender.isSelected)
-      }
-      // 3개 선택되어 있는 경우
-      else {
-         // 취소 하려는 경우
-         if sender.isSelected {
-            sender.isSelected = !sender.isSelected
-            self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: UnselectedButton())
-            self.viewModel.countSelectedTag(isSelected: sender.isSelected)
-         }
-      }
+       guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
+
+       let maxTags = 3
+       
+       // 3이 아닐 때
+       if self.viewModel.selectedTagData.count != maxTags {
+          sender.isSelected.toggle()
+          sender.isSelected ? self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
+          : self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: UnselectedButton())
+          self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
+          self.viewModel.isValidTag.value = true
+       }
+       // 그 외
+       else {
+          if sender.isSelected {
+             sender.isSelected.toggle()
+             self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType:  UnselectedButton())
+             self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
+             self.viewModel.isValidTag.value = true
+          }
+       }
    }
    
    @objc

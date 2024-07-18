@@ -186,6 +186,7 @@ extension AddCourseThirdViewController: UITextViewDelegate {
       guard let stringRange = Range(range, in: currentText) else { return false }
       
       let changedText = currentText.replacingCharacters(in: stringRange, with: text)
+      viewModel.contentText = changedText
       let filteredTextCount = changedText.filter { $0 != "\n" }.count
       viewModel.contentTextCount.value = filteredTextCount
       

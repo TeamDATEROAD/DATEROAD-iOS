@@ -9,6 +9,8 @@ import UIKit
 
 final class AddCourseViewModel {
    
+   var selectedTagData: [String] = []
+   
    //MARK: - AddFirstCourse 사용되는 ViewModel
    
    /// ImageCollection 유효성 판별
@@ -74,6 +76,7 @@ final class AddCourseViewModel {
    
    var isDoneBtnOK: ObservablePattern<Bool> = ObservablePattern(false)
    
+   var tags: [[String: Any]] = []
    
    init() {
        fetchTagData()
@@ -121,20 +124,24 @@ extension AddCourseViewModel {
        tagData = TendencyTag.allCases.map { $0.tag }
    }
    
-   func countSelectedTag(isSelected: Bool) {
-       guard let oldCount = tagCount.value else { return }
-       if isSelected {
-           tagCount.value = oldCount + 1
-       } else {
-           if oldCount != 0 {
-               tagCount.value = oldCount - 1
-           }
-       }
+   func countSelectedTag(isSelected: Bool, tag: String) {
+         if isSelected {
+            if !selectedTagData.contains(tag) {
+                selectedTagData.append(tag)
+            }
+         } else {
+            if let index = selectedTagData.firstIndex(of: tag) {
+                selectedTagData.remove(at: index)
+            }
+         }
+       
        checkTagCount()
-   }
+      }
+   
    
    func checkTagCount() {
-       guard let count = tagCount.value else { return }
+       let count = selectedTagData.count
+       self.tagCount.value = count
 
        if count >= 1 && count <= 3 {
            self.isValidTag.value = true
@@ -191,7 +198,6 @@ extension AddCourseViewModel {
       if (datePlace.value?.count != 0) && (timeRequire.value?.count != 0) {
          return true
       } else {
-         print("아직 안돼~")
          return false
       }
    }
@@ -233,25 +239,29 @@ extension AddCourseViewModel {
    
    
    func postAddCourse() {
-      var places: [PostAddCoursePlace] = []
+      var places: [[String: Any]] = []
       
       for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
-         // Extract the numeric part from the timeRequire string
-         let timeComponents = model.timeRequire.split(separator: " ")
-         
-         if let timeString = timeComponents.first {
-            if let duration = Float(timeString) {
-               let place = PostAddCoursePlace(title: model.placeTitle, duration: duration, sequence: index)
-               places.append(place)
-               print("👍👍👍👍 : place added - \(place)")
-            } else {
-            }
-         } else {
-            print("❌❌❌ : Failed to extract timeString from \(model.timeRequire)")
-         }
+          // Extract the numeric part from the timeRequire string
+          let timeComponents = model.timeRequire.split(separator: " ")
+          
+          if let timeString = timeComponents.first {
+              if let duration = Float(timeString) {
+                  let place = PostAddCoursePlace(title: model.placeTitle, duration: duration, sequence: index + 1)
+                  places.append(place.toDictionary())
+                  print("👍👍👍👍 : place added - \(place)")
+              } else {
+                  print("❌❌❌ : Failed to convert \(timeString) to Float")
+              }
+          } else {
+              print("❌❌❌ : Failed to extract timeString from \(model.timeRequire)")
+          }
       }
-      print(addPlaceCollectionViewDataSource, "addPlaceCollectionViewDataSource : \(addPlaceCollectionViewDataSource)")
-      print(places, "places : \(places)")
+      
+      var postAddCourseTag = PostAddCourseTag()
+
+      postAddCourseTag.addTags(from: selectedTagData)
+      
       
       guard let dateName = dateName.value else {return}
       guard let visitDate = visitDate.value else {return}
@@ -261,16 +271,17 @@ extension AddCourseViewModel {
       let contentText = contentText
       let price = price
       let images = pickedImageArr
+      let place = places
       
-      NetworkService.shared.addCourseService.postAddCourse(course: PostAddCourse(title: dateName, date: visitDate, startAt: dateStartAt, country: country, city: city, description: contentText, cost: price).toDictionary(), tags: [PostAddCourseTag.Tag(tag: "DRIVE").toDictionary()], places: places, images: images)  { result in
+      NetworkService.shared.addCourseService.postAddCourse(course: PostAddCourse(title: dateName, date: visitDate, startAt: dateStartAt, country: country, city: city, description: contentText, cost: price).toDictionary(), tags: postAddCourseTag.tags, places: place, images: images)  { result in
          switch result {
          case .success(let response):
-             print("Success: \(response)")
+            print("Success: \(response)")
          default:
-             print("Failed to fetch user profile")
-             return
+            print("Failed to fetch user profile")
+            return
          }
-     }
+      }
    }
    
 }
