@@ -15,7 +15,7 @@ class DateDetailContentView: BaseView {
     
     private var dateLabel = UILabel()
     
-    private var dDayButton = UIButton()
+    var dDayButton = UIButton()
     
     private var firstTagButton = UIButton()
     
@@ -42,12 +42,6 @@ class DateDetailContentView: BaseView {
     var courseShareButton = UIButton()
     
     static var dateTimeLineCollectionViewLayout = UICollectionViewFlowLayout()
-    
-    // MARK: - Properties
-    
-    private let upcomingDateCardViewModel = DateDetailViewModel()
-    
-    private lazy var upcomingDataDetailData = upcomingDateCardViewModel.upcomingDateDetailDummyData
     
     // MARK: - LifeCycle
     
@@ -160,7 +154,7 @@ class DateDetailContentView: BaseView {
         self.backgroundColor = UIColor(resource: .lilac)
 
         ribbonImageView.do {
-            $0.contentMode = .scaleAspectFill
+            $0.contentMode = .scaleAspectFit
             $0.clipsToBounds = true
         }
         
@@ -169,6 +163,7 @@ class DateDetailContentView: BaseView {
         }
         
         dDayButton.do {
+            $0.isHidden = true
             $0.titleLabel?.font = UIFont.suit(.cap_bold_11)
             $0.titleLabel?.textColor = UIColor(resource: .drWhite)
             $0.backgroundColor = UIColor(resource: .deepPurple)
@@ -182,11 +177,13 @@ class DateDetailContentView: BaseView {
         }
         
         secondTagButton.do {
+            $0.isHidden = true
             $0.setButtonStatus(buttonType: tagButtonType)
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
         }
         
         thirdTagButton.do {
+            $0.isHidden = true
             $0.setButtonStatus(buttonType: tagButtonType)
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
         }
@@ -206,7 +203,7 @@ class DateDetailContentView: BaseView {
         }
         
         dateStartTimeLabel.do {
-            $0.setLabel(text: StringLiterals.DateSchedule.startTime + upcomingDataDetailData.startAt, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
+            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
         }
         
         dateTimeLineCollectionView.do {
@@ -255,20 +252,21 @@ class DateDetailContentView: BaseView {
 
 extension DateDetailContentView {
     
-    func dataBind(_ dateCardData : DateCardModel) {
-        self.dateLabel.text = dateCardData.date
-        self.dDayButton.setTitle("D-\(dateCardData.dDay)", for: .normal)
-        self.firstTagButton.setTitle(dateCardData.tags[0], for: .normal)
-        if dateCardData.tags.count >= 2 {
+    func dataBind(_ dateDetailData : DateDetailModel) {
+        self.dateLabel.text = dateDetailData.date
+        self.dDayButton.setTitle("D-\(dateDetailData.dDay)", for: .normal)
+        self.firstTagButton.setTitle("\(dateDetailData.tags[0])", for: .normal)
+        self.dateStartTimeLabel.text = StringLiterals.DateSchedule.startTime + "\(dateDetailData.startAt)"
+        if dateDetailData.tags.count >= 2 {
             self.secondTagButton.isHidden = false
-            self.secondTagButton.setTitle(dateCardData.tags[1], for: .normal)
+            self.secondTagButton.setTitle("\(dateDetailData.tags[1])", for: .normal)
         }
-        if dateCardData.tags.count == 3 {
+        if dateDetailData.tags.count == 3 {
             self.thirdTagButton.isHidden = false
-            self.thirdTagButton.setTitle(dateCardData.tags[2], for: .normal)
+            self.thirdTagButton.setTitle("\(dateDetailData.tags[2])", for: .normal)
         }
-        self.locationLabel.text = dateCardData.city
-        self.titleLabel.text = dateCardData.title
+        self.locationLabel.text = dateDetailData.city
+        self.titleLabel.text = dateDetailData.title
     }
     
     private func setColorToLabel(bgColor : UIColor, ribbonImage: UIImage, buttonColor: UIColor) {

@@ -18,6 +18,8 @@ class AddCourseThirdViewController: BaseNavBarViewController {
    
    private let viewModel: AddCourseViewModel
    
+   private var keyboardHeight: CGFloat = 0.0
+   
    
    // MARK: - Initializer
    
@@ -43,8 +45,11 @@ class AddCourseThirdViewController: BaseNavBarViewController {
       setLeftBackButton()
       setDelegate()
       registerCell()
+      addTarget()
       bindViewModel()
       setupKeyboardDismissRecognizer()
+      NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+      NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
    }
    
    
@@ -81,6 +86,28 @@ class AddCourseThirdViewController: BaseNavBarViewController {
 // MARK: - ViewController Methods
 
 extension AddCourseThirdViewController {
+   @objc private func keyboardWillShow(_ notification: Notification) {
+      if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+         keyboardHeight = keyboardSize.height
+         adjustScrollViewForKeyboard(showKeyboard: true)
+      }
+   }
+   
+   @objc private func keyboardWillHide(_ notification: Notification) {
+      adjustScrollViewForKeyboard(showKeyboard: false)
+   }
+   
+   private func adjustScrollViewForKeyboard(showKeyboard: Bool) {
+      let maxKeyboardHeight: CGFloat = 80 // 키보드 높이 제한을 200 포인트로 설정
+      
+      let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: showKeyboard ? min(keyboardHeight, maxKeyboardHeight) : 0, right: 0)
+      addCourseThirdView.scrollView.contentInset = contentInsets
+      addCourseThirdView.scrollView.scrollIndicatorInsets = contentInsets
+      
+      var visibleRect = CGRect()
+      visibleRect.size = addCourseThirdView.scrollView.contentSize
+      addCourseThirdView.scrollView.scrollRectToVisible(visibleRect, animated: true)
+   }
    
    private func registerCell() {
       addCourseThirdView.collectionView.do {
@@ -99,7 +126,8 @@ extension AddCourseThirdViewController {
    }
    
    private func addTarget() {
-      addCourseThirdView.addThirdView.priceTextField.addTarget(self, action: #selector(textFieldDidChanacge), for: .editingChanged)
+      //      addCourseThirdView.addThirdView.priceTextField.addTarget(self, action: #selector(textFieldDidChanacge), for: .editingChanged)
+      addCourseThirdView.addThirdView.addThirdDoneBtn.addTarget(self, action: #selector(didTapAddCourseBtn), for: .touchUpInside)
    }
    
    private func bindViewModel() {
@@ -108,7 +136,6 @@ extension AddCourseThirdViewController {
          let flag = (date ?? 0) >= 200 ? true : false
          self?.viewModel.contentFlag = flag
          self?.viewModel.isDoneBtnValid()
-         print("contentFlag :", self?.viewModel.contentFlag)
          
       }
       viewModel.priceText.bind { [weak self] date in
@@ -116,11 +143,17 @@ extension AddCourseThirdViewController {
          let flag = (date ?? 0 > 0) ? true : false
          self?.viewModel.priceFlag = flag
          self?.viewModel.isDoneBtnValid()
-         print("priceFlag :", self?.viewModel.priceFlag)
       }
       
       viewModel.isDoneBtnOK.bind { [weak self] date in
          self?.addCourseThirdView.addThirdView.updateAddThirdDoneBtn(isValid: date ?? false)
+      }
+   }
+   
+   /// navigationController를 통해 뷰컨트롤러 스택에서 originVC로 돌아가는 코드
+   func goBackOriginVC() {
+      if let navigationController = self.navigationController {
+         navigationController.popToRootViewController(animated: true)
       }
    }
    
@@ -152,7 +185,7 @@ extension AddCourseThirdViewController: UITextViewDelegate {
       // 리턴 눌렸을 때의 "\n" 입력을 count로 계산하지 않음
       let filteredTextCount = changedText.filter { $0 != "\n" }.count
       
-//      addCourseThirdView.addThirdView.updateContentTextCount(textCnt: filteredTextCount)
+      //      addCourseThirdView.addThirdView.updateContentTextCount(textCnt: filteredTextCount)
       viewModel.contentTextCount.value = filteredTextCount
       
       // 리턴 키 입력을 처리합니다.
@@ -178,18 +211,20 @@ extension AddCourseThirdViewController: UITextFieldDelegate {
       return true
    }
    
-   func textFieldDidEndEditing(_ textField: UITextField) {
-      print("textFieldDidEndEditing 에서 출력")
-      print(textField.text)
-      viewModel.priceText.value = Int(textField.text ?? "0")
+   func textFieldDidBeginEditing(_ textField: UITextField) {
+      UIView.animate(withDuration: 0.3) {
+         let transform = CGAffineTransform(translationX: 0, y: -200)
+         self.view.transform = transform
+      }
    }
    
-   
-   //이거 왜 입력받는거 출력이안되지~
-   @objc
-   func textFieldDidChanacge(_ textField: UITextField) {
-      print("~~~~~~~~~~~~~")
-      print(textField.text ?? "~~")
+   func textFieldDidEndEditing(_ textField: UITextField) {
+      print("textFieldDidEndEditing 에서 출력")
+      UIView.animate(withDuration: 0.3) {
+         let transform = CGAffineTransform(translationX: 0, y: 0)
+         self.view.transform = transform
+      }
+      viewModel.priceText.value = Int(textField.text ?? "0")
    }
    
 }
@@ -200,7 +235,7 @@ extension AddCourseThirdViewController: UITextFieldDelegate {
 extension AddCourseThirdViewController: UICollectionViewDataSource, UICollectionViewDelegate {
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-      return viewModel.getSampleImages() ? 1 : viewModel.dataSource.count
+      return viewModel.pickedImageArr.count
    }
    
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -209,22 +244,29 @@ extension AddCourseThirdViewController: UICollectionViewDataSource, UICollection
          for: indexPath
       ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
       
-      let isImageEmpty = viewModel.isImageEmpty.value ?? true
-      isImageEmpty ? cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: nil)
-      : cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: self.viewModel.dataSource[indexPath.item])
+      cell.updateImageCellUI(isImageEmpty: false, vcCnt: 2)
+      cell.configurePickedImage(pickedImage: viewModel.pickedImageArr[indexPath.item])
+      cell.prepare(image: viewModel.pickedImageArr[indexPath.item])
       
       return cell
    }
 }
 
-/**
- 1. viewModel에서 textViewText 값을 담는 옵저버블 변수 생성 O
- 
- 2. 이를 textView shouldChangeTextIn 함수 안에서 count를 던져줌 O
- 
- 3. 해당 변수 변경감지하는 bind 함수에서 실시간 countLabel 바꾸는 UI 함수 실행 O
- 
-   더불어 Content의 유효성을 검사하는 viewModel 속 a함수를 실행시켜 반환 받는 값을 viewmodel 속 done버튼의 옵저버블 값에 대입될 함수를 파라미터로 받고 해당 값을 done버튼 값에 대입
- 
- 4. done버튼이 바뀔 때 일어날 bind 함수에서 done 버튼의 유효성을 검사하여 button state 업데이트 하는 ui 함수 실행
- */
+
+// MARK: - Alert Delegate
+
+extension AddCourseThirdViewController: DRCustomAlertDelegate {
+   
+   @objc
+   private func didTapAddCourseBtn() {
+      let customAlertVC = DRCustomAlertViewController(rightActionType: .none, alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertTitleLabel, descriptionText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertSubTitleLabel, longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton)
+      customAlertVC.delegate = self
+      customAlertVC.modalPresentationStyle = .overFullScreen
+      self.present(customAlertVC, animated: false)
+   }
+   
+   func exit() {
+      goBackOriginVC()
+   }
+   
+}

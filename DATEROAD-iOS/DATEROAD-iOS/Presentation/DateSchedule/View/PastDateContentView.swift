@@ -22,8 +22,6 @@ class PastDateContentView: BaseView {
     
     static var pastDateCollectionViewLayout = UICollectionViewFlowLayout()
     
-    lazy var pastDateScheduleData = DateScheduleModel(dateCards: [])
-    
     // MARK: - LifeCycle
     
     override func setHierarchy() {

@@ -121,7 +121,7 @@ private extension MyPageViewController {
     // TODO: - 추후 뷰컨 수정 예정
     @objc
     func pushToPointDetailVC() {
-        self.navigationController?.pushViewController(PointDetailViewController(pointViewModel: PointViewModel()), animated: false)
+        self.navigationController?.pushViewController(PointDetailViewController(), animated: false)
     }
 
 }
@@ -139,7 +139,7 @@ extension MyPageViewController: DRCustomAlertDelegate {
     
     @objc
     private func withDrawalButtonTapped() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none, alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.realWithdrawal, descriptionText: StringLiterals.Alert.lastWarning, leftButtonText: StringLiterals.MyPage.alertWithdrawal, rightButtonText: StringLiterals.Common.cancel)
+        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none, alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.realWithdrawal, descriptionText: StringLiterals.Alert.lastWarning, leftButtonText: "탈퇴", rightButtonText: "취소")
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         selectedAlertFlag = 1
