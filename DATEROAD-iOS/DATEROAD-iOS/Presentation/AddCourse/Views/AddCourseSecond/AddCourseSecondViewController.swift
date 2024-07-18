@@ -266,6 +266,7 @@ extension AddCourseSecondViewController: UITextFieldDelegate {
       alertVC.addSheetView = AddSheetView(isCustomPicker: true)
       
       self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
+      addCourseSecondView.addSecondView.datePlaceTextField.resignFirstResponder()
       
       DispatchQueue.main.async {
          alertVC.modalPresentationStyle = .overFullScreen

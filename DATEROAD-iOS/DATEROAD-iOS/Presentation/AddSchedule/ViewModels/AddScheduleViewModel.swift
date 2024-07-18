@@ -9,23 +9,7 @@ import UIKit
 
 final class AddScheduleViewModel {
    
-   var tagCount2: Int {
-      return selectedTags.count
-   }
-   
-   func countSelectedTag(isSelected: Bool, button: UIButton) {
-      if isSelected {
-         if !selectedTags.contains(button) {
-            selectedTags.append(button)
-            isTagCntVaild(cnt: selectedTag.count)
-         }
-      } else {
-         if let index = selectedTags.firstIndex(of: button) {
-            selectedTags.remove(at: index)
-            isTagCntVaild(cnt: selectedTag.count)
-         }
-      }
-   }
+   var selectedTagData: [String] = []
    
    //MARK: - AddFirstCourse 사용되는 ViewModel
    
@@ -45,8 +29,8 @@ final class AddScheduleViewModel {
    var tagData: [ProfileModel] = []
    
    // 선택된 태그
-   var selectedTags: [UIButton] = []
-   var selectedTag = [String]()
+//   var selectedTags: [UIButton] = []
+//   var selectedTag = [String]()
    var isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
    var isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
    var tagCount: ObservablePattern<Int> = ObservablePattern(0)
@@ -137,40 +121,37 @@ extension AddScheduleViewModel {
       tagData = TendencyTag.allCases.map { $0.tag }
    }
    
-   func isTagCntVaild(cnt: Int) {
-      if cnt >= 1 && cnt <= 3 {
-         isValidTag.value = true
-      } else {
-         isValidTag.value = false
+   func countSelectedTag(isSelected: Bool, tag: String) {
+         if isSelected {
+            if !selectedTagData.contains(tag) {
+                selectedTagData.append(tag)
+            }
+         } else {
+            if let index = selectedTagData.firstIndex(of: tag) {
+                selectedTagData.remove(at: index)
+            }
+         }
+       
+       checkTagCount()
       }
+   
+   
+   func checkTagCount() {
+//        guard let count = tagCount.value else { return }
+       let count = selectedTagData.count
+       self.tagCount.value = count
+
+       if count >= 1 && count <= 3 {
+           self.isValidTag.value = true
+           self.isOverCount.value = false
+       } else {
+           self.isValidTag.value = false
+           if count > 3 {
+               self.isOverCount.value = true
+           }
+       }
+       print(count)
    }
-   
-//   func countSelectedTag(isSelected: Bool) {
-//      guard let oldCount = tagCount.value else { return }
-//      if isSelected {
-//         tagCount.value = oldCount + 1
-//      } else {
-//         if oldCount != 0 {
-//            tagCount.value = oldCount - 1
-//         }
-//      }
-//      checkTagCount()
-//   }
-   
-//   func checkTagCount() {
-//      guard let count = tagCount.value else { return }
-//      
-//      if count >= 1 && count <= 3 {
-//         self.isValidTag.value = true
-//         self.isOverCount.value = false
-//      } else {
-//         self.isValidTag.value = false
-//         if count > 3 {
-//            self.isOverCount.value = true
-//         }
-//      }
-//      print(count)
-//   }
    
    func satisfyDateLocation(str: String) {
       let flag = (str.count > 0) ? true : false

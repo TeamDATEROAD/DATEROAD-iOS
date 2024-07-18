@@ -175,48 +175,12 @@ private extension AddCourseFirstViewController {
       addCourseFirstView.addFirstView.datePlaceContainer.isUserInteractionEnabled = true
    }
    
-//   func createCourseExample() {
-////      viewModel.postAddCourseCourse.city = "~~"
-//      let qwe = PostAddCourse(
-//         title: "string",
-//         date: "2024.07.04",
-//         startAt: "12:30 PM",
-//         country: "SEOUL",
-//         city: "SEOUL_ENTIRE",
-//         description: "string",
-//         cost: 30000
-//     )
-//       
-//       let tag: [String: Any] =
-//           ["tag": "DRIVE"]
-//      let tags = [tag]
-////      print(Tag(tag: "dd").toDictionary())
-//       
-//       let places: [[String: Any]] = [
-//           ["title": "string", "duration": 3, "sequence": 0]
-//       ]
-//      
-//      let images = viewModel.pickedImageArr
-//      
-//      NetworkService.shared.addCourseService.postAddCourse(course: qwe.toDictionary(), tags: tags, places: places, images: images) { result in
-//          switch result {
-//          case .success(let response):
-//              print("Success: \(response)")
-//          default:
-//              print("Failed to fetch user profile")
-//              return
-//          }
-//       }
-//      
-//   }
-   
-   
-   
    @objc
    func visitDate() {
          addSheetView.datePickerMode(isDatePicker: true)
          viewModel.isTimePicker = false
       alertVC.delegate = self
+      addCourseFirstView.addFirstView.dateNameTextField.resignFirstResponder()
       DispatchQueue.main.async {
          self.alertVC.modalPresentationStyle = .overFullScreen
          self.present(self.alertVC, animated: true, completion: nil)
@@ -228,6 +192,7 @@ private extension AddCourseFirstViewController {
          addSheetView.datePickerMode(isDatePicker: false)
          viewModel.isTimePicker = true
       alertVC.delegate = self
+      addCourseFirstView.addFirstView.dateNameTextField.resignFirstResponder()
       DispatchQueue.main.async {
          self.alertVC.modalPresentationStyle = .overFullScreen
          self.present(self.alertVC, animated: true, completion: nil)

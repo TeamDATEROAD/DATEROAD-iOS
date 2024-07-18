@@ -168,6 +168,7 @@ extension AddCourseThirdViewController: UITextViewDelegate {
          textView.text = nil
          textView.textColor = .black
       }
+      addCourseThirdView.addThirdView.priceTextField.resignFirstResponder()
       print(textView.text ?? "")
       
       viewModel.contentText = textView.text ?? ""
@@ -216,6 +217,7 @@ extension AddCourseThirdViewController: UITextFieldDelegate {
          let transform = CGAffineTransform(translationX: 0, y: -200)
          self.view.transform = transform
       }
+      addCourseThirdView.addThirdView.contentTextView.resignFirstResponder()
    }
    
    func textFieldDidEndEditing(_ textField: UITextField) {
