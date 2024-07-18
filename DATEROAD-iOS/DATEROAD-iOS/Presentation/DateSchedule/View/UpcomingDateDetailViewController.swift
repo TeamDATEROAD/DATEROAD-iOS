@@ -86,10 +86,10 @@ extension UpcomingDateDetailViewController {
 
 // MARK: - Alert Methods
 
-extension UpcomingDateDetailViewController: CustomAlertDelegate {
+extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     @objc
     private func tapKakaoButton() {
-        let customAlertVC = CustomAlertViewController(rightActionType: RightButtonType.none,
+        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none,
                                                       alertTextType: .noDescription,
                                                       alertButtonType: .twoButton,
                                                       titleText: StringLiterals.Alert.kakaoAlert,

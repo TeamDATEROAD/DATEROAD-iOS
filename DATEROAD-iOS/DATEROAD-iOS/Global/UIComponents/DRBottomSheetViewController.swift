@@ -96,7 +96,7 @@ final class DRBottomSheetViewController: BaseViewController {
     
     func setBottomButtonByType() {
         switch buttonTitle {
-        case StringLiterals.Common.cancel:
+        case StringLiterals.Common.cancel, StringLiterals.AddCourseOrSchedule.AddBottomSheetView.datePickerBtnTitle:
             self.bottomButton.isEnabled = true
             self.bottomButton.addTarget(self, action: #selector(didTapBottomButton), for: .touchUpInside)
         default:
@@ -104,10 +104,11 @@ final class DRBottomSheetViewController: BaseViewController {
         }
     }
     
-    @objc
-    func didTapBottomButton() {
-        self.delegate?.didTapBottomButton()
-    }
+   @objc
+   func didTapBottomButton() {
+       print("Bottom button tapped")
+       self.delegate?.didTapBottomButton()
+   }
     
     @objc
     func didTapTopLabel() {
