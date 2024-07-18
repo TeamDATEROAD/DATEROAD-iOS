@@ -63,18 +63,6 @@ final class AddScheduleViewModel {
    
    var isEditMode: Bool = false
    
-   
-   //MARK: - AddThirdView 전용 Viewmodel 변수
-   
-   var contentTextCount: ObservablePattern<Int> = ObservablePattern(0)
-   var contentFlag = false
-   
-   var priceText: ObservablePattern<Int> = ObservablePattern(nil)
-   var priceFlag = false
-   
-   var isDoneBtnOK: ObservablePattern<Bool> = ObservablePattern(false)
-   
-   
    init() {
       fetchTagData()
    }
@@ -103,9 +91,9 @@ extension AddScheduleViewModel {
          let selectedDate = dateFormatter.date(from: dateStr)
          
          // 현재 selectedDate가 미래 일자가 아니라면 true
-         let flag = (selectedDate ?? today) <= today
+//         let flag = (selectedDate ?? today) <= today
          
-         self.isVisitDateVaild.value = flag
+         self.isVisitDateVaild.value = true
       } else {
          dateFormatter.dateStyle = .none
          dateFormatter.timeStyle = .short
@@ -194,7 +182,6 @@ extension AddScheduleViewModel {
       if (datePlace.value?.count != 0) && (timeRequire.value?.count != 0) {
          return true
       } else {
-         print("아직 안돼~")
          return false
       }
    }
