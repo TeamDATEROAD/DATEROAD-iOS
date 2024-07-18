@@ -46,4 +46,8 @@ enum TendencyTag: Int, CaseIterable {
             return ProfileModel(tagIcon: UIImage(resource: .tagPaint), tagTitle: "전시·팝업", english: "EXHIBITION_POPUP")
         }
     }
+    
+    static func getTag(byEnglish english: String) -> TendencyTag? {
+        return TendencyTag.allCases.first { $0.tag.english == english }
+    }
 }
