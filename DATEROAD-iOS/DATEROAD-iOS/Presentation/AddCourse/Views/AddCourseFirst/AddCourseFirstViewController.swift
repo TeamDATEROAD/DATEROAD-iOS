@@ -455,8 +455,7 @@ extension AddCourseFirstViewController: DRBottomSheetDelegate {
 }
 
 extension AddCourseFirstViewController: LocationFilterDelegate {
-   
-   func didSelectLocation(country: LocationModel.Country, city: LocationModel.City) {
+   func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
       print("selected : \(city)")
       print("Selected city: \(city.rawValue)")
       viewModel.dateLocation.value = city.rawValue
@@ -466,5 +465,17 @@ extension AddCourseFirstViewController: LocationFilterDelegate {
       viewModel.country = country
       viewModel.city = city
    }
+   
+   
+//   func didSelectLocation(country: LocationModel.Country, city: LocationModel.City) {
+//      print("selected : \(city)")
+//      print("Selected city: \(city.rawValue)")
+//      viewModel.dateLocation.value = city.rawValue
+//      viewModel.satisfyDateLocation(str: city.rawValue)
+//      let country = LocationModelCountryKorToEng.Country(rawValue: country.rawValue).rawValue
+//      let city = LocationModelCityKorToEng.City(rawValue: city.rawValue).rawValue
+//      viewModel.country = country
+//      viewModel.city = city
+//   }
    
 }

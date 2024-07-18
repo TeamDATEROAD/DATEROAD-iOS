@@ -22,17 +22,22 @@ class BaseService {
         }
     }
     
-    func isValidData<T: Codable>(data: Data, responseType: T.Type, statusCode: Int) -> NetworkResult<T> {
-        let decoder = JSONDecoder()
-        guard let decodedData = try? decoder.decode(T.self, from: data) else {
-            if data.isEmpty {
-                return .success(EmptyResponse() as! T)
-            } else {
-                print("⛔️ \(self)애서 디코딩 오류가 발생했습니다 ⛔️")
-                return .decodedErr
-            }
-        }
-        
-        return .success(decodedData)
-    }
+   func isValidData<T: Codable>(data: Data, responseType: T.Type, statusCode: Int) -> NetworkResult<T> {
+      let decoder = JSONDecoder()
+      if data.isEmpty {
+         if T.self == EmptyResponse.self {
+            return .success(EmptyResponse() as! T)
+         } else {
+            print("⛔️ Expected \(T.self) but received empty response ⛔️")
+            return .decodedErr
+         }
+      }
+      
+      guard let decodedData = try? decoder.decode(T.self, from: data) else {
+         print("⛔️ \(self)에서 디코딩 오류가 발생했습니다 ⛔️")
+         return .decodedErr
+      }
+      
+      return .success(decodedData)
+   }
 }

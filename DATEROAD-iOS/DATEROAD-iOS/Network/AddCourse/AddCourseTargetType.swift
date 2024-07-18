@@ -66,11 +66,10 @@ extension AddCourseTargetType: BaseTargetType {
     }
     
     var headers: [String : String]? {
-        return [
-            "accept": "application/json",
-            "Authorization": Config.accessToken,
-            "Content-Type": "multipart/form-data"
-        ]
+       let token = UserDefaults.standard.string(forKey: "accessToken") ?? ""
+       let headers = ["accept": "application/json",
+         "Content-Type" : "application/json", "Authorization" : "Bearer " + token]
+        return headers
     }
 }
 

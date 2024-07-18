@@ -193,6 +193,33 @@ extension CourseViewController: UICollectionViewDelegate {
 }
 
 extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate {
+   func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
+      // 'Seoul.jongnoJunggu'와 같은 rawValue에서 'jongnoJunggu'만 추출
+      let cityNameComponents = city.rawValue.split(separator: ".")
+      let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
+      
+      if let subRegion = SubRegion(rawValue: cityName) {
+          print(subRegion)
+          
+          let selectedSubRegion = "\(subRegion)"
+          
+          courseViewModel.selectedCityName.value = selectedSubRegion
+      } else {
+          print(cityName)
+      }
+      
+      self.courseView.courseFilterView.locationFilterButton.do {
+          $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
+          $0.setTitle(cityName, for: .normal)
+          $0.layer.borderWidth = 1
+          $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
+          let image = UIImage(resource: .icDropdown).withRenderingMode(.alwaysTemplate)
+          $0.setImage(image, for: .normal)
+          $0.tintColor = UIColor(resource: .deepPurple)
+      }
+  }
+   
+   
    func didSelectLocation(country: LocationModel.Country, city: LocationModel.City) {
       print("")
    }
@@ -205,31 +232,31 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
         self.present(locationFilterVC, animated: true)
     }
     
-    func didSelectCity(_ city: LocationModel.City) {
-        // 'Seoul.jongnoJunggu'와 같은 rawValue에서 'jongnoJunggu'만 추출
-        let cityNameComponents = city.rawValue.split(separator: ".")
-        let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
-        
-        if let subRegion = SubRegion(rawValue: cityName) {
-            print(subRegion)
-            
-            let selectedSubRegion = "\(subRegion)"
-            
-            courseViewModel.selectedCityName.value = selectedSubRegion
-        } else {
-            print(cityName)
-        }
-        
-        self.courseView.courseFilterView.locationFilterButton.do {
-            $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
-            $0.setTitle(cityName, for: .normal)
-            $0.layer.borderWidth = 1
-            $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
-            let image = UIImage(resource: .icDropdown).withRenderingMode(.alwaysTemplate)
-            $0.setImage(image, for: .normal)
-            $0.tintColor = UIColor(resource: .deepPurple)
-        }
-    }
+//    func didSelectCity(_ city: LocationModel.City) {
+//        // 'Seoul.jongnoJunggu'와 같은 rawValue에서 'jongnoJunggu'만 추출
+//        let cityNameComponents = city.rawValue.split(separator: ".")
+//        let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
+//        
+//        if let subRegion = SubRegion(rawValue: cityName) {
+//            print(subRegion)
+//            
+//            let selectedSubRegion = "\(subRegion)"
+//            
+//            courseViewModel.selectedCityName.value = selectedSubRegion
+//        } else {
+//            print(cityName)
+//        }
+//        
+//        self.courseView.courseFilterView.locationFilterButton.do {
+//            $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
+//            $0.setTitle(cityName, for: .normal)
+//            $0.layer.borderWidth = 1
+//            $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
+//            let image = UIImage(resource: .icDropdown).withRenderingMode(.alwaysTemplate)
+//            $0.setImage(image, for: .normal)
+//            $0.tintColor = UIColor(resource: .deepPurple)
+//        }
+//    }
 
     
 }

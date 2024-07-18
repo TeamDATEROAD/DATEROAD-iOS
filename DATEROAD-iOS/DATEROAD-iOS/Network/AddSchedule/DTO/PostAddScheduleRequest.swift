@@ -10,20 +10,20 @@ import Foundation
 // MARK: - PostAddScheduleRequest
 struct PostAddScheduleRequest: Codable {
     let title, date, startAt: String
-    let tags: [Tag]
+    let tags: [PostAddScheduleTag]
     let country, city: String
-    let places: [Place]
+    let places: [PostAddSchedulePlace]
 }
 
 // MARK: - Place
-struct Place: Codable {
+struct PostAddSchedulePlace: Codable {
     let title: String
     let duration: Float
     let sequence: Int
 }
 
 // MARK: - Tag
-struct Tag: Codable {
+struct PostAddScheduleTag: Codable {
     let tag: String
 }
 

@@ -213,15 +213,30 @@ extension AddScheduleViewModel {
    }
    
    func postAddScheduel() {
-      var places: [Place] = []
+      var places: [PostAddSchedulePlace] = []
+
       for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
-         if let duration = Float(model.timeRequire) {
-            let place = Place(title: model.placeTitle, duration: duration, sequence: index)
-            places.append(place)
-         } else {
-            print("Invalid duration format for \(model.placeTitle): \(model.timeRequire)")
-         }
+          // Extract the numeric part from the timeRequire string
+          let timeComponents = model.timeRequire.split(separator: " ")
+          print("🔥🔥🔥", timeComponents.first ?? "")
+          print("👍👍👍👍 Step 1")
+
+          if let timeString = timeComponents.first {
+              print("👍👍👍👍 Step 2: timeString is \(timeString)")
+              if let duration = Float(timeString) {
+                  print("👍👍👍👍 Step 3: duration is \(duration)")
+                  let place = PostAddSchedulePlace(title: model.placeTitle, duration: duration, sequence: index)
+                  places.append(place)
+                  print("👍👍👍👍 Step 4: place added - \(place)")
+              } else {
+                  print("❌❌❌ Step 3: Failed to convert timeString \(timeString) to Float")
+              }
+          } else {
+              print("❌❌❌ Step 2: Failed to extract timeString from \(model.timeRequire)")
+          }
       }
+      print(addPlaceCollectionViewDataSource, "addPlaceCollectionViewDataSource : \(addPlaceCollectionViewDataSource)")
+      print(places, "places : \(places)")
       
       guard let dateName = dateName.value else {return}
       guard let visitDate = visitDate.value else {return}
@@ -232,7 +247,7 @@ extension AddScheduleViewModel {
           title: dateName,
           date: visitDate,
           startAt: dateStartAt,
-          tags: [Tag(tag: "SHOPPING")],
+          tags: [PostAddScheduleTag(tag: "SHOPPING")],
           country: country,
           city: city,
           places: places)) { result in
@@ -245,5 +260,52 @@ extension AddScheduleViewModel {
           }
       }
    }
+   
+//   func postAddCourse() {
+//       var places: [PostAddCoursePlace] = []
+//
+//       for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
+//           // Extract the numeric part from the timeRequire string
+//           let timeComponents = model.timeRequire.split(separator: " ")
+//           print("🔥🔥🔥", timeComponents.first ?? "")
+//           print("👍👍👍👍 Step 1")
+//
+//           if let timeString = timeComponents.first {
+//               print("👍👍👍👍 Step 2: timeString is \(timeString)")
+//               if let duration = Float(timeString) {
+//                   print("👍👍👍👍 Step 3: duration is \(duration)")
+//                   let place = PostAddCoursePlace(title: model.placeTitle, duration: duration, sequence: index)
+//                   places.append(place)
+//                   print("👍👍👍👍 Step 4: place added - \(place)")
+//               } else {
+//                   print("❌❌❌ Step 3: Failed to convert timeString \(timeString) to Float")
+//               }
+//           } else {
+//               print("❌❌❌ Step 2: Failed to extract timeString from \(model.timeRequire)")
+//           }
+//       }
+//       print(addPlaceCollectionViewDataSource, "addPlaceCollectionViewDataSource : \(addPlaceCollectionViewDataSource)")
+//       print(places, "places : \(places)")
+//
+//       guard let dateName = dateName.value else {return}
+//       guard let visitDate = visitDate.value else {return}
+//       guard let dateStartAt = dateStartAt.value else {return}
+//       let country = country
+//       let city = city
+//       let contentText = contentText
+//       let price = price
+//       let images = pickedImageArr
+//
+//       NetworkService.shared.addCourseService.postAddCourse(course: PostAddCourse(title: dateName, date: visitDate, startAt: dateStartAt, country: country, city: city, description: contentText, cost: price).toDictionary(), tags: [PostAddCourseTag.Tag(tag: "DRIVE").toDictionary()], places: places, images: images)  { result in
+//           switch result {
+//           case .success(let response):
+//               print("Success: \(response)")
+//           default:
+//               print("Failed to fetch user profile")
+//               return
+//           }
+//       }
+//   }
+
    
 }

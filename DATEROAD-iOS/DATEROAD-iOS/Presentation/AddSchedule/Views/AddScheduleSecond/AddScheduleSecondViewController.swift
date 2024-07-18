@@ -163,9 +163,24 @@ private extension AddScheduleSecondViewController {
    
    /// navigationController를 통해 뷰컨트롤러 스택에서 originVC로 돌아가는 코드
    func goBackOriginVC() {
-      if let navigationController = self.navigationController {
-         navigationController.popToRootViewController(animated: true)
-      }
+   //      let vc = TabBarController.tabBar(<#T##self: UITabBarController##UITabBarController#>)
+      
+//      self.navigationController?.popToViewController(vc.dateVC, animated: true)
+//      if let tabBarController = self.tabBarController {
+//          // Tab index를 CourseViewController가 있는 탭의 인덱스로 설정
+//          tabBarController.selectedIndex = 1 // 여기에 CourseViewController가 있는 탭의 인덱스를 설정
+//
+//          // CourseViewController가 있는 내비게이션 컨트롤러를 가져옴
+//          if let navigationController = tabBarController.viewControllers?[1] as? UINavigationController {
+//              // 내비게이션 스택의 루트 뷰 컨트롤러로 pop
+//              navigationController.popToRootViewController(animated: true)
+//          }
+
+         let tabbarVC = TabBarController()
+      tabbarVC.selectedIndex = 1
+      navigationController?.pushViewController(tabbarVC, animated: false)
+
+//      }
    }
    
    

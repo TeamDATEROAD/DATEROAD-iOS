@@ -238,10 +238,14 @@ extension AddCourseViewModel {
       for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
          // Extract the numeric part from the timeRequire string
          let timeComponents = model.timeRequire.split(separator: " ")
+         print("🔥🔥🔥",timeComponents.first ?? "")
+         print("👍👍👍👍")
          if let timeString = timeComponents.first, let duration = Float(timeString) {
+            print("👍👍👍👍")
             let place = PostAddCoursePlace(title: model.placeTitle, duration: duration, sequence: index)
             places.append(place)
          } else {
+            print("👍👍👍👍")
             print("Invalid duration format for \(model.placeTitle): \(model.timeRequire)")
          }
       }
