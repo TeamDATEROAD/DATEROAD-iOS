@@ -25,26 +25,26 @@ final class CourseDetailViewController: BaseViewController, CustomAlertDelegate 
     
     private let courseDetailViewModel: CourseDetailViewModel
     
-//    private var conditionalData: ObservablePattern<ConditionalModel> = ObservablePattern(nil)
-//    
-//    private var imageData: ObservablePattern<ThumbnailModel> = ObservablePattern(nil)
-//    
-//    private var timelineData: ObservablePattern<TimelineModel> = ObservablePattern(nil)
-//
-//    private var tagData: ObservablePattern<[TagModel]> = ObservablePattern(nil)
-//    private var imageData: [(imageUrl: String, sequence: Int)] = ThumbnailModel.thumbnailDummyData.courseImages
+    //    private var conditionalData: ObservablePattern<ConditionalModel> = ObservablePattern(nil)
+    //    
+    //    private var imageData: ObservablePattern<ThumbnailModel> = ObservablePattern(nil)
+    //    
+    //    private var timelineData: ObservablePattern<TimelineModel> = ObservablePattern(nil)
+    //
+    //    private var tagData: ObservablePattern<[TagModel]> = ObservablePattern(nil)
+    //    private var imageData: [(imageUrl: String, sequence: Int)] = ThumbnailModel.thumbnailDummyData.courseImages
     
-//    private var likeSum: Int = ThumbnailModel.thumbnailDummyData.like
+    //    private var likeSum: Int = ThumbnailModel.thumbnailDummyData.like
     
-//    private var titleHeaderData: TitleHeaderModel = TitleHeaderModel.titleHeaderDummyData
-//    
-//    private var mainContentsData: MainContentsModel = MainContentsModel.descriptionDummyData
+    //    private var titleHeaderData: TitleHeaderModel = TitleHeaderModel.titleHeaderDummyData
+    //    
+    //    private var mainContentsData: MainContentsModel = MainContentsModel.descriptionDummyData
     
-//    private var timelineData: [TimelineModel] = TimelineModel.timelineContents
+    //    private var timelineData: [TimelineModel] = TimelineModel.timelineContents
     
-//    private var coastData: Int = CoastModel.coastDummyData.totalCoast
+    //    private var coastData: Int = CoastModel.coastDummyData.totalCoast
     
-//    private var tagData: [TagModel] = TagModel.tagDummyData
+    //    private var tagData: [TagModel] = TagModel.tagDummyData
     
     private var currentPage: Int = 0
     
@@ -53,7 +53,7 @@ final class CourseDetailViewController: BaseViewController, CustomAlertDelegate 
     init(viewModel: CourseDetailViewModel) {
         self.courseDetailViewModel = viewModel
         self.courseDetailViewModel.getCourseDetail()
-
+        
         self.courseDetailView = CourseDetailView(courseDetailSection:self.courseDetailViewModel.sections)
         
         super.init(nibName: nil, bundle: nil)
@@ -69,7 +69,7 @@ final class CourseDetailViewController: BaseViewController, CustomAlertDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        setSetctionCount()
+        //        setSetctionCount()
         bindViewModel()
         setDelegate()
         registerCell()
@@ -128,9 +128,9 @@ final class CourseDetailViewController: BaseViewController, CustomAlertDelegate 
             guard let isAccess else { return }
             self?.courseDetailView.isAccess = isAccess
             self?.courseDetailView.mainCollectionView.reloadData()
-
+            
         }
-
+        
     }
     
     func setAddTarget() {
@@ -205,7 +205,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         return courseDetailViewModel.numberOfItemsInSection(section)
     }
     
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let sectionType = courseDetailViewModel.fetchSection(at: indexPath.section)
         
@@ -266,7 +266,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return tagInfoCell
         }
     }
-
+    
     
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -463,10 +463,19 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
     
-    @objc
-    func didTapDeleteLabel(sender: UITapGestureRecognizer) {
+    @objc func didTapDeleteLabel(sender: UITapGestureRecognizer) {
         print("didTapDeleteLabel")
         self.dismiss(animated: true)
+        courseDetailViewModel.deleteCourse { [weak self] success in
+            DispatchQueue.main.async {
+                if success {
+                    print("성공이다 시이발")
+                    self?.navigationController?.popViewController(animated: true)
+                } else {
+                    print("ㅈ까!")
+                }
+            }
+        }
     }
 }
 

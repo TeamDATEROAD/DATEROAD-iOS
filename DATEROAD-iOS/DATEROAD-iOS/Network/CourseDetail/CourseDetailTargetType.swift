@@ -11,6 +11,7 @@ import Moya
 
 enum CourseDetailTargetType {
     case getCourseDetailInfo(courseId: Int)
+    case deleteCourse(courseId: Int)
 }
 
 extension CourseDetailTargetType: BaseTargetType {
@@ -23,12 +24,16 @@ extension CourseDetailTargetType: BaseTargetType {
         switch self {
         case .getCourseDetailInfo:
             return .get
+        case .deleteCourse:
+            return .delete
         }
     }
     
     var path: String {
         switch self {
         case .getCourseDetailInfo(let courseId):
+            return "api/v1/courses/\(courseId)"
+        case .deleteCourse(let courseId):
             return "api/v1/courses/\(courseId)"
         }
     }
