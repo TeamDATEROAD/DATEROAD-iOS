@@ -40,33 +40,23 @@ struct PostAddCourse: Codable {
 }
 
 struct PostAddCourseTag {
-   var tags: [[String: Any]] = []
-   
-   struct Tag {
-      let tag: String
-      
-      func toDictionary() -> [String: Any] {
-         return ["tag": tag]
-      }
-   }
-   
-   mutating func addTag(_ tag: Tag) {
-      tags.append(tag.toDictionary())
-   }
+    var tags: [[String: Any]] = []
+    
+    struct Tag {
+        let tag: String
+        
+        func toDictionary() -> [String: Any] {
+            return ["tag": tag]
+        }
+    }
 }
+
+
 
 struct PostAddCoursePlace: Codable {
    let title: String
    let duration: Float
    let sequence: Int
-   
-   func toDictionary() -> [String: Any] {
-      return [
-         "title": self.title,
-         "duration": self.duration,
-         "sequence": self.sequence
-      ]
-   }
 }
 
 

@@ -28,6 +28,8 @@ class AddThirdView: BaseView {
    
    let addThirdDoneBtn: UIButton = UIButton()
    
+   private let addThirdDoneBtnContainer: UIView = UIView()
+   
    
    // MARK: - Properties
    
@@ -49,8 +51,11 @@ class AddThirdView: BaseView {
          contentTextCountLabel,
          priceTitleLabel,
          priceTextField,
-         addThirdDoneBtn
+//         addThirdDoneBtn
+         addThirdDoneBtnContainer
       )
+      
+      addThirdDoneBtnContainer.addSubview(addThirdDoneBtn)
    }
    
    override func setLayout() {
@@ -84,11 +89,15 @@ class AddThirdView: BaseView {
          $0.height.equalTo(48)
       }
       
-      addThirdDoneBtn.snp.makeConstraints {
-         $0.height.equalTo(54)
+      addThirdDoneBtnContainer.snp.makeConstraints {
          $0.top.equalTo(priceTextField.snp.bottom).offset(50)
          $0.horizontalEdges.equalToSuperview()
          $0.bottom.equalToSuperview()
+      }
+      
+      addThirdDoneBtn.snp.makeConstraints {
+         $0.height.equalTo(54)
+         $0.bottom.horizontalEdges.equalToSuperview()
       }
    }
    

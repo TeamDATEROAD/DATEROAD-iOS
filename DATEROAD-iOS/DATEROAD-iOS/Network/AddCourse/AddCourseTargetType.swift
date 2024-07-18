@@ -12,7 +12,7 @@ import Moya
 
 // MARK: - API Service Definition
 enum AddCourseTargetType {
-    case createCourse(course: [String: Any], tags: [[String: Any]], places: [[String: Any]], images: [UIImage])
+    case postAddCourse(course: [String: Any], tags: [[String: Any]], places: [PostAddCoursePlace], images: [UIImage])
 }
 
 extension AddCourseTargetType: BaseTargetType {
@@ -22,21 +22,21 @@ extension AddCourseTargetType: BaseTargetType {
    
    var method: Moya.Method {
        switch self {
-       case .createCourse:
+       case .postAddCourse:
            return .post
        }
    }
     
     var path: String {
         switch self {
-        case .createCourse:
+        case .postAddCourse:
            return utilPath + "courses"
         }
     }
     
     var task: Task {
         switch self {
-        case let .createCourse(course, tags, places, images):
+        case let .postAddCourse(course, tags, places, images):
             var formData: [MultipartFormData] = []
             
             // Add course data

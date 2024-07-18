@@ -25,8 +25,16 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
    
    // MARK: - Properties
    
-    let viewModel = AddCourseViewModel()
+   let viewModel: AddCourseViewModel
    
+   init(viewModel: AddCourseViewModel) {
+      self.viewModel = viewModel
+      super.init(nibName: nil, bundle: nil)
+   }
+   
+   required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+   }
    
    // MARK: - Life Cycle
    
@@ -167,40 +175,40 @@ private extension AddCourseFirstViewController {
       addCourseFirstView.addFirstView.datePlaceContainer.isUserInteractionEnabled = true
    }
    
-   func createCourseExample() {
-//      viewModel.postAddCourseCourse.city = "~~"
-      let qwe = PostAddCourse(
-         title: "string",
-         date: "2024.07.04",
-         startAt: "12:30 PM",
-         country: "SEOUL",
-         city: "SEOUL_ENTIRE",
-         description: "string",
-         cost: 30000
-     )
-       
-       let tag: [String: Any] =
-           ["tag": "DRIVE"]
-      let tags = [tag]
-//      print(Tag(tag: "dd").toDictionary())
-       
-       let places: [[String: Any]] = [
-           ["title": "string", "duration": 3, "sequence": 0]
-       ]
-      
-      let images = viewModel.pickedImageArr
-      
-      NetworkService.shared.addCourseService.createCourse(course: qwe.toDictionary(), tags: tags, places: places, images: images) { result in
-          switch result {
-          case .success(let response):
-              print("Success: \(response)")
-          default:
-              print("Failed to fetch user profile")
-              return
-          }
-       }
-      
-   }
+//   func createCourseExample() {
+////      viewModel.postAddCourseCourse.city = "~~"
+//      let qwe = PostAddCourse(
+//         title: "string",
+//         date: "2024.07.04",
+//         startAt: "12:30 PM",
+//         country: "SEOUL",
+//         city: "SEOUL_ENTIRE",
+//         description: "string",
+//         cost: 30000
+//     )
+//       
+//       let tag: [String: Any] =
+//           ["tag": "DRIVE"]
+//      let tags = [tag]
+////      print(Tag(tag: "dd").toDictionary())
+//       
+//       let places: [[String: Any]] = [
+//           ["title": "string", "duration": 3, "sequence": 0]
+//       ]
+//      
+//      let images = viewModel.pickedImageArr
+//      
+//      NetworkService.shared.addCourseService.postAddCourse(course: qwe.toDictionary(), tags: tags, places: places, images: images) { result in
+//          switch result {
+//          case .success(let response):
+//              print("Success: \(response)")
+//          default:
+//              print("Failed to fetch user profile")
+//              return
+//          }
+//       }
+//      
+//   }
    
    
    
@@ -418,7 +426,7 @@ extension AddCourseFirstViewController: ImagePickerDelegate {
       print("images : \(images)")
       viewModel.pickedImageArr = images
       addCourseFirstView.collectionView.reloadData()
-      createCourseExample()
+//      createCourseExample()
    }
    
 }
@@ -448,11 +456,15 @@ extension AddCourseFirstViewController: DRBottomSheetDelegate {
 
 extension AddCourseFirstViewController: LocationFilterDelegate {
    
-   func didSelectCity(_ city: LocationModel.City) {
+   func didSelectLocation(country: LocationModel.Country, city: LocationModel.City) {
       print("selected : \(city)")
       print("Selected city: \(city.rawValue)")
       viewModel.dateLocation.value = city.rawValue
       viewModel.satisfyDateLocation(str: city.rawValue)
+      let country = LocationModelCountryKorToEng.Country(rawValue: country.rawValue).rawValue
+      let city = LocationModelCityKorToEng.City(rawValue: city.rawValue).rawValue
+      viewModel.country = country
+      viewModel.city = city
    }
    
 }

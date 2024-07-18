@@ -39,6 +39,9 @@ final class AddCourseViewModel {
    
    var isTimePicker: Bool?
    
+   var country = ""
+   var city = ""
+   
    
    //MARK: - AddSecondView 전용 Viewmodel 변수
    
@@ -62,10 +65,12 @@ final class AddCourseViewModel {
    //MARK: - AddThirdView 전용 Viewmodel 변수
    
    var contentTextCount: ObservablePattern<Int> = ObservablePattern(0)
+   var contentText = ""
    var contentFlag = false
    
    var priceText: ObservablePattern<Int> = ObservablePattern(nil)
    var priceFlag = false
+   var price = 0
    
    var isDoneBtnOK: ObservablePattern<Bool> = ObservablePattern(false)
    
@@ -104,7 +109,7 @@ extension AddCourseViewModel {
       } else {
          dateFormatter.dateStyle = .none
          dateFormatter.timeStyle = .short
-         
+         dateFormatter.dateFormat = "hh:mm a"
          let formattedDate = dateFormatter.string(from: date)
          dateStartAt.value = formattedDate
          let flag = ((dateStartAt.value?.count ?? 0) > 0) ? true : false
@@ -224,6 +229,38 @@ extension AddCourseViewModel {
       } else {
          isDoneBtnOK.value = false
       }
+   }
+   
+   
+   func postAddCourse() {
+      var places: [PostAddCoursePlace] = []
+      for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
+         if let duration = Float(model.timeRequire) {
+            let place = PostAddCoursePlace(title: model.placeTitle, duration: duration, sequence: index)
+            places.append(place)
+         } else {
+            print("Invalid duration format for \(model.placeTitle): \(model.timeRequire)")
+         }
+      }
+      
+      guard let dateName = dateName.value else {return}
+      guard let visitDate = visitDate.value else {return}
+      guard let dateStartAt = dateStartAt.value else {return}
+      let country = country
+      let city = city
+      let contentText = contentText
+      let price = price
+      let images = pickedImageArr
+      
+      NetworkService.shared.addCourseService.postAddCourse(course: PostAddCourse(title: dateName, date: visitDate, startAt: dateStartAt, country: country, city: city, description: contentText, cost: price).toDictionary(), tags: [PostAddCourseTag.Tag(tag: "DRIVE").toDictionary()], places: places, images: images)  { result in
+         switch result {
+         case .success(let response):
+             print("Success: \(response)")
+         default:
+             print("Failed to fetch user profile")
+             return
+         }
+     }
    }
    
 }

@@ -42,6 +42,8 @@ final class AddFirstView: BaseView {
    
    private let datePlaceImage = UIImageView()
    
+   private let sixCheckNextBtnContainer = UIView()
+   
    let sixCheckNextButton = UIButton() //추후 Captin 버튼으로 수정 예정
    
    let tendencyTagCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -61,7 +63,8 @@ final class AddFirstView: BaseView {
          textFieldStackView,
          tagContainer,
          datePlaceContainer,
-         sixCheckNextButton
+//         sixCheckNextButton
+         sixCheckNextBtnContainer
       )
       
       textFieldStackView.addArrangedSubviews(
@@ -77,6 +80,8 @@ final class AddFirstView: BaseView {
       tagContainer.addSubviews(tagTitleLabel, tendencyTagCollectionView)
       
       datePlaceContainer.addSubviews(datePlaceLabel, datePlaceImage)
+      
+      sixCheckNextBtnContainer.addSubview(sixCheckNextButton)
    }
    
    override func setLayout() {
@@ -142,11 +147,15 @@ final class AddFirstView: BaseView {
          $0.height.equalTo(5)
       }
       
-      sixCheckNextButton.snp.makeConstraints {
+      sixCheckNextBtnContainer.snp.makeConstraints {
          $0.top.equalTo(datePlaceContainer.snp.bottom).offset(24)
-         $0.horizontalEdges.bottom.equalToSuperview()
+         $0.horizontalEdges.equalToSuperview()
+         $0.bottom.equalToSuperview().inset(4)
+      }
+      
+      sixCheckNextButton.snp.makeConstraints {
          $0.height.equalTo(52)
-         //               $0.bottom.equalToSuperview().inset(4)
+         $0.bottom.horizontalEdges.equalToSuperview()
       }
       
    }

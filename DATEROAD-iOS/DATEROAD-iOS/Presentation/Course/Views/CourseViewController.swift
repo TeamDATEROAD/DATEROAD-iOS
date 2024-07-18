@@ -124,7 +124,7 @@ extension CourseViewController {
 extension CourseViewController: CourseNavigationBarViewDelegate {
     
     func didTapAddCourseButton() {
-        let addCourseFirstVC = AddCourseFirstViewController()
+       let addCourseFirstVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
         self.navigationController?.pushViewController(addCourseFirstVC, animated: true)
     }
 }
@@ -141,6 +141,10 @@ extension CourseViewController: UICollectionViewDelegate {
     }
 }
 extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate {
+   func didSelectLocation(country: LocationModel.Country, city: LocationModel.City) {
+      print("")
+   }
+   
     
     func didTapLocationFilter() {
         let locationFilterVC = LocationFilterViewController()

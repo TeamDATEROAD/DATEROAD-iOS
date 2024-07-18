@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 protocol LocationFilterDelegate: AnyObject {
-    func didSelectCity(_ city: LocationModel.City)
+    func didSelectLocation(country: LocationModel.Country, city: LocationModel.City)
 }
 
 class LocationFilterViewController: BaseViewController {
@@ -171,13 +171,17 @@ class LocationFilterViewController: BaseViewController {
         self.dismiss(animated: false)
     }
     
-    @objc
-    func applyButtonTapped() {
-        guard let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
-        let selectedCity = courseViewModel.cityData[selectedCityIndex]
-        delegate?.didSelectCity(selectedCity)
-        closeView()
-    }
+   @objc
+   func applyButtonTapped() {
+       guard let selectedCountryIndex = courseViewModel.selectedCountryIndex.value,
+             let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
+       
+       let selectedCountry = courseViewModel.countryData[selectedCountryIndex]
+       let selectedCity = courseViewModel.cityData[selectedCityIndex]
+       
+       delegate?.didSelectLocation(country: selectedCountry, city: selectedCity)
+       closeView()
+   }
     
     
 }
