@@ -20,8 +20,6 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
     
     private let myRegisterCourseViewModel = MyCourseListViewModel()
     
-    private lazy var myRegisterCourseData = myRegisterCourseViewModel.myRegisterCourseDummyData
-    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -29,6 +27,7 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
         
         setLeftBackButton()
         setTitleLabelStyle(title: StringLiterals.MyRegisterCourse.title, alignment: .center)
+        bindViewModel()
         register()
         setDelegate()
     }
@@ -56,6 +55,33 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
 
 }
 
+// MARK: - EmptyView Methods
+
+extension MyRegisterCourseViewController {
+    private func setEmptyView() {
+        if myRegisterCourseViewModel.myRegisterCourseData.value?.count == 0 {
+            myRegisterCourseView.emptyView.do {
+                $0.isHidden = false
+                $0.setEmptyView(emptyImage: UIImage(resource: .emptyMyRegisterCourse),
+                 emptyTitle: StringLiterals.EmptyView.emptyMyRegisterCourse)
+            }
+        }
+    }
+}
+
+// MARK: - DataBind
+
+extension MyRegisterCourseViewController {
+    func bindViewModel() {
+        self.myRegisterCourseViewModel.isSuccessGetMyRegisterCourseInfo.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
+            }
+        }
+    }
+}
+
 // MARK: - CollectionView Methods
 
 extension MyRegisterCourseViewController {
@@ -81,14 +107,14 @@ extension MyRegisterCourseViewController : UICollectionViewDelegateFlowLayout {
 
 extension MyRegisterCourseViewController : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return myRegisterCourseData.count
+        return myRegisterCourseViewModel.myRegisterCourseData.value?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier, for: indexPath) as? MyCourseListCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.dataBind(myRegisterCourseData[indexPath.item], indexPath.item)
+        cell.dataBind(myRegisterCourseViewModel.myRegisterCourseData.value?[indexPath.item], indexPath.item)
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToCourseDetailVC(_:))))
         return cell
     }
@@ -98,7 +124,7 @@ extension MyRegisterCourseViewController : UICollectionViewDataSource {
         let indexPath = courseCollectionView.indexPathForItem(at: location)
 
        if let index = indexPath {
-           print("코스 상세 페이지로 이동 \(myRegisterCourseData[indexPath?.item ?? 0].courseID ?? 0)")
+           print("코스 상세 페이지로 이동 \(myRegisterCourseViewModel.myRegisterCourseData.value?[indexPath?.item ?? 0].courseId ?? 0)")
        }
     }
     

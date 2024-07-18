@@ -60,7 +60,10 @@
 		741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */; };
 		7428400E2C3EC58700B21AA7 /* DRCustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428400D2C3EC58700B21AA7 /* DRCustomAlertViewController.swift */; };
 		742840102C3EC87300B21AA7 /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428400F2C3EC87300B21AA7 /* AlertType.swift */; };
-		742840122C3EC8C100B21AA7 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742840112C3EC8C100B21AA7 /* CustomAlertView.swift */; };
+		742840122C3EC8C100B21AA7 /* DRCustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742840112C3EC8C100B21AA7 /* DRCustomAlertView.swift */; };
+		742C9D9A2C4599EB007FFB51 /* MyCourseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C9D992C4599EB007FFB51 /* MyCourseService.swift */; };
+		742C9D9D2C459B3C007FFB51 /* MyCourseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C9D9C2C459B3C007FFB51 /* MyCourseTargetType.swift */; };
+		742C9D9F2C45A9C8007FFB51 /* MyCourseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C9D9E2C45A9C8007FFB51 /* MyCourseDTO.swift */; };
 		743D5BF02C3FB7ED007C156C /* MyCourseListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D5BEF2C3FB7ED007C156C /* MyCourseListModel.swift */; };
 		743D5BF22C3FC60F007C156C /* MyRegisterCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D5BF12C3FC60F007C156C /* MyRegisterCourseViewController.swift */; };
 		743D5BF42C401FF9007C156C /* PointDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D5BF32C401FF8007C156C /* PointDetailView.swift */; };
@@ -249,7 +252,10 @@
 		741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseViewController.swift; sourceTree = "<group>"; };
 		7428400D2C3EC58700B21AA7 /* DRCustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCustomAlertViewController.swift; sourceTree = "<group>"; };
 		7428400F2C3EC87300B21AA7 /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
-		742840112C3EC8C100B21AA7 /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
+		742840112C3EC8C100B21AA7 /* DRCustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCustomAlertView.swift; sourceTree = "<group>"; };
+		742C9D992C4599EB007FFB51 /* MyCourseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseService.swift; sourceTree = "<group>"; };
+		742C9D9C2C459B3C007FFB51 /* MyCourseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseTargetType.swift; sourceTree = "<group>"; };
+		742C9D9E2C45A9C8007FFB51 /* MyCourseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseDTO.swift; sourceTree = "<group>"; };
 		743D5BEF2C3FB7ED007C156C /* MyCourseListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseListModel.swift; sourceTree = "<group>"; };
 		743D5BF12C3FC60F007C156C /* MyRegisterCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRegisterCourseViewController.swift; sourceTree = "<group>"; };
 		743D5BF32C401FF8007C156C /* PointDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointDetailView.swift; sourceTree = "<group>"; };
@@ -622,14 +628,14 @@
 			path = LocationFilter;
 			sourceTree = "<group>";
 		};
-		741AE2DD2C37288A0031849F /* ViewedCourse */ = {
+		741AE2DD2C37288A0031849F /* MyCourse */ = {
 			isa = PBXGroup;
 			children = (
 				741AE2E02C3728B40031849F /* Models */,
 				741AE2DF2C3728A20031849F /* ViewModels */,
 				741AE2DE2C37289B0031849F /* Views */,
 			);
-			path = ViewedCourse;
+			path = MyCourse;
 			sourceTree = "<group>";
 		};
 		741AE2DE2C37289B0031849F /* Views */ = {
@@ -669,6 +675,16 @@
 			path = CustomAlert;
 			sourceTree = "<group>";
 		};
+		742C9D9B2C4599F0007FFB51 /* MyCourse */ = {
+			isa = PBXGroup;
+			children = (
+				74CB3DFA2C47DD62005F864F /* DTO */,
+				742C9D992C4599EB007FFB51 /* MyCourseService.swift */,
+				742C9D9C2C459B3C007FFB51 /* MyCourseTargetType.swift */,
+			);
+			path = MyCourse;
+			sourceTree = "<group>";
+		};
 		7478193C2C3A97300040D5E7 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -687,6 +703,14 @@
 				74BC16652C329A110084E832 /* SUIT-Bold.otf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		74CB3DFA2C47DD62005F864F /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				742C9D9E2C45A9C8007FFB51 /* MyCourseDTO.swift */,
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 		74CDE2622C3B11DE00A7459B /* DateSchedule */ = {
@@ -904,7 +928,7 @@
 				74CDE2622C3B11DE00A7459B /* DateSchedule */,
 				0D0DA3D82C3AF304004210EE /* PointDetail */,
 				CAA30ADB2C37182A00835DE3 /* Profile */,
-				741AE2DD2C37288A0031849F /* ViewedCourse */,
+				741AE2DD2C37288A0031849F /* MyCourse */,
 				CA4EF3D22C3475EE003B02B6 /* Onboarding */,
 				9E63BB1D2C35CEAF00D5ED5B /* AddCourse */,
 				CA4EF3CC2C328F2C003B02B6 /* Splash */,
@@ -954,6 +978,8 @@
 		CA3D0D122C29A9BB00735097 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				CAE8C1922C457F4A00F153B3 /* Main */,
+				742C9D9B2C4599F0007FFB51 /* MyCourse */,
 				0DA8535A2C45CA2E00DF7F99 /* Course */,
 				CA3D0D132C29A9C500735097 /* Base */,
 			);
@@ -1467,6 +1493,7 @@
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
 				0DA853632C46DC8400DF7F99 /* SubRegion.swift in Sources */,
 				CAC80FE52C3EC6C500658EA6 /* HotDateCourseCell.swift in Sources */,
+				742C9D9F2C45A9C8007FFB51 /* MyCourseDTO.swift in Sources */,
 				CAC80FC82C3C75F200658EA6 /* PointSystemViewModel.swift in Sources */,
 				CAC80FB32C3BBE9100658EA6 /* MyPageTableViewCell.swift in Sources */,
 				CAC80FDB2C3E7C3D00658EA6 /* MainSection.swift in Sources */,
@@ -1512,6 +1539,7 @@
 				0D98CBA32C40AE7900E3618A /* PreviewCourseDetailViewModel.swift in Sources */,
 				CAC80FE12C3E822000658EA6 /* MainModel.swift in Sources */,
 				CA3D0D182C29AA7A00735097 /* UITextField+.swift in Sources */,
+				742C9D9D2C459B3C007FFB51 /* MyCourseTargetType.swift in Sources */,
 				7455476F2C3D0A6300B526F3 /* PastDateContentView.swift in Sources */,
 				0DA138F52C3E8E1900682653 /* PriceButtonCollectionViewCell.swift in Sources */,
 				0D05FF0F2C3EFB3E00E9BDDC /* CourseListView.swift in Sources */,
@@ -1575,6 +1603,7 @@
 				CAC80FCA2C3C95A100658EA6 /* UICollectionViewFlowLayout+.swift in Sources */,
 				0D98CBA12C40A2F100E3618A /* ContentMaskView.swift in Sources */,
 				9E443A4E2C3819DB00C1F92C /* AddFirstView.swift in Sources */,
+				742C9D9A2C4599EB007FFB51 /* MyCourseService.swift in Sources */,
 				0D9C43372C41F14C00687CCC /* CourseDetailModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
