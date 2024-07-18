@@ -7,6 +7,8 @@
 
 import UIKit
 
+import AuthenticationServices
+
 final class MyPageViewController: BaseNavBarViewController {
     
     // MARK: - UI Properties
@@ -17,6 +19,8 @@ final class MyPageViewController: BaseNavBarViewController {
     // MARK: - Properties
     
     private var myPageViewModel: MyPageViewModel
+    
+    private var loginViewModel: LoginViewModel = LoginViewModel()
     
     private var selectedAlertFlag: Int = 0
     
@@ -155,8 +159,19 @@ extension MyPageViewController: DRCustomAlertDelegate {
     
     func exit() {
         if selectedAlertFlag == 1 {
+            appleLogin()
             myPageViewModel.deleteWithdrawal()
         }
+    }
+    
+    func appleLogin() {
+        let appleProvider = ASAuthorizationAppleIDProvider()
+        let request = appleProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self
+        controller.performRequests()
     }
 }
 
@@ -248,4 +263,21 @@ extension MyPageViewController: UITableViewDataSource {
         return cell
     }
     
+}
+
+extension MyPageViewController: ASAuthorizationControllerDelegate {
+
+func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+    guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential
+    else { return }
+    
+    self.loginViewModel.loginWithApple(userInfo: credential)
+}
+
+func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: any Error) {
+    let alert = UIAlertController(title: "로그인 실패", message: nil, preferredStyle: .alert)
+    alert.addAction(.init(title: "확인", style: .cancel))
+    present(alert, animated: true)
+}
+
 }
