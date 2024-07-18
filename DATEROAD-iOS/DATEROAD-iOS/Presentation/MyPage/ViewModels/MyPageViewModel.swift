@@ -14,19 +14,15 @@ final class MyPageViewModel {
     var dummyTagData: ObservablePattern<[String]> = ObservablePattern(nil)
     
     var onSuccessLogout: ObservablePattern<Bool> = ObservablePattern(nil)
+    var onSuccessGetUserProfile: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    init() {
-        fetchData()
-    }
+//    init() {
+//        getUserProfile()
+//    }
     
 }
 
 extension MyPageViewModel {
-    
-    func fetchData() {
-        dummyData.value = UserInfoModel.dummyData
-        dummyTagData.value = UserInfoModel.dummyData.tagList
-    }
 
     func deleteLogout() {
         NetworkService.shared.authService.deleteLogout() { response in
@@ -43,4 +39,22 @@ extension MyPageViewModel {
             }
         }
     }
+    
+    func getUserProfile() {
+        NetworkService.shared.userService.getUserProfile( ) { response in
+            switch response {
+            case .success(let data):
+                self.userInfoData.value = MyPageUserInfoModel(nickname: data.name,
+                                                              tagList: data.tags,
+                                                              point: data.point,
+                                                              imageURL: data.imageURL)
+                self.onSuccessGetUserProfile.value = true
+            default:
+                print("Failed to fetch getUserProfile")
+                self.onSuccessGetUserProfile.value = false
+                return
+            }
+        }
+    }
+    
 }

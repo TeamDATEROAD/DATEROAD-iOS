@@ -95,6 +95,14 @@ private extension MyPageViewController {
         self.myPageViewModel.onSuccessLogout.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             self?.navigationController?.popToRootViewController(animated: false)
+        
+        self.myPageViewModel.onSuccessGetUserProfile.bind { [weak self] isSuccess in
+            guard let isSuccess, let data = self?.myPageViewModel.userInfoData.value else { return }
+            if isSuccess {
+                self?.myPageView.userInfoView.bindData(userInfo: data)
+                self?.myPageView.userInfoView.tagCollectionView.reloadData()
+            }
+            
         }
     }
     
