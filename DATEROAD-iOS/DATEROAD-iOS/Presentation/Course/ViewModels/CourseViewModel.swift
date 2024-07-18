@@ -19,11 +19,11 @@ final class CourseViewModel {
     
     var selectedCountryIndex: ObservablePattern<Int> = ObservablePattern(0)
     
-    var selectedCityIndex: ObservablePattern<Int>  = ObservablePattern(0)
+    var selectedCityIndex: ObservablePattern<Int?>  = ObservablePattern(nil)
     
-    var selectedCityName: ObservablePattern<String>  = ObservablePattern("")
+    var selectedCityName: ObservablePattern<String?>  = ObservablePattern(nil)
     
-    var selectedPriceIndex: ObservablePattern<Int> = ObservablePattern(0)
+    var selectedPriceIndex: ObservablePattern<Int?> = ObservablePattern(0)
     
     var isApplyButtonEnabled: ObservablePattern<Bool> = ObservablePattern(false)
     

@@ -108,11 +108,11 @@ extension CourseViewController {
     
     func bindViewModel() {
         self.courseViewModel.selectedPriceIndex.bind { [weak self] index in
-            self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
+            self?.courseViewModel.didUpdateSelectedPriceIndex?(index as? Int)
         }
         
         self.courseViewModel.selectedCityName.bind { [weak self] index in
-            self?.courseViewModel.didUpdateselectedCityName?(index)
+            self?.courseViewModel.didUpdateselectedCityName?(index as? String)
         }
     }
     
@@ -144,8 +144,8 @@ extension CourseViewController {
     }
     
     func getCourse() {
-        let cost = courseViewModel.selectedPriceIndex.value?.costNum() ?? 0
-        let city = courseViewModel.selectedCityName.value ?? ""
+        let cost = courseViewModel.selectedPriceIndex.value??.costNum() ?? nil
+        let city = courseViewModel.selectedCityName.value ?? nil
         CourseService().getCourseInfo(city: city, cost: cost) { response in
             switch response {
             case .success(let data):

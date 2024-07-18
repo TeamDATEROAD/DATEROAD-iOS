@@ -50,6 +50,8 @@ class CourseDetailViewModel {
     
     var isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(nil)
     
+    var isUserLiked: ObservablePattern<Bool> = ObservablePattern(nil)
+    
     var haveFreeCount: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var havePoint: ObservablePattern<Bool> = ObservablePattern(nil)
@@ -133,6 +135,7 @@ extension CourseDetailViewModel {
                 self.tagData.value = data.tags.map { tag in
                     TagModel(tag: tag.tag)
                 }
+                
                 self.isSuccessGetData.value = true
                 
                 

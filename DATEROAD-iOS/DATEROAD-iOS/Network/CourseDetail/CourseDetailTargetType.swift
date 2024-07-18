@@ -17,7 +17,7 @@ enum CourseDetailTargetType {
 extension CourseDetailTargetType: BaseTargetType {
     
     var utilPath: String {
-        return "/api/v1/"
+        return "api/v1/"
     }
     
     var method: Moya.Method {
@@ -32,9 +32,9 @@ extension CourseDetailTargetType: BaseTargetType {
     var path: String {
         switch self {
         case .getCourseDetailInfo(let courseId):
-            return "api/v1/courses/\(courseId)"
+            return utilPath+"courses/\(courseId)"
         case .deleteCourse(let courseId):
-            return "api/v1/courses/\(courseId)"
+            return utilPath+"courses/\(courseId)"
         }
     }
     

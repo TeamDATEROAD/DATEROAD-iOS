@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 enum CourseTargetType {
-    case getCourseInfo(city: String, cost: Int?)
+    case getCourseInfo(city: String?, cost: Int?)
 }
 
 extension CourseTargetType: BaseTargetType {
