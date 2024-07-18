@@ -229,18 +229,14 @@ extension AddScheduleViewModel {
       for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
          // Extract the numeric part from the timeRequire string
          let timeComponents = model.timeRequire.split(separator: " ")
-         print("🔥🔥🔥", timeComponents.first ?? "")
-         print("👍👍👍👍 Step 1")
          
          if let timeString = timeComponents.first {
-            print("👍👍👍👍 Step 2: timeString is \(timeString)")
             if let duration = Float(timeString) {
-               print("👍👍👍👍 Step 3: duration is \(duration)")
                let place = PostAddSchedulePlace(title: model.placeTitle, duration: duration, sequence: index)
                places.append(place)
-               print("👍👍👍👍 Step 4: place added - \(place)")
+               print("👍👍👍👍 : place added - \(place)")
             } else {
-               print("❌❌❌ Step 3: Failed to convert timeString \(timeString) to Float")
+               print("❌❌❌ Step 1: Failed to convert timeString \(timeString) to Float")
             }
          } else {
             print("❌❌❌ Step 2: Failed to extract timeString from \(model.timeRequire)")
@@ -254,11 +250,13 @@ extension AddScheduleViewModel {
       guard let dateStartAt = dateStartAt.value else {return}
       let country = country
       let city = city
+      let postAddScheduleTags = selectedTagData.map { PostAddScheduleTag(tag: $0) }
+      
       NetworkService.shared.addScheduleService.postAddSchedule(course: PostAddScheduleRequest(
          title: dateName,
          date: visitDate,
          startAt: dateStartAt,
-         tags: [PostAddScheduleTag(tag: "SHOPPING")],
+         tags: postAddScheduleTags,
          country: country,
          city: city,
          places: places)) { result in
