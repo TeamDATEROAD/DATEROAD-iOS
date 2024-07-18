@@ -127,7 +127,7 @@ extension CourseDetailViewModel {
                 self.mainContentsData.value = MainContentsModel(description: data.description)
                 
                 self.timelineData.value = data.places.map { place in
-                    TimelineModel(sequence: place.sequence, title: place.title, duration: Float(place.duration))
+                    TimelineModel(sequence: place.sequence + 1, title: place.title, duration: Float(place.duration))
                 }
                 
                 self.tagData.value = data.tags.map { tag in

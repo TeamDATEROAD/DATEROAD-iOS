@@ -208,6 +208,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let sectionType = courseDetailViewModel.fetchSection(at: indexPath.section)
+        let isAccess = self.courseDetailViewModel.isAccess.value ?? false
         
         switch sectionType {
         case .imageCarousel:
@@ -234,7 +235,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             let mainData = courseDetailViewModel.mainContentsData.value ?? MainContentsModel(description: "")
             let isCourseMine = courseDetailViewModel.isCourseMine.value ?? false
             mainContentsCell.setCell(mainContentsData: mainData)
-            if isCourseMine {
+            if isAccess {
                 mainContentsCell.mainTextLabel.numberOfLines = 0
             } else {
                 mainContentsCell.mainTextLabel.numberOfLines = 3
@@ -334,7 +335,7 @@ extension CourseDetailViewController {
             if isAccess {
                 courseDetailViewModel.setNumberOfSections(6)
             } else {
-                courseDetailViewModel.setNumberOfSections(6)
+                courseDetailViewModel.setNumberOfSections(3)
             }
         } else {
             if isAccess {
@@ -383,14 +384,14 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
             didTapAddCourseButton()
         case .checkCourse:
             //무료 열람 기회 확인 & 잔여 포인트
-           
             guard let haveFreeCount = self.courseDetailViewModel.haveFreeCount.value,
                   let havePoint = self.courseDetailViewModel.havePoint.value else { return }
             if haveFreeCount {
-                print("포이트로 샀음!")
                 dismiss(animated: false)
             } else {
                 if havePoint {
+                    //포인트로 구입
+                    self.courseDetailViewModel.isAccess.value = true
                     dismiss(animated: false)
                 } else {
                     didTapBuyButton()
@@ -399,6 +400,8 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         case .none:
             return
         }
+        setSetctionCount()
+        
     }
     
     //버튼 분기 처리하기
