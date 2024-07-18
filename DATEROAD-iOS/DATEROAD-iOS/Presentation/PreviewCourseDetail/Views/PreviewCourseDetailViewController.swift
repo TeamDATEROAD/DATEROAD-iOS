@@ -87,7 +87,7 @@ extension PreviewCourseDetailViewController: ContentMaskViewDelegate {
             didTapAddCourseButton()
         case .checkCourse:
             didTapBuyButton()
-        default:
+        case .none:
             return
         }
     }

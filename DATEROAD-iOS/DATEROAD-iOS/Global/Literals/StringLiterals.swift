@@ -132,7 +132,6 @@ enum StringLiterals {
         static let inquiry = "문의하기"
         static let logout = "로그아웃"
         static let withdrawal = "탈퇴하기"
-        static let alertWithdrawal = "탈퇴"
     }
     
     enum PointSystem {
@@ -170,9 +169,6 @@ enum StringLiterals {
         static let seePastDate = "지난 데이트 보기"
         static let pastDate = "지난 데이트"
         static let startTime = "시작시간: "
-        static let dateSetting = "데이트 일정 설정"
-        static let deleteDate = "글 삭제"
-        static let quit = "취소"
     }
     
     enum Alert {
@@ -185,12 +181,10 @@ enum StringLiterals {
         static let wouldYouLogOut = "로그아웃 하시겠어요?"
         static let buyCourse = "50P를 사용해서 코스를 확인해보시겠어요?"
         static let canNotRefund = "구매 후 포인트는 환불되지 않아요"
-        static let deleteDateSchedule = "데이트 일정을 삭제하시겠어요?"
-        static let deletePastDateSchedule = "지난 데이트를 삭제하시겠어요?"
-        static let noMercy = "삭제된 일정은 복구하실 수 없어요"
     }
     
     enum Course {
+    
         static let course = "코스 둘러보기"
         static let priceLabelUnder50K = "5만원 이하"
         static let priceLabelUnder30K = "3만원 이하"
@@ -198,8 +192,8 @@ enum StringLiterals {
         static let priceLabelOver100K = "10만원 초과"
         static let isCourseEmpty = "아직 등록된 코스가 없어요"
     }
-    
     enum ViewedCourse {
+    
         static let title = "내가 열람한 코스"
         static let registerSchedule = "열람한 코스로 데이트를 짜보세요"
     }
@@ -217,10 +211,5 @@ enum StringLiterals {
     enum EmptyView {
         static let emptyDateSchedule = "아직 연인과의 데이트 일정을\n등록하지 않으셨나요?"
         static let emptyPastSchedule = "지난 데이트가 없어요!"
-        static let emptyViewedCourse = "다른 커플들의 데이트 코스를\n열람해보세요!"
-        static let emptyNavViewedCourse = "아직 열람한 코스가 없어요!"
-        static let emptyMyRegisterCourse = "아직 등록한 코스가 없어요!"
-        static let emptyGainedPoint = "아직 포인트 획득 내역이 없어요!"
-        static let emptyUsedPoint = "아직 포인트 사용 내역이 없어요!"
     }
 }

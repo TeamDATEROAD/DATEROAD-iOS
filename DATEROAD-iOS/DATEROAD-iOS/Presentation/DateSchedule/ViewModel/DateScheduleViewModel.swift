@@ -23,10 +23,7 @@ class DateScheduleViewModel {
     
     var pastDateScheduleDummyData = DateScheduleModel(
         dateCards: [
-            DateCardModel(dateID: 1, title: "성수동 당일치기 데이트 가볼까요?", date: "June 24", city: "건대/성수/왕십리", tags: ["🎨 전시·팝업", "🎨 전시·팝업", "🎨 전시·팝업"], dDay: 3),
-            DateCardModel(dateID: 2, title: "성수동 당일치기 데이트 가볼까요?", date: "June 24", city: "건대/성수/왕십리", tags: ["🎨 전시·팝업", "🎨 전시·팝업", "🎨 전시·팝업"], dDay: 3),
-            DateCardModel(dateID: 3, title: "성수동 당일치기 데이트 가볼까요?", date: "June 24", city: "건대/성수/왕십리", tags: ["🎨 전시·팝업", "🎨 전시·팝업", "🎨 전시·팝업"], dDay: 3),
-            DateCardModel(dateID: 4, title: "성수동 당일치기 데이트 가볼까요?", date: "June 24", city: "건대/성수/왕십리", tags: ["🎨 전시·팝업", "🎨 전시·팝업", "🎨 전시·팝업"], dDay: 3)
+        
         ]
     )
     

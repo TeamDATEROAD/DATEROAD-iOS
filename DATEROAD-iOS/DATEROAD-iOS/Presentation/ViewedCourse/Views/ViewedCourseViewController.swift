@@ -22,7 +22,7 @@ class ViewedCourseViewController: BaseViewController {
     
     private let arrowButton = UIButton()
     
-    private var viewedCourseView = MyCourseListView()
+    private var courseCollectionView = MyCourseListCollectionView()
     
     // MARK: - Properties
     
@@ -37,14 +37,12 @@ class ViewedCourseViewController: BaseViewController {
 
         registerCell()
         setDelegate()
-        setEmptyView()
     }
     
     override func setHierarchy() {
         self.view.addSubviews(topLabel,
                               createCourseView,
-                              viewedCourseView)
-        
+                              courseCollectionView)
         self.createCourseView.addSubviews(createCourseLabel, arrowButton)
     }
     
@@ -62,7 +60,7 @@ class ViewedCourseViewController: BaseViewController {
             $0.width.equalTo(288)
         }
         
-        viewedCourseView.snp.makeConstraints {
+        courseCollectionView.snp.makeConstraints {
             $0.top.equalTo(createCourseView.snp.bottom).offset(10)
             $0.bottom.equalToSuperview().inset(ScreenUtils.height*0.1)
             $0.horizontalEdges.equalToSuperview()
@@ -113,36 +111,16 @@ class ViewedCourseViewController: BaseViewController {
 
 }
 
-// MARK: - EmptyView Methods
-
-private extension ViewedCourseViewController {
-    func setEmptyView() {
-        if viewedCourseData.count == 0 {
-            topLabel.text = "수민님,\n아직 열람한\n데이트코스가 없어요"
-            createCourseView.isHidden = true
-            viewedCourseView.emptyView.snp.makeConstraints {
-                $0.top.equalToSuperview()
-            }
-            viewedCourseView.emptyView.do {
-                $0.isHidden = false
-                $0.setEmptyView(emptyImage: UIImage(resource: .emptyViewedCourse),
-                 emptyTitle: StringLiterals.EmptyView.emptyViewedCourse)
-            }
-        }
-    }
-}
-
-
 // MARK: - CollectionView Methods
 
 extension ViewedCourseViewController {
     private func registerCell() {
-        viewedCourseView.myCourseListCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
+        courseCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
     }
     
     private func setDelegate() {
-        viewedCourseView.myCourseListCollectionView.delegate = self
-        viewedCourseView.myCourseListCollectionView.dataSource = self
+        courseCollectionView.delegate = self
+        courseCollectionView.dataSource = self
     }
 }
 
@@ -171,8 +149,8 @@ extension ViewedCourseViewController : UICollectionViewDataSource {
     }
     
     @objc func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
-        let location = sender.location(in: viewedCourseView.myCourseListCollectionView)
-        let indexPath = viewedCourseView.myCourseListCollectionView.indexPathForItem(at: location)
+        let location = sender.location(in: courseCollectionView)
+        let indexPath = courseCollectionView.indexPathForItem(at: location)
 
        if let index = indexPath {
            print("일정 상세 페이지로 이동 \(viewedCourseData[indexPath?.item ?? 0].courseID ?? 0)")
