@@ -21,8 +21,6 @@ class CourseDetailView: BaseView {
     
     private var courseDetailSection: [CourseDetailSection]
     
-    private var courseInfoTabBarView = CourseInfoTabBarView()
-    
     // MARK: - Life Cycle
     
     init(courseDetailSection: [CourseDetailSection]) {

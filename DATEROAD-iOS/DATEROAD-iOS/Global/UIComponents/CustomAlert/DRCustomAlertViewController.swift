@@ -23,7 +23,7 @@ class DRCustomAlertViewController: BaseViewController {
     
     // MARK: - UI Properties
     
-    private var customAlertView = DRCustomAlertView()
+    private var customAlertView = CustomAlertView()
     
     
     // MARK: - Properties

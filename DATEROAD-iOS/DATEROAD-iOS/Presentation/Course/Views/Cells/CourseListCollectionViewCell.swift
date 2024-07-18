@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 import Then
+import Kingfisher
 
 protocol CourseListCollectionViewCellDelegate: AnyObject {
     func didTapCourseListCell()
@@ -187,27 +188,30 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
 extension CourseListCollectionViewCell {
     
     func configure(with course: CourseListModel) {
-        thumnailImgageView.image = course.thumbnail
-        
-        if let likeCount = course.like {
-            likeNumLabel.text = "\(likeCount)"
-        } else {
-            likeNumLabel.text = nil
+            if let urlString = course.thumbnail, let url = URL(string: urlString) {
+                thumnailImgageView.kf.setImage(with: url)
+            } else {
+                thumnailImgageView.image = UIImage(named: "placeholder_image")
+            }
+            
+            if let likeCount = course.like {
+                likeNumLabel.text = "\(likeCount)"
+            } else {
+                likeNumLabel.text = nil
+            }
+            
+            locationLabel.text = course.location
+            titleLabel.text = course.title
+            if let coast = course.cost {
+                coastLabel.text = "\(coast.priceRangeTag())"
+            } else {
+                coastLabel.text = nil
+            }
+            
+            if let time = course.time {
+                timeLabel.text = "\(time.formatFloatTime())시간"
+            } else {
+                timeLabel.text = nil
+            }
         }
-        
-        locationLabel.text = course.location
-        titleLabel.text = course.title
-        if let coast = course.cost {
-            coastLabel.text = "\(coast)만원 이하"
-        } else {
-            coastLabel.text = nil
-        }
-        
-        if let time = course.time {
-            timeLabel.text = "\(time)시간"
-        } else {
-            timeLabel.text = nil
-        }
-    }
-    
 }

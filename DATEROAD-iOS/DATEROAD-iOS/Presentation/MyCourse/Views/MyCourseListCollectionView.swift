@@ -7,56 +7,34 @@
 
 import UIKit
 
-class MyCourseListView: BaseView {
+class MyCourseListCollectionView: UICollectionView {
 
     // MARK: - UI Properties
     
-    var myCourseListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: myCourseListCollectionViewLayout)
-    
-    var emptyView = CustomEmptyView()
+    static var courseListCollectionViewLayout = UICollectionViewFlowLayout()
     
     // MARK: - Properties
     
     var courseListData : [MyCourseListModel] = []
     
-    static var myCourseListCollectionViewLayout = UICollectionViewFlowLayout()
-    
     // MARK: - LifeCycle
     
-    override func setHierarchy() {
-        self.addSubviews(myCourseListCollectionView, emptyView)
-    }
-    
-    override func setLayout() {
-        myCourseListCollectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+        let flowLayout = MyCourseListCollectionView.courseListCollectionViewLayout
+        super.init(frame: frame, collectionViewLayout: flowLayout)
         
-        emptyView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(ScreenUtils.height * 84 / 812)
-            $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(ScreenUtils.height * 444/812)
-        }
+        setStyle()
     }
     
-    override func setStyle() {
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setStyle() {
         self.backgroundColor = UIColor(resource: .drWhite)
-        
-        myCourseListCollectionView.do {
-            $0.isScrollEnabled = true
-            $0.backgroundColor = UIColor(resource: .drWhite)
-            $0.showsVerticalScrollIndicator = true
-        }
-        
-        MyCourseListView.myCourseListCollectionViewLayout.do {
-            self.backgroundColor = UIColor(resource: .drWhite)
-            
+        MyCourseListCollectionView.courseListCollectionViewLayout.do {
             $0.minimumLineSpacing = 0
             $0.scrollDirection = .vertical
-        }
-        
-        emptyView.do {
-            $0.isHidden = true
         }
     }
 

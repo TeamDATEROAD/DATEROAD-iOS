@@ -65,7 +65,7 @@ class MyCourseListCollectionViewCell: BaseCollectionViewCell {
         heartButton.snp.makeConstraints {
             $0.leading.equalTo(thumbnailImageView.snp.leading).inset(5)
             $0.bottom.equalTo(thumbnailImageView.snp.bottom).inset(5)
-            // $0.width.equalTo(43)
+            $0.width.equalTo(43)
             $0.height.equalTo(22)
         }
         
@@ -111,7 +111,10 @@ class MyCourseListCollectionViewCell: BaseCollectionViewCell {
         }
         
         heartButton.do {
-            $0.setButtonStatus(buttonType: HeartLikeButton())
+            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.roundedButton(cornerRadius: 12, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+            $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
+            $0.titleLabel?.font = UIFont.suit(.body_bold_13)
             $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
             $0.imageEdgeInsets = UIEdgeInsets(top: 6.5, left: -2.5, bottom: 6.5, right: 2.5)
             $0.titleEdgeInsets = UIEdgeInsets(top: 2, left: 2.5, bottom: 2, right: -2.5)

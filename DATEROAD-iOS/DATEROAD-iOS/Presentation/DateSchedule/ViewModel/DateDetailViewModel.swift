@@ -13,8 +13,6 @@ import KakaoSDKCommon
 
 class DateDetailViewModel {
    
-    var emptyDateDetailData = DateDetailModel(dateID: 0, title: "", startAt: "", city: "", tags: [], date: "", places: [])
-    
     var upcomingDateDetailDummyData = DateDetailModel(
         dateID: 1,
         title: "성수동 당일치기 데이트 가볼까요? 이 정돈 어떠신지?",

@@ -39,6 +39,7 @@ class CourseDetailViewModel {
     let coastInfoViewModel: CoastInfoViewModel
     
     let tagInfoViewModel: TagInfoViewModel
+
     
     init() {
         self.imageCarouselViewModel = ImageCarouselViewModel()

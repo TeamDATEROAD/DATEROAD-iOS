@@ -14,7 +14,7 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
 
     // MARK: - UI Properties
     
-    private var myRegisterCourseView = MyCourseListView()
+    private var courseCollectionView = MyCourseListCollectionView()
     
     // MARK: - Properties
     
@@ -30,19 +30,18 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
         bindViewModel()
         register()
         setDelegate()
-        setEmptyView()
     }
     
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.contentView.addSubviews(myRegisterCourseView)
+        self.contentView.addSubviews(courseCollectionView)
     }
     
     override func setLayout() {
         super.setLayout()
         
-        myRegisterCourseView.snp.makeConstraints {
+        courseCollectionView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.bottom.equalToSuperview()
             $0.horizontalEdges.equalToSuperview()
@@ -87,12 +86,12 @@ extension MyRegisterCourseViewController {
 
 extension MyRegisterCourseViewController {
     private func register() {
-        myRegisterCourseView.myCourseListCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
+        courseCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
     }
     
     private func setDelegate() {
-        myRegisterCourseView.myCourseListCollectionView.delegate = self
-        myRegisterCourseView.myCourseListCollectionView.dataSource = self
+        courseCollectionView.delegate = self
+        courseCollectionView.dataSource = self
     }
 }
 
@@ -121,8 +120,8 @@ extension MyRegisterCourseViewController : UICollectionViewDataSource {
     }
     
     @objc func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
-        let location = sender.location(in: myRegisterCourseView.myCourseListCollectionView)
-        let indexPath = myRegisterCourseView.myCourseListCollectionView.indexPathForItem(at: location)
+        let location = sender.location(in: courseCollectionView)
+        let indexPath = courseCollectionView.indexPathForItem(at: location)
 
        if let index = indexPath {
            print("코스 상세 페이지로 이동 \(myRegisterCourseViewModel.myRegisterCourseData.value?[indexPath?.item ?? 0].courseId ?? 0)")

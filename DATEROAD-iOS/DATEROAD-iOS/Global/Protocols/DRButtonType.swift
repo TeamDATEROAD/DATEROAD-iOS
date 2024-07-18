@@ -247,15 +247,3 @@ struct AlertRightButton: DRButtonType {
     var cornerRadius: CGFloat = 10
 
 }
-
-struct HeartLikeButton: DRButtonType {
-    
-    var bgColor: UIColor =  UIColor(resource: .deepPurple)
-    
-    var fontColor: UIColor = UIColor(resource: .drWhite)
-    
-    var font: UIFont = UIFont.suit(.body_bold_13)
-    
-    var cornerRadius: CGFloat = 12
-
-}

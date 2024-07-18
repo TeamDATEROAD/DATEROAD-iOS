@@ -38,6 +38,7 @@ final class CourseViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        initPriceButton()
         registerCell()
         setDelegate()
         bindViewModel()
@@ -51,6 +52,11 @@ final class CourseViewController: BaseViewController {
         courseView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+    }
+    
+    func initPriceButton() {
+        courseViewModel.selectedPriceIndex.value = 0
+        getCourse()
     }
 }
 
@@ -68,6 +74,9 @@ extension CourseViewController {
             $0.layer.borderWidth = 0
             $0.tintColor = UIColor(resource: .gray400)
         }
+        courseViewModel.selectedCityName.value = ""
+        courseViewModel.selectedPriceIndex.value = 0
+        getCourse()
     }
     
     @objc
@@ -76,19 +85,34 @@ extension CourseViewController {
             previousButton.isSelected = false
             self.courseView.courseFilterView.updatePrice(button: previousButton, buttonType: UnselectedButton(), isSelected: false)
         }
-        
+
+        guard let cell = sender.superview?.superview as? UICollectionViewCell,
+              let indexPath = courseView.courseFilterView.priceCollectionView.indexPath(for: cell) else {
+            return
+        }
         sender.isSelected = !sender.isSelected
-        
-        sender.isSelected ? self.courseView.courseFilterView.updatePrice(button: sender, buttonType: SelectedButton(), isSelected: sender.isSelected)
-        : self.courseView.courseFilterView.updatePrice(button: sender, buttonType: UnselectedButton(), isSelected: sender.isSelected)
-        
+
+        if sender.isSelected {
+            self.courseView.courseFilterView.updatePrice(button: sender, buttonType: SelectedButton(), isSelected: true)
+            courseViewModel.selectedPriceIndex.value = indexPath.row + 1
+        } else {
+            self.courseView.courseFilterView.updatePrice(button: sender, buttonType: UnselectedButton(), isSelected: false)
+            courseViewModel.selectedPriceIndex.value = 0
+        }
+
         // 현재 버튼이 선택되었다면 selectedButton으로 비활성화되었다면 nil로 설정
         selectedButton = sender.isSelected ? sender : nil
+        getCourse()
     }
+
     
     func bindViewModel() {
         self.courseViewModel.selectedPriceIndex.bind { [weak self] index in
             self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
+        }
+        
+        self.courseViewModel.selectedCityName.bind { [weak self] index in
+            self?.courseViewModel.didUpdateselectedCityName?(index)
         }
     }
     
@@ -119,6 +143,34 @@ extension CourseViewController {
         }
     }
     
+    func getCourse() {
+        let cost = courseViewModel.selectedPriceIndex.value?.costNum() ?? 0
+        let city = courseViewModel.selectedCityName.value ?? ""
+        CourseService().getCourseInfo(city: city, cost: cost) { response in
+            switch response {
+            case .success(let data):
+                let courseModels = data.courses.map { filterList in
+                    CourseListModel(
+                        courseId: filterList.courseID,
+                        thumbnail: filterList.thumbnail,
+                        location: filterList.city,
+                        title: filterList.title,
+                        cost: filterList.cost,
+                        time: filterList.duration,
+                        like: filterList.like
+                    )
+                }
+                self.courseListModel = courseModels
+                DispatchQueue.main.async {
+                    self.courseView.courseListView.courseListCollectionView.reloadData()
+                }
+            default:
+                print("Failed to fetch course data")
+            }
+        }
+    }
+    
+    
 }
 
 extension CourseViewController: CourseNavigationBarViewDelegate {
@@ -133,13 +185,13 @@ extension CourseViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == courseView.courseFilterView.priceCollectionView {
-            let selectedCourse = courseListModel[indexPath.item]
-            print("넘어가라")
+            _ = courseListModel[indexPath.item]
             let courseDetailVC = CourseDetailViewController(viewModel: CourseDetailViewModel())
             navigationController?.pushViewController(courseDetailVC, animated: true)
         }
     }
 }
+
 extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate {
     
     func didTapLocationFilter() {
@@ -150,11 +202,23 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
     }
     
     func didSelectCity(_ city: LocationModel.City) {
-        print("Selected city: \(city.rawValue)")
+        // 'Seoul.jongnoJunggu'와 같은 rawValue에서 'jongnoJunggu'만 추출
+        let cityNameComponents = city.rawValue.split(separator: ".")
+        let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
+        
+        if let subRegion = SubRegion(rawValue: cityName) {
+            print(subRegion)
+            
+            let selectedSubRegion = "\(subRegion)"
+            
+            courseViewModel.selectedCityName.value = selectedSubRegion
+        } else {
+            print(cityName)
+        }
         
         self.courseView.courseFilterView.locationFilterButton.do {
             $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
-            $0.setTitle("\(city.rawValue)", for: .normal)
+            $0.setTitle(cityName, for: .normal)
             $0.layer.borderWidth = 1
             $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
             let image = UIImage(resource: .icDropdown).withRenderingMode(.alwaysTemplate)
@@ -163,12 +227,12 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
         }
     }
 
+    
 }
 
 extension CourseViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //엠티뷰 분기 처리
         isCellEmpty(cellCount: self.courseListModel.count)
         
         return collectionView == courseView.courseFilterView.priceCollectionView ? self.courseViewModel.priceData.count : self.courseListModel.count
@@ -196,7 +260,7 @@ extension CourseViewController: UICollectionViewDataSource {
     @objc
     func pushToCourseDetialVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: courseView.courseListView)
-        if let indexPath = courseView.courseListView.courseListCollectionView.indexPathForItem(at: location) {
+        if courseView.courseListView.courseListCollectionView.indexPathForItem(at: location) != nil {
             let courseDetailVC = CourseDetailViewController(viewModel: CourseDetailViewModel())
             self.navigationController?.pushViewController(courseDetailVC, animated: true)
         }

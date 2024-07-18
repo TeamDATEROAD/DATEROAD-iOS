@@ -14,7 +14,7 @@ class NavViewedCourseViewController: BaseNavBarViewController {
 
     // MARK: - UI Properties
     
-    private var navViewedCourseView = MyCourseListView()
+    private var courseCollectionView = MyCourseListCollectionView()
     
     // MARK: - Properties
     
@@ -36,13 +36,13 @@ class NavViewedCourseViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.contentView.addSubviews(navViewedCourseView)
+        self.contentView.addSubviews(courseCollectionView)
     }
     
     override func setLayout() {
         super.setLayout()
         
-        navViewedCourseView.snp.makeConstraints {
+        courseCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
@@ -86,12 +86,12 @@ extension NavViewedCourseViewController {
 
 extension NavViewedCourseViewController {
     private func register() {
-        navViewedCourseView.myCourseListCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
+        courseCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
     }
     
     private func setDelegate() {
-        navViewedCourseView.myCourseListCollectionView.delegate = self
-        navViewedCourseView.myCourseListCollectionView.dataSource = self
+        courseCollectionView.delegate = self
+        courseCollectionView.dataSource = self
     }
 }
 
@@ -120,8 +120,8 @@ extension NavViewedCourseViewController : UICollectionViewDataSource {
     }
     
     @objc func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
-        let location = sender.location(in: navViewedCourseView.myCourseListCollectionView)
-        let indexPath = navViewedCourseView.myCourseListCollectionView.indexPathForItem(at: location)
+        let location = sender.location(in: courseCollectionView)
+        let indexPath = courseCollectionView.indexPathForItem(at: location)
 
        if let index = indexPath {
            print("일정 등록 페이지로 이동 \(viewedCourseViewModel.viewedCourseData.value?[indexPath?.item ?? 0].courseId ?? 0 )")

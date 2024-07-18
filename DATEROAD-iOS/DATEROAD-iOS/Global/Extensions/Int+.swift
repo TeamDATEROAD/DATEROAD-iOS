@@ -27,4 +27,19 @@ extension Int {
         }
     }
     
+    func costNum() -> Int {
+        switch self {
+        case 1:
+            return 3
+        case 2:
+            return 5
+        case 3:
+            return 10
+        case 4:
+            return 11
+        default:
+            return 0
+        }
+    }
+    
 }
