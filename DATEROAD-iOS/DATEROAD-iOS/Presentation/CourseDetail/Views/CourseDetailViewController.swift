@@ -101,7 +101,7 @@ final class CourseDetailViewController: BaseNavBarViewController {
     }
     
     func setNavigationBar() {
-        setBackgroundColor(color: .clear)
+        //setBackgroundColor(color: .clear)
         setLeftBackButton()
         setLeftBackButton()
     }

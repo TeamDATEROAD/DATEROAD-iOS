@@ -11,8 +11,10 @@ import SnapKit
 import Then
 
 protocol LocationFilterDelegate: AnyObject {
-    func didSelectLocation(country: LocationModel.Country, city: LocationModel.City)
+    func didSelectCity(_ city: LocationModel.City)
+//    func getCourse()
 }
+
 
 class LocationFilterViewController: BaseViewController {
     
@@ -171,17 +173,38 @@ class LocationFilterViewController: BaseViewController {
         self.dismiss(animated: false)
     }
     
-   @objc
-   func applyButtonTapped() {
-       guard let selectedCountryIndex = courseViewModel.selectedCountryIndex.value,
-             let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
-       
-       let selectedCountry = courseViewModel.countryData[selectedCountryIndex]
-       let selectedCity = courseViewModel.cityData[selectedCityIndex]
-       
-       delegate?.didSelectLocation(country: selectedCountry, city: selectedCity)
-       closeView()
-   }
+    @objc
+    func applyButtonTapped() {
+        guard let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
+        let selectedCity = courseViewModel.cityData[selectedCityIndex]
+
+        let cityNameComponents = selectedCity.rawValue.split(separator: ".")
+        let cityName = cityNameComponents.last.map { String($0) } ?? selectedCity.rawValue
+
+        if let subRegion = SubRegion(rawValue: cityName) {
+            let formattedCityName = "\(subRegion)"
+            courseViewModel.selectedCityName.value = formattedCityName
+            print(formattedCityName, "💙")
+        } else {
+            print("💙")
+        }
+        
+        delegate?.didSelectCity(selectedCity)
+//        delegate?.getCourse()
+        closeView()
+    }
+  
+  // @objc
+   //func applyButtonTapped() {
+    //   guard let selectedCountryIndex = courseViewModel.selectedCountryIndex.value,
+     //        let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
+     //  
+      // let selectedCountry = courseViewModel.countryData[selectedCountryIndex]
+      // let selectedCity = courseViewModel.cityData[selectedCityIndex]
+      //
+       //delegate?.didSelectLocation(country: selectedCountry, city: selectedCity)
+      // closeView()
+  // }
     
     
 }
@@ -208,9 +231,13 @@ private extension LocationFilterViewController {
         self.courseViewModel.selectedCityIndex.bind { [weak self] index in
             self?.courseViewModel.didUpdateSelectedCityIndex?(index)
             self?.courseViewModel.updateApplyButtonState()
-            
         }
         
+        self.courseViewModel.selectedCityName.bind { [weak self] cityName in
+            self?.courseViewModel.didUpdateselectedCityName?(cityName)
+
+            self?.courseViewModel.updateApplyButtonState()
+        }
         self.courseViewModel.selectedPriceIndex.bind {[weak self] index in
             self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
         }

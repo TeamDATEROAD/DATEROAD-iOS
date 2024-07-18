@@ -36,7 +36,7 @@ class PointDetailView: BaseView {
     // MARK: - LifeCycle
     
     override func setHierarchy() {
-        self.addSubviews(pointView, 
+        self.addSubviews(pointView,
                          segmentControl,
                          segmentControlUnderLineView,
                          selectedSegmentUnderLineView,

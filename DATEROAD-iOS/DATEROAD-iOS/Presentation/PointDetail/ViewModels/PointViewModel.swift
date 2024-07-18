@@ -9,30 +9,27 @@ import Foundation
 
 final class PointViewModel {
     
-    var pointDummyData: PointModel = PointModel(gained: [],
-                                                used: [PointDetailModel(sign: "-", point: 100, description: "코스 열람하기", createAt: "2024.7.4."),
-                                                       PointDetailModel(sign: "-", point: 100, description: "코스 열람하기", createAt: "2024.7.4."),
-                                                       PointDetailModel(sign: "-", point: 100, description: "코스 등록하기", createAt: "2024.7.4."),
-                                                       PointDetailModel(sign: "-", point: 100, description: "코스 등록하기", createAt: "2024.7.4."),
-                                                       PointDetailModel(sign: "-", point: 100, description: "코스 등록하기", createAt: "2024.7.4.")])
+    let pointDetailService = PointDetailService()
     
-    var gainedDummyData: ObservablePattern<[PointDetailModel]> = ObservablePattern([])
+    var gainedPointData: ObservablePattern<[PointDetailModel]> = ObservablePattern([])
     
-    var usedDummyData: ObservablePattern<[PointDetailModel]> = ObservablePattern([])
+    var usedPointData: ObservablePattern<[PointDetailModel]> = ObservablePattern([])
+    
+    var isSuccessGetPointInfo: ObservablePattern<Bool> = ObservablePattern(false)
     
     var nowPointData: ObservablePattern<[PointDetailModel]> = ObservablePattern([])
     
     var isEarnedPointHidden : ObservablePattern<Bool> = ObservablePattern(false)
     
     init () {
-        fetchData()
+        getPointDetail()
         changeSegment(segmentIndex: 0)
     }
     
-    func fetchData() {
-        self.gainedDummyData.value = self.pointDummyData.gained
-        self.usedDummyData.value = self.pointDummyData.used
-    }
+//    func fetchData() {
+//        self.gainedDummyData.value = self.pointDummyData.gained
+//        self.usedDummyData.value = self.pointDummyData.used
+//    }
     
     func changeSegment(segmentIndex: Int) {
         isEarnedPointHidden.value = segmentIndex != 0
@@ -41,11 +38,39 @@ final class PointViewModel {
     
     func updateData(nowEarnedPointHidden: Bool) {
         if nowEarnedPointHidden {
-            nowPointData.value = usedDummyData.value
+            nowPointData.value = usedPointData.value
         } else {
-            nowPointData.value = gainedDummyData.value
+            nowPointData.value = gainedPointData.value
         }
+    }
+    
+    func getPointDetail() {
+        NetworkService.shared.pointDetailService.getPointDetail() { response in
+            switch response {
+            case .success(let data):
+                let pointGainedInfo = data.gained.map {
+                    PointDetailModel(sign: "+", point: $0.point, description: $0.description, createAt: $0.createAt)
+                }
+                let pointUsedInfo = data.used.map {
+                    PointDetailModel(sign: "-", point: $0.point, description: $0.description, createAt: $0.createAt)
+                }
+                self.gainedPointData.value = pointGainedInfo
+                self.usedPointData.value = pointUsedInfo
+//                print(pointGainedInfo, pointUsedInfo)
+//                self.isSuccessGetPointInfo.value = true
+            case .requestErr:
+                 print("requestError")
+             case .decodedErr:
+                 print("decodedError")
+             case .pathErr:
+                 print("pathError")
+             case .serverErr:
+                 print("serverError")
+             case .networkFail:
+                 print("networkFail")
+            }
+        }
+
     }
 
 }
-

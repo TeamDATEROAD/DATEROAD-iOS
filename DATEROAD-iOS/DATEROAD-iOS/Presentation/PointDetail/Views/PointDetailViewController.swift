@@ -64,6 +64,10 @@ class PointDetailViewController: BaseNavBarViewController {
 
 extension PointDetailViewController {
     func bindViewModel() {
+//        self.pointViewModel.isSuccessGetPointInfo.bind { [weak self] data in
+//            self?.pointDetailView.pointCollectionView.reloadData()
+//        }
+        
         self.pointViewModel.nowPointData.bind { [weak self] data in
             self?.pointDetailView.pointCollectionView.reloadData()
         }
@@ -97,9 +101,9 @@ private extension PointDetailViewController {
     
     func changeSelectedSegmentLayout(isEarnedPointHidden: Bool?) {
         guard let isEarnedPointHidden = isEarnedPointHidden else { return }
-        print(isEarnedPointHidden)
+//        print(isEarnedPointHidden)
         if isEarnedPointHidden {
-            switch pointViewModel.usedDummyData.value?.count == 0 {
+            switch pointViewModel.usedPointData.value?.count == 0 {
             case true:
                 setSegmentViewHidden(pointDetailView.emptyUsedPointView)
             case false:
@@ -111,7 +115,7 @@ private extension PointDetailViewController {
                 $0.leading.equalToSuperview().inset(ScreenUtils.width/2)
             }
         } else {
-            switch pointViewModel.gainedDummyData.value?.count == 0 {
+            switch pointViewModel.gainedPointData.value?.count == 0 {
             case true:
                 setSegmentViewHidden(pointDetailView.emptyGainedPointView)
             case false:

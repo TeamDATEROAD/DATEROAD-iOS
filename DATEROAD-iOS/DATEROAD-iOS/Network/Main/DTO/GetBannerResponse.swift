@@ -13,10 +13,10 @@ struct GetBannerResponse: Codable {
 
 struct AdvertisementDtoResList: Codable {
     let advertisementID: Int
-    let thumbnail, title, tag: String
+    let thumbnail: String
 
     enum CodingKeys: String, CodingKey {
         case advertisementID = "advertisementId"
-        case thumbnail, title, tag
+        case thumbnail
     }
 }

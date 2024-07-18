@@ -192,6 +192,7 @@ enum StringLiterals {
     }
     
     enum Course {
+    
         static let course = "코스 둘러보기"
         static let priceLabelUnder50K = "5만원 이하"
         static let priceLabelUnder30K = "3만원 이하"
@@ -199,8 +200,8 @@ enum StringLiterals {
         static let priceLabelOver100K = "10만원 초과"
         static let isCourseEmpty = "아직 등록된 코스가 없어요"
     }
-    
     enum ViewedCourse {
+    
         static let title = "내가 열람한 코스"
         static let registerSchedule = "열람한 코스로 데이트를 짜보세요"
     }

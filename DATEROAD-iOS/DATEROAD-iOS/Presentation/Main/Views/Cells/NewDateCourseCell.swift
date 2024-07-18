@@ -233,7 +233,7 @@ extension NewDateCourseCell {
         }
         self.likeLabel.text = "\(newDateData.like)"
         self.dateNameLabel.text = newDateData.title
-        self.costLabel.text = "\(newDateData.cost)만원"
+        self.costLabel.text = "\(newDateData.cost.priceRangeTag())"
         self.timeLabel.text = "\(newDateData.duration)시간"
     }
 }

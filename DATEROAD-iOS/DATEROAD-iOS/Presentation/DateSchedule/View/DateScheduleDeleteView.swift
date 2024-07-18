@@ -2,26 +2,26 @@
 //  DateScheduleDeleteView.swift
 //  DATEROAD-iOS
 //
-//  Created by 이수민 on 7/15/24.
+//  Created by 윤희슬 on 7/18/24.
 //
 
 import UIKit
 
 final class DateScheduleDeleteView: BaseView {
-    
+
     // MARK: - UI Properties
-    
+
     private let titleLabel: UILabel = UILabel()
-    
+
     var deleteLabel: UILabel = UILabel()
-    
-    
+
+
     // MARK: - Life Cycle
-    
+
     override func setHierarchy() {
         self.addSubviews(titleLabel, deleteLabel)
     }
-    
+
     override func setLayout() {
         titleLabel.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
@@ -33,7 +33,7 @@ final class DateScheduleDeleteView: BaseView {
             $0.height.equalTo(60)
         }
     }
-    
+
     override func setStyle() {
         titleLabel.do {
             $0.setLabel(text: StringLiterals.DateSchedule.dateSetting,
@@ -41,7 +41,7 @@ final class DateScheduleDeleteView: BaseView {
                         textColor: UIColor(resource: .drBlack),
                         font: UIFont.suit(.title_bold_18))
         }
-        
+
         deleteLabel.do {
             $0.setLabel(text: StringLiterals.DateSchedule.deleteDate,
                         alignment: .center,

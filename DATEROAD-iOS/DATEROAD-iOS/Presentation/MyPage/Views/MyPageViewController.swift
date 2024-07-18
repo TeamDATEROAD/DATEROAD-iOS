@@ -25,6 +25,7 @@ final class MyPageViewController: BaseNavBarViewController {
     init(myPageViewModel: MyPageViewModel) {
         self.myPageViewModel = myPageViewModel
         
+        self.myPageViewModel.getUserProfile()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -87,9 +88,27 @@ private extension MyPageViewController {
     }
     
     func bindViewModel() {
-        self.myPageViewModel.dummyData.bind { [weak self] data in
-            guard let data else { return }
-            self?.myPageView.userInfoView.bindData(userInfo: data)
+        self.myPageViewModel.onSuccessLogout.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.navigationController?.popToRootViewController(animated: false)
+            }
+        }
+        
+        self.myPageViewModel.onSuccessWithdrawal.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.navigationController?.popToRootViewController(animated: false)
+            }
+        }
+        
+        self.myPageViewModel.onSuccessGetUserProfile.bind { [weak self] isSuccess in
+            guard let isSuccess, let data = self?.myPageViewModel.userInfoData.value else { return }
+            if isSuccess {
+                self?.myPageView.userInfoView.bindData(userInfo: data)
+                self?.myPageView.userInfoView.tagCollectionView.reloadData()
+            }
+            
         }
     }
     
@@ -104,11 +123,6 @@ private extension MyPageViewController {
     func pushToPointDetailVC() {
         self.navigationController?.pushViewController(PointDetailViewController(pointViewModel: PointViewModel()), animated: false)
     }
-    
-    @objc
-    func pushToWithdrawalVC() {
-        print("탈퇴하세요 그러세요 그럼")
-    }
 
 }
 
@@ -116,7 +130,7 @@ extension MyPageViewController: DRCustomAlertDelegate {
     
     @objc
     private func logOutSectionTapped() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none, alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.wouldYouLogOut, leftButtonText: StringLiterals.Common.cancel, rightButtonText: StringLiterals.MyPage.logout)
+        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.logout, alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.wouldYouLogOut, leftButtonText: StringLiterals.Common.cancel, rightButtonText: StringLiterals.MyPage.logout)
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         selectedAlertFlag = 0
@@ -125,22 +139,23 @@ extension MyPageViewController: DRCustomAlertDelegate {
     
     @objc
     private func withDrawalButtonTapped() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none, alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.realWithdrawal, descriptionText: StringLiterals.Alert.lastWarning, leftButtonText: StringLiterals.MyPage.alertWithdrawal, rightButtonText: StringLiterals.Common.cancel)
+        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none, alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.realWithdrawal, descriptionText: StringLiterals.Alert.lastWarning, leftButtonText: "탈퇴", rightButtonText: "취소")
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         selectedAlertFlag = 1
         self.present(customAlertVC, animated: false)
     }
     
-    func action() {
+    func action(rightButtonAction: RightButtonType) {
         if selectedAlertFlag == 0 {
             print("로그아웃하세요 ~~")
+            myPageViewModel.deleteLogout()
         }
     }
     
     func exit() {
         if selectedAlertFlag == 1 {
-            pushToWithdrawalVC()
+            myPageViewModel.deleteWithdrawal()
         }
     }
 }
@@ -150,10 +165,11 @@ extension MyPageViewController: DRCustomAlertDelegate {
 extension MyPageViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let tagTitle = myPageViewModel.dummyTagData.value?[indexPath.item]
+        guard let tagData = myPageViewModel.userInfoData.value?.tagList else { return CGSize() }
+        let tagTitle = tagData[indexPath.item]
         let font = UIFont.suit(.body_med_13)
-        let textWidth = tagTitle?.width(withConstrainedHeight: 30, font: font) ?? 90
-        let padding: CGFloat = 28
+        let textWidth = tagTitle.width(withConstrainedHeight: 30, font: font)
+        let padding: CGFloat = 48
                 
        return CGSize(width: textWidth + padding, height: 30)
     }
@@ -168,14 +184,15 @@ extension MyPageViewController: UICollectionViewDelegateFlowLayout {
 extension MyPageViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return myPageViewModel.dummyTagData.value?.count ?? 0
+        let data = myPageViewModel.userInfoData.value ?? MyPageUserInfoModel(nickname: "", tagList: [], point: 0, imageURL: "")
+        return data.tagList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagCollectionViewCell.cellIdentifier, for: indexPath) as? TagCollectionViewCell else { return UICollectionViewCell() }
-        if let model = myPageViewModel.dummyTagData.value {
-            cell.updateButtonTitle(title: model[indexPath.row])
-        }
+        
+        let data = myPageViewModel.userInfoData.value ?? MyPageUserInfoModel(nickname: "", tagList: [], point: 0, imageURL: "")
+        cell.updateButtonTitle(title: data.tagList[indexPath.row])
         return cell
     }
     
@@ -201,10 +218,6 @@ extension MyPageViewController: UITableViewDelegate {
             self.navigationController?.pushViewController(inquiryVC, animated: false)
         case .logout:
             logOutSectionTapped()
-            /*
-            let pointSystemVC = ProfileViewController(profileViewModel: ProfileViewModel())
-            self.navigationController?.pushViewController(pointSystemVC, animated: false)
-             */
         }
     }
     

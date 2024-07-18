@@ -10,8 +10,8 @@ import Foundation
 import Moya
 
 protocol MainServiceProtocol {
-    func getUserProfile(
-                        completion: @escaping (NetworkResult<GetUserProfileResponse>) -> ())
+    func getMainUserProfile(
+                        completion: @escaping (NetworkResult<GetMainUserProfileResponse>) -> ())
     func getFilteredDateCourse(sortBy: String,
                         completion: @escaping (NetworkResult<GetFilteredDateCourseResponse>) -> ())
     func getBanner(
@@ -23,11 +23,11 @@ final class MainService: BaseService, MainServiceProtocol {
     
     let provider = MoyaProvider<MainTargetType>(plugins: [MoyaLoggingPlugin()])
 
-    func getUserProfile(completion: @escaping (NetworkResult<GetUserProfileResponse>) -> ()) {
-        provider.request(.getUserProfile) { result in
+    func getMainUserProfile(completion: @escaping (NetworkResult<GetMainUserProfileResponse>) -> ()) {
+        provider.request(.getMainUserProfile) { result in
             switch result {
             case .success(let response):
-                let networkResult: NetworkResult<GetUserProfileResponse> = self.judgeStatus(statusCode: response.statusCode, data: response.data) 
+                let networkResult: NetworkResult<GetMainUserProfileResponse> = self.judgeStatus(statusCode: response.statusCode, data: response.data) 
                 completion(networkResult)
             case .failure(let err):
                 print(err)

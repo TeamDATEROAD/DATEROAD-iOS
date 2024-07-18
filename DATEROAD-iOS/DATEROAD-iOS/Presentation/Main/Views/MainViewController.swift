@@ -52,7 +52,7 @@ final class MainViewController: BaseViewController {
     }
     
     override func setStyle() {
-        self.navigationController?.navigationBar.isHidden = true       
+        self.navigationController?.navigationBar.isHidden = true
     }
 }
 

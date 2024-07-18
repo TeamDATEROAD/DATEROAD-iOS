@@ -231,16 +231,15 @@ extension HotDateCourseCell {
     func bindData(hotDateData: DateCourseModel?) {
         guard let hotDateData else { return }
         self.countryLabel.text = hotDateData.city
-//        if let url = URL(string: hotDateData.thumbnail) {
-//            self.courseImage.kf.setImage(with: url)
-//        } else {
-//            self.courseImage.image = UIImage(resource: .emptyProfileImg)
-//        }
-        self.courseImage.image = UIImage(resource: .testImage2)
+        if let url = URL(string: hotDateData.thumbnail) {
+            self.courseImage.kf.setImage(with: url)
+        } else {
+            self.courseImage.image = UIImage(resource: .testImage2)
+        }
 
-        self.likeLabel.text = " \(hotDateData.like)"
+        self.likeLabel.text = "\(hotDateData.like)"
         self.dateNameLabel.text = hotDateData.title
-        self.costLabel.text = " \(hotDateData.cost)만원"
-        self.timeLabel.text = " \(hotDateData.duration)시간"
+        self.costLabel.text =  "\(hotDateData.cost.priceRangeTag())"
+        self.timeLabel.text = "\(hotDateData.duration)시간"
     }
 }

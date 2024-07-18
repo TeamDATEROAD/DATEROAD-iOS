@@ -12,16 +12,24 @@ struct DateCardModel {
     let title: String
     let date: String
     let city: String
-    let tags: [String]
+    let tags: [TagsModel]
     let dDay: Int
     
-    init(dateID: Int, title: String, date: String, city: String, tags: [String], dDay: Int) {
+    init(dateID: Int, title: String, date: String, city: String, tags: [TagsModel], dDay: Int) {
         self.dateID = dateID
         self.title = title
         self.date = date
         self.city = city
         self.tags = tags
         self.dDay = dDay
+    }
+}
+
+struct TagsModel {
+    let tag: String
+    
+    init(tag: String) {
+        self.tag = tag
     }
 }
 
@@ -38,11 +46,12 @@ struct DateDetailModel {
     let title: String
     let startAt: String
     let city: String
-    let tags: [String]
+    let tags: [TagsModel]
     let date: String
     let places: [DatePlaceModel]
+    let dDay: Int
     
-    init(dateID: Int, title: String, startAt: String, city: String, tags: [String], date: String, places: [DatePlaceModel]) {
+    init(dateID: Int, title: String, startAt: String, city: String, tags: [TagsModel], date: String, places: [DatePlaceModel], dDay: Int) {
         self.dateID = dateID
         self.title = title
         self.startAt = startAt
@@ -50,15 +59,16 @@ struct DateDetailModel {
         self.tags = tags
         self.date = date
         self.places = places
+        self.dDay = dDay
     }
 }
 
 struct DatePlaceModel {
     let name: String
-    let duration: Float
+    let duration: String
     let sequence: Int
     
-    init(name: String, duration: Float, sequence: Int) {
+    init(name: String, duration: String, sequence: Int) {
         self.name = name
         self.duration = duration
         self.sequence = sequence

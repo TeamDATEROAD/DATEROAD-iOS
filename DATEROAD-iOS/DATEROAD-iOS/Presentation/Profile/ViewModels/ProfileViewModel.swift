@@ -5,13 +5,15 @@
 //  Created by 윤희슬 on 7/5/24.
 //
 
-import Foundation
+import UIKit
 
 final class ProfileViewModel {
     
     // TODO: - 중복 확인 로직 추가 예정
 
     var tagData: [ProfileModel] = []
+    
+    var selectedTagData: [String] = []
     
     var nickname: ObservablePattern<String> = ObservablePattern("")
     
@@ -47,12 +49,12 @@ extension ProfileViewModel {
             // TODO: - 닉네임이 글자 수 충족 -> 중복 확인 처리 로직 추가 예정
 
             self.isValidNicknameCount.value = true
-            self.isValidNickname.value = true
+//            self.isValidNickname.value = true
         } else {
             if nickname.count < 2 {
                 self.isValidNicknameCount.value = false
             }
-            self.isValidNickname.value = false
+//            self.isValidNickname.value = false
         }
     }
     
@@ -90,5 +92,50 @@ extension ProfileViewModel {
             let isValidTag = isValidTag.value else { return }
         
         self.isValidRegistration.value = isValidNickname && isValidTag ? true : false
+    }
+    
+    func postSignUp(image: UIImage?) {
+        let socialType = UserDefaults.standard.bool(forKey: "SocialType")
+        
+        guard let name = self.nickname.value else { return }
+
+        let requestBody = PostSignUpRequest(userSignUpReq: UserSignUpReq(name: name,
+                                                                         platform: socialType ? SocialType.KAKAO.rawValue : SocialType.APPLE.rawValue),
+                                            image: image,
+                                            tag: self.selectedTagData)
+        
+        NetworkService.shared.authService.postSignUp(requestBody: requestBody) { response in
+            switch response {
+            case .success(let data):
+                UserDefaults.standard.setValue(data.userID, forKey: "userID")
+                UserDefaults.standard.setValue(data.accessToken, forKey: "accessToken")
+                UserDefaults.standard.setValue(data.refreshToken, forKey: "refreshToken")
+                print("post \(data)")
+                self.onSuccessRegister?(true)
+            default:
+                print("Failed to fetch post signup")
+                self.onSuccessRegister?(false)
+                return
+            }
+            
+        }
+    }
+    
+    func getDoubleCheck() {
+        guard let name = self.nickname.value else { return }
+        
+        NetworkService.shared.authService.getDoubleCheck(name: name) { response in
+            switch response {
+            case .success(_):
+                self.isValidNickname.value = true
+            case .requestErr:
+                self.isValidNickname.value = false
+            default:
+                print("Failed to fetch get double check")
+                self.isValidNickname.value = false
+                return
+            }
+            
+        }
     }
 }
