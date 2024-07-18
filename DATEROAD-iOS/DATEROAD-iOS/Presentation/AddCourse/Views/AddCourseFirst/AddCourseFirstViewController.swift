@@ -50,6 +50,7 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
       registerCell()
       setDelegate()
       bindViewModel()
+      pastDateBindViewModel()
       setupKeyboardDismissRecognizer()
    }
    
@@ -85,7 +86,18 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
 
 private extension AddCourseFirstViewController {
    
+   func pastDateBindViewModel() {
+      if let pastDateDetailData = viewModel.pastDateDetailData {
+         print("Received date detail data: \(pastDateDetailData)")
+         viewModel.ispastDateVaild.value = true
+      }
+   }
+   
    func bindViewModel() {
+      viewModel.ispastDateVaild.bind { date in
+         self.viewModel.fetchPastDate()
+         self.addCourseFirstView.addFirstView.tendencyTagCollectionView.reloadData()
+      }
       viewModel.isPickedImageVaild.bind { date in
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
@@ -236,6 +248,7 @@ private extension AddCourseFirstViewController {
 //      viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
 //   }
    
+   
    @objc
    func didTapTagButton(_ sender: UIButton) {
        guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
@@ -358,6 +371,13 @@ extension AddCourseFirstViewController: UICollectionViewDataSource, UICollection
          cell.updateButtonTitle(tag: self.viewModel.tagData[indexPath.item])
          cell.tendencyTagButton.tag = indexPath.item
          cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
+         if viewModel.pastDateTagIndex.contains(cell.tendencyTagButton.tag) {
+            didTapTagButton(cell.tendencyTagButton)
+         } else {
+            
+         }
+//         print("cell.tendencyTagButton.tag : \(cell.tendencyTagButton.tag)")
+         
          return cell
       }
    }
@@ -425,6 +445,7 @@ extension AddCourseFirstViewController: DRBottomSheetDelegate {
 }
 
 extension AddCourseFirstViewController: LocationFilterDelegate {
+   
    func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
       print("selected : \(city)")
       print("Selected city: \(city.rawValue)")
@@ -435,17 +456,5 @@ extension AddCourseFirstViewController: LocationFilterDelegate {
       viewModel.country = country
       viewModel.city = city
    }
-   
-   
-//   func didSelectLocation(country: LocationModel.Country, city: LocationModel.City) {
-//      print("selected : \(city)")
-//      print("Selected city: \(city.rawValue)")
-//      viewModel.dateLocation.value = city.rawValue
-//      viewModel.satisfyDateLocation(str: city.rawValue)
-//      let country = LocationModelCountryKorToEng.Country(rawValue: country.rawValue).rawValue
-//      let city = LocationModelCityKorToEng.City(rawValue: city.rawValue).rawValue
-//      viewModel.country = country
-//      viewModel.city = city
-//   }
    
 }

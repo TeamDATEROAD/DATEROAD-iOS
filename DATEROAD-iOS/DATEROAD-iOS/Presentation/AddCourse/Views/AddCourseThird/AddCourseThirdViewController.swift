@@ -136,6 +136,7 @@ extension AddCourseThirdViewController {
          self?.addCourseThirdView.addThirdView.updateContentTextCount(textCnt: date ?? 0)
          let flag = (date ?? 0) >= 200 ? true : false
          self?.viewModel.contentFlag = flag
+         self?.viewModel.contentText = self?.addCourseThirdView.addThirdView.contentTextView.text ?? ""
          self?.viewModel.isDoneBtnValid()
       }
       viewModel.priceText.bind { [weak self] date in

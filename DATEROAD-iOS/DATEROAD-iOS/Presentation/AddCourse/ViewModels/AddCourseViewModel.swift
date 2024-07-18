@@ -9,8 +9,13 @@ import UIKit
 
 final class AddCourseViewModel {
    
+   var pastDateDetailData: DateDetailModel?
+   var ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
+   
    var selectedTagData: [String] = []
    
+//   var pastDateTagIndex: ObservablePattern<[Int]> = ObservablePattern(nil)
+   var pastDateTagIndex = [Int]()
    //MARK: - AddFirstCourse 사용되는 ViewModel
    
    /// ImageCollection 유효성 판별
@@ -18,7 +23,7 @@ final class AddCourseViewModel {
    var isPickedImageVaild: ObservablePattern<Bool> = ObservablePattern(false)
    
    /// 데이트 이름 유효성 판별 (true는 통과)
-   var dateName: ObservablePattern<String> = ObservablePattern("")
+   var dateName: ObservablePattern<String> = ObservablePattern(nil)
    var isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    /// 방문 일자 유효성 판별 (true는 통과)
@@ -78,12 +83,47 @@ final class AddCourseViewModel {
    
    var tags: [[String: Any]] = []
    
-   init() {
+   init(pastDateDetailData: DateDetailModel? = nil) {
        fetchTagData()
+      self.pastDateDetailData = pastDateDetailData
    }
 }
 
 extension AddCourseViewModel {
+   
+   func getTagIndices(from tags: [String]) -> [Int] {
+       return tags.compactMap { tag in
+           TendencyTag.allCases.firstIndex { $0.tag.english == tag }
+       }
+   }
+   
+   func fetchPastDate() {
+      dateName.value = pastDateDetailData?.title
+      visitDate.value = pastDateDetailData?.date
+      dateStartAt.value = pastDateDetailData?.startAt
+      dateLocation.value = pastDateDetailData?.city
+      
+      //동네.KOR 불러와서 지역, 동네 ENG 버전 알아내는 미친 로직
+      let cityName = pastDateDetailData?.city ?? ""
+      if let result = LocationMapper.getCountryAndCity(from: cityName) {
+         let country = LocationModelCountryKorToEng.Country(rawValue: result.country.rawValue).rawValue
+         let city = LocationModelCityKorToEng.City(rawValue: result.city.rawValue).rawValue
+         self.city = city
+         self.country = country
+         self.isDateLocationVaild.value = true
+      }
+      
+      //태그 추적해서 미리 셀렉 및 개수 표시 해버리는 진짜 미쳐버린 로직
+      guard let tags = pastDateDetailData?.tags else {return}
+      selectedTagData = tags.map { $0.tag }
+      pastDateTagIndex = getTagIndices(from: selectedTagData)
+      checkTagCount()
+      
+      isDateNameVaild.value = true
+      isVisitDateVaild.value = true
+      isDateStartAtVaild.value = true
+      isDateLocationVaild.value = true
+   }
    
    //MARK: - AddCourse First 함수
    
@@ -125,18 +165,18 @@ extension AddCourseViewModel {
    }
    
    func countSelectedTag(isSelected: Bool, tag: String) {
-         if isSelected {
-            if !selectedTagData.contains(tag) {
-                selectedTagData.append(tag)
-            }
-         } else {
-            if let index = selectedTagData.firstIndex(of: tag) {
-                selectedTagData.remove(at: index)
-            }
+      if isSelected {
+         if !selectedTagData.contains(tag) {
+            selectedTagData.append(tag)
          }
-       
-       checkTagCount()
+      } else {
+         if let index = selectedTagData.firstIndex(of: tag) {
+            selectedTagData.remove(at: index)
+         }
       }
+      
+      checkTagCount()
+   }
    
    
    func checkTagCount() {
