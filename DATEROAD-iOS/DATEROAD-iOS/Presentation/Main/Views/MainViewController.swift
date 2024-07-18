@@ -40,9 +40,9 @@ final class MainViewController: BaseViewController {
         bindViewModel()
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        changeStatusBarBgColor(bgColor: UIColor(resource: .deepPurple))
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        self.mainViewModel.fetchSectionData()
+    }
     
     override func setHierarchy() {
         self.view.addSubview(mainView)
@@ -148,9 +148,7 @@ extension MainViewController: UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
             let contentOffsetY = scrollView.contentOffset.y
-        
-        let safearea = self.view.safeAreaInsets.top
-        
+                
             if contentOffsetY < 0 {
                 // 맨 위에서 아래로 당겼을 때
                 mainView.mainCollectionView.backgroundColor = UIColor(resource: .deepPurple)
@@ -238,6 +236,21 @@ extension MainViewController: UICollectionViewDataSource {
                 header.bindTitle(section: .newDateCourse, nickname: nil)
         }
         return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == mainView.mainCollectionView {
+            switch self.mainViewModel.sectionData[indexPath.section] {
+            case .hotDateCourse:
+                print("pushToDetailCourseVC")
+            case .newDateCourse:
+                print("pushToDetailCourseVC")
+            default:
+                print("default")
+            }
+        } else {
+            print("pushToBannerDetailVC")
+        }
     }
         
 }
