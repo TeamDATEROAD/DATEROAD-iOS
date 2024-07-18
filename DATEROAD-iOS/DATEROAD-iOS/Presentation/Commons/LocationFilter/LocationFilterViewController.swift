@@ -217,17 +217,17 @@ private extension LocationFilterViewController {
         }
         
         self.courseViewModel.selectedCityIndex.bind { [weak self] index in
-            self?.courseViewModel.didUpdateSelectedCityIndex?(index as? Int)
+            self?.courseViewModel.didUpdateSelectedCityIndex?(index)
             self?.courseViewModel.updateApplyButtonState()
         }
         
         self.courseViewModel.selectedCityName.bind { [weak self] cityName in
-            self?.courseViewModel.didUpdateselectedCityName?(cityName as? String)
+            self?.courseViewModel.didUpdateselectedCityName?(cityName)
 
             self?.courseViewModel.updateApplyButtonState()
         }
         self.courseViewModel.selectedPriceIndex.bind {[weak self] index in
-            self?.courseViewModel.didUpdateSelectedPriceIndex?(index as? Int)
+            self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
         }
         
         self.courseViewModel.isApplyButtonEnabled.bind {[weak self] isApply in

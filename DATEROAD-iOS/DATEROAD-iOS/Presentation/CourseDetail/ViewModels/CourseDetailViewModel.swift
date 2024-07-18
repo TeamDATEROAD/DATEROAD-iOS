@@ -63,6 +63,7 @@ class CourseDetailViewModel {
     init(courseId: Int) {
         self.courseId = courseId
         getCourseDetail()
+        
     }
     
     var sections: [CourseDetailSection] {
@@ -142,6 +143,21 @@ extension CourseDetailViewModel {
             default:
                 self.isSuccessGetData.value = false
                 print("Failed to fetch course data")
+            }
+        }
+    }
+    
+    
+    func postUsePoint(courseId: Int, request: PostUsePointRequest) {
+        
+        UsePointService().postUsePoint(courseId: self.courseId, request: request)  { result in
+            switch result {
+            case .success(let response):
+                print("Successfully used points:", response)
+            default:
+                self.isSuccessGetData.value = false
+                print("Failed to post course data")
+                
             }
         }
     }

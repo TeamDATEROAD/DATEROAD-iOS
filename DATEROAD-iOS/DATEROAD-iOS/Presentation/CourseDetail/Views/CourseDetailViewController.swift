@@ -25,27 +25,6 @@ final class CourseDetailViewController: BaseViewController, CustomAlertDelegate 
     
     private let courseDetailViewModel: CourseDetailViewModel
     
-    //    private var conditionalData: ObservablePattern<ConditionalModel> = ObservablePattern(nil)
-    //
-    //    private var imageData: ObservablePattern<ThumbnailModel> = ObservablePattern(nil)
-    //
-    //    private var timelineData: ObservablePattern<TimelineModel> = ObservablePattern(nil)
-    //
-    //    private var tagData: ObservablePattern<[TagModel]> = ObservablePattern(nil)
-    //    private var imageData: [(imageUrl: String, sequence: Int)] = ThumbnailModel.thumbnailDummyData.courseImages
-    
-    //    private var likeSum: Int = ThumbnailModel.thumbnailDummyData.like
-    
-    //    private var titleHeaderData: TitleHeaderModel = TitleHeaderModel.titleHeaderDummyData
-    //
-    //    private var mainContentsData: MainContentsModel = MainContentsModel.descriptionDummyData
-    
-    //    private var timelineData: [TimelineModel] = TimelineModel.timelineContents
-    
-    //    private var coastData: Int = CoastModel.coastDummyData.totalCoast
-    
-    //    private var tagData: [TagModel] = TagModel.tagDummyData
-    
     private var currentPage: Int = 0
     
     var courseId: Int?
@@ -386,11 +365,21 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
             guard let haveFreeCount = self.courseDetailViewModel.haveFreeCount.value,
                   let havePoint = self.courseDetailViewModel.havePoint.value else { return }
             if haveFreeCount {
+                //무료 열람 기회 사용
+                let request = PostUsePointRequest(point: 50, type: "POINT_USED", description: "무료 열람 기회 사용")
+                print("포인트 사용한 코스 아이디:",self.courseDetailViewModel.courseId )
+                let courseId = self.courseDetailViewModel.courseId
+                self.courseDetailViewModel.postUsePoint(courseId: courseId, request: request)
+                //접근 가능
                 self.courseDetailViewModel.isAccess.value = true
                 dismiss(animated: false)
             } else {
                 if havePoint {
                     //포인트로 구입
+                    let request = PostUsePointRequest(point: 50, type: "POINT_USED", description: "코스 열람 50P 사용")
+                    print("포인트 사용한 코스 아이디:",self.courseDetailViewModel.courseId )
+                    let courseId = self.courseDetailViewModel.courseId
+                    self.courseDetailViewModel.postUsePoint(courseId: courseId, request: request)
                     self.courseDetailViewModel.isAccess.value = true
                     dismiss(animated: false)
                 } else {
