@@ -11,190 +11,204 @@ import SnapKit
 import Then
 
 protocol LocationFilterDelegate: AnyObject {
-    func didSelectCity(_ city: LocationModel.City)
+   func didSelectCity(_ country: LocationModel.Country,_ city: LocationModel.City)
 //    func getCourse()
 }
 
 
 class LocationFilterViewController: BaseViewController {
-    
-    // MARK: - UI Properties
-    
-    private let dimmedView = UIView()
-    
-    private let bottomSheetView = UIView()
-    
-    private let titleLabel = UILabel()
-    
-    private let closeButton = UIButton()
-    
-    private let countryCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    
-    private let lineView = UIView()
-    
-    private let cityCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLeftAlignFlowLayout())
-    
-    private let applyButton = UIButton()
-    
-    // MARK: - Properties
-    
-    private let courseViewModel = CourseViewModel()
-    
-    weak var delegate: LocationFilterDelegate?
-    
-    final let countryInset: CGFloat = 8
-    
-    final let cityInset: CGFloat = 8
-    
-    // MARK: - Life Cycles
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        register()
-        setDelegate()
-        bindViewModel()
-    }
-    
-    override func setHierarchy() {
-        self.view.addSubviews(dimmedView, bottomSheetView)
-        
-        bottomSheetView.addSubviews(
-            titleLabel,
-            closeButton,
-            countryCollectionView,
-            lineView,
-            cityCollectionView,
-            applyButton
-        )
-    }
-    
-    override func setLayout() {
-        dimmedView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(bottomSheetView)
-        }
-        
-        bottomSheetView.snp.makeConstraints {
-            $0.height.equalTo(469)
-            $0.leading.trailing.bottom.equalToSuperview()
-        }
-        
-        titleLabel.snp.makeConstraints {
-            $0.top.equalTo(bottomSheetView).inset(23)
-            $0.leading.equalToSuperview().inset(25)
-        }
-        
-        closeButton.snp.makeConstraints {
-            $0.top.equalTo(bottomSheetView).inset(15)
-            $0.trailing.equalTo(bottomSheetView).inset(12)
-            $0.width.height.equalTo(40)
-        }
-        
-        countryCollectionView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(36)
-            $0.horizontalEdges.equalToSuperview().inset(25)
-            $0.height.equalTo(33)
-        }
-        
-        lineView.snp.makeConstraints {
-            $0.top.equalTo(countryCollectionView.snp.bottom).offset(18)
-            $0.horizontalEdges.equalToSuperview().inset(26)
-            $0.height.equalTo(1)
-        }
-        
-        cityCollectionView.snp.makeConstraints {
-            $0.top.equalTo(lineView.snp.bottom).offset(22)
-            $0.horizontalEdges.equalToSuperview().inset(25)
-            $0.height.equalTo(194)
-        }
-        
-        applyButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(38)
-            $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(54)
-        }
-    }
-    
-    override func setStyle() {
-        self.navigationController?.navigationBar.isHidden = true
-        
-        dimmedView.do {
-            $0.alpha = 0.7
-            $0.layer.backgroundColor = UIColor(resource: .drBlack).cgColor
-            let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapDimmedView))
-            $0.isUserInteractionEnabled = true
-            $0.addGestureRecognizer(gesture)
-        }
-        
-        bottomSheetView.do {
-            $0.backgroundColor = UIColor(resource: .drWhite)
-            $0.roundCorners(cornerRadius: 16, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
-        }
-        
-        titleLabel.do {
-            $0.text = "지역을 선택해주세요"
-            $0.font = UIFont.suit(.title_bold_18)
-            $0.textColor = UIColor(resource: .drBlack)
-        }
-        
-        closeButton.do {
-            $0.setImage(UIImage(resource: .btnClose), for: .normal)
-            $0.addTarget(self, action: #selector(closeView), for: .touchUpInside)
-        }
-        
-        lineView.do {
-            $0.backgroundColor = UIColor(resource: .gray200)
-        }
-        
-        applyButton.do {
-            $0.roundedButton(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
-            $0.backgroundColor = UIColor(resource: .gray200)
-            $0.setTitle("적용하기", for: .normal)
-            $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_bold_15)
-            $0.addTarget(self, action: #selector(applyButtonTapped), for: .touchUpInside)
-            
-        }
-        
-    }
-    
-    @objc
-    func closeView() {
-        if self.navigationController == nil {
-            self.dismiss(animated: false)
-        } else {
-            self.navigationController?.popViewController(animated: false)
-        }
-    }
-    
-    @objc
-    func didTapDimmedView(sender: UITapGestureRecognizer) {
-        self.dismiss(animated: false)
-    }
-    
-    @objc
-    func applyButtonTapped() {
-        guard let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
-        let selectedCity = courseViewModel.cityData[selectedCityIndex]
-
-        let cityNameComponents = selectedCity.rawValue.split(separator: ".")
-        let cityName = cityNameComponents.last.map { String($0) } ?? selectedCity.rawValue
-
-        if let subRegion = SubRegion(rawValue: cityName) {
-            let formattedCityName = "\(subRegion)"
-            courseViewModel.selectedCityName.value = formattedCityName
-            print(formattedCityName, "💙")
-        } else {
-            print("💙")
-        }
-        
-        delegate?.didSelectCity(selectedCity)
-//        delegate?.getCourse()
-        closeView()
-    }
-  
+   
+   // MARK: - UI Properties
+   
+   private let dimmedView = UIView()
+   
+   private let bottomSheetView = UIView()
+   
+   private let titleLabel = UILabel()
+   
+   private let closeButton = UIButton()
+   
+   private let countryCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+   
+   private let lineView = UIView()
+   
+   private let cityCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLeftAlignFlowLayout())
+   
+   private let applyButton = UIButton()
+   
+   // MARK: - Properties
+   
+   private let courseViewModel = CourseViewModel()
+   
+   weak var delegate: LocationFilterDelegate?
+   
+   final let countryInset: CGFloat = 8
+   
+   final let cityInset: CGFloat = 8
+   
+   // MARK: - Life Cycles
+   
+   override func viewDidLoad() {
+      super.viewDidLoad()
+      
+      register()
+      setDelegate()
+      bindViewModel()
+   }
+   
+   override func setHierarchy() {
+      self.view.addSubviews(dimmedView, bottomSheetView)
+      
+      bottomSheetView.addSubviews(
+         titleLabel,
+         closeButton,
+         countryCollectionView,
+         lineView,
+         cityCollectionView,
+         applyButton
+      )
+   }
+   
+   override func setLayout() {
+      dimmedView.snp.makeConstraints {
+         $0.top.leading.trailing.equalToSuperview()
+         $0.bottom.equalTo(bottomSheetView)
+      }
+      
+      bottomSheetView.snp.makeConstraints {
+         $0.height.equalTo(469)
+         $0.leading.trailing.bottom.equalToSuperview()
+      }
+      
+      titleLabel.snp.makeConstraints {
+         $0.top.equalTo(bottomSheetView).inset(23)
+         $0.leading.equalToSuperview().inset(25)
+      }
+      
+      closeButton.snp.makeConstraints {
+         $0.top.equalTo(bottomSheetView).inset(15)
+         $0.trailing.equalTo(bottomSheetView).inset(12)
+         $0.width.height.equalTo(40)
+      }
+      
+      countryCollectionView.snp.makeConstraints {
+         $0.top.equalTo(titleLabel.snp.bottom).offset(36)
+         $0.horizontalEdges.equalToSuperview().inset(25)
+         $0.height.equalTo(33)
+      }
+      
+      lineView.snp.makeConstraints {
+         $0.top.equalTo(countryCollectionView.snp.bottom).offset(18)
+         $0.horizontalEdges.equalToSuperview().inset(26)
+         $0.height.equalTo(1)
+      }
+      
+      cityCollectionView.snp.makeConstraints {
+         $0.top.equalTo(lineView.snp.bottom).offset(22)
+         $0.horizontalEdges.equalToSuperview().inset(25)
+         $0.height.equalTo(194)
+      }
+      
+      applyButton.snp.makeConstraints {
+         $0.bottom.equalToSuperview().inset(38)
+         $0.horizontalEdges.equalToSuperview().inset(16)
+         $0.height.equalTo(54)
+      }
+   }
+   
+   override func setStyle() {
+      self.navigationController?.navigationBar.isHidden = true
+      
+      dimmedView.do {
+         $0.alpha = 0.7
+         $0.layer.backgroundColor = UIColor(resource: .drBlack).cgColor
+         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapDimmedView))
+         $0.isUserInteractionEnabled = true
+         $0.addGestureRecognizer(gesture)
+      }
+      
+      bottomSheetView.do {
+         $0.backgroundColor = UIColor(resource: .drWhite)
+         $0.roundCorners(cornerRadius: 16, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
+      }
+      
+      titleLabel.do {
+         $0.text = "지역을 선택해주세요"
+         $0.font = UIFont.suit(.title_bold_18)
+         $0.textColor = UIColor(resource: .drBlack)
+      }
+      
+      closeButton.do {
+         $0.setImage(UIImage(resource: .btnClose), for: .normal)
+         $0.addTarget(self, action: #selector(closeView), for: .touchUpInside)
+      }
+      
+      lineView.do {
+         $0.backgroundColor = UIColor(resource: .gray200)
+      }
+      
+      applyButton.do {
+         $0.roundedButton(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+         $0.backgroundColor = UIColor(resource: .gray200)
+         $0.setTitle("적용하기", for: .normal)
+         $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
+         $0.titleLabel?.font = UIFont.suit(.body_bold_15)
+         $0.addTarget(self, action: #selector(applyButtonTapped), for: .touchUpInside)
+         
+      }
+      
+   }
+   
+   @objc
+   func closeView() {
+      if self.navigationController == nil {
+         self.dismiss(animated: false)
+      } else {
+         self.navigationController?.popViewController(animated: false)
+      }
+   }
+   
+   @objc
+   func didTapDimmedView(sender: UITapGestureRecognizer) {
+      self.dismiss(animated: false)
+   }
+   
+   @objc
+   func applyButtonTapped() {
+      //        guard let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
+      //        let selectedCity = courseViewModel.cityData[selectedCityIndex]
+      guard let selectedCountryIndex = courseViewModel.selectedCountryIndex.value,
+            let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
+      
+      let selectedCountry = courseViewModel.countryData[selectedCountryIndex]
+      let selectedCity = courseViewModel.cityData[selectedCityIndex]
+      
+      let cityNameComponents = selectedCity.rawValue.split(separator: ".")
+      let cityName = cityNameComponents.last.map { String($0) } ?? selectedCity.rawValue
+      
+      if let subRegion = SubRegion(rawValue: cityName) {
+         let formattedCityName = "\(subRegion)"
+         courseViewModel.selectedCityName.value = formattedCityName
+         print(formattedCityName, "💙")
+      } else {
+         print("💙")
+      }
+      
+      delegate?.didSelectCity(selectedCountry, selectedCity)
+      //        delegate?.getCourse()
+      closeView()
+   }
+   
+   //   @objc
+   //   func applyButtonTapped() {
+   
+   
+   //       delegate?.didSelectLocation(country: selectedCountry, city: selectedCity)
+   //       closeView()
 }
+    
+    
+
 
 // MARK: - Private Methods
 

@@ -1,8 +1,8 @@
 //
-//  AddFirstView.swift
+//  InAddScheduleFirstView.swift
 //  DATEROAD-iOS
 //
-//  Created by 박신영 on 7/5/24.
+//  Created by 박신영 on 7/18/24.
 //
 
 import UIKit
@@ -10,11 +10,9 @@ import UIKit
 import SnapKit
 import Then
 
-final class AddFirstView: BaseView {
+final class InAddScheduleFirstView: BaseView {
    
    // MARK: - UI Properties
-   
-   private let textFieldStackView = UIStackView()
    
    let dateNameTextField = UITextField()
    
@@ -42,8 +40,6 @@ final class AddFirstView: BaseView {
    
    private let datePlaceImage = UIImageView()
    
-   private let sixCheckNextBtnContainer = UIView()
-   
    let sixCheckNextButton = UIButton() //추후 Captin 버튼으로 수정 예정
    
    let tendencyTagCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -60,18 +56,19 @@ final class AddFirstView: BaseView {
    
    override func setHierarchy() {
       self.addSubviews(
-         textFieldStackView,
-         tagContainer,
-         datePlaceContainer,
-//         sixCheckNextButton
-         sixCheckNextBtnContainer
-      )
-      
-      textFieldStackView.addArrangedSubviews(
          dateNameTextField,
          visitDateContainer,
-         dateStartAtContainer
+         dateStartAtContainer,
+         tagContainer,
+         datePlaceContainer,
+         sixCheckNextButton
       )
+      
+//      textFieldStackView.addArrangedSubviews(
+//         dateNameTextField,
+//         visitDateContainer,
+//         dateStartAtContainer
+//      )
       
       visitDateContainer.addSubviews(visitDateLabel, visitDateImage)
       
@@ -80,14 +77,22 @@ final class AddFirstView: BaseView {
       tagContainer.addSubviews(tagTitleLabel, tendencyTagCollectionView)
       
       datePlaceContainer.addSubviews(datePlaceLabel, datePlaceImage)
-      
-      sixCheckNextBtnContainer.addSubview(sixCheckNextButton)
    }
    
    override func setLayout() {
-      textFieldStackView.snp.makeConstraints {
+//      textFieldStackView.snp.makeConstraints {
+//         $0.top.horizontalEdges.equalToSuperview()
+//         $0.height.equalTo(184)
+//      }
+      dateNameTextField.snp.makeConstraints {
          $0.top.horizontalEdges.equalToSuperview()
-         $0.height.equalTo(184)
+         $0.height.equalTo(48)
+      }
+      
+      visitDateContainer.snp.makeConstraints {
+         $0.top.equalTo(dateNameTextField.snp.bottom).offset(20)
+         $0.horizontalEdges.equalToSuperview()
+         $0.height.equalTo(48)
       }
       
       visitDateLabel.snp.makeConstraints {
@@ -102,6 +107,12 @@ final class AddFirstView: BaseView {
          $0.height.equalTo(17)
       }
       
+      dateStartAtContainer.snp.makeConstraints {
+         $0.top.equalTo(visitDateContainer.snp.bottom).offset(20)
+         $0.horizontalEdges.equalToSuperview()
+         $0.height.equalTo(48)
+      }
+      
       dateStartTimeLabel.snp.makeConstraints {
          $0.centerY.equalToSuperview()
          $0.leading.equalToSuperview().inset(16)
@@ -114,7 +125,7 @@ final class AddFirstView: BaseView {
       }
       
       tagContainer.snp.makeConstraints {
-         $0.top.equalTo(textFieldStackView.snp.bottom).offset(24)
+         $0.top.equalTo(dateStartAtContainer.snp.bottom).offset(24)
          $0.horizontalEdges.equalToSuperview()
          $0.height.equalTo(140)
       }
@@ -147,15 +158,11 @@ final class AddFirstView: BaseView {
          $0.height.equalTo(5)
       }
       
-      sixCheckNextBtnContainer.snp.makeConstraints {
-         $0.top.equalTo(datePlaceContainer.snp.bottom).offset(24)
-         $0.horizontalEdges.equalToSuperview()
-         $0.bottom.equalToSuperview().inset(4)
-      }
-      
       sixCheckNextButton.snp.makeConstraints {
+//         $0.top.equalTo(datePlaceContainer.snp.bottom).offset(24)
+         $0.horizontalEdges.bottom.equalToSuperview()
          $0.height.equalTo(52)
-         $0.bottom.horizontalEdges.equalToSuperview()
+         //               $0.bottom.equalToSuperview().inset(4)
       }
       
    }
@@ -169,11 +176,11 @@ final class AddFirstView: BaseView {
          $0.collectionViewLayout = layout
          
       }
-      textFieldStackView.do {
-         $0.axis = .vertical
-         $0.spacing = 20
-         $0.distribution = .fillEqually
-      }
+//      textFieldStackView.do {
+//         $0.axis = .vertical
+//         $0.spacing = 20
+//         $0.distribution = .fillEqually
+//      }
       
       [dateNameTextField, visitDateContainer, dateStartAtContainer].forEach { view in
          view.do {
@@ -247,7 +254,7 @@ final class AddFirstView: BaseView {
    
 }
 
-extension AddFirstView {
+extension InAddScheduleFirstView {
    
    // MARK: - Methods
    
@@ -308,3 +315,4 @@ extension AddFirstView {
    }
    
 }
+

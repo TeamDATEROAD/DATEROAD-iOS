@@ -132,15 +132,16 @@ extension AddCourseThirdViewController {
    
    private func bindViewModel() {
       viewModel.contentTextCount.bind { [weak self] date in
+//         self?.viewModel.contentText.text = date
          self?.addCourseThirdView.addThirdView.updateContentTextCount(textCnt: date ?? 0)
          let flag = (date ?? 0) >= 200 ? true : false
          self?.viewModel.contentFlag = flag
          self?.viewModel.isDoneBtnValid()
-         
       }
       viewModel.priceText.bind { [weak self] date in
          self?.addCourseThirdView.addThirdView.updatePriceText(price: date ?? 0)
          let flag = (date ?? 0 > 0) ? true : false
+         self?.viewModel.price = date ?? 0
          self?.viewModel.priceFlag = flag
          self?.viewModel.isDoneBtnValid()
       }
@@ -168,6 +169,8 @@ extension AddCourseThirdViewController: UITextViewDelegate {
          textView.textColor = .black
       }
       print(textView.text ?? "")
+      
+      viewModel.contentText = textView.text ?? ""
    }
    
    func textViewDidEndEditing(_ textView: UITextView) {
@@ -182,10 +185,7 @@ extension AddCourseThirdViewController: UITextViewDelegate {
       guard let stringRange = Range(range, in: currentText) else { return false }
       
       let changedText = currentText.replacingCharacters(in: stringRange, with: text)
-      // 리턴 눌렸을 때의 "\n" 입력을 count로 계산하지 않음
       let filteredTextCount = changedText.filter { $0 != "\n" }.count
-      
-      //      addCourseThirdView.addThirdView.updateContentTextCount(textCnt: filteredTextCount)
       viewModel.contentTextCount.value = filteredTextCount
       
       // 리턴 키 입력을 처리합니다.
@@ -259,6 +259,7 @@ extension AddCourseThirdViewController: DRCustomAlertDelegate {
    
    @objc
    private func didTapAddCourseBtn() {
+      viewModel.postAddCourse()
       let customAlertVC = DRCustomAlertViewController(rightActionType: .none, alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertTitleLabel, descriptionText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertSubTitleLabel, longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton)
       customAlertVC.delegate = self
       customAlertVC.modalPresentationStyle = .overFullScreen

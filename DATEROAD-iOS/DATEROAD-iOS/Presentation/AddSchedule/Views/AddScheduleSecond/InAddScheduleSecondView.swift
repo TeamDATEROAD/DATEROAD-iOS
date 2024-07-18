@@ -1,8 +1,8 @@
 //
-//  AddSecondView.swift
+//  InAddScheduleSecondView.swift
 //  DATEROAD-iOS
 //
-//  Created by 박신영 on 7/9/24.
+//  Created by 박신영 on 7/18/24.
 //
 
 import UIKit
@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class AddSecondView: BaseView {
+final class InAddScheduleSecondView: BaseView {
    
    // MARK: - UI Properties
    
@@ -78,20 +78,20 @@ final class AddSecondView: BaseView {
       }
       
       datePlaceTextField.snp.makeConstraints {
-          $0.verticalEdges.leading.equalToSuperview()
-          $0.width.equalTo(206)
+         $0.verticalEdges.leading.equalToSuperview()
+         $0.width.equalTo(206)
       }
-
+      
       timeRequireTextField.snp.makeConstraints {
-          $0.verticalEdges.equalToSuperview()
-          $0.leading.equalTo(datePlaceTextField.snp.trailing).offset(8)
-          $0.trailing.equalTo(addPlaceButton.snp.leading).offset(-8)
+         $0.verticalEdges.equalToSuperview()
+         $0.leading.equalTo(datePlaceTextField.snp.trailing).offset(8)
+         $0.trailing.equalTo(addPlaceButton.snp.leading).offset(-8)
       }
-
+      
       addPlaceButton.snp.makeConstraints {
-          $0.trailing.equalToSuperview()
-          $0.centerY.equalToSuperview()
-          $0.size.equalTo(44)
+         $0.trailing.equalToSuperview()
+         $0.centerY.equalToSuperview()
+         $0.size.equalTo(44)
       }
       
       separatorLine.snp.makeConstraints {
@@ -170,7 +170,7 @@ final class AddSecondView: BaseView {
       
       nextBtn.do {
          $0.setButtonStatus(buttonType: disabledButtonType)
-         $0.setTitle(StringLiterals.AddCourseOrSchedule.AddSecondView.addSecondNextBtnOfCourse, for: .normal)
+         $0.setTitle(StringLiterals.AddCourseOrSchedule.AddSecondView.addSecondDoneBtnOfSchedule, for: .normal)
       }
    }
    
@@ -179,7 +179,7 @@ final class AddSecondView: BaseView {
 
 // MARK: - View Methods
 
-extension AddSecondView {
+extension InAddScheduleSecondView {
    
    func changeAddPlaceButtonState(flag: Bool) {
       let state = flag ? enabledButtonType : addCourseDisabledButtonType
@@ -200,3 +200,4 @@ extension AddSecondView {
    }
    
 }
+
