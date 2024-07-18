@@ -14,7 +14,7 @@ class NavViewedCourseViewController: BaseNavBarViewController {
 
     // MARK: - UI Properties
     
-    private var courseCollectionView = MyCourseListCollectionView()
+    private var navViewedCourseView = MyCourseListView()
     
     // MARK: - Properties
     
@@ -36,13 +36,13 @@ class NavViewedCourseViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.contentView.addSubviews(courseCollectionView)
+        self.contentView.addSubviews(navViewedCourseView)
     }
     
     override func setLayout() {
         super.setLayout()
         
-        courseCollectionView.snp.makeConstraints {
+        navViewedCourseView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
@@ -61,7 +61,7 @@ extension NavViewedCourseViewController {
         if viewedCourseViewModel.viewedCourseData.value?.count == 0 {
             navViewedCourseView.emptyView.do {
                 $0.isHidden = false
-                $0.setEmptyView(emptyImage: UIImage(resource: .emptyNavViewedCourse),
+                $0.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
                                 emptyTitle: StringLiterals.EmptyView.emptyNavViewedCourse)
             }
         }
@@ -86,12 +86,12 @@ extension NavViewedCourseViewController {
 
 extension NavViewedCourseViewController {
     private func register() {
-        courseCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
+        navViewedCourseView.myCourseListCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
     }
     
     private func setDelegate() {
-        courseCollectionView.delegate = self
-        courseCollectionView.dataSource = self
+        navViewedCourseView.myCourseListCollectionView.delegate = self
+        navViewedCourseView.myCourseListCollectionView.dataSource = self
     }
 }
 
@@ -120,8 +120,8 @@ extension NavViewedCourseViewController : UICollectionViewDataSource {
     }
     
     @objc func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
-        let location = sender.location(in: courseCollectionView)
-        let indexPath = courseCollectionView.indexPathForItem(at: location)
+        let location = sender.location(in: navViewedCourseView.myCourseListCollectionView)
+        let indexPath = navViewedCourseView.myCourseListCollectionView.indexPathForItem(at: location)
 
        if let index = indexPath {
            print("일정 등록 페이지로 이동 \(viewedCourseViewModel.viewedCourseData.value?[indexPath?.item ?? 0].courseId ?? 0 )")

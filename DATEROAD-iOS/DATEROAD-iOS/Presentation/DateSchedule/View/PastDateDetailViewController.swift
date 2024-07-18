@@ -95,10 +95,10 @@ extension PastDateDetailViewController: DRBottomSheetDelegate {
 // MARK: - UI Setting Methods
 
 extension PastDateDetailViewController {
-    @objc
-    private func deleteDateCourse() {
-        print("delete date course 바텀시트")
-    }
+//    @objc
+//    private func deleteDateCourse() {
+//        print("delete date course 바텀시트")
+//    }
     
     func bindViewModel() {
         self.pastDateDetailViewModel?.isSuccessGetDateDetailData.bind { [weak self] isSuccess in

@@ -12,7 +12,7 @@ import Then
 
 protocol LocationFilterDelegate: AnyObject {
     func didSelectCity(_ city: LocationModel.City)
-    func getCourse()
+//    func getCourse()
 }
 
 
@@ -190,7 +190,7 @@ class LocationFilterViewController: BaseViewController {
         }
         
         delegate?.didSelectCity(selectedCity)
-        delegate?.getCourse()
+//        delegate?.getCourse()
         closeView()
     }
   

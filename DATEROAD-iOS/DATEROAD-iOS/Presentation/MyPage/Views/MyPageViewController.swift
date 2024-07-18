@@ -121,7 +121,7 @@ private extension MyPageViewController {
     // TODO: - 추후 뷰컨 수정 예정
     @objc
     func pushToPointDetailVC() {
-        self.navigationController?.pushViewController(PointDetailViewController(), animated: false)
+        self.navigationController?.pushViewController(PointDetailViewController(pointViewModel: PointViewModel()), animated: false)
     }
 
 }

@@ -22,7 +22,7 @@ class ViewedCourseViewController: BaseViewController {
     
     private let arrowButton = UIButton()
     
-    private var courseCollectionView = MyCourseListCollectionView()
+    private var viewedCourseView = MyCourseListView()
     
     // MARK: - Properties
     
@@ -42,7 +42,8 @@ class ViewedCourseViewController: BaseViewController {
     override func setHierarchy() {
         self.view.addSubviews(topLabel,
                               createCourseView,
-                              courseCollectionView)
+                              viewedCourseView)
+        
         self.createCourseView.addSubviews(createCourseLabel, arrowButton)
     }
     
@@ -60,7 +61,7 @@ class ViewedCourseViewController: BaseViewController {
             $0.width.equalTo(288)
         }
         
-        courseCollectionView.snp.makeConstraints {
+        viewedCourseView.snp.makeConstraints {
             $0.top.equalTo(createCourseView.snp.bottom).offset(10)
             $0.bottom.equalToSuperview().inset(ScreenUtils.height*0.1)
             $0.horizontalEdges.equalToSuperview()
@@ -123,7 +124,7 @@ private extension ViewedCourseViewController {
             }
             viewedCourseView.emptyView.do {
                 $0.isHidden = false
-                $0.setEmptyView(emptyImage: UIImage(resource: .emptyViewedCourse),
+                $0.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
                  emptyTitle: StringLiterals.EmptyView.emptyViewedCourse)
             }
         }
@@ -147,12 +148,12 @@ extension ViewedCourseViewController {
 
 extension ViewedCourseViewController {
     private func registerCell() {
-        courseCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
+        viewedCourseView.myCourseListCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
     }
     
     private func setDelegate() {
-        courseCollectionView.delegate = self
-        courseCollectionView.dataSource = self
+        viewedCourseView.myCourseListCollectionView.delegate = self
+        viewedCourseView.myCourseListCollectionView.dataSource = self
     }
 }
 
@@ -181,8 +182,8 @@ extension ViewedCourseViewController : UICollectionViewDataSource {
     }
     
     @objc func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
-        let location = sender.location(in: courseCollectionView)
-        let indexPath = courseCollectionView.indexPathForItem(at: location)
+        let location = sender.location(in: viewedCourseView.myCourseListCollectionView)
+        let indexPath = viewedCourseView.myCourseListCollectionView.indexPathForItem(at: location)
 
        if let index = indexPath {
            print("일정 상세 페이지로 이동 \(viewedCourseViewModel.viewedCourseData.value?[indexPath?.item ?? 0].courseId ?? 0 )")
