@@ -234,14 +234,19 @@ extension AddCourseViewModel {
    
    func postAddCourse() {
       var places: [PostAddCoursePlace] = []
+
       for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
-         if let duration = Float(model.timeRequire) {
+         // Extract the numeric part from the timeRequire string
+         let timeComponents = model.timeRequire.split(separator: " ")
+         if let timeString = timeComponents.first, let duration = Float(timeString) {
             let place = PostAddCoursePlace(title: model.placeTitle, duration: duration, sequence: index)
             places.append(place)
          } else {
             print("Invalid duration format for \(model.placeTitle): \(model.timeRequire)")
          }
       }
+      print(addPlaceCollectionViewDataSource, "addPlaceCollectionViewDataSource : \(addPlaceCollectionViewDataSource)")
+      print(places, "places : \(places)")
       
       guard let dateName = dateName.value else {return}
       guard let visitDate = visitDate.value else {return}
