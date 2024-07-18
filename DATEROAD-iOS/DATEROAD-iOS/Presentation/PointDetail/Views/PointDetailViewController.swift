@@ -55,6 +55,16 @@ class PointDetailViewController: BaseNavBarViewController {
 
 
 extension PointDetailViewController {
+    func bindViewModel() {
+//        self.pointViewModel.isSuccessGetPointInfo.bind { [weak self] data in
+//            self?.pointDetailView.pointCollectionView.reloadData()
+//        }
+        
+        self.pointViewModel.nowPointData.bind { [weak self] data in
+            self?.pointDetailView.pointCollectionView.reloadData()
+        }
+    }
+    
     func setProfile(userName: String, totalPoint: Int) {
         pointDetailView.userNameLabel.text = "\(userName) 님의 포인트"
         pointDetailView.totalPointLabel.text = "\(totalPoint) P"
@@ -76,14 +86,28 @@ private extension PointDetailViewController {
     
     func changeSelectedSegmentLayout(isEarnedPointHidden: Bool?) {
         guard let isEarnedPointHidden = isEarnedPointHidden else { return }
-        pointDetailView.pointGainedCollectionView.isHidden = isEarnedPointHidden
-        pointDetailView.pointUsedCollectionView.isHidden = !pointDetailView.pointGainedCollectionView.isHidden
-        
+//        print(isEarnedPointHidden)
         if isEarnedPointHidden {
+            switch pointViewModel.usedPointData.value?.count == 0 {
+            case true:
+                setSegmentViewHidden(pointDetailView.emptyUsedPointView)
+            case false:
+                setSegmentViewHidden(pointDetailView.pointCollectionView)
+                pointDetailView.pointCollectionView.reloadData()
+            }
+            
             pointDetailView.selectedSegmentUnderLineView.snp.updateConstraints {
                 $0.leading.equalToSuperview().inset(ScreenUtils.width/2)
             }
         } else {
+            switch pointViewModel.gainedPointData.value?.count == 0 {
+            case true:
+                setSegmentViewHidden(pointDetailView.emptyGainedPointView)
+            case false:
+                setSegmentViewHidden(pointDetailView.pointCollectionView)
+                pointDetailView.pointCollectionView.reloadData()
+            }
+
             pointDetailView.selectedSegmentUnderLineView.snp.updateConstraints {
                 $0.leading.equalToSuperview()
             }

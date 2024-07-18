@@ -15,6 +15,8 @@ final class NetworkService {
     
     let mainService: MainService = MainService()
     
+    let pointDetailService: PointDetailService = PointDetailService()
+
     let myCourseService: MyCourseService = MyCourseService()
 
 }
