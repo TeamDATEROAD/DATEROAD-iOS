@@ -36,6 +36,7 @@ class AddScheduleFirstViewController: BaseNavBarViewController {
       setStyle()
       setTitleLabelStyle(title: StringLiterals.AddCourseOrSchedule.addScheduleTitle, alignment: .center)
       setLeftBackButton()
+      setRightButtonStyle(image: UIImage(resource: .pu))
       setAddTarget()
       registerCell()
       setDelegate()

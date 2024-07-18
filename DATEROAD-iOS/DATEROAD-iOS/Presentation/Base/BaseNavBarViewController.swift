@@ -121,6 +121,20 @@ extension BaseNavBarViewController {
             $0.setImage(image, for: .normal)
         }
     }
+   
+   func setRightBtnStyle(image: UIImage?) {
+       rightButton.do {
+          $0.setTitle(StringLiterals.AddCourseOrSchedule., for: .normal)
+          $0.contentHorizontalAlignment = .leading
+
+          var config = UIButton.Configuration.plain()
+          config.imagePadding = ScreenUtils.width / 375 * 86
+          config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 14, bottom: 0, trailing: 0)
+          $0.configuration = config
+           $0.isHidden = false
+          $0.
+       }
+   }
     
     func setLeftButtonAction(target: Any, action: Selector) {
         leftButton.addTarget(target, action: action, for: .touchUpInside)
