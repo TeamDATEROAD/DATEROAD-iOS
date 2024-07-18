@@ -94,16 +94,8 @@ extension UpcomingDateDetailViewController {
 
 extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     @objc
-    func tapDeleteLabel() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: .deleteCourse, alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deleteDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
-        customAlertVC.delegate = self
-        customAlertVC.modalPresentationStyle = .overFullScreen
-        self.present(customAlertVC, animated: false)
-    }
-    
-    @objc
     private func tapKakaoButton() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: .kakaoShare,
+        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none,
                                                       alertTextType: .noDescription,
                                                       alertButtonType: .twoButton,
                                                       titleText: StringLiterals.Alert.kakaoAlert,
@@ -156,10 +148,6 @@ private extension UpcomingDateDetailViewController {
     func setDelegate() {
         upcomingDateDetailContentView.dateTimeLineCollectionView.delegate = self
         upcomingDateDetailContentView.dateTimeLineCollectionView.dataSource = self
-        
-        let deleteGesture = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
-        dateScheduleDeleteView.deleteLabel.addGestureRecognizer(deleteGesture)
-        
     }
 
 }

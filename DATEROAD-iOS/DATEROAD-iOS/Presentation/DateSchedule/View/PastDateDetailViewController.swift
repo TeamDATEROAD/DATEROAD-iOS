@@ -27,7 +27,7 @@ class PastDateDetailViewController: BaseNavBarViewController {
         super.viewDidLoad()
 
         setLeftBackButton()
-        setTitleLabelStyle(title: StringLiterals.DateSchedule.pastDate, alignment: .center)
+        setTitleLabelStyle(title: "지난 데이트", alignment: .center)
         setRightButtonStyle(image: UIImage(resource: .moreButton))
         setRightButtonAction(target: self, action: #selector(deleteDateCourse))
         bindViewModel()
@@ -95,6 +95,11 @@ extension PastDateDetailViewController: DRBottomSheetDelegate {
 // MARK: - UI Setting Methods
 
 extension PastDateDetailViewController {
+    @objc
+    private func deleteDateCourse() {
+        print("delete date course 바텀시트")
+    }
+    
     func bindViewModel() {
         self.pastDateDetailViewModel?.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
             guard let isSuccess, let data = self?.pastDateDetailViewModel?.dateDetailData.value else { return }
@@ -140,9 +145,6 @@ private extension PastDateDetailViewController {
     func setDelegate() {
         pastDateDetailContentView.dateTimeLineCollectionView.delegate = self
         pastDateDetailContentView.dateTimeLineCollectionView.dataSource = self
-        
-        let deleteGesture = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
-        dateScheduleDeleteView.deleteLabel.addGestureRecognizer(deleteGesture)
     }
 }
 

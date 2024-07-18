@@ -11,6 +11,8 @@ final class AddCourseSecondViewController: BaseNavBarViewController {
    
    private let viewModel: AddCourseViewModel
    
+   private var alertVC: AddSheetViewController?
+   
    
    // MARK: - Initializer
    
@@ -193,6 +195,7 @@ private extension AddCourseSecondViewController {
          cell.updateEditMode(flag: false)
          addCourseSecondView.updateEditBtnText(flag: false)
          addCourseSecondView.editBtnState(isAble: false)
+         viewModel.isEditMode = false
       }
    }
    
@@ -225,8 +228,7 @@ private extension AddCourseSecondViewController {
       addCourseSecondView.updateEditBtnText(flag: flag)
       //여기까지 뒤지게 완벽 like 미친놈
       
-      
-      DispatchQueue.main.async {
+      Dispatch.DispatchQueue.main.async {
          collectionView.reloadData()
       }
    }
@@ -240,7 +242,7 @@ extension AddCourseSecondViewController: UITextFieldDelegate {
    
    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
       textField.resignFirstResponder()
-      textField.tintColor = UIColor.clear
+      //      textField.tintColor = UIColor.clear
       return true
    }
    
@@ -255,19 +257,19 @@ extension AddCourseSecondViewController: UITextFieldDelegate {
    
    func textFieldDidEndEditing(_ textField: UITextField) {
       viewModel.datePlace.value = textField.text
-      print(textField.text)
+      print(textField.text ?? "")
    }
    
    @objc
    private func textFieldTapped(_ textField: UITextField) {
-      let addSheetVC = AddSheetViewController(viewModel: self.viewModel)
-      if textField == addCourseSecondView.addSecondView.timeRequireTextField {
-         addSheetVC.addSecondView = self.addCourseSecondView.addSecondView
-         addSheetVC.isCustomPicker = true
-      }
+      let alertVC = AddSheetViewController(viewModel: viewModel)
+      alertVC.addSheetView = AddSheetView(isCustomPicker: true)
+      
+      self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
+      
       DispatchQueue.main.async {
-         addSheetVC.modalPresentationStyle = .overFullScreen
-         self.present(addSheetVC, animated: true, completion: nil)
+         alertVC.modalPresentationStyle = .overFullScreen
+         self.present(alertVC, animated: true, completion: nil)
       }
    }
    
@@ -287,11 +289,9 @@ extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectio
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
       if collectionView == addCourseSecondView.collectionView {
-         
-         return viewModel.getSampleImages() ? 1 : viewModel.dataSource.count
+         return viewModel.pickedImageArr.count
       } else {
          _ = (viewModel.addPlaceCollectionViewDataSource.count) < 1 ? true : false
-         
          return viewModel.addPlaceCollectionViewDataSource.count
       }
    }
@@ -303,9 +303,9 @@ extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectio
             for: indexPath
          ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
          
-         let isImageEmpty = viewModel.isImageEmpty.value ?? true
-         isImageEmpty ? cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: nil)
-         : cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: self.viewModel.dataSource[indexPath.item])
+         cell.updateImageCellUI(isImageEmpty: false, vcCnt: 2)
+         cell.configurePickedImage(pickedImage: viewModel.pickedImageArr[indexPath.item])
+         cell.prepare(image: viewModel.pickedImageArr[indexPath.item])
          
          return cell
       } else {
@@ -326,6 +326,7 @@ extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectio
          return cell
       }
    }
+   
 }
 
 
@@ -375,6 +376,7 @@ extension AddCourseSecondViewController: UICollectionViewDropDelegate {
          viewModel.updatePlaceCollectionView()
       }
    }
+   
 }
 
 

@@ -14,7 +14,6 @@ enum Config {
             static let kakaoNativeAppKey = "KAKAO_NATIVE_APP_KEY"
             static let baseURL = "BASE_URL"
             static let kakaoAppStore = "KAKAO_APPSTORE"
-            static let accessToken = "ACCESS_TOKEN"
         }
     }
 
@@ -45,13 +44,6 @@ extension Config {
     static let kakaoAppStore: String = {
         guard let key = Config.infoDictionary[Keys.Plist.kakaoAppStore] as? String else {
             fatalError("KAKAO_APPSTORE is not set in plist for this configuration")
-        }
-        return key
-    }()
-    
-    static let accessToken: String = {
-        guard let key = Config.infoDictionary[Keys.Plist.accessToken] as? String else {
-            fatalError("ACCESS_TOKEN is not set in plist for this configuration")
         }
         return key
     }()

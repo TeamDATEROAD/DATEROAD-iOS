@@ -14,6 +14,10 @@ final class AddCourseFirstView: BaseView {
    
    // MARK: - UI Properties
    
+   let scrollView: UIScrollView = UIScrollView()
+   
+   private let scrollContentView: UIView = UIView()
+   
    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
    
    let addFirstView = AddFirstView()
@@ -33,7 +37,9 @@ final class AddCourseFirstView: BaseView {
    private let warningType: DRErrorType = Warning()
    
    override func setHierarchy() {
-      self.addSubviews(
+      self.addSubview(scrollView)
+      scrollView.addSubview(scrollContentView)
+      scrollContentView.addSubviews(
          collectionView,
          imageAccessoryView,
          addFirstView,
@@ -45,6 +51,15 @@ final class AddCourseFirstView: BaseView {
    }
    
    override func setLayout() {
+      scrollView.snp.makeConstraints {
+         $0.edges.equalToSuperview()
+      }
+      
+      scrollContentView.snp.makeConstraints {
+         $0.edges.equalToSuperview()
+         $0.width.equalTo(scrollView.snp.width)
+      }
+      
       collectionView.snp.makeConstraints {
          $0.top.equalToSuperview()
          $0.horizontalEdges.equalToSuperview()
@@ -85,23 +100,27 @@ final class AddCourseFirstView: BaseView {
       }
       
       visitDateErrorLabel.snp.makeConstraints {
-         $0.top.equalTo(addFirstView.visitDateTextField.snp.bottom).offset(2)
-         $0.leading.equalTo(addFirstView.visitDateTextField.snp.leading).offset(9)
+         $0.top.equalTo(addFirstView.visitDateContainer.snp.bottom).offset(2)
+         $0.leading.equalTo(addFirstView.visitDateContainer.snp.leading).offset(9)
       }
    }
    
    override func setStyle() {
+      scrollView.do {
+         $0.showsVerticalScrollIndicator = false
+         $0.contentInsetAdjustmentBehavior = .always
+      }
+      
       collectionView.do {
          let layout = UICollectionViewFlowLayout()
          layout.scrollDirection = .horizontal
          layout.minimumInteritemSpacing = 12.0
-         layout.itemSize = CGSize(width: 130, height: 130)
          $0.collectionViewLayout =  layout
-         $0.isScrollEnabled = true
          $0.showsHorizontalScrollIndicator = false
          $0.showsVerticalScrollIndicator = false
          $0.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 16)
          $0.clipsToBounds = true
+         $0.isUserInteractionEnabled = true
       }
       
       cameraBtn.do {
@@ -148,7 +167,7 @@ extension AddCourseFirstView {
    
    func updateVisitDateTextField(isPassValid: Bool) {
       visitDateErrorLabel.isHidden = isPassValid
-      addFirstView.visitDateTextField.do {
+      addFirstView.visitDateContainer.do {
          $0.layer.borderWidth = isPassValid ? 0 : 1
       }
    }

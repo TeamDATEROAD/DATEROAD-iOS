@@ -19,13 +19,17 @@ final class CourseViewModel {
     
     var selectedCountryIndex: ObservablePattern<Int> = ObservablePattern(0)
     
-    var selectedCityIndex: ObservablePattern<Int>  = ObservablePattern(nil)
+    var selectedCityIndex: ObservablePattern<Int>  = ObservablePattern(0)
     
-    var selectedPriceIndex: ObservablePattern<Int> = ObservablePattern(nil)
+    var selectedCityName: ObservablePattern<String>  = ObservablePattern(nil)
+    
+    var selectedPriceIndex: ObservablePattern<Int> = ObservablePattern(0)
     
     var isApplyButtonEnabled: ObservablePattern<Bool> = ObservablePattern(false)
     
     var didUpdateCityData: (() -> Void)?
+    
+    var didUpdateselectedCityName: ((String?) -> Void)?
     
     var didUpdateSelectedCountryIndex: ((Int?) -> Void)?
     
@@ -40,11 +44,12 @@ final class CourseViewModel {
     }
     
     func resetSelections() {
-        selectedCountryIndex.value = nil
-        selectedCityIndex.value = nil
-        selectedPriceIndex.value = nil
+        selectedCountryIndex.value = 0
+        selectedCityIndex.value = 0
+        selectedPriceIndex.value = 0
         updateCityData()
     }
+
     
     func updateCityData() {
         guard let selectedCountryIndex = selectedCountryIndex.value else {
@@ -60,6 +65,7 @@ final class CourseViewModel {
     func updateApplyButtonState() {
         isApplyButtonEnabled.value = selectedCityIndex.value != nil
     }
+ 
     
 }
 
@@ -68,4 +74,5 @@ extension CourseViewModel {
     func fetchPriceData() {
         priceData = Price.allCases.map { $0.priceTitle }
     }
+
 }
