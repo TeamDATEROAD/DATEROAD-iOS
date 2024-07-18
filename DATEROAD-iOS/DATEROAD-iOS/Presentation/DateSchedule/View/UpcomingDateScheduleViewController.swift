@@ -176,7 +176,9 @@ extension UpcomingDateScheduleViewController: UICollectionViewDelegateFlowLayout
         
         offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
         targetContentOffset.pointee = offset
-        upcomingDateScheduleView.updatePageControlSelectedIndex(index: Int(roundedIndex))
+        self.upcomingDateScheduleViewModel.currentIndex.value = Int(roundedIndex)
+        upcomingDateScheduleView.cardPageControl.currentPage = Int(roundedIndex)
+        // upcomingDateScheduleView.updatePageControlSelectedIndex(index: Int(roundedIndex))
     }
 }
 
