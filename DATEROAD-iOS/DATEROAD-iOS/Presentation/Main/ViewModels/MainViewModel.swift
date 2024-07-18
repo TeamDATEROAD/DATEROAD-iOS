@@ -43,9 +43,7 @@ final class MainViewModel {
 }
 
 extension MainViewModel {
-    
-    // TODO: - 서버 통신 후 수정 예정
-    
+        
     func fetchSectionData() {
         getUserProfile()
         getDateCourse(sortBy: "POPULAR")
