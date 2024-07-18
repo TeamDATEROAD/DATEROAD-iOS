@@ -54,6 +54,9 @@
 		0DDC2B492C49439600AC554D /* UsePointTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDC2B482C49439600AC554D /* UsePointTargetType.swift */; };
 		0DDC2B4B2C4943A800AC554D /* UsePointService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDC2B4A2C4943A800AC554D /* UsePointService.swift */; };
 		0DDC2B4D2C49479500AC554D /* PostUsePointRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDC2B4C2C49479500AC554D /* PostUsePointRequest.swift */; };
+		0DDC2B4F2C49893C00AC554D /* LikeCourseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDC2B4E2C49893C00AC554D /* LikeCourseService.swift */; };
+		0DDC2B512C49895100AC554D /* LikeCourseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDC2B502C49895100AC554D /* LikeCourseTargetType.swift */; };
+		0DDC2B532C498F9300AC554D /* LikeCourseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDC2B522C498F9300AC554D /* LikeCourseResponse.swift */; };
 		0DDFEE0D2C3C513E008C6022 /* LocationFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE0C2C3C513E008C6022 /* LocationFilterViewController.swift */; };
 		0DDFEE0F2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE0E2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift */; };
 		0DDFEE112C3C6576008C6022 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE102C3C6576008C6022 /* LocationModel.swift */; };
@@ -246,6 +249,9 @@
 		0DDC2B482C49439600AC554D /* UsePointTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsePointTargetType.swift; sourceTree = "<group>"; };
 		0DDC2B4A2C4943A800AC554D /* UsePointService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsePointService.swift; sourceTree = "<group>"; };
 		0DDC2B4C2C49479500AC554D /* PostUsePointRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostUsePointRequest.swift; sourceTree = "<group>"; };
+		0DDC2B4E2C49893C00AC554D /* LikeCourseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCourseService.swift; sourceTree = "<group>"; };
+		0DDC2B502C49895100AC554D /* LikeCourseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCourseTargetType.swift; sourceTree = "<group>"; };
+		0DDC2B522C498F9300AC554D /* LikeCourseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCourseResponse.swift; sourceTree = "<group>"; };
 		0DDFEE0C2C3C513E008C6022 /* LocationFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFilterViewController.swift; sourceTree = "<group>"; };
 		0DDFEE0E2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryLabelCollectionViewCell.swift; sourceTree = "<group>"; };
 		0DDFEE102C3C6576008C6022 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
@@ -583,6 +589,8 @@
 				0DC9BF082C47F57C00A817A8 /* CourseDetailService.swift */,
 				0DDC2B482C49439600AC554D /* UsePointTargetType.swift */,
 				0DDC2B4A2C4943A800AC554D /* UsePointService.swift */,
+				0DDC2B4E2C49893C00AC554D /* LikeCourseService.swift */,
+				0DDC2B502C49895100AC554D /* LikeCourseTargetType.swift */,
 			);
 			path = CourseDetail;
 			sourceTree = "<group>";
@@ -592,6 +600,7 @@
 			children = (
 				0DC9BF042C47F55800A817A8 /* GetCourseDetailResponse.swift */,
 				0DDC2B4C2C49479500AC554D /* PostUsePointRequest.swift */,
+				0DDC2B522C498F9300AC554D /* LikeCourseResponse.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -1457,6 +1466,7 @@
 				CAC80FEB2C3EC6F900658EA6 /* NewDateCourseCell.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
 				0DA853632C46DC8400DF7F99 /* SubRegion.swift in Sources */,
+				0DDC2B4F2C49893C00AC554D /* LikeCourseService.swift in Sources */,
 				CAC80FE52C3EC6C500658EA6 /* HotDateCourseCell.swift in Sources */,
 				CAC80FC82C3C75F200658EA6 /* PointSystemViewModel.swift in Sources */,
 				CAC80FB32C3BBE9100658EA6 /* MyPageTableViewCell.swift in Sources */,
@@ -1488,10 +1498,12 @@
 				CA4EF3B82C328542003B02B6 /* LoginView.swift in Sources */,
 				CA4EF3DA2C34791F003B02B6 /* OnboardingCollectionViewCell.swift in Sources */,
 				9E5098902C403C7500F72CD0 /* AddCourseThirdViewController.swift in Sources */,
+				0DDC2B532C498F9300AC554D /* LikeCourseResponse.swift in Sources */,
 				0D98CBA92C410C7200E3618A /* CourseDetailViewModel.swift in Sources */,
 				CA4EF3E52C3538AA003B02B6 /* OnboardingViewModel.swift in Sources */,
 				745547672C3C67FE00B526F3 /* DateTimeLineCollectionViewCell.swift in Sources */,
 				0D9497D32C33BD760004B442 /* BottomPageControllView.swift in Sources */,
+				0DDC2B512C49895100AC554D /* LikeCourseTargetType.swift in Sources */,
 				0DDFEE112C3C6576008C6022 /* LocationModel.swift in Sources */,
 				0D0DA3DE2C3AF37C004210EE /* PointCollectionViewCell.swift in Sources */,
 				CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */,

@@ -168,4 +168,27 @@ extension CourseDetailViewModel {
         }
     }
     
+    
+    func likeCourse(courseId: Int) {
+        LikeCourseService().likeCourse(courseId: courseId) { result in
+            switch result {
+            case .success(let response):
+                print("Successfully liked course:", response)
+                self.isUserLiked.value = true
+            default:
+                self.isSuccessGetData.value = false
+                print("Failed to post course data")
+            }
+        }
+    }
+    
+    func deleteLikeCourse(courseId: Int, completion: @escaping (Bool) -> Void) {
+        LikeCourseService().deleteLikeCourse(courseId: courseId) { success in
+            if success {
+                self.isUserLiked.value = false
+            }
+            completion(success)
+        }
+    }
+    
 }
