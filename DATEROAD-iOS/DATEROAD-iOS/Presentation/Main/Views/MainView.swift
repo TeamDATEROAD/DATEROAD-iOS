@@ -46,7 +46,7 @@ final class MainView: BaseView {
         floatingButton.snp.makeConstraints {
             $0.size.equalTo(50)
             $0.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview().inset(10)
+            $0.bottom.equalToSuperview().inset(20)
         }
     }
     

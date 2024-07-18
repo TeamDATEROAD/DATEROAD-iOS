@@ -20,5 +20,8 @@ enum AlertTextType {
 enum RightButtonType {
     case addCourse
     case checkCourse
+    case deleteCourse
+    case kakaoShare
+    case logout
     case none
 }

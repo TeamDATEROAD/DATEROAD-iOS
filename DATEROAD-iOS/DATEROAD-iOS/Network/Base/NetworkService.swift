@@ -15,6 +15,10 @@ final class NetworkService {
     
     let mainService: MainService = MainService()
     
+    let authService: AuthService = AuthService()
+    
+    let userService: UserService = UserService()
+
     let pointDetailService: PointDetailService = PointDetailService()
 
     let myCourseService: MyCourseService = MyCourseService()

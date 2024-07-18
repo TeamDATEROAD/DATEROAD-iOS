@@ -33,7 +33,7 @@ final class MyPageView: BaseView {
         myPageTableView.snp.makeConstraints {
             $0.top.equalTo(userInfoView.snp.bottom)
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(240)
+            $0.bottom.equalToSuperview()
         }
         
         // TODO: - bottom 탭바 기준으로 수정 예정
@@ -53,6 +53,7 @@ final class MyPageView: BaseView {
         myPageTableView.do {
             $0.separatorStyle = .none
             $0.rowHeight = 60
+            $0.isScrollEnabled = false
         }
         
         withdrawalButton.do {

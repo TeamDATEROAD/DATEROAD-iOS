@@ -169,6 +169,17 @@
 		CAA30AE82C37DAA600835DE3 /* TendencyTagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30AE72C37DAA600835DE3 /* TendencyTagCollectionViewCell.swift */; };
 		CAA30AEB2C37DCE300835DE3 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30AEA2C37DCE300835DE3 /* ProfileViewModel.swift */; };
 		CAA30AED2C37E57400835DE3 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30AEC2C37E57400835DE3 /* String+.swift */; };
+		CABDCE6B2C45AEA300631FB3 /* GetUpcomingDateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE6A2C45AEA300631FB3 /* GetUpcomingDateResponse.swift */; };
+		CABDCE6E2C47D6E600631FB3 /* AuthTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE6D2C47D6E600631FB3 /* AuthTargetType.swift */; };
+		CABDCE712C47D8F400631FB3 /* PostSignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE702C47D8F400631FB3 /* PostSignUpRequest.swift */; };
+		CABDCE732C47FA5C00631FB3 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE722C47FA5C00631FB3 /* AuthService.swift */; };
+		CABDCE752C47FAFD00631FB3 /* PostSignUpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE742C47FAFD00631FB3 /* PostSignUpResponse.swift */; };
+		CABDCE792C481ABB00631FB3 /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE782C481ABB00631FB3 /* EmptyResponse.swift */; };
+		CABDCE7B2C48498200631FB3 /* PostSignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE7A2C48498200631FB3 /* PostSignInRequest.swift */; };
+		CABDCE7E2C4876B800631FB3 /* UserTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE7D2C4876B800631FB3 /* UserTargetType.swift */; };
+		CABDCE812C48773A00631FB3 /* GetUserProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE802C48773A00631FB3 /* GetUserProfileResponse.swift */; };
+		CABDCE832C4877AE00631FB3 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE822C4877AE00631FB3 /* UserService.swift */; };
+		CABDCE852C489C7B00631FB3 /* DeleteWithdrawalRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE842C489C7B00631FB3 /* DeleteWithdrawalRequest.swift */; };
 		CAC80FA02C3B10D100658EA6 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80F9F2C3B10D100658EA6 /* MyPageView.swift */; };
 		CAC80FA22C3B10EA00658EA6 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FA12C3B10EA00658EA6 /* MyPageViewController.swift */; };
 		CAC80FA42C3B34B400658EA6 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FA32C3B34B400658EA6 /* UserInfoView.swift */; };
@@ -204,6 +215,12 @@
 		CAC80FF12C3EFF6600658EA6 /* DRPaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FF02C3EFF6600658EA6 /* DRPaddingLabel.swift */; };
 		CAC80FF32C3F203800658EA6 /* EmptyTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FF22C3F203800658EA6 /* EmptyTicketView.swift */; };
 		CAC80FF72C3FCAE500658EA6 /* BannerImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FF62C3FCAE500658EA6 /* BannerImageCollectionViewCell.swift */; };
+		CAE8C1942C4581B500F153B3 /* MainTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE8C1932C4581B500F153B3 /* MainTargetType.swift */; };
+		CAE8C1962C4590B400F153B3 /* MainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE8C1952C4590B400F153B3 /* MainService.swift */; };
+		CAE8C1992C45920E00F153B3 /* GetMainUserProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE8C1982C45920E00F153B3 /* GetMainUserProfileResponse.swift */; };
+		CAE8C19B2C45930E00F153B3 /* GetFilteredDateCourseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE8C19A2C45930E00F153B3 /* GetFilteredDateCourseResponse.swift */; };
+		CAE8C19D2C45962B00F153B3 /* GetBannerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE8C19C2C45962B00F153B3 /* GetBannerResponse.swift */; };
+		CAE8C19F2C459AC500F153B3 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE8C19E2C459AC500F153B3 /* NetworkService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -364,6 +381,17 @@
 		CAA30AE72C37DAA600835DE3 /* TendencyTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TendencyTagCollectionViewCell.swift; sourceTree = "<group>"; };
 		CAA30AEA2C37DCE300835DE3 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		CAA30AEC2C37E57400835DE3 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		CABDCE6A2C45AEA300631FB3 /* GetUpcomingDateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUpcomingDateResponse.swift; sourceTree = "<group>"; };
+		CABDCE6D2C47D6E600631FB3 /* AuthTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTargetType.swift; sourceTree = "<group>"; };
+		CABDCE702C47D8F400631FB3 /* PostSignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSignUpRequest.swift; sourceTree = "<group>"; };
+		CABDCE722C47FA5C00631FB3 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		CABDCE742C47FAFD00631FB3 /* PostSignUpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSignUpResponse.swift; sourceTree = "<group>"; };
+		CABDCE782C481ABB00631FB3 /* EmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
+		CABDCE7A2C48498200631FB3 /* PostSignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSignInRequest.swift; sourceTree = "<group>"; };
+		CABDCE7D2C4876B800631FB3 /* UserTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTargetType.swift; sourceTree = "<group>"; };
+		CABDCE802C48773A00631FB3 /* GetUserProfileResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserProfileResponse.swift; sourceTree = "<group>"; };
+		CABDCE822C4877AE00631FB3 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		CABDCE842C489C7B00631FB3 /* DeleteWithdrawalRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteWithdrawalRequest.swift; sourceTree = "<group>"; };
 		CAC80F9F2C3B10D100658EA6 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		CAC80FA12C3B10EA00658EA6 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		CAC80FA32C3B34B400658EA6 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
@@ -399,6 +427,12 @@
 		CAC80FF02C3EFF6600658EA6 /* DRPaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRPaddingLabel.swift; sourceTree = "<group>"; };
 		CAC80FF22C3F203800658EA6 /* EmptyTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTicketView.swift; sourceTree = "<group>"; };
 		CAC80FF62C3FCAE500658EA6 /* BannerImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		CAE8C1932C4581B500F153B3 /* MainTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTargetType.swift; sourceTree = "<group>"; };
+		CAE8C1952C4590B400F153B3 /* MainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainService.swift; sourceTree = "<group>"; };
+		CAE8C1982C45920E00F153B3 /* GetMainUserProfileResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMainUserProfileResponse.swift; sourceTree = "<group>"; };
+		CAE8C19A2C45930E00F153B3 /* GetFilteredDateCourseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFilteredDateCourseResponse.swift; sourceTree = "<group>"; };
+		CAE8C19C2C45962B00F153B3 /* GetBannerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetBannerResponse.swift; sourceTree = "<group>"; };
+		CAE8C19E2C459AC500F153B3 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1032,6 +1066,8 @@
 		CA3D0D122C29A9BB00735097 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				CABDCE7C2C4876AD00631FB3 /* User */,
+				CABDCE6C2C47D6B700631FB3 /* Auth */,
 				742547082C4803B20075DD81 /* DateSchedule */,
 				742547002C47EF350075DD81 /* PointDetail */,
 				CAE8C1922C457F4A00F153B3 /* Main */,
@@ -1049,6 +1085,8 @@
 				CA80C0CC2C445BF3002CAA9B /* NetworkResult.swift */,
 				CA80C0CE2C445D38002CAA9B /* MoyaLoggingPluggin.swift */,
 				CA80C0D02C44611E002CAA9B /* BaseService.swift */,
+				CAE8C19E2C459AC500F153B3 /* NetworkService.swift */,
+				CABDCE782C481ABB00631FB3 /* EmptyResponse.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1248,6 +1286,45 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		CABDCE6C2C47D6B700631FB3 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				CABDCE6F2C47D8E400631FB3 /* DTO */,
+				CABDCE6D2C47D6E600631FB3 /* AuthTargetType.swift */,
+				CABDCE722C47FA5C00631FB3 /* AuthService.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		CABDCE6F2C47D8E400631FB3 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				CABDCE702C47D8F400631FB3 /* PostSignUpRequest.swift */,
+				CABDCE742C47FAFD00631FB3 /* PostSignUpResponse.swift */,
+				CABDCE7A2C48498200631FB3 /* PostSignInRequest.swift */,
+				CABDCE842C489C7B00631FB3 /* DeleteWithdrawalRequest.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
+		CABDCE7C2C4876AD00631FB3 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				CABDCE7F2C4876FF00631FB3 /* DTO */,
+				CABDCE7D2C4876B800631FB3 /* UserTargetType.swift */,
+				CABDCE822C4877AE00631FB3 /* UserService.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		CABDCE7F2C4876FF00631FB3 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				CABDCE802C48773A00631FB3 /* GetUserProfileResponse.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
 		CAC80F9D2C3B0FD000658EA6 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -1389,6 +1466,27 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		CAE8C1922C457F4A00F153B3 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				CAE8C1972C4591A100F153B3 /* DTO */,
+				CAE8C1932C4581B500F153B3 /* MainTargetType.swift */,
+				CAE8C1952C4590B400F153B3 /* MainService.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		CAE8C1972C4591A100F153B3 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				CAE8C1982C45920E00F153B3 /* GetMainUserProfileResponse.swift */,
+				CAE8C19A2C45930E00F153B3 /* GetFilteredDateCourseResponse.swift */,
+				CAE8C19C2C45962B00F153B3 /* GetBannerResponse.swift */,
+				CABDCE6A2C45AEA300631FB3 /* GetUpcomingDateResponse.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1508,19 +1606,23 @@
 				745547712C3D12CD00B526F3 /* PastDateDetailViewController.swift in Sources */,
 				CA4EF3E22C3537F3003B02B6 /* OnboardingModel.swift in Sources */,
 				CA4EF3D52C34763B003B02B6 /* OnboardingViewController.swift in Sources */,
+				CABDCE732C47FA5C00631FB3 /* AuthService.swift in Sources */,
 				9E590B4C2C3D276600039690 /* AddSecondView.swift in Sources */,
 				CAA30ADE2C3718C500835DE3 /* ProfileViewController.swift in Sources */,
 				7455475F2C3C2EC400B526F3 /* DateDetailViewModel.swift in Sources */,
 				7425470B2C4803CD0075DD81 /* DateScheduleTargetType.swift in Sources */,
 				9E590B4E2C3DAA5100039690 /* AddSecondViewTableViewCell.swift in Sources */,
+				CABDCE812C48773A00631FB3 /* GetUserProfileResponse.swift in Sources */,
 				0D0DA3D72C3AF2DE004210EE /* UIFont+.swift in Sources */,
 				742840102C3EC87300B21AA7 /* AlertType.swift in Sources */,
 				747819402C3AB7E10040D5E7 /* MyCourseListViewModel.swift in Sources */,
 				747819402C3AB7E10040D5E7 /* MyCourseListViewModel.swift in Sources */,
 				CA4EF3B42C3284BB003B02B6 /* BaseView.swift in Sources */,
+				CABDCE752C47FAFD00631FB3 /* PostSignUpResponse.swift in Sources */,
 				0DDFEE132C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift in Sources */,
 				CAC80FE72C3EC6D300658EA6 /* UpcomingDateCell.swift in Sources */,
 				0DF905CA2C399F750072EE65 /* PreviewView.swift in Sources */,
+				CAE8C1992C45920E00F153B3 /* GetMainUserProfileResponse.swift in Sources */,
 				745547612C3C4CAC00B526F3 /* UpcomingDateScheduleView.swift in Sources */,
 				0DFBF92C2C43E42700762956 /* DeleteCourseSettingView.swift in Sources */,
 				74CDE26B2C3B7AA400A7459B /* DateCardCollectionViewCell.swift in Sources */,
@@ -1540,17 +1642,20 @@
 				CA4EF3C02C3285BA003B02B6 /* SocialType.swift in Sources */,
 				CAC80FAC2C3B567100658EA6 /* MyPageViewModel.swift in Sources */,
 				9E50988C2C403C4B00F72CD0 /* AddThirdView.swift in Sources */,
+				CABDCE7B2C48498200631FB3 /* PostSignInRequest.swift in Sources */,
 				0D06D9A02C3561AF0094C505 /* ImageModel.swift in Sources */,
 				0D0DA3E62C3AF3FB004210EE /* PointDetailViewController.swift in Sources */,
 				0DDFEE0F2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift in Sources */,
 				CA3D0D202C2ACEB100735097 /* UILabel+.swift in Sources */,
 				0DA138F72C3E8E3F00682653 /* DRPriceButton.swift in Sources */,
+				CABDCE712C47D8F400631FB3 /* PostSignUpRequest.swift in Sources */,
 				0D9497B22C327D2D0004B442 /* PreviewCourseDetailViewController.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
 				CAC80FEB2C3EC6F900658EA6 /* NewDateCourseCell.swift in Sources */,
 				0D9497B22C327D2D0004B442 /* PreviewCourseDetailViewController.swift in Sources */,
 				CA3D0D1C2C29AACD00735097 /* UIStackView+.swift in Sources */,
 				0DA853632C46DC8400DF7F99 /* SubRegion.swift in Sources */,
+				CABDCE7E2C4876B800631FB3 /* UserTargetType.swift in Sources */,
 				CAC80FE52C3EC6C500658EA6 /* HotDateCourseCell.swift in Sources */,
 				742C9D9F2C45A9C8007FFB51 /* MyCourseDTO.swift in Sources */,
 				CAC80FC82C3C75F200658EA6 /* PointSystemViewModel.swift in Sources */,
@@ -1572,6 +1677,7 @@
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
 				7455476D2C3D03E100B526F3 /* PastDateCollectionViewCell.swift in Sources */,
 				7455475D2C3C2A9A00B526F3 /* UpcomingDateDetailViewController.swift in Sources */,
+				CABDCE852C489C7B00631FB3 /* DeleteWithdrawalRequest.swift in Sources */,
 				0DA853612C45CE7C00DF7F99 /* GetCourseFilterResponse.swift in Sources */,
 				CAA30AEB2C37DCE300835DE3 /* ProfileViewModel.swift in Sources */,
 				CAC80FB52C3BBEA900658EA6 /* BaseTableViewCell.swift in Sources */,
@@ -1583,6 +1689,7 @@
 				742547152C4885CF0075DD81 /* DeleteDateScheduleResponse.swift in Sources */,
 				CA4EF3B82C328542003B02B6 /* LoginView.swift in Sources */,
 				CA4EF3DA2C34791F003B02B6 /* OnboardingCollectionViewCell.swift in Sources */,
+				CABDCE6E2C47D6E600631FB3 /* AuthTargetType.swift in Sources */,
 				9E5098902C403C7500F72CD0 /* AddCourseThirdViewController.swift in Sources */,
 				0D98CBA92C410C7200E3618A /* CourseDetailViewModel.swift in Sources */,
 				CA4EF3E52C3538AA003B02B6 /* OnboardingViewModel.swift in Sources */,
@@ -1634,6 +1741,7 @@
 				CAA30AE02C3733DF00835DE3 /* ProfileView.swift in Sources */,
 				CAC80FCE2C3D2FD800658EA6 /* BottomControlView.swift in Sources */,
 				CA4EF3CB2C3287DA003B02B6 /* Config.swift in Sources */,
+				CABDCE792C481ABB00631FB3 /* EmptyResponse.swift in Sources */,
 				747819432C3ADFCE0040D5E7 /* NavViewedCourseViewController.swift in Sources */,
 				CA4EF3C72C3286C5003B02B6 /* SplashView.swift in Sources */,
 				9E590B462C3C535500039690 /* AddCourseSecondViewController.swift in Sources */,
@@ -1645,6 +1753,7 @@
 				CAC80FE32C3EC06200658EA6 /* MainSectionLayout.swift in Sources */,
 				7478193E2C3A97440040D5E7 /* MyCourseListCollectionViewCell.swift in Sources */,
 				7478193E2C3A97440040D5E7 /* MyCourseListCollectionViewCell.swift in Sources */,
+				CABDCE832C4877AE00631FB3 /* UserService.swift in Sources */,
 				7428400E2C3EC58700B21AA7 /* DRCustomAlertViewController.swift in Sources */,
 				741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */,
 				CAC80FC52C3C759B00658EA6 /* PointSystemModel.swift in Sources */,
