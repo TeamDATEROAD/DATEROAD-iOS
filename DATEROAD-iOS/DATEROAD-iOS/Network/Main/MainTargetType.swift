@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 enum MainTargetType {
-    case getUserProfile
+    case getMainUserProfile
     case getFilteredDateCourse(sortBy: String)
     case getBanner
     case getUpcomingDate
@@ -24,14 +24,14 @@ extension MainTargetType: BaseTargetType {
     
     var method: Moya.Method {
         switch self {
-        case .getUserProfile, .getFilteredDateCourse, .getBanner, .getUpcomingDate:
+        case .getMainUserProfile, .getFilteredDateCourse, .getBanner, .getUpcomingDate:
             return .get
         }
     }
     
     var path: String {
         switch self {
-        case .getUserProfile:
+        case .getMainUserProfile:
             return utilPath + "users/main"
         case .getFilteredDateCourse:
             return utilPath + "courses/sort"

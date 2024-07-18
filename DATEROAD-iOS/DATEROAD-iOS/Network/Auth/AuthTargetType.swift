@@ -40,7 +40,7 @@ extension AuthTargetType: BaseTargetType {
         case .getDoubleCheck:
             return utilPath + "/check"
         case .deleteLogout:
-            return utilPath + "/logout"
+            return utilPath + "/signout"
         case .postSignIn:
             return utilPath + "/signin"
         }

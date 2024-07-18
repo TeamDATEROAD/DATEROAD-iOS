@@ -7,6 +7,8 @@
 
 import UIKit
 
+import Kingfisher
+
 final class UserInfoView: BaseView {
     
     // MARK: - UI Properties
@@ -45,8 +47,7 @@ final class UserInfoView: BaseView {
                               pointLabel,
                               goToPointHistoryStackView)
         
-        goToPointHistoryStackView.addArrangedSubviews(goToPointHistoryLabel,rightArrowButton
-                                                      )
+        goToPointHistoryStackView.addArrangedSubviews(goToPointHistoryLabel,rightArrowButton)
     }
     
     override func setLayout() {
@@ -164,11 +165,16 @@ final class UserInfoView: BaseView {
 extension UserInfoView {
     
     // TODO: - 서버 통신 후 변경 예정
-    func bindData(userInfo: UserInfoModel) {
+    func bindData(userInfo: MyPageUserInfoModel) {
         self.profileImageView.image = UIImage(resource: .emptyProfileImg)
         self.nicknameLabel.text = userInfo.nickname
         self.userPointLabel.text = userInfo.nickname + "님의 포인트"
         self.pointLabel.text = String(userInfo.point) + " P"
-        
+        guard let imageURL = userInfo.imageURL else {
+            self.profileImageView.image = UIImage(resource: .emptyProfileImg)
+            return
+        }
+        let url = URL(string: imageURL)
+        self.profileImageView.kf.setImage(with: url)
     }
 }

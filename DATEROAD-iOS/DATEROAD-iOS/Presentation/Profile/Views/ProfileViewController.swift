@@ -233,7 +233,7 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
         let tagTitle = self.profileViewModel.tagData[indexPath.item].tagTitle
         let font = UIFont.suit(.body_med_13)
         let textWidth = tagTitle.width(withConstrainedHeight: 30, font: font)
-        let padding: CGFloat = 44
+        let padding: CGFloat = 50
                 
        return CGSize(width: textWidth + padding, height: 30)
     }

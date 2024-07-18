@@ -7,20 +7,17 @@
 
 import Foundation
 
-struct UserInfoModel {
+struct MyPageUserInfoModel {
     let nickname: String
     let tagList: [String]
     let point: Int
+    let imageURL: String?
     
-    init(nickname: String, tagList: [String], point: Int) {
+    init(nickname: String, tagList: [String], point: Int, imageURL: String?) {
         self.nickname = nickname
         self.tagList = tagList
         self.point = point
+        self.imageURL = imageURL
     }
 }
 
-extension UserInfoModel {
-    static var dummyData: UserInfoModel {
-        return UserInfoModel(nickname: "희슬", tagList: ["🚙 드라이브", "🛍️ 쇼핑", "🚪 실내"], point: 200)
-    }
-}
