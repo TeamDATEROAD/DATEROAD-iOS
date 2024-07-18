@@ -21,7 +21,7 @@ final class CourseViewModel {
     
     var selectedCityIndex: ObservablePattern<Int>  = ObservablePattern(0)
     
-    var selectedCityName: ObservablePattern<String>  = ObservablePattern(nil)
+    var selectedCityName: ObservablePattern<String>  = ObservablePattern("")
     
     var selectedPriceIndex: ObservablePattern<Int> = ObservablePattern(0)
     

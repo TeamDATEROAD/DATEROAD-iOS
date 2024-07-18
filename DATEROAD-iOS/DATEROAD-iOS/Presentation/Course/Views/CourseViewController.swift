@@ -56,6 +56,7 @@ final class CourseViewController: BaseViewController {
     
     func initPriceButton() {
         courseViewModel.selectedPriceIndex.value = 0
+        courseViewModel.selectedCityName.value = ""
         getCourse()
     }
 }

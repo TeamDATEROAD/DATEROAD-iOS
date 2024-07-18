@@ -26,9 +26,9 @@ final class CourseDetailViewController: BaseViewController, CustomAlertDelegate 
     private let courseDetailViewModel: CourseDetailViewModel
     
     //    private var conditionalData: ObservablePattern<ConditionalModel> = ObservablePattern(nil)
-    //    
+    //
     //    private var imageData: ObservablePattern<ThumbnailModel> = ObservablePattern(nil)
-    //    
+    //
     //    private var timelineData: ObservablePattern<TimelineModel> = ObservablePattern(nil)
     //
     //    private var tagData: ObservablePattern<[TagModel]> = ObservablePattern(nil)
@@ -37,7 +37,7 @@ final class CourseDetailViewController: BaseViewController, CustomAlertDelegate 
     //    private var likeSum: Int = ThumbnailModel.thumbnailDummyData.like
     
     //    private var titleHeaderData: TitleHeaderModel = TitleHeaderModel.titleHeaderDummyData
-    //    
+    //
     //    private var mainContentsData: MainContentsModel = MainContentsModel.descriptionDummyData
     
     //    private var timelineData: [TimelineModel] = TimelineModel.timelineContents
@@ -69,7 +69,7 @@ final class CourseDetailViewController: BaseViewController, CustomAlertDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //        setSetctionCount()
+//            setSetctionCount()
         bindViewModel()
         setDelegate()
         registerCell()
@@ -334,7 +334,7 @@ extension CourseDetailViewController {
             if isAccess {
                 courseDetailViewModel.setNumberOfSections(6)
             } else {
-                courseDetailViewModel.setNumberOfSections(3)
+                courseDetailViewModel.setNumberOfSections(6)
             }
         } else {
             if isAccess {
@@ -383,10 +383,11 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
             didTapAddCourseButton()
         case .checkCourse:
             //무료 열람 기회 확인 & 잔여 포인트
-            
+           
             guard let haveFreeCount = self.courseDetailViewModel.haveFreeCount.value,
                   let havePoint = self.courseDetailViewModel.havePoint.value else { return }
             if haveFreeCount {
+                print("포이트로 샀음!")
                 dismiss(animated: false)
             } else {
                 if havePoint {
@@ -469,10 +470,10 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         courseDetailViewModel.deleteCourse { [weak self] success in
             DispatchQueue.main.async {
                 if success {
-                    print("성공이다 시이발")
+                    print("성공이다")
                     self?.navigationController?.popViewController(animated: true)
                 } else {
-                    print("ㅈ까!")
+                    print("망함")
                 }
             }
         }
