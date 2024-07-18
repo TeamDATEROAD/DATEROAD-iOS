@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
+
 final class CourseViewController: BaseViewController {
     
     // MARK: - UI Properties
@@ -23,6 +24,7 @@ final class CourseViewController: BaseViewController {
     private var courseListModel = CourseListModel.courseContents
     
     private var selectedButton: UIButton?
+
     
     // MARK: - Life Cycle
     
@@ -108,11 +110,11 @@ extension CourseViewController {
     
     func bindViewModel() {
         self.courseViewModel.selectedPriceIndex.bind { [weak self] index in
-            self?.courseViewModel.didUpdateSelectedPriceIndex?(index as? Int)
+            self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
         }
         
         self.courseViewModel.selectedCityName.bind { [weak self] index in
-            self?.courseViewModel.didUpdateselectedCityName?(index as? String)
+            self?.courseViewModel.didUpdateselectedCityName?(index)
         }
     }
     
@@ -143,9 +145,34 @@ extension CourseViewController {
         }
     }
     
+}
+
+extension CourseViewController: CourseNavigationBarViewDelegate {
+    
+    func didTapAddCourseButton() {
+        let addCourseFirstVC = AddCourseFirstViewController()
+        self.navigationController?.pushViewController(addCourseFirstVC, animated: true)
+    }
+}
+
+extension CourseViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedCourse = courseListModel[indexPath.row]
+        if let courseId = selectedCourse.courseId {
+            let detailViewModel = CourseDetailViewModel(courseId: courseId)
+            let detailViewController = CourseDetailViewController(viewModel: detailViewModel)
+            navigationController?.pushViewController(detailViewController, animated: true)
+        }
+    }
+}
+
+extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate {
+    
     func getCourse() {
-        let cost = courseViewModel.selectedPriceIndex.value??.costNum() ?? nil
-        let city = courseViewModel.selectedCityName.value ?? nil
+        let cost = courseViewModel.selectedPriceIndex.value?.costNum() ?? 0
+        let city = courseViewModel.selectedCityName.value ?? ""
+        print("⚽️",cost,city)
         CourseService().getCourseInfo(city: city, cost: cost) { response in
             switch response {
             case .success(let data):
@@ -170,30 +197,6 @@ extension CourseViewController {
         }
     }
     
-    
-}
-
-extension CourseViewController: CourseNavigationBarViewDelegate {
-    
-    func didTapAddCourseButton() {
-        let addCourseFirstVC = AddCourseFirstViewController()
-        self.navigationController?.pushViewController(addCourseFirstVC, animated: true)
-    }
-}
-
-extension CourseViewController: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedCourse = courseListModel[indexPath.row]
-        if let courseId = selectedCourse.courseId {
-            let detailViewModel = CourseDetailViewModel(courseId: courseId)
-            let detailViewController = CourseDetailViewController(viewModel: detailViewModel)
-            navigationController?.pushViewController(detailViewController, animated: true)
-        }
-    }
-}
-
-extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate {
     
     func didTapLocationFilter() {
         let locationFilterVC = LocationFilterViewController()

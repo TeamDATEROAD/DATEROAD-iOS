@@ -233,7 +233,6 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
                 return UICollectionViewCell()
             }
             let mainData = courseDetailViewModel.mainContentsData.value ?? MainContentsModel(description: "")
-            let isCourseMine = courseDetailViewModel.isCourseMine.value ?? false
             mainContentsCell.setCell(mainContentsData: mainData)
             if isAccess {
                 mainContentsCell.mainTextLabel.numberOfLines = 0
@@ -387,6 +386,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
             guard let haveFreeCount = self.courseDetailViewModel.haveFreeCount.value,
                   let havePoint = self.courseDetailViewModel.havePoint.value else { return }
             if haveFreeCount {
+                self.courseDetailViewModel.isAccess.value = true
                 dismiss(animated: false)
             } else {
                 if havePoint {
