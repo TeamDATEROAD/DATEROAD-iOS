@@ -53,7 +53,7 @@ final class EmptyTicketView: BaseView {
     override func setStyle() {
         ticketImage.do {
             $0.image = UIImage(resource: .ticket)
-            $0.contentMode = .scaleAspectFit
+            $0.contentMode = .scaleAspectFill
         }
         
         emptyDateLabel.do {

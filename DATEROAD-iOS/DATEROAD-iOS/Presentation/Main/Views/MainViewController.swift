@@ -40,6 +40,10 @@ final class MainViewController: BaseViewController {
         bindViewModel()
     }
     
+//    override func viewWillAppear(_ animated: Bool) {
+//        changeStatusBarBgColor(bgColor: UIColor(resource: .deepPurple))
+//    }
+    
     override func setHierarchy() {
         self.view.addSubview(mainView)
     }
@@ -93,6 +97,13 @@ extension MainViewController {
                 self?.mainView.mainCollectionView.reloadData()
             }
         }
+        self.mainViewModel.currentIndex.bind { [weak self] index in
+            guard let index,
+            let count = self?.mainViewModel.bannerData.value?.count
+            else { return }
+            print("index \(index.row + 1)")
+            self?.updateBannerCell(index: index.row, count: count)
+        }
     }
     
     func registerCell() {
@@ -112,20 +123,57 @@ extension MainViewController {
         self.mainView.floatingButton.addTarget(self, action: #selector(pushToAddCourseVC), for: .touchUpInside)
     }
     
+    func updateBannerCell(index: Int, count: Int) {
+        guard let cell = self.mainView.mainCollectionView.cellForItem(at: IndexPath(item: 0, section: 2)) as? BannerCell
+        else { return }
+        cell.bindIndexData(currentIndex: index, count: count)
+    }
+    
     // TODO: - 코스 등록 뷰컨 연결
     @objc
     func pushToAddCourseVC() {
         print("pushToAddCourseVC")
+        let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
+        self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
     
 }
 
-extension MainViewController: UICollectionViewDelegate {}
+extension MainViewController: UICollectionViewDelegate {
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let page = Int(targetContentOffset.pointee.x / self.view.frame.width)
+        self.mainViewModel.currentIndex.value?.row = page
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            let contentOffsetY = scrollView.contentOffset.y
+        
+        let safearea = self.view.safeAreaInsets.top
+        
+            if contentOffsetY < 0 {
+                // 맨 위에서 아래로 당겼을 때
+                mainView.mainCollectionView.backgroundColor = UIColor(resource: .deepPurple)
+            } else if contentOffsetY + scrollView.frame.size.height > scrollView.contentSize.height {
+                // 맨 아래에서 위로 당겼을 때
+                mainView.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
+            } else {
+                // 일반적인 스크롤 상태
+                mainView.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
+            }
+        }
+
+    
+}
 
 extension MainViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return self.mainViewModel.sectionData.count
+        if collectionView == self.mainView.mainCollectionView {
+            return self.mainViewModel.sectionData.count
+        } else {
+            return 1
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -162,10 +210,6 @@ extension MainViewController: UICollectionViewDataSource {
                 cell.bannerCollectionView.register(BannerImageCollectionViewCell.self, forCellWithReuseIdentifier: BannerImageCollectionViewCell.cellIdentifier)
                 cell.bannerCollectionView.dataSource = self
                 cell.bannerCollectionView.delegate = self
-                cell.bannerCollectionView.reloadData()
-                if let count = mainViewModel.bannerData.value?.count {
-                    cell.bindIndexData(currentIndex: 1, count: count)
-                }
                 return cell
             case .newDateCourse:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell else { return UICollectionViewCell() }

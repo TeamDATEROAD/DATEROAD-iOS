@@ -14,7 +14,8 @@ struct GetFilteredDateCourseResponse: Codable {
 struct Course: Codable {
     let courseID: Int
     let thumbnail, title, city: String
-    let like, cost, duration: Int
+    let like, cost: Int
+    let duration: Float
 
     enum CodingKeys: String, CodingKey {
         case courseID = "courseId"
