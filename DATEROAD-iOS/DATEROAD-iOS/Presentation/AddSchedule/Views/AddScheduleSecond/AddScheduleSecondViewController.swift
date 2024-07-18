@@ -163,7 +163,7 @@ private extension AddScheduleSecondViewController {
    
    func goBackOriginVC() {
          let tabbarVC = TabBarController()
-      tabbarVC.selectedIndex = 1
+      tabbarVC.selectedIndex = 2
       navigationController?.pushViewController(tabbarVC, animated: false)
    }
    

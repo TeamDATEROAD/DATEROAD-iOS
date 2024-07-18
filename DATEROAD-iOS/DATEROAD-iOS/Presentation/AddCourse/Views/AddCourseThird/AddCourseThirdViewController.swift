@@ -151,11 +151,10 @@ extension AddCourseThirdViewController {
       }
    }
    
-   /// navigationController를 통해 뷰컨트롤러 스택에서 originVC로 돌아가는 코드
    func goBackOriginVC() {
-      if let navigationController = self.navigationController {
-         navigationController.popToRootViewController(animated: true)
-      }
+         let tabbarVC = TabBarController()
+      tabbarVC.selectedIndex = 1
+      navigationController?.pushViewController(tabbarVC, animated: false)
    }
    
 }

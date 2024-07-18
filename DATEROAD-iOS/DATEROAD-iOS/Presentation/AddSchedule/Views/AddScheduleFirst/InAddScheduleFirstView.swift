@@ -244,7 +244,7 @@ final class InAddScheduleFirstView: BaseView {
       
       sixCheckNextButton.do {
          $0.setTitle(
-            StringLiterals.AddCourseOrSchedule.AddFirstView.addFirstNextBtnOfCourse,
+            StringLiterals.AddCourseOrSchedule.AddFirstView.addFirstNextBtnOfSchedule,
             for: .normal
          )
          $0.titleLabel?.font = UIFont.suit(.body_med_13)
