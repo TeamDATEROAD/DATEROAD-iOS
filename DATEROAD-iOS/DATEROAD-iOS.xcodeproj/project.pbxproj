@@ -58,6 +58,11 @@
 		0DFBF92A2C43BB2A00762956 /* Float+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFBF9292C43BB2A00762956 /* Float+.swift */; };
 		0DFBF92C2C43E42700762956 /* DeleteCourseSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFBF92B2C43E42700762956 /* DeleteCourseSettingView.swift */; };
 		741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */; };
+		7425470B2C4803CD0075DD81 /* DateScheduleTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7425470A2C4803CD0075DD81 /* DateScheduleTargetType.swift */; };
+		7425470D2C4803DC0075DD81 /* DateScheduleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7425470C2C4803DC0075DD81 /* DateScheduleService.swift */; };
+		742547112C4804D30075DD81 /* GetDateDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742547102C4804D30075DD81 /* GetDateDetailResponse.swift */; };
+		742547132C4804E20075DD81 /* GetDateScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742547122C4804E20075DD81 /* GetDateScheduleResponse.swift */; };
+		742547152C4885CF0075DD81 /* DeleteDateScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742547142C4885CF0075DD81 /* DeleteDateScheduleResponse.swift */; };
 		742547032C47F0780075DD81 /* GetPointDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742547022C47F0780075DD81 /* GetPointDetailResponse.swift */; };
 		742547052C47F0880075DD81 /* PointDetailTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742547042C47F0880075DD81 /* PointDetailTargetType.swift */; };
 		742547072C47F0980075DD81 /* PointDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742547062C47F0980075DD81 /* PointDetailService.swift */; };
@@ -253,6 +258,11 @@
 		0DFBF9292C43BB2A00762956 /* Float+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+.swift"; sourceTree = "<group>"; };
 		0DFBF92B2C43E42700762956 /* DeleteCourseSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCourseSettingView.swift; sourceTree = "<group>"; };
 		741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseViewController.swift; sourceTree = "<group>"; };
+		7425470A2C4803CD0075DD81 /* DateScheduleTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateScheduleTargetType.swift; sourceTree = "<group>"; };
+		7425470C2C4803DC0075DD81 /* DateScheduleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateScheduleService.swift; sourceTree = "<group>"; };
+		742547102C4804D30075DD81 /* GetDateDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDateDetailResponse.swift; sourceTree = "<group>"; };
+		742547122C4804E20075DD81 /* GetDateScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDateScheduleResponse.swift; sourceTree = "<group>"; };
+		742547142C4885CF0075DD81 /* DeleteDateScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteDateScheduleResponse.swift; sourceTree = "<group>"; };
 		742547022C47F0780075DD81 /* GetPointDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPointDetailResponse.swift; sourceTree = "<group>"; };
 		742547042C47F0880075DD81 /* PointDetailTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointDetailTargetType.swift; sourceTree = "<group>"; };
 		742547062C47F0980075DD81 /* PointDetailService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointDetailService.swift; sourceTree = "<group>"; };
@@ -672,6 +682,26 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		742547082C4803B20075DD81 /* DateSchedule */ = {
+			isa = PBXGroup;
+			children = (
+				742547092C4803BA0075DD81 /* DTO */,
+				7425470A2C4803CD0075DD81 /* DateScheduleTargetType.swift */,
+				7425470C2C4803DC0075DD81 /* DateScheduleService.swift */,
+			);
+			path = DateSchedule;
+			sourceTree = "<group>";
+		};
+		742547092C4803BA0075DD81 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				742547102C4804D30075DD81 /* GetDateDetailResponse.swift */,
+				742547122C4804E20075DD81 /* GetDateScheduleResponse.swift */,
+				742547142C4885CF0075DD81 /* DeleteDateScheduleResponse.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
 		742547002C47EF350075DD81 /* PointDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -1002,6 +1032,7 @@
 		CA3D0D122C29A9BB00735097 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				742547082C4803B20075DD81 /* DateSchedule */,
 				742547002C47EF350075DD81 /* PointDetail */,
 				CAE8C1922C457F4A00F153B3 /* Main */,
 				742C9D9B2C4599F0007FFB51 /* MyCourse */,
@@ -1480,6 +1511,7 @@
 				9E590B4C2C3D276600039690 /* AddSecondView.swift in Sources */,
 				CAA30ADE2C3718C500835DE3 /* ProfileViewController.swift in Sources */,
 				7455475F2C3C2EC400B526F3 /* DateDetailViewModel.swift in Sources */,
+				7425470B2C4803CD0075DD81 /* DateScheduleTargetType.swift in Sources */,
 				9E590B4E2C3DAA5100039690 /* AddSecondViewTableViewCell.swift in Sources */,
 				0D0DA3D72C3AF2DE004210EE /* UIFont+.swift in Sources */,
 				742840102C3EC87300B21AA7 /* AlertType.swift in Sources */,
@@ -1548,12 +1580,14 @@
 				CA4EF3DC2C347994003B02B6 /* BaseCollectionViewCell.swift in Sources */,
 				0D0DA3E22C3AF3B0004210EE /* PointViewModel.swift in Sources */,
 				CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */,
+				742547152C4885CF0075DD81 /* DeleteDateScheduleResponse.swift in Sources */,
 				CA4EF3B82C328542003B02B6 /* LoginView.swift in Sources */,
 				CA4EF3DA2C34791F003B02B6 /* OnboardingCollectionViewCell.swift in Sources */,
 				9E5098902C403C7500F72CD0 /* AddCourseThirdViewController.swift in Sources */,
 				0D98CBA92C410C7200E3618A /* CourseDetailViewModel.swift in Sources */,
 				CA4EF3E52C3538AA003B02B6 /* OnboardingViewModel.swift in Sources */,
 				745547672C3C67FE00B526F3 /* DateTimeLineCollectionViewCell.swift in Sources */,
+				742547132C4804E20075DD81 /* GetDateScheduleResponse.swift in Sources */,
 				0D9497D32C33BD760004B442 /* BottomPageControllView.swift in Sources */,
 				0DDFEE112C3C6576008C6022 /* LocationModel.swift in Sources */,
 				0D0DA3DE2C3AF37C004210EE /* PointCollectionViewCell.swift in Sources */,
@@ -1579,11 +1613,13 @@
 				0DA1C7162C3DA97400DF2B92 /* CourseViewModel.swift in Sources */,
 				0D05FF092C3EE1F700E9BDDC /* CourseListCollectionViewCell.swift in Sources */,
 				0DA920F22C3C0AF500A6A321 /* MainContentsCell.swift in Sources */,
+				742547112C4804D30075DD81 /* GetDateDetailResponse.swift in Sources */,
 				742547072C47F0980075DD81 /* PointDetailService.swift in Sources */,
 				742840122C3EC8C100B21AA7 /* DRCustomAlertView.swift in Sources */,
 				0DDFEE0D2C3C513E008C6022 /* LocationFilterViewController.swift in Sources */,
 				CAC80FF12C3EFF6600658EA6 /* DRPaddingLabel.swift in Sources */,
 				74C88EF02C4047E400A4C638 /* CustomEmptyView.swift in Sources */,
+				7425470D2C4803DC0075DD81 /* DateScheduleService.swift in Sources */,
 				0DA8535E2C45CD6B00DF7F99 /* CourseService.swift in Sources */,
 				0D06D9A22C3605760094C505 /* TagInfoCell.swift in Sources */,
 				0DA1C7202C3E6D8000DF2B92 /* CourseView.swift in Sources */,

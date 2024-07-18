@@ -19,4 +19,6 @@ final class NetworkService {
 
     let myCourseService: MyCourseService = MyCourseService()
 
+    let dateScheduleService: DateScheduleService = DateScheduleService()
+
 }

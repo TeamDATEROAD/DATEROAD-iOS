@@ -13,60 +13,125 @@ import KakaoSDKCommon
 
 class DateDetailViewModel {
    
-    var upcomingDateDetailDummyData = DateDetailModel(
-        dateID: 1,
-        title: "성수동 당일치기 데이트 가볼까요? 이 정돈 어떠신지?",
-        startAt: "12:00",
-        city: "건대/성수/왕십리",
-        tags: ["🎨 전시·팝업", "🎨 전시·팝업", "🎨 전시·팝업"],
-        date: "June 24",
-        places: [DatePlaceModel(name: "성수미술관 연남점", duration: 2,           sequence: 1),
-                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
-                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
-                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
-                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
-                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
-                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1)]
-    )
+//
+//    var upcomingDateDetailDummyData = DateDetailModel(
+//        dateID: 1,
+//        title: "성수동 당일치기 데이트 가볼까요? 이 정돈 어떠신지?",
+//        startAt: "12:00",
+//        city: "건대/성수/왕십리",
+//        tags: ["🎨 전시·팝업", "🎨 전시·팝업", "🎨 전시·팝업"],
+//        date: "June 24",
+//        places: [DatePlaceModel(name: "성수미술관 연남점", duration: 2,           sequence: 1),
+//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
+//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
+//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
+//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
+//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
+//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1)]
+//    )
+//    
+//    
+//    var pastDateDetailDummyData = DateDetailModel(
+//        dateID: 1,
+//        title: "성수동 당일치기 데이트 가볼까요? 이 정돈 어떠신지?",
+//        startAt: "12:00",
+//        city: "건대/성수/왕십리",
+//        tags: ["🎨 전시·팝업", "🎨 전시·팝업", "🎨 전시·팝업"],
+//        date: "June 24",
+//        places: [DatePlaceModel(name: "성수미술관 연남점", duration: 2,
+//                     sequence: 1),
+//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 2),
+//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 3),
+//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 4),
+//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 5),
+//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 6),
+//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 7)]
+//    )
     
+    init(dateID: Int) {
+        getDateDetailData(dateID: dateID)
+    }
     
-    var pastDateDetailDummyData = DateDetailModel(
-        dateID: 1,
-        title: "성수동 당일치기 데이트 가볼까요? 이 정돈 어떠신지?",
-        startAt: "12:00",
-        city: "건대/성수/왕십리",
-        tags: ["🎨 전시·팝업", "🎨 전시·팝업", "🎨 전시·팝업"],
-        date: "June 24",
-        places: [DatePlaceModel(name: "성수미술관 연남점", duration: 2,
-                     sequence: 1),
-                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 2),
-                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 3),
-                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 4),
-                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 5),
-                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 6),
-                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 7)]
-    )
+    var emptyDateDetailData = DateDetailModel(dateID: 0, title: "", startAt: "", city: "", tags: [], date: "", places: [], dDay: 0)
     
     var userName : String = "수민"
     
-    var maxPlaces : Int {
-        return min(upcomingDateDetailDummyData.places.count, 5)
+    let dateScheduleService = DateScheduleService()
+    
+    var dateDetailData: ObservablePattern<DateDetailModel> = ObservablePattern(nil)
+    
+    var isSuccessGetDateDetailData: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    func getDateDetailData(dateID: Int) {
+        dateScheduleService.getDateDetail(dateID: dateID) { response in
+            switch response {
+            case .success(let data):
+                let tagsInfo: [TagsModel] = data.tags.map { tag in
+                    TagsModel(tag: tag.tag)
+                }
+                let datePlaceInfo: [DatePlaceModel] = data.places.map { place in
+                    DatePlaceModel(name: place.title, duration: (place.duration).formatFloatTime(), sequence: place.sequence)
+                }
+                self.dateDetailData.value = DateDetailModel(dateID: data.dateID, title: data.title, startAt: data.startAt, city: data.city, tags: tagsInfo, date: data.date, places: datePlaceInfo, dDay: data.dDay)
+                self.isSuccessGetDateDetailData.value = true
+                print("@log ----------dsijflskdjfla", self.dateDetailData.value)
+            case .requestErr:
+                print("requestError")
+            case .decodedErr:
+                print("decodedError")
+            case .pathErr:
+                print("pathError")
+            case .serverErr:
+                print("serverError")
+            case .networkFail:
+                print("networkFail")
+            }
+        }
     }
+    
+    func deleteDateSchdeuleData(dateID: Int) {
+        dateScheduleService.deleteDateSchedule(dateID: dateID) { response in
+            switch response {
+            case .success(let data):
+                print(data)
+                print("success")
+            case .requestErr:
+                print("requestError")
+            case .decodedErr:
+                print("decodedError")
+            case .pathErr:
+                print("pathError")
+            case .serverErr:
+                print("serverError")
+            case .networkFail:
+                print("networkFail")
+            }
+        }
+    }
+
     
     var kakaoShareInfo: [String: String] = [:]
     
     var kakaoPlacesInfo : [KakaoPlaceModel] = []
     
+    var maxPlaces : Int {
+        return min(dateDetailData.value?.places.count ?? 0, 5)
+    }
+    
+    var isMoreThanFiveSchedule : Bool {
+        return (dateDetailData.value?.places.count ?? 0 >= 5)
+    }
+    
     func setTempArgs() {
         kakaoShareInfo["userName"] = userName
-        kakaoShareInfo["title"] = upcomingDateDetailDummyData.title
-        kakaoShareInfo["startAt"] = upcomingDateDetailDummyData.startAt
+        kakaoShareInfo["title"] = dateDetailData.value?.title
+        kakaoShareInfo["startAt"] = dateDetailData.value?.startAt
         
-        switch upcomingDateDetailDummyData.places.count <= 5 {
+        switch dateDetailData.value?.places.count ?? 0 <= 5 {
         case true:
             for i in 0...maxPlaces-1 {
-                kakaoShareInfo["name\(i+1)"] = upcomingDateDetailDummyData.places[i].name
-                kakaoShareInfo["name\(i+1)"] = "\(upcomingDateDetailDummyData.places[i].duration)"
+                kakaoShareInfo["name\(i+1)"] = dateDetailData.value?.places[i].name
+                kakaoShareInfo["name\(i+1)"] = "\(dateDetailData.value?.places[i].duration ?? "")"
             }
             /*
             for i in maxPlaces...5 {
@@ -74,14 +139,14 @@ class DateDetailViewModel {
             }*/
         case false:
             for i in 0...4 {
-                kakaoShareInfo["name\(i+1)"] = upcomingDateDetailDummyData.places[i].name
-                kakaoShareInfo["name\(i+1)"] = "\(upcomingDateDetailDummyData.places[i].duration)"
+                kakaoShareInfo["name\(i+1)"] = dateDetailData.value?.places[i].name
+                kakaoShareInfo["name\(i+1)"] = "\(dateDetailData.value?.places[i].duration ?? "")"
             }
         }
     }
     
     func shareToKaKao() {
-        let appLink = Link(iosExecutionParams: ["key1": "value1", "key2": "value2"])
+        // let appLink = Link(iosExecutionParams: ["key1": "value1", "key2": "value2"])
         
         // let appButton = Button(title: "자세히 보기", link: appLink)
         

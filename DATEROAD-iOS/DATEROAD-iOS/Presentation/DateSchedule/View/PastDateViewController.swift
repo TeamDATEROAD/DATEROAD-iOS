@@ -20,9 +20,6 @@ class PastDateViewController: BaseNavBarViewController {
     
     private let pastDateScheduleViewModel = DateScheduleViewModel()
     
-    private lazy var pastDateScheduleData = pastDateScheduleViewModel.pastDateScheduleDummyData
-    
-    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -33,6 +30,7 @@ class PastDateViewController: BaseNavBarViewController {
         
         registerCell()
         setDelegate()
+        bindViewModel()
         setEmptyView()
     }
     
@@ -56,8 +54,17 @@ class PastDateViewController: BaseNavBarViewController {
 
 private extension PastDateViewController {
     func setEmptyView() {
-        if pastDateScheduleData.dateCards.count == 0 {
+        if pastDateScheduleViewModel.pastDateScheduleData.value?.count == 0 {
             pastDateContentView.emptyView.isHidden = false
+        }
+    }
+    
+    func bindViewModel() {
+        self.pastDateScheduleViewModel.isSuccessGetPastDateScheduleData.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.pastDateContentView.pastDateCollectionView.reloadData()
+            }
         }
     }
 }
@@ -91,14 +98,15 @@ extension PastDateViewController: UICollectionViewDelegateFlowLayout {
 
 extension PastDateViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return pastDateScheduleData.dateCards.count
+        return pastDateScheduleViewModel.pastDateScheduleData.value?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let data = pastDateScheduleViewModel.pastDateScheduleData.value?[indexPath.item] else { return UICollectionViewCell()}
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PastDateCollectionViewCell.cellIdentifier, for: indexPath) as? PastDateCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.dataBind(pastDateScheduleData.dateCards[indexPath.item], indexPath.item)
+        cell.dataBind(data, indexPath.item)
         cell.setColor(index: indexPath.item)
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToPastDateDetailVC(_:))))
         return cell
@@ -107,9 +115,10 @@ extension PastDateViewController: UICollectionViewDataSource {
     @objc func pushToPastDateDetailVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: pastDateContentView.pastDateCollectionView)
         if let indexPath = pastDateContentView.pastDateCollectionView.indexPathForItem(at: location) {
+            guard let data = pastDateScheduleViewModel.pastDateScheduleData.value?[indexPath.item] else { return }
             let pastDateDetailVC = PastDateDetailViewController()
             self.navigationController?.pushViewController(pastDateDetailVC, animated: true)
-            pastDateDetailVC.pastDateDetailContentView.dataBind(pastDateScheduleData.dateCards[indexPath.item])
+            pastDateDetailVC.pastDateDetailViewModel = DateDetailViewModel(dateID: data.dateID)
             pastDateDetailVC.setColor(index: indexPath.item)
         }
     }
