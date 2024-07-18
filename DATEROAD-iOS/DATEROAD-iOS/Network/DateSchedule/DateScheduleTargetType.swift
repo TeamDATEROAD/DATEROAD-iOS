@@ -12,7 +12,7 @@ import Moya
 enum DateScheduleTargetType {
     case getDateSchedule(time: String)
     case getDateDetail(dateID: Int)
-    case deleteDate(dateID: Int)
+    case deleteDateSchedule(dateID: Int)
 }
 
 extension DateScheduleTargetType: BaseTargetType {
@@ -25,7 +25,7 @@ extension DateScheduleTargetType: BaseTargetType {
         switch self {
         case .getDateSchedule, .getDateDetail:
             return .get
-        case .deleteDate:
+        case .deleteDateSchedule:
             return .delete
         }
     }
@@ -36,7 +36,7 @@ extension DateScheduleTargetType: BaseTargetType {
             return utilPath + "dates"
         case .getDateDetail(let dateID):
             return utilPath + "dates/\(dateID)"
-        case .deleteDate(let dateID):
+        case .deleteDateSchedule(let dateID):
             return utilPath + "dates/\(dateID)"
         }
     }
@@ -47,7 +47,7 @@ extension DateScheduleTargetType: BaseTargetType {
             return ["time" : time]
         case .getDateDetail(let dateID):
             return ["dateId" : dateID]
-        case .deleteDate(let dateID):
+        case .deleteDateSchedule(let dateID):
             return ["dateId" : dateID]
         }
     }

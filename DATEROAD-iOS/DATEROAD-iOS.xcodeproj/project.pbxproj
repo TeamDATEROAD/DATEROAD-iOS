@@ -58,6 +58,7 @@
 		7425470D2C4803DC0075DD81 /* DateScheduleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7425470C2C4803DC0075DD81 /* DateScheduleService.swift */; };
 		742547112C4804D30075DD81 /* GetDateDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742547102C4804D30075DD81 /* GetDateDetailResponse.swift */; };
 		742547132C4804E20075DD81 /* GetDateScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742547122C4804E20075DD81 /* GetDateScheduleResponse.swift */; };
+		742547152C4885CF0075DD81 /* DeleteDateScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742547142C4885CF0075DD81 /* DeleteDateScheduleResponse.swift */; };
 		7428400E2C3EC58700B21AA7 /* DRCustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428400D2C3EC58700B21AA7 /* DRCustomAlertViewController.swift */; };
 		742840102C3EC87300B21AA7 /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428400F2C3EC87300B21AA7 /* AlertType.swift */; };
 		742840122C3EC8C100B21AA7 /* DRCustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742840112C3EC8C100B21AA7 /* DRCustomAlertView.swift */; };
@@ -254,6 +255,7 @@
 		7425470C2C4803DC0075DD81 /* DateScheduleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateScheduleService.swift; sourceTree = "<group>"; };
 		742547102C4804D30075DD81 /* GetDateDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDateDetailResponse.swift; sourceTree = "<group>"; };
 		742547122C4804E20075DD81 /* GetDateScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDateScheduleResponse.swift; sourceTree = "<group>"; };
+		742547142C4885CF0075DD81 /* DeleteDateScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteDateScheduleResponse.swift; sourceTree = "<group>"; };
 		7428400D2C3EC58700B21AA7 /* DRCustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCustomAlertViewController.swift; sourceTree = "<group>"; };
 		7428400F2C3EC87300B21AA7 /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
 		742840112C3EC8C100B21AA7 /* DRCustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCustomAlertView.swift; sourceTree = "<group>"; };
@@ -671,6 +673,7 @@
 			children = (
 				742547102C4804D30075DD81 /* GetDateDetailResponse.swift */,
 				742547122C4804E20075DD81 /* GetDateScheduleResponse.swift */,
+				742547142C4885CF0075DD81 /* DeleteDateScheduleResponse.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -1533,6 +1536,7 @@
 				CA4EF3DC2C347994003B02B6 /* BaseCollectionViewCell.swift in Sources */,
 				0D0DA3E22C3AF3B0004210EE /* PointViewModel.swift in Sources */,
 				CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */,
+				742547152C4885CF0075DD81 /* DeleteDateScheduleResponse.swift in Sources */,
 				CA4EF3B82C328542003B02B6 /* LoginView.swift in Sources */,
 				CA4EF3DA2C34791F003B02B6 /* OnboardingCollectionViewCell.swift in Sources */,
 				9E5098902C403C7500F72CD0 /* AddCourseThirdViewController.swift in Sources */,

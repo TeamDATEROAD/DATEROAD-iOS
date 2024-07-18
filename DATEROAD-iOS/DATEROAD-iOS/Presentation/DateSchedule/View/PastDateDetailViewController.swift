@@ -64,6 +64,7 @@ extension PastDateDetailViewController: DRCustomAlertDelegate {
 
     func action(rightButtonAction: RightButtonType) {
         if rightButtonAction == .deleteCourse {
+            pastDateDetailViewModel?.deleteDateSchdeuleData(dateID: pastDateDetailViewModel?.dateDetailData.value?.dateID ?? 0)
             print("헉 헤어졌나??? 서버연결 delete")
         }
     }

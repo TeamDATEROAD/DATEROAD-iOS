@@ -12,7 +12,7 @@ import Moya
 protocol DateScheduleServiceProtocol {
     func getDateSchdeule(time: String, completion: @escaping (NetworkResult<GetDateScheduleResponse>) -> Void)
     func getDateDetail(dateID: Int, completion: @escaping (NetworkResult<GetDateDetailResponse>) -> Void)
-    func deleteDate(dateID: Int)
+    func deleteDateSchedule(dateID: Int, completion: @escaping (NetworkResult<DeleteDateScheduleResponse>) -> Void)
 }
 
 final class DateScheduleService: BaseService, DateScheduleServiceProtocol {
@@ -42,8 +42,8 @@ final class DateScheduleService: BaseService, DateScheduleServiceProtocol {
         }
     }
     
-    func deleteDate(dateID: Int) {
-        dateScheduleProvider.request(.deleteDate(dateID: dateID)) { result in
+    func deleteDateSchedule(dateID: Int, completion: @escaping (NetworkResult<DeleteDateScheduleResponse>) -> Void) {
+        dateScheduleProvider.request(.deleteDateSchedule(dateID: dateID)) { result in
             switch result {
             case .success(let response):
                 print(response)

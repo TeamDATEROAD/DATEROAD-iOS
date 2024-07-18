@@ -88,6 +88,26 @@ class DateDetailViewModel {
             }
         }
     }
+    
+    func deleteDateSchdeuleData(dateID: Int) {
+        dateScheduleService.deleteDateSchedule(dateID: dateID) { response in
+            switch response {
+            case .success(let data):
+                print(data)
+                print("success")
+            case .requestErr:
+                print("requestError")
+            case .decodedErr:
+                print("decodedError")
+            case .pathErr:
+                print("pathError")
+            case .serverErr:
+                print("serverError")
+            case .networkFail:
+                print("networkFail")
+            }
+        }
+    }
 
     
     var kakaoShareInfo: [String: String] = [:]

@@ -16,6 +16,8 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     var upcomingDateDetailContentView = DateDetailContentView()
     
+    var upcomingDateScheduleView = UpcomingDateScheduleView()
+    
     // MARK: - Properties
     
     var upcomingDateDetailViewModel: DateDetailViewModel? = nil
@@ -113,7 +115,9 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     
     func action(rightButtonAction: RightButtonType) {
         if rightButtonAction == .deleteCourse {
+            upcomingDateDetailViewModel?.deleteDateSchdeuleData(dateID: upcomingDateDetailViewModel?.dateDetailData.value?.dateID ?? 0)
             print("헉 헤어졌나??? 서버연결 delete")
+            self.navigationController?.popViewController(animated: true)
         } else if rightButtonAction == .kakaoShare {
             upcomingDateDetailViewModel?.shareToKaKao()
             print("카카오 공유하기")

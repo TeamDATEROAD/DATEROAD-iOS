@@ -57,6 +57,7 @@ class DateScheduleViewModel {
                 }
                 self.pastDateScheduleData.value = dateScheduleInfo
                 self.isSuccessGetPastDateScheduleData.value = true
+                
             case .requestErr:
                 print("requestError")
             case .decodedErr:
@@ -81,6 +82,7 @@ class DateScheduleViewModel {
                     }
                     return DateCardModel(dateID: date.dateID, title: date.title, date: (date.date).toReadableDate() ?? "", city: date.city, tags: tagsModel, dDay: date.dDay)
                 }
+                print("🍎🍎🍎🍎")
                 self.upcomingDateScheduleData.value = dateScheduleInfo
                 self.isSuccessGetUpcomingDateScheduleData.value = true
             case .requestErr:
