@@ -67,6 +67,7 @@ final class LoginView: BaseView {
             $0.setButtonStatus(buttonType: KakaoLoginButton())
             $0.setImage(UIImage(resource: .kakaoLogo), for: .normal)
             $0.setTitle(StringLiterals.Login.kakaoLoginLabel, for: .normal)
+            $0.setTitleColor(UIColor(resource: .drBlack).withAlphaComponent(0.85), for: .highlighted)
             $0.contentHorizontalAlignment = .leading
 
             var config = UIButton.Configuration.plain()
