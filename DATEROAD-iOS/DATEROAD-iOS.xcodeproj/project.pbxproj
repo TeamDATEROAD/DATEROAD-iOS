@@ -84,6 +84,7 @@
 		74CDE2682C3B123100A7459B /* UpcomingDateScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CDE2672C3B123100A7459B /* UpcomingDateScheduleViewController.swift */; };
 		74CDE26B2C3B7AA400A7459B /* DateCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CDE26A2C3B7AA400A7459B /* DateCardCollectionViewCell.swift */; };
 		74EA02742C445A87008EF604 /* DateScheduleDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EA02732C445A87008EF604 /* DateScheduleDeleteView.swift */; };
+		9E07891A2C4547C200B9F9B8 /* CustomImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0789192C4547C200B9F9B8 /* CustomImagePicker.swift */; };
 		9E443A482C37AAE400C1F92C /* AddCourseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E443A472C37AAE400C1F92C /* AddCourseViewModel.swift */; };
 		9E443A4C2C37ACEF00C1F92C /* AddCourseFirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E443A4B2C37ACEF00C1F92C /* AddCourseFirstView.swift */; };
 		9E443A4E2C3819DB00C1F92C /* AddFirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E443A4D2C3819DB00C1F92C /* AddFirstView.swift */; };
@@ -277,6 +278,7 @@
 		74CDE2672C3B123100A7459B /* UpcomingDateScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingDateScheduleViewController.swift; sourceTree = "<group>"; };
 		74CDE26A2C3B7AA400A7459B /* DateCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		74EA02732C445A87008EF604 /* DateScheduleDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateScheduleDeleteView.swift; sourceTree = "<group>"; };
+		9E0789192C4547C200B9F9B8 /* CustomImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImagePicker.swift; sourceTree = "<group>"; };
 		9E443A472C37AAE400C1F92C /* AddCourseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseViewModel.swift; sourceTree = "<group>"; };
 		9E443A4B2C37ACEF00C1F92C /* AddCourseFirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseFirstView.swift; sourceTree = "<group>"; };
 		9E443A4D2C3819DB00C1F92C /* AddFirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFirstView.swift; sourceTree = "<group>"; };
@@ -1134,6 +1136,7 @@
 				CAC80FCB2C3D2EA600658EA6 /* DRButton.swift */,
 				CAC80FCF2C3D723200658EA6 /* DRBottomSheetViewController.swift */,
 				74C88EEF2C4047E400A4C638 /* CustomEmptyView.swift */,
+				9E0789192C4547C200B9F9B8 /* CustomImagePicker.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -1489,6 +1492,7 @@
 				CAC80FD02C3D723200658EA6 /* DRBottomSheetViewController.swift in Sources */,
 				0D06D9A82C36946C0094C505 /* TimelineInfoCell.swift in Sources */,
 				0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */,
+				9E07891A2C4547C200B9F9B8 /* CustomImagePicker.swift in Sources */,
 				0DA1C7142C3DA94F00DF2B92 /* CourseListModel.swift in Sources */,
 				0D98CBA72C41099400E3618A /* CourseDetailView.swift in Sources */,
 				0D98CB9B2C405E4100E3618A /* VisitDateView.swift in Sources */,

@@ -9,38 +9,35 @@ import UIKit
 
 final class AddCourseViewModel {
    
-   var dataSource = [UIImage]()
-   
-   var dateName: ObservablePattern<String> = ObservablePattern("")
-   
-   var visitDate: ObservablePattern<String> = ObservablePattern("")
+   //MARK: - AddFirstCourse 사용되는 ViewModel
    
    /// ImageCollection 유효성 판별
-   var isImageEmpty: ObservablePattern<Bool> = ObservablePattern(false)
+   var pickedImageArr = [UIImage]()
+   var isPickedImageVaild: ObservablePattern<Bool> = ObservablePattern(false)
    
    /// 데이트 이름 유효성 판별 (true는 통과)
-   var isDateNameValid: ObservablePattern<Bool> = ObservablePattern(nil)
+   var dateName: ObservablePattern<String> = ObservablePattern("")
+   var isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    /// 방문 일자 유효성 판별 (true는 통과)
-   var isVisitDateValid: ObservablePattern<Bool> = ObservablePattern(nil)
+   var visitDate: ObservablePattern<String> = ObservablePattern(nil)
+   var isVisitDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    /// 데이트 시작시간 유효성 판별 (self.count > 0 인지)
-   var dateStartTime: ObservablePattern<String> = ObservablePattern("")
+   var dateStartAt: ObservablePattern<String> = ObservablePattern(nil)
+   var isDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
-   var isTagButtonValid: ObservablePattern<Bool> = ObservablePattern(false)
-   
-   /// 코스 등록하기 1 View 중 6개를 모두 통과하였는지 판별
-   var isSixCheckPass: ObservablePattern<Int> = ObservablePattern(0)
-   
+   /// 코스 등록 태그
+   var tagData: [ProfileModel] = []
+   var isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
+   var isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
    var tagCount: ObservablePattern<Int> = ObservablePattern(0)
    
-   var cnt = 0
+   /// 코스 지역 유효성 판별
+   var dateLocation: ObservablePattern<String> = ObservablePattern("")
+   var isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
-   var isError: (() -> Void)?
-   
-   var isNonError: (() -> Void)?
-   
-   var isChange: (() -> Void)?
+   var isTimePicker: Bool?
    
    
    //MARK: - AddSecondView 전용 Viewmodel 변수
@@ -57,7 +54,8 @@ final class AddCourseViewModel {
    
    var editBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
    
-   //datePlace이 바뀌면 bind{} 파트에서 viewmodel안에 datePlace랑 timeRequire의 value.count 값을 비교해서 true false 반환토록하고, 이를  bind{} 바인드에 앞선 값들을 flag로 받고 이를 토대로 true false로 버튼 타입 바꿔줌
+   var isChange: (() -> Void)?
+   
    var isEditMode: Bool = false
    
    
@@ -71,91 +69,100 @@ final class AddCourseViewModel {
    
    var isDoneBtnOK: ObservablePattern<Bool> = ObservablePattern(false)
    
+   
+   init() {
+       fetchTagData()
+   }
 }
 
 extension AddCourseViewModel {
    
-   func fetchTableViewData() {
-      addPlaceCollectionViewDataSource.append(contentsOf: [
-         AddCoursePlaceModel(placeTitle: "경북궁",timeRequire: "2시간"),
-         AddCoursePlaceModel(placeTitle: "숭례문", timeRequire: "1시간"),
-         AddCoursePlaceModel(placeTitle: "남대문", timeRequire: "3시간"),
-         AddCoursePlaceModel(placeTitle: "문상훈", timeRequire: "30분"),
-         AddCoursePlaceModel(placeTitle: "경북궁2",timeRequire: "2시간"),
-         AddCoursePlaceModel(placeTitle: "숭례문2", timeRequire: "1시간"),
-         AddCoursePlaceModel(placeTitle: "남대문2", timeRequire: "3시간"),
-         AddCoursePlaceModel(placeTitle: "문상훈2", timeRequire: "30분")
-      ])
+   //MARK: - AddCourse First 함수
+   
+   func satisfyDateName(str: String) {
+      let flag = (str.count >= 5) ? true : false
+      isDateNameVaild.value = flag
    }
    
    func isFutureDate(date: Date, dateType: String) {
+      let dateFormatter = DateFormatter()
+      
       if dateType == "date" {
-         let dateFormatter = DateFormatter()
-         dateFormatter.dateFormat = "yyyy. MM. dd."
+         dateFormatter.dateFormat = "yyyy.MM.dd"
          
          let formattedDate = dateFormatter.string(from: date)
          visitDate.value = formattedDate
          
          let dateStr = visitDate.value ?? ""
-         dateFormatter.dateFormat = "yyyy. MM. dd."
-         
          let today = Date()
          let selectedDate = dateFormatter.date(from: dateStr)
          
          // 현재 selectedDate가 미래 일자가 아니라면 true
          let flag = (selectedDate ?? today) <= today
          
-         self.isVisitDateValid.value = flag
+         self.isVisitDateVaild.value = flag
       } else {
-         let dateformatter = DateFormatter()
-         dateformatter.dateStyle = .none
-         dateformatter.timeStyle = .short
-         let formattedDate = dateformatter.string(from: date)
-         dateStartTime.value = formattedDate
+         dateFormatter.dateStyle = .none
+         dateFormatter.timeStyle = .short
+         
+         let formattedDate = dateFormatter.string(from: date)
+         dateStartAt.value = formattedDate
+         let flag = ((dateStartAt.value?.count ?? 0) > 0) ? true : false
+         self.isDateStartAtVaild.value = flag
       }
    }
    
-   func isDateNameValid(cnt: Int) {
-      let flag = cnt >= 5
-      isDateNameValid.value = flag
+   func fetchTagData() {
+       tagData = TendencyTag.allCases.map { $0.tag }
    }
    
    func countSelectedTag(isSelected: Bool) {
-      guard let oldCount = tagCount.value else { return }
-      
-      if isSelected {
-         tagCount.value = oldCount + 1
-      } else {
-         if oldCount != 0 {
-            tagCount.value = oldCount - 1
-         }
-      }
-      
-      checkTagCount()
+       guard let oldCount = tagCount.value else { return }
+       if isSelected {
+           tagCount.value = oldCount + 1
+       } else {
+           if oldCount != 0 {
+               tagCount.value = oldCount - 1
+           }
+       }
+       checkTagCount()
    }
    
    func checkTagCount() {
-      guard let count = tagCount.value else { return }
-      
-      if count >= 1 && count <= 3 {
-         self.isTagButtonValid.value = true
-      } else {
-         self.isTagButtonValid.value = false
-      }
-      print(count)
+       guard let count = tagCount.value else { return }
+
+       if count >= 1 && count <= 3 {
+           self.isValidTag.value = true
+           self.isOverCount.value = false
+       } else {
+           self.isValidTag.value = false
+           if count > 3 {
+               self.isOverCount.value = true
+           }
+       }
+       print(count)
    }
    
-   func getSampleImages() -> Bool {
-      let t = (1...9).map { _ in
-         UIImage(resource: .test)
-      }
+   func satisfyDateLocation(str: String) {
+      let flag = (str.count > 0) ? true : false
+      isDateLocationVaild.value = flag
+   }
+   
+   func isOkSixBtn() -> Bool {
+      let isPickedImageVaild = isPickedImageVaild.value ?? false
+      let isDateNameVaild = isDateNameVaild.value ?? false
+      let isValidTag = isValidTag.value ?? false
+      let isVisitDateVaild = isVisitDateVaild.value ?? false
+      let isDateStartAtVaild = isDateStartAtVaild.value ?? false
+      let isDateLocationVaild = isDateLocationVaild.value ?? false
       
-      // 이미지 개수 대응 관련 코드
-      for i in t {
-         dataSource.append(i)
+      for i in [isPickedImageVaild, isDateNameVaild, isValidTag, isVisitDateVaild, isDateLocationVaild, isDateStartAtVaild] {
+         if i == false {
+            print("\(i) == false")
+            return false
+         }
       }
-      isImageEmpty.value = dataSource.isEmpty
-      return isImageEmpty.value ?? true
+      return true
    }
    
    
