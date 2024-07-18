@@ -1,19 +1,33 @@
 //
-//  AddCourseViewModel.swift
+//  AddScheduleViewModel.swift
 //  DATEROAD-iOS
 //
-//  Created by 박신영 on 7/5/24.
+//  Created by 박신영 on 7/18/24.
 //
 
 import UIKit
 
-final class AddCourseViewModel {
+final class AddScheduleViewModel {
+   
+   var tagCount2: Int {
+      return selectedTags.count
+   }
+   
+   func countSelectedTag(isSelected: Bool, button: UIButton) {
+      if isSelected {
+         if !selectedTags.contains(button) {
+            selectedTags.append(button)
+            isTagCntVaild(cnt: selectedTag.count)
+         }
+      } else {
+         if let index = selectedTags.firstIndex(of: button) {
+            selectedTags.remove(at: index)
+            isTagCntVaild(cnt: selectedTag.count)
+         }
+      }
+   }
    
    //MARK: - AddFirstCourse 사용되는 ViewModel
-   
-   /// ImageCollection 유효성 판별
-   var pickedImageArr = [UIImage]()
-   var isPickedImageVaild: ObservablePattern<Bool> = ObservablePattern(false)
    
    /// 데이트 이름 유효성 판별 (true는 통과)
    var dateName: ObservablePattern<String> = ObservablePattern("")
@@ -27,8 +41,12 @@ final class AddCourseViewModel {
    var dateStartAt: ObservablePattern<String> = ObservablePattern(nil)
    var isDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
-   /// 코스 등록 태그
+   /// 코스 등록 태그 생성
    var tagData: [ProfileModel] = []
+   
+   // 선택된 태그
+   var selectedTags: [UIButton] = []
+   var selectedTag = [String]()
    var isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
    var isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
    var tagCount: ObservablePattern<Int> = ObservablePattern(0)
@@ -37,10 +55,10 @@ final class AddCourseViewModel {
    var dateLocation: ObservablePattern<String> = ObservablePattern("")
    var isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
-   var isTimePicker: Bool?
-   
    var country = ""
    var city = ""
+   
+   var isTimePicker: Bool?
    
    
    //MARK: - AddSecondView 전용 Viewmodel 변수
@@ -65,24 +83,22 @@ final class AddCourseViewModel {
    //MARK: - AddThirdView 전용 Viewmodel 변수
    
    var contentTextCount: ObservablePattern<Int> = ObservablePattern(0)
-   var contentText = ""
    var contentFlag = false
    
    var priceText: ObservablePattern<Int> = ObservablePattern(nil)
    var priceFlag = false
-   var price = 0
    
    var isDoneBtnOK: ObservablePattern<Bool> = ObservablePattern(false)
    
    
    init() {
-       fetchTagData()
+      fetchTagData()
    }
 }
 
-extension AddCourseViewModel {
+extension AddScheduleViewModel {
    
-   //MARK: - AddCourse First 함수
+   //MARK: - AddSchedule First 함수
    
    func satisfyDateName(str: String) {
       let flag = (str.count >= 5) ? true : false
@@ -118,35 +134,43 @@ extension AddCourseViewModel {
    }
    
    func fetchTagData() {
-       tagData = TendencyTag.allCases.map { $0.tag }
+      tagData = TendencyTag.allCases.map { $0.tag }
    }
    
-   func countSelectedTag(isSelected: Bool) {
-       guard let oldCount = tagCount.value else { return }
-       if isSelected {
-           tagCount.value = oldCount + 1
-       } else {
-           if oldCount != 0 {
-               tagCount.value = oldCount - 1
-           }
-       }
-       checkTagCount()
+   func isTagCntVaild(cnt: Int) {
+      if cnt >= 1 && cnt <= 3 {
+         isValidTag.value = true
+      } else {
+         isValidTag.value = false
+      }
    }
    
-   func checkTagCount() {
-       guard let count = tagCount.value else { return }
-
-       if count >= 1 && count <= 3 {
-           self.isValidTag.value = true
-           self.isOverCount.value = false
-       } else {
-           self.isValidTag.value = false
-           if count > 3 {
-               self.isOverCount.value = true
-           }
-       }
-       print(count)
-   }
+//   func countSelectedTag(isSelected: Bool) {
+//      guard let oldCount = tagCount.value else { return }
+//      if isSelected {
+//         tagCount.value = oldCount + 1
+//      } else {
+//         if oldCount != 0 {
+//            tagCount.value = oldCount - 1
+//         }
+//      }
+//      checkTagCount()
+//   }
+   
+//   func checkTagCount() {
+//      guard let count = tagCount.value else { return }
+//      
+//      if count >= 1 && count <= 3 {
+//         self.isValidTag.value = true
+//         self.isOverCount.value = false
+//      } else {
+//         self.isValidTag.value = false
+//         if count > 3 {
+//            self.isOverCount.value = true
+//         }
+//      }
+//      print(count)
+//   }
    
    func satisfyDateLocation(str: String) {
       let flag = (str.count > 0) ? true : false
@@ -154,14 +178,13 @@ extension AddCourseViewModel {
    }
    
    func isOkSixBtn() -> Bool {
-      let isPickedImageVaild = isPickedImageVaild.value ?? false
       let isDateNameVaild = isDateNameVaild.value ?? false
       let isValidTag = isValidTag.value ?? false
       let isVisitDateVaild = isVisitDateVaild.value ?? false
       let isDateStartAtVaild = isDateStartAtVaild.value ?? false
       let isDateLocationVaild = isDateLocationVaild.value ?? false
       
-      for i in [isPickedImageVaild, isDateNameVaild, isValidTag, isVisitDateVaild, isDateLocationVaild, isDateStartAtVaild] {
+      for i in [isDateNameVaild, isValidTag, isVisitDateVaild, isDateLocationVaild, isDateStartAtVaild] {
          if i == false {
             print("\(i) == false")
             return false
@@ -219,34 +242,27 @@ extension AddCourseViewModel {
       editBtnEnableState.value = flag
    }
    
-   
-   //MARK: - AddThirdView 전용 func
-   
-   func isDoneBtnValid() {
-      if contentFlag && priceFlag {
-         print("contentFlag : \(contentFlag)\npriceFlag : \(priceFlag)")
-         isDoneBtnOK.value = true
-      } else {
-         isDoneBtnOK.value = false
-      }
-   }
-   
-   
-   func postAddCourse() {
-      var places: [PostAddCoursePlace] = []
-
+   func postAddScheduel() {
+      var places: [PostAddSchedulePlace] = []
+      
       for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
          // Extract the numeric part from the timeRequire string
          let timeComponents = model.timeRequire.split(separator: " ")
-         print("🔥🔥🔥",timeComponents.first ?? "")
-         print("👍👍👍👍")
-         if let timeString = timeComponents.first, let duration = Float(timeString) {
-            print("👍👍👍👍")
-            let place = PostAddCoursePlace(title: model.placeTitle, duration: duration, sequence: index)
-            places.append(place)
+         print("🔥🔥🔥", timeComponents.first ?? "")
+         print("👍👍👍👍 Step 1")
+         
+         if let timeString = timeComponents.first {
+            print("👍👍👍👍 Step 2: timeString is \(timeString)")
+            if let duration = Float(timeString) {
+               print("👍👍👍👍 Step 3: duration is \(duration)")
+               let place = PostAddSchedulePlace(title: model.placeTitle, duration: duration, sequence: index)
+               places.append(place)
+               print("👍👍👍👍 Step 4: place added - \(place)")
+            } else {
+               print("❌❌❌ Step 3: Failed to convert timeString \(timeString) to Float")
+            }
          } else {
-            print("👍👍👍👍")
-            print("Invalid duration format for \(model.placeTitle): \(model.timeRequire)")
+            print("❌❌❌ Step 2: Failed to extract timeString from \(model.timeRequire)")
          }
       }
       print(addPlaceCollectionViewDataSource, "addPlaceCollectionViewDataSource : \(addPlaceCollectionViewDataSource)")
@@ -257,19 +273,69 @@ extension AddCourseViewModel {
       guard let dateStartAt = dateStartAt.value else {return}
       let country = country
       let city = city
-      let contentText = contentText
-      let price = price
-      let images = pickedImageArr
-      
-      NetworkService.shared.addCourseService.postAddCourse(course: PostAddCourse(title: dateName, date: visitDate, startAt: dateStartAt, country: country, city: city, description: contentText, cost: price).toDictionary(), tags: [PostAddCourseTag.Tag(tag: "DRIVE").toDictionary()], places: places, images: images)  { result in
-         switch result {
-         case .success(let response):
-             print("Success: \(response)")
-         default:
-             print("Failed to fetch user profile")
-             return
+      NetworkService.shared.addScheduleService.postAddSchedule(course: PostAddScheduleRequest(
+         title: dateName,
+         date: visitDate,
+         startAt: dateStartAt,
+         tags: [PostAddScheduleTag(tag: "SHOPPING")],
+         country: country,
+         city: city,
+         places: places)) { result in
+            switch result {
+            case .success(let response):
+               print("Success: \(response)")
+            default:
+               print("Failed to fetch user profile")
+               return
+            }
          }
-     }
    }
+   
+   //   func postAddCourse() {
+   //       var places: [PostAddCoursePlace] = []
+   //
+   //       for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
+   //           // Extract the numeric part from the timeRequire string
+   //           let timeComponents = model.timeRequire.split(separator: " ")
+   //           print("🔥🔥🔥", timeComponents.first ?? "")
+   //           print("👍👍👍👍 Step 1")
+   //
+   //           if let timeString = timeComponents.first {
+   //               print("👍👍👍👍 Step 2: timeString is \(timeString)")
+   //               if let duration = Float(timeString) {
+   //                   print("👍👍👍👍 Step 3: duration is \(duration)")
+   //                   let place = PostAddCoursePlace(title: model.placeTitle, duration: duration, sequence: index)
+   //                   places.append(place)
+   //                   print("👍👍👍👍 Step 4: place added - \(place)")
+   //               } else {
+   //                   print("❌❌❌ Step 3: Failed to convert timeString \(timeString) to Float")
+   //               }
+   //           } else {
+   //               print("❌❌❌ Step 2: Failed to extract timeString from \(model.timeRequire)")
+   //           }
+   //       }
+   //       print(addPlaceCollectionViewDataSource, "addPlaceCollectionViewDataSource : \(addPlaceCollectionViewDataSource)")
+   //       print(places, "places : \(places)")
+   //
+   //       guard let dateName = dateName.value else {return}
+   //       guard let visitDate = visitDate.value else {return}
+   //       guard let dateStartAt = dateStartAt.value else {return}
+   //       let country = country
+   //       let city = city
+   //       let contentText = contentText
+   //       let price = price
+   //       let images = pickedImageArr
+   //
+   //       NetworkService.shared.addCourseService.postAddCourse(course: PostAddCourse(title: dateName, date: visitDate, startAt: dateStartAt, country: country, city: city, description: contentText, cost: price).toDictionary(), tags: [PostAddCourseTag.Tag(tag: "DRIVE").toDictionary()], places: places, images: images)  { result in
+   //           switch result {
+   //           case .success(let response):
+   //               print("Success: \(response)")
+   //           default:
+   //               print("Failed to fetch user profile")
+   //               return
+   //           }
+   //       }
+   //   }
+   
    
 }

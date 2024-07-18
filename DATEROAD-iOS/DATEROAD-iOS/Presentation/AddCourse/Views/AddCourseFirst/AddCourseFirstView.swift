@@ -56,8 +56,9 @@ final class AddCourseFirstView: BaseView {
       }
       
       scrollContentView.snp.makeConstraints {
-         $0.edges.equalToSuperview()
-         $0.width.equalTo(scrollView.snp.width)
+         $0.verticalEdges.equalToSuperview()
+         $0.width.equalToSuperview()
+         $0.height.greaterThanOrEqualTo(scrollView.snp.height)
       }
       
       collectionView.snp.makeConstraints {
