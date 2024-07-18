@@ -15,15 +15,14 @@ struct PostAddScheduleRequest: Codable {
     let places: [PostAddSchedulePlace]
 }
 
-// MARK: - Place
+// MARK: - PostAddScheduleTag
+struct PostAddScheduleTag: Codable {
+    let tag: String
+}
+
+// MARK: - PostAddSchedulePlace
 struct PostAddSchedulePlace: Codable {
     let title: String
     let duration: Float
     let sequence: Int
 }
-
-// MARK: - Tag
-struct PostAddScheduleTag: Codable {
-    let tag: String
-}
-

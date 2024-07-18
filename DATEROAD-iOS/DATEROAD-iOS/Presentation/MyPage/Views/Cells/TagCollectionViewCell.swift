@@ -36,6 +36,11 @@ final class TagCollectionViewCell: BaseCollectionViewCell {
             $0.setButtonStatus(buttonType: tendencyTag)
             $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 2, bottom: 0, right: -2)
             $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: -2, bottom: 0, right: 2)
+           $0.titleLabel?.lineBreakMode = .byClipping
+           $0.titleLabel?.adjustsFontSizeToFitWidth = true
+           $0.titleLabel?.minimumScaleFactor = 0.5
+           $0.titleLabel?.numberOfLines = 1
+           $0.titleLabel?.textAlignment = .center
         }
     }
 

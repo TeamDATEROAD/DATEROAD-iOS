@@ -207,3 +207,47 @@ struct LocationModelCityKorToEng {
         }
     }
 }
+
+
+extension LocationModel.City: CaseIterable {
+    static var allCases: [LocationModel.City] {
+        return [
+            // 서울 관련 도시
+            .seoul(.all), .seoul(.gangnamSeocho), .seoul(.jamsilSongpaGangdong), .seoul(.kondaeSeongsuWangsimni),
+            .seoul(.jongnoJunggu), .seoul(.hongdaeHapjeongMapo), .seoul(.yeongdeungpoYeouido), .seoul(.yongsanItaewonHannam),
+            .seoul(.yangcheonGangseo), .seoul(.seongbukNowonYeouido), .seoul(.guroGwanakDongjak),
+
+            // 경기 관련 도시
+            .gyeonggi(.all), .gyeonggi(.seongnam), .gyeonggi(.suwon), .gyeonggi(.goyangPaju), .gyeonggi(.gimpo),
+            .gyeonggi(.yonginHwaseong), .gyeonggi(.anyangGwacheon), .gyeonggi(.pocheonYangju), .gyeonggi(.namyangjuUijeongbu),
+            .gyeonggi(.gwangjuIcheonYeoju), .gyeonggi(.gapyeongYangpyeong), .gyeonggi(.gunpoUiwang), .gyeonggi(.hanamGuri),
+            .gyeonggi(.siheungGwangmyeong), .gyeonggi(.bucheonAnsan), .gyeonggi(.dongducheonYeoncheon), .gyeonggi(.pyeongtaekOsanAnseong),
+
+            // 인천 관련 도시
+            .incheon(.all)
+        ]
+    }
+}
+
+
+struct LocationMapper {
+    
+    // 도시 이름을 기반으로 해당 City와 Country를 반환
+    static func getCountryAndCity(from cityName: String) -> (country: LocationModel.Country, city: LocationModel.City)? {
+        
+        // 도시 이름과 일치하는 LocationModel.City 찾기
+        if let city = LocationModel.City.allCases.first(where: { $0.rawValue == cityName }) {
+            switch city {
+            case .seoul:
+                return (country: .seoul, city: city)
+            case .gyeonggi(_):
+                return (country: .gyeonggi, city: city)
+            case .incheon:
+                return (country: .incheon, city: city)
+            }
+        }
+       
+        return nil
+    }
+   
+}
