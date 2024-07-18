@@ -401,7 +401,8 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
             return
         }
         setSetctionCount()
-        
+        setTabBar()
+
     }
     
     //버튼 분기 처리하기

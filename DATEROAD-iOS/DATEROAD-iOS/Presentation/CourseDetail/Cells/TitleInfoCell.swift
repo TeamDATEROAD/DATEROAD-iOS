@@ -27,7 +27,8 @@ final class TitleInfoCell: BaseCollectionViewCell {
     override func setLayout() {
         
         titleLabel.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.verticalEdges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
         }
         
     }
