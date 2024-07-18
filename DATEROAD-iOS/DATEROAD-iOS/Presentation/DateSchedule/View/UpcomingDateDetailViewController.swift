@@ -111,7 +111,7 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
             print("헉 헤어졌나??? 서버연결 delete")
             self.navigationController?.popViewController(animated: true)
         } else if rightButtonAction == .kakaoShare {
-            upcomingDateDetailViewModel?.shareToKaKao()
+            upcomingDateDetailViewModel?.shareToKakao(context: self)
             print("카카오 공유하기")
         }
     }
