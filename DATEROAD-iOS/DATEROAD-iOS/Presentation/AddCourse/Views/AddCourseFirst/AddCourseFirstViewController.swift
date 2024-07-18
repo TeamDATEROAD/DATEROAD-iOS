@@ -238,16 +238,11 @@ private extension AddCourseFirstViewController {
    
    @objc
    func didTapCameraBtn() {
+      addCourseFirstView.addFirstView.dateNameTextField.resignFirstResponder()
+      viewModel.pickedImageArr.removeAll()
+      viewModel.isPickedImageVaild.value = false
       imagePickerViewController.presentPicker(from: self)
    }
-   
-//   @objc
-//   func changeTagBtnState(sender: UIButton) {
-//      sender.isSelected.toggle()
-//      addCourseFirstView.addFirstView.updateTagButtonStyle(btn: sender, isSelected: sender.isSelected)
-//      viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
-//   }
-   
    
    @objc
    func didTapTagButton(_ sender: UIButton) {
@@ -373,10 +368,7 @@ extension AddCourseFirstViewController: UICollectionViewDataSource, UICollection
          cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
          if viewModel.pastDateTagIndex.contains(cell.tendencyTagButton.tag) {
             didTapTagButton(cell.tendencyTagButton)
-         } else {
-            
          }
-//         print("cell.tendencyTagButton.tag : \(cell.tendencyTagButton.tag)")
          
          return cell
       }

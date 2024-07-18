@@ -188,8 +188,6 @@ extension AddScheduleViewModel {
    
    func tapAddBtn(datePlace: String, timeRequire: String) {
       print(datePlace, timeRequire)
-      addPlaceCollectionViewDataSource.append(AddCoursePlaceModel(placeTitle: datePlace, timeRequire: timeRequire))
-      
       //viewmodel 값 초기화
       self.datePlace.value = ""
       self.timeRequire.value = ""

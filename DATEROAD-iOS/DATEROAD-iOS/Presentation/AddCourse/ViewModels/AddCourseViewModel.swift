@@ -12,7 +12,10 @@ final class AddCourseViewModel {
    var pastDateDetailData: DateDetailModel?
    var ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
    
+   var pastDatePlaces = [DatePlaceModel]()
+   
    var selectedTagData: [String] = []
+   
    
 //   var pastDateTagIndex: ObservablePattern<[Int]> = ObservablePattern(nil)
    var pastDateTagIndex = [Int]()
@@ -97,6 +100,7 @@ extension AddCourseViewModel {
        }
    }
    
+   ///지난 데이트 코스 등록 데이터 바인딩 함수
    func fetchPastDate() {
       dateName.value = pastDateDetailData?.title
       visitDate.value = pastDateDetailData?.date
@@ -123,6 +127,12 @@ extension AddCourseViewModel {
       isVisitDateVaild.value = true
       isDateStartAtVaild.value = true
       isDateLocationVaild.value = true
+      
+      ///코스 등록 2 AddPlaceCollectionView 구성
+      if let result = pastDateDetailData?.places {
+         pastDatePlaces = result
+      }
+      
    }
    
    //MARK: - AddCourse First 함수
