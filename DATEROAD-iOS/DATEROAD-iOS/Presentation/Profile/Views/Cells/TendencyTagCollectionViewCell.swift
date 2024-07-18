@@ -51,6 +51,17 @@ final class TendencyTagCollectionViewCell: BaseCollectionViewCell {
     func updateButtonTitle(tag: ProfileModel) {
         self.tendencyTagButton.setTitle(" \(tag.tagTitle)", for: .normal)
         self.tendencyTagButton.setImage(tag.tagIcon, for: .normal)
+       
     }
+   
+   func updateButtonTitle(title: String) {
+       guard let tendencyTag = TendencyTag.getTag(byEnglish: title) else { return }
+      tendencyTagButton.do {
+           $0.setImage(tendencyTag.tag.tagIcon, for: .normal)
+           $0.setTitle(" \(tendencyTag.tag.tagTitle)", for: .normal)
+         $0.backgroundColor = UIColor(resource: .drWhite)
+       }
+
+   }
     
 }

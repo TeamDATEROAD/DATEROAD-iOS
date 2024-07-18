@@ -124,7 +124,7 @@ extension BaseNavBarViewController {
    
    func setRightBtnStyle(image: UIImage?) {
        rightButton.do {
-          $0.setTitle(StringLiterals.AddCourseOrSchedule., for: .normal)
+          $0.setTitle(StringLiterals.AddCourseOrSchedule.AddFirstView.addScheduleRightBtn, for: .normal)
           $0.contentHorizontalAlignment = .leading
 
           var config = UIButton.Configuration.plain()
@@ -132,7 +132,7 @@ extension BaseNavBarViewController {
           config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 14, bottom: 0, trailing: 0)
           $0.configuration = config
            $0.isHidden = false
-          $0.
+//          $0.
        }
    }
     
