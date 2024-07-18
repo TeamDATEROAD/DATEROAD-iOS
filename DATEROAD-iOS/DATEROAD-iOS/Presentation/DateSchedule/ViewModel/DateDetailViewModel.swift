@@ -10,6 +10,8 @@ import UIKit
 import KakaoSDKShare
 import KakaoSDKTemplate
 import KakaoSDKCommon
+import KakaoSDKAuth
+import KakaoSDKUser
 
 class DateDetailViewModel {
    
@@ -126,35 +128,41 @@ class DateDetailViewModel {
         kakaoShareInfo["userName"] = userName
 //        kakaoShareInfo["title"] = dateDetailData.value?.title
         kakaoShareInfo["startAt"] = dateDetailData.value?.startAt
-        
+        print(dateDetailData.value?.places.count)
         switch dateDetailData.value?.places.count ?? 0 <= 5 {
         case true:
             for i in 0...maxPlaces-1 {
                 kakaoShareInfo["name\(i+1)"] = dateDetailData.value?.places[i].name
-                kakaoShareInfo["name\(i+1)"] = "\(dateDetailData.value?.places[i].duration ?? "")"
+                kakaoShareInfo["duration\(i+1)"] = "\(dateDetailData.value?.places[i].duration ?? "") 시간"
             }
-            /*
             for i in maxPlaces...5 {
                 kakaoPlacesInfo.append(KakaoPlaceModel(name: nil, duration: nil))
-            }*/
+            }
         case false:
             for i in 0...4 {
                 kakaoShareInfo["name\(i+1)"] = dateDetailData.value?.places[i].name
-                kakaoShareInfo["name\(i+1)"] = "\(dateDetailData.value?.places[i].duration ?? "")"
+                kakaoShareInfo["duration\(i+1)"] = "\(dateDetailData.value?.places[i].duration ?? "") 시간"
             }
         }
     }
-    
-    func shareToKaKao() {
-        // let appLink = Link(iosExecutionParams: ["key1": "value1", "key2": "value2"])
-        
-        // let appButton = Button(title: "자세히 보기", link: appLink)
-        
-        let templateId : Int64 = 109999
 
+    func shareToKakao(context: UIViewController) {
+
+        if !AuthApi.hasToken() {
+            // Generate Redirect URI
+            print("is 1")
+            let redirectURI = "kakao\(Config.kakaoNativeAppKey)://oauth"
+            // Redirect to Kakao login page
+            let loginUrl = "https://kauth.kakao.com/oauth/authorize?client_id=\(Config.kakaoNativeAppKey)&redirect_uri=\(redirectURI)&response_type=code"
+            let webVC = DRWebViewController(urlString: loginUrl)
+            context.present(webVC, animated: true, completion: nil)
+            return
+        }
+        
+        let templateId: Int64 = 109999
         setTempArgs()
         
-        // 카카오톡 설치여부 확인
+        // Check if KakaoTalk is installed
         if ShareApi.isKakaoTalkSharingAvailable() {
             ShareApi.shared.shareCustom(
                 templateId: templateId,
@@ -170,15 +178,13 @@ class DateDetailViewModel {
                 }
             }
         } else {
-            // 없을 경우 카카오톡 앱스토어로 이동 (URL Scheme에 itms-apps 추가확인)
-            // 나중에 히슬언니 로직이랑 합치기...?
-            let url = Config.kakaoAppStore
-            if let url = URL(string: url), UIApplication.shared.canOpenURL(url) {
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                } else {
-                    UIApplication.shared.openURL(url)
-                }
+            if let sharingResult = ShareApi.shared.makeCustomUrl(templateId: templateId, templateArgs: kakaoShareInfo) {
+                print("makeCustomURL success")
+                let webVC = DRWebViewController(urlString: sharingResult.absoluteString)
+                context.present(webVC, animated: true, completion: nil)
+            } else {
+                let error = NSError(domain: "CustomURL", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to create custom URL"])
+                print(error)
             }
         }
     }

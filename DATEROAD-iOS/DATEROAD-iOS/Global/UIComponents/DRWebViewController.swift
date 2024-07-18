@@ -28,6 +28,7 @@ final class DRWebViewController: UIViewController {
     override func loadView() {
         super.loadView()
         webView = WKWebView(frame: self.view.frame)
+        webView?.navigationDelegate = self
         self.view = webView
     }
     
@@ -43,5 +44,16 @@ final class DRWebViewController: UIViewController {
         } else {
             print("Invalid URL string.")
         }
+    }
+
+}
+
+extension DRWebViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        print("Failed to load URL: \(error.localizedDescription)")
+    }
+        
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        print("Navigation error: \(error.localizedDescription)")
     }
 }

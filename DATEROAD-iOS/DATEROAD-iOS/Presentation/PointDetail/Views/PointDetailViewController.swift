@@ -37,7 +37,7 @@ class PointDetailViewController: BaseNavBarViewController {
         
         setLeftBackButton()
         setTitleLabelStyle(title: StringLiterals.PointDetail.title, alignment: .center)
-        setProfile(userName: "수민", totalPoint: 200) // 나중에 푸쉬 전 뷰(메인뷰, 마이페이지뷰)에서 실행
+        setProfile(userName: pointViewModel.userName, totalPoint: pointViewModel.totalPoint)
         registerCell()
         setDelegate()
         setAddTarget()
