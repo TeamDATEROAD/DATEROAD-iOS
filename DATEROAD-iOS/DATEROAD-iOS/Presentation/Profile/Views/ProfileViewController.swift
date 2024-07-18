@@ -8,59 +8,60 @@
 import UIKit
 
 final class ProfileViewController: BaseNavBarViewController {
-   
-   // MARK: - UI Properties
-   
-   private let profileView = ProfileView()
-   
-   private var profileImageSettingView: ProfileImageSettingView = ProfileImageSettingView()
-   
-   private let imagePickerViewController = CustomImagePicker(isProfilePicker: true)
-   
-   // MARK: - Properties
-   
-   private var profileViewModel: ProfileViewModel
-   
-   private var initial: Bool = false
-   
-   
-   // MARK: - Life Cycle
-   
-   init(profileViewModel: ProfileViewModel) {
-      self.profileViewModel = profileViewModel
-      super.init(nibName: nil, bundle: nil)
-   }
-   
-   required init?(coder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
-   }
-   
-   override func viewDidLoad() {
-      super.viewDidLoad()
-      
-      setTitleLabelStyle(title: StringLiterals.Profile.myProfile, alignment: .center)
-      registerCell()
-      setDelegate()
-      setAddGesture()
-      bindViewModel()
-      self.initial = true
-   }
-   
-   override func setHierarchy() {
-      super.setHierarchy()
-      
-      self.contentView.addSubview(profileView)
-   }
-   
-   override func setLayout() {
-      super.setLayout()
-      
-      profileView.snp.makeConstraints {
-         $0.horizontalEdges.equalToSuperview().inset(16)
-         $0.verticalEdges.equalToSuperview()
-      }
-   }
-   
+    
+    // MARK: - UI Properties
+    
+    private let profileView = ProfileView()
+    
+    private var profileImageSettingView: ProfileImageSettingView = ProfileImageSettingView()
+    
+    private let imagePickerViewController = CustomImagePicker(isProfilePicker: true)
+
+    
+    // MARK: - Properties
+
+    private var profileViewModel: ProfileViewModel
+    
+    private var initial: Bool = false
+    
+        
+    // MARK: - Life Cycle
+    
+    init(profileViewModel: ProfileViewModel) {
+        self.profileViewModel = profileViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setTitleLabelStyle(title: StringLiterals.Profile.myProfile, alignment: .center)
+        registerCell()
+        setDelegate()
+        setAddGesture()
+        bindViewModel()
+        self.initial = true
+    }
+    
+    override func setHierarchy() {
+        super.setHierarchy()
+        
+        self.contentView.addSubview(profileView)
+    }
+    
+    override func setLayout() {
+        super.setLayout()
+        
+        profileView.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.verticalEdges.equalToSuperview()
+        }
+    }
+    
 }
 
 private extension ProfileViewController {
@@ -73,6 +74,7 @@ private extension ProfileViewController {
         self.profileView.tendencyTagCollectionView.dataSource = self
         self.profileView.tendencyTagCollectionView.delegate = self
         self.profileView.nicknameTextfield.delegate = self
+        self.imagePickerViewController .delegate = self
     }
     
     func setAddGesture() {
@@ -92,9 +94,6 @@ private extension ProfileViewController {
         
         let registerGesture = UITapGestureRecognizer(target: self, action: #selector(registerPhoto))
         self.profileImageSettingView.registerLabel.addGestureRecognizer(registerGesture)
-        
-        let cancelGesture = UITapGestureRecognizer(target: self, action: #selector(cancel))
-        self.profileImageSettingView.registerLabel.addGestureRecognizer(cancelGesture)
 
     }
     
@@ -179,22 +178,24 @@ private extension ProfileViewController {
     func didTapTagButton(_ sender: UIButton) {
         guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
 
-        // 0 ~ 2개 선택되어 있는 경우
-        if self.profileViewModel.tagCount.value != 3 {
-            sender.isSelected = !sender.isSelected
-            self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
-            self.profileViewModel.countSelectedTag(isSelected: sender.isSelected)
-            self.profileViewModel.selectedTagData.append(tag)
+        let maxTags = 3
+        
+        // 3이 아닐 때
+        if self.profileViewModel.selectedTagData.count != maxTags {
+           sender.isSelected.toggle()
+           sender.isSelected ? self.profileView.updateTag(button: sender, buttonType: SelectedButton())
+           : self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
+           self.profileViewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
+           self.profileViewModel.isValidTag.value = true
         }
-        // 3개 선택되어 있는 경우
+        // 그 외
         else {
-            // 취소 하려는 경우
-            if sender.isSelected {
-                sender.isSelected = !sender.isSelected
-                self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
-                self.profileViewModel.countSelectedTag(isSelected: sender.isSelected)
-                self.profileViewModel.selectedTagData.remove(at: sender.tag)
-            }
+           if sender.isSelected {
+              sender.isSelected.toggle()
+               self.profileView.updateTag(button: sender, buttonType:  UnselectedButton())
+              self.profileViewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
+              self.profileViewModel.isValidTag.value = true
+           }
         }
     }
     
@@ -204,25 +205,25 @@ private extension ProfileViewController {
         self.profileViewModel.nickname.value = text
     }
     
-   @objc
-   func deletePhoto() {
-      print("delete")
-      self.dismiss(animated: true)
-      profileView.updateProfileImage(image: UIImage(resource: .emptyProfileImg))
-   }
-   
-   @objc
-   func registerPhoto() {
-      print("register")
-      self.dismiss(animated: true)
-      imagePickerViewController.presentPicker(from: self)
-   }
-   
-   @objc
-   func cancel() {
-      print("cancel")
-   }
-   
+    @objc
+    func deletePhoto() {
+       print("delete")
+       self.dismiss(animated: true)
+       profileView.updateProfileImage(image: UIImage(resource: .emptyProfileImg))
+    }
+    
+    @objc
+    func registerPhoto() {
+       print("register")
+       self.dismiss(animated: true)
+       imagePickerViewController.presentPicker(from: self)
+    }
+    
+    @objc
+    func cancel() {
+       print("cancel")
+    }
+    
     @objc
     func registerProfile() {
         self.profileViewModel.postSignUp(image: self.profileView.profileImageView.image)
@@ -254,55 +255,54 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension ProfileViewController: UICollectionViewDataSource {
-   
-   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-      return self.profileViewModel.tagData.count
-   }
-   
-   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-      guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
-      cell.updateButtonTitle(tag: self.profileViewModel.tagData[indexPath.item])
-      cell.tendencyTagButton.tag = indexPath.item
-      cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
-      return cell
-   }
-   
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.profileViewModel.tagData.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
+        cell.updateButtonTitle(tag: self.profileViewModel.tagData[indexPath.item])
+        cell.tendencyTagButton.tag = indexPath.item
+        cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
+        return cell
+    }
+    
 }
 
 extension ProfileViewController: UITextFieldDelegate {
-   
-   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-      if let char = string.cString(using: String.Encoding.utf8) {
-         let isBackSpace = strcmp(char, "\\b")
-         if isBackSpace == -92 {
-            return true
-         }
-      }
-      return true
-   }
-   
-   /// 엔터 키 누르면 키보드 내리는 메서드
-   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-      textField.resignFirstResponder()
-      return true
-   }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let char = string.cString(using: String.Encoding.utf8) {
+            let isBackSpace = strcmp(char, "\\b")
+            if isBackSpace == -92 {
+                return true
+            }
+        }
+        return true
+    }
+    
+    /// 엔터 키 누르면 키보드 내리는 메서드
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
 
 extension ProfileViewController: DRBottomSheetDelegate {
-   
-   func didTapBottomButton() {
-      self.dismiss(animated: true)
-   }
-   
-   func didTapFirstLabel() {
-      self.registerPhoto()
-   }
-   
-   func didTapSecondLabel() {
-      self.deletePhoto()
-   }
+    
+    func didTapBottomButton() {
+        self.dismiss(animated: true)
+    }
+    
+    func didTapFirstLabel() {
+        self.registerPhoto()
+    }
+    
+    func didTapSecondLabel() {
+        self.deletePhoto()
+    }
 }
-
 extension ProfileViewController: ImagePickerDelegate {
    
    func didPickImages(_ images: [UIImage]) {

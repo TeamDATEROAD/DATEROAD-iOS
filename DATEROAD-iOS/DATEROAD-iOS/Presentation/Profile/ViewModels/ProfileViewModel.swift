@@ -58,22 +58,39 @@ extension ProfileViewModel {
         }
     }
     
-    func countSelectedTag(isSelected: Bool) {
-        guard let oldCount = tagCount.value else { return }
-        
-        if isSelected {
-            tagCount.value = oldCount + 1
-        } else {
-            if oldCount != 0 {
-                tagCount.value = oldCount - 1
-            }
-        }
+//    func countSelectedTag(isSelected: Bool) {
+//        guard let oldCount = tagCount.value else { return }
+//        
+//        if isSelected {
+//            tagCount.value = oldCount + 1
+//        } else {
+//            if oldCount != 0 {
+//                tagCount.value = oldCount - 1
+//            }
+//        }
+//        
+//        checkTagCount()
+//    }
+    
+    func countSelectedTag(isSelected: Bool, tag: String) {
+          if isSelected {
+             if !selectedTagData.contains(tag) {
+                 selectedTagData.append(tag)
+             }
+          } else {
+             if let index = selectedTagData.firstIndex(of: tag) {
+                 selectedTagData.remove(at: index)
+             }
+          }
         
         checkTagCount()
-    }
+       }
+    
     
     func checkTagCount() {
-        guard let count = tagCount.value else { return }
+//        guard let count = tagCount.value else { return }
+        let count = selectedTagData.count
+        self.tagCount.value = count
 
         if count >= 1 && count <= 3 {
             self.isValidTag.value = true
