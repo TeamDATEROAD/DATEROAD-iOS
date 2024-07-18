@@ -27,7 +27,7 @@ class AddScheduleFirstViewController: BaseNavBarViewController {
    required init?(coder: NSCoder) {
       fatalError("init(coder:) has not been implemented")
    }
-
+   
    override func viewDidLoad() {
       super.viewDidLoad()
       
@@ -69,7 +69,7 @@ class AddScheduleFirstViewController: BaseNavBarViewController {
          $0.isUserInteractionEnabled = true
       }
    }
-
+   
 }
 
 extension AddScheduleFirstViewController {
@@ -156,8 +156,8 @@ extension AddScheduleFirstViewController {
    
    @objc
    func visitDate() {
-         addSheetView.datePickerMode(isDatePicker: true)
-         viewModel.isTimePicker = false
+      addSheetView.datePickerMode(isDatePicker: true)
+      viewModel.isTimePicker = false
       alertVC.delegate = self
       DispatchQueue.main.async {
          self.alertVC.modalPresentationStyle = .overFullScreen
@@ -167,8 +167,8 @@ extension AddScheduleFirstViewController {
    
    @objc
    func dateStartAt() {
-         addSheetView.datePickerMode(isDatePicker: false)
-         viewModel.isTimePicker = true
+      addSheetView.datePickerMode(isDatePicker: false)
+      viewModel.isTimePicker = true
       alertVC.delegate = self
       DispatchQueue.main.async {
          self.alertVC.modalPresentationStyle = .overFullScreen
@@ -183,28 +183,24 @@ extension AddScheduleFirstViewController {
    }
    
    @objc
-   func changeTagBtnState(sender: UIButton) {
-      sender.isSelected.toggle()
-      addScheduleFirstView.inAddScheduleFirstView.updateTagButtonStyle(btn: sender, isSelected: sender.isSelected)
-      viewModel.countSelectedTag(isSelected: sender.isSelected)
-   }
-   
-   @objc
    func didTapTagButton(_ sender: UIButton) {
-      // 0 ~ 2개 선택되어 있는 경우
-      if self.viewModel.tagCount.value != 3 {
-         sender.isSelected = !sender.isSelected
+      let maxTags = 3
+      
+      // 3이 아닐 때
+      if self.viewModel.tagCount2 != maxTags {
+         sender.isSelected.toggle()
          sender.isSelected ? self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: SelectedButton())
          : self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: UnselectedButton())
-         self.viewModel.countSelectedTag(isSelected: sender.isSelected)
+         self.viewModel.countSelectedTag(isSelected: sender.isSelected, button: sender)
+         self.viewModel.isValidTag.value = true
       }
-      // 3개 선택되어 있는 경우
+      // 그 외
       else {
-         // 취소 하려는 경우
          if sender.isSelected {
-            sender.isSelected = !sender.isSelected
+            sender.isSelected.toggle()
             self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: UnselectedButton())
-            self.viewModel.countSelectedTag(isSelected: sender.isSelected)
+            self.viewModel.countSelectedTag(isSelected: sender.isSelected, button: sender)
+            self.viewModel.isValidTag.value = true
          }
       }
    }
@@ -213,6 +209,7 @@ extension AddScheduleFirstViewController {
    func sixCheckBtnTapped() {
       let secondVC = AddScheduleSecondViewController(viewModel: self.viewModel)
       navigationController?.pushViewController(secondVC, animated: true)
+      print(viewModel.selectedTags.count)
    }
    
    @objc
@@ -229,20 +226,20 @@ extension AddScheduleFirstViewController {
 extension AddScheduleFirstViewController: UICollectionViewDelegateFlowLayout {
    
    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-         let tagTitle = viewModel.tagData[indexPath.item].tagTitle
-         let font = UIFont.suit(.body_med_13)
-         let textWidth = tagTitle.width(withConstrainedHeight: 30, font: font)
-         let padding: CGFloat = 44
-         
-         return CGSize(width: textWidth + padding, height: 30)
+      let tagTitle = viewModel.tagData[indexPath.item].tagTitle
+      let font = UIFont.suit(.body_med_13)
+      let textWidth = tagTitle.width(withConstrainedHeight: 30, font: font)
+      let padding: CGFloat = 44
+      
+      return CGSize(width: textWidth + padding, height: 30)
    }
    
    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-         return 8
+      return 8
    }
    
    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-         return 7
+      return 7
    }
    
 }
@@ -254,11 +251,11 @@ extension AddScheduleFirstViewController: UICollectionViewDataSource, UICollecti
    }
    
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
-         cell.updateButtonTitle(tag: self.viewModel.tagData[indexPath.item])
-         cell.tendencyTagButton.tag = indexPath.item
-         cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
-         return cell
+      guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
+      cell.updateButtonTitle(tag: self.viewModel.tagData[indexPath.item])
+      cell.tendencyTagButton.tag = indexPath.item
+      cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
+      return cell
    }
    
 }
@@ -315,16 +312,16 @@ extension AddScheduleFirstViewController: LocationFilterDelegate {
    }
    
    
-//   func didSelectLocation(country: LocationModel.Country, city: LocationModel.City) {
-//      print("selected country : \(country.rawValue)")
-//      print("Selected city: \(city.rawValue)")
-//      viewModel.dateLocation.value = city.rawValue
-//      viewModel.satisfyDateLocation(str: city.rawValue)
-//      let country = LocationModelCountryKorToEng.Country(rawValue: country.rawValue).rawValue
-//      let city = LocationModelCityKorToEng.City(rawValue: city.rawValue).rawValue
-//      viewModel.country = country
-//      viewModel.city = city
-//   }
+   //   func didSelectLocation(country: LocationModel.Country, city: LocationModel.City) {
+   //      print("selected country : \(country.rawValue)")
+   //      print("Selected city: \(city.rawValue)")
+   //      viewModel.dateLocation.value = city.rawValue
+   //      viewModel.satisfyDateLocation(str: city.rawValue)
+   //      let country = LocationModelCountryKorToEng.Country(rawValue: country.rawValue).rawValue
+   //      let city = LocationModelCityKorToEng.City(rawValue: city.rawValue).rawValue
+   //      viewModel.country = country
+   //      viewModel.city = city
+   //   }
    
 }
 
