@@ -14,6 +14,7 @@ protocol AuthServiceProtocol {
     func getDoubleCheck(name: String, completion: @escaping (NetworkResult<EmptyResponse>) -> ())
     func deleteLogout(completion: @escaping (NetworkResult<EmptyResponse>) -> ())
     func postSignIn(requestBody: PostSignInRequest, completion: @escaping (NetworkResult<PostSignUpResponse>) -> ())
+    func deleteWithdrawal(requestBody: DeleteWithdrawalRequest, completion: @escaping (NetworkResult<EmptyResponse>) -> ())
 }
 
 final class AuthService: BaseService, AuthServiceProtocol {
@@ -68,4 +69,15 @@ final class AuthService: BaseService, AuthServiceProtocol {
         }
     }
     
+    func deleteWithdrawal(requestBody: DeleteWithdrawalRequest, completion: @escaping (NetworkResult<EmptyResponse>) -> ()) {
+        provider.request(.deleteWithdrawal(requestBody: requestBody)) { result in
+            switch result {
+            case .success(let response):
+                let networkResult: NetworkResult<EmptyResponse> = self.judgeStatus(statusCode: response.statusCode, data: response.data)
+                completion(networkResult)
+            case .failure(let err):
+                print(err)
+            }
+        }
+    }
 }

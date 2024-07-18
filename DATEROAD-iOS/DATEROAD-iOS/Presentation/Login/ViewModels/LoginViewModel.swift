@@ -85,6 +85,7 @@ extension LoginViewModel {
         self.setToken(token: token)
         self.setUserInfo(userInfo: userInfo)
         let authCode = String(data: code, encoding: .utf8)
+        UserDefaults.standard.setValue(authCode, forKey: "authCode")
 
         print("identifier token: \(String(describing: token))")
         print("authorization code: \(String(describing: authCode))")

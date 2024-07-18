@@ -145,7 +145,7 @@ private extension ProfileViewController {
         
         self.profileViewModel.onSuccessRegister = { [weak self] isSuccess in
             if isSuccess {
-                let mainVC = MainViewController(viewModel: MainViewModel())
+                let mainVC = TabBarController()
                 self?.navigationController?.pushViewController(mainVC, animated: false)
             } else {
                 let loginVC = LoginViewController()

@@ -14,6 +14,7 @@ enum AuthTargetType {
     case getDoubleCheck(name: String)
     case deleteLogout
     case postSignIn(requestBody: PostSignInRequest)
+    case deleteWithdrawal(requestBody: DeleteWithdrawalRequest)
 }
 
 extension AuthTargetType: BaseTargetType {
@@ -28,7 +29,7 @@ extension AuthTargetType: BaseTargetType {
             return .post
         case .getDoubleCheck:
             return .get
-        case .deleteLogout:
+        case .deleteLogout, .deleteWithdrawal:
             return .delete
         }
     }
@@ -43,6 +44,8 @@ extension AuthTargetType: BaseTargetType {
             return utilPath + "/signout"
         case .postSignIn:
             return utilPath + "/signin"
+        case .deleteWithdrawal:
+            return utilPath + "/withdraw"
         }
     }
 
@@ -78,7 +81,8 @@ extension AuthTargetType: BaseTargetType {
             
         case .postSignIn(let requstBody):
             return .requestJSONEncodable(requstBody)
-            
+        case .deleteWithdrawal(let requestBody):
+            return .requestJSONEncodable(requestBody)
         default:
             return .requestPlain
             
@@ -102,7 +106,7 @@ extension AuthTargetType: BaseTargetType {
                            "Content-Type" : "multipart/form-data",
                            "Authorization" : token]
             return headers
-        case .deleteLogout:
+        case .deleteLogout, .deleteWithdrawal:
             let token = UserDefaults.standard.string(forKey: "accessToken") ?? ""
             let headers = ["Content-Type" : "application/json", "Authorization" : "Bearer " + token]
             return headers

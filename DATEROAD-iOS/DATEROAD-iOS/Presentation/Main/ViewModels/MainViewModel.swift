@@ -55,7 +55,7 @@ extension MainViewModel {
     }
     
     func getUserProfile() {
-        NetworkService.shared.mainService.getUserProfile() { response in
+        NetworkService.shared.mainService.getMainUserProfile() { response in
             switch response {
             case .success(let data):
                 self.mainUserData.value = MainUserModel(name: data.name, point: data.point, imageUrl: data.image)
