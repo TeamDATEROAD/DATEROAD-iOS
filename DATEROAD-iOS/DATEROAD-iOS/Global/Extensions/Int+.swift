@@ -16,14 +16,29 @@ extension Int {
     
     func priceRangeTag() -> String {
         switch self {
-        case ..<30000:
+        case ..<3:
             return StringLiterals.Course.priceLabelUnder30K
-        case 30000..<50000:
+        case 3..<5:
             return StringLiterals.Course.priceLabelUnder50K
-        case 50000..<100000:
+        case 5..<10:
             return StringLiterals.Course.priceLabelUnder100K
         default:
             return StringLiterals.Course.priceLabelOver100K
+        }
+    }
+    
+    func costNum() -> Int {
+        switch self {
+        case 1:
+            return 3
+        case 2:
+            return 5
+        case 3:
+            return 10
+        case 4:
+            return 11
+        default:
+            return 0
         }
     }
     

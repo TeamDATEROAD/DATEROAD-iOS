@@ -33,7 +33,6 @@ final class PointViewModel {
     
     func changeSegment(segmentIndex: Int) {
         isEarnedPointHidden.value = segmentIndex != 0
-        updateData(nowEarnedPointHidden: isEarnedPointHidden.value ?? false)
     }
     
     func updateData(nowEarnedPointHidden: Bool) {

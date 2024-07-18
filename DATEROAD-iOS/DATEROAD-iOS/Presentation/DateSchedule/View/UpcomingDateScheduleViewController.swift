@@ -53,7 +53,7 @@ private extension UpcomingDateScheduleViewController {
     @objc
     func pushToDateRegisterVC() {
         if (upcomingDateScheduleData.dateCards.count) >= 5 {
-            dateRegisterButtonTapped()
+            
         } else {
             print("일정 등록으로 이동")
         }

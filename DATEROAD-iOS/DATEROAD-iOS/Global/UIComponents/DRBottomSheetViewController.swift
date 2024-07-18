@@ -69,7 +69,7 @@ final class DRBottomSheetViewController: BaseViewController {
         bottomButton.snp.makeConstraints {
             $0.height.equalTo(54)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(16)
+            $0.bottom.equalToSuperview().inset(24)
         }
     }
     
@@ -96,7 +96,7 @@ final class DRBottomSheetViewController: BaseViewController {
     
     func setBottomButtonByType() {
         switch buttonTitle {
-        case StringLiterals.Common.cancel:
+        case StringLiterals.Common.cancel, StringLiterals.AddCourseOrSchedule.AddBottomSheetView.datePickerBtnTitle:
             self.bottomButton.isEnabled = true
             self.bottomButton.addTarget(self, action: #selector(didTapBottomButton), for: .touchUpInside)
         default:
@@ -104,10 +104,11 @@ final class DRBottomSheetViewController: BaseViewController {
         }
     }
     
-    @objc
-    func didTapBottomButton() {
-        self.delegate?.didTapBottomButton()
-    }
+   @objc
+   func didTapBottomButton() {
+       print("Bottom button tapped")
+       self.delegate?.didTapBottomButton()
+   }
     
     @objc
     func didTapTopLabel() {
