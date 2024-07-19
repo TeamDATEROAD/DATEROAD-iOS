@@ -22,24 +22,20 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     // MARK: - LifeCycle
     
-    override func viewWillAppear(_ animated: Bool) {
-//        bindViewModel()
-         drawDateCardView()
-        print("~~~~")
-        
-//        registerCell()
-//        setDelegate()
+    override func viewDidAppear(_ animated: Bool) {
+        bindViewModel()
+        loadDataAndReload()
     }
+        
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         registerCell()
         setDelegate()
         setUIMethods()
         setAddTarget()
         setEmptyView()
-//        bindViewModel()
+        bindViewModel()
     }
     
     override func setHierarchy() {
@@ -54,14 +50,16 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     func drawDateCardView() {
         print("hi im drawing")
-        self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
-//        reload()
-        
+        upcomingDateScheduleView.cardCollectionView.reloadData()
+        setUIMethods()
+        setEmptyView()
     }
     
-    func reload() {
-        print("~~~")
-        upcomingDateScheduleView.cardCollectionView.reloadData()
+    private func loadDataAndReload() {
+        self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
+        DispatchQueue.main.async {
+            self.drawDateCardView()
+        }
     }
 }
 
@@ -107,20 +105,27 @@ private extension UpcomingDateScheduleViewController {
     
     func bindViewModel() {
         self.upcomingDateScheduleViewModel.isSuccessGetUpcomingDateScheduleData.bind { [weak self] isSuccess in
-            self?.upcomingDateScheduleViewModel.isSuccessGetUpcomingDateScheduleData.value = false
-            self?.upcomingDateScheduleView.cardCollectionView.reloadData()
-            
-//            guard let isSuccess else { return }
-//            if isSuccess {
-//
-                
-//            
-//            }
+            guard let isSuccess else { return }
+            if isSuccess == true {
+                self?.drawDateCardView()
+            } else {
+                print("not success")
+            }
         }
-//        self.upcomingDateScheduleViewModel.upcomingDateScheduleData.bind { [weak self] _ in
-//            self?.upcomingDateScheduleView.cardCollectionView.reloadData()
-//        }
     }
+    
+//    func updateDateSchedule() {
+//         Task {
+//             do {
+//                 let upcomingDateScheduleData = try await upcomingDateScheduleViewModel.upcomingDateScheduleData
+//                 DispatchQueue.main.async {
+//                     self.drawDateCardView()
+//                 }
+//             } catch {
+//                 print("An error occurred: \(error)")
+//             }
+//         }
+//     }
 }
 
 // MARK: - Alert Delegate
@@ -161,16 +166,23 @@ private extension UpcomingDateScheduleViewController {
 extension UpcomingDateScheduleViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return UpcomingDateScheduleView.dateCardCollectionViewLayout.itemSize
+        return CGSize(width: ScreenUtils.width * 0.776, height: ScreenUtils.height*0.5)
+//        return UpcomingDateScheduleView.dateCardCollectionViewLayout.itemSize
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: ScreenUtils.width * 0.112, bottom: 0, right: ScreenUtils.width * 0.112)
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return ScreenUtils.width * 0.0693
+    
+    }
+    
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let layout = UpcomingDateScheduleView.dateCardCollectionViewLayout
-        let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
+//        let layout = UpcomingDateScheduleView.dateCardCollectionViewLayout
+        
+        let cellWidthIncludingSpacing = ScreenUtils.width * 0.776 + ScreenUtils.width * 0.0693
         
         var offset = targetContentOffset.pointee
         let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
@@ -194,13 +206,14 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.row] ?? DateCardModel(dateID: 0, title: "", date: "", city: "", tags: [], dDay: 0)
+        print("coming")
+        let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel(dateID: 0, title: "", date: "", city: "", tags: [], dDay: 0)
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateCardCollectionViewCell.cellIdentifier, for: indexPath) as? DateCardCollectionViewCell else {
             return UICollectionViewCell()
         }
         print("🥵🥵🥵")
-        cell.dataBind(data, indexPath.row)
-        cell.setColor(index: indexPath.row)
+        cell.dataBind(data, indexPath.item)
+        cell.setColor(index: indexPath.item)
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToUpcomingDateDetailVC(_:))))
         return cell
     }
@@ -217,5 +230,13 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
             upcomingDateDetailVC.setColor(index: indexPath.item)
         }
     }
+    
 }
   
+extension UpcomingDateScheduleViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return CGFloat(26)
+    }
+    
+    
+}

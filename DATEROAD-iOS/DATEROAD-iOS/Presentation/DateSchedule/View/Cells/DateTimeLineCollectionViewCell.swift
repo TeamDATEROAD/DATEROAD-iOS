@@ -116,7 +116,7 @@ class DateTimeLineCollectionViewCell: BaseCollectionViewCell {
 
 extension DateTimeLineCollectionViewCell {
     func dataBind(_ placeData: DatePlaceModel, _ dateDetailItemRow: Int) {
-        indexNumLabel.text = "\(placeData.sequence)"
+        indexNumLabel.text = "\(placeData.sequence+1)"
         locationLabel.text = placeData.name
         timeLabel.text = "\(placeData.duration) 시간"
         self.dateDetailItemRow = dateDetailItemRow

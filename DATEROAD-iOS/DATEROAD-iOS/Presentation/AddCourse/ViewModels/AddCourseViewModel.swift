@@ -9,6 +9,14 @@ import UIKit
 
 final class AddCourseViewModel {
    
+   var pastDateDetailData: DateDetailModel?
+   var ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
+   
+   var pastDatePlaces = [DatePlaceModel]()
+   
+   var selectedTagData: [String] = []
+   
+   var pastDateTagIndex = [Int]()
    //MARK: - AddFirstCourse 사용되는 ViewModel
    
    /// ImageCollection 유효성 판별
@@ -16,7 +24,7 @@ final class AddCourseViewModel {
    var isPickedImageVaild: ObservablePattern<Bool> = ObservablePattern(false)
    
    /// 데이트 이름 유효성 판별 (true는 통과)
-   var dateName: ObservablePattern<String> = ObservablePattern("")
+   var dateName: ObservablePattern<String> = ObservablePattern(nil)
    var isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    /// 방문 일자 유효성 판별 (true는 통과)
@@ -74,13 +82,56 @@ final class AddCourseViewModel {
    
    var isDoneBtnOK: ObservablePattern<Bool> = ObservablePattern(false)
    
+   var tags: [[String: Any]] = []
    
-   init() {
+   init(pastDateDetailData: DateDetailModel? = nil) {
        fetchTagData()
+      self.pastDateDetailData = pastDateDetailData
    }
 }
 
 extension AddCourseViewModel {
+   
+   func getTagIndices(from tags: [String]) -> [Int] {
+       return tags.compactMap { tag in
+           TendencyTag.allCases.firstIndex { $0.tag.english == tag }
+       }
+   }
+   
+   ///지난 데이트 코스 등록 데이터 바인딩 함수
+   func fetchPastDate() {
+      dateName.value = pastDateDetailData?.title
+      visitDate.value = pastDateDetailData?.date
+      dateStartAt.value = pastDateDetailData?.startAt
+      dateLocation.value = pastDateDetailData?.city
+      
+      //동네.KOR 불러와서 지역, 동네 ENG 버전 알아내는 미친 로직
+      let cityName = pastDateDetailData?.city ?? ""
+      if let result = LocationMapper.getCountryAndCity(from: cityName) {
+         let country = LocationModelCountryKorToEng.Country(rawValue: result.country.rawValue).rawValue
+         let city = LocationModelCityKorToEng.City(rawValue: result.city.rawValue).rawValue
+         self.city = city
+         self.country = country
+         self.isDateLocationVaild.value = true
+      }
+      
+      //태그 추적해서 미리 셀렉 및 개수 표시 해버리는 진짜 미쳐버린 로직
+      guard let tags = pastDateDetailData?.tags else {return}
+      selectedTagData = tags.map { $0.tag }
+      pastDateTagIndex = getTagIndices(from: selectedTagData)
+      checkTagCount()
+      
+      isDateNameVaild.value = true
+      isVisitDateVaild.value = true
+      isDateStartAtVaild.value = true
+      isDateLocationVaild.value = true
+      
+      ///코스 등록 2 AddPlaceCollectionView 구성
+      if let result = pastDateDetailData?.places {
+         pastDatePlaces = result
+      }
+      
+   }
    
    //MARK: - AddCourse First 함수
    
@@ -121,20 +172,24 @@ extension AddCourseViewModel {
        tagData = TendencyTag.allCases.map { $0.tag }
    }
    
-   func countSelectedTag(isSelected: Bool) {
-       guard let oldCount = tagCount.value else { return }
-       if isSelected {
-           tagCount.value = oldCount + 1
-       } else {
-           if oldCount != 0 {
-               tagCount.value = oldCount - 1
-           }
-       }
-       checkTagCount()
+   func countSelectedTag(isSelected: Bool, tag: String) {
+      if isSelected {
+         if !selectedTagData.contains(tag) {
+            selectedTagData.append(tag)
+         }
+      } else {
+         if let index = selectedTagData.firstIndex(of: tag) {
+            selectedTagData.remove(at: index)
+         }
+      }
+      
+      checkTagCount()
    }
    
+   
    func checkTagCount() {
-       guard let count = tagCount.value else { return }
+       let count = selectedTagData.count
+       self.tagCount.value = count
 
        if count >= 1 && count <= 3 {
            self.isValidTag.value = true
@@ -191,7 +246,6 @@ extension AddCourseViewModel {
       if (datePlace.value?.count != 0) && (timeRequire.value?.count != 0) {
          return true
       } else {
-         print("아직 안돼~")
          return false
       }
    }
@@ -233,24 +287,29 @@ extension AddCourseViewModel {
    
    
    func postAddCourse() {
-      var places: [PostAddCoursePlace] = []
-
+      var places: [[String: Any]] = []
+      
       for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
-         // Extract the numeric part from the timeRequire string
-         let timeComponents = model.timeRequire.split(separator: " ")
-         print("🔥🔥🔥",timeComponents.first ?? "")
-         print("👍👍👍👍")
-         if let timeString = timeComponents.first, let duration = Float(timeString) {
-            print("👍👍👍👍")
-            let place = PostAddCoursePlace(title: model.placeTitle, duration: duration, sequence: index)
-            places.append(place)
-         } else {
-            print("👍👍👍👍")
-            print("Invalid duration format for \(model.placeTitle): \(model.timeRequire)")
-         }
+          // Extract the numeric part from the timeRequire string
+          let timeComponents = model.timeRequire.split(separator: " ")
+          
+          if let timeString = timeComponents.first {
+              if let duration = Float(timeString) {
+                  let place = PostAddCoursePlace(title: model.placeTitle, duration: duration, sequence: index + 1)
+                  places.append(place.toDictionary())
+                  print("👍👍👍👍 : place added - \(place)")
+              } else {
+                  print("❌❌❌ : Failed to convert \(timeString) to Float")
+              }
+          } else {
+              print("❌❌❌ : Failed to extract timeString from \(model.timeRequire)")
+          }
       }
-      print(addPlaceCollectionViewDataSource, "addPlaceCollectionViewDataSource : \(addPlaceCollectionViewDataSource)")
-      print(places, "places : \(places)")
+      
+      var postAddCourseTag = PostAddCourseTag()
+
+      postAddCourseTag.addTags(from: selectedTagData)
+      
       
       guard let dateName = dateName.value else {return}
       guard let visitDate = visitDate.value else {return}
@@ -260,16 +319,17 @@ extension AddCourseViewModel {
       let contentText = contentText
       let price = price
       let images = pickedImageArr
+      let place = places
       
-      NetworkService.shared.addCourseService.postAddCourse(course: PostAddCourse(title: dateName, date: visitDate, startAt: dateStartAt, country: country, city: city, description: contentText, cost: price).toDictionary(), tags: [PostAddCourseTag.Tag(tag: "DRIVE").toDictionary()], places: places, images: images)  { result in
+      NetworkService.shared.addCourseService.postAddCourse(course: PostAddCourse(title: dateName, date: visitDate, startAt: dateStartAt, country: country, city: city, description: contentText, cost: price).toDictionary(), tags: postAddCourseTag.tags, places: place, images: images)  { result in
          switch result {
          case .success(let response):
-             print("Success: \(response)")
+            print("Success: \(response)")
          default:
-             print("Failed to fetch user profile")
-             return
+            print("Failed to fetch user profile")
+            return
          }
-     }
+      }
    }
    
 }

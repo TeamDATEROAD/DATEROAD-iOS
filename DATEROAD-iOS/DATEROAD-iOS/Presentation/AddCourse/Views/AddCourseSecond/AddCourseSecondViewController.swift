@@ -40,6 +40,7 @@ final class AddCourseSecondViewController: BaseNavBarViewController {
       setDelegate()
       registerCell()
       bindViewModel()
+      pastDateBindViewModel()
       setupKeyboardDismissRecognizer()
    }
    
@@ -107,6 +108,14 @@ private extension AddCourseSecondViewController {
       }
    }
    
+   func pastDateBindViewModel() {
+      if viewModel.pastDatePlaces.count > 0  {
+         for i in viewModel.pastDatePlaces {
+            viewModel.tapAddBtn(datePlace: i.name, timeRequire: i.duration)
+         }
+      }
+   }
+   
    func bindViewModel() {
       viewModel.isDataSourceNotEmpty()
       
@@ -137,7 +146,7 @@ private extension AddCourseSecondViewController {
          
          self?.addCourseSecondView.editBtnState(isAble: state)
          
-         // 🔥🔥🔥여기까지 완벽🔥🔥🔥
+         print(" 🔥🔥🔥여기까지 완벽🔥🔥🔥")
          
          // 텍스트필드 초기화 및 addPlace버튼 비활성화
          self?.addCourseSecondView.addSecondView.finishAddPlace()
@@ -266,6 +275,7 @@ extension AddCourseSecondViewController: UITextFieldDelegate {
       alertVC.addSheetView = AddSheetView(isCustomPicker: true)
       
       self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
+      addCourseSecondView.addSecondView.datePlaceTextField.resignFirstResponder()
       
       DispatchQueue.main.async {
          alertVC.modalPresentationStyle = .overFullScreen
@@ -387,3 +397,6 @@ extension AddCourseSecondViewController: UICollectionViewDragDelegate {
       return []
    }
 }
+
+
+

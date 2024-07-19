@@ -13,9 +13,9 @@ final class DeleteCourseSettingView: BaseView {
     
     private let settingStackView: UIStackView = UIStackView()
     
-    private let titleLabel: UILabel = UILabel()
+    let titleLabel: UILabel = UILabel()
     
-    private let deleteLabel: UILabel = UILabel()
+    let deleteLabel: UILabel = UILabel()
     
     
     // MARK: - Properties
@@ -51,6 +51,7 @@ final class DeleteCourseSettingView: BaseView {
         }
         
         deleteLabel.do {
+            $0.isUserInteractionEnabled = true
             $0.setLabel(text: StringLiterals.CourseDetail.deleteCourse,
                         alignment: .center,
                         textColor: UIColor(resource: .deepPurple),

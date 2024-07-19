@@ -1,19 +1,20 @@
 //
-//  CourseTargetType.swift
+//  CourseDetailTargetType.swift
 //  DATEROAD-iOS
 //
-//  Created by 김민서 on 7/16/24.
+//  Created by 김민서 on 7/17/24.
 //
 
 import Foundation
 
 import Moya
 
-enum CourseTargetType {
-    case getCourseInfo(city: String, cost: Int)
+enum CourseDetailTargetType {
+    case getCourseDetailInfo(courseId: Int)
+    case deleteCourse(courseId: Int)
 }
 
-extension CourseTargetType: BaseTargetType {
+extension CourseDetailTargetType: BaseTargetType {
     
     var utilPath: String {
         return "api/v1/"
@@ -21,22 +22,26 @@ extension CourseTargetType: BaseTargetType {
     
     var method: Moya.Method {
         switch self {
-        case .getCourseInfo:
+        case .getCourseDetailInfo:
             return .get
+        case .deleteCourse:
+            return .delete
         }
     }
     
     var path: String {
         switch self {
-        case .getCourseInfo:
-            return utilPath + "courses"
+        case .getCourseDetailInfo(let courseId):
+            return utilPath+"courses/\(courseId)"
+        case .deleteCourse(let courseId):
+            return utilPath+"courses/\(courseId)"
         }
     }
     
     var parameter: [String : Any]? {
         switch self {
-        case .getCourseInfo(let city, let cost):
-            return ["city" : city , "cost" : cost ]
+        default:
+                .none
         }
     }
     

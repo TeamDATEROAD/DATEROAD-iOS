@@ -139,9 +139,9 @@ class ContentMaskView: UICollectionReusableView {
         print("내가 죄송해")
     }
     
-    func checkFree(conditionalModel: ConditionalModel) {
-        if conditionalModel.free < 3 {
-            readCourseButton.setTitle("무료 열람 기회 쓰기(\(conditionalModel.free)/3)", for: .normal)
+    func checkFree(haveFree: Bool, count: Int) {
+        if haveFree {
+            readCourseButton.setTitle("무료 열람 기회 쓰기(\(count)/3)", for: .normal)
         } else {
             readCourseButton.setTitle(StringLiterals.CourseDetail.viewCoursewithPoint, for: .normal)
         }

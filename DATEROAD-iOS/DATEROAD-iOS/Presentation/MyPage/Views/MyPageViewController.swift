@@ -80,7 +80,7 @@ final class MyPageViewController: BaseNavBarViewController {
 private extension MyPageViewController {
     
     func registerCell() {
-        self.myPageView.userInfoView.tagCollectionView.register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.cellIdentifier)
+        self.myPageView.userInfoView.tagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
         self.myPageView.myPageTableView.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.cellIdentifier)
     }
     
@@ -180,13 +180,20 @@ extension MyPageViewController: DRCustomAlertDelegate {
 extension MyPageViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let tagData = myPageViewModel.userInfoData.value?.tagList else { return CGSize() }
-        let tagTitle = tagData[indexPath.item]
-        let font = UIFont.suit(.body_med_13)
-        let textWidth = tagTitle.width(withConstrainedHeight: 30, font: font)
-        let padding: CGFloat = 48
-                
-       return CGSize(width: textWidth + padding, height: 30)
+//        guard let tagData = myPageViewModel.userInfoData.value?.tagList else { return CGSize() }
+//        let tagTitle = tagData[indexPath.item]
+//        let font = UIFont.suit(.body_med_13)
+//        let textWidth = tagTitle.width(withConstrainedHeight: 30, font: font)
+//        let padding: CGFloat = 48
+//                
+//       return CGSize(width: textWidth + padding, height: 30)
+       
+       let tagTitle = TendencyTag.getTag(byEnglish: self.myPageViewModel.tagData[indexPath.item])?.tag.tagTitle
+       let font = UIFont.suit(.body_med_13)
+       let textWidth = tagTitle?.width(withConstrainedHeight: 30, font: font) ?? 50
+       let padding: CGFloat = 50
+               
+      return CGSize(width: textWidth + padding, height: 30)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -204,10 +211,12 @@ extension MyPageViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagCollectionViewCell.cellIdentifier, for: indexPath) as? TagCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
         
         let data = myPageViewModel.userInfoData.value ?? MyPageUserInfoModel(nickname: "", tagList: [], point: 0, imageURL: "")
-        cell.updateButtonTitle(title: data.tagList[indexPath.row])
+//       cell.
+//       cell.updateButtonTitle(tag: data.tagList[indexPath.row])
+       cell.updateButtonTitle(title: data.tagList[indexPath.row])
         return cell
     }
     

@@ -112,7 +112,15 @@ extension PastDateDetailViewController {
     
     @objc
     private func tapShareCourse() {
-        print("일정 공유하기")
+        print("코스 등록해서 공유하기 여기!!!!!!!!!!!!")
+       guard let data = pastDateDetailViewModel?.dateDetailData.value else {
+               print("No date detail data available")
+               return
+           }
+           
+           let addCourseViewModel = AddCourseViewModel(pastDateDetailData: data)
+           let vc = AddCourseFirstViewController(viewModel: addCourseViewModel)
+           self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func setButton() {

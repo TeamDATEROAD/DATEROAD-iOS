@@ -50,6 +50,7 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
       registerCell()
       setDelegate()
       bindViewModel()
+      pastDateBindViewModel()
       setupKeyboardDismissRecognizer()
    }
    
@@ -85,7 +86,18 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
 
 private extension AddCourseFirstViewController {
    
+   func pastDateBindViewModel() {
+      if let pastDateDetailData = viewModel.pastDateDetailData {
+         print("Received date detail data: \(pastDateDetailData)")
+         viewModel.ispastDateVaild.value = true
+      }
+   }
+   
    func bindViewModel() {
+      viewModel.ispastDateVaild.bind { date in
+         self.viewModel.fetchPastDate()
+         self.addCourseFirstView.addFirstView.tendencyTagCollectionView.reloadData()
+      }
       viewModel.isPickedImageVaild.bind { date in
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
@@ -175,48 +187,12 @@ private extension AddCourseFirstViewController {
       addCourseFirstView.addFirstView.datePlaceContainer.isUserInteractionEnabled = true
    }
    
-//   func createCourseExample() {
-////      viewModel.postAddCourseCourse.city = "~~"
-//      let qwe = PostAddCourse(
-//         title: "string",
-//         date: "2024.07.04",
-//         startAt: "12:30 PM",
-//         country: "SEOUL",
-//         city: "SEOUL_ENTIRE",
-//         description: "string",
-//         cost: 30000
-//     )
-//       
-//       let tag: [String: Any] =
-//           ["tag": "DRIVE"]
-//      let tags = [tag]
-////      print(Tag(tag: "dd").toDictionary())
-//       
-//       let places: [[String: Any]] = [
-//           ["title": "string", "duration": 3, "sequence": 0]
-//       ]
-//      
-//      let images = viewModel.pickedImageArr
-//      
-//      NetworkService.shared.addCourseService.postAddCourse(course: qwe.toDictionary(), tags: tags, places: places, images: images) { result in
-//          switch result {
-//          case .success(let response):
-//              print("Success: \(response)")
-//          default:
-//              print("Failed to fetch user profile")
-//              return
-//          }
-//       }
-//      
-//   }
-   
-   
-   
    @objc
    func visitDate() {
          addSheetView.datePickerMode(isDatePicker: true)
          viewModel.isTimePicker = false
       alertVC.delegate = self
+      addCourseFirstView.addFirstView.dateNameTextField.resignFirstResponder()
       DispatchQueue.main.async {
          self.alertVC.modalPresentationStyle = .overFullScreen
          self.present(self.alertVC, animated: true, completion: nil)
@@ -228,6 +204,7 @@ private extension AddCourseFirstViewController {
          addSheetView.datePickerMode(isDatePicker: false)
          viewModel.isTimePicker = true
       alertVC.delegate = self
+      addCourseFirstView.addFirstView.dateNameTextField.resignFirstResponder()
       DispatchQueue.main.async {
          self.alertVC.modalPresentationStyle = .overFullScreen
          self.present(self.alertVC, animated: true, completion: nil)
@@ -261,34 +238,42 @@ private extension AddCourseFirstViewController {
    
    @objc
    func didTapCameraBtn() {
+      addCourseFirstView.addFirstView.dateNameTextField.resignFirstResponder()
+      viewModel.pickedImageArr.removeAll()
+      viewModel.isPickedImageVaild.value = false
       imagePickerViewController.presentPicker(from: self)
    }
    
    @objc
-   func changeTagBtnState(sender: UIButton) {
-      sender.isSelected.toggle()
-      addCourseFirstView.addFirstView.updateTagButtonStyle(btn: sender, isSelected: sender.isSelected)
-      viewModel.countSelectedTag(isSelected: sender.isSelected)
+   func didTapTagButton(_ sender: UIButton) {
+       guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
+
+       let maxTags = 3
+       
+       // 3이 아닐 때
+       if self.viewModel.selectedTagData.count != maxTags {
+          sender.isSelected.toggle()
+          sender.isSelected ? self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
+          : self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: UnselectedButton())
+          self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
+          self.viewModel.isValidTag.value = true
+       }
+       // 그 외
+       else {
+          if sender.isSelected {
+             sender.isSelected.toggle()
+             self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType:  UnselectedButton())
+             self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
+             self.viewModel.isValidTag.value = true
+          }
+       }
    }
    
    @objc
-   func didTapTagButton(_ sender: UIButton) {
-      // 0 ~ 2개 선택되어 있는 경우
-      if self.viewModel.tagCount.value != 3 {
-         sender.isSelected = !sender.isSelected
-         sender.isSelected ? self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
-         : self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: UnselectedButton())
-         self.viewModel.countSelectedTag(isSelected: sender.isSelected)
-      }
-      // 3개 선택되어 있는 경우
-      else {
-         // 취소 하려는 경우
-         if sender.isSelected {
-            sender.isSelected = !sender.isSelected
-            self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: UnselectedButton())
-            self.viewModel.countSelectedTag(isSelected: sender.isSelected)
-         }
-      }
+   func importingTagBtn(_ sender: UIButton) {
+      guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
+      self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
+      self.viewModel.isValidTag.value = true
    }
    
    @objc
@@ -388,6 +373,10 @@ extension AddCourseFirstViewController: UICollectionViewDataSource, UICollection
          cell.updateButtonTitle(tag: self.viewModel.tagData[indexPath.item])
          cell.tendencyTagButton.tag = indexPath.item
          cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
+         if viewModel.pastDateTagIndex.contains(cell.tendencyTagButton.tag) {
+            importingTagBtn(cell.tendencyTagButton)
+         }
+         
          return cell
       }
    }
@@ -426,7 +415,6 @@ extension AddCourseFirstViewController: ImagePickerDelegate {
       print("images : \(images)")
       viewModel.pickedImageArr = images
       addCourseFirstView.collectionView.reloadData()
-//      createCourseExample()
    }
    
 }
@@ -455,6 +443,7 @@ extension AddCourseFirstViewController: DRBottomSheetDelegate {
 }
 
 extension AddCourseFirstViewController: LocationFilterDelegate {
+   
    func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
       print("selected : \(city)")
       print("Selected city: \(city.rawValue)")
@@ -465,17 +454,5 @@ extension AddCourseFirstViewController: LocationFilterDelegate {
       viewModel.country = country
       viewModel.city = city
    }
-   
-   
-//   func didSelectLocation(country: LocationModel.Country, city: LocationModel.City) {
-//      print("selected : \(city)")
-//      print("Selected city: \(city.rawValue)")
-//      viewModel.dateLocation.value = city.rawValue
-//      viewModel.satisfyDateLocation(str: city.rawValue)
-//      let country = LocationModelCountryKorToEng.Country(rawValue: country.rawValue).rawValue
-//      let city = LocationModelCityKorToEng.City(rawValue: city.rawValue).rawValue
-//      viewModel.country = country
-//      viewModel.city = city
-//   }
    
 }

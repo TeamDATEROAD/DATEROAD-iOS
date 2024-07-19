@@ -8,24 +8,15 @@
 import UIKit
 
 final class AddScheduleViewModel {
+   var isImporting = false
+   var viewedDateCourseByMeData: CourseDetailViewModel?
+   var ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
    
-   var tagCount2: Int {
-      return selectedTags.count
-   }
+   var pastDatePlaces = [TimelineModel]()
    
-   func countSelectedTag(isSelected: Bool, button: UIButton) {
-      if isSelected {
-         if !selectedTags.contains(button) {
-            selectedTags.append(button)
-            isTagCntVaild(cnt: selectedTag.count)
-         }
-      } else {
-         if let index = selectedTags.firstIndex(of: button) {
-            selectedTags.remove(at: index)
-            isTagCntVaild(cnt: selectedTag.count)
-         }
-      }
-   }
+   var selectedTagData: [String] = []
+   
+   var pastDateTagIndex = [Int]()
    
    //MARK: - AddFirstCourse 사용되는 ViewModel
    
@@ -45,8 +36,8 @@ final class AddScheduleViewModel {
    var tagData: [ProfileModel] = []
    
    // 선택된 태그
-   var selectedTags: [UIButton] = []
-   var selectedTag = [String]()
+   //   var selectedTags: [UIButton] = []
+   //   var selectedTag = [String]()
    var isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
    var isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
    var tagCount: ObservablePattern<Int> = ObservablePattern(0)
@@ -79,24 +70,68 @@ final class AddScheduleViewModel {
    
    var isEditMode: Bool = false
    
-   
-   //MARK: - AddThirdView 전용 Viewmodel 변수
-   
-   var contentTextCount: ObservablePattern<Int> = ObservablePattern(0)
-   var contentFlag = false
-   
-   var priceText: ObservablePattern<Int> = ObservablePattern(nil)
-   var priceFlag = false
-   
-   var isDoneBtnOK: ObservablePattern<Bool> = ObservablePattern(false)
-   
-   
    init() {
       fetchTagData()
    }
 }
 
 extension AddScheduleViewModel {
+   
+   func getTagIndices(from tags: [String]) -> [Int] {
+      return tags.compactMap { tag in
+         TendencyTag.allCases.firstIndex { $0.tag.english == tag }
+      }
+   }
+   
+   func fetchPastDate(completion: @escaping () -> Void) {
+      viewedDateCourseByMeData?.isSuccessGetData.bind { [weak self] isSuccess in
+         guard let self = self else { return }
+         if isSuccess == true {
+            if let data = self.viewedDateCourseByMeData {
+               dateName.value = data.titleHeaderData.value?.title
+               dateLocation.value = data.titleHeaderData.value?.city
+               dateStartAt.value = data.startAt
+               
+               //동네.KOR 불러와서 지역, 동네 ENG 버전 알아내는 미친 로직
+               let cityName = data.titleHeaderData.value?.city ?? ""
+               if let result = LocationMapper.getCountryAndCity(from: cityName) {
+                  let country = LocationModelCountryKorToEng.Country(rawValue: result.country.rawValue).rawValue
+                  let city = LocationModelCityKorToEng.City(rawValue: result.city.rawValue).rawValue
+                  self.city = city
+                  self.country = country
+                  self.isDateLocationVaild.value = true
+               }
+               
+               //태그 추적해서 미리 셀렉 및 개수 표시 해버리는 진짜 미쳐버린 로직
+               guard let tags = viewedDateCourseByMeData?.tagArr else {return}
+               selectedTagData = tags.map { $0.tag }
+               pastDateTagIndex = getTagIndices(from: selectedTagData)
+               pastDateTagIndex.sort()
+               
+               print("pastDateTagIndex values: \(pastDateTagIndex)")
+               
+               checkTagCount()
+               
+               isDateNameVaild.value = true
+               isDateStartAtVaild.value = true
+               isDateLocationVaild.value = true
+               
+               ///코스 등록 2 AddPlaceCollectionView 구성
+               
+               if let result = data.timelineData.value {
+                  pastDatePlaces = result
+               }
+               
+               completion() // 데이터 로딩이 완료된 후 호출
+            }
+         } else {
+            print("Failed to load course details")
+            completion() // 실패한 경우에도 호출
+         }
+      }
+   }
+   
+   
    
    //MARK: - AddSchedule First 함수
    
@@ -119,9 +154,9 @@ extension AddScheduleViewModel {
          let selectedDate = dateFormatter.date(from: dateStr)
          
          // 현재 selectedDate가 미래 일자가 아니라면 true
-         let flag = (selectedDate ?? today) <= today
+         //         let flag = (selectedDate ?? today) <= today
          
-         self.isVisitDateVaild.value = flag
+         self.isVisitDateVaild.value = true
       } else {
          dateFormatter.dateStyle = .none
          dateFormatter.timeStyle = .short
@@ -137,40 +172,36 @@ extension AddScheduleViewModel {
       tagData = TendencyTag.allCases.map { $0.tag }
    }
    
-   func isTagCntVaild(cnt: Int) {
-      if cnt >= 1 && cnt <= 3 {
-         isValidTag.value = true
+   func countSelectedTag(isSelected: Bool, tag: String) {
+      if isSelected {
+         if !selectedTagData.contains(tag) {
+            selectedTagData.append(tag)
+         }
       } else {
-         isValidTag.value = false
+         if let index = selectedTagData.firstIndex(of: tag) {
+            selectedTagData.remove(at: index)
+         }
       }
+      
+      checkTagCount()
    }
    
-//   func countSelectedTag(isSelected: Bool) {
-//      guard let oldCount = tagCount.value else { return }
-//      if isSelected {
-//         tagCount.value = oldCount + 1
-//      } else {
-//         if oldCount != 0 {
-//            tagCount.value = oldCount - 1
-//         }
-//      }
-//      checkTagCount()
-//   }
    
-//   func checkTagCount() {
-//      guard let count = tagCount.value else { return }
-//      
-//      if count >= 1 && count <= 3 {
-//         self.isValidTag.value = true
-//         self.isOverCount.value = false
-//      } else {
-//         self.isValidTag.value = false
-//         if count > 3 {
-//            self.isOverCount.value = true
-//         }
-//      }
-//      print(count)
-//   }
+   func checkTagCount() {
+      let count = selectedTagData.count
+      self.tagCount.value = count
+      
+      if count >= 1 && count <= 3 {
+         self.isValidTag.value = true
+         self.isOverCount.value = false
+      } else {
+         self.isValidTag.value = false
+         if count > 3 {
+            self.isOverCount.value = true
+         }
+      }
+      print(count)
+   }
    
    func satisfyDateLocation(str: String) {
       let flag = (str.count > 0) ? true : false
@@ -214,13 +245,11 @@ extension AddScheduleViewModel {
       if (datePlace.value?.count != 0) && (timeRequire.value?.count != 0) {
          return true
       } else {
-         print("아직 안돼~")
          return false
       }
    }
    
    func tapAddBtn(datePlace: String, timeRequire: String) {
-      print(datePlace, timeRequire)
       addPlaceCollectionViewDataSource.append(AddCoursePlaceModel(placeTitle: datePlace, timeRequire: timeRequire))
       
       //viewmodel 값 초기화
@@ -248,18 +277,14 @@ extension AddScheduleViewModel {
       for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
          // Extract the numeric part from the timeRequire string
          let timeComponents = model.timeRequire.split(separator: " ")
-         print("🔥🔥🔥", timeComponents.first ?? "")
-         print("👍👍👍👍 Step 1")
          
          if let timeString = timeComponents.first {
-            print("👍👍👍👍 Step 2: timeString is \(timeString)")
             if let duration = Float(timeString) {
-               print("👍👍👍👍 Step 3: duration is \(duration)")
                let place = PostAddSchedulePlace(title: model.placeTitle, duration: duration, sequence: index)
                places.append(place)
-               print("👍👍👍👍 Step 4: place added - \(place)")
+               print("👍👍👍👍 : place added - \(place)")
             } else {
-               print("❌❌❌ Step 3: Failed to convert timeString \(timeString) to Float")
+               print("❌❌❌ Step 1: Failed to convert timeString \(timeString) to Float")
             }
          } else {
             print("❌❌❌ Step 2: Failed to extract timeString from \(model.timeRequire)")
@@ -273,11 +298,13 @@ extension AddScheduleViewModel {
       guard let dateStartAt = dateStartAt.value else {return}
       let country = country
       let city = city
+      let postAddScheduleTags = selectedTagData.map { PostAddScheduleTag(tag: $0) }
+      
       NetworkService.shared.addScheduleService.postAddSchedule(course: PostAddScheduleRequest(
          title: dateName,
          date: visitDate,
          startAt: dateStartAt,
-         tags: [PostAddScheduleTag(tag: "SHOPPING")],
+         tags: postAddScheduleTags,
          country: country,
          city: city,
          places: places)) { result in
@@ -290,52 +317,5 @@ extension AddScheduleViewModel {
             }
          }
    }
-   
-   //   func postAddCourse() {
-   //       var places: [PostAddCoursePlace] = []
-   //
-   //       for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
-   //           // Extract the numeric part from the timeRequire string
-   //           let timeComponents = model.timeRequire.split(separator: " ")
-   //           print("🔥🔥🔥", timeComponents.first ?? "")
-   //           print("👍👍👍👍 Step 1")
-   //
-   //           if let timeString = timeComponents.first {
-   //               print("👍👍👍👍 Step 2: timeString is \(timeString)")
-   //               if let duration = Float(timeString) {
-   //                   print("👍👍👍👍 Step 3: duration is \(duration)")
-   //                   let place = PostAddCoursePlace(title: model.placeTitle, duration: duration, sequence: index)
-   //                   places.append(place)
-   //                   print("👍👍👍👍 Step 4: place added - \(place)")
-   //               } else {
-   //                   print("❌❌❌ Step 3: Failed to convert timeString \(timeString) to Float")
-   //               }
-   //           } else {
-   //               print("❌❌❌ Step 2: Failed to extract timeString from \(model.timeRequire)")
-   //           }
-   //       }
-   //       print(addPlaceCollectionViewDataSource, "addPlaceCollectionViewDataSource : \(addPlaceCollectionViewDataSource)")
-   //       print(places, "places : \(places)")
-   //
-   //       guard let dateName = dateName.value else {return}
-   //       guard let visitDate = visitDate.value else {return}
-   //       guard let dateStartAt = dateStartAt.value else {return}
-   //       let country = country
-   //       let city = city
-   //       let contentText = contentText
-   //       let price = price
-   //       let images = pickedImageArr
-   //
-   //       NetworkService.shared.addCourseService.postAddCourse(course: PostAddCourse(title: dateName, date: visitDate, startAt: dateStartAt, country: country, city: city, description: contentText, cost: price).toDictionary(), tags: [PostAddCourseTag.Tag(tag: "DRIVE").toDictionary()], places: places, images: images)  { result in
-   //           switch result {
-   //           case .success(let response):
-   //               print("Success: \(response)")
-   //           default:
-   //               print("Failed to fetch user profile")
-   //               return
-   //           }
-   //       }
-   //   }
-   
    
 }

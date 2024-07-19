@@ -47,6 +47,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
       setDelegate()
       registerCell()
       bindViewModel()
+      pastDateBindViewModel()
       setupKeyboardDismissRecognizer()
    }
    
@@ -102,6 +103,14 @@ private extension AddScheduleSecondViewController {
       [addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField,
        addScheduleSecondView.inAddScheduleSecondView.timeRequireTextField].forEach { i in
          i.delegate = self
+      }
+   }
+   
+   func pastDateBindViewModel() {
+      if viewModel.pastDatePlaces.count > 0  {
+         for i in viewModel.pastDatePlaces {
+            viewModel.tapAddBtn(datePlace: i.title, timeRequire: String(i.duration))
+         }
       }
    }
    
@@ -161,26 +170,10 @@ private extension AddScheduleSecondViewController {
       self.present(customAlertVC, animated: false)
    }
    
-   /// navigationController를 통해 뷰컨트롤러 스택에서 originVC로 돌아가는 코드
    func goBackOriginVC() {
-   //      let vc = TabBarController.tabBar(<#T##self: UITabBarController##UITabBarController#>)
-      
-//      self.navigationController?.popToViewController(vc.dateVC, animated: true)
-//      if let tabBarController = self.tabBarController {
-//          // Tab index를 CourseViewController가 있는 탭의 인덱스로 설정
-//          tabBarController.selectedIndex = 1 // 여기에 CourseViewController가 있는 탭의 인덱스를 설정
-//
-//          // CourseViewController가 있는 내비게이션 컨트롤러를 가져옴
-//          if let navigationController = tabBarController.viewControllers?[1] as? UINavigationController {
-//              // 내비게이션 스택의 루트 뷰 컨트롤러로 pop
-//              navigationController.popToRootViewController(animated: true)
-//          }
-
          let tabbarVC = TabBarController()
-      tabbarVC.selectedIndex = 1
+      tabbarVC.selectedIndex = 2
       navigationController?.pushViewController(tabbarVC, animated: false)
-
-//      }
    }
    
    
@@ -279,6 +272,7 @@ extension AddScheduleSecondViewController: UITextFieldDelegate {
       alertVC.addSheetView = AddScheduleBottomSheetView(isCustomPicker: true)
       
       self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
+      addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField.resignFirstResponder()
       
       DispatchQueue.main.async {
          alertVC.modalPresentationStyle = .overFullScreen

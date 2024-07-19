@@ -10,6 +10,8 @@ import Foundation
 final class MyPageViewModel {
     
     var userInfoData: ObservablePattern<MyPageUserInfoModel> = ObservablePattern(nil)
+   
+   var tagData: [String] = []
         
     var onSuccessLogout: ObservablePattern<Bool> = ObservablePattern(nil)
     
@@ -68,7 +70,9 @@ extension MyPageViewModel {
                                                               tagList: data.tags,
                                                               point: data.point,
                                                               imageURL: data.imageURL)
-                self.onSuccessGetUserProfile.value = true
+                UserDefaults.standard.setValue(data.name, forKey: "userName")
+               self.tagData = data.tags
+               self.onSuccessGetUserProfile.value = true
             default:
                 print("Failed to fetch getUserProfile")
                 self.onSuccessGetUserProfile.value = false
