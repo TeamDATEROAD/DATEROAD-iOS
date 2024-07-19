@@ -106,6 +106,10 @@
 
 <br/><br/>
 
+## 🍏 기능 및 뷰 소개
+[Team DATEROAD iOS의 기능 및 뷰 소개](https://hooooooni.notion.site/e23a89858497488785f342afe712dbd0?pvs=4)
+
+<br/><br/>
 
 ## 📂 Project Foldering
 ```bash
