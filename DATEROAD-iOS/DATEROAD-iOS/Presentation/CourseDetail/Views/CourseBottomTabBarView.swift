@@ -17,7 +17,7 @@ class CourseBottomTabBarView: BaseView {
     
     let likeButtonImageView = UIImageView()
     
-    private let bringCourseButton = UIButton()
+   let bringCourseButton = UIButton()
     
     // MARK: - Properties
     

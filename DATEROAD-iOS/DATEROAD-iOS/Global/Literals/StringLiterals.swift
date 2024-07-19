@@ -120,7 +120,7 @@ enum StringLiterals {
       
       enum AddCourseAlert {
          static let alertTitleLabel = "코스 등록이 되었어요"
-         static let alertScheduelTitleLabel = "데이트 일정이 되었어요!"
+         static let alertScheduelTitleLabel = "데이트 일정이 등록되었어요!"
          static let alertSubTitleLabel = "100P가 적립되었어요!"
          static let doneButton = "확인했어요"
       }
