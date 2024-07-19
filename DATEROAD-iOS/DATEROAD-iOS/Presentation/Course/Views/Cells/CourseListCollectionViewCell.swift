@@ -209,7 +209,7 @@ extension CourseListCollectionViewCell {
             }
             
             if let time = course.time {
-                timeLabel.text = "\(time.formatFloatTime())시간"
+                //timeLabel.text = "\(time.formatTime())시간"
             } else {
                 timeLabel.text = nil
             }

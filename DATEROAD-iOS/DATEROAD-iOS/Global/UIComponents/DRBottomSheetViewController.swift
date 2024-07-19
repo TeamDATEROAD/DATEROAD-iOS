@@ -99,6 +99,9 @@ final class DRBottomSheetViewController: BaseViewController {
         case StringLiterals.Common.cancel, StringLiterals.AddCourseOrSchedule.AddBottomSheetView.datePickerBtnTitle:
             self.bottomButton.isEnabled = true
             self.bottomButton.addTarget(self, action: #selector(didTapBottomButton), for: .touchUpInside)
+        case StringLiterals.Common.close:
+            self.bottomButton.isEnabled = true
+            self.bottomButton.addTarget(self, action: #selector(didTapBottomButton), for: .touchUpInside)
         default:
             self.bottomButton.isEnabled = false
         }

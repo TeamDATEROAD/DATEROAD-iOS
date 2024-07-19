@@ -25,7 +25,7 @@ final class MainContentsCell: BaseCollectionViewCell {
         mainTextLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-34)
-            $0.leading.trailing.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
         }
     }
     
@@ -37,7 +37,7 @@ final class MainContentsCell: BaseCollectionViewCell {
 
             $0.font = UIFont.suit(.body_med_13)
             $0.textColor = UIColor(resource: .drBlack)
-            $0.numberOfLines = 0
+            $0.numberOfLines = 3
         }
     }
     

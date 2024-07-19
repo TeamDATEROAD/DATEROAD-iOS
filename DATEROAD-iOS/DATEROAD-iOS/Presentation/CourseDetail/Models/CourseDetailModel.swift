@@ -6,37 +6,57 @@
 //
 
 struct ConditionalModel {
-    let courseId: Int
-    let isCourseMine: Bool
-    let isAccess: Bool
-    let free: Int
-    let totalPoint: Int
-    let isUserLiked: Bool
+    var courseId: Int
+    var isCourseMine: Bool
+    var isAccess: Bool
+    var free: Int
+    var totalPoint: Int
+    var isUserLiked: Bool
+    
+    init(courseId: Int, isCourseMine: Bool, isAccess: Bool, free: Int, totalPoint: Int, isUserLiked: Bool) {
+        self.courseId = courseId
+        self.isCourseMine = isCourseMine
+        self.isAccess = isAccess
+        self.free = free
+        self.totalPoint = totalPoint
+        self.isUserLiked = isUserLiked
+    }
     
     static var conditionalDummyData: ConditionalModel {
-        return ConditionalModel(courseId: 0, isCourseMine: false, isAccess: true, free: 2, totalPoint: 500, isUserLiked: true)
+        return ConditionalModel(courseId: 0, isCourseMine: true, isAccess: true, free: 0, totalPoint: 0, isUserLiked: true)
     }
 }
 
-struct ThumnailModel {
-    //let courseImages: [(imageUrl: String, sequence: Int)]
-    let like: Int
+
+struct ThumbnailModel {
+    let imageUrl: String
+    let sequence: Int
+//    let courseImages: [(imageUrl: String, sequence: Int)]
+//    let like: Int
+    
+//    static var thumbnailDummyData: ThumbnailModel {
+//        return ThumbnailModel(courseImages: [
+//            (imageUrl: "https://example.com/default_image.jpg", sequence: 0)
+//        ], like: 0)
+//    }
 }
+
 
 struct TitleHeaderModel {
-    let date: String
-    let title: String
-    let coast: Int
-    let totalTime: Float
-    let city: String
+    var date: String
+    var title: String
+    var cost: Int
+    var totalTime: Double
+    var city: String
     
     static var titleHeaderDummyData: TitleHeaderModel {
-        return TitleHeaderModel(date: "2024.7.14", title: "만원으로 데이트 하기 챌린지", coast: 10000, totalTime: 10.5, city: "건대/성수/왕십리")
+        return TitleHeaderModel(date: "2024.7.14", title: "만원으로 데이트 하기 챌린지", cost: 10000, totalTime: 10.5, city: "건대/성수/왕십리")
     }
 }
 
+
 struct MainContentsModel {
-    let description: String
+    var description: String
     
     static var descriptionDummyData: MainContentsModel {
         return MainContentsModel(description: """
@@ -60,11 +80,9 @@ struct TimelineModel {
         self.duration = duration
     }
     
-    static let timelineDummyData: [TimelineModel] = [
+    static let timelineContents: [TimelineModel] = [
         TimelineModel(sequence: 1, title: "플롭 안국점", duration: 0.5),
-        TimelineModel(sequence: 2, title: "국립 현대 미술관", duration: 2),
-        TimelineModel(sequence: 3, title: "널 담은 공간 경복궁점", duration: 2),
-        TimelineModel(sequence: 4, title: "경복궁", duration: 2),
+        TimelineModel(sequence: 1, title: "플롭 안국점", duration: 0.5)
     ]
 }
 
@@ -81,12 +99,12 @@ struct CoastModel {
 
 
 struct TagModel {
-    let tags: [String]
+    let tag: String
     
     static var tagDummyData: [TagModel] = [
-        TagModel(tags: ["🚙 드라이브"]),
-        TagModel(tags: ["🛍️ 쇼핑"]),
-        TagModel(tags: ["🚪 실내"])
+        TagModel(tag: "🚙 드라이브"),
+        TagModel(tag: "🛍️ 쇼핑"),
+        TagModel(tag: "🚪 실내")
     ]
 }
 
