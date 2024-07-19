@@ -22,16 +22,9 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     // MARK: - LifeCycle
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
-        DispatchQueue.main.async {
-            self.drawDateCardView()
-            self.setEmptyView()
-        }
-        
-//        self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
-//        self.drawDateCardView()
-
+    override func viewDidAppear(_ animated: Bool) {
+        bindViewModel()
+        loadDataAndReload()
     }
         
     
@@ -59,10 +52,14 @@ class UpcomingDateScheduleViewController: BaseViewController {
         print("hi im drawing")
         upcomingDateScheduleView.cardCollectionView.reloadData()
         setUIMethods()
+        setEmptyView()
     }
     
-    func reload() {
-        print("~~~")
+    private func loadDataAndReload() {
+        self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
+        DispatchQueue.main.async {
+            self.drawDateCardView()
+        }
     }
 }
 
