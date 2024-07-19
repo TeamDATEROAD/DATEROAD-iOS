@@ -42,7 +42,10 @@ class PointDetailViewController: BaseNavBarViewController {
         setDelegate()
         setAddTarget()
         bindViewModel()
-        changeSelectedSegmentLayout(isEarnedPointHidden: false)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        pointViewModel.getPointDetail(nowEarnedPointHidden: false)
     }
     
     override func setHierarchy() {
@@ -63,12 +66,10 @@ class PointDetailViewController: BaseNavBarViewController {
 
 
 extension PointDetailViewController {
-    func bindViewModel() {
-//        self.pointViewModel.isSuccessGetPointInfo.bind { [weak self] data in
-//            self?.pointDetailView.pointCollectionView.reloadData()
-//        }
-        
+    func bindViewModel() {        
+        // 선택된 내역의 데이터
         self.pointViewModel.nowPointData.bind { [weak self] data in
+            print("좀 되라 \(data)")
             self?.pointDetailView.pointCollectionView.reloadData()
         }
     }
@@ -101,11 +102,12 @@ private extension PointDetailViewController {
     
     func changeSelectedSegmentLayout(isEarnedPointHidden: Bool?) {
         guard let isEarnedPointHidden = isEarnedPointHidden else { return }
-//        print(isEarnedPointHidden)
+        print(isEarnedPointHidden)
         if isEarnedPointHidden {
             switch pointViewModel.usedPointData.value?.count == 0 {
             case true:
                 setSegmentViewHidden(pointDetailView.emptyUsedPointView)
+                pointDetailView.pointCollectionView.reloadData()
             case false:
                 setSegmentViewHidden(pointDetailView.pointCollectionView)
                 pointDetailView.pointCollectionView.reloadData()
@@ -118,6 +120,7 @@ private extension PointDetailViewController {
             switch pointViewModel.gainedPointData.value?.count == 0 {
             case true:
                 setSegmentViewHidden(pointDetailView.emptyGainedPointView)
+                pointDetailView.pointCollectionView.reloadData()
             case false:
                 setSegmentViewHidden(pointDetailView.pointCollectionView)
                 pointDetailView.pointCollectionView.reloadData()
@@ -162,10 +165,10 @@ extension PointDetailViewController : UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PointCollectionViewCell.cellIdentifier, for: indexPath) as? PointCollectionViewCell else { return UICollectionViewCell() }
-        pointViewModel.updateData(nowEarnedPointHidden: pointViewModel.isEarnedPointHidden.value ?? false)
-        cell.prepareForReuse()
+//        pointViewModel.updateData(nowEarnedPointHidden: pointViewModel.isEarnedPointHidden.value ?? false)
         let data = pointViewModel.nowPointData.value?[indexPath.item] ?? PointDetailModel(sign: "", point: 0, description: "", createdAt: "")
         cell.dataBind(data, indexPath.item)
+        cell.prepareForReuse()
         return cell
     }
 }

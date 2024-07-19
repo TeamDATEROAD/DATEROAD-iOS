@@ -48,7 +48,7 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //            setSetctionCount()
+        self.tabBarController?.tabBar.isHidden = true
         bindViewModel()
         setDelegate()
         registerCell()
