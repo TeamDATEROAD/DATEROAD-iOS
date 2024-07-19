@@ -96,6 +96,11 @@ class CourseDetailViewModel {
         currentPage.value = index
     }
     
+    
+    func toggleUserLiked() {
+        self.isUserLiked.value?.toggle()
+    }
+    
 }
 
 extension CourseDetailViewModel {
@@ -137,6 +142,8 @@ extension CourseDetailViewModel {
                     TagModel(tag: tag.tag)
                 }
                 
+                self.isUserLiked.value = data.isUserLiked
+                
                 self.isSuccessGetData.value = true
                 
                 
@@ -164,7 +171,10 @@ extension CourseDetailViewModel {
     
     func deleteCourse(completion: @escaping (Bool) -> Void) {
         CourseDetailService().deleteCourse(courseId: courseId) { (success: Bool) in
-            completion(success)
+            if success {
+                completion(success)
+
+            }
         }
     }
     

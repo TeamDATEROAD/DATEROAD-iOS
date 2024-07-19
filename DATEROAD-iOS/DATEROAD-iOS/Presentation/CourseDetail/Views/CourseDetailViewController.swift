@@ -48,7 +48,7 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//            setSetctionCount()
+        //            setSetctionCount()
         bindViewModel()
         setDelegate()
         registerCell()
@@ -107,7 +107,11 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
             guard let isAccess else { return }
             self?.courseDetailView.isAccess = isAccess
             self?.courseDetailView.mainCollectionView.reloadData()
-            
+        }
+        
+        courseDetailViewModel.isUserLiked.bind { [weak self] isUserLiked in
+            guard let self = self else { return }
+            self.updateLikeButtonColor(isLiked: isUserLiked ?? false)
         }
         
     }
@@ -115,6 +119,11 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
     func setAddTarget() {
         let deleteGesture = UITapGestureRecognizer(target: self, action: #selector(didTapDeleteLabel(sender:)))
         deleteCourseSettingView.deleteLabel.addGestureRecognizer(deleteGesture)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapLikeButton))
+        courseInfoTabBarView.likeButtonView.isUserInteractionEnabled = true
+        courseInfoTabBarView.likeButtonView.addGestureRecognizer(tapGesture)
+        
     }
     
 }
@@ -127,6 +136,39 @@ private extension CourseDetailViewController {
         let alertVC = DRBottomSheetViewController(contentView: DeleteCourseSettingView(), height: 215, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
         alertVC.modalPresentationStyle = .overFullScreen
         self.present(alertVC, animated: true)
+    }
+    
+    @objc
+    func didTapLikeButton() {
+        courseDetailViewModel.toggleUserLiked()
+        
+        if courseDetailViewModel.isUserLiked.value ?? true {
+            courseDetailViewModel.isUserLiked.value = true
+        } else {
+            courseDetailViewModel.isUserLiked.value = false
+            
+        }
+        
+    }
+    
+    private func updateLikeButtonColor(isLiked: Bool) {
+        print(isLiked,"🔥")
+        let courseId = self.courseDetailViewModel.courseId
+        print(courseId,"🚬")
+        if isLiked {
+            courseInfoTabBarView.likeButtonImageView.tintColor = UIColor(resource: .deepPurple)
+            self.courseDetailViewModel.likeCourse(courseId: courseId)
+        } else {
+            courseInfoTabBarView.likeButtonImageView.tintColor = UIColor(resource: .gray200)
+            self.courseDetailViewModel.deleteLikeCourse(courseId: courseId) { success in
+                if success {
+                    print("Successfully unliked course")
+                } else {
+                    print("Failed to unlike course")
+                }
+            }
+            
+        }
     }
     
     func setDelegate() {
@@ -179,7 +221,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let sectionType = courseDetailViewModel.fetchSection(at: section)
+        _ = courseDetailViewModel.fetchSection(at: section)
         
         return courseDetailViewModel.numberOfItemsInSection(section)
     }
@@ -196,6 +238,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             }
             let imageData = courseDetailViewModel.imageData.value ?? []
             imageCarouselCell.setPageVC(thumbnailModel: imageData)
+            imageCarouselCell.setAccess(isAccess: isAccess)
             imageCarouselCell.delegate = self
             return imageCarouselCell
             
@@ -350,7 +393,6 @@ extension CourseDetailViewController {
         }
     }
     
-    
 }
 
 extension CourseDetailViewController: ContentMaskViewDelegate {
@@ -392,7 +434,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         }
         setSetctionCount()
         setTabBar()
-
+        
     }
     
     //버튼 분기 처리하기
