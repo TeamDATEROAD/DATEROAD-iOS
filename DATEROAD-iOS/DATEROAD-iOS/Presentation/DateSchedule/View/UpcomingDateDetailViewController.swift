@@ -68,17 +68,17 @@ extension UpcomingDateDetailViewController {
         }
     }
     
-//    func bindPopAction() {
-//        self.upcomingDateDetailViewModel?.isSuccessDeleteDateScheduleData.bind { [weak self] isSuccess in
+    func bindPopAction() {
+        self.upcomingDateDetailViewModel?.isSuccessDeleteDateScheduleData.bind { [weak self] isSuccess in
 //            guard let isSuccess else { return }
-//            print("dsfsdfs")
-//            if isSuccess == true {
-//                self?.navigationController?.popViewController(animated: false)
-//            } else {
-//                print("not success")
-//            }
-//        }
-//    }
+            if isSuccess == true {
+                print("true")
+                self?.navigationController?.popViewController(animated: false)
+            } else {
+                print("not success")
+            }
+        }
+    }
     
     
     private func setButton() {
@@ -128,13 +128,15 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     }
 
     func action(rightButtonAction: RightButtonType) {
-        print("all")
         if rightButtonAction == .deleteCourse {
-            print("zz")
-//            DispatchQueue.main.async {
-//                self.upcomingDateDetailViewModel?.deleteDateSchdeuleData(dateID: self.upcomingDateDetailViewModel?.dateDetailData.value?.dateID ?? 0)
-//            }
-//            bindPopAction()
+            print(1)
+            DispatchQueue.main.async {
+                print(2)
+                self.upcomingDateDetailViewModel?.deleteDateSchdeuleData(dateID: self.upcomingDateDetailViewModel?.dateDetailData.value?.dateID ?? 0)
+                print(3)
+            }
+            print(4)
+            bindPopAction()
             print("헉 헤어졌나??? 서버연결 delete")
         } else if rightButtonAction == .kakaoShare {
             upcomingDateDetailViewModel?.shareToKakao(context: self)

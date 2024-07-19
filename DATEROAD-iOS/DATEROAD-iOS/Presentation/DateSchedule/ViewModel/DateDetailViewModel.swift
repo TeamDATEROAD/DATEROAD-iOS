@@ -64,7 +64,7 @@ class DateDetailViewModel {
     
     var isSuccessGetDateDetailData: ObservablePattern<Bool> = ObservablePattern(nil)
     
-//    var isSuccessDeleteDateScheduleData: ObservablePattern<Bool> = ObservablePattern(nil)
+    var isSuccessDeleteDateScheduleData: ObservablePattern<Bool> = ObservablePattern(nil)
     
     func getDateDetailData(dateID: Int) {
         dateScheduleService.getDateDetail(dateID: dateID) { response in
@@ -98,18 +98,10 @@ class DateDetailViewModel {
             switch response {
             case .success(let data):
                 print(data)
-                print("success")
-//                self.isSuccessDeleteDateScheduleData.value = true
-            case .requestErr:
-                print("requestError")
-            case .decodedErr:
-                print("decodedError")
-            case .pathErr:
-                print("pathError")
-            case .serverErr:
-                print("serverError")
-            case .networkFail:
-                print("networkFail")
+                self.isSuccessDeleteDateScheduleData.value = true
+                print("success", self.isSuccessDeleteDateScheduleData.value)
+            default:
+                self.isSuccessDeleteDateScheduleData.value = false
             }
         }
     }
@@ -129,7 +121,6 @@ class DateDetailViewModel {
     
     func setTempArgs() {
         kakaoShareInfo["userName"] = userName
-//        kakaoShareInfo["title"] = dateDetailData.value?.title
         kakaoShareInfo["startAt"] = dateDetailData.value?.startAt
         print(dateDetailData.value?.places.count)
         switch dateDetailData.value?.places.count ?? 0 <= 5 {
