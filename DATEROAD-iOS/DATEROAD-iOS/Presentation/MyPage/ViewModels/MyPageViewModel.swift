@@ -70,7 +70,6 @@ extension MyPageViewModel {
                                                               tagList: data.tags,
                                                               point: data.point,
                                                               imageURL: data.imageURL)
-                UserDefaults.standard.setValue(data.name, forKey: "userName")
                self.tagData = data.tags
                self.onSuccessGetUserProfile.value = true
             default:

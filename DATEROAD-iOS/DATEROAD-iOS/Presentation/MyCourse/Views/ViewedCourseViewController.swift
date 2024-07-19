@@ -27,6 +27,11 @@ class ViewedCourseViewController: BaseViewController {
     // MARK: - Properties
     
     private let viewedCourseViewModel = MyCourseListViewModel()
+   
+   override func viewWillAppear(_ animated: Bool) {
+      let name = UserDefaults.standard.string(forKey: "userName") ?? ""
+      viewedCourseViewModel.userName.value = name
+   }
     
     // MARK: - LifeCycle
 //    override func viewDidAppear(_ animated: Bool) {
@@ -36,7 +41,7 @@ class ViewedCourseViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+       setStyle()
         registerCell()
         setDelegate()
         bindViewModel()
@@ -90,7 +95,7 @@ class ViewedCourseViewController: BaseViewController {
         
         topLabel.do {
             $0.font = UIFont.suit(.title_extra_24)
-            $0.setAttributedText(fullText: "\(viewedCourseViewModel.userName)님이 지금까지\n열람한 데이트 코스\n\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개", pointText: "\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)", pointColor: UIColor(resource: .mediumPurple), lineHeight: 1)
+           $0.setAttributedText(fullText: "\(viewedCourseViewModel.userName)님이 지금까지\n열람한 데이트 코스\n\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개", pointText: "\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)", pointColor: UIColor(resource: .mediumPurple), lineHeight: 1)
             $0.numberOfLines = 3
         }
         
@@ -133,12 +138,26 @@ private extension ViewedCourseViewController {
             }
         }
     }
+   
+   func updateNicknameLabel(nickName: String) {
+      if viewedCourseViewModel.viewedCourseData.value?.count == 0 {
+         topLabel.text = "\(nickName)님,\n아직 열람한\n데이트코스가 없어요"
+      } else {
+         topLabel.text = "\(nickName)님이 지금까지\n열람한 데이트 코스\n\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개"
+      }
+   }
+   
 }
 
 // MARK: - DataBind
 
 extension ViewedCourseViewController {
     func bindViewModel() {
+       self.viewedCourseViewModel.userName.bind { date in
+          guard let nickname = self.viewedCourseViewModel.userName.value else {return}
+          self.updateNicknameLabel(nickName: nickname)
+         
+       }
         self.viewedCourseViewModel.isSuccessGetViewedCourseInfo.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
