@@ -12,6 +12,7 @@ import Moya
 enum CourseDetailTargetType {
     case getCourseDetailInfo(courseId: Int)
     case deleteCourse(courseId: Int)
+    case getBannerDetail(advertismentId: Int)
 }
 
 extension CourseDetailTargetType: BaseTargetType {
@@ -22,7 +23,7 @@ extension CourseDetailTargetType: BaseTargetType {
     
     var method: Moya.Method {
         switch self {
-        case .getCourseDetailInfo:
+        case .getCourseDetailInfo, .getBannerDetail:
             return .get
         case .deleteCourse:
             return .delete
@@ -35,6 +36,8 @@ extension CourseDetailTargetType: BaseTargetType {
             return utilPath+"courses/\(courseId)"
         case .deleteCourse(let courseId):
             return utilPath+"courses/\(courseId)"
+        case .getBannerDetail(let advertismentId):
+            return utilPath + "advertisements/\(advertismentId)"
         }
     }
     

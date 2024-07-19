@@ -66,6 +66,7 @@ extension PastDateDetailViewController: DRCustomAlertDelegate {
         if rightButtonAction == .deleteCourse {
             pastDateDetailViewModel?.deleteDateSchdeuleData(dateID: pastDateDetailViewModel?.dateDetailData.value?.dateID ?? 0)
             print("헉 헤어졌나??? 서버연결 delete")
+            self.navigationController?.popViewController(animated: true)
         }
     }
 }
@@ -75,6 +76,8 @@ extension PastDateDetailViewController: DRCustomAlertDelegate {
 extension PastDateDetailViewController: DRBottomSheetDelegate {
     @objc
     private func deleteDateCourse() {
+        let labelTap = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
+        dateScheduleDeleteView.deleteLabel.addGestureRecognizer(labelTap)
         let bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView, height: 222, buttonType: DisabledButton(), buttonTitle: StringLiterals.DateSchedule.quit)
         bottomSheetVC.modalPresentationStyle = .overFullScreen
         bottomSheetVC.delegate = self

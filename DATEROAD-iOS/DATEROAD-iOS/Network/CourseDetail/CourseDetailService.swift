@@ -12,6 +12,8 @@ import Moya
 protocol CourseDetailServiceProtocol {
     func getCourseDetailInfo(courseId: Int, completion: @escaping (NetworkResult<GetCourseDetailResponse>) -> ())
     func deleteCourse(courseId: Int, completion: @escaping (Bool) -> Void)
+    func getBannerDetailInfo(advertismentId: Int, completion: @escaping (NetworkResult<GetBannerDetailResponse>) -> ())
+
 }
 
 final class CourseDetailService: BaseService, CourseDetailServiceProtocol {
@@ -42,6 +44,18 @@ final class CourseDetailService: BaseService, CourseDetailServiceProtocol {
             case .failure(let err):
                 print("Error deleting course: \(err.localizedDescription)")
                 completion(false)
+            }
+        }
+    }
+    
+    func getBannerDetailInfo(advertismentId: Int, completion: @escaping (NetworkResult<GetBannerDetailResponse>) -> ()) {
+        provider.request(.getBannerDetail(advertismentId: advertismentId)) { result in
+            switch result {
+            case .success(let response):
+                let networkResult: NetworkResult<GetBannerDetailResponse> = self.judgeStatus(statusCode: response.statusCode, data: response.data)
+                completion(networkResult)
+            case .failure(let err):
+                print(err)
             }
         }
     }

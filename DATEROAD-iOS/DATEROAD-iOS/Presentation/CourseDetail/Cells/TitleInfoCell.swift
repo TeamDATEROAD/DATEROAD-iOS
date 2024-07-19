@@ -50,4 +50,8 @@ extension TitleInfoCell {
     func setCell(titleHeaderData: TitleHeaderModel) {
         titleLabel.text = titleHeaderData.title
     }
+    
+    func bindBannerTitle(title: String) {
+        titleLabel.text = title
+    }
 }

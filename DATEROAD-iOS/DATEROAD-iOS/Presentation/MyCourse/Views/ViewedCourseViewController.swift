@@ -27,15 +27,18 @@ class ViewedCourseViewController: BaseViewController {
    // MARK: - Properties
    
    private let viewedCourseViewModel = MyCourseListViewModel()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        bindViewModel()
+    }
    
-   override func viewWillAppear(_ animated: Bool) {
-      let name = UserDefaults.standard.string(forKey: "userName") ?? ""
-      viewedCourseViewModel.userName.value = name
-   }
-   
+    
    // MARK: - LifeCycle
    override func viewDidAppear(_ animated: Bool) {
-      self.viewedCourseViewModel.setViewedCourseData()
+       self.viewedCourseViewModel.setViewedCourseData()
+       bindViewModel()
+       viewedCourseView.myCourseListCollectionView.reloadData()
+       setEmptyView()
    }
    
    override func viewDidLoad() {
@@ -152,7 +155,7 @@ extension ViewedCourseViewController {
       self.viewedCourseViewModel.isSuccessGetViewedCourseInfo.bind { [weak self] isSuccess in
          guard let isSuccess else { return }
          if isSuccess {
-            guard let nickname = self?.viewedCourseViewModel.userName.value else {return}
+            guard let nickname = self?.viewedCourseViewModel.userName else {return}
             self?.viewedCourseView.myCourseListCollectionView.reloadData()
             
             self?.topLabel.do {
