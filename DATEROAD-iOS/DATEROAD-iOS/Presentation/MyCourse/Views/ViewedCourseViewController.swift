@@ -143,15 +143,8 @@ private extension ViewedCourseViewController {
 // MARK: - DataBind
 
 extension ViewedCourseViewController {
+   
    func bindViewModel() {
-      
-<<<<<<< Updated upstream
-//      self.viewedCourseViewModel.userName.bind { date in
-//         guard let nickname = self.viewedCourseViewModel.userName.value else {return}
-//         self.updateNicknameLabel(nickName: nickname)
-//      }
-=======
->>>>>>> Stashed changes
       self.viewedCourseViewModel.viewedCourseData.bind { _ in
          self.setEmptyView()
       }
