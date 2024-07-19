@@ -29,14 +29,18 @@ class ViewedCourseViewController: BaseViewController {
     private let viewedCourseViewModel = MyCourseListViewModel()
     
     // MARK: - LifeCycle
+//    override func viewDidAppear(_ animated: Bool) {
+//        bindViewModel()
+//        viewedCourseView.myCourseListCollectionView.reloadData()
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         registerCell()
         setDelegate()
-        setEmptyView()
         bindViewModel()
+        setEmptyView()
     }
     
     override func setHierarchy() {
@@ -117,7 +121,7 @@ class ViewedCourseViewController: BaseViewController {
 private extension ViewedCourseViewController {
     func setEmptyView() {
         if viewedCourseViewModel.viewedCourseData.value?.count == 0 {
-            topLabel.text = "수민님,\n아직 열람한\n데이트코스가 없어요"
+            topLabel.text = "\(viewedCourseViewModel.userName)님,\n아직 열람한\n데이트코스가 없어요"
             createCourseView.isHidden = true
             viewedCourseView.emptyView.snp.makeConstraints {
                 $0.top.equalToSuperview()
@@ -186,7 +190,8 @@ extension ViewedCourseViewController : UICollectionViewDataSource {
         let indexPath = viewedCourseView.myCourseListCollectionView.indexPathForItem(at: location)
 
        if let index = indexPath {
-           print("일정 상세 페이지로 이동 \(viewedCourseViewModel.viewedCourseData.value?[indexPath?.item ?? 0].courseId ?? 0 )")
+           let courseId = viewedCourseViewModel.viewedCourseData.value?[indexPath?.item ?? 0].courseId ?? 0
+           self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
        }
     }
     

@@ -16,7 +16,7 @@ class UpcomingDateScheduleView: BaseView {
     
     private let titleLabel = UILabel()
     
-    var cardCollectionView = UICollectionView(frame: .zero, collectionViewLayout: dateCardCollectionViewLayout)
+var cardCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     var cardPageControl = UIPageControl()
     
@@ -28,7 +28,7 @@ class UpcomingDateScheduleView: BaseView {
     
     // MARK: - Properties
     
-    static var dateCardCollectionViewLayout = UICollectionViewFlowLayout()
+//    static var dateCardCollectionViewLayout = UICollectionViewFlowLayout()
     
     // MARK: - LifeCycle
     
@@ -96,13 +96,17 @@ class UpcomingDateScheduleView: BaseView {
             $0.clipsToBounds = true
             $0.decelerationRate = .fast
             $0.showsHorizontalScrollIndicator = false
+            
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .horizontal
+            $0.collectionViewLayout = layout
         }
         
-        UpcomingDateScheduleView.dateCardCollectionViewLayout.do {
-            $0.scrollDirection = .horizontal
-            $0.minimumLineSpacing = ScreenUtils.width * 0.0693
-            $0.itemSize = CGSize(width: ScreenUtils.width * 0.776, height: ScreenUtils.height*0.5)
-        }
+//        UpcomingDateScheduleView.dateCardCollectionViewLayout.do {
+//            $0.scrollDirection = .horizontal
+//            $0.minimumLineSpacing = ScreenUtils.width * 0.0693
+//            $0.itemSize = CGSize(width: ScreenUtils.width * 0.776, height: ScreenUtils.height*0.5)
+//        }
         
         cardPageControl.do {
             $0.currentPage = 0

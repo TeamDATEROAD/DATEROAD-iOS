@@ -40,7 +40,7 @@ extension String {
         guard let date = dateFormatter.date(from: self) else { return nil }
         
         let readableDateFormatter = DateFormatter()
-        readableDateFormatter.dateFormat = "MMMM dd"
+        readableDateFormatter.dateFormat = "MMMM\ndd"
         readableDateFormatter.locale = Locale(identifier: "en_US_POSIX")
         
         return readableDateFormatter.string(from: date).uppercased()

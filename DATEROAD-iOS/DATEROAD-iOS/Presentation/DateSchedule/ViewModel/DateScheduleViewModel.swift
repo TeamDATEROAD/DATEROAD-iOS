@@ -19,14 +19,14 @@ class DateScheduleViewModel {
     
     var isSuccessGetPastDateScheduleData: ObservablePattern<Bool> = ObservablePattern(false)
     
-    var isSuccessGetUpcomingDateScheduleData: ObservablePattern<Bool> = ObservablePattern(false)
+    var isSuccessGetUpcomingDateScheduleData: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var isMoreThanFiveSchedule : Bool {
         return (upcomingDateScheduleData.value?.count ?? 0 >= 5)
     }
     
     init() {
-        getPastDateScheduleData()
+//        getPastDateScheduleData()
         getUpcomingDateScheduleData()
     }
     
@@ -38,21 +38,16 @@ class DateScheduleViewModel {
                     let tagsModel: [TagsModel] = date.tags.map { tag in
                         TagsModel(tag: tag.tag)
                     }
-                    return DateCardModel(dateID: date.dateID, title: date.title, date: date.date, city: date.city, tags: tagsModel, dDay: date.dDay)
+                    let cityEnum = LocationModelCityEngToKor.City(rawValue: date.city)
+                    let cityInKorean = cityEnum?.toKorean()
+                    
+                    return DateCardModel(dateID: date.dateID, title: date.title, date: date.date, city: cityInKorean ?? "", tags: tagsModel, dDay: date.dDay)
                 }
+                
                 self.pastDateScheduleData.value = dateScheduleInfo
                 self.isSuccessGetPastDateScheduleData.value = true
-                
-            case .requestErr:
-                print("requestError")
-            case .decodedErr:
-                print("decodedError")
-            case .pathErr:
-                print("pathError")
-            case .serverErr:
-                print("serverError")
-            case .networkFail:
-                print("networkFail")
+            default:
+                self.isSuccessGetPastDateScheduleData.value = false
             }
         }
     }
@@ -65,21 +60,18 @@ class DateScheduleViewModel {
                     let tagsModel: [TagsModel] = date.tags.map { tag in
                         TagsModel(tag: tag.tag)
                     }
-                    return DateCardModel(dateID: date.dateID, title: date.title, date: (date.date).toReadableDate() ?? "", city: date.city, tags: tagsModel, dDay: date.dDay)
+                    let cityEnum = LocationModelCityEngToKor.City(rawValue: date.city)
+                    let cityInKorean = cityEnum?.toKorean()
+                    
+                    return DateCardModel(dateID: date.dateID, title: date.title, date: (date.date).toReadableDate() ?? "", city: cityInKorean ?? "", tags: tagsModel, dDay: date.dDay)
                 }
                 print("🍎🍎🍎🍎")
+                
                 self.upcomingDateScheduleData.value = dateScheduleInfo
+                print("zz sched", self.upcomingDateScheduleData.value)
                 self.isSuccessGetUpcomingDateScheduleData.value = true
-            case .requestErr:
-                print("requestError")
-            case .decodedErr:
-                print("decodedError")
-            case .pathErr:
-                print("pathError")
-            case .serverErr:
-                print("serverError")
-            case .networkFail:
-                print("networkFail")
+            default:
+                self.isSuccessGetUpcomingDateScheduleData.value = false
             }
         }
     }

@@ -291,6 +291,10 @@ extension AddScheduleFirstViewController: UITextFieldDelegate {
 }
 
 extension AddScheduleFirstViewController: DRBottomSheetDelegate {
+    func didTapFirstLabel() {
+        print("d")
+    }
+    
    
    func didTapBottomButton() {
       self.dismiss(animated: true)
