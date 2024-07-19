@@ -105,7 +105,9 @@ private extension ProfileViewController {
       }
       
       self.profileViewModel.is5orLessVaild.bind { [weak self] isValid in
+         guard let isValid = isValid else {return}
          self?.profileViewModel.checkValidRegistration()
+         self?.profileView.updateDoubleCheckButton(isValid: isValid)
       }
       
       self.profileViewModel.isValidNickname.bind { [weak self] isValid in

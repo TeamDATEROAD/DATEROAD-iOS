@@ -21,11 +21,11 @@ class MyCourseListViewModel {
     
     var isSuccessGetMyRegisterCourseInfo: ObservablePattern<Bool> = ObservablePattern(false)
     
-    init() {
-        setViewedCourseData()
-        setMyRegisterCourseData()
-        print("@log", myRegisterCourseData.value?.count)
-    }
+//    init() {
+//        setViewedCourseData()
+//        setMyRegisterCourseData()
+//        print("@log", myRegisterCourseData.value?.count)
+//    }
     
     func setViewedCourseData() {
         NetworkService.shared.myCourseService.getViewedCourse() { response in
