@@ -9,7 +9,7 @@ import Foundation
 
 class MyCourseListViewModel {
     
-    var userName = UserDefaults.standard.string(forKey: "userName")
+    var userName: String = ""
     
     let myCourseService = MyCourseService()
     
@@ -17,11 +17,14 @@ class MyCourseListViewModel {
     
     var myRegisterCourseData: ObservablePattern<[MyCourseModel]> = ObservablePattern([])
     
-    var isSuccessGetViewedCourseInfo: ObservablePattern<Bool> = ObservablePattern(false)
+    var isSuccessGetViewedCourseInfo: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var isSuccessGetMyRegisterCourseInfo: ObservablePattern<Bool> = ObservablePattern(false)
     
     init() {
+        let name = UserDefaults.standard.string(forKey: "userName") ?? ""
+        self.userName = name
+        
         setViewedCourseData()
         setMyRegisterCourseData()
         print("@log", myRegisterCourseData.value?.count)

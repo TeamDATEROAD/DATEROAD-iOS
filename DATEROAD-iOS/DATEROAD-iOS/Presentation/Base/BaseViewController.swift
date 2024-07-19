@@ -29,6 +29,7 @@ class BaseViewController: UIViewController {
     func setStyle() {
         self.view.backgroundColor = .drWhite
         self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
 }

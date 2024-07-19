@@ -42,7 +42,7 @@ final class MainViewController: BaseViewController {
         bindViewModel()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.mainViewModel.fetchSectionData()
     }
     

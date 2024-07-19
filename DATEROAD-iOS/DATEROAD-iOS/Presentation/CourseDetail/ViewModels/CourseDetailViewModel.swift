@@ -67,6 +67,8 @@ class CourseDetailViewModel {
     var bannerDetailTitle: String = ""
 
     var numberOfSections: Int = 6
+    
+    var isChange: (() -> Void)?
    
    var startAt: String = ""
    var tagArr = [GetCourseDetailTag]()
@@ -114,9 +116,17 @@ class CourseDetailViewModel {
         print(self.isUserLiked.value!)
 //        self.isUserLiked.value?.toggle()
         if self.isUserLiked.value! {
-            deleteLikeCourse(courseId: courseId)
+            DispatchQueue.global().sync {
+                deleteLikeCourse(courseId: courseId)
+                getCourseDetail()
+            }
+            
+            
         } else {
-            likeCourse(courseId: courseId)
+            DispatchQueue.global().sync {
+                likeCourse(courseId: courseId)
+                getCourseDetail()
+            }
         }
     }
     
@@ -130,6 +140,7 @@ extension CourseDetailViewModel {
             case .success(let data):
                 dump(data)
                 self.conditionalData.value = ConditionalModel(courseId: self.courseId, isCourseMine: data.isCourseMine, isAccess: data.isAccess, free: data.free, totalPoint: data.totalPoint, isUserLiked: data.isUserLiked)
+                self.isChange?()
                 
                self.startAt = data.startAt
                

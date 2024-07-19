@@ -25,6 +25,8 @@ final class PointViewModel {
     
     var isEarnedPointHidden : ObservablePattern<Bool> = ObservablePattern(false)
     
+    var isChange: ObservablePattern<Bool> = ObservablePattern(nil)
+    
     init (userName: String, totalPoint: Int) {
         self.userName = userName
         self.totalPoint = totalPoint
@@ -63,6 +65,7 @@ final class PointViewModel {
                 self.gainedPointData.value = pointGainedInfo
                 self.usedPointData.value = pointUsedInfo
                 self.isSuccessGetPointInfo.value = true
+                self.isChange.value = true
             case .requestErr:
                  print("requestError")
              case .decodedErr:

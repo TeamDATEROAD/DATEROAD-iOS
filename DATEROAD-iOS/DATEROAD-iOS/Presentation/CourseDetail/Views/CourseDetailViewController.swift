@@ -87,6 +87,10 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
     
     
     func bindViewModel() {
+        self.courseDetailViewModel.isChange = { [weak self] in
+            self?.courseDetailView.mainCollectionView.reloadData()
+        }
+        
         courseDetailViewModel.currentPage.bind { [weak self] currentPage in
             guard let self = self else { return }
             if let bottomPageControllView = self.courseDetailView.mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
@@ -123,12 +127,30 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapLikeButton))
         courseInfoTabBarView.likeButtonView.isUserInteractionEnabled = true
         courseInfoTabBarView.likeButtonView.addGestureRecognizer(tapGesture)
+        courseInfoTabBarView.bringCourseButton.addTarget(self, action: #selector(didTapMySchedule), for: .touchUpInside)
         
     }
     
 }
 
 private extension CourseDetailViewController {
+    
+    @objc
+    func didTapMySchedule() {
+        let courseId = courseDetailViewModel.courseId
+        
+        let courseDetailViewModel = CourseDetailViewModel(courseId: courseId)
+        let addScheduleViewModel = AddScheduleViewModel()
+        addScheduleViewModel.viewedDateCourseByMeData = courseDetailViewModel
+        addScheduleViewModel.isImporting = true
+        
+        let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel)
+        self.navigationController?.pushViewController(vc, animated: true)
+        
+        // 데이터를 바인딩합니다.
+        vc.pastDateBindViewModel()
+        
+    }
     
     //더보기 버튼
     @objc
@@ -142,12 +164,12 @@ private extension CourseDetailViewController {
     func didTapLikeButton() {
         courseDetailViewModel.toggleUserLiked()
         
-//        if courseDetailViewModel.isUserLiked.value ?? true {
-//            courseDetailViewModel.isUserLiked.value = true
-//        } else {
-//            courseDetailViewModel.isUserLiked.value = false
-//            
-//        }
+        //        if courseDetailViewModel.isUserLiked.value ?? true {
+        //            courseDetailViewModel.isUserLiked.value = true
+        //        } else {
+        //            courseDetailViewModel.isUserLiked.value = false
+        //
+        //        }
         
     }
     
@@ -157,16 +179,16 @@ private extension CourseDetailViewController {
         print(courseId,"🚬")
         if isLiked {
             courseInfoTabBarView.likeButtonImageView.tintColor = UIColor(resource: .deepPurple)
-//            self.courseDetailViewModel.likeCourse(courseId: courseId)
+            //            self.courseDetailViewModel.likeCourse(courseId: courseId)
         } else {
             courseInfoTabBarView.likeButtonImageView.tintColor = UIColor(resource: .gray200)
-//            self.courseDetailViewModel.deleteLikeCourse(courseId: courseId) { success in
-//                if success {
-//                    print("Successfully unliked course")
-//                } else {
-//                    print("Failed to unlike course")
-//                }
-//            }
+            //            self.courseDetailViewModel.deleteLikeCourse(courseId: courseId) { success in
+            //                if success {
+            //                    print("Successfully unliked course")
+            //                } else {
+            //                    print("Failed to unlike course")
+            //                }
+            //            }
             
         }
     }

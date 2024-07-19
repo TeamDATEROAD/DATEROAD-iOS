@@ -78,6 +78,7 @@ class BaseNavBarViewController: UIViewController {
       
       self.view.backgroundColor = UIColor(resource: .drWhite)
       self.navigationController?.setNavigationBarHidden(true, animated: false)
+       self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
       
       leftButton.do {
          $0.isHidden = true

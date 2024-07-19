@@ -11,29 +11,38 @@ import SnapKit
 import Then
 
 class ViewedCourseViewController: BaseViewController {
-   
-   // MARK: - UI Properties
-   
-   private var topLabel = UILabel()
-   
-   private var createCourseView = UIView()
-   
-   private let createCourseLabel = UILabel()
-   
-   private let arrowButton = UIButton()
-   
-   private var viewedCourseView = MyCourseListView()
-   
-   // MARK: - Properties
-   
-   private let viewedCourseViewModel = MyCourseListViewModel()
     
-    override func viewWillAppear(_ animated: Bool) {
-        bindViewModel()
+    // MARK: - UI Properties
+    
+    private var nickName: String = ""
+    
+    private var topLabel = UILabel()
+    
+    private var createCourseView = UIView()
+    
+    private let createCourseLabel = UILabel()
+    
+    private let arrowButton = UIButton()
+    
+    private var viewedCourseView = MyCourseListView()
+    
+    // MARK: - Properties
+    
+    private let viewedCourseViewModel: MyCourseListViewModel
+    
+    
+    init(viewedCourseViewModel: MyCourseListViewModel) {
+        self.viewedCourseViewModel = viewedCourseViewModel
+        nickName = self.viewedCourseViewModel.userName
+        super.init(nibName: nil, bundle: nil)
     }
-   
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
    // MARK: - LifeCycle
+    
    override func viewDidAppear(_ animated: Bool) {
        self.viewedCourseViewModel.setViewedCourseData()
        bindViewModel()
@@ -128,8 +137,8 @@ class ViewedCourseViewController: BaseViewController {
 private extension ViewedCourseViewController {
    func setEmptyView() {
       let isEmpty = viewedCourseViewModel.viewedCourseData.value?.count == 0 ? true : false
-      
-      topLabel.text = "\(viewedCourseViewModel.userName)님,\n아직 열람한\n데이트코스가 없어요"
+    let name =  UserDefaults.standard.string(forKey: "userName") ?? ""
+       topLabel.text = "\(name)님,\n아직 열람한\n데이트코스가 없어요"
       createCourseView.isHidden = isEmpty
       viewedCourseView.emptyView.snp.makeConstraints {
          $0.top.equalToSuperview()
@@ -148,21 +157,19 @@ private extension ViewedCourseViewController {
 extension ViewedCourseViewController {
    
    func bindViewModel() {
-      self.viewedCourseViewModel.viewedCourseData.bind { _ in
-         self.setEmptyView()
-      }
-      
+       
       self.viewedCourseViewModel.isSuccessGetViewedCourseInfo.bind { [weak self] isSuccess in
          guard let isSuccess else { return }
          if isSuccess {
-            guard let nickname = self?.viewedCourseViewModel.userName else {return}
-            self?.viewedCourseView.myCourseListCollectionView.reloadData()
             
             self?.topLabel.do {
+                let name =  UserDefaults.standard.string(forKey: "userName") ?? ""
                $0.font = UIFont.suit(.title_extra_24)
-               $0.setAttributedText(fullText: "\(nickname)님이 지금까지\n열람한 데이트 코스\n\(self?.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개", pointText: "\(self?.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)", pointColor: UIColor(resource: .mediumPurple), lineHeight: 1)
+                $0.setAttributedText(fullText: "\(name)님이 지금까지\n열람한 데이트 코스\n\(self?.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개", pointText: "\(self?.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)", pointColor: UIColor(resource: .mediumPurple), lineHeight: 1)
                $0.numberOfLines = 3
             }
+             self?.setEmptyView()
+
          }
       }
       
