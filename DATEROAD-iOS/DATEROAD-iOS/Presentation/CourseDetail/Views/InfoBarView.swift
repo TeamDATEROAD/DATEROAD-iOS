@@ -123,4 +123,15 @@ extension InfoBarView {
         timeLabel.text = "\(titleHeaderData.totalTime.formatTime())시간"
         locationLabel.text = titleHeaderData.city
     }
+    
+    func allHidden() {
+        [coastLabel,
+         coastIconImageView,
+         timeLabel,
+         timeIconImageView,
+         locationLabel,
+         locationIconImageView].forEach {
+            $0.isHidden =  true
+        }
+    }
 }

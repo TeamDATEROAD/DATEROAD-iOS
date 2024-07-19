@@ -129,4 +129,11 @@ extension BottomPageControllView {
     func bindData(like: Int) {
         self.likeNumLabel.text = "\(like)"
     }
+    
+    func hiddenLikeStackView() {
+        self.likeBoxView.isHidden = true
+        self.likeStackView.isHidden = true
+        self.likeNumLabel.isHidden = true
+        self.likeButton.isHidden = true
+    }
 }

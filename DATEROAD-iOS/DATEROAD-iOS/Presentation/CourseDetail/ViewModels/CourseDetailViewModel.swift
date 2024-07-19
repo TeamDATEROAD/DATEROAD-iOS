@@ -56,7 +56,16 @@ class CourseDetailViewModel {
     
     var havePoint: ObservablePattern<Bool> = ObservablePattern(nil)
     
+    let bannerSectionData: [BannerDetailSection] = BannerDetailSection.dataSource
     
+    var isSuccessGetBannerData: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var bannerDetailData: ObservablePattern<BannerDetailModel> = ObservablePattern(nil)
+    
+    var bannerHeaderData: ObservablePattern<BannerHeaderModel> = ObservablePattern(nil)
+    
+    var bannerDetailTitle: String = ""
+
     var numberOfSections: Int = 6
    
    var startAt: String = ""
@@ -116,7 +125,7 @@ class CourseDetailViewModel {
 extension CourseDetailViewModel {
     
     func getCourseDetail() {
-        CourseDetailService().getCourseDetailInfo(courseId: courseId){ response in
+        NetworkService.shared.courseDetailService.getCourseDetailInfo(courseId: courseId){ response in
             switch response {
             case .success(let data):
                 self.conditionalData.value = ConditionalModel(courseId: self.courseId, isCourseMine: data.isCourseMine, isAccess: data.isAccess, free: data.free, totalPoint: data.totalPoint, isUserLiked: data.isUserLiked)
@@ -183,7 +192,7 @@ extension CourseDetailViewModel {
     }
     
     func deleteCourse(completion: @escaping (Bool) -> Void) {
-        CourseDetailService().deleteCourse(courseId: courseId) { (success: Bool) in
+        NetworkService.shared.courseDetailService.deleteCourse(courseId: courseId) { (success: Bool) in
             if success {
                 completion(success)
 
@@ -213,13 +222,27 @@ extension CourseDetailViewModel {
         }
     }
     
-//    func deleteLikeCourse(courseId: Int, completion: @escaping (Bool) -> Void) {
-//        LikeCourseService().deleteLikeCourse(courseId: courseId) { success in
-//            if success {
-//                self.isUserLiked.value = false
-//            }
-//            completion(success)
-//        }
-//    }
+    
+    func getBannerDetail(advertismentId: Int) {
+        NetworkService.shared.courseDetailService.getBannerDetailInfo(advertismentId: advertismentId){ response in
+            switch response {
+            case .success(let data):
+                
+                self.imageData.value = data.images.map { ThumbnailModel(imageUrl: $0.imageURL, sequence: $0.sequence)}
+                
+                self.bannerHeaderData.value = BannerHeaderModel(tag: AdTagType.getAdTag(byEnglish: data.adTagType)?.tag.title ?? "", createAt: data.createAt)
+                
+                self.bannerDetailTitle = data.title
+                
+                self.mainContentsData.value = MainContentsModel(description: data.description)
+                
+                self.isSuccessGetBannerData.value = true
+
+            default:
+                self.isSuccessGetBannerData.value = false
+                print("Failed to fetch banner detail data")
+            }
+        }
+    }
     
 }

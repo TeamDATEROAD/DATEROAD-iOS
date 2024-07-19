@@ -249,6 +249,8 @@ extension MainViewController: UICollectionViewDataSource {
                 print("default")
             }
         } else {
+            let bannerDtailVC = BannerDetailViewController(viewModel: CourseDetailViewModel(courseId: 7), advertismentId: 8)
+            self.navigationController?.pushViewController(bannerDtailVC, animated: false)
             print("pushToBannerDetailVC")
         }
     }
