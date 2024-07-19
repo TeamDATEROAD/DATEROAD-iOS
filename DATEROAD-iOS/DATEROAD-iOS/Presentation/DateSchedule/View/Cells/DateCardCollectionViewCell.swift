@@ -89,7 +89,7 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
         dateLabel.snp.makeConstraints {
             $0.top.leading.equalToSuperview().inset(20)
             $0.height.equalTo(62)
-            $0.width.equalTo(66)
+            // $0.trailing.equalTo(dDayButton.snp.leading).offset(10)
         }
         
         dDayButton.snp.makeConstraints {
