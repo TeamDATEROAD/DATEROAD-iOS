@@ -21,6 +21,10 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
     private let myRegisterCourseViewModel = MyCourseListViewModel()
     
     // MARK: - LifeCycle
+    override func viewDidAppear(_ animated: Bool) {
+        bindViewModel()
+        loadDataAndReload()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +34,7 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
         bindViewModel()
         register()
         setDelegate()
-        setEmptyView()
+        loadDataAndReload()
     }
     
     override func setHierarchy() {
@@ -60,12 +64,14 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
 
 extension MyRegisterCourseViewController {
     private func setEmptyView() {
-        if myRegisterCourseViewModel.myRegisterCourseData.value?.count == 0 {
+        if let dataCount = myRegisterCourseViewModel.myRegisterCourseData.value?.count, dataCount == 0 {
             myRegisterCourseView.emptyView.do {
                 $0.isHidden = false
                 $0.setEmptyView(emptyImage: UIImage(resource: .emptyMyRegisterCourse),
                  emptyTitle: StringLiterals.EmptyView.emptyMyRegisterCourse)
             }
+        } else {
+            myRegisterCourseView.emptyView.isHidden = true
         }
     }
 }
@@ -75,12 +81,21 @@ extension MyRegisterCourseViewController {
 extension MyRegisterCourseViewController {
     func bindViewModel() {
         self.myRegisterCourseViewModel.isSuccessGetMyRegisterCourseInfo.bind { [weak self] isSuccess in
+            guard let self = self else { return }
             guard let isSuccess else { return }
             if isSuccess {
-                self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
+                DispatchQueue.main.async {
+                    self.myRegisterCourseView.myCourseListCollectionView.reloadData()
+                    self.setEmptyView()
+                }
             }
         }
     }
+
+    private func loadDataAndReload() {
+        self.myRegisterCourseViewModel.setMyRegisterCourseData()
+    }
+    
 }
 
 // MARK: - CollectionView Methods
@@ -125,7 +140,8 @@ extension MyRegisterCourseViewController : UICollectionViewDataSource {
         let indexPath = myRegisterCourseView.myCourseListCollectionView.indexPathForItem(at: location)
 
        if let index = indexPath {
-           print("코스 상세 페이지로 이동 \(myRegisterCourseViewModel.myRegisterCourseData.value?[indexPath?.item ?? 0].courseId ?? 0)")
+           let courseId = myRegisterCourseViewModel.myRegisterCourseData.value?[indexPath?.item ?? 0].courseId ?? 0
+           self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
        }
     }
     

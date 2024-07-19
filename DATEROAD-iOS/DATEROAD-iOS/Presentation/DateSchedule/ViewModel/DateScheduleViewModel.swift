@@ -13,7 +13,7 @@ class DateScheduleViewModel {
     
     var upcomingDateScheduleData: ObservablePattern<[DateCardModel]> = ObservablePattern(nil)
     
-    var pastDateScheduleData: ObservablePattern<[DateCardModel]> = ObservablePattern(nil)
+    var pastDateScheduleData: ObservablePattern<[DateCardModel]> = ObservablePattern([])
     
     var currentIndex: ObservablePattern<Int> = ObservablePattern(0)
     

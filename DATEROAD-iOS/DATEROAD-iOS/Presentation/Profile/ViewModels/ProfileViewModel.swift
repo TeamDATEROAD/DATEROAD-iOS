@@ -28,6 +28,9 @@ final class ProfileViewModel {
     var isValidTag: ObservablePattern<Bool> = ObservablePattern(false)
     
     var isValidRegistration: ObservablePattern<Bool> = ObservablePattern(false)
+   
+   var is5orLess: ObservablePattern<Bool> = ObservablePattern(false)
+   var is5orLessVaild: ObservablePattern<Bool> = ObservablePattern(false)
         
     var onSuccessRegister: ((Bool) -> Void)?
  
@@ -49,9 +52,11 @@ extension ProfileViewModel {
             // TODO: - 닉네임이 글자 수 충족 -> 중복 확인 처리 로직 추가 예정
 
             self.isValidNicknameCount.value = true
+           self.is5orLess.value = true
 //            self.isValidNickname.value = true
         } else {
-            if nickname.count < 2 {
+           self.is5orLess.value = false
+           if nickname.count < 2 {
                 self.isValidNicknameCount.value = false
             }
 //            self.isValidNickname.value = false
@@ -106,9 +111,10 @@ extension ProfileViewModel {
     
     func checkValidRegistration() {
         guard let isValidNickname = isValidNickname.value,
-            let isValidTag = isValidTag.value else { return }
+              let isValidTag = isValidTag.value,
+              let is5CntVaild = is5orLessVaild.value else { return }
         
-        self.isValidRegistration.value = isValidNickname && isValidTag ? true : false
+        self.isValidRegistration.value = (isValidNickname && isValidTag && is5CntVaild) ? true : false
     }
     
     func postSignUp(image: UIImage?) {
