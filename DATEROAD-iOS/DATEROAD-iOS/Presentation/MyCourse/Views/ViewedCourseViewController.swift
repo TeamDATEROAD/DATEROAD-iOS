@@ -117,7 +117,7 @@ class ViewedCourseViewController: BaseViewController {
 private extension ViewedCourseViewController {
     func setEmptyView() {
         if viewedCourseViewModel.viewedCourseData.value?.count == 0 {
-            topLabel.text = "\(viewedCourseViewModel.userName ?? "")님,\n아직 열람한\n데이트코스가 없어요"
+            topLabel.text = "\(viewedCourseViewModel.userName)님,\n아직 열람한\n데이트코스가 없어요"
             createCourseView.isHidden = true
             viewedCourseView.emptyView.snp.makeConstraints {
                 $0.top.equalToSuperview()
