@@ -50,7 +50,7 @@ class CourseDetailViewModel {
     
     var isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    var isUserLiked: ObservablePattern<Bool> = ObservablePattern(nil)
+    var isUserLiked: ObservablePattern<Bool> = ObservablePattern(false)
     
     var haveFreeCount: ObservablePattern<Bool> = ObservablePattern(nil)
     

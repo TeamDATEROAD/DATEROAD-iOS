@@ -11,8 +11,8 @@ import SnapKit
 import Then
 
 protocol LocationFilterDelegate: AnyObject {
-   func didSelectCity(_ country: LocationModel.Country,_ city: LocationModel.City)
-//    func getCourse()
+    func didSelectCity(_ country: LocationModel.Country,_ city: LocationModel.City)
+    func getCourse()
 }
 
 
@@ -193,7 +193,7 @@ class LocationFilterViewController: BaseViewController {
       }
       
       delegate?.didSelectCity(selectedCountry, selectedCity)
-      //        delegate?.getCourse()
+      delegate?.getCourse()
       closeView()
    }
 }

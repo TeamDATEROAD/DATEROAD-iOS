@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 protocol CourseServiceProtocol {
-    func getCourseInfo(city: String, cost: Int, completion: @escaping (NetworkResult<GetCourseResponse>) -> ())
+    func getCourseInfo(city: String, cost: Int?, completion: @escaping (NetworkResult<GetCourseResponse>) -> ())
 
 }
 
@@ -19,7 +19,7 @@ final class CourseService: BaseService, CourseServiceProtocol {
     
     let provider = MoyaProvider<CourseTargetType>(plugins: [MoyaLoggingPlugin()])
 
-    func getCourseInfo(city: String, cost: Int, completion: @escaping (NetworkResult<GetCourseResponse>) -> ()) {
+    func getCourseInfo(city: String, cost: Int?, completion: @escaping (NetworkResult<GetCourseResponse>) -> ()) {
         provider.request(.getCourseInfo(city: city, cost: cost)) { result in
       
             switch result {

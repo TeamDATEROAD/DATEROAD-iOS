@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 enum CourseTargetType {
-    case getCourseInfo(city: String, cost: Int)
+    case getCourseInfo(city: String, cost: Int?)
 }
 
 extension CourseTargetType: BaseTargetType {
@@ -36,7 +36,11 @@ extension CourseTargetType: BaseTargetType {
     var parameter: [String : Any]? {
         switch self {
         case .getCourseInfo(let city, let cost):
-            return ["city" : city , "cost" : cost ]
+            var params: [String: Any] = ["city": city]
+            if let cost = cost {
+                params["cost"] = cost
+            }
+            return params
         }
     }
     
