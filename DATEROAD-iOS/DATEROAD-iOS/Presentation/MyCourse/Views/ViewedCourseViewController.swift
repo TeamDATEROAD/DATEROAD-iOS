@@ -35,7 +35,11 @@ class ViewedCourseViewController: BaseViewController {
    
    // MARK: - LifeCycle
    override func viewDidAppear(_ animated: Bool) {
-      self.viewedCourseViewModel.setViewedCourseData()
+       self.viewedCourseViewModel.setViewedCourseData()
+       bindViewModel()
+       viewedCourseView.myCourseListCollectionView.reloadData()
+       setEmptyView()
+       
    }
    
    override func viewDidLoad() {
