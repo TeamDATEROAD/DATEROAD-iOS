@@ -22,16 +22,16 @@ struct PointSystemModel {
     }
     
     static var pointSystemData: [PointSystemModel] =  {
-        return [PointSystemModel(illustration: UIImage(resource: .emptyProfileImg),
+        return [PointSystemModel(illustration: UIImage(resource: .imgPoint1),
                                  mainTitle: StringLiterals.PointSystem.firstMainSystem,
                                  subTitle: StringLiterals.PointSystem.firstSubSystem),
-                PointSystemModel(illustration: UIImage(resource: .emptyProfileImg),
+                PointSystemModel(illustration: UIImage(resource: .imgPoint2),
                                          mainTitle: StringLiterals.PointSystem.secondMainSystem,
                                          subTitle: StringLiterals.PointSystem.secondSubSystem),
-                PointSystemModel(illustration: UIImage(resource: .emptyProfileImg),
+                PointSystemModel(illustration: UIImage(resource: .imgPoint3),
                                          mainTitle: StringLiterals.PointSystem.thirdMainSystem,
                                          subTitle: StringLiterals.PointSystem.thirdSubSystem),
-                PointSystemModel(illustration: UIImage(resource: .emptyProfileImg),
+                PointSystemModel(illustration: UIImage(resource: .imgPoint4),
                                          mainTitle: StringLiterals.PointSystem.fourthMainSystem,
                                          subTitle: StringLiterals.PointSystem.fourthSubSystem)]
     }()

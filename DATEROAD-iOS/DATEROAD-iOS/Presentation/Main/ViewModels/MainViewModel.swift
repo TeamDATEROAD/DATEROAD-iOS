@@ -59,6 +59,7 @@ extension MainViewModel {
                 self.mainUserData.value = MainUserModel(name: data.name, point: data.point, imageUrl: data.image)
                 self.nickname.value = data.name
                UserDefaults.standard.setValue(data.name, forKey: "userName")
+                UserDefaults.standard.setValue(data.point, forKey: "userPoint")
                 self.isSuccessGetUserInfo.value = true
             default:
                 print("Failed to fetch user profile")

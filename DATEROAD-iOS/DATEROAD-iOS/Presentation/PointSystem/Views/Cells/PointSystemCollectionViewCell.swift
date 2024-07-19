@@ -72,7 +72,8 @@ final class PointSystemCollectionViewCell: BaseCollectionViewCell {
 
 extension PointSystemCollectionViewCell {
     
-    func bindData(mainText: String, subText: String) {
+    func bindData(image: UIImage, mainText: String, subText: String) {
+        self.illustrationView.image = image
         self.mainLabel.text = mainText
         self.subLabel.text = subText
     }
