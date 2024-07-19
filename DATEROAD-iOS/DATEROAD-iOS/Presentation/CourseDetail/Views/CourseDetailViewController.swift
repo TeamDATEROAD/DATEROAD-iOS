@@ -142,12 +142,12 @@ private extension CourseDetailViewController {
     func didTapLikeButton() {
         courseDetailViewModel.toggleUserLiked()
         
-        if courseDetailViewModel.isUserLiked.value ?? true {
-            courseDetailViewModel.isUserLiked.value = true
-        } else {
-            courseDetailViewModel.isUserLiked.value = false
-            
-        }
+//        if courseDetailViewModel.isUserLiked.value ?? true {
+//            courseDetailViewModel.isUserLiked.value = true
+//        } else {
+//            courseDetailViewModel.isUserLiked.value = false
+//            
+//        }
         
     }
     
@@ -157,16 +157,16 @@ private extension CourseDetailViewController {
         print(courseId,"🚬")
         if isLiked {
             courseInfoTabBarView.likeButtonImageView.tintColor = UIColor(resource: .deepPurple)
-            self.courseDetailViewModel.likeCourse(courseId: courseId)
+//            self.courseDetailViewModel.likeCourse(courseId: courseId)
         } else {
             courseInfoTabBarView.likeButtonImageView.tintColor = UIColor(resource: .gray200)
-            self.courseDetailViewModel.deleteLikeCourse(courseId: courseId) { success in
-                if success {
-                    print("Successfully unliked course")
-                } else {
-                    print("Failed to unlike course")
-                }
-            }
+//            self.courseDetailViewModel.deleteLikeCourse(courseId: courseId) { success in
+//                if success {
+//                    print("Successfully unliked course")
+//                } else {
+//                    print("Failed to unlike course")
+//                }
+//            }
             
         }
     }
@@ -513,6 +513,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
                 }
             }
         }
+        courseDetailView.mainCollectionView.reloadData()
     }
 }
 

@@ -98,7 +98,14 @@ class CourseDetailViewModel {
     
     
     func toggleUserLiked() {
-        self.isUserLiked.value?.toggle()
+        print(#function)
+        print(self.isUserLiked.value!)
+//        self.isUserLiked.value?.toggle()
+        if self.isUserLiked.value! {
+            deleteLikeCourse(courseId: courseId)
+        } else {
+            likeCourse(courseId: courseId)
+        }
     }
     
 }
@@ -192,13 +199,21 @@ extension CourseDetailViewModel {
         }
     }
     
-    func deleteLikeCourse(courseId: Int, completion: @escaping (Bool) -> Void) {
+    func deleteLikeCourse(courseId: Int) {
         LikeCourseService().deleteLikeCourse(courseId: courseId) { success in
             if success {
                 self.isUserLiked.value = false
             }
-            completion(success)
         }
     }
+    
+//    func deleteLikeCourse(courseId: Int, completion: @escaping (Bool) -> Void) {
+//        LikeCourseService().deleteLikeCourse(courseId: courseId) { success in
+//            if success {
+//                self.isUserLiked.value = false
+//            }
+//            completion(success)
+//        }
+//    }
     
 }

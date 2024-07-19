@@ -53,6 +53,8 @@ class DateScheduleViewModel {
                 print("serverError")
             case .networkFail:
                 print("networkFail")
+            default:
+                print("데이터 없이 성공할때")
             }
         }
     }
