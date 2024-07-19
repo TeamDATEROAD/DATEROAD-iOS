@@ -89,6 +89,7 @@ enum StringLiterals {
          static let visitDateErrorLabel = "미래 날짜를 선택하셨어요"
          static let addFirstNextBtnOfCourse = "다음 (1/3)"
          static let addFirstNextBtnOfSchedule = "다음"
+         static let addScheduleRightBtn = "불러오기"
       }
       
       enum AddSecondView {
@@ -152,6 +153,7 @@ enum StringLiterals {
     enum Common {
         static let header = "header"
         static let cancel = "취소"
+        static let close = "닫기"
     }
     
     enum Main {

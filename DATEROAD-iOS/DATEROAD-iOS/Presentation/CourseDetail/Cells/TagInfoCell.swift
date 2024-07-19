@@ -45,10 +45,8 @@ final class TagInfoCell: BaseCollectionViewCell {
 }
 
 extension TagInfoCell {
-    
-    func setCell(tagData: TagModel) {
-        hashTagLabel.text = tagData.tags.joined(separator: ", ")
+    func setCell(tag: String) {
+        hashTagLabel.text = tag
     }
-    
 }
 

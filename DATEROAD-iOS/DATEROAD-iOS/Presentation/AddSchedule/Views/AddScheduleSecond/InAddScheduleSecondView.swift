@@ -79,13 +79,7 @@ final class InAddScheduleSecondView: BaseView {
       
       datePlaceTextField.snp.makeConstraints {
          $0.verticalEdges.leading.equalToSuperview()
-         $0.width.equalTo(206)
-      }
-      
-      timeRequireTextField.snp.makeConstraints {
-         $0.verticalEdges.equalToSuperview()
-         $0.leading.equalTo(datePlaceTextField.snp.trailing).offset(8)
-         $0.trailing.equalTo(addPlaceButton.snp.leading).offset(-8)
+         $0.width.equalTo(ScreenUtils.width*0.55)
       }
       
       addPlaceButton.snp.makeConstraints {
@@ -93,6 +87,14 @@ final class InAddScheduleSecondView: BaseView {
          $0.centerY.equalToSuperview()
          $0.size.equalTo(44)
       }
+      
+      
+      timeRequireTextField.snp.makeConstraints {
+         $0.verticalEdges.equalToSuperview()
+         $0.leading.equalTo(datePlaceTextField.snp.trailing).offset(8)
+         $0.width.equalTo(ScreenUtils.width*0.225).priority(.low)
+      }
+      
       
       separatorLine.snp.makeConstraints {
          $0.top.equalTo(placeRegistrationContainer.snp.bottom).offset(21)

@@ -24,6 +24,8 @@ final class ImageCarouselCell: BaseCollectionViewCell {
     
     var vcData: [UIViewController] = []
     
+    var thumbnailModel: ThumbnailModel?
+    
     let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
     
     static let identifier: String = "ImageCarouselCell"
@@ -33,7 +35,7 @@ final class ImageCarouselCell: BaseCollectionViewCell {
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-
+        
         setDelegate()
     }
     
@@ -41,11 +43,13 @@ final class ImageCarouselCell: BaseCollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setPageVC(imageData: [ImageModel]) {
-        vcData = imageData.map {
+    func setPageVC(thumbnailModel: [ThumbnailModel]) {
+        vcData = thumbnailModel.map { thumbnail in
             let vc = UIViewController()
             let imageView = UIImageView()
-            imageView.image = $0.image
+            if let url = URL(string: thumbnail.imageUrl) {
+                imageView.kf.setImage(with: url)
+            }
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
             vc.view.addSubview(imageView)

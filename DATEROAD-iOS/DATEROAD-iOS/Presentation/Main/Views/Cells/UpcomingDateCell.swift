@@ -41,7 +41,7 @@ final class UpcomingDateCell: BaseCollectionViewCell {
     
     override func setLayout() {
         logoImage.snp.makeConstraints {
-            $0.top.equalTo(self.safeAreaLayoutGuide)
+            $0.top.equalToSuperview().inset(self.safeAreaInsets.top)
             $0.leading.equalToSuperview().inset(16)
             $0.size.equalTo(44)
         }

@@ -12,7 +12,7 @@ import Moya
 
 // MARK: - API Service Definition
 enum AddCourseTargetType {
-    case postAddCourse(course: [String: Any], tags: [[String: Any]], places: [PostAddCoursePlace], images: [UIImage])
+    case postAddCourse(course: [String: Any], tags: [[String: Any]], places: [[String: Any]], images: [UIImage])
 }
 
 extension AddCourseTargetType: BaseTargetType {

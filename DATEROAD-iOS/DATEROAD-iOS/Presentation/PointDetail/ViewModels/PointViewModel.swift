@@ -9,6 +9,10 @@ import Foundation
 
 final class PointViewModel {
     
+    var userName: String
+    
+    var totalPoint: Int
+    
     let pointDetailService = PointDetailService()
     
     var gainedPointData: ObservablePattern<[PointDetailModel]> = ObservablePattern([])
@@ -21,7 +25,9 @@ final class PointViewModel {
     
     var isEarnedPointHidden : ObservablePattern<Bool> = ObservablePattern(false)
     
-    init () {
+    init (userName: String, totalPoint: Int) {
+        self.userName = userName
+        self.totalPoint = totalPoint
         getPointDetail()
         changeSegment(segmentIndex: 0)
     }

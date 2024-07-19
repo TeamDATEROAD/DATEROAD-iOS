@@ -106,6 +106,7 @@ class TimelineInfoCell: BaseCollectionViewCell {
 extension TimelineInfoCell {
     
     func setCell(timelineData: TimelineModel) {
+        print(timelineData,"🌀") // 데이터 로그 확인
         indexNumLabel.text = "\(timelineData.sequence)"
         locationLabel.text = timelineData.title
         timeLabel.text = "\(timelineData.duration.formatFloatTime())시간"

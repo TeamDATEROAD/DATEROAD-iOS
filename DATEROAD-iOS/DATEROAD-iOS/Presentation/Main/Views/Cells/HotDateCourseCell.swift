@@ -69,7 +69,6 @@ final class HotDateCourseCell: BaseCollectionViewCell {
             $0.top.equalTo(countryLabel.snp.bottom)
             $0.leading.equalToSuperview().inset(16)
             $0.trailing.equalToSuperview()
-            $0.width.equalTo(238)
             $0.height.equalTo(self.snp.width)
         }
         
@@ -89,7 +88,6 @@ final class HotDateCourseCell: BaseCollectionViewCell {
         likeLabel.snp.makeConstraints {
             $0.leading.equalTo(likeImage.snp.trailing).offset(5)
             $0.verticalEdges.equalTo(likeView).inset(2)
-            $0.height.equalTo(22)
         }
         
         dateNameView.snp.makeConstraints {
@@ -119,7 +117,6 @@ final class HotDateCourseCell: BaseCollectionViewCell {
         costLabel.snp.makeConstraints {
             $0.leading.equalTo(costImage.snp.trailing).offset(6)
             $0.verticalEdges.equalTo(costView).inset(2)
-            $0.height.equalTo(26)
         }
         
         timeView.snp.makeConstraints {
@@ -138,7 +135,6 @@ final class HotDateCourseCell: BaseCollectionViewCell {
         timeLabel.snp.makeConstraints {
             $0.verticalEdges.equalTo(timeView).inset(2)
             $0.leading.equalTo(timeImage.snp.trailing).offset(6)
-            $0.height.equalTo(26)
         }
     }
     

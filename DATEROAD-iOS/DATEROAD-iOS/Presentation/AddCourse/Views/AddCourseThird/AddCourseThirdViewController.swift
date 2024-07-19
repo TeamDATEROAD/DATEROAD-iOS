@@ -136,6 +136,7 @@ extension AddCourseThirdViewController {
          self?.addCourseThirdView.addThirdView.updateContentTextCount(textCnt: date ?? 0)
          let flag = (date ?? 0) >= 200 ? true : false
          self?.viewModel.contentFlag = flag
+         self?.viewModel.contentText = self?.addCourseThirdView.addThirdView.contentTextView.text ?? ""
          self?.viewModel.isDoneBtnValid()
       }
       viewModel.priceText.bind { [weak self] date in
@@ -151,11 +152,10 @@ extension AddCourseThirdViewController {
       }
    }
    
-   /// navigationController를 통해 뷰컨트롤러 스택에서 originVC로 돌아가는 코드
    func goBackOriginVC() {
-      if let navigationController = self.navigationController {
-         navigationController.popToRootViewController(animated: true)
-      }
+         let tabbarVC = TabBarController()
+      tabbarVC.selectedIndex = 1
+      navigationController?.pushViewController(tabbarVC, animated: false)
    }
    
 }
@@ -168,6 +168,7 @@ extension AddCourseThirdViewController: UITextViewDelegate {
          textView.text = nil
          textView.textColor = .black
       }
+      addCourseThirdView.addThirdView.priceTextField.resignFirstResponder()
       print(textView.text ?? "")
       
       viewModel.contentText = textView.text ?? ""
@@ -185,6 +186,7 @@ extension AddCourseThirdViewController: UITextViewDelegate {
       guard let stringRange = Range(range, in: currentText) else { return false }
       
       let changedText = currentText.replacingCharacters(in: stringRange, with: text)
+      viewModel.contentText = changedText
       let filteredTextCount = changedText.filter { $0 != "\n" }.count
       viewModel.contentTextCount.value = filteredTextCount
       
@@ -216,6 +218,7 @@ extension AddCourseThirdViewController: UITextFieldDelegate {
          let transform = CGAffineTransform(translationX: 0, y: -200)
          self.view.transform = transform
       }
+      addCourseThirdView.addThirdView.contentTextView.resignFirstResponder()
    }
    
    func textFieldDidEndEditing(_ textField: UITextField) {

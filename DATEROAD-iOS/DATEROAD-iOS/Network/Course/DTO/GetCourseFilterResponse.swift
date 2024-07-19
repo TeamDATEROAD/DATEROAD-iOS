@@ -30,9 +30,3 @@ extension CorseFilterList {
         )
     }
 }
-
-//dateLabel: self.date,
-//transactionLabel: self.accountName,
-//tagLabel: self.hashTag ?? "",
-//transactionAmountLabel: "\(self.transferAmount.formattedWithSeparator)원",
-//totalAmountLabel: "\(self.balance.formattedWithSeparator)원"

@@ -175,8 +175,6 @@ class LocationFilterViewController: BaseViewController {
    
    @objc
    func applyButtonTapped() {
-      //        guard let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
-      //        let selectedCity = courseViewModel.cityData[selectedCityIndex]
       guard let selectedCountryIndex = courseViewModel.selectedCountryIndex.value,
             let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
       
@@ -198,13 +196,6 @@ class LocationFilterViewController: BaseViewController {
       //        delegate?.getCourse()
       closeView()
    }
-   
-   //   @objc
-   //   func applyButtonTapped() {
-   
-   
-   //       delegate?.didSelectLocation(country: selectedCountry, city: selectedCity)
-   //       closeView()
 }
     
     
