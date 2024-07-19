@@ -19,7 +19,7 @@ final class StickyHeaderNavBarView: UIView {
     
     // MARK: - UI Properties
     
-    private let previousButton = UIButton()
+    let previousButton = UIButton()
     
     weak var delegate: StickyHeaderNavBarViewDelegate?
     
@@ -48,12 +48,14 @@ private extension StickyHeaderNavBarView {
     func setLayout() {
         
         previousButton.snp.makeConstraints {
-            $0.centerY.leading.equalToSuperview()
+            $0.top.equalToSuperview().offset(60)
+            $0.leading.equalToSuperview()
             $0.size.equalTo(44)
         }
         
         moreButton.snp.makeConstraints {
-            $0.centerY.trailing.equalToSuperview()
+            $0.top.equalToSuperview().offset(60)
+            $0.trailing.equalToSuperview()
             $0.size.equalTo(44)
         }
     }

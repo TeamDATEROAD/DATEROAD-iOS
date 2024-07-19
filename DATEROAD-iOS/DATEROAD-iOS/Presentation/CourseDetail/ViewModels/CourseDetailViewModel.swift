@@ -128,6 +128,7 @@ extension CourseDetailViewModel {
         NetworkService.shared.courseDetailService.getCourseDetailInfo(courseId: courseId){ response in
             switch response {
             case .success(let data):
+                dump(data)
                 self.conditionalData.value = ConditionalModel(courseId: self.courseId, isCourseMine: data.isCourseMine, isAccess: data.isAccess, free: data.free, totalPoint: data.totalPoint, isUserLiked: data.isUserLiked)
                 
                self.startAt = data.startAt
@@ -182,6 +183,7 @@ extension CourseDetailViewModel {
         UsePointService().postUsePoint(courseId: self.courseId, request: request)  { result in
             switch result {
             case .success(let response):
+                self.isAccess.value = true
                 print("Successfully used points:", response)
             default:
                 self.isSuccessGetData.value = false
@@ -202,14 +204,18 @@ extension CourseDetailViewModel {
     
     
     func likeCourse(courseId: Int) {
-        LikeCourseService().likeCourse(courseId: courseId) { result in
-            switch result {
-            case .success(let response):
-                print("Successfully liked course:", response)
+        LikeCourseService().likeCourse(courseId: courseId) { success in
+            if success {
                 self.isUserLiked.value = true
-            default:
-                self.isSuccessGetData.value = false
-                print("Failed to post course data")
+                CourseDetailService().getCourseDetailInfo(courseId: courseId){ response in
+                    switch response {
+                    case .success(let data):
+                        dump(data)
+                    default:
+                        print("꺼져")
+                    }
+                
+                }
             }
         }
     }
@@ -218,6 +224,15 @@ extension CourseDetailViewModel {
         LikeCourseService().deleteLikeCourse(courseId: courseId) { success in
             if success {
                 self.isUserLiked.value = false
+                CourseDetailService().getCourseDetailInfo(courseId: courseId){ response in
+                    switch response {
+                    case .success(let data):
+                        dump(data)
+                    default:
+                        print("꺼져")
+                    }
+                
+                }
             }
         }
     }

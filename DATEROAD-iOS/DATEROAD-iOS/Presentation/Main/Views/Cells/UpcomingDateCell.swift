@@ -15,13 +15,13 @@ final class UpcomingDateCell: BaseCollectionViewCell {
     
     private let logoImage: UIImageView = UIImageView()
     
-    private let pointLabel: DRPaddingLabel = DRPaddingLabel()
+    let pointLabel: DRPaddingLabel = DRPaddingLabel()
     
     private let profileImage: UIImageView = UIImageView()
 
-    private var dateTicketView: DateTicketView = DateTicketView()
+    var dateTicketView: DateTicketView = DateTicketView()
 
-    private var emptyTicketView: EmptyTicketView = EmptyTicketView()
+    var emptyTicketView: EmptyTicketView = EmptyTicketView()
 
     
     // MARK: - Properties
@@ -85,6 +85,7 @@ final class UpcomingDateCell: BaseCollectionViewCell {
             $0.roundedLabel(cornerRadius: 18, maskedCorners: [.layerMinXMinYCorner, .layerMinXMaxYCorner])
             $0.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_bold_13))
             $0.setPadding(top: 0, left: 14, bottom: 0, right: 23)
+            $0.isUserInteractionEnabled = true
         }
         
         profileImage.do {

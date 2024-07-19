@@ -58,6 +58,7 @@ extension MainViewModel {
             case .success(let data):
                 self.mainUserData.value = MainUserModel(name: data.name, point: data.point, imageUrl: data.image)
                 self.nickname.value = data.name
+               UserDefaults.standard.setValue(data.name, forKey: "userName")
                 self.isSuccessGetUserInfo.value = true
             default:
                 print("Failed to fetch user profile")
@@ -77,7 +78,7 @@ extension MainViewModel {
                                                                                   city: $0.city,
                                                                                   like: $0.like,
                                                                                   cost: $0.cost,
-                                                                                  duration: $0.duration) }
+                                                                                  duration: $0.duration.formatFloatTime()) }
                     self.isSuccessGetHotDate.value = true
                 } else {
                     self.newCourseData.value = data.courses.map { DateCourseModel(courseId: $0.courseID,
@@ -86,7 +87,7 @@ extension MainViewModel {
                                                                                   city: $0.city,
                                                                                   like: $0.like,
                                                                                   cost: $0.cost,
-                                                                                  duration: $0.duration) }
+                                                                                  duration: $0.duration.formatFloatTime()) }
                     self.isSuccessGetNewDate.value = true
                 }
             default:
