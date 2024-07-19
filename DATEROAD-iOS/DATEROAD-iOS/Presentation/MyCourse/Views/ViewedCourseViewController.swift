@@ -36,7 +36,6 @@ class ViewedCourseViewController: BaseViewController {
    // MARK: - LifeCycle
    override func viewDidAppear(_ animated: Bool) {
       self.viewedCourseViewModel.setViewedCourseData()
-//      setEmptyView()
    }
    
    override func viewDidLoad() {
@@ -146,10 +145,13 @@ private extension ViewedCourseViewController {
 extension ViewedCourseViewController {
    func bindViewModel() {
       
+<<<<<<< Updated upstream
 //      self.viewedCourseViewModel.userName.bind { date in
 //         guard let nickname = self.viewedCourseViewModel.userName.value else {return}
 //         self.updateNicknameLabel(nickName: nickname)
 //      }
+=======
+>>>>>>> Stashed changes
       self.viewedCourseViewModel.viewedCourseData.bind { _ in
          self.setEmptyView()
       }
@@ -165,7 +167,6 @@ extension ViewedCourseViewController {
                $0.setAttributedText(fullText: "\(nickname)님이 지금까지\n열람한 데이트 코스\n\(self?.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개", pointText: "\(self?.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)", pointColor: UIColor(resource: .mediumPurple), lineHeight: 1)
                $0.numberOfLines = 3
             }
-            
          }
       }
       
