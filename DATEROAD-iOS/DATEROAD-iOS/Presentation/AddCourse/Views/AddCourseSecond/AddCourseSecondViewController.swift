@@ -186,7 +186,7 @@ private extension AddCourseSecondViewController {
       print("지금 장소 등록된 값 : ", viewModel.addPlaceCollectionViewDataSource)
       
       let thirdVC = AddCourseThirdViewController(viewModel: self.viewModel)
-      navigationController?.pushViewController(thirdVC, animated: true)
+      navigationController?.pushViewController(thirdVC, animated: false)
    }
    
    @objc

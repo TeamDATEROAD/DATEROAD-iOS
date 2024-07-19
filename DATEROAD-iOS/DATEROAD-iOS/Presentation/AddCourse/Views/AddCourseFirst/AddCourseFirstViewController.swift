@@ -279,7 +279,7 @@ private extension AddCourseFirstViewController {
    @objc
    func sixCheckBtnTapped() {
       let secondVC = AddCourseSecondViewController(viewModel: self.viewModel)
-      navigationController?.pushViewController(secondVC, animated: true)
+      navigationController?.pushViewController(secondVC, animated: false)
    }
    
    @objc

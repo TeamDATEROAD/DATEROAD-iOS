@@ -137,7 +137,7 @@ extension NavViewedCourseViewController : UICollectionViewDataSource {
           addScheduleViewModel.isImporting = true
           
           let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel)
-          self.navigationController?.pushViewController(vc, animated: true)
+          self.navigationController?.pushViewController(vc, animated: false)
           
           // 데이터를 바인딩합니다.
           vc.pastDateBindViewModel()
