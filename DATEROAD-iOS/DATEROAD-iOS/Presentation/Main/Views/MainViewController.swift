@@ -43,7 +43,10 @@ final class MainViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         self.mainViewModel.fetchSectionData()
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     override func setHierarchy() {

@@ -23,13 +23,13 @@ final class PointViewModel {
     
     var nowPointData: ObservablePattern<[PointDetailModel]> = ObservablePattern([])
     
-    var isEarnedPointHidden : ObservablePattern<Bool> = ObservablePattern(false)
+    var isEarnedPointHidden : ObservablePattern<Bool> = ObservablePattern(nil)
     
     init (userName: String, totalPoint: Int) {
         self.userName = userName
         self.totalPoint = totalPoint
-        getPointDetail()
-        changeSegment(segmentIndex: 0)
+//        updateData(nowEarnedPointHidden: false)
+//        changeSegment(segmentIndex: 0)
     }
     
 //    func fetchData() {
@@ -43,6 +43,7 @@ final class PointViewModel {
     }
     
     func updateData(nowEarnedPointHidden: Bool) {
+//        nowPointData.value = gainedPointData.value
         if nowEarnedPointHidden {
             nowPointData.value = usedPointData.value
         } else {
@@ -50,7 +51,7 @@ final class PointViewModel {
         }
     }
     
-    func getPointDetail() {
+    func getPointDetail(nowEarnedPointHidden: Bool) {
         NetworkService.shared.pointDetailService.getPointDetail() { response in
             switch response {
             case .success(let data):
@@ -62,6 +63,7 @@ final class PointViewModel {
                 }
                 self.gainedPointData.value = pointGainedInfo
                 self.usedPointData.value = pointUsedInfo
+                self.updateData(nowEarnedPointHidden: nowEarnedPointHidden)
                 self.isSuccessGetPointInfo.value = true
             case .requestErr:
                  print("requestError")

@@ -29,7 +29,6 @@ final class MyPageViewController: BaseNavBarViewController {
     init(myPageViewModel: MyPageViewModel) {
         self.myPageViewModel = myPageViewModel
         
-        self.myPageViewModel.getUserProfile()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -184,13 +183,6 @@ extension MyPageViewController: DRCustomAlertDelegate {
 extension MyPageViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        guard let tagData = myPageViewModel.userInfoData.value?.tagList else { return CGSize() }
-//        let tagTitle = tagData[indexPath.item]
-//        let font = UIFont.suit(.body_med_13)
-//        let textWidth = tagTitle.width(withConstrainedHeight: 30, font: font)
-//        let padding: CGFloat = 48
-//                
-//       return CGSize(width: textWidth + padding, height: 30)
        
        let tagTitle = TendencyTag.getTag(byEnglish: self.myPageViewModel.tagData[indexPath.item])?.tag.tagTitle
        let font = UIFont.suit(.body_med_13)
@@ -241,7 +233,7 @@ extension MyPageViewController: UITableViewDelegate {
             let pointSystemVC = PointSystemViewController(pointSystemViewModel: PointSystemViewModel())
             self.navigationController?.pushViewController(pointSystemVC, animated: false)
         case .inquiry:
-            let inquiryVC = DRWebViewController(urlString: "https://www.notion.so/goinggoing/FAQ-920f6ad93fea46a983061f412e15cad1?pvs=4")
+            let inquiryVC = DRWebViewController(urlString: "https://dateroad.notion.site/1055d2f7bfe94b3fa6c03709448def21?pvs=4")
             self.present(inquiryVC, animated: true)
         case .logout:
             logOutSectionTapped()
