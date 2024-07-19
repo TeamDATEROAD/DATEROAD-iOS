@@ -118,6 +118,7 @@ class InfoBarView: UICollectionReusableView {
 extension InfoBarView {
      
     func bindTitleHeader(titleHeaderData: TitleHeaderModel) {
+        print("가격 여기여기",titleHeaderData.cost)
         coastLabel.text = "\(titleHeaderData.cost.priceRangeTag())"
         timeLabel.text = "\(titleHeaderData.totalTime.formatTime())시간"
         locationLabel.text = titleHeaderData.city

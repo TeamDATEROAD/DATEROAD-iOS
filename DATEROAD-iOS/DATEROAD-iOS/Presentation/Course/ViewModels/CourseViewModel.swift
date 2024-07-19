@@ -19,11 +19,11 @@ final class CourseViewModel {
     
     var selectedCountryIndex: ObservablePattern<Int> = ObservablePattern(0)
     
-    var selectedCityIndex: ObservablePattern<Int>  = ObservablePattern(0)
+    var selectedCityIndex: ObservablePattern<Int>  = ObservablePattern(nil)
     
     var selectedCityName: ObservablePattern<String>  = ObservablePattern(nil)
     
-    var selectedPriceIndex: ObservablePattern<Int> = ObservablePattern(0)
+    var selectedPriceIndex: ObservablePattern<Int> = ObservablePattern(nil)
     
     var isApplyButtonEnabled: ObservablePattern<Bool> = ObservablePattern(false)
     
@@ -45,8 +45,8 @@ final class CourseViewModel {
     
     func resetSelections() {
         selectedCountryIndex.value = 0
-        selectedCityIndex.value = 0
-        selectedPriceIndex.value = 0
+        selectedCityIndex.value = nil
+        selectedPriceIndex.value = nil
         updateCityData()
     }
 
