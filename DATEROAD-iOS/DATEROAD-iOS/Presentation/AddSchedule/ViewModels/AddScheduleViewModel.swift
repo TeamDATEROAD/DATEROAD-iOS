@@ -12,8 +12,7 @@ final class AddScheduleViewModel {
    var viewedDateCourseByMeData: CourseDetailViewModel?
    var ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
    
-   var pastDatePlaces = [DatePlaceModel]()
-   
+   var pastDatePlaces = [TimelineModel]()
    
    var selectedTagData: [String] = []
    
@@ -116,6 +115,12 @@ extension AddScheduleViewModel {
                isDateNameVaild.value = true
                isDateStartAtVaild.value = true
                isDateLocationVaild.value = true
+               
+               ///코스 등록 2 AddPlaceCollectionView 구성
+               
+               if let result = data.timelineData.value {
+                  pastDatePlaces = result
+               }
                
                completion() // 데이터 로딩이 완료된 후 호출
             }
@@ -246,6 +251,7 @@ extension AddScheduleViewModel {
    
    func tapAddBtn(datePlace: String, timeRequire: String) {
       addPlaceCollectionViewDataSource.append(AddCoursePlaceModel(placeTitle: datePlace, timeRequire: timeRequire))
+      
       //viewmodel 값 초기화
       self.datePlace.value = ""
       self.timeRequire.value = ""
