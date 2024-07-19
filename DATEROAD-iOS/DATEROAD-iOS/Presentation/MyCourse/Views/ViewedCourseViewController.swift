@@ -29,14 +29,18 @@ class ViewedCourseViewController: BaseViewController {
     private let viewedCourseViewModel = MyCourseListViewModel()
     
     // MARK: - LifeCycle
+//    override func viewDidAppear(_ animated: Bool) {
+//        bindViewModel()
+//        viewedCourseView.myCourseListCollectionView.reloadData()
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         registerCell()
         setDelegate()
-        setEmptyView()
         bindViewModel()
+        setEmptyView()
     }
     
     override func setHierarchy() {

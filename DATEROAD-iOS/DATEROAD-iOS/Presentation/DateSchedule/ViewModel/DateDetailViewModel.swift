@@ -64,6 +64,8 @@ class DateDetailViewModel {
     
     var isSuccessGetDateDetailData: ObservablePattern<Bool> = ObservablePattern(nil)
     
+//    var isSuccessDeleteDateScheduleData: ObservablePattern<Bool> = ObservablePattern(nil)
+    
     func getDateDetailData(dateID: Int) {
         dateScheduleService.getDateDetail(dateID: dateID) { response in
             switch response {
@@ -97,6 +99,7 @@ class DateDetailViewModel {
             case .success(let data):
                 print(data)
                 print("success")
+//                self.isSuccessDeleteDateScheduleData.value = true
             case .requestErr:
                 print("requestError")
             case .decodedErr:
