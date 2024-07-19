@@ -170,12 +170,23 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
         
         firstTagButton.do {
             $0.setButtonStatus(buttonType: tagButtonType)
+            $0.titleLabel?.lineBreakMode = .byClipping
+            $0.titleLabel?.adjustsFontSizeToFitWidth = true
+            $0.titleLabel?.minimumScaleFactor = 0.5
+            $0.titleLabel?.numberOfLines = 1
+            $0.titleLabel?.textAlignment = .center
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
+            
         }
         
         secondTagButton.do {
             $0.isHidden = true
             $0.setButtonStatus(buttonType: tagButtonType)
+            $0.titleLabel?.lineBreakMode = .byClipping
+            $0.titleLabel?.adjustsFontSizeToFitWidth = true
+            $0.titleLabel?.minimumScaleFactor = 0.5
+            $0.titleLabel?.numberOfLines = 1
+            $0.titleLabel?.textAlignment = .center
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
             $0.transform = CGAffineTransform(rotationAngle: CGFloat(15 * Double.pi / 180))
         }
@@ -183,6 +194,11 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
         thirdTagButton.do {
             $0.isHidden = true
             $0.setButtonStatus(buttonType: tagButtonType)
+            $0.titleLabel?.lineBreakMode = .byClipping
+            $0.titleLabel?.adjustsFontSizeToFitWidth = true
+            $0.titleLabel?.minimumScaleFactor = 0.5
+            $0.titleLabel?.numberOfLines = 1
+            $0.titleLabel?.textAlignment = .center
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
             $0.transform = CGAffineTransform(rotationAngle: CGFloat(-12 * Double.pi / 180))
         }
@@ -214,14 +230,14 @@ extension DateCardCollectionViewCell {
     func dataBind(_ dateCardData : DateCardModel, _ dateCardItemRow: Int) {
         self.dateLabel.text = dateCardData.date
         self.dDayButton.setTitle("D-\(dateCardData.dDay)", for: .normal)
-        self.firstTagButton.setTitle("\(dateCardData.tags[0])", for: .normal)
+        updateTagButton(title: "\(dateCardData.tags[0].tag)", button: self.firstTagButton)
         if dateCardData.tags.count >= 2 {
             self.secondTagButton.isHidden = false
-            self.secondTagButton.setTitle("\(dateCardData.tags[1])", for: .normal)
+            updateTagButton(title: "\(dateCardData.tags[1].tag)", button: self.secondTagButton)
         }
         if dateCardData.tags.count == 3 {
             self.thirdTagButton.isHidden = false
-            self.thirdTagButton.setTitle("\(dateCardData.tags[2])", for: .normal)
+            updateTagButton(title: "\(dateCardData.tags[2].tag)", button: self.thirdTagButton)
         }
         self.locationLabel.text = dateCardData.city
         self.titleLabel.text = dateCardData.title
@@ -246,5 +262,13 @@ extension DateCardCollectionViewCell {
             setColorToLabel(bgColor: UIColor(resource: .lime), topImage: UIImage(resource: .limeTop), bottomImage: UIImage(resource: .limeBottom), buttonColor: UIColor(resource: .lime100))
         }
     }
+    
+    func updateTagButton(title: String, button: UIButton) {
+       guard let tendencyTag = TendencyTag.getTag(byEnglish: title) else { return }
+        button.do {
+           $0.setImage(tendencyTag.tag.tagIcon, for: .normal)
+           $0.setTitle(" \(tendencyTag.tag.tagTitle)", for: .normal)
+           $0.backgroundColor = UIColor(resource: .drWhite)
+       }
+    }
 }
-

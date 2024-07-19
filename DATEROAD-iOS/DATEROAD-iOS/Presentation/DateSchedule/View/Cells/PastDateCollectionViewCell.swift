@@ -141,18 +141,33 @@ class PastDateCollectionViewCell: BaseCollectionViewCell {
         
         firstTagButton.do {
             $0.setButtonStatus(buttonType: tagButtonType)
+            $0.titleLabel?.lineBreakMode = .byClipping
+            $0.titleLabel?.adjustsFontSizeToFitWidth = true
+            $0.titleLabel?.minimumScaleFactor = 0.5
+            $0.titleLabel?.numberOfLines = 1
+            $0.titleLabel?.textAlignment = .center
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
         }
         
         secondTagButton.do {
             $0.isHidden = true
             $0.setButtonStatus(buttonType: tagButtonType)
+            $0.titleLabel?.lineBreakMode = .byClipping
+            $0.titleLabel?.adjustsFontSizeToFitWidth = true
+            $0.titleLabel?.minimumScaleFactor = 0.5
+            $0.titleLabel?.numberOfLines = 1
+            $0.titleLabel?.textAlignment = .center
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
         }
         
         thirdTagButton.do {
             $0.isHidden = true
             $0.setButtonStatus(buttonType: tagButtonType)
+            $0.titleLabel?.lineBreakMode = .byClipping
+            $0.titleLabel?.adjustsFontSizeToFitWidth = true
+            $0.titleLabel?.minimumScaleFactor = 0.5
+            $0.titleLabel?.numberOfLines = 1
+            $0.titleLabel?.textAlignment = .center
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
         }
         
@@ -183,14 +198,14 @@ class PastDateCollectionViewCell: BaseCollectionViewCell {
 extension PastDateCollectionViewCell {
     func dataBind(_ dateCardData : DateCardModel, _ dateCardItemRow: Int) {
         dateLabel.text = dateCardData.date
-        firstTagButton.setTitle("\(dateCardData.tags[0])", for: .normal)
+        updateTagButton(title: "\(dateCardData.tags[0].tag)", button: self.firstTagButton)
         if dateCardData.tags.count >= 2 {
-            secondTagButton.isHidden = false
-           secondTagButton.setTitle("\(dateCardData.tags[1])", for: .normal)
+            self.secondTagButton.isHidden = false
+            updateTagButton(title: "\(dateCardData.tags[1].tag)", button: self.secondTagButton)
         }
         if dateCardData.tags.count == 3 {
-            thirdTagButton.isHidden = false
-            thirdTagButton.setTitle("\(dateCardData.tags[2])", for: .normal)
+            self.thirdTagButton.isHidden = false
+            updateTagButton(title: "\(dateCardData.tags[2].tag)", button: self.thirdTagButton)
         }
         locationLabel.text = dateCardData.date
         titleLabel.text = dateCardData.title
@@ -213,6 +228,15 @@ extension PastDateCollectionViewCell {
         } else {
             setColorToLabel(bgColor: UIColor(resource: .lime), ribbonImage: UIImage(resource: .limeRibbon), buttonColor: UIColor(resource: .lime100))
         }
+    }
+    
+    func updateTagButton(title: String, button: UIButton) {
+       guard let tendencyTag = TendencyTag.getTag(byEnglish: title) else { return }
+        button.do {
+           $0.setImage(tendencyTag.tag.tagIcon, for: .normal)
+           $0.setTitle(" \(tendencyTag.tag.tagTitle)", for: .normal)
+           $0.backgroundColor = UIColor(resource: .drWhite)
+       }
     }
 }
 
