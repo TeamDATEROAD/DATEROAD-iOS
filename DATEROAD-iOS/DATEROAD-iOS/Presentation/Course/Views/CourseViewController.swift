@@ -46,6 +46,12 @@ final class CourseViewController: BaseViewController {
         bindViewModel()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        getCourse()
+    }
+    
     override func setHierarchy() {
         self.view.addSubview(courseView)
     }
