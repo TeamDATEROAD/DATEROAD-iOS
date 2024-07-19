@@ -177,7 +177,7 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
         }
         
         timeLabel.do {
-            $0.text = "10시간"
+//            $0.text = "10시간"
             $0.font = UIFont.suit(.cap_reg_11)
             $0.textColor = UIColor(resource: .gray400)
         }
@@ -209,7 +209,7 @@ extension CourseListCollectionViewCell {
             }
             
             if let time = course.time {
-                //timeLabel.text = "\(time.formatTime())시간"
+                timeLabel.text = "\(time.formatFloatTime())시간"
             } else {
                 timeLabel.text = nil
             }
