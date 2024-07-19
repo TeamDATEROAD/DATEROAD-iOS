@@ -47,6 +47,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
       setDelegate()
       registerCell()
       bindViewModel()
+      pastDateBindViewModel()
       setupKeyboardDismissRecognizer()
    }
    
@@ -102,6 +103,14 @@ private extension AddScheduleSecondViewController {
       [addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField,
        addScheduleSecondView.inAddScheduleSecondView.timeRequireTextField].forEach { i in
          i.delegate = self
+      }
+   }
+   
+   func pastDateBindViewModel() {
+      if viewModel.pastDatePlaces.count > 0  {
+         for i in viewModel.pastDatePlaces {
+            viewModel.tapAddBtn(datePlace: i.title, timeRequire: String(i.duration))
+         }
       }
    }
    

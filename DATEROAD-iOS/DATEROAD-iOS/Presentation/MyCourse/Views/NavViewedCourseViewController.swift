@@ -29,8 +29,8 @@ class NavViewedCourseViewController: BaseNavBarViewController {
         setTitleLabelStyle(title: StringLiterals.ViewedCourse.title, alignment: .center)
         register()
         setDelegate()
-        setEmptyView()
         bindViewModel()
+        setEmptyView()
     }
     
     override func setHierarchy() {
@@ -64,6 +64,10 @@ extension NavViewedCourseViewController {
                 $0.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
                                 emptyTitle: StringLiterals.EmptyView.emptyNavViewedCourse)
             }
+        } else {
+            navViewedCourseView.emptyView.do {
+                $0.isHidden = true
+            }
         }
     }
 }
@@ -76,6 +80,7 @@ extension NavViewedCourseViewController {
             guard let isSuccess else { return }
             if isSuccess {
                 self?.navViewedCourseView.myCourseListCollectionView.reloadData()
+                self?.setEmptyView()
             }
         }
     }
@@ -122,9 +127,20 @@ extension NavViewedCourseViewController : UICollectionViewDataSource {
     @objc func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: navViewedCourseView.myCourseListCollectionView)
         let indexPath = navViewedCourseView.myCourseListCollectionView.indexPathForItem(at: location)
-
+       
        if let index = indexPath {
-           print("일정 등록 페이지로 이동 \(viewedCourseViewModel.viewedCourseData.value?[indexPath?.item ?? 0].courseId ?? 0 )")
+          guard let courseId = viewedCourseViewModel.viewedCourseData.value?[indexPath?.item ?? 0].courseId else {return}
+          
+          let courseDetailViewModel = CourseDetailViewModel(courseId: courseId)
+          let addScheduleViewModel = AddScheduleViewModel()
+          addScheduleViewModel.viewedDateCourseByMeData = courseDetailViewModel
+          addScheduleViewModel.isImporting = true
+          
+          let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel)
+          self.navigationController?.pushViewController(vc, animated: true)
+          
+          // 데이터를 바인딩합니다.
+          vc.pastDateBindViewModel()
        }
     }
     

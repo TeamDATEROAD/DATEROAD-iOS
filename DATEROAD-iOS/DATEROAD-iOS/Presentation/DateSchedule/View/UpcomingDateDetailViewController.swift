@@ -68,6 +68,19 @@ extension UpcomingDateDetailViewController {
         }
     }
     
+    func bindPopAction() {
+        self.upcomingDateDetailViewModel?.isSuccessDeleteDateScheduleData.bind { [weak self] isSuccess in
+//            guard let isSuccess else { return }
+            if isSuccess == true {
+                print("true")
+                self?.navigationController?.popViewController(animated: false)
+            } else {
+                print("not success")
+            }
+        }
+    }
+    
+    
     private func setButton() {
         upcomingDateDetailContentView.dDayButton.isHidden = false
         upcomingDateDetailContentView.kakaoShareButton.isHidden = false
@@ -105,11 +118,26 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
         self.present(customAlertVC, animated: false)
     }
     
+    @objc
+    private func tapDeleteLabel() {
+        print("dfdsf")
+        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.deleteCourse, alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deletePastDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        self.present(customAlertVC, animated: false)
+    }
+
     func action(rightButtonAction: RightButtonType) {
         if rightButtonAction == .deleteCourse {
-            upcomingDateDetailViewModel?.deleteDateSchdeuleData(dateID: upcomingDateDetailViewModel?.dateDetailData.value?.dateID ?? 0)
+            print(1)
+            DispatchQueue.main.async {
+                print(2)
+                self.upcomingDateDetailViewModel?.deleteDateSchdeuleData(dateID: self.upcomingDateDetailViewModel?.dateDetailData.value?.dateID ?? 0)
+                print(3)
+            }
+            print(4)
+            bindPopAction()
             print("헉 헤어졌나??? 서버연결 delete")
-            self.navigationController?.popViewController(animated: true)
         } else if rightButtonAction == .kakaoShare {
             upcomingDateDetailViewModel?.shareToKakao(context: self)
             print("카카오 공유하기")
@@ -120,21 +148,26 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
 extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
     @objc
     private func deleteDateCourse() {
+        let labelTap = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
+        dateScheduleDeleteView.deleteLabel.addGestureRecognizer(labelTap)
         let bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView, height: 222, buttonType: DisabledButton(), buttonTitle: StringLiterals.DateSchedule.quit)
         bottomSheetVC.modalPresentationStyle = .overFullScreen
         bottomSheetVC.delegate = self
         self.present(bottomSheetVC, animated: false)
     }
     
-    @objc
-    func didTapFirstLabel() {
+    func didTapBottomButton() {
+        print("hi")
         self.dismiss(animated: false)
-//        tapDeleteLabel()
     }
     
-    func didTapBottomButton() {
+    @objc
+    func didTapFirstLabel() {
+        print("sdjflksd ㅇㄴㄹㅁㄴㅇㄹ")
         self.dismiss(animated: false)
+        tapDeleteLabel()
     }
+    
 }
 
 

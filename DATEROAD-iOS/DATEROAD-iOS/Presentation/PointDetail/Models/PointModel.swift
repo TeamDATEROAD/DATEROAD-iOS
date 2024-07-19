@@ -31,12 +31,12 @@ struct PointDetailModel {
     let sign: String
     let point: Int
     let description: String
-    let createAt: String
+    let createdAt: String
     
-    init(sign: String,point: Int, description: String, createAt: String) {
+    init(sign: String, point: Int, description: String, createdAt: String) {
         self.sign = sign
         self.point = point
         self.description = description
-        self.createAt = createAt
+        self.createdAt = createdAt
     }
 }

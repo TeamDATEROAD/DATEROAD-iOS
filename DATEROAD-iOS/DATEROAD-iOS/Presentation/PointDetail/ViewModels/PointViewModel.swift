@@ -54,16 +54,15 @@ final class PointViewModel {
         NetworkService.shared.pointDetailService.getPointDetail() { response in
             switch response {
             case .success(let data):
-                let pointGainedInfo = data.gained.map {
-                    PointDetailModel(sign: "+", point: $0.point, description: $0.description, createAt: $0.createAt)
+                let pointGainedInfo = data.gained.points.map {
+                    PointDetailModel(sign: "+", point: $0.point, description: $0.description, createdAt: $0.createdAt)
                 }
-                let pointUsedInfo = data.used.map {
-                    PointDetailModel(sign: "-", point: $0.point, description: $0.description, createAt: $0.createAt)
+                let pointUsedInfo = data.used.points.map {
+                    PointDetailModel(sign: "-", point: $0.point, description: $0.description, createdAt: $0.createdAt)
                 }
                 self.gainedPointData.value = pointGainedInfo
                 self.usedPointData.value = pointUsedInfo
-//                print(pointGainedInfo, pointUsedInfo)
-//                self.isSuccessGetPointInfo.value = true
+                self.isSuccessGetPointInfo.value = true
             case .requestErr:
                  print("requestError")
              case .decodedErr:

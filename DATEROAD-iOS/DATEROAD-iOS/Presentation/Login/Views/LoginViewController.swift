@@ -57,10 +57,9 @@ extension LoginViewController {
     func setAddTarget() {
         self.loginView.kakaoLoginButton.addTarget(self, action: #selector(didTapKakaoLoginButton), for: .touchUpInside)
         self.loginView.appleLoginButton.addTarget(self, action: #selector(didTapAppleLoginButton), for: .touchUpInside)
+        self.loginView.privacyPolicyButton.addTarget(self, action: #selector(didTapPrivacyPolicyButton), for: .touchUpInside)
     }
-    
-    // TODO: - 추후 뷰컨 변경 예정
-    
+        
     func pushToNextVC(isSignIn: Bool) {
         if isSignIn {
             let mainVC = TabBarController()
@@ -95,6 +94,12 @@ extension LoginViewController {
         let controller = ASAuthorizationController(authorizationRequests: [request])
         controller.delegate = self
         controller.performRequests()
+    }
+    
+    @objc
+    func didTapPrivacyPolicyButton() {
+        let privacyPolicyVC = DRWebViewController(urlString: "https://dateroad.notion.site/04da4aa279ca4b599193784091a52859?pvs=4")
+        self.present(privacyPolicyVC, animated: true)
     }
    
 }

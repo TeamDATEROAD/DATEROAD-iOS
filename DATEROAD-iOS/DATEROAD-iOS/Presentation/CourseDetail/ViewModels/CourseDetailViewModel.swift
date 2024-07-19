@@ -58,6 +58,9 @@ class CourseDetailViewModel {
     
     
     var numberOfSections: Int = 6
+   
+   var startAt: String = ""
+   var tagArr = [GetCourseDetailTag]()
     
     
     init(courseId: Int) {
@@ -118,6 +121,8 @@ extension CourseDetailViewModel {
             case .success(let data):
                 self.conditionalData.value = ConditionalModel(courseId: self.courseId, isCourseMine: data.isCourseMine, isAccess: data.isAccess, free: data.free, totalPoint: data.totalPoint, isUserLiked: data.isUserLiked)
                 
+               self.startAt = data.startAt
+               
                 if data.totalPoint >= 50 {
                     self.havePoint.value = true
                 } else {
@@ -144,7 +149,8 @@ extension CourseDetailViewModel {
                 self.timelineData.value = data.places.map { place in
                     TimelineModel(sequence: place.sequence + 1, title: place.title, duration: Float(place.duration))
                 }
-                
+               self.tagArr = data.tags
+               
                 self.tagData.value = data.tags.map { tag in
                     TagModel(tag: tag.tag)
                 }

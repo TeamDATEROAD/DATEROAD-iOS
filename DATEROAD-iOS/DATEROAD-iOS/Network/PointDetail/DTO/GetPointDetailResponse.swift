@@ -7,15 +7,18 @@
 
 import Foundation
 
+// MARK: - GetPointDetailResponse
 struct GetPointDetailResponse: Codable {
-    let gained: [PointDetail]
-    let used: [PointDetail]
-
+    let gained, used: Points
 }
 
-struct PointDetail: Codable {
-    let point: Int
-    let description: String
-    let createAt: String
+// MARK: - Points
+struct Points: Codable {
+    let points: [Point]
+}
 
+// MARK: - Point
+struct Point: Codable {
+    let point: Int
+    let description, createdAt: String
 }
