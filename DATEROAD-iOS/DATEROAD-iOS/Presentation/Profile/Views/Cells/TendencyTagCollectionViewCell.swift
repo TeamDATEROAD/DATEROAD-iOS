@@ -40,12 +40,28 @@ final class TendencyTagCollectionViewCell: BaseCollectionViewCell {
     override func setStyle() {
         tendencyTagButton.do {
             $0.contentEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12)
+           $0.titleLabel?.lineBreakMode = .byClipping
+           $0.titleLabel?.adjustsFontSizeToFitWidth = true
+           $0.titleLabel?.minimumScaleFactor = 0.5
+           $0.titleLabel?.numberOfLines = 1
+           $0.titleLabel?.textAlignment = .center
         }
     }
 
     func updateButtonTitle(tag: ProfileModel) {
-        self.tendencyTagButton.setTitle(tag.tagTitle, for: .normal)
+        self.tendencyTagButton.setTitle(" \(tag.tagTitle)", for: .normal)
         self.tendencyTagButton.setImage(tag.tagIcon, for: .normal)
+       
     }
+   
+   func updateButtonTitle(title: String) {
+       guard let tendencyTag = TendencyTag.getTag(byEnglish: title) else { return }
+      tendencyTagButton.do {
+           $0.setImage(tendencyTag.tag.tagIcon, for: .normal)
+           $0.setTitle(" \(tendencyTag.tag.tagTitle)", for: .normal)
+         $0.backgroundColor = UIColor(resource: .drWhite)
+       }
+
+   }
     
 }

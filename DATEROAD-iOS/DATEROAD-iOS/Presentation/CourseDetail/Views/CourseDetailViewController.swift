@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class CourseDetailViewController: BaseViewController, CustomAlertDelegate {
+final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegate {
     
     
     // MARK: - UI Properties
@@ -386,8 +386,9 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
                     didTapBuyButton()
                 }
             }
-        case .none:
+        default:
             return
+            
         }
         setSetctionCount()
         setTabBar()
@@ -407,7 +408,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     
     //열람 전 분기 처리 - 무료 사용 기회 다 쓴 경우
     func didTapReadCourseButton() {
-        let customAlertVC = CustomAlertViewController(
+        let customAlertVC = DRCustomAlertViewController(
             rightActionType: RightButtonType.checkCourse,
             alertTextType: .hasDecription,
             alertButtonType: .twoButton,
@@ -422,7 +423,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     
     //열람 전 분기 처리 - 무료 사용 기회 남은 경우
     func didTapFreeViewButton() {
-        let customAlertVC = CustomAlertViewController(
+        let customAlertVC = DRCustomAlertViewController(
             rightActionType: RightButtonType.checkCourse,
             alertTextType: .hasDecription,
             alertButtonType: .twoButton,
@@ -438,7 +439,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     
     //포인트가 부족할 때
     func didTapBuyButton(){
-        let customAlertVC = CustomAlertViewController(
+        let customAlertVC = DRCustomAlertViewController(
             rightActionType: RightButtonType.addCourse,
             alertTextType: .hasDecription,
             alertButtonType: .twoButton,
@@ -453,7 +454,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     
     //코스 등록하기로 화면 전환
     func didTapAddCourseButton() {
-        let addCourseVC = AddCourseFirstViewController()
+        let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
         self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
     

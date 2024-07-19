@@ -54,8 +54,9 @@ extension CourseDetailTargetType: BaseTargetType {
     }
     
     var headers: [String : String]? {
-        let headers = ["Content-Type" : "application/json",
-                       "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiaWF0IjoxNzIxMDY2MDA2LCJleHAiOjE3MjM0ODUxMDZ9.-3xRrDlDixBsHKH7sUMjcYkHT8ry5f3STuwmL27abF8"]
+        let token = UserDefaults.standard.string(forKey: "accessToken") ?? ""
+        let headers = ["accept": "application/json",
+                       "Content-Type" : "application/json", "Authorization" : "Bearer " + token]
         return headers
     }
     

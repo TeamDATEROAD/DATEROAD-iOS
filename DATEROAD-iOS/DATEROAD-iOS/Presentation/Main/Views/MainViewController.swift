@@ -37,6 +37,11 @@ final class MainViewController: BaseViewController {
         registerCell()
         setDelegate()
         setAddTarget()
+        bindViewModel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.mainViewModel.fetchSectionData()
     }
     
     override func setHierarchy() {
@@ -51,11 +56,55 @@ final class MainViewController: BaseViewController {
     }
     
     override func setStyle() {
-        self.navigationController?.navigationBar.isHidden = true       
+        self.navigationController?.navigationBar.isHidden = true
     }
 }
 
 extension MainViewController {
+    
+    func bindViewModel() {
+        self.mainViewModel.isSuccessGetUserInfo.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.mainView.mainCollectionView.reloadData()
+            }
+        }
+        
+        self.mainViewModel.isSuccessGetHotDate.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.mainView.mainCollectionView.reloadData()
+            }
+        }
+        
+        self.mainViewModel.isSuccessGetBanner.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.mainView.mainCollectionView.reloadData()
+            }
+        }
+        
+        self.mainViewModel.isSuccessGetNewDate.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.mainView.mainCollectionView.reloadData()
+            }
+        }
+        
+        self.mainViewModel.isSuccessGetUpcomingDate.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.mainView.mainCollectionView.reloadData()
+            }
+        }
+        self.mainViewModel.currentIndex.bind { [weak self] index in
+            guard let index,
+            let count = self?.mainViewModel.bannerData.value?.count
+            else { return }
+            print("index \(index.row + 1)")
+            self?.updateBannerCell(index: index.row, count: count)
+        }
+    }
     
     func registerCell() {
         self.mainView.mainCollectionView.register(UpcomingDateCell.self, forCellWithReuseIdentifier: UpcomingDateCell.cellIdentifier)
@@ -74,20 +123,55 @@ extension MainViewController {
         self.mainView.floatingButton.addTarget(self, action: #selector(pushToAddCourseVC), for: .touchUpInside)
     }
     
+    func updateBannerCell(index: Int, count: Int) {
+        guard let cell = self.mainView.mainCollectionView.cellForItem(at: IndexPath(item: 0, section: 2)) as? BannerCell
+        else { return }
+        cell.bindIndexData(currentIndex: index, count: count)
+    }
+    
     // TODO: - 코스 등록 뷰컨 연결
     @objc
     func pushToAddCourseVC() {
         print("pushToAddCourseVC")
+        let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
+        self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
     
 }
 
-extension MainViewController: UICollectionViewDelegate {}
+extension MainViewController: UICollectionViewDelegate {
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let page = Int(targetContentOffset.pointee.x / self.view.frame.width)
+        self.mainViewModel.currentIndex.value?.row = page
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            let contentOffsetY = scrollView.contentOffset.y
+                
+            if contentOffsetY < 0 {
+                // 맨 위에서 아래로 당겼을 때
+                mainView.mainCollectionView.backgroundColor = UIColor(resource: .deepPurple)
+            } else if contentOffsetY + scrollView.frame.size.height > scrollView.contentSize.height {
+                // 맨 아래에서 위로 당겼을 때
+                mainView.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
+            } else {
+                // 일반적인 스크롤 상태
+                mainView.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
+            }
+        }
+
+    
+}
 
 extension MainViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return self.mainViewModel.sectionData.count
+        if collectionView == self.mainView.mainCollectionView {
+            return self.mainViewModel.sectionData.count
+        } else {
+            return 1
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -124,10 +208,6 @@ extension MainViewController: UICollectionViewDataSource {
                 cell.bannerCollectionView.register(BannerImageCollectionViewCell.self, forCellWithReuseIdentifier: BannerImageCollectionViewCell.cellIdentifier)
                 cell.bannerCollectionView.dataSource = self
                 cell.bannerCollectionView.delegate = self
-                cell.bannerCollectionView.reloadData()
-                if let count = mainViewModel.bannerData.value?.count {
-                    cell.bindIndexData(currentIndex: 1, count: count)
-                }
                 return cell
             case .newDateCourse:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell else { return UICollectionViewCell() }
@@ -156,6 +236,21 @@ extension MainViewController: UICollectionViewDataSource {
                 header.bindTitle(section: .newDateCourse, nickname: nil)
         }
         return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == mainView.mainCollectionView {
+            switch self.mainViewModel.sectionData[indexPath.section] {
+            case .hotDateCourse:
+                print("pushToDetailCourseVC")
+            case .newDateCourse:
+                print("pushToDetailCourseVC")
+            default:
+                print("default")
+            }
+        } else {
+            print("pushToBannerDetailVC")
+        }
     }
         
 }

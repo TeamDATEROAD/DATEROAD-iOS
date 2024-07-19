@@ -31,9 +31,9 @@ final class BannerImageCollectionViewCell: BaseCollectionViewCell {
         self.backgroundColor = UIColor(resource: .drWhite)
         
         bannerImage.do {
-            $0.backgroundColor = UIColor.clear
+            $0.backgroundColor = UIColor(resource: .drWhite)
             $0.clipsToBounds = true
-            $0.contentMode = .scaleToFill
+            $0.contentMode = .scaleAspectFill
             $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
         }
     }
@@ -44,12 +44,11 @@ extension BannerImageCollectionViewCell {
     // TODO: - 인덱스 바인딩 해주기
     func bindData(bannerData: BannerModel?) {
         guard let bannerData else { return }
-//        if let url = URL(string: bannerData.imageUrl) {
-//            self.bannerImage.kf.setImage(with: url)
-//        } else {
-//            self.bannerImage.image = UIImage(resource: .thirdOnboardingBG)
-//        }
-        self.bannerImage.image = bannerData.imageUrl
+        if let url = URL(string: bannerData.imageUrl) {
+            self.bannerImage.kf.setImage(with: url)
+        } else {
+            self.bannerImage.image = UIImage(resource: .testImage2)
+        }
     }
 
 }

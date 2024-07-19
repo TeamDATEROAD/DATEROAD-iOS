@@ -14,9 +14,9 @@ struct GetCourseDetailResponse: Codable {
     let totalTime: Double
     let date, city, title, description: String
     let startAt: String
-    let places: [Place]
+    let places: [GetCourseDetailPlace]
     let totalCost: Int
-    let tags: [Tag]
+    let tags: [GetCourseDetailTag]
     let isAccess: Bool
     let free, totalPoint: Int
     let isCourseMine, isUserLiked: Bool
@@ -39,13 +39,13 @@ struct Image: Codable {
 }
 
 // MARK: - Place
-struct Place: Codable {
+struct GetCourseDetailPlace: Codable {
     let sequence: Int
     let title: String
     let duration: Double
 }
 
 // MARK: - Tag
-struct Tag: Codable {
+struct GetCourseDetailTag: Codable {
     let tag: String
 }

@@ -69,6 +69,6 @@ extension BannerCell {
     
     // TODO: - 인덱스 바인딩 해주기
     func bindIndexData(currentIndex: Int, count: Int) {
-        self.indexLabel.text = "\(currentIndex)/\(count)"
+        self.indexLabel.text = "\(currentIndex + 1)/\(count)"
     }
 }

@@ -10,4 +10,5 @@ import UIKit
 struct ProfileModel {
     let tagIcon: UIImage
     let tagTitle: String
+    let english: String
 }

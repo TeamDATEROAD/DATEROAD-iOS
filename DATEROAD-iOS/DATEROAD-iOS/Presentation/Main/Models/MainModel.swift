@@ -41,7 +41,7 @@ struct DateCourseModel {
     let city: String
     let like: Int
     let cost: Int
-    let duration: Int
+    let duration: Float
     
     static var hotDateDummyData: [DateCourseModel] {
         return [DateCourseModel(courseId: 1, thumbnail: "www.asdfasdfds.jpg", title: "스리와 데이트 - 성수편 스리와 데이트 - 성수편", city: "건대/상수/왕십리", like: 3, cost: 10, duration: 10),
@@ -65,21 +65,6 @@ struct DateCourseModel {
 }
 
 struct BannerModel {
-    let imageUrl: UIImage
-    
-    static var bannerDummyData: [BannerModel] {
-//        return [BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "스리 픽"),
-//                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽"),
-//                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "스리 픽"),
-//                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽"),
-//                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "스리 픽"),
-//                BannerModel(advertismentId: 0, imageUrl: "www.naver.jpg", title: "관리자 아카이빙 게시물 이름", tag: "에디터 픽")
-//        ]
-        return [BannerModel(imageUrl: UIImage(resource: .imgBanner1)),
-                BannerModel(imageUrl: UIImage(resource: .imgBanner2)),
-                BannerModel(imageUrl: UIImage(resource: .imgBanner3)),
-                BannerModel(imageUrl: UIImage(resource: .imgBanner4)),
-                BannerModel(imageUrl: UIImage(resource: .imgBanner5))
-        ]
-    }
+    let advertisementId: Int
+    let imageUrl: String
 }

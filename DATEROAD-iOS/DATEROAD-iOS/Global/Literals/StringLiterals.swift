@@ -89,6 +89,7 @@ enum StringLiterals {
          static let visitDateErrorLabel = "미래 날짜를 선택하셨어요"
          static let addFirstNextBtnOfCourse = "다음 (1/3)"
          static let addFirstNextBtnOfSchedule = "다음"
+         static let addScheduleRightBtn = "불러오기"
       }
       
       enum AddSecondView {
@@ -105,7 +106,7 @@ enum StringLiterals {
       }
       
       enum AddThirdView {
-         static let contentTitleLabel = "어떤 코스로 이동하셨나요?"
+         static let contentTitleLabel = "코스에 대한 설명을 적어 주세요"
          static let contentTextFieldPlaceHolder = "데이트 내용을 입력해 주세요.\n예약 정보, 웨이팅 정보, 꿀팁 등을 작성해 주세요.\n(최소 200자)"
          static let contentTextCountLabel = "0자 / 200자 이상"
          static let priceTitleLabel = "총 비용을 입력해 주세요"
@@ -113,8 +114,13 @@ enum StringLiterals {
          static let addThirdDoneBtn = "완료"
       }
       
+      enum AddBottomSheetView {
+         static let datePickerBtnTitle = "선택하기"
+      }
+      
       enum AddCourseAlert {
          static let alertTitleLabel = "코스 등록이 되었어요"
+         static let alertScheduelTitleLabel = "데이트 일정이 되었어요!"
          static let alertSubTitleLabel = "100P가 적립되었어요!"
          static let doneButton = "확인했어요"
       }
@@ -128,6 +134,7 @@ enum StringLiterals {
         static let inquiry = "문의하기"
         static let logout = "로그아웃"
         static let withdrawal = "탈퇴하기"
+        static let alertWithdrawal = "탈퇴"
     }
     
     enum PointSystem {
@@ -166,6 +173,9 @@ enum StringLiterals {
         static let seePastDate = "지난 데이트 보기"
         static let pastDate = "지난 데이트"
         static let startTime = "시작시간: "
+        static let dateSetting = "데이트 일정 설정"
+        static let deleteDate = "글 삭제"
+        static let quit = "취소"
     }
     
     enum Alert {
@@ -178,6 +188,9 @@ enum StringLiterals {
         static let wouldYouLogOut = "로그아웃 하시겠어요?"
         static let buyCourse = "50P를 사용해서 코스를 확인해보시겠어요?"
         static let canNotRefund = "구매 후 포인트는 환불되지 않아요"
+        static let deleteDateSchedule = "데이트 일정을 삭제하시겠어요?"
+        static let deletePastDateSchedule = "지난 데이트를 삭제하시겠어요?"
+        static let noMercy = "삭제된 일정은 복구하실 수 없어요"
     }
     
     enum Course {
@@ -208,5 +221,10 @@ enum StringLiterals {
     enum EmptyView {
         static let emptyDateSchedule = "아직 연인과의 데이트 일정을\n등록하지 않으셨나요?"
         static let emptyPastSchedule = "지난 데이트가 없어요!"
+        static let emptyViewedCourse = "다른 커플들의 데이트 코스를\n열람해보세요!"
+        static let emptyNavViewedCourse = "아직 열람한 코스가 없어요!"
+        static let emptyMyRegisterCourse = "아직 등록한 코스가 없어요!"
+        static let emptyGainedPoint = "아직 포인트 획득 내역이 없어요!"
+        static let emptyUsedPoint = "아직 포인트 사용 내역이 없어요!"
     }
 }

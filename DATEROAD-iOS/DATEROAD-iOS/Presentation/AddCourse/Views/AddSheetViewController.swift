@@ -7,6 +7,7 @@
 
 
 import UIKit
+
 import SnapKit
 import Then
 
@@ -14,15 +15,9 @@ final class AddSheetViewController: BaseViewController {
    
    // MARK: - UI Properties
    
-   let addSheetView = AddSheetView()
+   var addSheetView = AddSheetView(isCustomPicker: true)
    
    var viewModel: AddCourseViewModel?
-   
-   var addCourseFirstView: AddCourseFirstView?
-   
-   var addSecondView: AddSecondView?
-   
-   var isCustomPicker: Bool?
    
    var customPickerValues: [Double] = []
    
@@ -44,9 +39,7 @@ final class AddSheetViewController: BaseViewController {
    override func viewDidLoad() {
       super.viewDidLoad()
       
-      setAddTarget()
       setCustomPicker()
-      addSheetView.isCustomPicker(flag: isCustomPicker ?? false)
    }
    
    
@@ -74,39 +67,22 @@ final class AddSheetViewController: BaseViewController {
 
 private extension AddSheetViewController {
    
-   func setAddTarget() {
+   private func setCustomPicker() {
+      customPickerValues = Array(stride(from: 0.5, to: 6.5, by: 0.5))
+      addSheetView.customPickerView.dataSource = self
+      addSheetView.customPickerView.delegate = self
+      addSheetView.customPickerView.reloadAllComponents()
       addSheetView.doneBtn.addTarget(self, action: #selector(didTapDoneBtn), for: .touchUpInside)
-   }
-   
-   func setCustomPicker() {
-      if isCustomPicker == true {
-         customPickerValues = Array(stride(from: 0.5, to: 6.5, by: 0.5))
-         addSheetView.customPickerView.dataSource = self
-         addSheetView.customPickerView.delegate = self
-         addSheetView.customPickerView.reloadAllComponents()
-      }
    }
    
    // MARK: - @objc Methods
    
    @objc
-   func didTapDoneBtn() {
-      if isCustomPicker == true {
-         let selectedRow = addSheetView.customPickerView.selectedRow(inComponent: 0)
-         let selectedValue = customPickerValues[selectedRow]
-         viewModel?.updateTimeRequireTextField(text: String(selectedValue))
-         dismiss(animated: true)
-      } else {
-         if addSheetView.datePicker.datePickerMode == .date {
-            let selectedDate = addSheetView.datePicker.date
-            viewModel?.isFutureDate(date: selectedDate, dateType: "date")
-            dismiss(animated: true)
-         } else {
-            let formattedDate = addSheetView.datePicker.date
-            viewModel?.isFutureDate(date: formattedDate, dateType: "time")
-            dismiss(animated: true)
-         }
-      }
+   private func didTapDoneBtn() {
+      let selectedRow = addSheetView.customPickerView.selectedRow(inComponent: 0)
+      let selectedValue = customPickerValues[selectedRow]
+      viewModel?.updateTimeRequireTextField(text: String(selectedValue))
+      dismiss(animated: true)
    }
 }
 
@@ -127,8 +103,4 @@ extension AddSheetViewController: UIPickerViewDataSource, UIPickerViewDelegate {
       return String(customPickerValues[row])
    }
    
-   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-      print("Selected Value: \(customPickerValues[row])")
-      // 선택된 값을 ViewModel 또는 필요한 곳에 전달
-   }
 }

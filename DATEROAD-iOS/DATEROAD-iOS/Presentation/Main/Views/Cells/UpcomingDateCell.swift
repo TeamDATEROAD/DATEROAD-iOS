@@ -7,6 +7,8 @@
 
 import UIKit
 
+import Kingfisher
+
 final class UpcomingDateCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
@@ -39,7 +41,7 @@ final class UpcomingDateCell: BaseCollectionViewCell {
     
     override func setLayout() {
         logoImage.snp.makeConstraints {
-            $0.top.equalTo(self.safeAreaLayoutGuide)
+            $0.top.equalToSuperview().inset(self.safeAreaInsets.top)
             $0.leading.equalToSuperview().inset(16)
             $0.size.equalTo(44)
         }
@@ -86,10 +88,11 @@ final class UpcomingDateCell: BaseCollectionViewCell {
         }
         
         profileImage.do {
+            $0.backgroundColor = UIColor(resource: .mediumPurple)
             $0.layer.cornerRadius = $0.frame.size.width / 2
             $0.image = UIImage(resource: .emptyProfileImg)
             $0.clipsToBounds = true
-            $0.contentMode = .scaleAspectFit
+            $0.contentMode = .scaleAspectFill
         }
     }
 }
@@ -106,7 +109,16 @@ extension UpcomingDateCell {
             emptyTicketView.isHidden = false
             dateTicketView.isHidden = true
         }
+        
         guard let point = mainUserData?.point else { return }
         pointLabel.text = "\(point) P"
+        
+        guard let imageUrl = mainUserData?.imageUrl else {
+            self.profileImage.image = UIImage(resource: .emptyProfileImg)
+            return
+        }
+        let url = URL(string: imageUrl)
+        profileImage.kf.setImage(with: url)
+        profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
     }
 }

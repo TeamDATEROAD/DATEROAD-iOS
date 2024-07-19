@@ -253,5 +253,14 @@ extension ProfileView {
         : registerButton.setButtonStatus(buttonType: disabledButtonType)
         registerButton.titleLabel?.font = UIFont.suit(.body_bold_15)
     }
+   
+   func updateProfileImage(image: UIImage) {
+      profileImageView.do {
+         $0.image = image
+         $0.clipsToBounds = true
+         $0.contentMode = .scaleAspectFill
+         $0.layer.cornerRadius = $0.frame.size.width / 2
+      }
+   }
     
 }

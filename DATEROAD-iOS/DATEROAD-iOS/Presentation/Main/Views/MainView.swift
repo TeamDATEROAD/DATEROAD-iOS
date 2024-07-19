@@ -46,13 +46,13 @@ final class MainView: BaseView {
         floatingButton.snp.makeConstraints {
             $0.size.equalTo(50)
             $0.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview().inset(10)
+            $0.bottom.equalToSuperview().inset(20)
         }
     }
     
     override func setStyle() {
         mainCollectionView.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .drWhite)
             $0.showsVerticalScrollIndicator = false
             $0.isScrollEnabled = true
         }

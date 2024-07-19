@@ -16,9 +16,25 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
    
    var addCourseFirstView = AddCourseFirstView()
    
+   let addSheetView = AddSheetView(isCustomPicker: false)
+   
+   lazy var alertVC = DRBottomSheetViewController(contentView: addSheetView, height: 304, buttonType: EnabledButton(), buttonTitle: StringLiterals.AddCourseOrSchedule.AddBottomSheetView.datePickerBtnTitle)
+   
+   private let imagePickerViewController = CustomImagePicker(isProfilePicker: false)
+   
+   
    // MARK: - Properties
    
-   private let viewModel = AddCourseViewModel()
+   let viewModel: AddCourseViewModel
+   
+   init(viewModel: AddCourseViewModel) {
+      self.viewModel = viewModel
+      super.init(nibName: nil, bundle: nil)
+   }
+   
+   required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+   }
    
    // MARK: - Life Cycle
    
@@ -32,9 +48,12 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
       setLeftBackButton()
       setAddTarget()
       registerCell()
+      setDelegate()
       bindViewModel()
+      pastDateBindViewModel()
       setupKeyboardDismissRecognizer()
    }
+   
    
    // MARK: - Methods
    
@@ -65,82 +84,302 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
    
 }
 
-extension AddCourseFirstViewController {
+private extension AddCourseFirstViewController {
    
-   private func bindViewModel() {
-      viewModel.dateName.bind { [weak self] date in
-         self?.addCourseFirstView.addFirstView.dateNameTextField.text = date
+   func pastDateBindViewModel() {
+      if let pastDateDetailData = viewModel.pastDateDetailData {
+         print("Received date detail data: \(pastDateDetailData)")
+         viewModel.ispastDateVaild.value = true
       }
-      viewModel.visitDate.bind { [weak self] date in
-         self?.addCourseFirstView.addFirstView.visitDateTextField.text = date
-      }
-      viewModel.dateStartTime.bind { [weak self] date in
-         self?.addCourseFirstView.addFirstView.dateStartTimeTextField.text = date
-      }
-      viewModel.isDateNameValid.bind { [weak self] date in
-         self?.addCourseFirstView.updateDateNameTextField(isPassValid: date ?? true)
-      }
-      viewModel.isVisitDateValid.bind { [weak self] date in
-         self?.addCourseFirstView.updateVisitDateTextField(isPassValid: date ?? true)
-      }
-      viewModel.tagCount.bind { [weak self] count in
-         self?.addCourseFirstView.addFirstView.updateTagCount(count: count ?? 0)
-      }
-      //보완 예정
-//      viewModel.isSixCheckPass.bind { [weak self] date in
-//         self?.viewModel.isPassSixCheckBtn()
-//      }
-      
    }
    
-   private func setAddTarget() {
-      addCourseFirstView.addFirstView.dateNameTextField.addTarget(self, action: #selector(textFieldDidChanacge(_:)), for: .editingChanged)
-      addCourseFirstView.addFirstView.visitDateTextField.addTarget(self, action: #selector(textFieldTapped(_:)), for: .touchDown)
-      addCourseFirstView.addFirstView.dateStartTimeTextField.addTarget(self, action: #selector(textFieldTapped(_:)), for: .touchDown)
-      for button in addCourseFirstView.addFirstView.tagBtns {
-         button.addTarget(self, action: #selector(changeTagBtnState), for: .touchUpInside)
+   func bindViewModel() {
+      viewModel.ispastDateVaild.bind { date in
+         self.viewModel.fetchPastDate()
+         self.addCourseFirstView.addFirstView.tendencyTagCollectionView.reloadData()
       }
+      viewModel.isPickedImageVaild.bind { date in
+         let flag = self.viewModel.isOkSixBtn()
+         self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
+      }
+      viewModel.isDateNameVaild.bind { date in
+         guard let date = date else {return}
+         self.addCourseFirstView.updateDateNameTextField(isPassValid: date)
+         
+         let flag = self.viewModel.isOkSixBtn()
+         self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
+      }
+      viewModel.isVisitDateVaild.bind { date in
+         guard let date = date else {return}
+         self.addCourseFirstView.updateVisitDateTextField(isPassValid: date)
+         
+         let flag = self.viewModel.isOkSixBtn()
+         self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
+      }
+      viewModel.isDateStartAtVaild.bind { date in
+         let flag = self.viewModel.isOkSixBtn()
+         self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
+      }
+      viewModel.isValidTag.bind { date in
+         let flag = self.viewModel.isOkSixBtn()
+         self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
+      }
+      viewModel.isDateLocationVaild.bind { date in
+         let flag = self.viewModel.isOkSixBtn()
+         self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
+      }
+      
+      viewModel.dateName.bind { date in
+         guard let text = date else {return}
+         self.addCourseFirstView.addFirstView.updateDateName(text: text)
+      }
+      viewModel.visitDate.bind { date in
+         guard let text = date else {return}
+         self.addCourseFirstView.addFirstView.updateVisitDate(text: text)
+      }
+      viewModel.dateStartAt.bind { date in
+         guard let text = date else {return}
+         self.addCourseFirstView.addFirstView.updatedateStartTime(text: text)
+      }
+      viewModel.tagCount.bind { count in
+         self.addCourseFirstView.addFirstView.updateTagCount(count: count ?? 0)
+      }
+      viewModel.dateLocation.bind { date in
+         guard let date = date else {return}
+         self.addCourseFirstView.addFirstView.updateDateLocation(text: date)
+      }
+   }
+   
+   func registerCell() {
+      addCourseFirstView.collectionView.register(AddCourseImageCollectionViewCell.self, forCellWithReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier)
+      addCourseFirstView.addFirstView.tendencyTagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
+   }
+   
+   func setDelegate() {
+      addCourseFirstView.collectionView.do {
+         $0.delegate = self
+         $0.dataSource = self
+      }
+      addCourseFirstView.addFirstView.tendencyTagCollectionView.do {
+         $0.delegate = self
+         $0.dataSource = self
+      }
+      addCourseFirstView.addFirstView.dateNameTextField.delegate = self
+      imagePickerViewController.delegate = self
+   }
+   
+   func setAddTarget() {
+      addCourseFirstView.addFirstView.dateNameTextField.addTarget(self, action: #selector(textFieldDidChanacge(_:)), for: .editingChanged)
+      
       addCourseFirstView.addFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
+      
+      let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(visitDate))
+      addCourseFirstView.addFirstView.visitDateContainer.addGestureRecognizer(tapGesture1)
+      addCourseFirstView.addFirstView.visitDateContainer.isUserInteractionEnabled = true
+      
+      let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(dateStartAt))
+      addCourseFirstView.addFirstView.dateStartAtContainer.addGestureRecognizer(tapGesture2)
+      addCourseFirstView.addFirstView.dateStartAtContainer.isUserInteractionEnabled = true
+      
+      
+      let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(datePlaceContainerTapped))
+      addCourseFirstView.addFirstView.datePlaceContainer.addGestureRecognizer(tapGesture3)
+      addCourseFirstView.addFirstView.datePlaceContainer.isUserInteractionEnabled = true
+   }
+   
+   @objc
+   func visitDate() {
+         addSheetView.datePickerMode(isDatePicker: true)
+         viewModel.isTimePicker = false
+      alertVC.delegate = self
+      addCourseFirstView.addFirstView.dateNameTextField.resignFirstResponder()
+      DispatchQueue.main.async {
+         self.alertVC.modalPresentationStyle = .overFullScreen
+         self.present(self.alertVC, animated: true, completion: nil)
+      }
+   }
+   
+   @objc
+   func dateStartAt() {
+         addSheetView.datePickerMode(isDatePicker: false)
+         viewModel.isTimePicker = true
+      alertVC.delegate = self
+      addCourseFirstView.addFirstView.dateNameTextField.resignFirstResponder()
+      DispatchQueue.main.async {
+         self.alertVC.modalPresentationStyle = .overFullScreen
+         self.present(self.alertVC, animated: true, completion: nil)
+      }
+   }
+   
+   @objc
+   func textFieldDidChanacge(_ textField: UITextField) {
+      viewModel.dateName.value = textField.text ?? ""
+      viewModel.satisfyDateName(str: textField.text ?? "")
+   }
+   
+   @objc
+   func removeCell(sender: UIButton) {
+      guard let cell = sender.superview?.superview as? AddCourseImageCollectionViewCell,
+            let indexPath = addCourseFirstView.collectionView.indexPath(for: cell) else { return }
+      
+      viewModel.pickedImageArr.remove(at: indexPath.item)
+      
+      let dataSourceCnt = viewModel.pickedImageArr.count
+      if dataSourceCnt < 1 {
+         cell.updateImageCellUI(isImageEmpty: true, vcCnt: 1)
+         viewModel.isPickedImageVaild.value = false
+         addCourseFirstView.collectionView.reloadData()
+      } else {
+         addCourseFirstView.collectionView.deleteItems(at: [indexPath])
+      }
+      
+      self.addCourseFirstView.addFirstView.tendencyTagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
+   }
+   
+   @objc
+   func didTapCameraBtn() {
+      addCourseFirstView.addFirstView.dateNameTextField.resignFirstResponder()
+      viewModel.pickedImageArr.removeAll()
+      viewModel.isPickedImageVaild.value = false
+      imagePickerViewController.presentPicker(from: self)
+   }
+   
+   @objc
+   func didTapTagButton(_ sender: UIButton) {
+       guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
+
+       let maxTags = 3
+       
+       // 3이 아닐 때
+       if self.viewModel.selectedTagData.count != maxTags {
+          sender.isSelected.toggle()
+          sender.isSelected ? self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
+          : self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: UnselectedButton())
+          self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
+          self.viewModel.isValidTag.value = true
+       }
+       // 그 외
+       else {
+          if sender.isSelected {
+             sender.isSelected.toggle()
+             self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType:  UnselectedButton())
+             self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
+             self.viewModel.isValidTag.value = true
+          }
+       }
+   }
+   
+   @objc
+   func sixCheckBtnTapped() {
+      let secondVC = AddCourseSecondViewController(viewModel: self.viewModel)
+      navigationController?.pushViewController(secondVC, animated: true)
+   }
+   
+   @objc
+   private func datePlaceContainerTapped() {
+      // datePlaceContainer가 탭되었을 때 수행할 동작을 여기에 구현합니다.
+      print("datePlaceContainer tapped!")
+      let locationFilterVC = LocationFilterViewController()
+      locationFilterVC.modalPresentationStyle = .overFullScreen
+      locationFilterVC.delegate = self
+      self.present(locationFilterVC, animated: true)
+   }
+}
+extension AddCourseFirstViewController: UICollectionViewDelegateFlowLayout {
+   
+   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+      if collectionView == addCourseFirstView.collectionView {
+         return CGSize(width: 130, height: 130)
+      } else {
+         let tagTitle = viewModel.tagData[indexPath.item].tagTitle
+         let font = UIFont.suit(.body_med_13)
+         let textWidth = tagTitle.width(withConstrainedHeight: 30, font: font)
+         let padding: CGFloat = 44
+         
+         return CGSize(width: textWidth + padding, height: 30)
+      }
+   }
+   
+   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+      if collectionView == addCourseFirstView.collectionView {
+         return 12
+      } else {
+         return 8
+      }
+   }
+   
+   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+      if collectionView == addCourseFirstView.collectionView {
+         return 0
+      } else {
+         return 7
+      }
    }
    
 }
 
 extension AddCourseFirstViewController: UICollectionViewDataSource, UICollectionViewDelegate {
    
-   private func registerCell() {
-      addCourseFirstView.collectionView.do {
-         $0.register(AddCourseImageCollectionViewCell.self, forCellWithReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier)
-         $0.delegate = self
-         $0.dataSource = self
-      }
-      addCourseFirstView.addFirstView.dateNameTextField.delegate = self
-   }
-   
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-      return viewModel.getSampleImages() ? 1 : viewModel.dataSource.count
+      if collectionView == addCourseFirstView.collectionView {
+         let cnt = viewModel.pickedImageArr.count
+         if cnt < 1 {
+            return 1
+         } else {
+            viewModel.isPickedImageVaild.value = true
+            return cnt
+         }
+      } else {
+         return viewModel.tagData.count
+      }
    }
    
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-      guard let cell = collectionView.dequeueReusableCell(
-         withReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier,
-         for: indexPath
-      ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
-      
-      let isImageEmpty = viewModel.isImageEmpty.value ?? true
-      isImageEmpty ? cell.updateImageCellUI(isImageEmpty: isImageEmpty, image: nil)
-      : cell.updateImageCellUI(isImageEmpty: isImageEmpty,
-         image: self.viewModel.dataSource[indexPath.item])
-      
-      self.addCourseFirstView.updateImageCellUI(isEmpty: isImageEmpty,ImageDataCount: self.viewModel.dataSource.count )
-      
-      return cell
+      if collectionView == addCourseFirstView.collectionView {
+         guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier,
+            for: indexPath
+         ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
+         
+         let cnt = viewModel.pickedImageArr.count
+         guard let imageIsNotEmpty = viewModel.isPickedImageVaild.value else {return UICollectionViewCell()}
+         
+         cell.updateImageCellUI(isImageEmpty: !imageIsNotEmpty, vcCnt: 1)
+         
+         if imageIsNotEmpty {
+            self.addCourseFirstView.updateImageCellUI(isEmpty: !imageIsNotEmpty, ImageDataCount: cnt)
+            
+            cell.configurePickedImage(
+               pickedImage: viewModel.pickedImageArr[indexPath.row])
+            cell.prepare(image: viewModel.pickedImageArr[indexPath.row])
+            cell.deleteImageBtn.tag = indexPath.row
+            
+            cell.deleteImageBtn.addTarget(self, action: #selector(removeCell(sender:)), for: .touchUpInside)
+            
+            addCourseFirstView.cameraBtn.addTarget(self, action: #selector(didTapCameraBtn), for: .touchUpInside)
+         } else {
+            self.addCourseFirstView.updateImageCellUI(isEmpty: !imageIsNotEmpty, ImageDataCount: 0)
+         }
+         return cell
+      } else {
+         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
+         cell.updateButtonTitle(tag: self.viewModel.tagData[indexPath.item])
+         cell.tendencyTagButton.tag = indexPath.item
+         cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
+         if viewModel.pastDateTagIndex.contains(cell.tendencyTagButton.tag) {
+            didTapTagButton(cell.tendencyTagButton)
+         }
+         
+         return cell
+      }
    }
    
    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-      if viewModel.dataSource.isEmpty {
-         print("Empty cell selected")
-      } else {
-         print("Cell \(indexPath.item) selected")
+      if collectionView == addCourseFirstView.collectionView {
+         let isImageEmpty = (viewModel.pickedImageArr.count<1) ? true : false
+         if isImageEmpty  && collectionView == addCourseFirstView.collectionView {
+            imagePickerViewController.presentPicker(from: self)
+         }
       }
    }
    
@@ -152,51 +391,62 @@ extension AddCourseFirstViewController: UITextFieldDelegate {
       if textField == addCourseFirstView.addFirstView.dateNameTextField {
          return true
       } else {
-         textFieldTapped(textField)
          return false
       }
    }
    
    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
       textField.resignFirstResponder()
-//      textField.tintColor = UIColor.clear
       return true
    }
    
-   // MARK: - @objc Methods
+}
+
+extension AddCourseFirstViewController: ImagePickerDelegate {
    
-   @objc
-   private func textFieldTapped(_ textField: UITextField) {
-      let addSheetVC = AddSheetViewController(viewModel: self.viewModel)
-      if textField == addCourseFirstView.addFirstView.visitDateTextField {
-//         addSheetVC.addCourseFirstView = self.addCourseFirstView
-         addSheetVC.addSheetView.datePicker.datePickerMode = .date
-      } else if textField == addCourseFirstView.addFirstView.dateStartTimeTextField {
-//         addSheetVC.addCourseFirstView = self.addCourseFirstView
-         addSheetVC.addSheetView.datePicker.datePickerMode = .time
+   func didPickImages(_ images: [UIImage]) {
+      print("images : \(images)")
+      viewModel.pickedImageArr = images
+      addCourseFirstView.collectionView.reloadData()
+//      createCourseExample()
+   }
+   
+}
+
+extension AddCourseFirstViewController: DRBottomSheetDelegate {
+   
+   func didTapBottomButton() {
+      print("")
+      self.dismiss(animated: true)
+      updateTextField()
+   }
+   
+   func updateTextField() {
+      let isTimePickerFlag = viewModel.isTimePicker ?? false
+      
+      if !isTimePickerFlag {
+         let selectedDate = addSheetView.datePicker.date
+         viewModel.isFutureDate(date: selectedDate, dateType: "date")
+         dismiss(animated: true)
+      } else {
+         let formattedDate = addSheetView.datePicker.date
+         viewModel.isFutureDate(date: formattedDate, dateType: "time")
       }
-      DispatchQueue.main.async {
-         addSheetVC.modalPresentationStyle = .overFullScreen
-         self.present(addSheetVC, animated: true, completion: nil)
-      }
    }
    
-   @objc
-   func textFieldDidChanacge(_ textField: UITextField) {
-      viewModel.isDateNameValid(cnt: textField.text?.count ?? 0)
-   }
+}
+
+extension AddCourseFirstViewController: LocationFilterDelegate {
    
-   @objc
-   func changeTagBtnState(sender: UIButton) {
-      sender.isSelected.toggle()
-      addCourseFirstView.addFirstView.updateTagButtonStyle(btn: sender, isSelected: sender.isSelected)
-      viewModel.countSelectedTag(isSelected: sender.isSelected)
-   }
-   
-   @objc
-   func sixCheckBtnTapped() {
-      let secondVC = AddCourseSecondViewController(viewModel: self.viewModel)
-      navigationController?.pushViewController(secondVC, animated: true)
+   func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
+      print("selected : \(city)")
+      print("Selected city: \(city.rawValue)")
+      viewModel.dateLocation.value = city.rawValue
+      viewModel.satisfyDateLocation(str: city.rawValue)
+      let country = LocationModelCountryKorToEng.Country(rawValue: country.rawValue).rawValue
+      let city = LocationModelCityKorToEng.City(rawValue: city.rawValue).rawValue
+      viewModel.country = country
+      viewModel.city = city
    }
    
 }

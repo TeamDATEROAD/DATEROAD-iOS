@@ -147,14 +147,6 @@ extension CourseViewController {
     
 }
 
-extension CourseViewController: CourseNavigationBarViewDelegate {
-    
-    func didTapAddCourseButton() {
-        let addCourseFirstVC = AddCourseFirstViewController()
-        self.navigationController?.pushViewController(addCourseFirstVC, animated: true)
-    }
-}
-
 extension CourseViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -197,7 +189,6 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
         }
     }
     
-    
     func didTapLocationFilter() {
         let locationFilterVC = LocationFilterViewController()
         locationFilterVC.modalPresentationStyle = .overFullScreen
@@ -205,33 +196,42 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
         self.present(locationFilterVC, animated: true)
     }
     
-    func didSelectCity(_ city: LocationModel.City) {
-        let cityNameComponents = city.rawValue.split(separator: ".")
-        let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
-        
-        if let subRegion = SubRegion(rawValue: cityName) {
-            print(subRegion)
-            
-            let selectedSubRegion = "\(subRegion)"
-            
-            courseViewModel.selectedCityName.value = selectedSubRegion
-        } else {
-            print(cityName)
-        }
-        
-        self.courseView.courseFilterView.locationFilterButton.do {
-            $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
-            $0.setTitle(cityName, for: .normal)
-            $0.layer.borderWidth = 1
-            $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
-            let image = UIImage(resource: .icDropdown).withRenderingMode(.alwaysTemplate)
-            $0.setImage(image, for: .normal)
-            $0.tintColor = UIColor(resource: .deepPurple)
-        }
-    }
-
+    func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
+       // 'Seoul.jongnoJunggu'와 같은 rawValue에서 'jongnoJunggu'만 추출
+       let cityNameComponents = city.rawValue.split(separator: ".")
+       let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
+       
+       if let subRegion = SubRegion(rawValue: cityName) {
+           print(subRegion)
+           
+           let selectedSubRegion = "\(subRegion)"
+           
+           courseViewModel.selectedCityName.value = selectedSubRegion
+       } else {
+           print(cityName)
+       }
+       
+       self.courseView.courseFilterView.locationFilterButton.do {
+           $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
+           $0.setTitle(cityName, for: .normal)
+           $0.layer.borderWidth = 1
+           $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
+           let image = UIImage(resource: .icDropdown).withRenderingMode(.alwaysTemplate)
+           $0.setImage(image, for: .normal)
+           $0.tintColor = UIColor(resource: .deepPurple)
+       }
+   }
     
 }
+
+extension CourseViewController: CourseNavigationBarViewDelegate {
+    
+    func didTapAddCourseButton() {
+       let addCourseFirstVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
+        self.navigationController?.pushViewController(addCourseFirstVC, animated: true)
+    }
+}
+
 
 extension CourseViewController: UICollectionViewDataSource {
     

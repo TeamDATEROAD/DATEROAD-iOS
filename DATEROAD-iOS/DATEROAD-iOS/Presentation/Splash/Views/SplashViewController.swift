@@ -49,7 +49,7 @@ extension SplashViewController {
     
     func pushToLoginVC() {
         let loginVC = LoginViewController()
-        self.navigationController?.pushViewController(loginVC, animated: true)
+        self.navigationController?.pushViewController(loginVC, animated: false)
     }
     
 }

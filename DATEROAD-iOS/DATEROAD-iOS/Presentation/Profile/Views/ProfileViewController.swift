@@ -14,6 +14,8 @@ final class ProfileViewController: BaseNavBarViewController {
     private let profileView = ProfileView()
     
     private var profileImageSettingView: ProfileImageSettingView = ProfileImageSettingView()
+    
+    private let imagePickerViewController = CustomImagePicker(isProfilePicker: true)
 
     
     // MARK: - Properties
@@ -72,6 +74,7 @@ private extension ProfileViewController {
         self.profileView.tendencyTagCollectionView.dataSource = self
         self.profileView.tendencyTagCollectionView.delegate = self
         self.profileView.nicknameTextfield.delegate = self
+        self.imagePickerViewController .delegate = self
     }
     
     func setAddGesture() {
@@ -84,25 +87,26 @@ private extension ProfileViewController {
         
         self.profileView.nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .allEditingEvents)
         
+        self.profileView.registerButton.addTarget(self, action: #selector(registerProfile), for: .touchUpInside)
+        
         let deleteGesture = UITapGestureRecognizer(target: self, action: #selector(deletePhoto))
         self.profileImageSettingView.deleteLabel.addGestureRecognizer(deleteGesture)
         
         let registerGesture = UITapGestureRecognizer(target: self, action: #selector(registerPhoto))
         self.profileImageSettingView.registerLabel.addGestureRecognizer(registerGesture)
-        
-        let cancelGesture = UITapGestureRecognizer(target: self, action: #selector(cancel))
-        self.profileImageSettingView.registerLabel.addGestureRecognizer(cancelGesture)
 
     }
     
     // TODO: - 추후 중복확인 연결 시 수정 예정
     func bindViewModel() {
         self.profileViewModel.isValidNickname.bind { [weak self] isValid in
-            guard let isValid else { return }
-//            self?.profileView.nicknameErrMessageLabel.isHidden = isValid ? false : true
-//            isValid ? self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isValid) : self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValid)
-            self?.profileView.updateDoubleCheckButton(isValid: isValid)
-            self?.profileViewModel.checkValidRegistration()
+            guard let isValid,  let initial = self?.initial else { return }
+            if initial {
+                self?.profileView.nicknameErrMessageLabel.isHidden = false
+                isValid ? self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isValid) : self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValid)
+
+                self?.profileViewModel.checkValidRegistration()
+            }
         }
         
         self.profileViewModel.isValidNicknameCount.bind { [weak self] isValidCount in
@@ -110,6 +114,7 @@ private extension ProfileViewController {
             if initial {
                 self?.profileView.nicknameErrMessageLabel.isHidden = isValidCount ? true : false
                 self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValidCount)
+                self?.profileView.updateDoubleCheckButton(isValid: isValidCount)
             }
         }
         
@@ -137,6 +142,17 @@ private extension ProfileViewController {
             guard let isValid else { return }
             self?.profileView.updateRegisterButton(isValid: isValid)
         }
+        
+        self.profileViewModel.onSuccessRegister = { [weak self] isSuccess in
+            if isSuccess {
+                let mainVC = TabBarController()
+                self?.navigationController?.pushViewController(mainVC, animated: false)
+            } else {
+                let loginVC = LoginViewController()
+                self?.navigationController?.pushViewController(loginVC, animated: false)
+            }
+            
+        }
     
     }
     
@@ -155,25 +171,31 @@ private extension ProfileViewController {
     func doubleCheckNickname(sender: UITapGestureRecognizer) {
         // TODO: - 중복 확인 서버 통신
         print("double check")
+        self.profileViewModel.getDoubleCheck()
     }
     
     @objc
     func didTapTagButton(_ sender: UIButton) {
-        // 0 ~ 2개 선택되어 있는 경우
-        if self.profileViewModel.tagCount.value != 3 {
-            sender.isSelected = !sender.isSelected
-            sender.isSelected ? self.profileView.updateTag(button: sender, buttonType: SelectedButton())
-            : self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
-            self.profileViewModel.countSelectedTag(isSelected: sender.isSelected)
-        } 
-        // 3개 선택되어 있는 경우
+        guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
+
+        let maxTags = 3
+        
+        // 3이 아닐 때
+        if self.profileViewModel.selectedTagData.count != maxTags {
+           sender.isSelected.toggle()
+           sender.isSelected ? self.profileView.updateTag(button: sender, buttonType: SelectedButton())
+           : self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
+           self.profileViewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
+           self.profileViewModel.isValidTag.value = true
+        }
+        // 그 외
         else {
-            // 취소 하려는 경우
-            if sender.isSelected {
-                sender.isSelected = !sender.isSelected
-                self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
-                self.profileViewModel.countSelectedTag(isSelected: sender.isSelected)
-            }
+           if sender.isSelected {
+              sender.isSelected.toggle()
+               self.profileView.updateTag(button: sender, buttonType:  UnselectedButton())
+              self.profileViewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
+              self.profileViewModel.isValidTag.value = true
+           }
         }
     }
     
@@ -185,16 +207,26 @@ private extension ProfileViewController {
     
     @objc
     func deletePhoto() {
-        print("delete")    }
+       print("delete")
+       self.dismiss(animated: true)
+       profileView.updateProfileImage(image: UIImage(resource: .emptyProfileImg))
+    }
     
     @objc
     func registerPhoto() {
-        print("register")
+       print("register")
+       self.dismiss(animated: true)
+       imagePickerViewController.presentPicker(from: self)
     }
     
     @objc
     func cancel() {
-        print("cancel")
+       print("cancel")
+    }
+    
+    @objc
+    func registerProfile() {
+        self.profileViewModel.postSignUp(image: self.profileView.profileImageView.image)
     }
     
 }
@@ -207,7 +239,7 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
         let tagTitle = self.profileViewModel.tagData[indexPath.item].tagTitle
         let font = UIFont.suit(.body_med_13)
         let textWidth = tagTitle.width(withConstrainedHeight: 30, font: font)
-        let padding: CGFloat = 44
+        let padding: CGFloat = 50
                 
        return CGSize(width: textWidth + padding, height: 30)
     }
@@ -270,4 +302,15 @@ extension ProfileViewController: DRBottomSheetDelegate {
     func didTapSecondLabel() {
         self.deletePhoto()
     }
+}
+extension ProfileViewController: ImagePickerDelegate {
+   
+   func didPickImages(_ images: [UIImage]) {
+      let selectedImage = images[0]
+      
+      /// 앨범에서 고른 사진 프로필뷰 사진에 반영
+      profileView.updateProfileImage(image: selectedImage)
+      //여기서 viewModel에 selectedImage 값 보내시면 됩니다요!
+   }
+   
 }
