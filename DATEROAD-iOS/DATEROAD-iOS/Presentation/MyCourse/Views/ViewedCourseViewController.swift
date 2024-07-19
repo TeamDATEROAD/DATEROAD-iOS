@@ -190,7 +190,8 @@ extension ViewedCourseViewController : UICollectionViewDataSource {
         let indexPath = viewedCourseView.myCourseListCollectionView.indexPathForItem(at: location)
 
        if let index = indexPath {
-           print("일정 상세 페이지로 이동 \(viewedCourseViewModel.viewedCourseData.value?[indexPath?.item ?? 0].courseId ?? 0 )")
+           let courseId = viewedCourseViewModel.viewedCourseData.value?[indexPath?.item ?? 0].courseId ?? 0
+           self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
        }
     }
     
