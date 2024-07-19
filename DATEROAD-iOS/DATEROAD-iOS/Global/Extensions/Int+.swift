@@ -16,11 +16,11 @@ extension Int {
     
     func priceRangeTag() -> String {
         switch self {
-        case ..<3:
+        case ..<30000:
             return StringLiterals.Course.priceLabelUnder30K
-        case 3..<5:
+        case 30000..<50000:
             return StringLiterals.Course.priceLabelUnder50K
-        case 5..<10:
+        case 50000..<100000:
             return StringLiterals.Course.priceLabelUnder100K
         default:
             return StringLiterals.Course.priceLabelOver100K

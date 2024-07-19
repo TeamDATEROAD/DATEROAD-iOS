@@ -354,6 +354,10 @@ extension AddScheduleFirstViewController: DRBottomSheetDelegate {
 }
 
 extension AddScheduleFirstViewController: LocationFilterDelegate {
+    func getCourse() {
+        return
+    }
+    
    func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
       print("selected country : \(country.rawValue)")
       print("Selected city: \(city.rawValue)")

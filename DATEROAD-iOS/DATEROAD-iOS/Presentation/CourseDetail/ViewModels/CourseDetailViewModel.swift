@@ -50,7 +50,7 @@ class CourseDetailViewModel {
     
     var isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    var isUserLiked: ObservablePattern<Bool> = ObservablePattern(nil)
+    var isUserLiked: ObservablePattern<Bool> = ObservablePattern(false)
     
     var haveFreeCount: ObservablePattern<Bool> = ObservablePattern(nil)
     
@@ -99,6 +99,18 @@ class CourseDetailViewModel {
         currentPage.value = index
     }
     
+    
+    func toggleUserLiked() {
+        print(#function)
+        print(self.isUserLiked.value!)
+//        self.isUserLiked.value?.toggle()
+        if self.isUserLiked.value! {
+            deleteLikeCourse(courseId: courseId)
+        } else {
+            likeCourse(courseId: courseId)
+        }
+    }
+    
 }
 
 extension CourseDetailViewModel {
@@ -143,6 +155,8 @@ extension CourseDetailViewModel {
                     TagModel(tag: tag.tag)
                 }
                 
+                self.isUserLiked.value = data.isUserLiked
+                
                 self.isSuccessGetData.value = true
                 
                 
@@ -170,7 +184,10 @@ extension CourseDetailViewModel {
     
     func deleteCourse(completion: @escaping (Bool) -> Void) {
         CourseDetailService().deleteCourse(courseId: courseId) { (success: Bool) in
-            completion(success)
+            if success {
+                completion(success)
+
+            }
         }
     }
     
@@ -188,13 +205,21 @@ extension CourseDetailViewModel {
         }
     }
     
-    func deleteLikeCourse(courseId: Int, completion: @escaping (Bool) -> Void) {
+    func deleteLikeCourse(courseId: Int) {
         LikeCourseService().deleteLikeCourse(courseId: courseId) { success in
             if success {
                 self.isUserLiked.value = false
             }
-            completion(success)
         }
     }
+    
+//    func deleteLikeCourse(courseId: Int, completion: @escaping (Bool) -> Void) {
+//        LikeCourseService().deleteLikeCourse(courseId: courseId) { success in
+//            if success {
+//                self.isUserLiked.value = false
+//            }
+//            completion(success)
+//        }
+//    }
     
 }

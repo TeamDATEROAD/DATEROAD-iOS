@@ -3,26 +3,32 @@
 // Created by 김민서 on 7/13/24.
 
 import UIKit
+
 import SnapKit
 import Then
+
+
 
 class CourseBottomTabBarView: BaseView {
 
     // MARK: - UI Properties
     
-    private let likeButtonView = UIView()
+    let likeButtonView = UIView()
     
-    private let likeButtonImageView = UIImageView()
+    let likeButtonImageView = UIImageView()
     
     private let bringCourseButton = UIButton()
     
     // MARK: - Properties
     
-    private var isLiked: Bool = false {
-        didSet {
-            updateLikeButtonColor()
-        }
-    }
+   
+    
+    private var isLiked: Bool = false
+//    {
+//        didSet {
+//            didTapLikeButton()
+//        }
+//    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -90,9 +96,6 @@ class CourseBottomTabBarView: BaseView {
     @objc private func likeButtonTapped() {
         isLiked.toggle()
     }
-}
-
-private extension CourseBottomTabBarView {
     
     func setupTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(likeButtonTapped))
@@ -100,11 +103,5 @@ private extension CourseBottomTabBarView {
         likeButtonView.addGestureRecognizer(tapGesture)
     }
     
-    func updateLikeButtonColor() {
-        if isLiked {
-            likeButtonImageView.tintColor = UIColor(resource: .deepPurple)
-        } else {
-            likeButtonImageView.tintColor = UIColor(resource: .gray200)
-        }
-    }
+
 }

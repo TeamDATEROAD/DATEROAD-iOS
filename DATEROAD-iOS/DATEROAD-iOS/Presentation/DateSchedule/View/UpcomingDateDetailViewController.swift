@@ -68,19 +68,6 @@ extension UpcomingDateDetailViewController {
         }
     }
     
-    func bindPopAction() {
-        self.upcomingDateDetailViewModel?.isSuccessDeleteDateScheduleData.bind { [weak self] isSuccess in
-//            guard let isSuccess else { return }
-            if isSuccess == true {
-                print("true")
-                self?.navigationController?.popViewController(animated: false)
-            } else {
-                print("not success")
-            }
-        }
-    }
-    
-    
     private func setButton() {
         upcomingDateDetailContentView.dDayButton.isHidden = false
         upcomingDateDetailContentView.kakaoShareButton.isHidden = false
@@ -128,22 +115,19 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     }
 
     func action(rightButtonAction: RightButtonType) {
-        if rightButtonAction == .deleteCourse {
-            print(1)
-            DispatchQueue.main.async {
-                print(2)
-                self.upcomingDateDetailViewModel?.deleteDateSchdeuleData(dateID: self.upcomingDateDetailViewModel?.dateDetailData.value?.dateID ?? 0)
-                print(3)
-            }
-            print(4)
-            bindPopAction()
-            print("헉 헤어졌나??? 서버연결 delete")
-        } else if rightButtonAction == .kakaoShare {
-            upcomingDateDetailViewModel?.shareToKakao(context: self)
-            print("카카오 공유하기")
-        }
-    }
+           print("all")
+           if rightButtonAction == .deleteCourse {
+               print("zz")
+               upcomingDateDetailViewModel?.deleteDateSchdeuleData(dateID: upcomingDateDetailViewModel?.dateDetailData.value?.dateID ?? 0)
+               print("헉 헤어졌나??? 서버연결 delete")
+               self.navigationController?.popViewController(animated: true)
+           } else if rightButtonAction == .kakaoShare {
+               upcomingDateDetailViewModel?.shareToKakao(context: self)
+               print("카카오 공유하기")
+           }
+       }
 }
+
 
 extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
     @objc

@@ -81,6 +81,16 @@ final class ImageCarouselCell: BaseCollectionViewCell {
         pageViewController.delegate = self
         pageViewController.dataSource = self
     }
+    
+    func setAccess(isAccess: Bool) {
+        if isAccess {
+            pageViewController.delegate = self
+            pageViewController.dataSource = self
+        } else {
+            pageViewController.delegate = nil
+            pageViewController.dataSource = nil
+        }
+    }
 }
 
 

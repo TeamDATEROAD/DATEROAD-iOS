@@ -39,8 +39,8 @@ final class CourseViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        initPriceButton()
+    
+        getCourse()
         registerCell()
         setDelegate()
         bindViewModel()
@@ -56,11 +56,6 @@ final class CourseViewController: BaseViewController {
         }
     }
     
-    func initPriceButton() {
-        courseViewModel.selectedPriceIndex.value = 0
-        courseViewModel.selectedCityName.value = ""
-        getCourse()
-    }
 }
 
 extension CourseViewController {
@@ -78,7 +73,7 @@ extension CourseViewController {
             $0.tintColor = UIColor(resource: .gray400)
         }
         courseViewModel.selectedCityName.value = ""
-        courseViewModel.selectedPriceIndex.value = 0
+        courseViewModel.selectedPriceIndex.value = nil
         getCourse()
     }
     
@@ -100,7 +95,7 @@ extension CourseViewController {
             courseViewModel.selectedPriceIndex.value = indexPath.row + 1
         } else {
             self.courseView.courseFilterView.updatePrice(button: sender, buttonType: UnselectedButton(), isSelected: false)
-            courseViewModel.selectedPriceIndex.value = 0
+            courseViewModel.selectedPriceIndex.value = nil
         }
         
         selectedButton = sender.isSelected ? sender : nil
@@ -162,8 +157,9 @@ extension CourseViewController: UICollectionViewDelegate {
 extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate {
     
     func getCourse() {
-        let cost = courseViewModel.selectedPriceIndex.value?.costNum() ?? 0
         let city = courseViewModel.selectedCityName.value ?? ""
+        let cost = courseViewModel.selectedPriceIndex.value?.costNum()
+        
         print("⚽️",cost,city)
         CourseService().getCourseInfo(city: city, cost: cost) { response in
             switch response {
