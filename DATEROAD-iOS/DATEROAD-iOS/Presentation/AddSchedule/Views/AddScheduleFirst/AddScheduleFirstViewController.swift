@@ -36,14 +36,13 @@ class AddScheduleFirstViewController: BaseNavBarViewController {
       setStyle()
       setTitleLabelStyle(title: StringLiterals.AddCourseOrSchedule.addScheduleTitle, alignment: .center)
       setLeftBackButton()
-      setRightBtnStyle()
-      setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
-//      setRightButtonStyle(image: UIImage(resource: .pu))
       setAddTarget()
       registerCell()
       setDelegate()
       bindViewModel()
+      
       setupKeyboardDismissRecognizer()
+      pastDateBindViewModel()
    }
    
    // MARK: - Methods
@@ -77,7 +76,22 @@ class AddScheduleFirstViewController: BaseNavBarViewController {
 
 extension AddScheduleFirstViewController {
    
+   func pastDateBindViewModel() {
+      if !viewModel.isImporting {
+         setRightBtnStyle()
+         setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
+      }
+      viewModel.ispastDateVaild.value = true
+   }
+   
    func bindViewModel() {
+      viewModel.ispastDateVaild.bind { [weak self] isValid in
+         guard let self = self else { return }
+         self.viewModel.fetchPastDate {
+            self.addScheduleFirstView.inAddScheduleFirstView.tendencyTagCollectionView.reloadData()
+            print("지금 tendencyTagCollectionView reload")
+         }
+      }
       viewModel.isDateNameVaild.bind { date in
          guard let date = date else {return}
          self.addScheduleFirstView.updateDateNameTextField(isPassValid: date)
@@ -195,34 +209,42 @@ extension AddScheduleFirstViewController {
    
    @objc
    func didTapTagButton(_ sender: UIButton) {
-       guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
-
-       let maxTags = 3
-       
-       // 3이 아닐 때
-       if self.viewModel.selectedTagData.count != maxTags {
-          sender.isSelected.toggle()
-          sender.isSelected ? self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: SelectedButton())
-          : self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: UnselectedButton())
-          self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
-          self.viewModel.isValidTag.value = true
-       }
-       // 그 외
-       else {
-          if sender.isSelected {
-             sender.isSelected.toggle()
-              self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType:  UnselectedButton())
-             self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
-             self.viewModel.isValidTag.value = true
-          }
-       }
+      guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
+      
+      let maxTags = 3
+      
+      // 3이 아닐 때
+      if self.viewModel.selectedTagData.count != maxTags {
+         sender.isSelected.toggle()
+         sender.isSelected ? self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: SelectedButton())
+         : self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: UnselectedButton())
+         self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
+         self.viewModel.isValidTag.value = true
+      }
+      // 그 외
+      else {
+         if sender.isSelected {
+            sender.isSelected.toggle()
+            self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType:  UnselectedButton())
+            self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
+            self.viewModel.isValidTag.value = true
+         }
+      }
+   }
+   
+   @objc
+   func importingTagBtn(_ sender: UIButton) {
+      guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
+      self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: SelectedButton())
+      self.viewModel.isValidTag.value = true
+      
    }
    
    @objc
    func sixCheckBtnTapped() {
       let secondVC = AddScheduleSecondViewController(viewModel: self.viewModel)
       navigationController?.pushViewController(secondVC, animated: true)
-//      print(viewModel.selectedTags.count)
+      //      print(viewModel.selectedTags.count)
    }
    
    @objc
@@ -268,6 +290,21 @@ extension AddScheduleFirstViewController: UICollectionViewDataSource, UICollecti
       cell.updateButtonTitle(tag: self.viewModel.tagData[indexPath.item])
       cell.tendencyTagButton.tag = indexPath.item
       cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
+      
+      print("Setting up cell for tag: \(cell.tendencyTagButton.tag)")
+      print("pastDateTagIndex: \(viewModel.pastDateTagIndex)")
+      
+      if viewModel.pastDateTagIndex.contains(cell.tendencyTagButton.tag) {
+         print("Found matching tag in pastDateTagIndex: \(cell.tendencyTagButton.tag)")
+         importingTagBtn(cell.tendencyTagButton)
+         print("!!!!!!!!!!!!!!!!")
+//         viewModel.pastDateTagIndex.removeFirst()
+//         if viewModel.pastDateTagIndex.count == 0 {
+//            collectionView.reloadData()
+//         }
+      }
+      
+      
       return cell
    }
    

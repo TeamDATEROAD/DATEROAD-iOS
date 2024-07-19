@@ -270,6 +270,13 @@ private extension AddCourseFirstViewController {
    }
    
    @objc
+   func importingTagBtn(_ sender: UIButton) {
+      guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
+      self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
+      self.viewModel.isValidTag.value = true
+   }
+   
+   @objc
    func sixCheckBtnTapped() {
       let secondVC = AddCourseSecondViewController(viewModel: self.viewModel)
       navigationController?.pushViewController(secondVC, animated: true)
@@ -367,7 +374,7 @@ extension AddCourseFirstViewController: UICollectionViewDataSource, UICollection
          cell.tendencyTagButton.tag = indexPath.item
          cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
          if viewModel.pastDateTagIndex.contains(cell.tendencyTagButton.tag) {
-            didTapTagButton(cell.tendencyTagButton)
+            importingTagBtn(cell.tendencyTagButton)
          }
          
          return cell
@@ -408,7 +415,6 @@ extension AddCourseFirstViewController: ImagePickerDelegate {
       print("images : \(images)")
       viewModel.pickedImageArr = images
       addCourseFirstView.collectionView.reloadData()
-//      createCourseExample()
    }
    
 }
