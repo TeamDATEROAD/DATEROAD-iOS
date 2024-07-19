@@ -36,8 +36,7 @@ class ViewedCourseViewController: BaseViewController {
    // MARK: - LifeCycle
    override func viewDidAppear(_ animated: Bool) {
       self.viewedCourseViewModel.setViewedCourseData()
-      bindViewModel()
-      setEmptyView()
+//      setEmptyView()
    }
    
    override func viewDidLoad() {
@@ -126,22 +125,19 @@ class ViewedCourseViewController: BaseViewController {
 
 private extension ViewedCourseViewController {
    func setEmptyView() {
-      if viewedCourseViewModel.viewedCourseData.value?.count == 0 {
-         topLabel.text = "\(viewedCourseViewModel.userName)님,\n아직 열람한\n데이트코스가 없어요"
-         createCourseView.isHidden = true
-         viewedCourseView.emptyView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-         }
-         viewedCourseView.emptyView.do {
-            $0.isHidden = false
-            $0.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
-                            emptyTitle: StringLiterals.EmptyView.emptyViewedCourse)
-         }
-      } else {
-         viewedCourseView.emptyView.do {
-            $0.isHidden = true
-         }
+      let isEmpty = viewedCourseViewModel.viewedCourseData.value?.count == 0 ? true : false
+      
+      topLabel.text = "\(viewedCourseViewModel.userName)님,\n아직 열람한\n데이트코스가 없어요"
+      createCourseView.isHidden = isEmpty
+      viewedCourseView.emptyView.snp.makeConstraints {
+         $0.top.equalToSuperview()
       }
+      viewedCourseView.emptyView.do {
+         $0.isHidden = !isEmpty
+         $0.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
+                         emptyTitle: StringLiterals.EmptyView.emptyViewedCourse)
+      }
+      self.viewedCourseView.myCourseListCollectionView.reloadData()
    }
 }
 
@@ -150,9 +146,12 @@ private extension ViewedCourseViewController {
 extension ViewedCourseViewController {
    func bindViewModel() {
       
-      self.viewedCourseViewModel.userName.bind { date in
-         guard let nickname = self.viewedCourseViewModel.userName.value else {return}
-         self.updateNicknameLabel(nickName: nickname)
+//      self.viewedCourseViewModel.userName.bind { date in
+//         guard let nickname = self.viewedCourseViewModel.userName.value else {return}
+//         self.updateNicknameLabel(nickName: nickname)
+//      }
+      self.viewedCourseViewModel.viewedCourseData.bind { _ in
+         self.setEmptyView()
       }
       
       self.viewedCourseViewModel.isSuccessGetViewedCourseInfo.bind { [weak self] isSuccess in
