@@ -9,23 +9,22 @@ import Foundation
 
 class MyCourseListViewModel {
     
-    var userName = "수민" //나중에 유저디폴트? 아무튼 로직으로 변경
+    var userName = UserDefaults.standard.string(forKey: "userName") ?? ""
     
     let myCourseService = MyCourseService()
     
-    var viewedCourseData: ObservablePattern<[MyCourseModel]> = ObservablePattern(nil)
+    var viewedCourseData: ObservablePattern<[MyCourseModel]> = ObservablePattern([])
     
-    var myRegisterCourseData: ObservablePattern<[MyCourseModel]> = ObservablePattern(nil)
+    var myRegisterCourseData: ObservablePattern<[MyCourseModel]> = ObservablePattern([])
     
     var isSuccessGetViewedCourseInfo: ObservablePattern<Bool> = ObservablePattern(false)
     
     var isSuccessGetMyRegisterCourseInfo: ObservablePattern<Bool> = ObservablePattern(false)
     
-    init(userName: String = "수민") {
-        self.userName = userName
+    init() {
         setViewedCourseData()
         setMyRegisterCourseData()
-        print("@log", myRegisterCourseData)
+        print("@log", myRegisterCourseData.value?.count)
     }
     
     func setViewedCourseData() {

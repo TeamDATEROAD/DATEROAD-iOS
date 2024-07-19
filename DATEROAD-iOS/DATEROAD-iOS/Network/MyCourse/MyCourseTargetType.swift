@@ -37,10 +37,9 @@ extension MyCourseTargetType: BaseTargetType {
     }
 
     var headers: [String : String]? {
-        return [
-            "Content-Type": "application/json",
-            "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiaWF0IjoxNzIxMDYwNTExLCJleHAiOjE3MjM0Nzk2MTF9.w78wPvOFfLWLgYTLfBqcTqYJ2AOTePOCR0EqFr5IZbA"
-        ]
+        let token = UserDefaults.standard.string(forKey: "accessToken") ?? ""
+        let headers = ["Content-Type" : "application/json", "Authorization" : "Bearer " + token]
+        return headers
     }
 
 }

@@ -29,8 +29,8 @@ class NavViewedCourseViewController: BaseNavBarViewController {
         setTitleLabelStyle(title: StringLiterals.ViewedCourse.title, alignment: .center)
         register()
         setDelegate()
-        setEmptyView()
         bindViewModel()
+        setEmptyView()
     }
     
     override func setHierarchy() {
@@ -64,6 +64,10 @@ extension NavViewedCourseViewController {
                 $0.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
                                 emptyTitle: StringLiterals.EmptyView.emptyNavViewedCourse)
             }
+        } else {
+            navViewedCourseView.emptyView.do {
+                $0.isHidden = true
+            }
         }
     }
 }
@@ -76,6 +80,7 @@ extension NavViewedCourseViewController {
             guard let isSuccess else { return }
             if isSuccess {
                 self?.navViewedCourseView.myCourseListCollectionView.reloadData()
+                self?.setEmptyView()
             }
         }
     }

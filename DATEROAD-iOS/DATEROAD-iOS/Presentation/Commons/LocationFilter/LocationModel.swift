@@ -251,3 +251,103 @@ struct LocationMapper {
     }
    
 }
+
+struct LocationModelCityEngToKor {
+    enum City: String {
+        case SEOUL_ENTIRE = "SEOUL_ENTIRE"
+        case GANGNAM_SEOCHO = "GANGNAM_SEOCHO"
+        case JAMSIL_SONGPA_GANGDONG = "JAMSIL_SONGPA_GANGDONG"
+        case KONDAE_SUNGSOO_WANGSIMNI = "KONDAE_SUNGSOO_WANGSIMNI"
+        case JONGNO_JUNGRO = "JONGNO_JUNGRO"
+        case HONGDAE_HAPJEONG_MAPO = "HONGDAE_HAPJEONG_MAPO"
+        case YEONGDEUNGPO_YEOUIDO = "YEONGDEUNGPO_YEOUIDO"
+        case YONGSAN_ITAEWON_HANNAM = "YONGSAN_ITAEWON_HANNAM"
+        case YANGCHEON_GANGSEO = "YANGCHEON_GANGSEO"
+        case SEONGBUK_NOWON_JUNGBANG = "SEONGBUK_NOWON_JUNGBANG"
+        case GURO_GWANAK_DONGJAK = "GURO_GWANAK_DONGJAK"
+        case GYEONGGI_ENTIRE = "GYEONGGI_ENTIRE"
+        case SEONGNAM = "SEONGNAM"
+        case SUWON = "SUWON"
+        case GOYANG_PAJU = "GOYANG_PAJU"
+        case GIMPO = "GIMPO"
+        case YONGIN_HWASEONG = "YONGIN_HWASEONG"
+        case ANYANG_GWACHEON = "ANYANG_GWACHEON"
+        case POCHEON_YANGJU = "POCHEON_YANGJU"
+        case NAMYANGJU_UIJEONGBU = "NAMYANGJU_UIJEONGBU"
+        case GWANGJU_ICHEON_YEOJU = "GWANGJU_ICHEON_YEOJU"
+        case GAPYEONG_YANGPYEONG = "GAPYEONG_YANGPYEONG"
+        case GUNPO_UIWANG = "GUNPO_UIWANG"
+        case HANAM_GURI = "HANAM_GURI"
+        case SIHEUNG_GWANGMYEONG = "SIHEUNG_GWANGMYEONG"
+        case BUCHEON_ANSHAN = "BUCHEON_ANSHAN"
+        case DONGDUCHEON_YEONCHEON = "DONGDUCHEON_YEONCHEON"
+        case PYEONGTAEK_OSAN_ANSEONG = "PYEONGTAEK_OSAN_ANSEONG"
+        case INCHEON_ENTIRE = "INCHEON_ENTIRE"
+        case UNKNOWN = "UNKNOWN"
+        
+        func toKorean() -> String {
+            switch self {
+            case .SEOUL_ENTIRE:
+                return "서울 전체"
+            case .GANGNAM_SEOCHO:
+                return "강남/서초"
+            case .JAMSIL_SONGPA_GANGDONG:
+                return "잠실/송파/강동"
+            case .KONDAE_SUNGSOO_WANGSIMNI:
+                return "건대/성수/왕십리"
+            case .JONGNO_JUNGRO:
+                return "종로/중구"
+            case .HONGDAE_HAPJEONG_MAPO:
+                return "홍대/합정/마포"
+            case .YEONGDEUNGPO_YEOUIDO:
+                return "영등포/여의도"
+            case .YONGSAN_ITAEWON_HANNAM:
+                return "용산/이태원/한남"
+            case .YANGCHEON_GANGSEO:
+                return "양천/강서"
+            case .SEONGBUK_NOWON_JUNGBANG:
+                return "성북/노원/여의도"
+            case .GURO_GWANAK_DONGJAK:
+                return "구로/관악/동작"
+            case .GYEONGGI_ENTIRE:
+                return "경기 전체"
+            case .SEONGNAM:
+                return "성남"
+            case .SUWON:
+                return "수원"
+            case .GOYANG_PAJU:
+                return "고양/파주"
+            case .GIMPO:
+                return "김포"
+            case .YONGIN_HWASEONG:
+                return "용인/화성"
+            case .ANYANG_GWACHEON:
+                return "안양/과천"
+            case .POCHEON_YANGJU:
+                return "포천/양주"
+            case .NAMYANGJU_UIJEONGBU:
+                return "남양주/의정부"
+            case .GWANGJU_ICHEON_YEOJU:
+                return "과천/이천/여주"
+            case .GAPYEONG_YANGPYEONG:
+                return "가평/양평"
+            case .GUNPO_UIWANG:
+                return "군포/의왕"
+            case .HANAM_GURI:
+                return "하남/구리"
+            case .SIHEUNG_GWANGMYEONG:
+                return "시흥/광명"
+            case .BUCHEON_ANSHAN:
+                return "부천/안산"
+            case .DONGDUCHEON_YEONCHEON:
+                return "동두천/연천"
+            case .PYEONGTAEK_OSAN_ANSEONG:
+                return "평택/오산/안성"
+            case .INCHEON_ENTIRE:
+                return "인천 전체"
+            case .UNKNOWN:
+                return "알 수 없음"
+            }
+        }
+    }
+}
