@@ -237,9 +237,8 @@ extension MyPageViewController: UITableViewDelegate {
             let pointSystemVC = PointSystemViewController(pointSystemViewModel: PointSystemViewModel())
             self.navigationController?.pushViewController(pointSystemVC, animated: false)
         case .inquiry:
-            // 웹뷰는 present?
-            let inquiryVC = OnboardingViewController()
-            self.navigationController?.pushViewController(inquiryVC, animated: false)
+            let inquiryVC = DRWebViewController(urlString: "https://www.notion.so/goinggoing/FAQ-920f6ad93fea46a983061f412e15cad1?pvs=4")
+            self.present(inquiryVC, animated: true)
         case .logout:
             logOutSectionTapped()
         }
