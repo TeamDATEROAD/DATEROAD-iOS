@@ -37,9 +37,9 @@ final class CourseViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
    
-   override func viewWillDisappear(_ animated: Bool) {
-      courseViewModel.fetchPriceData()
-   }
+//   override func viewWillDisappear(_ animated: Bool) {
+//      
+//   }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,11 +50,11 @@ final class CourseViewController: BaseViewController {
         bindViewModel()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        getCourse()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        
+//        getCourse()
+//    }
     
     override func setHierarchy() {
         self.view.addSubview(courseView)

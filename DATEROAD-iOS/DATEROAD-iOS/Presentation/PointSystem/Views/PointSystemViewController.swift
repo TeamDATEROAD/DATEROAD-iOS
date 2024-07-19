@@ -31,9 +31,9 @@ final class PointSystemViewController: BaseNavBarViewController {
         fatalError("init(coder:) has not been implemented")
     }
    
-   override func viewWillAppear(_ animated: Bool) {
-      pointSystemViewModel.fetchData()
-   }
+//   override func viewWillAppear(_ animated: Bool) {
+//      pointSystemViewModel.fetchData()
+//   }
     
     
     override func viewDidLoad() {

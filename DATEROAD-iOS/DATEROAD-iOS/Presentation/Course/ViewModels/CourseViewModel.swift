@@ -39,9 +39,9 @@ final class CourseViewModel {
     
     var didUpdateApplyButtonState: ((Bool) -> Void)?
     
-//    init() {
-//        fetchPriceData()
-//    }
+    init() {
+        fetchPriceData()
+    }
     
     func resetSelections() {
         selectedCountryIndex.value = 0

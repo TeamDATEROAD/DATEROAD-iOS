@@ -22,9 +22,9 @@ class NavViewedCourseViewController: BaseNavBarViewController {
     
     // MARK: - LifeCycle
     
-   override func viewWillAppear(_ animated: Bool) {
-      viewedCourseViewModel.setMyRegisterCourseData()
-   }
+//   override func viewWillAppear(_ animated: Bool) {
+//      viewedCourseViewModel.setViewedCourseData()
+//   }
    
     override func viewDidLoad() {
         super.viewDidLoad()

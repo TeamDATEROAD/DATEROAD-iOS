@@ -11,9 +11,9 @@ final class PointSystemViewModel {
     
     var pointSystemData: [PointSystemModel] = []
     
-//    init() {
-//        fetchData()
-//    }
+    init() {
+        fetchData()
+    }
     
 }
 

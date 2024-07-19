@@ -25,9 +25,9 @@ class DateScheduleViewModel {
         return (upcomingDateScheduleData.value?.count ?? 0 >= 5)
     }
     
-//    init() {
-//        getPastDateScheduleData()
-//    }
+    init() {
+        getPastDateScheduleData()
+    }
     
     func getPastDateScheduleData() {
         dateScheduleService.getDateSchdeule(time: "PAST") { response in

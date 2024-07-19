@@ -28,9 +28,10 @@ class ViewedCourseViewController: BaseViewController {
    
    private let viewedCourseViewModel = MyCourseListViewModel()
     
-    override func viewWillAppear(_ animated: Bool) {
-        bindViewModel()
-    }
+   override func viewWillAppear(_ animated: Bool) {
+         let name = UserDefaults.standard.string(forKey: "userName") ?? ""
+         viewedCourseViewModel.userName = name
+      }
    
     
    // MARK: - LifeCycle

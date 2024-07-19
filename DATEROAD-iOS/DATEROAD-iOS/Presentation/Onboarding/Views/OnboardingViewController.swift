@@ -21,9 +21,9 @@ final class OnboardingViewController: BaseViewController {
     
     // MARK: - Life Cycle
    
-   override func viewWillAppear(_ animated: Bool) {
-      onboardingViewModel.fetchData()
-   }
+//   override func viewWillAppear(_ animated: Bool) {
+//      onboardingViewModel.fetchData()
+//   }
     
     override func viewDidLoad() {
         super.viewDidLoad()

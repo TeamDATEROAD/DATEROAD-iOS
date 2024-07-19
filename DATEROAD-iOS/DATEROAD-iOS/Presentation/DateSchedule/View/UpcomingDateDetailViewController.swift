@@ -29,6 +29,7 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+       self.navigationController?.tabBarController?.tabBar.isHidden = true
         setLeftBackButton()
         setTitleLabelStyle(title: StringLiterals.DateSchedule.upcomingDate, alignment: .center)
         setRightButtonStyle(image: UIImage(resource: .moreButton))
