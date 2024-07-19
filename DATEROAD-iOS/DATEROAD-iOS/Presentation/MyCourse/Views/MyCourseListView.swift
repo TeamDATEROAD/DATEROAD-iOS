@@ -56,7 +56,6 @@ class MyCourseListView: BaseView {
         }
         
         emptyView.do {
-            $0.backgroundColor = .systemCyan
             $0.isHidden = true
         }
     }
