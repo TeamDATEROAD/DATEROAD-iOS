@@ -73,7 +73,7 @@ final class ImageCarouselCell: BaseCollectionViewCell {
     
     func setVCInPageVC() {
         if let firstVC = vcData.first {
-            pageViewController.setViewControllers([firstVC], direction: .forward, animated: true, completion: nil)
+            pageViewController.setViewControllers([firstVC], direction: .forward, animated: false, completion: nil)
         }
     }
     
