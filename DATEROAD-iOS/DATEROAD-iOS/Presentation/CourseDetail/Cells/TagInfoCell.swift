@@ -15,30 +15,30 @@ final class TagInfoCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
-    let hashTagLabel = UILabel()
+    var tagButton: UIButton = UIButton()
+    
+    var tendencyTag:  DRButtonType = UnselectedButton()
     
     override func setHierarchy() {
-        contentView.addSubview(hashTagLabel)
+        contentView.addSubview(tagButton)
     }
     
     override func setLayout() {
-        hashTagLabel.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(14)
-            $0.centerY.equalToSuperview()
+        tagButton.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
     
     override func setStyle() {
-        hashTagLabel.do {
-            $0.text = "🚙 드라이브"
-            $0.font = UIFont.suit(.body_med_13)
-            $0.textColor = UIColor(resource: .drBlack)
-        }
-        
-        contentView.do {
-            $0.backgroundColor = UIColor(resource: .gray100)
-            $0.layer.masksToBounds = true
-            $0.layer.cornerRadius = 15
+        tagButton.do {
+            $0.setButtonStatus(buttonType: tendencyTag)
+            $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 2, bottom: 0, right: -2)
+            $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: -2, bottom: 0, right: 2)
+           $0.titleLabel?.lineBreakMode = .byClipping
+           $0.titleLabel?.adjustsFontSizeToFitWidth = true
+           $0.titleLabel?.minimumScaleFactor = 0.5
+           $0.titleLabel?.numberOfLines = 1
+           $0.titleLabel?.textAlignment = .center
         }
     }
 
@@ -46,7 +46,12 @@ final class TagInfoCell: BaseCollectionViewCell {
 
 extension TagInfoCell {
     func setCell(tag: String) {
-        hashTagLabel.text = tag
+        guard let tendencyTag = TendencyTag.getTag(byEnglish: tag) else { return }
+        tagButton.do {
+            $0.contentEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12)
+            $0.setImage(tendencyTag.tag.tagIcon, for: .normal)
+            $0.setTitle(tendencyTag.tag.tagTitle, for: .normal)
+        }
     }
 }
 
