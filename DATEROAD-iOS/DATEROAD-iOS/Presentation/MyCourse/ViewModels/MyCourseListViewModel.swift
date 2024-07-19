@@ -9,7 +9,7 @@ import Foundation
 
 class MyCourseListViewModel {
     
-    var userName: ObservablePattern<String> = ObservablePattern(nil)
+    var userName = UserDefaults.standard.string(forKey: "userName")
     
     let myCourseService = MyCourseService()
     
