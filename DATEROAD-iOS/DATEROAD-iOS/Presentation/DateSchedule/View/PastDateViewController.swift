@@ -20,6 +20,11 @@ class PastDateViewController: BaseNavBarViewController {
     
     private let pastDateScheduleViewModel = DateScheduleViewModel()
     
+    override func viewDidAppear(_ animated: Bool) {
+        bindViewModel()
+        loadDataAndReload()
+    }
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -48,6 +53,18 @@ class PastDateViewController: BaseNavBarViewController {
         }
     }
 
+    func drawDateCardView() {
+        print("hi im drawing")
+        pastDateContentView.pastDateCollectionView.reloadData()
+        setEmptyView()
+    }
+    
+    private func loadDataAndReload() {
+        self.pastDateScheduleViewModel.getPastDateScheduleData()
+        DispatchQueue.main.async {
+            self.drawDateCardView()
+        }
+    }
 }
 
 // MARK: - UI Setting Methods
