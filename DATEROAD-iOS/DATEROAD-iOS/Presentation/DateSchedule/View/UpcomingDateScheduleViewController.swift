@@ -23,13 +23,15 @@ class UpcomingDateScheduleViewController: BaseViewController {
     // MARK: - LifeCycle
     
     override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
         self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
-//        DispatchQueue.main.async {
-//            self.bindViewModel()
-//        }
+        DispatchQueue.main.async {
+            self.drawDateCardView()
+            self.setEmptyView()
+        }
+        
+//        self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
 //        self.drawDateCardView()
-        print("viewwillappear")
+
     }
         
     
@@ -56,6 +58,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
     func drawDateCardView() {
         print("hi im drawing")
         upcomingDateScheduleView.cardCollectionView.reloadData()
+        setUIMethods()
     }
     
     func reload() {
@@ -107,14 +110,25 @@ private extension UpcomingDateScheduleViewController {
         self.upcomingDateScheduleViewModel.isSuccessGetUpcomingDateScheduleData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess == true {
-//                self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
-//                self?.upcomingDateScheduleViewModel.isSuccessGetUpcomingDateScheduleData.value = false
                 self?.drawDateCardView()
             } else {
                 print("not success")
             }
         }
     }
+    
+//    func updateDateSchedule() {
+//         Task {
+//             do {
+//                 let upcomingDateScheduleData = try await upcomingDateScheduleViewModel.upcomingDateScheduleData
+//                 DispatchQueue.main.async {
+//                     self.drawDateCardView()
+//                 }
+//             } catch {
+//                 print("An error occurred: \(error)")
+//             }
+//         }
+//     }
 }
 
 // MARK: - Alert Delegate
