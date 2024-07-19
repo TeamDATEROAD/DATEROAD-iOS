@@ -145,6 +145,7 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func setStyle() {
+        self.backgroundColor = .systemRed
         self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
         
         topImageView.do {

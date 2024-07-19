@@ -105,8 +105,19 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
         self.present(customAlertVC, animated: false)
     }
     
+    @objc
+    private func tapDeleteLabel() {
+        print("dfdsf")
+        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.deleteCourse, alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deletePastDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        self.present(customAlertVC, animated: false)
+    }
+
     func action(rightButtonAction: RightButtonType) {
+        print("all")
         if rightButtonAction == .deleteCourse {
+            print("zz")
             upcomingDateDetailViewModel?.deleteDateSchdeuleData(dateID: upcomingDateDetailViewModel?.dateDetailData.value?.dateID ?? 0)
             print("헉 헤어졌나??? 서버연결 delete")
             self.navigationController?.popViewController(animated: true)
@@ -120,21 +131,26 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
 extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
     @objc
     private func deleteDateCourse() {
+        let labelTap = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
+        dateScheduleDeleteView.deleteLabel.addGestureRecognizer(labelTap)
         let bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView, height: 222, buttonType: DisabledButton(), buttonTitle: StringLiterals.DateSchedule.quit)
         bottomSheetVC.modalPresentationStyle = .overFullScreen
         bottomSheetVC.delegate = self
         self.present(bottomSheetVC, animated: false)
     }
     
-    @objc
-    func didTapFirstLabel() {
+    func didTapBottomButton() {
+        print("hi")
         self.dismiss(animated: false)
-//        tapDeleteLabel()
     }
     
-    func didTapBottomButton() {
+    @objc
+    func didTapFirstLabel() {
+        print("sdjflksd ㅇㄴㄹㅁㄴㅇㄹ")
         self.dismiss(animated: false)
+        tapDeleteLabel()
     }
+    
 }
 
 
