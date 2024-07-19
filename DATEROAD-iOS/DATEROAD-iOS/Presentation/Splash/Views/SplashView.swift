@@ -30,7 +30,7 @@ final class SplashView: BaseView {
         self.backgroundColor = UIColor(resource: .deepPurple)
         
         splashLogo.do {
-            $0.image = UIImage(resource: .logo)
+            $0.image = UIImage(resource: .splashLogo)
             $0.contentMode = .scaleAspectFit
         }
     }
