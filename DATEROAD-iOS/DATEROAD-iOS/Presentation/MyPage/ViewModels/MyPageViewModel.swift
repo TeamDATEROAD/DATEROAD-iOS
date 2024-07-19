@@ -19,9 +19,9 @@ final class MyPageViewModel {
     
     var onSuccessGetUserProfile: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    init() {
-        self.getUserProfile()
-    }
+//    init() {
+//        self.getUserProfile()
+//    }
 }
 
 extension MyPageViewModel {
