@@ -126,12 +126,12 @@ class DateDetailContentView: BaseView {
         }
         
         dateStartTimeLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(16)
+            $0.leading.equalToSuperview().inset(ScreenUtils.width*16/375)
             $0.top.equalToSuperview().inset(30)
         }
         
         dateTimeLineCollectionView.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.width*16/375)
             $0.top.equalToSuperview().inset(63)
             $0.height.equalTo(ScreenUtils.height*0.39162562)
         }
@@ -173,17 +173,34 @@ class DateDetailContentView: BaseView {
         
         firstTagButton.do {
             $0.setButtonStatus(buttonType: tagButtonType)
+            $0.titleLabel?.lineBreakMode = .byClipping
+            $0.titleLabel?.adjustsFontSizeToFitWidth = true
+            $0.titleLabel?.minimumScaleFactor = 0.5
+            $0.titleLabel?.numberOfLines = 1
+            $0.titleLabel?.textAlignment = .center
+
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
         }
         
         secondTagButton.do {
             $0.isHidden = true
+            $0.titleLabel?.lineBreakMode = .byClipping
+            $0.titleLabel?.adjustsFontSizeToFitWidth = true
+            $0.titleLabel?.minimumScaleFactor = 0.5
+            $0.titleLabel?.numberOfLines = 1
+            $0.titleLabel?.textAlignment = .center
+
             $0.setButtonStatus(buttonType: tagButtonType)
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
         }
         
         thirdTagButton.do {
             $0.isHidden = true
+            $0.titleLabel?.lineBreakMode = .byClipping
+            $0.titleLabel?.adjustsFontSizeToFitWidth = true
+            $0.titleLabel?.minimumScaleFactor = 0.5
+            $0.titleLabel?.numberOfLines = 1
+            $0.titleLabel?.textAlignment = .center
             $0.setButtonStatus(buttonType: tagButtonType)
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
         }
@@ -241,7 +258,7 @@ class DateDetailContentView: BaseView {
         DateDetailContentView.dateTimeLineCollectionViewLayout.do {
             $0.scrollDirection = .vertical
             $0.minimumLineSpacing = 12
-            $0.itemSize = CGSize(width: 343, height: 54)
+            $0.itemSize = CGSize(width: ScreenUtils.width * 343/375, height: 54)
         }
         
     }
@@ -255,15 +272,15 @@ extension DateDetailContentView {
     func dataBind(_ dateDetailData : DateDetailModel) {
         self.dateLabel.text = dateDetailData.date
         self.dDayButton.setTitle("D-\(dateDetailData.dDay)", for: .normal)
-        self.firstTagButton.setTitle("\(dateDetailData.tags[0])", for: .normal)
         self.dateStartTimeLabel.text = StringLiterals.DateSchedule.startTime + "\(dateDetailData.startAt)"
+        updateTagButton(title: "\(dateDetailData.tags[0].tag)", button: self.firstTagButton)
         if dateDetailData.tags.count >= 2 {
             self.secondTagButton.isHidden = false
-            self.secondTagButton.setTitle("\(dateDetailData.tags[1])", for: .normal)
+            updateTagButton(title: "\(dateDetailData.tags[1].tag)", button: self.secondTagButton)
         }
         if dateDetailData.tags.count == 3 {
             self.thirdTagButton.isHidden = false
-            self.thirdTagButton.setTitle("\(dateDetailData.tags[2])", for: .normal)
+            updateTagButton(title: "\(dateDetailData.tags[2].tag)", button: self.thirdTagButton)
         }
         self.locationLabel.text = dateDetailData.city
         self.titleLabel.text = dateDetailData.title
@@ -286,6 +303,14 @@ extension DateDetailContentView {
         } else {
             setColorToLabel(bgColor: UIColor(resource: .lime), ribbonImage: UIImage(resource: .limeRibbon), buttonColor: UIColor(resource: .lime100))
         }
+    }
+    
+    func updateTagButton(title: String, button: UIButton) {
+       guard let tendencyTag = TendencyTag.getTag(byEnglish: title) else { return }
+        button.do {
+           $0.setImage(tendencyTag.tag.tagIcon, for: .normal)
+           $0.setTitle(" \(tendencyTag.tag.tagTitle)", for: .normal)
+       }
     }
 }
 

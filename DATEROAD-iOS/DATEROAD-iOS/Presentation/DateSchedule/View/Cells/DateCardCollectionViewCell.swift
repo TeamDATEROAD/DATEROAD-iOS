@@ -268,7 +268,6 @@ extension DateCardCollectionViewCell {
         button.do {
            $0.setImage(tendencyTag.tag.tagIcon, for: .normal)
            $0.setTitle(" \(tendencyTag.tag.tagTitle)", for: .normal)
-           $0.backgroundColor = UIColor(resource: .drWhite)
        }
     }
 }
