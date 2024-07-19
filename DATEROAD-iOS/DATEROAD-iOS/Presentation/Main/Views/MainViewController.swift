@@ -17,6 +17,8 @@ final class MainViewController: BaseViewController {
     
     private var mainViewModel: MainViewModel
     
+    private lazy var userName = mainViewModel.mainUserData.value?.name
+    private lazy var point = mainViewModel.mainUserData.value?.point
     
     // MARK: - Life Cycles
     
@@ -137,6 +139,38 @@ extension MainViewController {
         self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
     
+    // 코스 둘러보기 뷰컨으로 이동
+    @objc
+    func pushToCourseVC() {
+        self.tabBarController?.selectedIndex = 1
+    }
+    
+    @objc
+    func pushToDateDetailVC(_ sender: UIButton) {
+        let dateID = sender.tag
+        print("Button with DateID \(dateID) pressed")
+        let upcomingDateDetailVC = UpcomingDateDetailViewController()
+        upcomingDateDetailVC.upcomingDateDetailViewModel = DateDetailViewModel(dateID: dateID)
+        upcomingDateDetailVC.setColor(index: dateID)
+//        upcomingDateDetailVC.upcomingDateDetailContentView.kakaoShareButton.isHidden = true
+        self.navigationController?.pushViewController(upcomingDateDetailVC, animated: true)
+    }
+
+    @objc
+    func pushToDateScheduleVC() {
+        print("pushToDateScheduleVC")
+        self.tabBarController?.selectedIndex = 2
+    }
+
+    @objc
+    func pushToPointDetailVC() {
+        guard let userName = self.userName, let totalPoint = self.point else {
+                print("User name or point is nil")
+                return
+        }
+        let pointDetailVC = PointDetailViewController(pointViewModel: PointViewModel(userName: userName, totalPoint: totalPoint))
+        self.navigationController?.pushViewController(pointDetailVC, animated: false)
+    }
 }
 
 extension MainViewController: UICollectionViewDelegate {
@@ -198,6 +232,17 @@ extension MainViewController: UICollectionViewDataSource {
             case .upcomingDate:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingDateCell.cellIdentifier, for: indexPath) as? UpcomingDateCell else { return UICollectionViewCell() }
                 cell.bindData(upcomingData: mainViewModel.upcomingData.value, mainUserData: mainViewModel.mainUserData.value)
+                // Set button actions
+                let pointLabelTapGesture = UITapGestureRecognizer(target: self, action: #selector(pushToPointDetailVC))
+                cell.pointLabel.addGestureRecognizer(pointLabelTapGesture)
+               cell.dateTicketView.moveButton.tag = mainViewModel.upcomingData.value?.dateId ?? 0
+               cell.dateTicketView.moveButton.addTarget(self, action: #selector(pushToDateDetailVC(_:)), for: .touchUpInside)
+               cell.emptyTicketView.moveButton.addTarget(self, action: #selector(pushToDateScheduleVC), for: .touchUpInside)
+               
+               // Debug prints
+               print("UpcomingDateCell configured")
+               print("DateTicketView Button Tag: \(cell.dateTicketView.moveButton.tag)")
+               
                 return cell
             case .hotDateCourse:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell else { return UICollectionViewCell() }
@@ -231,8 +276,10 @@ extension MainViewController: UICollectionViewDataSource {
             case .upcomingDate, .banner:
                 return header
             case .hotDateCourse:
-            header.bindTitle(section: .hotDateCourse, nickname: mainViewModel.nickname.value)
+                header.viewMoreButton.addTarget(self, action: #selector(pushToCourseVC), for: .touchUpInside)
+                header.bindTitle(section: .hotDateCourse, nickname: mainViewModel.nickname.value)
             case .newDateCourse:
+                header.viewMoreButton.addTarget(self, action: #selector(pushToCourseVC), for: .touchUpInside)
                 header.bindTitle(section: .newDateCourse, nickname: nil)
         }
         return header
@@ -242,13 +289,18 @@ extension MainViewController: UICollectionViewDataSource {
         if collectionView == mainView.mainCollectionView {
             switch self.mainViewModel.sectionData[indexPath.section] {
             case .hotDateCourse:
-                print("pushToDetailCourseVC")
+                let courseId = mainViewModel.hotCourseData.value?[indexPath.item].courseId ?? 0
+                self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
             case .newDateCourse:
+                let courseId = mainViewModel.newCourseData.value?[indexPath.item].courseId ?? 0
+                self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
                 print("pushToDetailCourseVC")
             default:
                 print("default")
             }
         } else {
+            let courseId = mainViewModel.bannerData.value?[indexPath.item].advertisementId ?? 0
+            self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
             print("pushToBannerDetailVC")
         }
     }
