@@ -30,6 +30,10 @@ final class PointSystemViewController: BaseNavBarViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+   
+   override func viewWillAppear(_ animated: Bool) {
+      pointSystemViewModel.fetchData()
+   }
     
     
     override func viewDidLoad() {

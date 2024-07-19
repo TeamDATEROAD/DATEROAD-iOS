@@ -36,9 +36,9 @@ final class MainViewModel {
     let sectionData: [MainSection] = MainSection.dataSource
     
     
-    init() {
-        fetchSectionData()
-    }
+//    init() {
+//        fetchSectionData()
+//    }
     
 }
 
