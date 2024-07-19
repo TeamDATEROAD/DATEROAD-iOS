@@ -8,8 +8,16 @@
 import UIKit
 
 final class AddScheduleViewModel {
+   var isImporting = false
+   var viewedDateCourseByMeData: CourseDetailViewModel?
+   var ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
+   
+   var pastDatePlaces = [DatePlaceModel]()
+   
    
    var selectedTagData: [String] = []
+   
+   var pastDateTagIndex = [Int]()
    
    //MARK: - AddFirstCourse 사용되는 ViewModel
    
@@ -29,8 +37,8 @@ final class AddScheduleViewModel {
    var tagData: [ProfileModel] = []
    
    // 선택된 태그
-//   var selectedTags: [UIButton] = []
-//   var selectedTag = [String]()
+   //   var selectedTags: [UIButton] = []
+   //   var selectedTag = [String]()
    var isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
    var isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
    var tagCount: ObservablePattern<Int> = ObservablePattern(0)
@@ -70,6 +78,56 @@ final class AddScheduleViewModel {
 
 extension AddScheduleViewModel {
    
+   func getTagIndices(from tags: [String]) -> [Int] {
+      return tags.compactMap { tag in
+         TendencyTag.allCases.firstIndex { $0.tag.english == tag }
+      }
+   }
+   
+   func fetchPastDate(completion: @escaping () -> Void) {
+      viewedDateCourseByMeData?.isSuccessGetData.bind { [weak self] isSuccess in
+         guard let self = self else { return }
+         if isSuccess == true {
+            if let data = self.viewedDateCourseByMeData {
+               dateName.value = data.titleHeaderData.value?.title
+               dateLocation.value = data.titleHeaderData.value?.city
+               dateStartAt.value = data.startAt
+               
+               //동네.KOR 불러와서 지역, 동네 ENG 버전 알아내는 미친 로직
+               let cityName = data.titleHeaderData.value?.city ?? ""
+               if let result = LocationMapper.getCountryAndCity(from: cityName) {
+                  let country = LocationModelCountryKorToEng.Country(rawValue: result.country.rawValue).rawValue
+                  let city = LocationModelCityKorToEng.City(rawValue: result.city.rawValue).rawValue
+                  self.city = city
+                  self.country = country
+                  self.isDateLocationVaild.value = true
+               }
+               
+               //태그 추적해서 미리 셀렉 및 개수 표시 해버리는 진짜 미쳐버린 로직
+               guard let tags = viewedDateCourseByMeData?.tagArr else {return}
+               selectedTagData = tags.map { $0.tag }
+               pastDateTagIndex = getTagIndices(from: selectedTagData)
+               pastDateTagIndex.sort()
+               
+               print("pastDateTagIndex values: \(pastDateTagIndex)")
+               
+               checkTagCount()
+               
+               isDateNameVaild.value = true
+               isDateStartAtVaild.value = true
+               isDateLocationVaild.value = true
+               
+               completion() // 데이터 로딩이 완료된 후 호출
+            }
+         } else {
+            print("Failed to load course details")
+            completion() // 실패한 경우에도 호출
+         }
+      }
+   }
+   
+   
+   
    //MARK: - AddSchedule First 함수
    
    func satisfyDateName(str: String) {
@@ -91,7 +149,7 @@ extension AddScheduleViewModel {
          let selectedDate = dateFormatter.date(from: dateStr)
          
          // 현재 selectedDate가 미래 일자가 아니라면 true
-//         let flag = (selectedDate ?? today) <= today
+         //         let flag = (selectedDate ?? today) <= today
          
          self.isVisitDateVaild.value = true
       } else {
@@ -110,34 +168,34 @@ extension AddScheduleViewModel {
    }
    
    func countSelectedTag(isSelected: Bool, tag: String) {
-         if isSelected {
-            if !selectedTagData.contains(tag) {
-                selectedTagData.append(tag)
-            }
-         } else {
-            if let index = selectedTagData.firstIndex(of: tag) {
-                selectedTagData.remove(at: index)
-            }
+      if isSelected {
+         if !selectedTagData.contains(tag) {
+            selectedTagData.append(tag)
          }
-       
-       checkTagCount()
+      } else {
+         if let index = selectedTagData.firstIndex(of: tag) {
+            selectedTagData.remove(at: index)
+         }
       }
+      
+      checkTagCount()
+   }
    
    
    func checkTagCount() {
-       let count = selectedTagData.count
-       self.tagCount.value = count
-
-       if count >= 1 && count <= 3 {
-           self.isValidTag.value = true
-           self.isOverCount.value = false
-       } else {
-           self.isValidTag.value = false
-           if count > 3 {
-               self.isOverCount.value = true
-           }
-       }
-       print(count)
+      let count = selectedTagData.count
+      self.tagCount.value = count
+      
+      if count >= 1 && count <= 3 {
+         self.isValidTag.value = true
+         self.isOverCount.value = false
+      } else {
+         self.isValidTag.value = false
+         if count > 3 {
+            self.isOverCount.value = true
+         }
+      }
+      print(count)
    }
    
    func satisfyDateLocation(str: String) {

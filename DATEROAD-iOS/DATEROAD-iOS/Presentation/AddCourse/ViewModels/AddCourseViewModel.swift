@@ -16,8 +16,6 @@ final class AddCourseViewModel {
    
    var selectedTagData: [String] = []
    
-   
-//   var pastDateTagIndex: ObservablePattern<[Int]> = ObservablePattern(nil)
    var pastDateTagIndex = [Int]()
    //MARK: - AddFirstCourse 사용되는 ViewModel
    
