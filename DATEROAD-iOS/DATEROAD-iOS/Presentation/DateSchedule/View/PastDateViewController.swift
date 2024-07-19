@@ -36,7 +36,6 @@ class PastDateViewController: BaseNavBarViewController {
         registerCell()
         setDelegate()
         bindViewModel()
-        setEmptyView()
     }
     
     override func setHierarchy() {
@@ -56,13 +55,20 @@ class PastDateViewController: BaseNavBarViewController {
     func drawDateCardView() {
         print("hi im drawing")
         pastDateContentView.pastDateCollectionView.reloadData()
-        setEmptyView()
+        DispatchQueue.main.async {
+            self.setEmptyView()
+        }
     }
-    
+
     private func loadDataAndReload() {
         self.pastDateScheduleViewModel.getPastDateScheduleData()
-        DispatchQueue.main.async {
-            self.drawDateCardView()
+        self.pastDateScheduleViewModel.isSuccessGetPastDateScheduleData.bind { [weak self] isSuccess in
+            guard let self = self else { return }
+            if isSuccess == true {
+                DispatchQueue.main.async {
+                    self.drawDateCardView()
+                }
+            }
         }
     }
 }
@@ -71,10 +77,15 @@ class PastDateViewController: BaseNavBarViewController {
 
 private extension PastDateViewController {
     func setEmptyView() {
-        if pastDateScheduleViewModel.pastDateScheduleData.value?.count == 0 {
+        print("all")
+        if let dataCount = pastDateScheduleViewModel.pastDateScheduleData.value?.count, dataCount == 0 {
+            print("dfd")
             pastDateContentView.emptyView.isHidden = false
+        } else {
+            pastDateContentView.emptyView.isHidden = true
         }
     }
+
     
     func bindViewModel() {
         self.pastDateScheduleViewModel.isSuccessGetPastDateScheduleData.bind { [weak self] isSuccess in
