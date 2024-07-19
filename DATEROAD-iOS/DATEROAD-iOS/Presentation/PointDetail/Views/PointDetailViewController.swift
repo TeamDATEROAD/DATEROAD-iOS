@@ -66,7 +66,7 @@ class PointDetailViewController: BaseNavBarViewController {
        setDelegate()
        setAddTarget()
        bindViewModel()
-//        pointViewModel.getPointDetail(nowEarnedPointHidden: false)
+        pointViewModel.getPointDetail(nowEarnedPointHidden: false)
 //       bindViewModel()
        
     }
