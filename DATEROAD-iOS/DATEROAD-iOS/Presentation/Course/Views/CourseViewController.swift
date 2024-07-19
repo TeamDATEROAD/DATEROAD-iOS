@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
+
 final class CourseViewController: BaseViewController {
     
     // MARK: - UI Properties
@@ -23,6 +24,7 @@ final class CourseViewController: BaseViewController {
     private var courseListModel = CourseListModel.courseContents
     
     private var selectedButton: UIButton?
+
     
     // MARK: - Life Cycle
     
@@ -56,6 +58,7 @@ final class CourseViewController: BaseViewController {
     
     func initPriceButton() {
         courseViewModel.selectedPriceIndex.value = 0
+        courseViewModel.selectedCityName.value = ""
         getCourse()
     }
 }
@@ -99,8 +102,7 @@ extension CourseViewController {
             self.courseView.courseFilterView.updatePrice(button: sender, buttonType: UnselectedButton(), isSelected: false)
             courseViewModel.selectedPriceIndex.value = 0
         }
-
-        // 현재 버튼이 선택되었다면 selectedButton으로 비활성화되었다면 nil로 설정
+        
         selectedButton = sender.isSelected ? sender : nil
         getCourse()
     }
@@ -143,9 +145,26 @@ extension CourseViewController {
         }
     }
     
+}
+
+extension CourseViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedCourse = courseListModel[indexPath.row]
+        if let courseId = selectedCourse.courseId {
+            let detailViewModel = CourseDetailViewModel(courseId: courseId)
+            let detailViewController = CourseDetailViewController(viewModel: detailViewModel)
+            navigationController?.pushViewController(detailViewController, animated: true)
+        }
+    }
+}
+
+extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate {
+    
     func getCourse() {
         let cost = courseViewModel.selectedPriceIndex.value?.costNum() ?? 0
         let city = courseViewModel.selectedCityName.value ?? ""
+        print("⚽️",cost,city)
         CourseService().getCourseInfo(city: city, cost: cost) { response in
             switch response {
             case .success(let data):
@@ -170,6 +189,38 @@ extension CourseViewController {
         }
     }
     
+    func didTapLocationFilter() {
+        let locationFilterVC = LocationFilterViewController()
+        locationFilterVC.modalPresentationStyle = .overFullScreen
+        locationFilterVC.delegate = self
+        self.present(locationFilterVC, animated: true)
+    }
+    
+    func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
+       // 'Seoul.jongnoJunggu'와 같은 rawValue에서 'jongnoJunggu'만 추출
+       let cityNameComponents = city.rawValue.split(separator: ".")
+       let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
+       
+       if let subRegion = SubRegion(rawValue: cityName) {
+           print(subRegion)
+           
+           let selectedSubRegion = "\(subRegion)"
+           
+           courseViewModel.selectedCityName.value = selectedSubRegion
+       } else {
+           print(cityName)
+       }
+       
+       self.courseView.courseFilterView.locationFilterButton.do {
+           $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
+           $0.setTitle(cityName, for: .normal)
+           $0.layer.borderWidth = 1
+           $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
+           let image = UIImage(resource: .icDropdown).withRenderingMode(.alwaysTemplate)
+           $0.setImage(image, for: .normal)
+           $0.tintColor = UIColor(resource: .deepPurple)
+       }
+   }
     
 }
 
@@ -181,85 +232,6 @@ extension CourseViewController: CourseNavigationBarViewDelegate {
     }
 }
 
-extension CourseViewController: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == courseView.courseFilterView.priceCollectionView {
-            _ = courseListModel[indexPath.item]
-            let courseDetailVC = CourseDetailViewController(viewModel: CourseDetailViewModel())
-            navigationController?.pushViewController(courseDetailVC, animated: true)
-        }
-    }
-}
-
-extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate {
-   func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
-      // 'Seoul.jongnoJunggu'와 같은 rawValue에서 'jongnoJunggu'만 추출
-      let cityNameComponents = city.rawValue.split(separator: ".")
-      let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
-      
-      if let subRegion = SubRegion(rawValue: cityName) {
-          print(subRegion)
-          
-          let selectedSubRegion = "\(subRegion)"
-          
-          courseViewModel.selectedCityName.value = selectedSubRegion
-      } else {
-          print(cityName)
-      }
-      
-      self.courseView.courseFilterView.locationFilterButton.do {
-          $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
-          $0.setTitle(cityName, for: .normal)
-          $0.layer.borderWidth = 1
-          $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
-          let image = UIImage(resource: .icDropdown).withRenderingMode(.alwaysTemplate)
-          $0.setImage(image, for: .normal)
-          $0.tintColor = UIColor(resource: .deepPurple)
-      }
-  }
-   
-   
-   func didSelectLocation(country: LocationModel.Country, city: LocationModel.City) {
-      print("")
-   }
-   
-    
-    func didTapLocationFilter() {
-        let locationFilterVC = LocationFilterViewController()
-        locationFilterVC.modalPresentationStyle = .overFullScreen
-        locationFilterVC.delegate = self
-        self.present(locationFilterVC, animated: true)
-    }
-    
-//    func didSelectCity(_ city: LocationModel.City) {
-//        // 'Seoul.jongnoJunggu'와 같은 rawValue에서 'jongnoJunggu'만 추출
-//        let cityNameComponents = city.rawValue.split(separator: ".")
-//        let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
-//        
-//        if let subRegion = SubRegion(rawValue: cityName) {
-//            print(subRegion)
-//            
-//            let selectedSubRegion = "\(subRegion)"
-//            
-//            courseViewModel.selectedCityName.value = selectedSubRegion
-//        } else {
-//            print(cityName)
-//        }
-//        
-//        self.courseView.courseFilterView.locationFilterButton.do {
-//            $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
-//            $0.setTitle(cityName, for: .normal)
-//            $0.layer.borderWidth = 1
-//            $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
-//            let image = UIImage(resource: .icDropdown).withRenderingMode(.alwaysTemplate)
-//            $0.setImage(image, for: .normal)
-//            $0.tintColor = UIColor(resource: .deepPurple)
-//        }
-//    }
-
-    
-}
 
 extension CourseViewController: UICollectionViewDataSource {
     
@@ -290,10 +262,17 @@ extension CourseViewController: UICollectionViewDataSource {
     //코스 상세로 화면 전환
     @objc
     func pushToCourseDetialVC(_ sender: UITapGestureRecognizer) {
-        let location = sender.location(in: courseView.courseListView)
-        if courseView.courseListView.courseListCollectionView.indexPathForItem(at: location) != nil {
-            let courseDetailVC = CourseDetailViewController(viewModel: CourseDetailViewModel())
-            self.navigationController?.pushViewController(courseDetailVC, animated: true)
+        let location = sender.location(in: courseView.courseListView.courseListCollectionView)
+        if let indexPath = courseView.courseListView.courseListCollectionView.indexPathForItem(at: location) {
+            let selectedCourse = courseListModel[indexPath.row]
+
+            if let courseId = selectedCourse.courseId {
+                let viewModel = CourseDetailViewModel(courseId: courseId)
+                let courseDetailVC = CourseDetailViewController(viewModel: viewModel)
+                self.navigationController?.pushViewController(courseDetailVC, animated: true)
+            } else {
+                print("Error: Selected course does not have a valid courseId.")
+            }
         }
     }
 }

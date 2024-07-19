@@ -124,4 +124,9 @@ private extension BottomPageControllView {
     
 }
 
-
+extension BottomPageControllView {
+    
+    func bindData(like: Int) {
+        self.likeNumLabel.text = "\(like)"
+    }
+}

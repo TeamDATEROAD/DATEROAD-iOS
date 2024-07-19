@@ -153,6 +153,7 @@ enum StringLiterals {
     enum Common {
         static let header = "header"
         static let cancel = "취소"
+        static let close = "닫기"
     }
     
     enum Main {

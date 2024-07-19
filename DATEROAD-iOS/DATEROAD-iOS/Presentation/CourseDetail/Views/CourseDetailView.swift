@@ -15,11 +15,17 @@ class CourseDetailView: BaseView {
     // MARK: - UI Properties
     
     lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
+    
+    let stickyHeaderNavBarView = StickyHeaderNavBarView()
+
 
     
     // MARK: - UI Properties
     
     private var courseDetailSection: [CourseDetailSection]
+    
+    var isAccess: Bool = false
+    
     
     // MARK: - Life Cycle
     
@@ -35,7 +41,8 @@ class CourseDetailView: BaseView {
     
     
     override func setHierarchy() {
-        self.addSubviews(mainCollectionView)
+        self.addSubviews(mainCollectionView,stickyHeaderNavBarView)
+       // mainCollectionView.addSubview(headerView)
     }
     
     override func setLayout() {
@@ -45,6 +52,12 @@ class CourseDetailView: BaseView {
             $0.bottom.equalToSuperview()
         }
         
+        stickyHeaderNavBarView.snp.makeConstraints {
+            
+            $0.top.equalToSuperview().inset(50)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(54)
+        }
     }
     
     override func setStyle() {
@@ -56,6 +69,11 @@ class CourseDetailView: BaseView {
             $0.isScrollEnabled = true
             $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }
+        
+        stickyHeaderNavBarView.do {
+            $0.backgroundColor = .clear
+        }
+        
         
     }
     
@@ -128,7 +146,13 @@ extension CourseDetailView {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-
+        
+        if !isAccess {
+            let header = makeContentMaskView()
+            section.boundarySupplementaryItems = [header]
+        }
+        
+        
         return section
     }
     
@@ -220,6 +244,14 @@ extension CourseDetailView {
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(36))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: InfoBarView.elementKinds, alignment: .bottom, absoluteOffset: CGPoint(x: 0, y: 20))
         footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        return footer
+    }
+    
+    func makeContentMaskView() -> NSCollectionLayoutBoundarySupplementaryItem {
+
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(360))
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: ContentMaskView.elementKinds, alignment: .bottom, absoluteOffset: CGPoint(x: 0, y: -70))
+        footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         return footer
     }
     
