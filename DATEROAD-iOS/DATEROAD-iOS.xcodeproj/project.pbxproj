@@ -211,6 +211,14 @@
 		CABDCEA02C49042800631FB3 /* MainTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE8C1932C4581B500F153B3 /* MainTargetType.swift */; };
 		CABDCEA22C4904C600631FB3 /* DateScheduleDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCEA12C4904C600631FB3 /* DateScheduleDeleteView.swift */; };
 		CABDCEA42C49545400631FB3 /* DRWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCEA32C49545400631FB3 /* DRWebViewController.swift */; };
+		CABDCEA82C4A611A00631FB3 /* BannerDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCEA72C4A611A00631FB3 /* BannerDetailViewController.swift */; };
+		CABDCEAA2C4A618500631FB3 /* BannerDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCEA92C4A618500631FB3 /* BannerDetailView.swift */; };
+		CABDCEAC2C4A61D600631FB3 /* BannerDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCEAB2C4A61D600631FB3 /* BannerDetailSection.swift */; };
+		CABDCEB12C4A67AA00631FB3 /* GetBannerDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCEB02C4A67AA00631FB3 /* GetBannerDetailResponse.swift */; };
+		CABDCEB72C4A695E00631FB3 /* BannerDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCEB62C4A695E00631FB3 /* BannerDetailModel.swift */; };
+		CABDCEB92C4A6C8800631FB3 /* AdTagType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCEB82C4A6C8800631FB3 /* AdTagType.swift */; };
+		CABDCEBB2C4A6CC100631FB3 /* AdModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCEBA2C4A6CC100631FB3 /* AdModel.swift */; };
+		CABDCEBD2C4A70AF00631FB3 /* BannerInfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCEBC2C4A70AF00631FB3 /* BannerInfoHeaderView.swift */; };
 		CAC80FA02C3B10D100658EA6 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80F9F2C3B10D100658EA6 /* MyPageView.swift */; };
 		CAC80FA22C3B10EA00658EA6 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FA12C3B10EA00658EA6 /* MyPageViewController.swift */; };
 		CAC80FA42C3B34B400658EA6 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FA32C3B34B400658EA6 /* UserInfoView.swift */; };
@@ -445,6 +453,14 @@
 		CABDCE9B2C49037600631FB3 /* GetUpcomingDateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUpcomingDateResponse.swift; sourceTree = "<group>"; };
 		CABDCEA12C4904C600631FB3 /* DateScheduleDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateScheduleDeleteView.swift; sourceTree = "<group>"; };
 		CABDCEA32C49545400631FB3 /* DRWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRWebViewController.swift; sourceTree = "<group>"; };
+		CABDCEA72C4A611A00631FB3 /* BannerDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerDetailViewController.swift; sourceTree = "<group>"; };
+		CABDCEA92C4A618500631FB3 /* BannerDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerDetailView.swift; sourceTree = "<group>"; };
+		CABDCEAB2C4A61D600631FB3 /* BannerDetailSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerDetailSection.swift; sourceTree = "<group>"; };
+		CABDCEB02C4A67AA00631FB3 /* GetBannerDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetBannerDetailResponse.swift; sourceTree = "<group>"; };
+		CABDCEB62C4A695E00631FB3 /* BannerDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerDetailModel.swift; sourceTree = "<group>"; };
+		CABDCEB82C4A6C8800631FB3 /* AdTagType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdTagType.swift; sourceTree = "<group>"; };
+		CABDCEBA2C4A6CC100631FB3 /* AdModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdModel.swift; sourceTree = "<group>"; };
+		CABDCEBC2C4A70AF00631FB3 /* BannerInfoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerInfoHeaderView.swift; sourceTree = "<group>"; };
 		CAC80F9F2C3B10D100658EA6 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		CAC80FA12C3B10EA00658EA6 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		CAC80FA32C3B34B400658EA6 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
@@ -697,6 +713,7 @@
 				0DC9BF042C47F55800A817A8 /* GetCourseDetailResponse.swift */,
 				0DDC2B4C2C49479500AC554D /* PostUsePointRequest.swift */,
 				0DDC2B522C498F9300AC554D /* LikeCourseResponse.swift */,
+				CABDCEB02C4A67AA00631FB3 /* GetBannerDetailResponse.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -1137,6 +1154,7 @@
 		CA3D0D092C29A75600735097 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				CABDCEA52C4A60FD00631FB3 /* Banner */,
 				9E754CD72C482C5600E2CA91 /* AddSchedule */,
 				0DA1C70F2C3DA82300DF2B92 /* Course */,
 				CAC80FD32C3E78FC00658EA6 /* Main */,
@@ -1263,6 +1281,8 @@
 				0DA1C71D2C3DCC2400DF2B92 /* Price.swift */,
 				CA80C0C82C440F3C002CAA9B /* ProfileErrorType.swift */,
 				0DA853622C46DC8400DF7F99 /* SubRegion.swift */,
+				CABDCEAB2C4A61D600631FB3 /* BannerDetailSection.swift */,
+				CABDCEB82C4A6C8800631FB3 /* AdTagType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1457,6 +1477,42 @@
 				CABDCE802C48773A00631FB3 /* GetUserProfileResponse.swift */,
 			);
 			path = DTO;
+			sourceTree = "<group>";
+		};
+		CABDCEA52C4A60FD00631FB3 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				CABDCEB52C4A695100631FB3 /* Models */,
+				CABDCEA62C4A610400631FB3 /* Views */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
+		CABDCEA62C4A610400631FB3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CABDCEAD2C4A633500631FB3 /* Cells */,
+				CABDCEA72C4A611A00631FB3 /* BannerDetailViewController.swift */,
+				CABDCEA92C4A618500631FB3 /* BannerDetailView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CABDCEAD2C4A633500631FB3 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				CABDCEBC2C4A70AF00631FB3 /* BannerInfoHeaderView.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		CABDCEB52C4A695100631FB3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CABDCEB62C4A695E00631FB3 /* BannerDetailModel.swift */,
+				CABDCEBA2C4A6CC100631FB3 /* AdModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		CAC80F9D2C3B0FD000658EA6 /* MyPage */ = {
@@ -1783,6 +1839,7 @@
 				CA4EF3C02C3285BA003B02B6 /* SocialType.swift in Sources */,
 				9E754CD22C47FCB300E2CA91 /* PostAddCourseResponse.swift in Sources */,
 				CAC80FAC2C3B567100658EA6 /* MyPageViewModel.swift in Sources */,
+				CABDCEA82C4A611A00631FB3 /* BannerDetailViewController.swift in Sources */,
 				9E50988C2C403C4B00F72CD0 /* AddThirdView.swift in Sources */,
 				0DC9BF052C47F55800A817A8 /* GetCourseDetailResponse.swift in Sources */,
 				CABDCE7B2C48498200631FB3 /* PostSignInRequest.swift in Sources */,
@@ -1830,6 +1887,7 @@
 				CAA30AE22C37497200835DE3 /* TendencyTag.swift in Sources */,
 				9E754CF52C4841CF00E2CA91 /* AddScheduleTargetType.swift in Sources */,
 				CA4EF3DC2C347994003B02B6 /* BaseCollectionViewCell.swift in Sources */,
+				CABDCEAC2C4A61D600631FB3 /* BannerDetailSection.swift in Sources */,
 				0D0DA3E22C3AF3B0004210EE /* PointViewModel.swift in Sources */,
 				0DDC2B492C49439600AC554D /* UsePointTargetType.swift in Sources */,
 				CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */,
@@ -1890,6 +1948,7 @@
 				0DDC2B4B2C4943A800AC554D /* UsePointService.swift in Sources */,
 				CAC80FD92C3E7BBA00658EA6 /* MainView.swift in Sources */,
 				CA80C0CD2C445BF3002CAA9B /* NetworkResult.swift in Sources */,
+				CABDCEB72C4A695E00631FB3 /* BannerDetailModel.swift in Sources */,
 				CA4EF3BD2C3285A1003B02B6 /* ScreenUtils.swift in Sources */,
 				CAC80FF32C3F203800658EA6 /* EmptyTicketView.swift in Sources */,
 				CAA30AE02C3733DF00835DE3 /* ProfileView.swift in Sources */,
@@ -1908,6 +1967,7 @@
 				9E50988E2C403C5800F72CD0 /* AddCourseThirdView.swift in Sources */,
 				CA3D0D1A2C29AAAC00735097 /* UIView+.swift in Sources */,
 				CABDCEA22C4904C600631FB3 /* DateScheduleDeleteView.swift in Sources */,
+				CABDCEAA2C4A618500631FB3 /* BannerDetailView.swift in Sources */,
 				CAC80FE32C3EC06200658EA6 /* MainSectionLayout.swift in Sources */,
 				7478193E2C3A97440040D5E7 /* MyCourseListCollectionViewCell.swift in Sources */,
 				7478193E2C3A97440040D5E7 /* MyCourseListCollectionViewCell.swift in Sources */,
@@ -1927,21 +1987,25 @@
 				CA80C0CF2C445D38002CAA9B /* MoyaLoggingPluggin.swift in Sources */,
 				9E754CF32C4841BE00E2CA91 /* AddScheduleService.swift in Sources */,
 				CAC80FB92C3BCE4E00658EA6 /* MyPageSection.swift in Sources */,
+				CABDCEB92C4A6C8800631FB3 /* AdTagType.swift in Sources */,
 				CAC80FDE2C3E7F0100658EA6 /* MainViewModel.swift in Sources */,
 				CA78FE472C38667A001B1403 /* DRErrorLabel.swift in Sources */,
 				9E443A482C37AAE400C1F92C /* AddCourseViewModel.swift in Sources */,
 				CA80C0D72C4523A2002CAA9B /* DRBottomSheetAction.swift in Sources */,
+				CABDCEB12C4A67AA00631FB3 /* GetBannerDetailResponse.swift in Sources */,
 				743D5BF42C401FF9007C156C /* PointDetailView.swift in Sources */,
 				9E443A502C39158100C1F92C /* AddSheetViewController.swift in Sources */,
 				9E754CD42C47FECC00E2CA91 /* AddCourseService.swift in Sources */,
 				CAC80FD72C3E7BB100658EA6 /* MainViewController.swift in Sources */,
 				9EB91E782C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift in Sources */,
+				CABDCEBB2C4A6CC100631FB3 /* AdModel.swift in Sources */,
 				9E63BB202C35CF7200D5ED5B /* AddCourseFirstViewController.swift in Sources */,
 				9E443A4C2C37ACEF00C1F92C /* AddCourseFirstView.swift in Sources */,
 				0DC9BF072C47F56900A817A8 /* CourseDetailTargetType.swift in Sources */,
 				9E590B402C39375000039690 /* AddSheetView.swift in Sources */,
 				9E754CF92C48471100E2CA91 /* PostAddScheduleResponse.swift in Sources */,
 				CAC80FCA2C3C95A100658EA6 /* UICollectionViewFlowLayout+.swift in Sources */,
+				CABDCEBD2C4A70AF00631FB3 /* BannerInfoHeaderView.swift in Sources */,
 				0D98CBA12C40A2F100E3618A /* ContentMaskView.swift in Sources */,
 				9E443A4E2C3819DB00C1F92C /* AddFirstView.swift in Sources */,
 				742C9D9A2C4599EB007FFB51 /* MyCourseService.swift in Sources */,
