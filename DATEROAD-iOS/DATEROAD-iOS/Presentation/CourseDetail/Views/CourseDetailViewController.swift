@@ -63,6 +63,10 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
     override func setHierarchy() {
         super.setHierarchy()
         

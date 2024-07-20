@@ -42,6 +42,10 @@ final class MainViewController: BaseViewController {
         bindViewModel()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         self.mainViewModel.fetchSectionData()
     }

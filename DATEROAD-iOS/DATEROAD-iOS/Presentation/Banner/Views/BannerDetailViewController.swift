@@ -76,6 +76,7 @@ final class BannerDetailViewController: BaseViewController {
         
         self.view.backgroundColor = UIColor(resource: .drWhite)
         self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.tabBarController?.tabBar.isHidden = true
         
     }
     
