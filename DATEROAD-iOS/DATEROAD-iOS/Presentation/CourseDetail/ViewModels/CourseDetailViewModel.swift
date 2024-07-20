@@ -5,7 +5,7 @@
 //  Created by 김민서 on 7/12/24.
 //
 
-import Foundation
+import UIKit
 
 enum CourseDetailSection {
     case imageCarousel

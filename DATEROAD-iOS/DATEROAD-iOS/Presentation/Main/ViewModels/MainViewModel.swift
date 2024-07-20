@@ -6,8 +6,24 @@
 //
 
 import Foundation
+import UIKit
+
+
+struct BannerData {
+    let image: UIImage
+    let courseId: Int
+}
 
 final class MainViewModel {
+   
+
+   var bannerData: [BannerData] = [
+           BannerData(image: UIImage(resource: .bOne), courseId: 1),
+           BannerData(image: UIImage(resource: .bTwo), courseId: 2),
+           BannerData(image: UIImage(resource: .bThree), courseId: 3),
+           BannerData(image: UIImage(resource: .bFour), courseId: 4),
+           BannerData(image: UIImage(resource: .bFive), courseId: 5)
+       ]
     
     var isSuccessGetUserInfo: ObservablePattern<Bool> = ObservablePattern(false)
     
@@ -29,7 +45,7 @@ final class MainViewModel {
 
     var hotCourseData: ObservablePattern<[DateCourseModel]> = ObservablePattern(nil)
     
-    var bannerData: ObservablePattern<[BannerModel]> = ObservablePattern(nil)
+//   var bannerData = [UIImage(resource: .bOne), UIImage(resource: .bTwo), UIImage(resource: .bThree), UIImage(resource: .bFour), UIImage(resource: .bFive)]
 
     var newCourseData: ObservablePattern<[DateCourseModel]> = ObservablePattern(nil)
 
@@ -116,16 +132,16 @@ extension MainViewModel {
     }
     
     func getBanner() {
-        NetworkService.shared.mainService.getBanner() { response in
-            switch response {
-            case .success(let data):
-                self.bannerData.value = data.advertisementDtoResList.map { BannerModel(advertisementId: $0.advertisementID, imageUrl: $0.thumbnail)
-                }
-                self.isSuccessGetBanner.value = true
-            default:
-                print("Failed to fetch user profile")
-                return
-            }
-        }
+//        NetworkService.shared.mainService.getBanner() { response in
+//            switch response {
+//            case .success(let data):
+//                self.bannerData = data.advertisementDtoResList.map { BannerModel(advertisementId: $0.advertisementID, imageUrl: $0.thumbnail)
+//                }
+//                self.isSuccessGetBanner.value = true
+//            default:
+//                print("Failed to fetch user profile")
+//                return
+//            }
+//        }
     }
 }

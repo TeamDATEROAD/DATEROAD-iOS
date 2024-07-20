@@ -31,7 +31,7 @@ final class BannerDetailViewController: BaseViewController {
     
     init(viewModel: CourseDetailViewModel, advertismentId: Int) {
         self.courseDetailViewModel = viewModel
-        self.courseDetailViewModel.getBannerDetail(advertismentId: 8)
+        self.courseDetailViewModel.getBannerDetail(advertismentId: advertismentId)
         
         self.bannerDetailView = BannerDetailView(bannerDetailSection: self.courseDetailViewModel.bannerSectionData)
         
