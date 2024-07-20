@@ -29,8 +29,15 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
     
     var courseId: Int?
     
+    var isFirst: Bool = true
+    
+    var localLikeNum: Int = 0
+    
+    private var isLikeNetwork: Bool = false
+    
     init(viewModel: CourseDetailViewModel) {
         self.courseDetailViewModel = viewModel
+        self.courseId = self.courseDetailViewModel.courseId
         self.courseDetailViewModel.getCourseDetail()
         
         self.courseDetailView = CourseDetailView(courseDetailSection:self.courseDetailViewModel.sections)
@@ -87,9 +94,9 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
     
     
     func bindViewModel() {
-        self.courseDetailViewModel.isChange = { [weak self] in
-            self?.courseDetailView.mainCollectionView.reloadData()
-        }
+//        self.courseDetailViewModel.isChange = { [weak self] in
+//            self?.courseDetailView.mainCollectionView.reloadData()
+//        }
         
         courseDetailViewModel.currentPage.bind { [weak self] currentPage in
             guard let self = self else { return }
@@ -100,6 +107,7 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
         courseDetailViewModel.isSuccessGetData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
+                self?.localLikeNum = self?.courseDetailViewModel.likeSum.value ?? 0
                 self?.setSetctionCount()
                 self?.setTabBar()
                 self?.setNavBar()
@@ -162,7 +170,25 @@ private extension CourseDetailViewController {
     
     @objc
     func didTapLikeButton() {
-        courseDetailViewModel.toggleUserLiked()
+//        courseDetailViewModel.toggleUserLiked()
+        isFirst = false
+        courseDetailViewModel.isUserLiked.value?.toggle()
+    
+        //true
+        if courseDetailViewModel.isUserLiked.value == true {
+//            DispatchQueue.global().sync {
+                courseDetailViewModel.likeCourse(courseId: courseId ?? 0)
+                self.courseDetailView.mainCollectionView.reloadData()
+                
+//            }
+            
+            //false
+        } else {
+//            DispatchQueue.global().sync {
+                courseDetailViewModel.deleteLikeCourse(courseId: courseId ?? 0)
+                self.courseDetailView.mainCollectionView.reloadData()
+//            }
+        }
         
         //        if courseDetailViewModel.isUserLiked.value ?? true {
         //            courseDetailViewModel.isUserLiked.value = true
@@ -175,8 +201,8 @@ private extension CourseDetailViewController {
     
     private func updateLikeButtonColor(isLiked: Bool) {
         print(isLiked,"🔥")
-        let courseId = self.courseDetailViewModel.courseId
-        print(courseId,"🚬")
+//        let courseId = self.courseDetailViewModel.courseId
+//        print(courseId,"🚬")
         if isLiked {
             courseInfoTabBarView.likeButtonImageView.tintColor = UIColor(resource: .deepPurple)
             //            self.courseDetailViewModel.likeCourse(courseId: courseId)
@@ -334,9 +360,19 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return gradient
         } else if kind == BottomPageControllView.elementKinds {
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else { return UICollectionReusableView() }
-            let likeNum = self.courseDetailViewModel.likeSum.value ?? 0
+//            var likeNum = self.courseDetailViewModel.likeSum.value ?? 0
+
+            if !isFirst {
+                if courseDetailViewModel.isUserLiked.value == true {
+                    localLikeNum += 1
+                } else {
+                    localLikeNum -= 1
+                }
+            }
+            
+            
             footer.pageIndexSum = imageData.count
-            footer.bindData(like: likeNum)
+            footer.bindData(like: localLikeNum)
             return footer
         } else if kind == ContentMaskView.elementKinds {
             if isAccess {
