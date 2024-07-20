@@ -42,13 +42,8 @@ final class BannerImageCollectionViewCell: BaseCollectionViewCell {
 extension BannerImageCollectionViewCell {
     
     // TODO: - 인덱스 바인딩 해주기
-    func bindData(bannerData: BannerModel?) {
-        guard let bannerData else { return }
-        if let url = URL(string: bannerData.imageUrl) {
-            self.bannerImage.kf.setImage(with: url)
-        } else {
-            self.bannerImage.image = UIImage(resource: .testImage2)
-        }
+    func bindData(bannerData: UIImage) {
+       self.bannerImage.image = bannerData
     }
 
 }
