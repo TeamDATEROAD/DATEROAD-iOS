@@ -48,10 +48,10 @@ extension LikeCourseTargetType: BaseTargetType {
         }
     }
     
-    var headers: [String: String]? {
-        let token = UserDefaults.standard.string(forKey: "accessToken") ?? ""
-        let headers = ["accept": "application/json",
-                       "Content-Type" : "application/json", "Authorization" : "Bearer " + token]
-        return headers
-    }
+   var headers: [String: String]? {
+      let token = UserDefaults.standard.string(forKey: "accessToken") ?? ""
+      let headers = [
+        "Content-Type" : "application/json", "Authorization" : "Bearer " + token]
+       return headers
+   }
 }
