@@ -265,7 +265,8 @@ extension MainViewController: UICollectionViewDataSource {
             }
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerImageCollectionViewCell.cellIdentifier, for: indexPath) as? BannerImageCollectionViewCell else { return UICollectionViewCell() }
-           cell.bindData(bannerData: mainViewModel.bannerData[indexPath.row].image)
+            cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
+//           cell.bindData(bannerData: mainViewModel.bannerData[indexPath.row].image)
 //            cell.prepareForReuse()
             return cell
         }
@@ -304,7 +305,7 @@ extension MainViewController: UICollectionViewDataSource {
            }
        } else {
           
-           let id = mainViewModel.bannerData[indexPath.item].courseId
+           let id = mainViewModel.bannerData.value?[indexPath.item].advertisementId ?? 1
           let bannerDtailVC = BannerDetailViewController(viewModel: CourseDetailViewModel(courseId: 7), advertismentId: id)
                     self.navigationController?.pushViewController(bannerDtailVC, animated: false)
        }

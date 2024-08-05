@@ -165,23 +165,6 @@ private extension CourseDetailViewController {
       
    }
     
-    @objc
-    func didTapMySchedule() {
-        let courseId = courseDetailViewModel.courseId
-        
-        let courseDetailViewModel = CourseDetailViewModel(courseId: courseId)
-        let addScheduleViewModel = AddScheduleViewModel()
-        addScheduleViewModel.viewedDateCourseByMeData = courseDetailViewModel
-        addScheduleViewModel.isImporting = true
-        
-        let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel)
-        self.navigationController?.pushViewController(vc, animated: true)
-        
-        // 데이터를 바인딩합니다.
-        vc.pastDateBindViewModel()
-        
-    }
-    
     //더보기 버튼
     @objc
     func didTapMoreButton() {
