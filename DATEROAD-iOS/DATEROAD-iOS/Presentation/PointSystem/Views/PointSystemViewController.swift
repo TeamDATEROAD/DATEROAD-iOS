@@ -30,6 +30,10 @@ final class PointSystemViewController: BaseNavBarViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+   
+   override func viewWillAppear(_ animated: Bool) {
+      pointSystemViewModel.fetchData()
+   }
     
     
     override func viewDidLoad() {
@@ -91,7 +95,8 @@ extension PointSystemViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PointSystemCollectionViewCell.cellIdentifier, for: indexPath) as? PointSystemCollectionViewCell else { return UICollectionViewCell() }
         cell.bindData(image: self.pointSystemViewModel.pointSystemData[indexPath.item].illustration,
-            mainText: self.pointSystemViewModel.pointSystemData[indexPath.item].mainTitle, subText: self.pointSystemViewModel.pointSystemData[indexPath.item].subTitle)
+                      mainText: self.pointSystemViewModel.pointSystemData[indexPath.item].mainTitle,
+                      subText: self.pointSystemViewModel.pointSystemData[indexPath.item].subTitle)
         return cell
     }
     

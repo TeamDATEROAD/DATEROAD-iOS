@@ -92,6 +92,7 @@ extension PointDetailViewController {
     func bindViewModel() {
         // 선택된 내역의 데이터
         self.pointViewModel.nowPointData.bind { [weak self] data in
+            print("좀 되라 \(data)")
             self?.pointDetailView.pointCollectionView.reloadData()
         }
     }

@@ -96,7 +96,8 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
        }
 
        emptyCameraImage.do {
-           $0.image = .camera
+          $0.image = UIImage(resource: .cameraWithBg)
+          $0.contentMode = .scaleAspectFit
            $0.backgroundColor = .gray200
            $0.layer.cornerRadius = 32 / 2
        }

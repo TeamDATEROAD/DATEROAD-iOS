@@ -243,7 +243,7 @@ extension AddScheduleFirstViewController {
    @objc
    func sixCheckBtnTapped() {
       let secondVC = AddScheduleSecondViewController(viewModel: self.viewModel)
-      navigationController?.pushViewController(secondVC, animated: true)
+      navigationController?.pushViewController(secondVC, animated: false)
       //      print(viewModel.selectedTags.count)
    }
    
@@ -254,7 +254,7 @@ extension AddScheduleFirstViewController {
       let locationFilterVC = LocationFilterViewController()
       locationFilterVC.modalPresentationStyle = .overFullScreen
       locationFilterVC.delegate = self
-      self.present(locationFilterVC, animated: true)
+      self.present(locationFilterVC, animated: false)
    }
 }
 

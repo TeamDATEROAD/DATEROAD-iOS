@@ -11,25 +11,25 @@ import SnapKit
 import Then
 
 class BaseViewController: UIViewController {
-
-    // MARK: - Life Cycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setHierarchy()
-        setLayout()
-        setStyle()
-    }
-
-    func setHierarchy() {}
-    
-    func setLayout() {}
-    
-    func setStyle() {
-        self.view.backgroundColor = .drWhite
-        self.navigationController?.navigationBar.isHidden = true
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-    }
-    
+   
+   // MARK: - Life Cycle
+   
+   override func viewDidLoad() {
+      super.viewDidLoad()
+      
+      setHierarchy()
+      setLayout()
+      setStyle()
+   }
+   
+   func setHierarchy() {}
+   
+   func setLayout() {}
+   
+   func setStyle() {
+      self.view.backgroundColor = .drWhite
+      self.navigationController?.navigationBar.isHidden = true
+      self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+   }
+   
 }

@@ -36,6 +36,10 @@ final class CourseViewController: BaseViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+   
+   override func viewWillDisappear(_ animated: Bool) {
+      courseViewModel.fetchPriceData()
+   }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -155,7 +159,7 @@ extension CourseViewController: UICollectionViewDelegate {
         if let courseId = selectedCourse.courseId {
             let detailViewModel = CourseDetailViewModel(courseId: courseId)
             let detailViewController = CourseDetailViewController(viewModel: detailViewModel)
-            navigationController?.pushViewController(detailViewController, animated: true)
+            navigationController?.pushViewController(detailViewController, animated: false)
         }
     }
 }
@@ -230,7 +234,7 @@ extension CourseViewController: CourseNavigationBarViewDelegate {
     
     func didTapAddCourseButton() {
        let addCourseFirstVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
-        self.navigationController?.pushViewController(addCourseFirstVC, animated: true)
+        self.navigationController?.pushViewController(addCourseFirstVC, animated: false)
     }
 }
 
@@ -271,7 +275,7 @@ extension CourseViewController: UICollectionViewDataSource {
             if let courseId = selectedCourse.courseId {
                 let viewModel = CourseDetailViewModel(courseId: courseId)
                 let courseDetailVC = CourseDetailViewController(viewModel: viewModel)
-                self.navigationController?.pushViewController(courseDetailVC, animated: true)
+                self.navigationController?.pushViewController(courseDetailVC, animated: false)
             } else {
                 print("Error: Selected course does not have a valid courseId.")
             }
