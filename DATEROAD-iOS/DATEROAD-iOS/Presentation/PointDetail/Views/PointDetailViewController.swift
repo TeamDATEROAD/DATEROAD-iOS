@@ -44,8 +44,31 @@ class PointDetailViewController: BaseNavBarViewController {
         bindViewModel()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
+       self.pointViewModel.isChange.bind { [weak self] isSuccess in
+          guard let isSuccess else {return}
+          if isSuccess == true {
+             self?.pointDetailView.pointCollectionView.reloadData()
+//             if pointViewModel.nowPointData.value.count == 0 {
+////                setSegmentViewHidden(pointDetailView.emptyGainedPointView)
+//                changeSelectedSegmentLayout
+//             } else {
+//
+//             }
+             self?.changeSelectedSegmentLayout(isEarnedPointHidden: false)
+             
+
+          } else {
+             print("SDAfsdafsdafsdafdsafsdafsadfsad")
+          }
+       }
+       
+       setDelegate()
+       setAddTarget()
+       bindViewModel()
         pointViewModel.getPointDetail(nowEarnedPointHidden: false)
+//       bindViewModel()
+       
     }
     
     override func setHierarchy() {
@@ -66,7 +89,7 @@ class PointDetailViewController: BaseNavBarViewController {
 
 
 extension PointDetailViewController {
-    func bindViewModel() {        
+    func bindViewModel() {
         // 선택된 내역의 데이터
         self.pointViewModel.nowPointData.bind { [weak self] data in
             print("좀 되라 \(data)")
@@ -168,7 +191,7 @@ extension PointDetailViewController : UICollectionViewDataSource {
 //        pointViewModel.updateData(nowEarnedPointHidden: pointViewModel.isEarnedPointHidden.value ?? false)
         let data = pointViewModel.nowPointData.value?[indexPath.item] ?? PointDetailModel(sign: "", point: 0, description: "", createdAt: "")
         cell.dataBind(data, indexPath.item)
-        cell.prepareForReuse()
+//        cell.prepareForReuse()
         return cell
     }
 }

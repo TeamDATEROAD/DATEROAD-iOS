@@ -20,7 +20,7 @@ final class TabBarController: UITabBarController {
     
     let dateVC = UpcomingDateScheduleViewController()
     
-    let viewedCourseVC = ViewedCourseViewController()
+    let viewedCourseVC = ViewedCourseViewController(viewedCourseViewModel: MyCourseListViewModel())
     
     let mypageVC = MyPageViewController(myPageViewModel: MyPageViewModel())
     

@@ -5,7 +5,7 @@
 //  Created by 김민서 on 7/12/24.
 //
 
-import Foundation
+import UIKit
 
 enum CourseDetailSection {
     case imageCarousel
@@ -50,7 +50,7 @@ class CourseDetailViewModel {
     
     var isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    var isUserLiked: ObservablePattern<Bool> = ObservablePattern(false)
+    var isUserLiked: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var haveFreeCount: ObservablePattern<Bool> = ObservablePattern(nil)
     
@@ -64,9 +64,14 @@ class CourseDetailViewModel {
     
     var bannerHeaderData: ObservablePattern<BannerHeaderModel> = ObservablePattern(nil)
     
+
+    var advertisementId: Int = 0
+    
     var bannerDetailTitle: String = ""
 
     var numberOfSections: Int = 6
+    
+    var isChange: (() -> Void)?
    
    var startAt: String = ""
    var tagArr = [GetCourseDetailTag]()
@@ -77,6 +82,10 @@ class CourseDetailViewModel {
         getCourseDetail()
         
     }
+
+//    init(advertisementId: Int) {
+//        self.advertisementId = advertisementId
+//    }
     
     var sections: [CourseDetailSection] {
         return [.imageCarousel, .titleInfo, .mainContents, .timelineInfo, .coastInfo, .tagInfo]
@@ -110,14 +119,7 @@ class CourseDetailViewModel {
     
     
     func toggleUserLiked() {
-        print(#function)
-        print(self.isUserLiked.value!)
-//        self.isUserLiked.value?.toggle()
-        if self.isUserLiked.value! {
-            deleteLikeCourse(courseId: courseId)
-        } else {
-            likeCourse(courseId: courseId)
-        }
+       
     }
     
 }
@@ -130,6 +132,7 @@ extension CourseDetailViewModel {
             case .success(let data):
                 dump(data)
                 self.conditionalData.value = ConditionalModel(courseId: self.courseId, isCourseMine: data.isCourseMine, isAccess: data.isAccess, free: data.free, totalPoint: data.totalPoint, isUserLiked: data.isUserLiked)
+                self.isChange?()
                 
                self.startAt = data.startAt
                
@@ -206,16 +209,9 @@ extension CourseDetailViewModel {
     func likeCourse(courseId: Int) {
         LikeCourseService().likeCourse(courseId: courseId) { success in
             if success {
-                self.isUserLiked.value = true
-                CourseDetailService().getCourseDetailInfo(courseId: courseId){ response in
-                    switch response {
-                    case .success(let data):
-                        dump(data)
-                    default:
-                        print("꺼져")
-                    }
                 
-                }
+            } else {
+                print("ffsdasdfsadfsadfsdfdsafs")
             }
         }
     }
@@ -223,16 +219,9 @@ extension CourseDetailViewModel {
     func deleteLikeCourse(courseId: Int) {
         LikeCourseService().deleteLikeCourse(courseId: courseId) { success in
             if success {
-                self.isUserLiked.value = false
-                CourseDetailService().getCourseDetailInfo(courseId: courseId){ response in
-                    switch response {
-                    case .success(let data):
-                        dump(data)
-                    default:
-                        print("꺼져")
-                    }
                 
-                }
+            } else {
+                print("dfsadfasdsfasdfadsfdsasf")
             }
         }
     }

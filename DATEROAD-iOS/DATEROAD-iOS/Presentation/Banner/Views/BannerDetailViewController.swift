@@ -31,7 +31,7 @@ final class BannerDetailViewController: BaseViewController {
     
     init(viewModel: CourseDetailViewModel, advertismentId: Int) {
         self.courseDetailViewModel = viewModel
-        self.courseDetailViewModel.getBannerDetail(advertismentId: 8)
+        self.courseDetailViewModel.getBannerDetail(advertismentId: advertismentId)
         
         self.bannerDetailView = BannerDetailView(bannerDetailSection: self.courseDetailViewModel.bannerSectionData)
         
@@ -76,6 +76,7 @@ final class BannerDetailViewController: BaseViewController {
         
         self.view.backgroundColor = UIColor(resource: .drWhite)
         self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.tabBarController?.tabBar.isHidden = true
         
     }
     

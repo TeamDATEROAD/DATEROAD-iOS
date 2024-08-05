@@ -23,7 +23,7 @@ class CourseBottomTabBarView: BaseView {
     
    
     
-    private var isLiked: Bool = false
+//    private var isLiked: Bool = false
 //    {
 //        didSet {
 //            didTapLikeButton()
@@ -33,7 +33,7 @@ class CourseBottomTabBarView: BaseView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setupTapGesture()
+//        setupTapGesture()
     }
     
     required init?(coder: NSCoder) {
@@ -93,15 +93,15 @@ class CourseBottomTabBarView: BaseView {
     }
     
     
-    @objc private func likeButtonTapped() {
-        isLiked.toggle()
-    }
+//    @objc private func likeButtonTapped() {
+////        isLiked.toggle()
+//    }
     
-    func setupTapGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(likeButtonTapped))
-        likeButtonView.isUserInteractionEnabled = true
-        likeButtonView.addGestureRecognizer(tapGesture)
-    }
+//    func setupTapGesture() {
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(likeButtonTapped))
+//        likeButtonView.isUserInteractionEnabled = true
+//        likeButtonView.addGestureRecognizer(tapGesture)
+//    }
     
 
 }

@@ -43,8 +43,11 @@ final class MainViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.mainViewModel.fetchSectionData()
         self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.mainViewModel.fetchSectionData()
     }
     
     override func setHierarchy() {
@@ -101,9 +104,9 @@ extension MainViewController {
             }
         }
         self.mainViewModel.currentIndex.bind { [weak self] index in
-            guard let index,
-            let count = self?.mainViewModel.bannerData.value?.count
+            guard let index
             else { return }
+           let count = 5
             print("index \(index.row + 1)")
             self?.updateBannerCell(index: index.row, count: count)
         }
@@ -154,7 +157,7 @@ extension MainViewController {
         upcomingDateDetailVC.upcomingDateDetailViewModel = DateDetailViewModel(dateID: dateID)
         upcomingDateDetailVC.setColor(index: dateID)
 //        upcomingDateDetailVC.upcomingDateDetailContentView.kakaoShareButton.isHidden = true
-        self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
+        self.navigationController?.pushViewController(upcomingDateDetailVC, animated: true)
     }
 
     @objc
@@ -184,9 +187,7 @@ extension MainViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
             let contentOffsetY = scrollView.contentOffset.y
                 
-        let safearea = self.view.safeAreaInsets.top
-        print(contentOffsetY)
-            if (contentOffsetY >= -safearea && contentOffsetY <= 0) ||  contentOffsetY <= -safearea {
+            if contentOffsetY < 0 {
                 // 맨 위에서 아래로 당겼을 때
                 mainView.mainCollectionView.backgroundColor = UIColor(resource: .deepPurple)
             } else if contentOffsetY + scrollView.frame.size.height > scrollView.contentSize.height {
@@ -224,7 +225,7 @@ extension MainViewController: UICollectionViewDataSource {
                 return self.mainViewModel.newCourseData.value?.count ?? 0
             }
         } else {
-            return self.mainViewModel.bannerData.value?.count ?? 0
+            return 5
         }
     }
     
@@ -265,6 +266,8 @@ extension MainViewController: UICollectionViewDataSource {
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerImageCollectionViewCell.cellIdentifier, for: indexPath) as? BannerImageCollectionViewCell else { return UICollectionViewCell() }
             cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
+//           cell.bindData(bannerData: mainViewModel.bannerData[indexPath.row].image)
+//            cell.prepareForReuse()
             return cell
         }
        
@@ -287,24 +290,25 @@ extension MainViewController: UICollectionViewDataSource {
         return header
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == mainView.mainCollectionView {
-            switch self.mainViewModel.sectionData[indexPath.section] {
-            case .hotDateCourse:
-                let courseId = mainViewModel.hotCourseData.value?[indexPath.item].courseId ?? 0
-                self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
-            case .newDateCourse:
-                let courseId = mainViewModel.newCourseData.value?[indexPath.item].courseId ?? 0
-                self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
-                print("pushToDetailCourseVC")
-            default:
-                print("default")
-            }
-        } else {
-            let courseId = mainViewModel.bannerData.value?[indexPath.item].advertisementId ?? 0
-            self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
-            print("pushToBannerDetailVC")
-        }
-    }
+   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+       if collectionView == mainView.mainCollectionView {
+           switch self.mainViewModel.sectionData[indexPath.section] {
+           case .hotDateCourse:
+               let courseId = mainViewModel.hotCourseData.value?[indexPath.item].courseId ?? 0
+               self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
+           case .newDateCourse:
+               let courseId = mainViewModel.newCourseData.value?[indexPath.item].courseId ?? 0
+               self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
+               print("pushToDetailCourseVC")
+           default:
+               print("default")
+           }
+       } else {
+          
+           let id = mainViewModel.bannerData.value?[indexPath.item].advertisementId ?? 1
+          let bannerDtailVC = BannerDetailViewController(viewModel: CourseDetailViewModel(courseId: 7), advertismentId: id)
+                    self.navigationController?.pushViewController(bannerDtailVC, animated: false)
+       }
+   }
         
 }
