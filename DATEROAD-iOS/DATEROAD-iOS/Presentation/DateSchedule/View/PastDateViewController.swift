@@ -145,7 +145,7 @@ extension PastDateViewController: UICollectionViewDataSource {
         if let indexPath = pastDateContentView.pastDateCollectionView.indexPathForItem(at: location) {
             guard let data = pastDateScheduleViewModel.pastDateScheduleData.value?[indexPath.item] else { return }
             let pastDateDetailVC = PastDateDetailViewController()
-            self.navigationController?.pushViewController(pastDateDetailVC, animated: true)
+            self.navigationController?.pushViewController(pastDateDetailVC, animated: false)
             pastDateDetailVC.pastDateDetailViewModel = DateDetailViewModel(dateID: data.dateID)
             pastDateDetailVC.setColor(index: indexPath.item)
         }

@@ -39,6 +39,10 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
         setDelegate()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
     override func setHierarchy() {
         super.setHierarchy()
         

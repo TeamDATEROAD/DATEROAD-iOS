@@ -43,8 +43,6 @@ final class MainViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
         self.mainViewModel.fetchSectionData()
         self.tabBarController?.tabBar.isHidden = false
     }
@@ -156,7 +154,7 @@ extension MainViewController {
         upcomingDateDetailVC.upcomingDateDetailViewModel = DateDetailViewModel(dateID: dateID)
         upcomingDateDetailVC.setColor(index: dateID)
 //        upcomingDateDetailVC.upcomingDateDetailContentView.kakaoShareButton.isHidden = true
-        self.navigationController?.pushViewController(upcomingDateDetailVC, animated: true)
+        self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
     }
 
     @objc
@@ -186,7 +184,9 @@ extension MainViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
             let contentOffsetY = scrollView.contentOffset.y
                 
-            if contentOffsetY < 0 {
+        let safearea = self.view.safeAreaInsets.top
+        print(contentOffsetY)
+            if (contentOffsetY >= -safearea && contentOffsetY <= 0) ||  contentOffsetY <= -safearea {
                 // 맨 위에서 아래로 당겼을 때
                 mainView.mainCollectionView.backgroundColor = UIColor(resource: .deepPurple)
             } else if contentOffsetY + scrollView.frame.size.height > scrollView.contentSize.height {
@@ -265,7 +265,6 @@ extension MainViewController: UICollectionViewDataSource {
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerImageCollectionViewCell.cellIdentifier, for: indexPath) as? BannerImageCollectionViewCell else { return UICollectionViewCell() }
             cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
-            cell.prepareForReuse()
             return cell
         }
        
@@ -293,17 +292,17 @@ extension MainViewController: UICollectionViewDataSource {
             switch self.mainViewModel.sectionData[indexPath.section] {
             case .hotDateCourse:
                 let courseId = mainViewModel.hotCourseData.value?[indexPath.item].courseId ?? 0
-                self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
+                self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
             case .newDateCourse:
                 let courseId = mainViewModel.newCourseData.value?[indexPath.item].courseId ?? 0
-                self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
+                self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
                 print("pushToDetailCourseVC")
             default:
                 print("default")
             }
         } else {
             let courseId = mainViewModel.bannerData.value?[indexPath.item].advertisementId ?? 0
-            self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
+            self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
             print("pushToBannerDetailVC")
         }
     }

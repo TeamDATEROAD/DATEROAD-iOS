@@ -123,7 +123,7 @@ extension PastDateDetailViewController {
            
            let addCourseViewModel = AddCourseViewModel(pastDateDetailData: data)
            let vc = AddCourseFirstViewController(viewModel: addCourseViewModel)
-           self.navigationController?.pushViewController(vc, animated: true)
+           self.navigationController?.pushViewController(vc, animated: false)
     }
     
     private func setButton() {

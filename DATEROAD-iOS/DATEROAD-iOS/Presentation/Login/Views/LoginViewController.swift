@@ -63,10 +63,10 @@ extension LoginViewController {
     func pushToNextVC(isSignIn: Bool) {
         if isSignIn {
             let mainVC = TabBarController()
-            self.navigationController?.pushViewController(mainVC, animated: true)
+            self.navigationController?.pushViewController(mainVC, animated: false)
         } else {
             let pointSystemManualVC = OnboardingViewController()
-            self.navigationController?.pushViewController(pointSystemManualVC, animated: true)
+            self.navigationController?.pushViewController(pointSystemManualVC, animated: false)
         }
     }
     

@@ -78,7 +78,7 @@ private extension UpcomingDateScheduleViewController {
     @objc
     func pushToPastDateVC() {
         let pastDateVC = PastDateViewController()
-        self.navigationController?.pushViewController(pastDateVC, animated: true)
+        self.navigationController?.pushViewController(pastDateVC, animated: false)
     }
     
     func setUIMethods() {
@@ -141,7 +141,7 @@ extension UpcomingDateScheduleViewController: DRCustomAlertDelegate {
         } else {
             print("push to 일정등록하기")
            let vc = AddScheduleFirstViewController(viewModel: AddScheduleViewModel())
-           self.navigationController?.pushViewController(vc, animated: true)
+           self.navigationController?.pushViewController(vc, animated: false)
         }
         
     }
@@ -224,7 +224,7 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
         if let indexPath = upcomingDateScheduleView.cardCollectionView.indexPathForItem(at: location) {
             let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel(dateID: 0, title: "", date: "", city: "", tags: [], dDay: 0)
             let upcomingDateDetailVC = UpcomingDateDetailViewController()
-            self.navigationController?.pushViewController(upcomingDateDetailVC, animated: true)
+            self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
             upcomingDateDetailVC.upcomingDateScheduleView = upcomingDateScheduleView
             upcomingDateDetailVC.upcomingDateDetailViewModel = DateDetailViewModel(dateID: data.dateID)
             upcomingDateDetailVC.setColor(index: indexPath.item)
