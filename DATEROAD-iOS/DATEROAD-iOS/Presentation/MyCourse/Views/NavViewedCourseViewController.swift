@@ -37,11 +37,6 @@ class NavViewedCourseViewController: BaseNavBarViewController {
         setEmptyView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-           viewedCourseViewModel.setViewedCourseData()
-       }
-       
-    
     override func setHierarchy() {
         super.setHierarchy()
         
