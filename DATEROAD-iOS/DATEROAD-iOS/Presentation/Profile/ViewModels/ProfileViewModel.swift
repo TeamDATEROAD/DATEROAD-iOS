@@ -11,9 +11,15 @@ final class ProfileViewModel {
     
     // TODO: - 중복 확인 로직 추가 예정
 
-    var tagData: [ProfileModel] = []
+    var tagData: [ProfileTagModel] = []
     
     var selectedTagData: [String] = []
+    
+    var profileData: ObservablePattern<ProfileModel> = ObservablePattern(ProfileModel(profileImage: nil, nickname: "", tags: [])) 
+    
+    var existingNickname: ObservablePattern<String> = ObservablePattern("")
+    
+    var isExistedNickname: ObservablePattern<Bool> = ObservablePattern(true)
     
     var nickname: ObservablePattern<String> = ObservablePattern("")
     
@@ -30,6 +36,7 @@ final class ProfileViewModel {
     var isValidRegistration: ObservablePattern<Bool> = ObservablePattern(false)
    
    var is5orLess: ObservablePattern<Bool> = ObservablePattern(false)
+    
    var is5orLessVaild: ObservablePattern<Bool> = ObservablePattern(false)
         
     var onSuccessRegister: ((Bool) -> Void)?
@@ -46,6 +53,7 @@ extension ProfileViewModel {
         tagData = TendencyTag.allCases.map { $0.tag }
     }
     
+    // 닉네임 글자 수 확인 => 유효카운트 여부 & 5자초과 여부 업데이트
     func checkValidNickname() {
         guard let nickname = self.nickname.value else { return }
         if nickname.count >= 2 && nickname.count <= 5 {
@@ -63,20 +71,6 @@ extension ProfileViewModel {
         }
     }
     
-//    func countSelectedTag(isSelected: Bool) {
-//        guard let oldCount = tagCount.value else { return }
-//        
-//        if isSelected {
-//            tagCount.value = oldCount + 1
-//        } else {
-//            if oldCount != 0 {
-//                tagCount.value = oldCount - 1
-//            }
-//        }
-//        
-//        checkTagCount()
-//    }
-    
     func countSelectedTag(isSelected: Bool, tag: String) {
           if isSelected {
              if !selectedTagData.contains(tag) {
@@ -93,7 +87,6 @@ extension ProfileViewModel {
     
     
     func checkTagCount() {
-//        guard let count = tagCount.value else { return }
         let count = selectedTagData.count
         self.tagCount.value = count
 
@@ -117,13 +110,20 @@ extension ProfileViewModel {
         self.isValidRegistration.value = (isValidNickname && isValidTag && is5CntVaild) ? true : false
     }
     
+    func checkExistingNickname() {
+        isExistedNickname.value = existingNickname.value == nickname.value ? true : false
+        print("ex: \(isExistedNickname.value)  cur: \(nickname.value)")
+    }
+    
     func postSignUp(image: UIImage?) {
         let socialType = UserDefaults.standard.bool(forKey: "SocialType")
         
         guard let name = self.nickname.value else { return }
 
         let requestBody = PostSignUpRequest(userSignUpReq: UserSignUpReq(name: name,
-                                                                         platform: socialType ? SocialType.KAKAO.rawValue : SocialType.APPLE.rawValue),
+                                                                         platform: socialType 
+                                                                         ? SocialType.KAKAO.rawValue
+                                                                         : SocialType.APPLE.rawValue),
                                             image: image,
                                             tag: self.selectedTagData)
         
@@ -158,7 +158,6 @@ extension ProfileViewModel {
                 self.isValidNickname.value = false
                 return
             }
-            
         }
     }
 }
