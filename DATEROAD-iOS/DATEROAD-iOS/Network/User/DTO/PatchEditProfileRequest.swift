@@ -1,0 +1,14 @@
+//
+//  PatchEditProfileRequest.swift
+//  DATEROAD-iOS
+//
+//  Created by 윤희슬 on 8/6/24.
+//
+
+import Foundation
+
+struct PatchEditProfileRequest: Codable {
+    let name: String
+    let tags: [String]
+    let image: String?
+}
