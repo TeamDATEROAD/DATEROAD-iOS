@@ -115,7 +115,6 @@ private extension MyPageViewController {
                 self?.myPageView.userInfoView.bindData(userInfo: data)
                 self?.myPageView.userInfoView.tagCollectionView.reloadData()
             }
-            
         }
     }
     
@@ -133,10 +132,9 @@ private extension MyPageViewController {
     func pushToPointDetailVC() {
         self.navigationController?.pushViewController(PointDetailViewController(pointViewModel: PointViewModel(userName: myPageViewModel.userInfoData.value?.nickname ?? "-", totalPoint: myPageViewModel.userInfoData.value?.point ?? 10)), animated: false)
     }
-
+    
     @objc
     func pushToProfileVC() {
-        print("pushToProfileVC")
         if let userInfoData = self.myPageViewModel.userInfoData.value {
             let nickname = userInfoData.nickname
             let tags = userInfoData.tagList
@@ -154,7 +152,12 @@ extension MyPageViewController: DRCustomAlertDelegate {
     
     @objc
     private func logOutSectionTapped() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.logout, alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.wouldYouLogOut, leftButtonText: StringLiterals.Common.cancel, rightButtonText: StringLiterals.MyPage.logout)
+        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.logout, 
+                                                        alertTextType: .noDescription,
+                                                        alertButtonType: .twoButton,
+                                                        titleText: StringLiterals.Alert.wouldYouLogOut,
+                                                        leftButtonText: StringLiterals.Common.cancel,
+                                                        rightButtonText: StringLiterals.MyPage.logout)
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         selectedAlertFlag = 0
@@ -163,7 +166,13 @@ extension MyPageViewController: DRCustomAlertDelegate {
     
     @objc
     private func withDrawalButtonTapped() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none, alertTextType: .noDescription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.realWithdrawal, descriptionText: StringLiterals.Alert.lastWarning, leftButtonText: "탈퇴", rightButtonText: "취소")
+        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none, 
+                                                        alertTextType: .noDescription,
+                                                        alertButtonType: .twoButton,
+                                                        titleText: StringLiterals.Alert.realWithdrawal,
+                                                        descriptionText: StringLiterals.Alert.lastWarning, 
+                                                        leftButtonText: StringLiterals.MyPage.alertWithdrawal,
+                                                        rightButtonText: StringLiterals.Common.cancel)
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         selectedAlertFlag = 1
@@ -172,7 +181,6 @@ extension MyPageViewController: DRCustomAlertDelegate {
     
     func action(rightButtonAction: RightButtonType) {
         if selectedAlertFlag == 0 {
-            print("로그아웃하세요 ~~")
             myPageViewModel.deleteLogout()
         }
     }
@@ -201,21 +209,18 @@ extension MyPageViewController: DRCustomAlertDelegate {
 extension MyPageViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-       
-       let tagTitle = TendencyTag.getTag(byEnglish: self.myPageViewModel.tagData[indexPath.item])?.tag.tagTitle
-       let font = UIFont.suit(.body_med_13)
-       let textWidth = tagTitle?.width(withConstrainedHeight: 30, font: font) ?? 50
-       let padding: CGFloat = 50
-               
-      return CGSize(width: textWidth + padding, height: 30)
+        let tagTitle = TendencyTag.getTag(byEnglish: self.myPageViewModel.tagData[indexPath.item])?.tag.tagTitle
+        let font = UIFont.suit(.body_med_13)
+        let textWidth = tagTitle?.width(withConstrainedHeight: 30, font: font) ?? 50
+        let padding: CGFloat = 50
+        
+        return CGSize(width: textWidth + padding, height: 30)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 7
     }
 }
-
-// TODO: - 추후 데이터 수정
 
 extension MyPageViewController: UICollectionViewDataSource {
     
@@ -283,18 +288,18 @@ extension MyPageViewController: UITableViewDataSource {
 }
 
 extension MyPageViewController: ASAuthorizationControllerDelegate {
-
-func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-    guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential
-    else { return }
     
-    self.loginViewModel.loginWithApple(userInfo: credential)
-}
-
-func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: any Error) {
-    let alert = UIAlertController(title: "로그인 실패", message: nil, preferredStyle: .alert)
-    alert.addAction(.init(title: "확인", style: .cancel))
-    present(alert, animated: true)
-}
-
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential
+        else { return }
+        
+        self.loginViewModel.loginWithApple(userInfo: credential)
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: any Error) {
+        let alert = UIAlertController(title: "로그인 실패", message: nil, preferredStyle: .alert)
+        alert.addAction(.init(title: "확인", style: .cancel))
+        present(alert, animated: true)
+    }
+    
 }

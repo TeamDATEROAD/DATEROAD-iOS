@@ -167,7 +167,6 @@ extension UserInfoView {
     
     // TODO: - 서버 통신 후 변경 예정
     func bindData(userInfo: MyPageUserInfoModel) {
-        self.profileImageView.image = UIImage(resource: .emptyProfileImg)
         self.nicknameLabel.text = userInfo.nickname
         self.userPointLabel.text = userInfo.nickname + "님의 포인트"
         self.pointLabel.text = String(userInfo.point) + " P"
