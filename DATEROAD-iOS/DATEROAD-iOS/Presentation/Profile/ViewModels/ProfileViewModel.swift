@@ -88,14 +88,10 @@ extension ProfileViewModel {
 
         if count >= 1 && count <= 3 {
             self.isValidTag.value = true
-            self.isOverCount.value = false
         } else {
             self.isValidTag.value = false
-            if count > 3 {
-                self.isOverCount.value = true
-            }
         }
-        print(count)
+        print("\(count)  | \(selectedTagData)")
     }
     
     func checkValidRegistration() {

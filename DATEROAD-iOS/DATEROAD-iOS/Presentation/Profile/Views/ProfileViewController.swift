@@ -127,6 +127,22 @@ private extension ProfileViewController {
     }
     
     func bindViewModel() {
+        self.profileViewModel.profileImage.bind { [weak self] image in
+            guard let isValidNickname = self?.profileViewModel.isValidNickname.value
+            else { return }
+            if self?.editType == EditType.edit {
+                self?.profileViewModel.checkExistingNickname()
+                let isExisted = self?.profileViewModel.isExistedNickname.value ?? true
+                if isExisted {
+                    self?.profileViewModel.isValidRegistration.value = true
+                } else {
+                    if isValidNickname {
+                        self?.profileViewModel.isValidRegistration.value = true
+                    }
+                }
+            }
+        }
+        
         self.profileViewModel.is5orLess.bind { [weak self] isValid in
             guard let isValid = isValid else { return }
             
@@ -148,11 +164,16 @@ private extension ProfileViewController {
             
             if initial {
                 self?.profileView.nicknameErrMessageLabel.isHidden = false
+                
                 isValid
                 ? self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isValid)
                 : self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValid)
                 
-                self?.profileViewModel.checkValidRegistration()
+                if self?.editType == EditType.edit {
+                    self?.profileViewModel.isValidRegistration.value = isValid
+                } else {
+                    self?.profileViewModel.checkValidRegistration()
+                }
             }
         }
         
@@ -175,12 +196,30 @@ private extension ProfileViewController {
         }
         
         self.profileViewModel.isValidTag.bind { [weak self] isValid in
-            guard let isValid, let initial = self?.initial else { return }
+            guard let isValid,
+                  let initial = self?.initial,
+                  let isValidNickname = self?.profileViewModel.isValidNickname.value
+            else { return }
             if initial {
-                self?.profileView.tagErrMessageLabel.isHidden = isValid ? true : false
                 self?.profileView.updateTagErrLabel(isValid: isValid)
+                
+                //                if self?.editType == EditType.edit && isValidNickname {
+                //                    self?.profileViewModel.isValidRegistration.value = isValid
+                //                } else {
+                //                   self?.profileViewModel.checkValidRegistration()
+                //                }
+                if self?.editType == EditType.edit {
+                    self?.profileViewModel.checkExistingNickname()
+                    let isExisted = self?.profileViewModel.isExistedNickname.value ?? true
+                    if isExisted {
+                        self?.profileViewModel.isValidRegistration.value = isValid
+                    } else {
+                        self?.profileViewModel.checkValidRegistration()
+                    }
+                } else {
+                    self?.profileViewModel.checkValidRegistration()
+                }
             }
-            self?.profileViewModel.checkValidRegistration()
         }
         
         self.profileViewModel.nickname.bind { [weak self] nickname in
@@ -262,15 +301,13 @@ private extension ProfileViewController {
             sender.isSelected ? self.profileView.updateTag(button: sender, buttonType: SelectedButton())
             : self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
             self.profileViewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
-            self.profileViewModel.isValidTag.value = true
         }
-        // 그 외
+        // 3일 때 & 눌려있는 상태인 경우
         else {
             if sender.isSelected {
                 sender.isSelected.toggle()
                 self.profileView.updateTag(button: sender, buttonType:  UnselectedButton())
                 self.profileViewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
-                self.profileViewModel.isValidTag.value = false
             }
         }
     }
@@ -285,6 +322,7 @@ private extension ProfileViewController {
     func deletePhoto() {
         self.dismiss(animated: true)
         profileView.updateProfileImage(image: UIImage(resource: .emptyProfileImg))
+        profileViewModel.profileImage.value = nil
     }
     
     @objc
@@ -395,8 +433,6 @@ extension ProfileViewController: ImagePickerDelegate {
     
     func didPickImages(_ images: [UIImage]) {
         let selectedImage = images[0]
-        
-        /// 앨범에서 고른 사진 프로필뷰 사진에 반영
         profileView.updateProfileImage(image: selectedImage)
         self.profileViewModel.profileImage.value = selectedImage
     }
