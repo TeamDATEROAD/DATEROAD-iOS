@@ -24,22 +24,28 @@ final class ProfileViewController: BaseNavBarViewController {
    
    private var initial: Bool = false
    
+    private var editType: EditType
    
+    
    // MARK: - Life Cycle
-   
-   init(profileViewModel: ProfileViewModel) {
-      self.profileViewModel = profileViewModel
-      super.init(nibName: nil, bundle: nil)
+    
+    init(profileViewModel: ProfileViewModel, editType: EditType, profile: ProfileModel) {
+        self.profileViewModel = profileViewModel
+        self.profileViewModel.profileData.value = profile
+        self.editType = editType
+        
+        super.init(nibName: nil, bundle: nil)
    }
    
    required init?(coder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
+       fatalError("init(coder:) has not been implemented")
    }
    
    override func viewDidLoad() {
       super.viewDidLoad()
       
-      setTitleLabelStyle(title: StringLiterals.Profile.myProfile, alignment: .center)
+       setTitleLabel(type: self.editType)
+       setProfile()
       registerCell()
       setDelegate()
       setAddGesture()
@@ -65,6 +71,27 @@ final class ProfileViewController: BaseNavBarViewController {
 }
 
 private extension ProfileViewController {
+    
+    func setTitleLabel(type: EditType) {
+        if type == EditType.add {
+            setTitleLabelStyle(title: StringLiterals.Profile.myProfile, alignment: .center)
+        } else {
+            setLeftBackButton()
+            setTitleLabelStyle(title: StringLiterals.Profile.editProfile, alignment: .center)
+            setProfile()
+        }
+    }
+    
+    func setProfile() {
+        guard let profileImage = profileViewModel.profileData.value?.profileImage else { return }
+        if let url = URL(string: profileImage) {
+            self.profileView.profileImageView.kf.setImage(with: url)
+        } else {
+            self.profileView.profileImageView.image = UIImage(resource: .emptyProfileImg)
+        }
+        self.profileView.registerButton.setTitle(StringLiterals.Profile.saveProfile, for: .normal)
+        self.profileView.nicknameTextfield.text = profileViewModel.profileData.value?.nickname
+    }
    
    func registerCell() {
       self.profileView.tendencyTagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
@@ -97,24 +124,30 @@ private extension ProfileViewController {
       
    }
    
-   // TODO: - 추후 중복확인 연결 시 수정 예정
-   func bindViewModel() {
-      self.profileViewModel.is5orLess.bind { [weak self] isValid in
-         guard let isValid = isValid else {return}
-         self?.profileViewModel.is5orLessVaild.value = isValid
+    func bindViewModel() {
+        self.profileViewModel.is5orLess.bind { [weak self] isValid in
+            guard let isValid = isValid else { return }
+            self?.profileViewModel.is5orLessVaild.value = isValid
       }
       
       self.profileViewModel.is5orLessVaild.bind { [weak self] isValid in
          guard let isValid = isValid else {return}
-         self?.profileViewModel.checkValidRegistration()
-         self?.profileView.updateDoubleCheckButton(isValid: isValid)
+          if self?.editType == EditType.edit {
+              self?.profileViewModel.checkExistingNickname()
+              let isExisted = self?.profileViewModel.isExistedNickname.value ?? true
+              self?.profileView.updateDoubleCheckButton(isValid: !isExisted)
+          } else {
+              self?.profileView.updateDoubleCheckButton(isValid: isValid)
+          }
+          self?.profileViewModel.checkValidRegistration()
       }
       
       self.profileViewModel.isValidNickname.bind { [weak self] isValid in
          guard let isValid,  let initial = self?.initial else { return }
          if initial {
             self?.profileView.nicknameErrMessageLabel.isHidden = false
-            isValid ? self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isValid) : self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValid)
+             isValid ? self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isValid)
+             : self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValid)
             
             self?.profileViewModel.checkValidRegistration()
          }
@@ -125,7 +158,13 @@ private extension ProfileViewController {
          if initial {
             self?.profileView.nicknameErrMessageLabel.isHidden = isValidCount ? true : false
             self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValidCount)
-            self?.profileView.updateDoubleCheckButton(isValid: isValidCount)
+             if self?.editType == EditType.edit {
+                 self?.profileViewModel.checkExistingNickname()
+                 let isValid = self?.profileViewModel.isExistedNickname.value ?? true
+                 self?.profileView.updateDoubleCheckButton(isValid: !isValid)
+             } else {
+                 self?.profileView.updateDoubleCheckButton(isValid: isValidCount)
+             }
          }
       }
       
@@ -139,9 +178,9 @@ private extension ProfileViewController {
       }
       
       self.profileViewModel.nickname.bind { [weak self] nickname in
-         guard let nickname else { return }
-         self?.profileView.updateNicknameCount(count: nickname.count)
-         self?.profileViewModel.checkValidNickname()
+          guard let nickname else { return }
+          self?.profileView.updateNicknameCount(count: nickname.count)
+          self?.profileViewModel.checkValidNickname()
       }
       
       self.profileViewModel.tagCount.bind { [weak self] count in
@@ -150,10 +189,24 @@ private extension ProfileViewController {
       }
       
       self.profileViewModel.isValidRegistration.bind { [weak self] isValid in
-         guard let isValid else { return }
-         
-            self?.profileView.updateRegisterButton(isValid: isValid)
+          guard let isValid else { return }
+          self?.profileView.updateRegisterButton(isValid: isValid)
       }
+        
+        self.profileViewModel.profileData.bind { [weak self] profileData in
+            guard let profileData else { return }
+            self?.profileViewModel.nickname.value = profileData.nickname
+            self?.profileViewModel.existingNickname.value = profileData.nickname
+            self?.profileViewModel.checkExistingNickname()
+            self?.profileViewModel.selectedTagData = profileData.tags
+            self?.profileViewModel.checkValidRegistration()
+        }
+        
+        self.profileViewModel.isExistedNickname.bind { [weak self] isExisted in
+            guard let isExisted else { return }
+            isExisted ? self?.profileView.updateDoubleCheckButton(isValid: !isExisted)
+            : self?.profileView.updateDoubleCheckButton(isValid: isExisted)
+        }
       
       self.profileViewModel.onSuccessRegister = { [weak self] isSuccess in
          if isSuccess {
@@ -163,7 +216,6 @@ private extension ProfileViewController {
             let loginVC = LoginViewController()
             self?.navigationController?.pushViewController(loginVC, animated: false)
          }
-         
       }
       
    }
@@ -206,7 +258,7 @@ private extension ProfileViewController {
             sender.isSelected.toggle()
             self.profileView.updateTag(button: sender, buttonType:  UnselectedButton())
             self.profileViewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
-            self.profileViewModel.isValidTag.value = true
+            self.profileViewModel.isValidTag.value = false
          }
       }
    }
@@ -274,10 +326,26 @@ extension ProfileViewController: UICollectionViewDataSource {
    
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
       guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
-      cell.updateButtonTitle(tag: self.profileViewModel.tagData[indexPath.item])
       cell.tendencyTagButton.tag = indexPath.item
       cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
-      return cell
+       
+       if editType == EditType.edit {
+           cell.updateButtonTitle(title: self.profileViewModel.tagData[indexPath.item].english)
+           self.profileView.updateTag(button: cell.tendencyTagButton, buttonType: UnselectedButton())
+           
+           let tagData = profileViewModel.profileData.value?.tags ?? []
+           for tags in tagData {
+               let tagTitle = self.profileViewModel.tagData[indexPath.item].english
+               if tagTitle  == tags {
+                   self.profileView.updateTag(button: cell.tendencyTagButton, buttonType: SelectedButton())
+                   cell.tendencyTagButton.isSelected.toggle()
+                   self.profileViewModel.countSelectedTag(isSelected: cell.tendencyTagButton.isSelected, tag: tagTitle)
+               }
+           }
+       } else {
+           cell.updateButtonTitle(tag: self.profileViewModel.tagData[indexPath.item])
+       }
+       return cell
    }
    
 }
@@ -315,6 +383,7 @@ extension ProfileViewController: DRBottomSheetDelegate {
       self.deletePhoto()
    }
 }
+
 extension ProfileViewController: ImagePickerDelegate {
    
    func didPickImages(_ images: [UIImage]) {
