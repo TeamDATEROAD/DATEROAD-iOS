@@ -17,7 +17,7 @@ final class UserInfoView: BaseView {
     
     private let nicknameLabel: UILabel = UILabel()
     
-    private let editProfileButton: UIImageView = UIImageView()
+    let editProfileButton: UIImageView = UIImageView()
     
     let tagCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -113,6 +113,7 @@ final class UserInfoView: BaseView {
         
         editProfileButton.do {
             $0.image = UIImage(resource: .icPencil)
+            $0.isUserInteractionEnabled = true
         }
         
         tagCollectionView.do {

@@ -122,15 +122,33 @@ private extension MyPageViewController {
     func setAddTarget() {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(pushToPointDetailVC))
         self.myPageView.userInfoView.goToPointHistoryStackView.addGestureRecognizer(gesture)
+        
+        let editProfileGesture = UITapGestureRecognizer(target: self, action: #selector(pushToProfileVC))
+        self.myPageView.userInfoView.editProfileButton.addGestureRecognizer(editProfileGesture)
+        
         self.myPageView.withdrawalButton.addTarget(self, action: #selector(withDrawalButtonTapped), for: .touchUpInside)
     }
     
-    // TODO: - 추후 뷰컨 수정 예정
     @objc
     func pushToPointDetailVC() {
         self.navigationController?.pushViewController(PointDetailViewController(pointViewModel: PointViewModel(userName: myPageViewModel.userInfoData.value?.nickname ?? "-", totalPoint: myPageViewModel.userInfoData.value?.point ?? 10)), animated: false)
     }
 
+    @objc
+    func pushToProfileVC() {
+        print("pushToProfileVC")
+        if let userInfoData = self.myPageViewModel.userInfoData.value {
+            let profileImage = userInfoData.imageURL
+            let nickname = userInfoData.nickname
+            let tags = userInfoData.tagList
+            
+            let profile = ProfileModel(profileImage: profileImage, nickname: nickname, tags: tags)
+            let profileVC = ProfileViewController(profileViewModel: ProfileViewModel(), editType: EditType.edit, profile: profile)
+            
+            self.navigationController?.pushViewController(profileVC, animated: false)
+        }
+    }
+    
 }
 
 extension MyPageViewController: DRCustomAlertDelegate {
@@ -160,6 +178,7 @@ extension MyPageViewController: DRCustomAlertDelegate {
         }
     }
     
+    // TODO: - 애플로그인일 경우에만 따로 로직 처리
     func exit() {
         if selectedAlertFlag == 1 {
             appleLogin()
@@ -208,19 +227,14 @@ extension MyPageViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
-        
         let data = myPageViewModel.userInfoData.value ?? MyPageUserInfoModel(nickname: "", tagList: [], point: 0, imageURL: "")
-//       cell.
-//       cell.updateButtonTitle(tag: data.tagList[indexPath.row])
-       cell.updateButtonTitle(title: data.tagList[indexPath.row])
+        cell.updateButtonTitle(title: data.tagList[indexPath.row])
         return cell
     }
     
 }
 
 // MARK: - UITableView Delegates
-
-// TODO: - 뷰컨 변경 예정
 
 extension MyPageViewController: UITableViewDelegate {
     
