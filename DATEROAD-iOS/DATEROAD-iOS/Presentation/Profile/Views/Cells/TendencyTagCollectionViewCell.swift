@@ -48,10 +48,9 @@ final class TendencyTagCollectionViewCell: BaseCollectionViewCell {
         }
     }
 
-    func updateButtonTitle(tag: ProfileModel) {
+    func updateButtonTitle(tag: ProfileTagModel) {
         self.tendencyTagButton.setTitle(" \(tag.tagTitle)", for: .normal)
         self.tendencyTagButton.setImage(tag.tagIcon, for: .normal)
-       
     }
    
    func updateButtonTitle(title: String) {

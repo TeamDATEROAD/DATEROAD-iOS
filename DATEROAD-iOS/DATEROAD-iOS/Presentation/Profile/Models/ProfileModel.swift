@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct ProfileModel {
+struct ProfileTagModel {
     let tagIcon: UIImage
     let tagTitle: String
     let english: String
