@@ -7,6 +7,12 @@
 
 import UIKit
 
+struct ProfileModel {
+    let profileImage: String?
+    let nickname: String
+    let tags: [String]
+}
+
 struct ProfileTagModel {
     let tagIcon: UIImage
     let tagTitle: String
