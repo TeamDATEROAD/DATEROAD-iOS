@@ -5,10 +5,10 @@
 //  Created by 윤희슬 on 8/6/24.
 //
 
-import Foundation
+import UIKit
 
-struct PatchEditProfileRequest: Codable {
+struct PatchEditProfileRequest {
     let name: String
     let tags: [String]
-    let image: String?
+    let image: UIImage?
 }
