@@ -138,11 +138,10 @@ private extension MyPageViewController {
     func pushToProfileVC() {
         print("pushToProfileVC")
         if let userInfoData = self.myPageViewModel.userInfoData.value {
-            let profileImage = userInfoData.imageURL
             let nickname = userInfoData.nickname
             let tags = userInfoData.tagList
             
-            let profile = ProfileModel(profileImage: profileImage, nickname: nickname, tags: tags)
+            let profile = ProfileModel(profileImage: self.myPageView.userInfoView.profileImageView.image, nickname: nickname, tags: tags)
             let profileVC = ProfileViewController(profileViewModel: ProfileViewModel(), editType: EditType.edit, profile: profile)
             
             self.navigationController?.pushViewController(profileVC, animated: false)

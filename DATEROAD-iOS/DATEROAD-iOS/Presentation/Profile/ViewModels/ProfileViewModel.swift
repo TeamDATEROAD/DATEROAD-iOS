@@ -17,6 +17,8 @@ final class ProfileViewModel {
     
     var profileData: ObservablePattern<ProfileModel> = ObservablePattern(ProfileModel(profileImage: nil, nickname: "", tags: [])) 
     
+    var profileImage: ObservablePattern<UIImage> = ObservablePattern(nil)
+    
     var existingNickname: ObservablePattern<String> = ObservablePattern("")
     
     var isExistedNickname: ObservablePattern<Bool> = ObservablePattern(true)
@@ -40,6 +42,8 @@ final class ProfileViewModel {
    var is5orLessVaild: ObservablePattern<Bool> = ObservablePattern(false)
         
     var onSuccessRegister: ((Bool) -> Void)?
+    
+    var onSuccessEdit: ((Bool) -> Void)?
  
     init() {
         fetchTagData()
@@ -157,6 +161,21 @@ extension ProfileViewModel {
                 print("Failed to fetch get double check")
                 self.isValidNickname.value = false
                 return
+            }
+        }
+    }
+    
+    func patchEditProfile() {
+        guard let name = self.nickname.value else { return }
+        let requestBody = PatchEditProfileRequest(name: name, tags: self.selectedTagData, image: self.profileImage.value)
+        
+        NetworkService.shared.userService.patchEditProfile(requestBody: requestBody) { response in
+            switch response {
+            case .success(_):
+                self.onSuccessEdit?(true)
+            default:
+                print("Failed to fetch patch edit profile")
+                self.onSuccessEdit?(false)
             }
         }
     }

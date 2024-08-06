@@ -13,7 +13,7 @@ final class UserInfoView: BaseView {
     
     // MARK: - UI Properties
     
-    private let profileImageView: UIImageView = UIImageView()
+    let profileImageView: UIImageView = UIImageView()
     
     private let nicknameLabel: UILabel = UILabel()
     

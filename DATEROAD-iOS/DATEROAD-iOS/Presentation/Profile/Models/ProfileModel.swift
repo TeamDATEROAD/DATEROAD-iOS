@@ -8,7 +8,7 @@
 import UIKit
 
 struct ProfileModel {
-    let profileImage: String?
+    let profileImage: UIImage?
     let nickname: String
     let tags: [String]
 }

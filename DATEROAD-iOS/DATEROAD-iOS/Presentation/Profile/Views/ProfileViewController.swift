@@ -83,12 +83,13 @@ private extension ProfileViewController {
     }
     
     func setProfile() {
-        guard let profileImage = profileViewModel.profileData.value?.profileImage else { return }
-        if let url = URL(string: profileImage) {
-            self.profileView.profileImageView.kf.setImage(with: url)
-        } else {
+        guard let profileImage = profileViewModel.profileData.value?.profileImage 
+        else {
             self.profileView.profileImageView.image = UIImage(resource: .emptyProfileImg)
+            return
         }
+        
+        self.profileView.profileImageView.image = profileImage
         self.profileView.registerButton.setTitle(StringLiterals.Profile.saveProfile, for: .normal)
         self.profileView.nicknameTextfield.text = profileViewModel.profileData.value?.nickname
     }
@@ -135,7 +136,9 @@ private extension ProfileViewController {
           if self?.editType == EditType.edit {
               self?.profileViewModel.checkExistingNickname()
               let isExisted = self?.profileViewModel.isExistedNickname.value ?? true
-              self?.profileView.updateDoubleCheckButton(isValid: !isExisted)
+              isExisted
+              ? self?.profileView.updateDoubleCheckButton(isValid: !isExisted)
+              :self?.profileView.updateDoubleCheckButton(isValid: isValid)
           } else {
               self?.profileView.updateDoubleCheckButton(isValid: isValid)
           }
@@ -146,7 +149,8 @@ private extension ProfileViewController {
          guard let isValid,  let initial = self?.initial else { return }
          if initial {
             self?.profileView.nicknameErrMessageLabel.isHidden = false
-             isValid ? self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isValid)
+             isValid 
+             ? self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isValid)
              : self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValid)
             
             self?.profileViewModel.checkValidRegistration()
@@ -161,7 +165,9 @@ private extension ProfileViewController {
              if self?.editType == EditType.edit {
                  self?.profileViewModel.checkExistingNickname()
                  let isValid = self?.profileViewModel.isExistedNickname.value ?? true
-                 self?.profileView.updateDoubleCheckButton(isValid: !isValid)
+                 isValid
+                 ? self?.profileView.updateDoubleCheckButton(isValid: !isValid)
+                 :self?.profileView.updateDoubleCheckButton(isValid: isValidCount)
              } else {
                  self?.profileView.updateDoubleCheckButton(isValid: isValidCount)
              }
@@ -217,6 +223,15 @@ private extension ProfileViewController {
             self?.navigationController?.pushViewController(loginVC, animated: false)
          }
       }
+        
+        self.profileViewModel.onSuccessEdit = { [weak self] isSuccess in
+            if isSuccess {
+                self?.navigationController?.popViewController(animated: false)
+            } else {
+                // TODO: - 토스트 메세지 추가
+                print("fail to edit profile")
+            }
+        }
       
    }
    
@@ -233,8 +248,6 @@ private extension ProfileViewController {
    
    @objc
    func doubleCheckNickname(sender: UITapGestureRecognizer) {
-      // TODO: - 중복 확인 서버 통신
-      print("double check")
       self.profileViewModel.getDoubleCheck()
    }
    
@@ -290,7 +303,9 @@ private extension ProfileViewController {
    
    @objc
    func registerProfile() {
-      self.profileViewModel.postSignUp(image: self.profileView.profileImageView.image)
+       self.editType == EditType.add 
+       ? self.profileViewModel.postSignUp(image: self.profileView.profileImageView.image)
+       : self.profileViewModel.patchEditProfile()
    }
    
 }
@@ -391,7 +406,7 @@ extension ProfileViewController: ImagePickerDelegate {
       
       /// 앨범에서 고른 사진 프로필뷰 사진에 반영
       profileView.updateProfileImage(image: selectedImage)
-      //여기서 viewModel에 selectedImage 값 보내시면 됩니다요!
+       self.profileViewModel.profileImage.value = selectedImage
    }
    
 }
