@@ -13,6 +13,8 @@ final class CourseViewModel {
     
     var courseData: [String] = []
     
+    var courseListModel: [CourseListModel] = []
+    
     var countryData = LocationModel.countryData()
     
     var cityData = [LocationModel.City]()
@@ -38,6 +40,8 @@ final class CourseViewModel {
     var didUpdateSelectedPriceIndex: ((Int?) -> Void)?
     
     var didUpdateApplyButtonState: ((Bool) -> Void)?
+    
+    var didUpdateCourseList: (() -> Void)?
     
 //    init() {
 //        fetchPriceData()
@@ -75,4 +79,27 @@ extension CourseViewModel {
         priceData = Price.allCases.map { $0.priceTitle }
     }
 
+    func getCourse(city: String?, cost: Int?) {  
+        print("⚽️",cost,city)
+        CourseService().getCourseInfo(city: city ?? "", cost: cost) { response in
+            switch response {
+            case .success(let data):
+                let courseModels = data.courses.map { filterList in
+                    CourseListModel(
+                        courseId: filterList.courseID,
+                        thumbnail: filterList.thumbnail,
+                        location: filterList.city,
+                        title: filterList.title,
+                        cost: filterList.cost,
+                        time: filterList.duration,
+                        like: filterList.like
+                    )
+                }
+                self.courseListModel = courseModels
+                self.didUpdateCourseList?()
+            default:
+                print("Failed to fetch course data")
+            }
+        }
+    }
 }

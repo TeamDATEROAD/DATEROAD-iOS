@@ -118,6 +118,13 @@ extension CourseViewController {
         self.courseViewModel.selectedCityName.bind { [weak self] index in
             self?.courseViewModel.didUpdateselectedCityName?(index)
         }
+        
+        self.courseViewModel.didUpdateCourseList = { [weak self] in
+            DispatchQueue.main.async {
+                self?.courseView.courseListView.courseListCollectionView.reloadData()
+                self?.isCellEmpty(cellCount: self?.courseViewModel.courseListModel.count ?? 0)
+            }
+        }
     }
     
     func registerCell() {
@@ -167,30 +174,9 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
         let city = courseViewModel.selectedCityName.value ?? ""
         let cost = courseViewModel.selectedPriceIndex.value?.costNum()
         
-        print("⚽️",cost,city)
-        CourseService().getCourseInfo(city: city, cost: cost) { response in
-            switch response {
-            case .success(let data):
-                let courseModels = data.courses.map { filterList in
-                    CourseListModel(
-                        courseId: filterList.courseID,
-                        thumbnail: filterList.thumbnail,
-                        location: filterList.city,
-                        title: filterList.title,
-                        cost: filterList.cost,
-                        time: filterList.duration,
-                        like: filterList.like
-                    )
-                }
-                self.courseListModel = courseModels
-                DispatchQueue.main.async {
-                    self.courseView.courseListView.courseListCollectionView.reloadData()
-                }
-            default:
-                print("Failed to fetch course data")
-            }
-        }
+        courseViewModel.getCourse(city: city, cost: cost)
     }
+    
     
     func didTapLocationFilter() {
         let locationFilterVC = LocationFilterViewController()
