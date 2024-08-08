@@ -76,7 +76,6 @@ extension CourseViewModel {
     }
 
     func getCourse(city: String?, cost: Int?) {  
-        print("⚽️",cost,city)
         CourseService().getCourseInfo(city: city ?? "", cost: cost) { response in
             switch response {
             case .success(let data):

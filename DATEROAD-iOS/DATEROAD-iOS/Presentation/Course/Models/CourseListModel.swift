@@ -16,7 +16,7 @@ struct CourseListModel {
     let time: Float?
     let like: Int?
     
-    init(courseId: Int?, thumbnail: String?, location: String?, title: String?, cost: Int?, time: Float?, like: Int?) {
+    init(courseId: Int?, thumbnail: String, location: String?, title: String?, cost: Int?, time: Float?, like: Int?) {
         self.courseId = courseId
         self.thumbnail = thumbnail
         self.location = location
@@ -24,8 +24,11 @@ struct CourseListModel {
         self.cost = cost
         self.time = time
         self.like = like
+        
     }
+}
+
+extension CourseListModel {
     
     static let courseContents: [CourseListModel] = []
-    
 }

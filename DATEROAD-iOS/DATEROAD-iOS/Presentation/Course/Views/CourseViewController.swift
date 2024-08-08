@@ -119,11 +119,14 @@ extension CourseViewController {
             self?.courseViewModel.didUpdateselectedCityName?(index)
         }
         
+        
         self.courseViewModel.didUpdateCourseList = { [weak self] in
-            DispatchQueue.main.async {
-                self?.courseView.courseListView.courseListCollectionView.reloadData()
-                self?.isCellEmpty(cellCount: self?.courseViewModel.courseListModel.count ?? 0)
-            }
+//            DispatchQueue.main.async {
+//                self?.courseView.courseListView.courseListCollectionView.reloadData()
+//                self?.isCellEmpty(cellCount: self?.courseViewModel.courseListModel.count ?? 0)
+//            }
+            self?.courseView.courseListView.courseListCollectionView.reloadData()
+            self?.isCellEmpty(cellCount: self?.courseViewModel.courseListModel.count ?? 0)
         }
     }
     
@@ -225,9 +228,9 @@ extension CourseViewController: CourseNavigationBarViewDelegate {
 extension CourseViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("어떻게 짖걸이는지 보자 ㅋㅋ",self.courseListModel.count)
+        print("어떻게 짖걸이는지 보자 ㅋㅋ",courseViewModel.courseListModel.count)
 
-        isCellEmpty(cellCount: self.courseListModel.count)
+        isCellEmpty(cellCount: courseViewModel.courseListModel.count)
         
         return collectionView == courseView.courseFilterView.priceCollectionView ? self.courseViewModel.priceData.count : self.courseListModel.count
     }
