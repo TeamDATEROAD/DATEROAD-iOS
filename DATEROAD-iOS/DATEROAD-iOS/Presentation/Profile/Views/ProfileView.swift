@@ -245,6 +245,7 @@ extension ProfileView {
        isValid ? doubleCheckButton.setButtonStatus(buttonType: enabledButtonType)
         : doubleCheckButton.setButtonStatus(buttonType: disabledButtonType)
         doubleCheckButton.titleLabel?.font = UIFont.suit(.body_med_13)
+        doubleCheckButton.layer.cornerRadius = 10
     }
     
     func updateTagCount(count: Int) {
