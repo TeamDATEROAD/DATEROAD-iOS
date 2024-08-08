@@ -225,6 +225,8 @@ extension CourseViewController: CourseNavigationBarViewDelegate {
 extension CourseViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("어떻게 짖걸이는지 보자 ㅋㅋ",self.courseListModel.count)
+
         isCellEmpty(cellCount: self.courseListModel.count)
         
         return collectionView == courseView.courseFilterView.priceCollectionView ? self.courseViewModel.priceData.count : self.courseListModel.count
