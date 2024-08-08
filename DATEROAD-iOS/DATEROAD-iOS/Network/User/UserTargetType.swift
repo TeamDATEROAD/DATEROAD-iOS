@@ -42,11 +42,9 @@ extension UserTargetType: BaseTargetType {
             return .requestPlain
         case .patchEditProfile(let requestBody):
             var multipartData = [MultipartFormData]()
-            
-            if let jsonData = try? JSONEncoder().encode(requestBody.name) {
-                let jsonPart = MultipartFormData(provider: .data(jsonData), name: "name", mimeType: "application/json")
-                multipartData.append(jsonPart)
-            }
+
+            let namePart = MultipartFormData(provider: .data(requestBody.name.data(using: .utf8)!), name: "name")
+            multipartData.append(namePart)
             
             if let image = requestBody.image, let imageData = image.jpegData(compressionQuality: 1.0) {
                 let imagePart = MultipartFormData(provider: .data(imageData), name: "image", fileName: "image.jpg", mimeType: "image/jpeg")
