@@ -116,17 +116,16 @@ extension CourseViewController {
         }
         
         self.courseViewModel.selectedCityName.bind { [weak self] index in
+            
             self?.courseViewModel.didUpdateselectedCityName?(index)
         }
         
-        
         self.courseViewModel.didUpdateCourseList = { [weak self] in
-//            DispatchQueue.main.async {
-//                self?.courseView.courseListView.courseListCollectionView.reloadData()
-//                self?.isCellEmpty(cellCount: self?.courseViewModel.courseListModel.count ?? 0)
-//            }
-            self?.courseView.courseListView.courseListCollectionView.reloadData()
-            self?.isCellEmpty(cellCount: self?.courseViewModel.courseListModel.count ?? 0)
+            self?.courseListModel = self?.courseViewModel.courseListModel ?? []
+
+            DispatchQueue.main.async {
+                self?.courseView.courseListView.courseListCollectionView.reloadData()
+            }
         }
     }
     
@@ -134,6 +133,7 @@ extension CourseViewController {
         self.courseView.courseFilterView.priceCollectionView.register(PriceButtonCollectionViewCell.self, forCellWithReuseIdentifier: PriceButtonCollectionViewCell.cellIdentifier)
         self.courseView.courseListView.courseListCollectionView.register(CourseListCollectionViewCell.self, forCellWithReuseIdentifier: CourseListCollectionViewCell.cellIdentifier)
     }
+
     
     func setDelegate() {
         self.courseView.courseFilterView.priceCollectionView.dataSource = self
@@ -162,12 +162,14 @@ extension CourseViewController {
 extension CourseViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedCourse = courseListModel[indexPath.row]
+        let selectedCourse = courseViewModel.courseListModel[indexPath.row]
+        
         if let courseId = selectedCourse.courseId {
             let detailViewModel = CourseDetailViewModel(courseId: courseId)
             let detailViewController = CourseDetailViewController(viewModel: detailViewModel)
             navigationController?.pushViewController(detailViewController, animated: false)
         }
+
     }
 }
 
@@ -228,24 +230,30 @@ extension CourseViewController: CourseNavigationBarViewDelegate {
 extension CourseViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("어떻게 짖걸이는지 보자 ㅋㅋ",courseViewModel.courseListModel.count)
+        print("어떻게 짖걸이는지 보자 ㅋㅋ",self.courseViewModel.courseListModel.count)
 
-        isCellEmpty(cellCount: courseViewModel.courseListModel.count)
+        isCellEmpty(cellCount: self.courseViewModel.courseListModel.count)
         
         return collectionView == courseView.courseFilterView.priceCollectionView ? self.courseViewModel.priceData.count : self.courseListModel.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let isPriceCollection = collectionView == courseView.courseFilterView.priceCollectionView
         
         let cellIdentifier = isPriceCollection ? PriceButtonCollectionViewCell.cellIdentifier : CourseListCollectionViewCell.cellIdentifier
         
+        print("CollectionView: \(isPriceCollection ? "PriceCollectionView" : "CourseListCollectionView"), Cell Identifier: \(cellIdentifier), IndexPath: \(indexPath)")
+
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
         
         if isPriceCollection, let priceCell = cell as? PriceButtonCollectionViewCell {
+            print("Price Button Cell")
+
             priceCell.updateButtonTitle(title: self.courseViewModel.priceData[indexPath.item])
             priceCell.priceButton.addTarget(self, action: #selector(didTapPriceButton(_:)), for: .touchUpInside)
         } else if let courseListCell = cell as? CourseListCollectionViewCell {
+            print("Course List Cell")
             let course = self.courseListModel[indexPath.item]
             courseListCell.configure(with: course)
             courseListCell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToCourseDetialVC(_:))))

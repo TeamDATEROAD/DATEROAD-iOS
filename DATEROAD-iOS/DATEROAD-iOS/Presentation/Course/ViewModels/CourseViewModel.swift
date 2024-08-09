@@ -90,9 +90,12 @@ extension CourseViewModel {
                         like: filterList.like
                     )
                 }
+
                 self.courseListModel = courseModels
                 print("여기서는 당연히 값이 너무나도 잘 업데이트 됨 ㅋㅋ",self.courseListModel.count)
+                
                 self.didUpdateCourseList?()
+
             default:
                 print("Failed to fetch course data")
             }
