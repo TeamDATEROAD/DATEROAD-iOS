@@ -211,8 +211,12 @@ private extension ProfileViewController {
             self?.profileView.updateNicknameCount(count: nickname.count)
             
             guard let isExist = self?.profileViewModel.isExistedNickname.value else { return }
-            if isExist {
-                self?.profileViewModel.isValidNickname.value = true
+            if self?.editType == EditType.edit {
+                if isExist {
+                    self?.profileViewModel.isValidNickname.value = true
+                } else {
+                    self?.profileViewModel.checkValidNickname()
+                }
             } else {
                 self?.profileViewModel.checkValidNickname()
             }

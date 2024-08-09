@@ -14,17 +14,38 @@ final class SplashViewController: BaseViewController {
     private let splashView = SplashView()
     
     
+    // MARK: - UI Properties
+    
+    private var splashViewModel: SplashViewModel
+    
+    
     // MARK: - Life Cycle
-
+    
+    init(splashViewModel: SplashViewModel) {
+        self.splashViewModel = splashViewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.splashViewModel.checkIsLoginned()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            self.pushToLoginVC()
+            self.checkIsLoginned()
         }
     }
 
@@ -47,9 +68,19 @@ final class SplashViewController: BaseViewController {
 
 extension SplashViewController {
     
+    func checkIsLoginned() {
+        guard let isLoginned = self.splashViewModel.isLoginned.value else { return }
+        isLoginned ? pushToMainVC() : pushToLoginVC()
+    }
+    
     func pushToLoginVC() {
         let loginVC = LoginViewController()
         self.navigationController?.pushViewController(loginVC, animated: false)
+    }
+    
+    func pushToMainVC() {
+        let mainVC = TabBarController()
+        self.navigationController?.pushViewController(mainVC, animated: false)
     }
     
 }
