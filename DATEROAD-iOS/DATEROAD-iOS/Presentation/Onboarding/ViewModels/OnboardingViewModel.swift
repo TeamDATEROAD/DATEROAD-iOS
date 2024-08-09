@@ -15,9 +15,9 @@ final class OnboardingViewModel {
     
     var goToNextVC: ((Bool) -> Void)?
     
-//    init() {
-//        fetchData()
-//    }
+    init() {
+        fetchData()
+    }
     
 }
 

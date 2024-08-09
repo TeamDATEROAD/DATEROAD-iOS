@@ -65,7 +65,7 @@ extension LoginViewController {
             let mainVC = TabBarController()
             self.navigationController?.pushViewController(mainVC, animated: false)
         } else {
-            let pointSystemManualVC = OnboardingViewController()
+            let pointSystemManualVC = OnboardingViewController(onboardingViewModel: OnboardingViewModel())
             self.navigationController?.pushViewController(pointSystemManualVC, animated: false)
         }
     }

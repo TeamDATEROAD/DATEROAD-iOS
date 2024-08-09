@@ -9,6 +9,8 @@ import Foundation
 
 final class MyPageViewModel {
     
+    var isAppleLogin: Bool = false
+    
     var userInfoData: ObservablePattern<MyPageUserInfoModel> = ObservablePattern(nil)
    
    var tagData: [String] = []
@@ -22,6 +24,11 @@ final class MyPageViewModel {
 }
 
 extension MyPageViewModel {
+    
+    func checkSocialLogin() {
+        let socialType = UserDefaults.standard.bool(forKey: "SocialType")
+        isAppleLogin = socialType ? false : true
+    }
 
     func deleteLogout() {
         NetworkService.shared.authService.deleteLogout() { response in
