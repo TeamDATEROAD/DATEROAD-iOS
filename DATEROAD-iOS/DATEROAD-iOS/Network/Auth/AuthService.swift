@@ -15,6 +15,7 @@ protocol AuthServiceProtocol {
     func deleteLogout(completion: @escaping (NetworkResult<EmptyResponse>) -> ())
     func postSignIn(requestBody: PostSignInRequest, completion: @escaping (NetworkResult<PostSignUpResponse>) -> ())
     func deleteWithdrawal(requestBody: DeleteWithdrawalRequest, completion: @escaping (NetworkResult<EmptyResponse>) -> ())
+    func patchReissue(completion: @escaping (NetworkResult<PatchReissueResponse>) -> ())
 }
 
 final class AuthService: BaseService, AuthServiceProtocol {
@@ -74,6 +75,18 @@ final class AuthService: BaseService, AuthServiceProtocol {
             switch result {
             case .success(let response):
                 let networkResult: NetworkResult<EmptyResponse> = self.judgeStatus(statusCode: response.statusCode, data: response.data)
+                completion(networkResult)
+            case .failure(let err):
+                print(err)
+            }
+        }
+    }
+    
+    func patchReissue(completion: @escaping (NetworkResult<PatchReissueResponse>) -> ()) {
+        provider.request(.patchReissue) { result in
+            switch result {
+            case .success(let response):
+                let networkResult: NetworkResult<PatchReissueResponse> = self.judgeStatus(statusCode: response.statusCode, data: response.data)
                 completion(networkResult)
             case .failure(let err):
                 print(err)
