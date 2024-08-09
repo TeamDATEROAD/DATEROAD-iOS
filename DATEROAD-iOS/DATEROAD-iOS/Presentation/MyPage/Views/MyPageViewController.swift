@@ -38,6 +38,7 @@ final class MyPageViewController: BaseNavBarViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.myPageViewModel.getUserProfile()
+        self.myPageViewModel.checkSocialLogin()
     }
     
     override func viewDidLoad() {
@@ -189,7 +190,9 @@ extension MyPageViewController: DRCustomAlertDelegate {
     // TODO: - 애플로그인일 경우에만 따로 로직 처리
     func exit() {
         if selectedAlertFlag == 1 {
-            appleLogin()
+            if self.myPageViewModel.isAppleLogin {
+                appleLogin()
+            }
             myPageViewModel.deleteWithdrawal()
         }
     }

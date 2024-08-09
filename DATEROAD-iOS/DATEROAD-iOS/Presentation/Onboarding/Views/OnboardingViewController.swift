@@ -16,14 +16,20 @@ final class OnboardingViewController: BaseViewController {
     
     // MARK: - Properties
     
-    private let onboardingViewModel: OnboardingViewModel = OnboardingViewModel()
+    private var onboardingViewModel: OnboardingViewModel
     
     
     // MARK: - Life Cycle
    
-   override func viewWillAppear(_ animated: Bool) {
-      onboardingViewModel.fetchData()
-   }
+    init(onboardingViewModel: OnboardingViewModel) {
+        self.onboardingViewModel = onboardingViewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
