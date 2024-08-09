@@ -195,6 +195,7 @@
 		CAA30AE82C37DAA600835DE3 /* TendencyTagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30AE72C37DAA600835DE3 /* TendencyTagCollectionViewCell.swift */; };
 		CAA30AEB2C37DCE300835DE3 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30AEA2C37DCE300835DE3 /* ProfileViewModel.swift */; };
 		CAA30AED2C37E57400835DE3 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30AEC2C37E57400835DE3 /* String+.swift */; };
+		CAA76AD32C65FE0100821E3E /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA76AD22C65FE0100821E3E /* SplashViewModel.swift */; };
 		CABDCE6E2C47D6E600631FB3 /* AuthTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE6D2C47D6E600631FB3 /* AuthTargetType.swift */; };
 		CABDCE712C47D8F400631FB3 /* PostSignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE702C47D8F400631FB3 /* PostSignUpRequest.swift */; };
 		CABDCE732C47FA5C00631FB3 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE722C47FA5C00631FB3 /* AuthService.swift */; };
@@ -444,6 +445,7 @@
 		CAA30AE72C37DAA600835DE3 /* TendencyTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TendencyTagCollectionViewCell.swift; sourceTree = "<group>"; };
 		CAA30AEA2C37DCE300835DE3 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		CAA30AEC2C37E57400835DE3 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		CAA76AD22C65FE0100821E3E /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
 		CABDCE6D2C47D6E600631FB3 /* AuthTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTargetType.swift; sourceTree = "<group>"; };
 		CABDCE702C47D8F400631FB3 /* PostSignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSignUpRequest.swift; sourceTree = "<group>"; };
 		CABDCE722C47FA5C00631FB3 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -1315,6 +1317,7 @@
 		CA4EF3CC2C328F2C003B02B6 /* Splash */ = {
 			isa = PBXGroup;
 			children = (
+				CAA76AD12C65FDF300821E3E /* ViewModels */,
 				CA4EF3CD2C328F34003B02B6 /* Views */,
 			);
 			path = Splash;
@@ -1460,6 +1463,14 @@
 			isa = PBXGroup;
 			children = (
 				CAA30AEA2C37DCE300835DE3 /* ProfileViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CAA76AD12C65FDF300821E3E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CAA76AD22C65FE0100821E3E /* SplashViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1882,6 +1893,7 @@
 				CABDCE7E2C4876B800631FB3 /* UserTargetType.swift in Sources */,
 				0DDC2B4F2C49893C00AC554D /* LikeCourseService.swift in Sources */,
 				CAC80FE52C3EC6C500658EA6 /* HotDateCourseCell.swift in Sources */,
+				CAA76AD32C65FE0100821E3E /* SplashViewModel.swift in Sources */,
 				742C9D9F2C45A9C8007FFB51 /* MyCourseDTO.swift in Sources */,
 				CAC80FC82C3C75F200658EA6 /* PointSystemViewModel.swift in Sources */,
 				CAC80FB32C3BBE9100658EA6 /* MyPageTableViewCell.swift in Sources */,
