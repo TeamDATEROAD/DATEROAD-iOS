@@ -175,6 +175,9 @@
 		CA4EF3DF2C347B4E003B02B6 /* DRButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3DE2C347B4E003B02B6 /* DRButtonType.swift */; };
 		CA4EF3E22C3537F3003B02B6 /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3E12C3537F3003B02B6 /* OnboardingModel.swift */; };
 		CA4EF3E52C3538AA003B02B6 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */; };
+		CA73F16C2C607E3D0089856C /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA73F16B2C607E3D0089856C /* EditProfileViewController.swift */; };
+		CA73F16E2C6080180089856C /* EditType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA73F16D2C6080180089856C /* EditType.swift */; };
+		CA73F1702C61E1C30089856C /* PatchEditProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA73F16F2C61E1C30089856C /* PatchEditProfileRequest.swift */; };
 		CA78FE442C383D53001B1403 /* SUIT-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF62C329A6400855E61 /* SUIT-Medium.otf */; };
 		CA78FE472C38667A001B1403 /* DRErrorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA78FE462C38667A001B1403 /* DRErrorLabel.swift */; };
 		CA78FE492C3866FD001B1403 /* DRErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA78FE482C3866FC001B1403 /* DRErrorType.swift */; };
@@ -422,6 +425,9 @@
 		CA4EF3DE2C347B4E003B02B6 /* DRButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRButtonType.swift; sourceTree = "<group>"; };
 		CA4EF3E12C3537F3003B02B6 /* OnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
 		CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		CA73F16B2C607E3D0089856C /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		CA73F16D2C6080180089856C /* EditType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditType.swift; sourceTree = "<group>"; };
+		CA73F16F2C61E1C30089856C /* PatchEditProfileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchEditProfileRequest.swift; sourceTree = "<group>"; };
 		CA78FE462C38667A001B1403 /* DRErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRErrorLabel.swift; sourceTree = "<group>"; };
 		CA78FE482C3866FC001B1403 /* DRErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRErrorType.swift; sourceTree = "<group>"; };
 		CA80C0C82C440F3C002CAA9B /* ProfileErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileErrorType.swift; sourceTree = "<group>"; };
@@ -1154,6 +1160,7 @@
 		CA3D0D092C29A75600735097 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				CA73F1692C607E250089856C /* EditProfile */,
 				CABDCEA52C4A60FD00631FB3 /* Banner */,
 				9E754CD72C482C5600E2CA91 /* AddSchedule */,
 				0DA1C70F2C3DA82300DF2B92 /* Course */,
@@ -1283,6 +1290,7 @@
 				0DA853622C46DC8400DF7F99 /* SubRegion.swift */,
 				CABDCEAB2C4A61D600631FB3 /* BannerDetailSection.swift */,
 				CABDCEB82C4A6C8800631FB3 /* AdTagType.swift */,
+				CA73F16D2C6080180089856C /* EditType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1375,6 +1383,22 @@
 				CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CA73F1692C607E250089856C /* EditProfile */ = {
+			isa = PBXGroup;
+			children = (
+				CA73F16A2C607E2D0089856C /* Views */,
+			);
+			path = EditProfile;
+			sourceTree = "<group>";
+		};
+		CA73F16A2C607E2D0089856C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CA73F16B2C607E3D0089856C /* EditProfileViewController.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		CA80C0D22C44895F002CAA9B /* Models */ = {
@@ -1475,6 +1499,7 @@
 			isa = PBXGroup;
 			children = (
 				CABDCE802C48773A00631FB3 /* GetUserProfileResponse.swift */,
+				CA73F16F2C61E1C30089856C /* PatchEditProfileRequest.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -1836,6 +1861,7 @@
 				0D0DA3E42C3AF3CF004210EE /* PointCollectionView.swift in Sources */,
 				CAC80FCC2C3D2EA600658EA6 /* DRButton.swift in Sources */,
 				CAC80FA22C3B10EA00658EA6 /* MyPageViewController.swift in Sources */,
+				CA73F1702C61E1C30089856C /* PatchEditProfileRequest.swift in Sources */,
 				CA4EF3C02C3285BA003B02B6 /* SocialType.swift in Sources */,
 				9E754CD22C47FCB300E2CA91 /* PostAddCourseResponse.swift in Sources */,
 				CAC80FAC2C3B567100658EA6 /* MyPageViewModel.swift in Sources */,
@@ -1861,6 +1887,7 @@
 				CAC80FB32C3BBE9100658EA6 /* MyPageTableViewCell.swift in Sources */,
 				CAC80FDB2C3E7C3D00658EA6 /* MainSection.swift in Sources */,
 				CAC80FA92C3B4CE800658EA6 /* TagCollectionViewCell.swift in Sources */,
+				CA73F16E2C6080180089856C /* EditType.swift in Sources */,
 				9E754CDB2C482D5D00E2CA91 /* AddScheduleFirstViewController.swift in Sources */,
 				74CDE2682C3B123100A7459B /* UpcomingDateScheduleViewController.swift in Sources */,
 				0DC9BF0C2C4813D400A817A8 /* Double+.swift in Sources */,
@@ -1961,6 +1988,7 @@
 				0DC9BF0E2C4813FD00A817A8 /* Float+.swift in Sources */,
 				9E590B462C3C535500039690 /* AddCourseSecondViewController.swift in Sources */,
 				CABDCE9F2C4903B900631FB3 /* MainService.swift in Sources */,
+				CA73F16C2C607E3D0089856C /* EditProfileViewController.swift in Sources */,
 				CA4EF3D72C347766003B02B6 /* OnboardingView.swift in Sources */,
 				CA4EF3BB2C328595003B02B6 /* ObservablePattern.swift in Sources */,
 				CA80C0D52C448971002CAA9B /* ProfileModel.swift in Sources */,

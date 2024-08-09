@@ -49,6 +49,12 @@ final class ProfileView: BaseView {
     
     // MARK: - Life Cycle
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
+    }
+    
     override func setHierarchy() {
         self.addSubviews(profileImageView,
                          editImageButton,
@@ -122,10 +128,11 @@ final class ProfileView: BaseView {
     
     override func setStyle() {
         profileImageView.do {
+            $0.layer.masksToBounds = true
+            $0.backgroundColor = .clear
             $0.image = UIImage(resource: .emptyProfileImg)
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFill
-            $0.layer.cornerRadius = $0.frame.size.width / 2
         }
         
         editImageButton.do {
@@ -238,6 +245,7 @@ extension ProfileView {
        isValid ? doubleCheckButton.setButtonStatus(buttonType: enabledButtonType)
         : doubleCheckButton.setButtonStatus(buttonType: disabledButtonType)
         doubleCheckButton.titleLabel?.font = UIFont.suit(.body_med_13)
+        doubleCheckButton.layer.cornerRadius = 10
     }
     
     func updateTagCount(count: Int) {
@@ -257,9 +265,6 @@ extension ProfileView {
    func updateProfileImage(image: UIImage) {
       profileImageView.do {
          $0.image = image
-         $0.clipsToBounds = true
-         $0.contentMode = .scaleAspectFill
-         $0.layer.cornerRadius = $0.frame.size.width / 2
       }
    }
     
