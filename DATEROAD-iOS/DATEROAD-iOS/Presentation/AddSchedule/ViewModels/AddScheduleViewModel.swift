@@ -33,7 +33,7 @@ final class AddScheduleViewModel {
    var isDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    /// 코스 등록 태그 생성
-   var tagData: [ProfileModel] = []
+   var tagData: [ProfileTagModel] = []
    
    // 선택된 태그
    //   var selectedTags: [UIButton] = []

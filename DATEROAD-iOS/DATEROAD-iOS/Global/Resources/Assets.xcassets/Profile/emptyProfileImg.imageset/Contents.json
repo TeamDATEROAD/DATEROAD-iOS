@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "emptyProfileImg.png",
+      "filename" : "ic_pf1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "emptyProfileImg@2x.png",
+      "filename" : "ic_pf1@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "emptyProfileImg@3x.png",
+      "filename" : "ic_pf1@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

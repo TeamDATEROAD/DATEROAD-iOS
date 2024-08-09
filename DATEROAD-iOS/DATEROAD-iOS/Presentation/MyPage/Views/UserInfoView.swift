@@ -13,11 +13,11 @@ final class UserInfoView: BaseView {
     
     // MARK: - UI Properties
     
-    private let profileImageView: UIImageView = UIImageView()
+    let profileImageView: UIImageView = UIImageView()
     
     private let nicknameLabel: UILabel = UILabel()
     
-    private let editProfileButton: UIImageView = UIImageView()
+    let editProfileButton: UIImageView = UIImageView()
     
     let tagCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -113,11 +113,16 @@ final class UserInfoView: BaseView {
         
         editProfileButton.do {
             $0.image = UIImage(resource: .icPencil)
+            $0.isUserInteractionEnabled = true
         }
         
         tagCollectionView.do {
             $0.contentInsetAdjustmentBehavior = .never
             $0.backgroundColor = UIColor(resource: .gray100)
+            
+            let layout = CollectionViewLeftAlignFlowLayout()
+            layout.cellSpacing = 8
+            $0.collectionViewLayout = layout
         }
         
         pointView.do {
@@ -164,9 +169,7 @@ final class UserInfoView: BaseView {
 
 extension UserInfoView {
     
-    // TODO: - 서버 통신 후 변경 예정
     func bindData(userInfo: MyPageUserInfoModel) {
-        self.profileImageView.image = UIImage(resource: .emptyProfileImg)
         self.nicknameLabel.text = userInfo.nickname
         self.userPointLabel.text = userInfo.nickname + "님의 포인트"
         self.pointLabel.text = String(userInfo.point) + " P"

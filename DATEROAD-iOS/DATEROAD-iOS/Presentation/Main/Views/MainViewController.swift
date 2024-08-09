@@ -266,8 +266,6 @@ extension MainViewController: UICollectionViewDataSource {
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerImageCollectionViewCell.cellIdentifier, for: indexPath) as? BannerImageCollectionViewCell else { return UICollectionViewCell() }
             cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
-//           cell.bindData(bannerData: mainViewModel.bannerData[indexPath.row].image)
-//            cell.prepareForReuse()
             return cell
         }
        

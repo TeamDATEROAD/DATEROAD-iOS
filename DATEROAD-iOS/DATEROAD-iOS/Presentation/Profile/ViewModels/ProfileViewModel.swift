@@ -9,13 +9,19 @@ import UIKit
 
 final class ProfileViewModel {
     
-    // TODO: - 중복 확인 로직 추가 예정
-
-    var tagData: [ProfileModel] = []
+    var tagData: [ProfileTagModel] = []
     
-    var selectedTagData: [String] = []
+    var selectedTagData: [String]
     
-    var nickname: ObservablePattern<String> = ObservablePattern("")
+    var profileData: ObservablePattern<ProfileModel>
+    
+    var profileImage: ObservablePattern<UIImage>
+    
+    var existingNickname: ObservablePattern<String>
+    
+    var isExistedNickname: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var nickname: ObservablePattern<String>
     
     var tagCount: ObservablePattern<Int> = ObservablePattern(0)
     
@@ -30,11 +36,17 @@ final class ProfileViewModel {
     var isValidRegistration: ObservablePattern<Bool> = ObservablePattern(false)
    
    var is5orLess: ObservablePattern<Bool> = ObservablePattern(false)
-   var is5orLessVaild: ObservablePattern<Bool> = ObservablePattern(false)
-        
+            
     var onSuccessRegister: ((Bool) -> Void)?
+    
+    var onSuccessEdit: ((Bool) -> Void)?
  
-    init() {
+    init(profileData: ProfileModel) {
+        self.profileData = ObservablePattern(profileData)
+        self.profileImage = ObservablePattern(profileData.profileImage)
+        self.existingNickname = ObservablePattern(profileData.nickname)
+        self.nickname = ObservablePattern(profileData.nickname)
+        self.selectedTagData = profileData.tags
         fetchTagData()
     }
     
@@ -46,36 +58,19 @@ extension ProfileViewModel {
         tagData = TendencyTag.allCases.map { $0.tag }
     }
     
+    // 닉네임 글자 수 확인 => 유효카운트 여부 & 5자초과 여부 업데이트
     func checkValidNickname() {
         guard let nickname = self.nickname.value else { return }
         if nickname.count >= 2 && nickname.count <= 5 {
-            // TODO: - 닉네임이 글자 수 충족 -> 중복 확인 처리 로직 추가 예정
-
             self.isValidNicknameCount.value = true
            self.is5orLess.value = true
-//            self.isValidNickname.value = true
         } else {
            self.is5orLess.value = false
            if nickname.count < 2 {
                 self.isValidNicknameCount.value = false
             }
-//            self.isValidNickname.value = false
         }
     }
-    
-//    func countSelectedTag(isSelected: Bool) {
-//        guard let oldCount = tagCount.value else { return }
-//        
-//        if isSelected {
-//            tagCount.value = oldCount + 1
-//        } else {
-//            if oldCount != 0 {
-//                tagCount.value = oldCount - 1
-//            }
-//        }
-//        
-//        checkTagCount()
-//    }
     
     func countSelectedTag(isSelected: Bool, tag: String) {
           if isSelected {
@@ -93,28 +88,29 @@ extension ProfileViewModel {
     
     
     func checkTagCount() {
-//        guard let count = tagCount.value else { return }
         let count = selectedTagData.count
         self.tagCount.value = count
 
         if count >= 1 && count <= 3 {
             self.isValidTag.value = true
-            self.isOverCount.value = false
         } else {
             self.isValidTag.value = false
-            if count > 3 {
-                self.isOverCount.value = true
-            }
         }
-        print(count)
+        print("\(count)  | \(selectedTagData)")
     }
     
     func checkValidRegistration() {
         guard let isValidNickname = isValidNickname.value,
               let isValidTag = isValidTag.value,
-              let is5CntVaild = is5orLessVaild.value else { return }
-        
+              let is5CntVaild = is5orLess.value else { return }
+
         self.isValidRegistration.value = (isValidNickname && isValidTag && is5CntVaild) ? true : false
+        
+        print("isValidNickname \(isValidNickname)  isValidTag \(isValidTag)  is5CntValid \(is5CntVaild)")
+    }
+    
+    func checkExistingNickname() {
+        isExistedNickname.value = existingNickname.value == nickname.value ? true : false
     }
     
     func postSignUp(image: UIImage?) {
@@ -123,7 +119,9 @@ extension ProfileViewModel {
         guard let name = self.nickname.value else { return }
 
         let requestBody = PostSignUpRequest(userSignUpReq: UserSignUpReq(name: name,
-                                                                         platform: socialType ? SocialType.KAKAO.rawValue : SocialType.APPLE.rawValue),
+                                                                         platform: socialType 
+                                                                         ? SocialType.KAKAO.rawValue
+                                                                         : SocialType.APPLE.rawValue),
                                             image: image,
                                             tag: self.selectedTagData)
         
@@ -158,7 +156,21 @@ extension ProfileViewModel {
                 self.isValidNickname.value = false
                 return
             }
-            
+        }
+    }
+    
+    func patchEditProfile() {
+        guard let name = self.nickname.value else { return }
+        let requestBody = PatchEditProfileRequest(name: name, tags: self.selectedTagData, image: self.profileImage.value)
+        
+        NetworkService.shared.userService.patchEditProfile(requestBody: requestBody) { response in
+            switch response {
+            case .success(_):
+                self.onSuccessEdit?(true)
+            default:
+                print("Failed to fetch patch edit profile")
+                self.onSuccessEdit?(false)
+            }
         }
     }
 }

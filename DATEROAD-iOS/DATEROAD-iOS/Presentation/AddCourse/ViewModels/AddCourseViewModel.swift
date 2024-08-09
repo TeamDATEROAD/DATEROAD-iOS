@@ -36,7 +36,7 @@ final class AddCourseViewModel {
    var isDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    /// 코스 등록 태그
-   var tagData: [ProfileModel] = []
+   var tagData: [ProfileTagModel] = []
    var isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
    var isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
    var tagCount: ObservablePattern<Int> = ObservablePattern(0)
