@@ -274,7 +274,7 @@ extension CourseViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: textWidth + 20, height: 30)
         } else {
             let screenWidth = ScreenUtils.width
-            return CGSize(width: ((screenWidth - 32) - 15), height: 246)
+            return CGSize(width: ((screenWidth - 32) - 15) / 2, height: 246)
         }
         
     }
