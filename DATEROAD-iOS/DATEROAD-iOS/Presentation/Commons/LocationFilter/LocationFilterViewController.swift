@@ -187,7 +187,6 @@ class LocationFilterViewController: BaseViewController {
       if let subRegion = SubRegion(rawValue: cityName) {
          let formattedCityName = "\(subRegion)"
          courseViewModel.selectedCityName.value = formattedCityName
-         print(formattedCityName, "💙")
       } else {
          print("💙")
       }

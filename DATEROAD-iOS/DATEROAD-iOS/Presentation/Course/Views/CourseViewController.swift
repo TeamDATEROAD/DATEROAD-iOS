@@ -63,9 +63,40 @@ final class CourseViewController: BaseViewController {
         }
     }
     
-}
+    func registerCell() {
+        self.courseView.courseFilterView.priceCollectionView.register(PriceButtonCollectionViewCell.self, forCellWithReuseIdentifier: PriceButtonCollectionViewCell.cellIdentifier)
+        self.courseView.courseListView.courseListCollectionView.register(CourseListCollectionViewCell.self, forCellWithReuseIdentifier: CourseListCollectionViewCell.cellIdentifier)
+    }
 
-extension CourseViewController {
+    
+    func setDelegate() {
+        self.courseView.courseFilterView.priceCollectionView.dataSource = self
+        self.courseView.courseFilterView.priceCollectionView.delegate = self
+        self.courseView.courseListView.courseListCollectionView.dataSource = self
+        self.courseView.courseListView.courseListCollectionView.delegate = self
+        self.courseView.courseFilterView.delegate = self
+        self.courseView.courseNavigationBarView.delegate = self
+        self.courseView.courseFilterView.resetButton.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
+    }
+    
+    func bindViewModel() {
+        self.courseViewModel.selectedPriceIndex.bind { [weak self] index in
+            self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
+        }
+        
+        self.courseViewModel.selectedCityName.bind { [weak self] index in
+            
+            self?.courseViewModel.didUpdateselectedCityName?(index)
+        }
+        
+        self.courseViewModel.didUpdateCourseList = { [weak self] in
+            self?.courseListModel = self?.courseViewModel.courseListModel ?? []
+
+            DispatchQueue.main.async {
+                self?.courseView.courseListView.courseListCollectionView.reloadData()
+            }
+        }
+    }
     
     @objc
     func didTapResetButton() {
@@ -108,42 +139,12 @@ extension CourseViewController {
         selectedButton = sender.isSelected ? sender : nil
         getCourse()
     }
-
     
-    func bindViewModel() {
-        self.courseViewModel.selectedPriceIndex.bind { [weak self] index in
-            self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
-        }
-        
-        self.courseViewModel.selectedCityName.bind { [weak self] index in
-            
-            self?.courseViewModel.didUpdateselectedCityName?(index)
-        }
-        
-        self.courseViewModel.didUpdateCourseList = { [weak self] in
-            self?.courseListModel = self?.courseViewModel.courseListModel ?? []
+}
 
-            DispatchQueue.main.async {
-                self?.courseView.courseListView.courseListCollectionView.reloadData()
-            }
-        }
-    }
-    
-    func registerCell() {
-        self.courseView.courseFilterView.priceCollectionView.register(PriceButtonCollectionViewCell.self, forCellWithReuseIdentifier: PriceButtonCollectionViewCell.cellIdentifier)
-        self.courseView.courseListView.courseListCollectionView.register(CourseListCollectionViewCell.self, forCellWithReuseIdentifier: CourseListCollectionViewCell.cellIdentifier)
-    }
+// MARK: - Extensions
 
-    
-    func setDelegate() {
-        self.courseView.courseFilterView.priceCollectionView.dataSource = self
-        self.courseView.courseFilterView.priceCollectionView.delegate = self
-        self.courseView.courseListView.courseListCollectionView.dataSource = self
-        self.courseView.courseListView.courseListCollectionView.delegate = self
-        self.courseView.courseFilterView.delegate = self
-        self.courseView.courseNavigationBarView.delegate = self
-        self.courseView.courseFilterView.resetButton.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
-    }
+extension CourseViewController {
     
     func isCellEmpty(cellCount: Int) {
         if cellCount == 0 {
@@ -155,6 +156,52 @@ extension CourseViewController {
             self.courseView.courseListView.courseEmptyImageView.isHidden = true
             self.courseView.courseListView.courseEmptyLabel.isHidden = true
         }
+    }
+    
+}
+
+extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate, CourseNavigationBarViewDelegate {
+    
+    func getCourse() {
+        let city = courseViewModel.selectedCityName.value ?? ""
+        let cost = courseViewModel.selectedPriceIndex.value?.costNum()
+        
+        courseViewModel.getCourse(city: city, cost: cost)
+    }
+    
+    func didTapLocationFilter() {
+        let locationFilterVC = LocationFilterViewController()
+        locationFilterVC.modalPresentationStyle = .overFullScreen
+        locationFilterVC.delegate = self
+        self.present(locationFilterVC, animated: true)
+    }
+    
+    func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
+        let cityNameComponents = city.rawValue.split(separator: ".")
+        let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
+        
+        if let subRegion = SubRegion(rawValue: cityName) {
+            let selectedSubRegion = "\(subRegion)"
+            
+            courseViewModel.selectedCityName.value = selectedSubRegion
+        } else {
+            print(cityName)
+        }
+        
+        self.courseView.courseFilterView.locationFilterButton.do {
+            $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
+            $0.setTitle(cityName, for: .normal)
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
+            let image = UIImage(resource: .icDropdown).withRenderingMode(.alwaysTemplate)
+            $0.setImage(image, for: .normal)
+            $0.tintColor = UIColor(resource: .deepPurple)
+        }
+    }
+    
+    func didTapAddCourseButton() {
+        let addCourseFirstVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
+        self.navigationController?.pushViewController(addCourseFirstVC, animated: false)
     }
     
 }
@@ -172,58 +219,6 @@ extension CourseViewController: UICollectionViewDelegate {
 
     }
 }
-
-extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate {
-    
-    func getCourse() {
-        let city = courseViewModel.selectedCityName.value ?? ""
-        let cost = courseViewModel.selectedPriceIndex.value?.costNum()
-        
-        courseViewModel.getCourse(city: city, cost: cost)
-    }
-    
-    
-    func didTapLocationFilter() {
-        let locationFilterVC = LocationFilterViewController()
-        locationFilterVC.modalPresentationStyle = .overFullScreen
-        locationFilterVC.delegate = self
-        self.present(locationFilterVC, animated: true)
-    }
-    
-    func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
-       let cityNameComponents = city.rawValue.split(separator: ".")
-       let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
-       
-       if let subRegion = SubRegion(rawValue: cityName) {
-           let selectedSubRegion = "\(subRegion)"
-           
-           courseViewModel.selectedCityName.value = selectedSubRegion
-       } else {
-           print(cityName)
-       }
-       
-       self.courseView.courseFilterView.locationFilterButton.do {
-           $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
-           $0.setTitle(cityName, for: .normal)
-           $0.layer.borderWidth = 1
-           $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
-           let image = UIImage(resource: .icDropdown).withRenderingMode(.alwaysTemplate)
-           $0.setImage(image, for: .normal)
-           $0.tintColor = UIColor(resource: .deepPurple)
-       }
-   }
-    
-}
-
-extension CourseViewController: CourseNavigationBarViewDelegate {
-    
-    func didTapAddCourseButton() {
-       let addCourseFirstVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
-        self.navigationController?.pushViewController(addCourseFirstVC, animated: false)
-    }
-    
-}
-
 
 extension CourseViewController: UICollectionViewDataSource {
     
@@ -252,7 +247,6 @@ extension CourseViewController: UICollectionViewDataSource {
         return cell
     }
     
-    //코스 상세로 화면 전환
     @objc
     func pushToCourseDetialVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: courseView.courseListView.courseListCollectionView)
@@ -273,33 +267,24 @@ extension CourseViewController: UICollectionViewDataSource {
 extension CourseViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var cellWidth: CGFloat = 0
-        var cellHeight: CGFloat = 0
-        
         if collectionView == courseView.courseFilterView.priceCollectionView {
             let priceTitle = self.courseViewModel.priceData[indexPath.item]
             let font = UIFont.suit(.body_med_13)
             let textWidth = priceTitle.width(withConstrainedHeight: 30, font: font)
-            let padding: CGFloat = 20
-            cellWidth = textWidth + padding
-            cellHeight = 30
+            return CGSize(width: textWidth + 20, height: 30)
         } else {
             let screenWidth = ScreenUtils.width
-            cellWidth = ((screenWidth - 32) - 15) / 2
-            cellHeight = 246
+            return CGSize(width: ((screenWidth - 32) - 15), height: 246)
         }
         
-        return CGSize(width: cellWidth, height: cellHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        
         return collectionView == courseView.courseFilterView.priceCollectionView ? 8 : 15
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        
         return collectionView == courseView.courseFilterView.priceCollectionView ? 0 : 20
     }
     
