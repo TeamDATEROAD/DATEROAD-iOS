@@ -210,17 +210,22 @@ extension MyPageViewController: DRCustomAlertDelegate {
 extension MyPageViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let tagTitle = TendencyTag.getTag(byEnglish: self.myPageViewModel.tagData[indexPath.item])?.tag.tagTitle
-        let font = UIFont.suit(.body_med_13)
-        let textWidth = tagTitle?.width(withConstrainedHeight: 30, font: font) ?? 50
-        let padding: CGFloat = 50
         
-        return CGSize(width: textWidth + padding, height: 30)
+        guard let tagTitle = TendencyTag.getTag(byEnglish: self.myPageViewModel.tagData[indexPath.item])?.tag.tagTitle else { return CGSize(width: 100, height: 30) }
+        let font = UIFont.suit(.body_med_13)
+        let textWidth = tagTitle.width(withConstrainedHeight: 30, font: font) + 50
+        
+        return CGSize(width: textWidth, height: 30)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 7
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 7
+    }
+    
 }
 
 extension MyPageViewController: UICollectionViewDataSource {

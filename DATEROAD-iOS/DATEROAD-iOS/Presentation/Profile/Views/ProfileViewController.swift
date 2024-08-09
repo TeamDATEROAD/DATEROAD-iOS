@@ -197,10 +197,7 @@ private extension ProfileViewController {
         }
         
         self.profileViewModel.isValidTag.bind { [weak self] isValid in
-            guard let isValid,
-                  let initial = self?.initial,
-                  let isValidNickname = self?.profileViewModel.isValidNickname.value
-            else { return }
+            guard let isValid, let initial = self?.initial else { return }
             if initial {
                 self?.profileView.updateTagErrLabel(isValid: isValid)
                 self?.profileViewModel.checkValidRegistration()
@@ -304,6 +301,8 @@ private extension ProfileViewController {
                 self.profileViewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
             }
         }
+        
+        self.profileViewModel.checkValidNickname()
     }
     
     @objc

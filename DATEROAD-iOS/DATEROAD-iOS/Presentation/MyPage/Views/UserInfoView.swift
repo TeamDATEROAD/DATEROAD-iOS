@@ -119,6 +119,10 @@ final class UserInfoView: BaseView {
         tagCollectionView.do {
             $0.contentInsetAdjustmentBehavior = .never
             $0.backgroundColor = UIColor(resource: .gray100)
+            
+            let layout = CollectionViewLeftAlignFlowLayout()
+            layout.cellSpacing = 8
+            $0.collectionViewLayout = layout
         }
         
         pointView.do {
@@ -165,7 +169,6 @@ final class UserInfoView: BaseView {
 
 extension UserInfoView {
     
-    // TODO: - 서버 통신 후 변경 예정
     func bindData(userInfo: MyPageUserInfoModel) {
         self.nicknameLabel.text = userInfo.nickname
         self.userPointLabel.text = userInfo.nickname + "님의 포인트"
