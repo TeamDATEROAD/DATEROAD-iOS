@@ -101,6 +101,12 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
 //        self.courseDetailViewModel.isChange = { [weak self] in
 //            self?.courseDetailView.mainCollectionView.reloadData()
 //        }
+        self.courseDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
+            guard let onSuccess else { return }
+            if onSuccess {
+                self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+            }
+        }
         
         courseDetailViewModel.currentPage.bind { [weak self] currentPage in
             guard let self = self else { return }

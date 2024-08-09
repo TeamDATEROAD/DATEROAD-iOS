@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class MyPageViewModel {
+final class MyPageViewModel: Serviceable {
     
     var isAppleLogin: Bool = false
     
@@ -20,6 +20,8 @@ final class MyPageViewModel {
     var onSuccessWithdrawal: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onSuccessGetUserProfile: ObservablePattern<Bool> = ObservablePattern(nil)
+
+    var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
 
 }
 
@@ -38,6 +40,8 @@ extension MyPageViewModel {
                     UserDefaults.standard.removeObject(forKey: key.description)
                 }
                 self.onSuccessLogout.value = true
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             default:
                 print("Failed to fetch post logout")
                 self.onSuccessLogout.value = false
@@ -61,6 +65,8 @@ extension MyPageViewModel {
                     UserDefaults.standard.removeObject(forKey: key.description)
                 }
                 self.onSuccessWithdrawal.value = true
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             default:
                 print("Failed to fetch delete withdrawal")
                 self.onSuccessWithdrawal.value = false
@@ -79,6 +85,8 @@ extension MyPageViewModel {
                                                               imageURL: data.imageURL)
                self.tagData = data.tags
                self.onSuccessGetUserProfile.value = true
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             default:
                 print("Failed to fetch getUserProfile")
                 self.onSuccessGetUserProfile.value = false

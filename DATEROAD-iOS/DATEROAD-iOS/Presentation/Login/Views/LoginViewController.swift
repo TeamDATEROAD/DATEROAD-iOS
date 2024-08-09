@@ -52,6 +52,13 @@ extension LoginViewController {
             guard let isSignIn else { return }
             self?.pushToNextVC(isSignIn: isSignIn)
         }
+        
+        self.loginViewModel.onReissueSuccess.bind { [weak self] onSuccess in
+            guard let onSuccess else { return }
+            if onSuccess {
+                self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+            }
+        }
     }
     
     func setAddTarget() {

@@ -104,6 +104,13 @@ private extension UpcomingDateScheduleViewController {
     }
     
     func bindViewModel() {
+        self.upcomingDateScheduleViewModel.onReissueSuccess.bind { [weak self] onSuccess in
+            guard let onSuccess else { return }
+            if onSuccess {
+                self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+            }
+        }
+        
         self.upcomingDateScheduleViewModel.isSuccessGetUpcomingDateScheduleData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess == true {

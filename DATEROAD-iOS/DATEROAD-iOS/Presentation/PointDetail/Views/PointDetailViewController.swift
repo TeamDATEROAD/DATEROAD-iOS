@@ -90,6 +90,13 @@ class PointDetailViewController: BaseNavBarViewController {
 
 extension PointDetailViewController {
     func bindViewModel() {
+        self.pointViewModel.onReissueSuccess.bind { [weak self] onSuccess in
+            guard let onSuccess else { return }
+            if onSuccess {
+                self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+            }
+        }
+        
         // 선택된 내역의 데이터
         self.pointViewModel.nowPointData.bind { [weak self] data in
             print("좀 되라 \(data)")

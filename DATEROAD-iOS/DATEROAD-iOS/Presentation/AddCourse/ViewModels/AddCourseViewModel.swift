@@ -7,8 +7,10 @@
 
 import UIKit
 
-final class AddCourseViewModel {
-   
+final class AddCourseViewModel: Serviceable {
+    
+    var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+
    var pastDateDetailData: DateDetailModel?
    var ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
    
@@ -325,6 +327,8 @@ extension AddCourseViewModel {
          switch result {
          case .success(let response):
             print("Success: \(response)")
+         case .reIssueJWT:
+             self.onReissueSuccess.value = self.patchReissue()
          default:
             print("Failed to fetch user profile")
             return

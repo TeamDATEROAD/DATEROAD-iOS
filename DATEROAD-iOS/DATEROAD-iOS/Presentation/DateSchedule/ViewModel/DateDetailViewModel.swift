@@ -13,7 +13,10 @@ import KakaoSDKCommon
 import KakaoSDKAuth
 import KakaoSDKUser
 
-class DateDetailViewModel {
+class DateDetailViewModel: Serviceable {
+
+    var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+
    
 //
 //    var upcomingDateDetailDummyData = DateDetailModel(
@@ -79,6 +82,8 @@ class DateDetailViewModel {
                 self.dateDetailData.value = DateDetailModel(dateID: data.dateID, title: data.title, startAt: data.startAt, city: data.city, tags: tagsInfo, date: data.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "", places: datePlaceInfo, dDay: data.dDay)
                 self.isSuccessGetDateDetailData.value = true
                 print("@log ----------dsijflskdjfla", self.dateDetailData.value)
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             case .requestErr:
                 print("requestError")
             case .decodedErr:
@@ -100,6 +105,8 @@ class DateDetailViewModel {
                 print(data)
                 self.isSuccessDeleteDateScheduleData.value = true
                 print("success", self.isSuccessDeleteDateScheduleData.value)
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             default:
                 self.isSuccessDeleteDateScheduleData.value = false
             }

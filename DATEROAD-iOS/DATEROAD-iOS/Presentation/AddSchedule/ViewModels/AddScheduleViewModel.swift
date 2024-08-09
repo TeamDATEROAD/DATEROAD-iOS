@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class AddScheduleViewModel {
+final class AddScheduleViewModel: Serviceable {
    var isImporting = false
    var viewedDateCourseByMeData: CourseDetailViewModel?
    var ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
@@ -69,6 +69,9 @@ final class AddScheduleViewModel {
    var isChange: (() -> Void)?
    
    var isEditMode: Bool = false
+    
+    var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+
    
    init() {
       fetchTagData()
@@ -311,6 +314,8 @@ extension AddScheduleViewModel {
             switch result {
             case .success(let response):
                print("Success: \(response)")
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             default:
                print("Failed to fetch user profile")
                return

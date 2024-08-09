@@ -12,7 +12,7 @@ import KakaoSDKAuth
 import KakaoSDKCommon
 import KakaoSDKUser
 
-final class LoginViewModel {
+final class LoginViewModel: Serviceable {
     
     var isKaKaoLogin: ObservablePattern<Bool> = ObservablePattern(nil)
     
@@ -27,6 +27,8 @@ final class LoginViewModel {
     var isSignIn: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onLoginSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
 }
 
@@ -126,13 +128,13 @@ extension LoginViewModel {
                 self.isSignIn.value = true
             case .requestErr:
                 self.isSignIn.value = false
-                
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             default:
                 print("Failed to fetch post signin")
                 self.onLoginSuccess.value = false
                 return
             }
-            
         }
     }
 }
