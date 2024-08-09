@@ -191,13 +191,10 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
     }
     
     func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
-       // 'Seoul.jongnoJunggu'와 같은 rawValue에서 'jongnoJunggu'만 추출
        let cityNameComponents = city.rawValue.split(separator: ".")
        let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
        
        if let subRegion = SubRegion(rawValue: cityName) {
-           print(subRegion)
-           
            let selectedSubRegion = "\(subRegion)"
            
            courseViewModel.selectedCityName.value = selectedSubRegion
@@ -224,14 +221,13 @@ extension CourseViewController: CourseNavigationBarViewDelegate {
        let addCourseFirstVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
         self.navigationController?.pushViewController(addCourseFirstVC, animated: false)
     }
+    
 }
 
 
 extension CourseViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("어떻게 짖걸이는지 보자 ㅋㅋ",self.courseViewModel.courseListModel.count)
-
         isCellEmpty(cellCount: self.courseViewModel.courseListModel.count)
         
         return collectionView == courseView.courseFilterView.priceCollectionView ? self.courseViewModel.priceData.count : self.courseListModel.count
@@ -243,17 +239,12 @@ extension CourseViewController: UICollectionViewDataSource {
         
         let cellIdentifier = isPriceCollection ? PriceButtonCollectionViewCell.cellIdentifier : CourseListCollectionViewCell.cellIdentifier
         
-        print("CollectionView: \(isPriceCollection ? "PriceCollectionView" : "CourseListCollectionView"), Cell Identifier: \(cellIdentifier), IndexPath: \(indexPath)")
-
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
         
         if isPriceCollection, let priceCell = cell as? PriceButtonCollectionViewCell {
-            print("Price Button Cell")
-
             priceCell.updateButtonTitle(title: self.courseViewModel.priceData[indexPath.item])
             priceCell.priceButton.addTarget(self, action: #selector(didTapPriceButton(_:)), for: .touchUpInside)
         } else if let courseListCell = cell as? CourseListCollectionViewCell {
-            print("Course List Cell")
             let course = self.courseListModel[indexPath.item]
             courseListCell.configure(with: course)
             courseListCell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToCourseDetialVC(_:))))
