@@ -11,17 +11,17 @@ final class ProfileViewModel {
     
     var tagData: [ProfileTagModel] = []
     
-    var selectedTagData: [String] = []
+    var selectedTagData: [String]
     
-    var profileData: ObservablePattern<ProfileModel> = ObservablePattern(ProfileModel(profileImage: nil, nickname: "", tags: [])) 
+    var profileData: ObservablePattern<ProfileModel>
     
-    var profileImage: ObservablePattern<UIImage> = ObservablePattern(nil)
+    var profileImage: ObservablePattern<UIImage>
     
-    var existingNickname: ObservablePattern<String> = ObservablePattern("")
+    var existingNickname: ObservablePattern<String>
     
-    var isExistedNickname: ObservablePattern<Bool> = ObservablePattern(true)
+    var isExistedNickname: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    var nickname: ObservablePattern<String> = ObservablePattern("")
+    var nickname: ObservablePattern<String>
     
     var tagCount: ObservablePattern<Int> = ObservablePattern(0)
     
@@ -41,7 +41,12 @@ final class ProfileViewModel {
     
     var onSuccessEdit: ((Bool) -> Void)?
  
-    init() {
+    init(profileData: ProfileModel) {
+        self.profileData = ObservablePattern(profileData)
+        self.profileImage = ObservablePattern(profileData.profileImage)
+        self.existingNickname = ObservablePattern(profileData.nickname)
+        self.nickname = ObservablePattern(profileData.nickname)
+        self.selectedTagData = profileData.tags
         fetchTagData()
     }
     
@@ -100,6 +105,8 @@ extension ProfileViewModel {
               let is5CntVaild = is5orLess.value else { return }
 
         self.isValidRegistration.value = (isValidNickname && isValidTag && is5CntVaild) ? true : false
+        
+        print("isValidNickname \(isValidNickname)  isValidTag \(isValidTag)  is5CntValid \(is5CntVaild)")
     }
     
     func checkExistingNickname() {

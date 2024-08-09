@@ -29,9 +29,8 @@ final class ProfileViewController: BaseNavBarViewController {
     
     // MARK: - Life Cycle
     
-    init(profileViewModel: ProfileViewModel, editType: EditType, profile: ProfileModel) {
+    init(profileViewModel: ProfileViewModel, editType: EditType) {
         self.profileViewModel = profileViewModel
-        self.profileViewModel.profileData.value = profile
         self.editType = editType
         
         super.init(nibName: nil, bundle: nil)
@@ -50,7 +49,15 @@ final class ProfileViewController: BaseNavBarViewController {
         setDelegate()
         setAddGesture()
         bindViewModel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         self.initial = true
+        self.profileViewModel.isValidRegistration.value = false
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.initial = false
     }
     
     override func setHierarchy() {
@@ -128,18 +135,10 @@ private extension ProfileViewController {
     
     func bindViewModel() {
         self.profileViewModel.profileImage.bind { [weak self] image in
-            guard let isValidNickname = self?.profileViewModel.isValidNickname.value
-            else { return }
-            if self?.editType == EditType.edit {
-                self?.profileViewModel.checkExistingNickname()
-                let isExisted = self?.profileViewModel.isExistedNickname.value ?? true
-                if isExisted {
-                    self?.profileViewModel.isValidRegistration.value = true
-                } else {
-                    if isValidNickname {
-                        self?.profileViewModel.isValidRegistration.value = true
-                    }
-                }
+            guard let initial = self?.initial else { return }
+            if self?.editType == EditType.edit && initial {
+                self?.profileViewModel.checkValidNickname()
+                self?.profileViewModel.checkValidRegistration()
             }
         }
         
@@ -159,7 +158,9 @@ private extension ProfileViewController {
         }
         
         self.profileViewModel.isValidNickname.bind { [weak self] isValid in
-            guard let isValid,  let initial = self?.initial 
+            guard let isValid,  
+                    let initial = self?.initial,
+                  let isExistedNickname = self?.profileViewModel.isExistedNickname.value
             else { return }
             
             if initial {
@@ -169,7 +170,7 @@ private extension ProfileViewController {
                 ? self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isValid)
                 : self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValid)
                 
-                if self?.editType == EditType.edit {
+                if self?.editType == EditType.edit && isExistedNickname {
                     self?.profileViewModel.isValidRegistration.value = isValid
                 } else {
                     self?.profileViewModel.checkValidRegistration()
@@ -202,30 +203,22 @@ private extension ProfileViewController {
             else { return }
             if initial {
                 self?.profileView.updateTagErrLabel(isValid: isValid)
-                
-                //                if self?.editType == EditType.edit && isValidNickname {
-                //                    self?.profileViewModel.isValidRegistration.value = isValid
-                //                } else {
-                //                   self?.profileViewModel.checkValidRegistration()
-                //                }
-                if self?.editType == EditType.edit {
-                    self?.profileViewModel.checkExistingNickname()
-                    let isExisted = self?.profileViewModel.isExistedNickname.value ?? true
-                    if isExisted {
-                        self?.profileViewModel.isValidRegistration.value = isValid
-                    } else {
-                        self?.profileViewModel.checkValidRegistration()
-                    }
-                } else {
-                    self?.profileViewModel.checkValidRegistration()
-                }
+                self?.profileViewModel.checkValidRegistration()
             }
         }
         
         self.profileViewModel.nickname.bind { [weak self] nickname in
             guard let nickname else { return }
+            self?.profileViewModel.isValidNickname.value = false
+            self?.profileViewModel.checkExistingNickname()
             self?.profileView.updateNicknameCount(count: nickname.count)
-            self?.profileViewModel.checkValidNickname()
+            
+            guard let isExist = self?.profileViewModel.isExistedNickname.value else { return }
+            if isExist {
+                self?.profileViewModel.isValidNickname.value = true
+            } else {
+                self?.profileViewModel.checkValidNickname()
+            }
         }
         
         self.profileViewModel.tagCount.bind { [weak self] count in
@@ -240,11 +233,12 @@ private extension ProfileViewController {
         
         self.profileViewModel.profileData.bind { [weak self] profileData in
             guard let profileData else { return }
-            self?.profileViewModel.nickname.value = profileData.nickname
-            self?.profileViewModel.existingNickname.value = profileData.nickname
             self?.profileViewModel.checkExistingNickname()
-            self?.profileViewModel.selectedTagData = profileData.tags
-            self?.profileViewModel.checkValidRegistration()
+        }
+        
+        self.profileViewModel.existingNickname.bind { [weak self] nickname in
+            guard let nickname else { return }
+            self?.profileViewModel.checkExistingNickname()
         }
         
         self.profileViewModel.isExistedNickname.bind { [weak self] isExisted in
