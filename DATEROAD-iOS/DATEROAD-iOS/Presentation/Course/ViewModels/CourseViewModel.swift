@@ -87,13 +87,11 @@ extension CourseViewModel {
                         title: filterList.title,
                         cost: filterList.cost,
                         time: filterList.duration,
-                        like: filterList.like
+                        like: filrterList.like
                     )
                 }
 
                 self.courseListModel = courseModels
-                print("여기서는 당연히 값이 너무나도 잘 업데이트 됨 ㅋㅋ",self.courseListModel.count)
-                
                 self.didUpdateCourseList?()
 
             default:
