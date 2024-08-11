@@ -21,7 +21,6 @@ class LocationFilterViewController: BaseViewController {
    
     private let locationFilterView = LocationFilterView()
   
-   
    // MARK: - Properties
    
    private let courseViewModel = CourseViewModel()
@@ -37,7 +36,7 @@ class LocationFilterViewController: BaseViewController {
    override func viewDidLoad() {
       super.viewDidLoad()
       
-      register()
+      registerCell()
       setDelegate()
       bindViewModel()
    }
@@ -51,51 +50,25 @@ class LocationFilterViewController: BaseViewController {
            $0.edges.equalToSuperview()
        }
    }
-   
-   override func setStyle() {
-      self.navigationController?.navigationBar.isHidden = true
-      
-   }
-}
-
-extension LocationFilterViewController: LocationFilterViewDelegate {
     
-    func closeLocationFilterView() {
-       if self.navigationController == nil {
-          self.dismiss(animated: false)
-       } else {
-          self.navigationController?.popViewController(animated: false)
-       }
+    func registerCell() {
+        locationFilterView.countryCollectionView.register(
+            CountryLabelCollectionViewCell.self,
+            forCellWithReuseIdentifier: CountryLabelCollectionViewCell.cellIdentifier)
+        locationFilterView.cityCollectionView.register(
+            CityLabelCollectionViewCell.self,
+            forCellWithReuseIdentifier: CityLabelCollectionViewCell.cellIdentifier)
     }
     
-    func didTapApplyButton() {
-        guard let selectedCountryIndex = courseViewModel.selectedCountryIndex.value,
-              let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
-        
-        let selectedCountry = courseViewModel.countryData[selectedCountryIndex]
-        let selectedCity = courseViewModel.cityData[selectedCityIndex]
-        
-        let cityNameComponents = selectedCity.rawValue.split(separator: ".")
-        let cityName = cityNameComponents.last.map { String($0) } ?? selectedCity.rawValue
-        
-        if let subRegion = SubRegion(rawValue: cityName) {
-            let formattedCityName = "\(subRegion)"
-            courseViewModel.selectedCityName.value = formattedCityName
-        } else {
-            print("💙")
-        }
-        
-        delegate?.didSelectCity(selectedCountry, selectedCity)
-        delegate?.getCourse()
-        closeLocationFilterView()
+    func setDelegate() {
+        locationFilterView.delegate = self
+        locationFilterView.countryCollectionView.delegate = self
+        locationFilterView.countryCollectionView.dataSource = self
+        locationFilterView.cityCollectionView.delegate = self
+        locationFilterView.cityCollectionView.dataSource = self
     }
-}
-
-// MARK: - Private Methods
-
-private extension LocationFilterViewController {
     
-    private func bindViewModel() {
+    func bindViewModel() {
         courseViewModel.didUpdateCityData = { [weak self] in
             self?.locationFilterView.cityCollectionView.reloadData()
         }
@@ -129,8 +102,13 @@ private extension LocationFilterViewController {
         }
         
     }
-    
-    private func updateApplyButtonState(isEnabled: Bool) {
+}
+
+// MARK: - Private Methods
+
+private extension LocationFilterViewController {
+  
+    func updateApplyButtonState(isEnabled: Bool) {
         if isEnabled {
             locationFilterView.applyButton.setButtonStatus(buttonType: EnabledButton())
         } else {
@@ -138,55 +116,39 @@ private extension LocationFilterViewController {
         }
     }
     
-    func register() {
-        locationFilterView.countryCollectionView.register(
-            CountryLabelCollectionViewCell.self,
-            forCellWithReuseIdentifier: CountryLabelCollectionViewCell.cellIdentifier)
-        locationFilterView.cityCollectionView.register(
-            CityLabelCollectionViewCell.self,
-            forCellWithReuseIdentifier: CityLabelCollectionViewCell.cellIdentifier)
-    }
-    
-    func setDelegate() {
-        locationFilterView.delegate = self
-        locationFilterView.countryCollectionView.delegate = self
-        locationFilterView.countryCollectionView.dataSource = self
-        locationFilterView.cityCollectionView.delegate = self
-        locationFilterView.cityCollectionView.dataSource = self
-    }
 }
 
-extension LocationFilterViewController: UICollectionViewDelegateFlowLayout {
+extension LocationFilterViewController: LocationFilterViewDelegate {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var cellWidth: CGFloat = 0
-        var cellHeight: CGFloat = 0
+    func closeLocationFilterView() {
+       if self.navigationController == nil {
+          self.dismiss(animated: false)
+       } else {
+          self.navigationController?.popViewController(animated: false)
+       }
+    }
+    
+    func didTapApplyButton() {
+        guard let selectedCountryIndex = courseViewModel.selectedCountryIndex.value,
+              let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
         
-        if collectionView == locationFilterView.countryCollectionView {
-            let screenWidth = ScreenUtils.width
-            cellWidth = ((screenWidth - 50) - ( countryInset * 2 )) / 3
-            cellHeight = 33
-        } else if collectionView == locationFilterView.cityCollectionView {
-            let text = courseViewModel.cityData[indexPath.item].rawValue
-            let font = UIFont.suit(.body_med_13)
-            let textWidth = text.width(withConstrainedHeight: 30, font: font)
-            cellWidth = textWidth + 28
-            cellHeight = 30
+        let selectedCountry = courseViewModel.countryData[selectedCountryIndex]
+        let selectedCity = courseViewModel.cityData[selectedCityIndex]
+        
+        let cityNameComponents = selectedCity.rawValue.split(separator: ".")
+        let cityName = cityNameComponents.last.map { String($0) } ?? selectedCity.rawValue
+        
+        if let subRegion = SubRegion(rawValue: cityName) {
+            let formattedCityName = "\(subRegion)"
+            courseViewModel.selectedCityName.value = formattedCityName
+        } else {
+            print("💙")
         }
         
-        return CGSize(width: cellWidth, height: cellHeight)
+        delegate?.didSelectCity(selectedCountry, selectedCity)
+        delegate?.getCourse()
+        closeLocationFilterView()
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        
-        return collectionView == locationFilterView.countryCollectionView ? 8 : 9
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        
-        return collectionView == locationFilterView.cityCollectionView ? 8 : 0
-    }
-    
 }
 
 extension LocationFilterViewController: UICollectionViewDataSource {
@@ -227,6 +189,38 @@ extension LocationFilterViewController: UICollectionViewDelegate {
     }
 }
 
+extension LocationFilterViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        var cellWidth: CGFloat = 0
+        var cellHeight: CGFloat = 0
+        
+        if collectionView == locationFilterView.countryCollectionView {
+            let screenWidth = ScreenUtils.width
+            cellWidth = ((screenWidth - 50) - ( countryInset * 2 )) / 3
+            cellHeight = 33
+        } else if collectionView == locationFilterView.cityCollectionView {
+            let text = courseViewModel.cityData[indexPath.item].rawValue
+            let font = UIFont.suit(.body_med_13)
+            let textWidth = text.width(withConstrainedHeight: 30, font: font)
+            cellWidth = textWidth + 28
+            cellHeight = 30
+        }
+        
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        
+        return collectionView == locationFilterView.countryCollectionView ? 8 : 9
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        
+        return collectionView == locationFilterView.cityCollectionView ? 8 : 0
+    }
+    
+}
 
 
 

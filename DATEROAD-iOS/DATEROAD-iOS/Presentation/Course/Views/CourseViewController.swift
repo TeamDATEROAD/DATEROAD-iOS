@@ -67,7 +67,6 @@ final class CourseViewController: BaseViewController {
         self.courseView.courseFilterView.priceCollectionView.register(PriceButtonCollectionViewCell.self, forCellWithReuseIdentifier: PriceButtonCollectionViewCell.cellIdentifier)
         self.courseView.courseListView.courseListCollectionView.register(CourseListCollectionViewCell.self, forCellWithReuseIdentifier: CourseListCollectionViewCell.cellIdentifier)
     }
-
     
     func setDelegate() {
         self.courseView.courseFilterView.priceCollectionView.dataSource = self
