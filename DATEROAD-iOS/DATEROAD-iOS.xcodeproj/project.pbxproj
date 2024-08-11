@@ -195,6 +195,8 @@
 		CAA30AEB2C37DCE300835DE3 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30AEA2C37DCE300835DE3 /* ProfileViewModel.swift */; };
 		CAA30AED2C37E57400835DE3 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA30AEC2C37E57400835DE3 /* String+.swift */; };
 		CAA76AD32C65FE0100821E3E /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA76AD22C65FE0100821E3E /* SplashViewModel.swift */; };
+		CAA76AD52C665E8B00821E3E /* PatchReissueResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA76AD42C665E8B00821E3E /* PatchReissueResponse.swift */; };
+		CAA76AD72C6664B100821E3E /* Serviceable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA76AD62C6664B100821E3E /* Serviceable.swift */; };
 		CABDCE6E2C47D6E600631FB3 /* AuthTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE6D2C47D6E600631FB3 /* AuthTargetType.swift */; };
 		CABDCE712C47D8F400631FB3 /* PostSignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE702C47D8F400631FB3 /* PostSignUpRequest.swift */; };
 		CABDCE732C47FA5C00631FB3 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE722C47FA5C00631FB3 /* AuthService.swift */; };
@@ -444,6 +446,8 @@
 		CAA30AEA2C37DCE300835DE3 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		CAA30AEC2C37E57400835DE3 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		CAA76AD22C65FE0100821E3E /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
+		CAA76AD42C665E8B00821E3E /* PatchReissueResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchReissueResponse.swift; sourceTree = "<group>"; };
+		CAA76AD62C6664B100821E3E /* Serviceable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Serviceable.swift; sourceTree = "<group>"; };
 		CABDCE6D2C47D6E600631FB3 /* AuthTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTargetType.swift; sourceTree = "<group>"; };
 		CABDCE702C47D8F400631FB3 /* PostSignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSignUpRequest.swift; sourceTree = "<group>"; };
 		CABDCE722C47FA5C00631FB3 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -1365,6 +1369,7 @@
 				CA78FE482C3866FC001B1403 /* DRErrorType.swift */,
 				CAC80FE22C3EC06200658EA6 /* MainSectionLayout.swift */,
 				CA80C0D62C4523A2002CAA9B /* DRBottomSheetAction.swift */,
+				CAA76AD62C6664B100821E3E /* Serviceable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1473,6 +1478,7 @@
 				CABDCE742C47FAFD00631FB3 /* PostSignUpResponse.swift */,
 				CABDCE7A2C48498200631FB3 /* PostSignInRequest.swift */,
 				CABDCE842C489C7B00631FB3 /* DeleteWithdrawalRequest.swift */,
+				CAA76AD42C665E8B00821E3E /* PatchReissueResponse.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -1927,6 +1933,7 @@
 				0D0DA3DE2C3AF37C004210EE /* PointCollectionViewCell.swift in Sources */,
 				9E754CEF2C483ED100E2CA91 /* AddScheduleBottomSheetView.swift in Sources */,
 				9E754CE72C48389200E2CA91 /* AddScheduleSecondViewController.swift in Sources */,
+				CAA76AD52C665E8B00821E3E /* PatchReissueResponse.swift in Sources */,
 				CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */,
 				CA3D0CDD2C29A2F300735097 /* SceneDelegate.swift in Sources */,
 				745547692C3C8D3200B526F3 /* DateDetailContentView.swift in Sources */,
@@ -1971,6 +1978,7 @@
 				CABDCEB72C4A695E00631FB3 /* BannerDetailModel.swift in Sources */,
 				CA4EF3BD2C3285A1003B02B6 /* ScreenUtils.swift in Sources */,
 				CAC80FF32C3F203800658EA6 /* EmptyTicketView.swift in Sources */,
+				CAA76AD72C6664B100821E3E /* Serviceable.swift in Sources */,
 				CAA30AE02C3733DF00835DE3 /* ProfileView.swift in Sources */,
 				CAC80FCE2C3D2FD800658EA6 /* BottomControlView.swift in Sources */,
 				CA4EF3CB2C3287DA003B02B6 /* Config.swift in Sources */,

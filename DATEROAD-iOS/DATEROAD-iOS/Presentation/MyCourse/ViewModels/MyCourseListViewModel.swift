@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MyCourseListViewModel {
+class MyCourseListViewModel: Serviceable {
     
     var userName: String = ""
     
@@ -20,6 +20,9 @@ class MyCourseListViewModel {
     var isSuccessGetViewedCourseInfo: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var isSuccessGetMyRegisterCourseInfo: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+
     
     init() {
         let name = UserDefaults.standard.string(forKey: "userName") ?? ""
@@ -39,6 +42,8 @@ class MyCourseListViewModel {
                 }
                 self.viewedCourseData.value = viewedCourseInfo
                 self.isSuccessGetViewedCourseInfo.value = true
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             case .requestErr:
                 print("requestError")
             case .decodedErr:
@@ -63,6 +68,8 @@ class MyCourseListViewModel {
                 self.myRegisterCourseData.value = myRegisterCourseInfo
                 self.isSuccessGetMyRegisterCourseInfo.value = true
                 print("isUpdate>", self.myRegisterCourseData)
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             case .requestErr:
                 print("requestError")
             case .decodedErr:

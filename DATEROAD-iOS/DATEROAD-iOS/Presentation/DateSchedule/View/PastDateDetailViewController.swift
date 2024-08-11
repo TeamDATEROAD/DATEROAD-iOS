@@ -104,6 +104,13 @@ extension PastDateDetailViewController {
 //    }
     
     func bindViewModel() {
+        self.pastDateDetailViewModel?.onReissueSuccess.bind { [weak self] onSuccess in
+            guard let onSuccess else { return }
+            if onSuccess {
+                self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+            }
+        }
+        
         self.pastDateDetailViewModel?.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
             guard let isSuccess, let data = self?.pastDateDetailViewModel?.dateDetailData.value else { return }
             if isSuccess {

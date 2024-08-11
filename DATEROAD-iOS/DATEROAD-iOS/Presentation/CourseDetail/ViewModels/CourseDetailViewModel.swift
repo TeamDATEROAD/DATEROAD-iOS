@@ -20,7 +20,7 @@ enum CourseDetailSection {
     }
 }
 
-class CourseDetailViewModel {
+class CourseDetailViewModel: Serviceable {
     
     var courseId: Int
     
@@ -63,6 +63,9 @@ class CourseDetailViewModel {
     var bannerDetailData: ObservablePattern<BannerDetailModel> = ObservablePattern(nil)
     
     var bannerHeaderData: ObservablePattern<BannerHeaderModel> = ObservablePattern(nil)
+    
+    var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+
     
 
     var advertisementId: Int = 0
@@ -171,8 +174,9 @@ extension CourseDetailViewModel {
                 self.isUserLiked.value = data.isUserLiked
                 
                 self.isSuccessGetData.value = true
-                
-                
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
+
             default:
                 self.isSuccessGetData.value = false
                 print("Failed to fetch course data")
@@ -188,6 +192,8 @@ extension CourseDetailViewModel {
             case .success(let response):
                 self.isAccess.value = true
                 print("Successfully used points:", response)
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             default:
                 self.isSuccessGetData.value = false
                 print("Failed to post course data")
@@ -241,7 +247,8 @@ extension CourseDetailViewModel {
                 self.mainContentsData.value = MainContentsModel(description: data.description)
                 
                 self.isSuccessGetBannerData.value = true
-
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             default:
                 self.isSuccessGetBannerData.value = false
                 print("Failed to fetch banner detail data")

@@ -14,16 +14,7 @@ import UIKit
 //    let courseId: Int
 //}
 
-final class MainViewModel {
-   
-
-//   var bannerData: [BannerData] = [
-//           BannerData(image: UIImage(resource: .bOne), courseId: 1),
-//           BannerData(image: UIImage(resource: .bTwo), courseId: 2),
-//           BannerData(image: UIImage(resource: .bThree), courseId: 3),
-//           BannerData(image: UIImage(resource: .bFour), courseId: 4),
-//           BannerData(image: UIImage(resource: .bFive), courseId: 5)
-//       ]
+final class MainViewModel: Serviceable {
     
     var isSuccessGetUserInfo: ObservablePattern<Bool> = ObservablePattern(false)
     
@@ -51,10 +42,8 @@ final class MainViewModel {
 
     let sectionData: [MainSection] = MainSection.dataSource
     
-    
-//    init() {
-//        fetchSectionData()
-//    }
+    var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+
     
 }
 
@@ -77,6 +66,8 @@ extension MainViewModel {
                UserDefaults.standard.setValue(data.name, forKey: "userName")
                 UserDefaults.standard.setValue(data.point, forKey: "userPoint")
                 self.isSuccessGetUserInfo.value = true
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             default:
                 print("Failed to fetch user profile")
                 return
@@ -107,6 +98,8 @@ extension MainViewModel {
                                                                                   duration: $0.duration.formatFloatTime()) }
                     self.isSuccessGetNewDate.value = true
                 }
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             default:
                 print("Failed to fetch filtered date course")
                 return
@@ -125,6 +118,8 @@ extension MainViewModel {
                                                             day: data.day,
                                                             startAt: data.startAt)
                 self.isSuccessGetUpcomingDate.value = true
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             default:
                 print("Failed to fetch upcoming date course")
                 return
@@ -139,6 +134,8 @@ extension MainViewModel {
                 self.bannerData.value = data.advertisementDtoResList.map { BannerModel(advertisementId: $0.advertisementID, imageUrl: $0.thumbnail)
                 }
                 self.isSuccessGetBanner.value = true
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             default:
                 print("Failed to fetch get banner data")
                 return

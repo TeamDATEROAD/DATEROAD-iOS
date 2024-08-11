@@ -134,6 +134,13 @@ private extension ProfileViewController {
     }
     
     func bindViewModel() {
+        self.profileViewModel.onReissueSuccess.bind { [weak self] onSuccess in
+            guard let onSuccess else { return }
+            if onSuccess {
+                self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+            }
+        }
+        
         self.profileViewModel.profileImage.bind { [weak self] image in
             guard let initial = self?.initial else { return }
             if self?.editType == EditType.edit && initial {

@@ -117,6 +117,13 @@ private extension AddCourseSecondViewController {
    }
    
    func bindViewModel() {
+       self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
+           guard let onSuccess else { return }
+           if onSuccess {
+               self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+           }
+       }
+       
       viewModel.isDataSourceNotEmpty()
       
       viewModel.editBtnEnableState.bind { [weak self] date in

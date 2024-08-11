@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class PointViewModel {
+final class PointViewModel: Serviceable {
     
     var userName: String
     
@@ -26,6 +26,9 @@ final class PointViewModel {
     var isEarnedPointHidden : ObservablePattern<Bool> = ObservablePattern(nil)
    
    var isChange: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+
     
     init (userName: String, totalPoint: Int) {
         self.userName = userName
@@ -68,6 +71,8 @@ final class PointViewModel {
                 self.updateData(nowEarnedPointHidden: nowEarnedPointHidden)
                 self.isSuccessGetPointInfo.value = true
                self.isChange.value = true
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             case .requestErr:
                  print("requestError")
              case .decodedErr:

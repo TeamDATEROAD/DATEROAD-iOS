@@ -131,6 +131,13 @@ extension AddCourseThirdViewController {
    }
    
    private func bindViewModel() {
+       self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
+           guard let onSuccess else { return }
+           if onSuccess {
+               self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+           }
+       }
+       
       viewModel.contentTextCount.bind { [weak self] date in
 //         self?.viewModel.contentText.text = date
          self?.addCourseThirdView.addThirdView.updateContentTextCount(textCnt: date ?? 0)
