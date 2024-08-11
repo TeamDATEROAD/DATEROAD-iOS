@@ -224,18 +224,15 @@ extension CourseViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         isCellEmpty(cellCount: self.courseViewModel.courseListModel.count)
         
-        return collectionView == courseView.courseFilterView.priceCollectionView ? self.courseViewModel.priceData.count : self.courseListModel.count
+        return collectionView == courseView.courseFilterView.priceCollectionView ? self.courseViewModel.priceData.count : self.courseViewModel.courseListModel.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let isPriceCollection = collectionView == courseView.courseFilterView.priceCollectionView
-        
-        let cellIdentifier = isPriceCollection ? PriceButtonCollectionViewCell.cellIdentifier : CourseListCollectionViewCell.cellIdentifier
-        
+        let cellIdentifier = collectionView == courseView.courseFilterView.priceCollectionView ? PriceButtonCollectionViewCell.cellIdentifier : CourseListCollectionViewCell.cellIdentifier
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
         
-        if isPriceCollection, let priceCell = cell as? PriceButtonCollectionViewCell {
+        if let priceCell = cell as? PriceButtonCollectionViewCell {
             priceCell.updateButtonTitle(title: self.courseViewModel.priceData[indexPath.item])
             priceCell.priceButton.addTarget(self, action: #selector(didTapPriceButton(_:)), for: .touchUpInside)
         } else if let courseListCell = cell as? CourseListCollectionViewCell {

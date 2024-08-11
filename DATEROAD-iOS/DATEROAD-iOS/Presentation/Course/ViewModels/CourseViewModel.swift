@@ -76,7 +76,7 @@ extension CourseViewModel {
     }
 
     func getCourse(city: String?, cost: Int?) {  
-        CourseService().getCourseInfo(city: city ?? "", cost: cost) { response in
+        NetworkService.shared.courseService.getCourseInfo(city: city ?? "", cost: cost) { response in
             switch response {
             case .success(let data):
                 let courseModels = data.courses.map { filterList in
