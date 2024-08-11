@@ -16,40 +16,44 @@ protocol LocationFilterDelegate: AnyObject {
 }
 
 class LocationFilterViewController: BaseViewController {
-   
-   // MARK: - UI Properties
-   
+    
+    // MARK: - UI Properties
+    
     private let locationFilterView = LocationFilterView()
-  
-   // MARK: - Properties
-   
-   private let courseViewModel = CourseViewModel()
-   
-   weak var delegate: LocationFilterDelegate?
-   
-   final let countryInset: CGFloat = 8
-   
-   final let cityInset: CGFloat = 8
-   
-   // MARK: - Life Cycles
-   
-   override func viewDidLoad() {
-      super.viewDidLoad()
-      
-      registerCell()
-      setDelegate()
-      bindViewModel()
-   }
-   
-   override func setHierarchy() {
-       self.view.addSubview(locationFilterView)
-   }
-   
-   override func setLayout() {
-       locationFilterView.snp.makeConstraints {
-           $0.edges.equalToSuperview()
-       }
-   }
+    
+    // MARK: - Properties
+    
+    private let courseViewModel = CourseViewModel()
+    
+    weak var delegate: LocationFilterDelegate?
+    
+    final let countryInset: CGFloat = 8
+    
+    final let cityInset: CGFloat = 8
+    
+    // MARK: - Life Cycles
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        registerCell()
+        setDelegate()
+        bindViewModel()
+    }
+    
+    override func setHierarchy() {
+        self.view.addSubview(locationFilterView)
+    }
+    
+    override func setLayout() {
+        locationFilterView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    override func setStyle() {
+        self.view.backgroundColor = .clear
+    }
     
     func registerCell() {
         locationFilterView.countryCollectionView.register(
@@ -90,7 +94,7 @@ class LocationFilterViewController: BaseViewController {
         
         self.courseViewModel.selectedCityName.bind { [weak self] cityName in
             self?.courseViewModel.didUpdateselectedCityName?(cityName)
-
+            
             self?.courseViewModel.updateApplyButtonState()
         }
         self.courseViewModel.selectedPriceIndex.bind {[weak self] index in
@@ -107,7 +111,7 @@ class LocationFilterViewController: BaseViewController {
 // MARK: - Private Methods
 
 private extension LocationFilterViewController {
-  
+    
     func updateApplyButtonState(isEnabled: Bool) {
         if isEnabled {
             locationFilterView.applyButton.setButtonStatus(buttonType: EnabledButton())
@@ -121,11 +125,11 @@ private extension LocationFilterViewController {
 extension LocationFilterViewController: LocationFilterViewDelegate {
     
     func closeLocationFilterView() {
-       if self.navigationController == nil {
-          self.dismiss(animated: false)
-       } else {
-          self.navigationController?.popViewController(animated: false)
-       }
+        if self.navigationController == nil {
+            self.dismiss(animated: false)
+        } else {
+            self.navigationController?.popViewController(animated: false)
+        }
     }
     
     func didTapApplyButton() {
@@ -159,8 +163,8 @@ extension LocationFilterViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellIdentifier = collectionView == locationFilterView.countryCollectionView ?
-                    CountryLabelCollectionViewCell.cellIdentifier :
-                    CityLabelCollectionViewCell.cellIdentifier
+        CountryLabelCollectionViewCell.cellIdentifier :
+        CityLabelCollectionViewCell.cellIdentifier
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
         
@@ -179,6 +183,7 @@ extension LocationFilterViewController: UICollectionViewDataSource {
 }
 
 extension LocationFilterViewController: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == locationFilterView.countryCollectionView {
             courseViewModel.selectedCountryIndex.value = indexPath.item
