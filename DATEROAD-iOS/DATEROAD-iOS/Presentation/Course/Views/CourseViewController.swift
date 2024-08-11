@@ -63,9 +63,39 @@ final class CourseViewController: BaseViewController {
         }
     }
     
-}
+    func registerCell() {
+        self.courseView.courseFilterView.priceCollectionView.register(PriceButtonCollectionViewCell.self, forCellWithReuseIdentifier: PriceButtonCollectionViewCell.cellIdentifier)
+        self.courseView.courseListView.courseListCollectionView.register(CourseListCollectionViewCell.self, forCellWithReuseIdentifier: CourseListCollectionViewCell.cellIdentifier)
+    }
+    
+    func setDelegate() {
+        self.courseView.courseFilterView.priceCollectionView.dataSource = self
+        self.courseView.courseFilterView.priceCollectionView.delegate = self
+        self.courseView.courseListView.courseListCollectionView.dataSource = self
+        self.courseView.courseListView.courseListCollectionView.delegate = self
+        self.courseView.courseFilterView.delegate = self
+        self.courseView.courseNavigationBarView.delegate = self
+        self.courseView.courseFilterView.resetButton.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
+    }
+    
+    func bindViewModel() {
+        self.courseViewModel.selectedPriceIndex.bind { [weak self] index in
+            self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
+        }
+        
+        self.courseViewModel.selectedCityName.bind { [weak self] index in
+            
+            self?.courseViewModel.didUpdateselectedCityName?(index)
+        }
+        
+        self.courseViewModel.didUpdateCourseList = { [weak self] in
+            self?.courseListModel = self?.courseViewModel.courseListModel ?? []
 
-extension CourseViewController {
+            DispatchQueue.main.async {
+                self?.courseView.courseListView.courseListCollectionView.reloadData()
+            }
+        }
+    }
     
     @objc
     func didTapResetButton() {
@@ -108,32 +138,12 @@ extension CourseViewController {
         selectedButton = sender.isSelected ? sender : nil
         getCourse()
     }
+    
+}
 
-    
-    func bindViewModel() {
-        self.courseViewModel.selectedPriceIndex.bind { [weak self] index in
-            self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
-        }
-        
-        self.courseViewModel.selectedCityName.bind { [weak self] index in
-            self?.courseViewModel.didUpdateselectedCityName?(index)
-        }
-    }
-    
-    func registerCell() {
-        self.courseView.courseFilterView.priceCollectionView.register(PriceButtonCollectionViewCell.self, forCellWithReuseIdentifier: PriceButtonCollectionViewCell.cellIdentifier)
-        self.courseView.courseListView.courseListCollectionView.register(CourseListCollectionViewCell.self, forCellWithReuseIdentifier: CourseListCollectionViewCell.cellIdentifier)
-    }
-    
-    func setDelegate() {
-        self.courseView.courseFilterView.priceCollectionView.dataSource = self
-        self.courseView.courseFilterView.priceCollectionView.delegate = self
-        self.courseView.courseListView.courseListCollectionView.dataSource = self
-        self.courseView.courseListView.courseListCollectionView.delegate = self
-        self.courseView.courseFilterView.delegate = self
-        self.courseView.courseNavigationBarView.delegate = self
-        self.courseView.courseFilterView.resetButton.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
-    }
+// MARK: - Extensions
+
+extension CourseViewController {
     
     func isCellEmpty(cellCount: Int) {
         if cellCount == 0 {
@@ -149,47 +159,13 @@ extension CourseViewController {
     
 }
 
-extension CourseViewController: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedCourse = courseListModel[indexPath.row]
-        if let courseId = selectedCourse.courseId {
-            let detailViewModel = CourseDetailViewModel(courseId: courseId)
-            let detailViewController = CourseDetailViewController(viewModel: detailViewModel)
-            navigationController?.pushViewController(detailViewController, animated: false)
-        }
-    }
-}
-
-extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate {
+extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate, CourseNavigationBarViewDelegate {
     
     func getCourse() {
         let city = courseViewModel.selectedCityName.value ?? ""
         let cost = courseViewModel.selectedPriceIndex.value?.costNum()
         
-        print("⚽️",cost,city)
-        CourseService().getCourseInfo(city: city, cost: cost) { response in
-            switch response {
-            case .success(let data):
-                let courseModels = data.courses.map { filterList in
-                    CourseListModel(
-                        courseId: filterList.courseID,
-                        thumbnail: filterList.thumbnail,
-                        location: filterList.city,
-                        title: filterList.title,
-                        cost: filterList.cost,
-                        time: filterList.duration,
-                        like: filterList.like
-                    )
-                }
-                self.courseListModel = courseModels
-                DispatchQueue.main.async {
-                    self.courseView.courseListView.courseListCollectionView.reloadData()
-                }
-            default:
-                print("Failed to fetch course data")
-            }
-        }
+        courseViewModel.getCourse(city: city, cost: cost)
     }
     
     func didTapLocationFilter() {
@@ -200,58 +176,63 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
     }
     
     func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
-       // 'Seoul.jongnoJunggu'와 같은 rawValue에서 'jongnoJunggu'만 추출
-       let cityNameComponents = city.rawValue.split(separator: ".")
-       let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
-       
-       if let subRegion = SubRegion(rawValue: cityName) {
-           print(subRegion)
-           
-           let selectedSubRegion = "\(subRegion)"
-           
-           courseViewModel.selectedCityName.value = selectedSubRegion
-       } else {
-           print(cityName)
-       }
-       
-       self.courseView.courseFilterView.locationFilterButton.do {
-           $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
-           $0.setTitle(cityName, for: .normal)
-           $0.layer.borderWidth = 1
-           $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
-           let image = UIImage(resource: .icDropdown).withRenderingMode(.alwaysTemplate)
-           $0.setImage(image, for: .normal)
-           $0.tintColor = UIColor(resource: .deepPurple)
-       }
-   }
-    
-}
-
-extension CourseViewController: CourseNavigationBarViewDelegate {
+        let cityNameComponents = city.rawValue.split(separator: ".")
+        let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
+        
+        if let subRegion = SubRegion(rawValue: cityName) {
+            let selectedSubRegion = "\(subRegion)"
+            
+            courseViewModel.selectedCityName.value = selectedSubRegion
+        } else {
+            print(cityName)
+        }
+        
+        self.courseView.courseFilterView.locationFilterButton.do {
+            $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
+            $0.setTitle(cityName, for: .normal)
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
+            let image = UIImage(resource: .icDropdown).withRenderingMode(.alwaysTemplate)
+            $0.setImage(image, for: .normal)
+            $0.tintColor = UIColor(resource: .deepPurple)
+        }
+    }
     
     func didTapAddCourseButton() {
-       let addCourseFirstVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
+        let addCourseFirstVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
         self.navigationController?.pushViewController(addCourseFirstVC, animated: false)
     }
+    
 }
 
+extension CourseViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedCourse = courseViewModel.courseListModel[indexPath.row]
+        
+        if let courseId = selectedCourse.courseId {
+            let detailViewModel = CourseDetailViewModel(courseId: courseId)
+            let detailViewController = CourseDetailViewController(viewModel: detailViewModel)
+            navigationController?.pushViewController(detailViewController, animated: false)
+        }
+
+    }
+}
 
 extension CourseViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        isCellEmpty(cellCount: self.courseListModel.count)
+        isCellEmpty(cellCount: self.courseViewModel.courseListModel.count)
         
-        return collectionView == courseView.courseFilterView.priceCollectionView ? self.courseViewModel.priceData.count : self.courseListModel.count
+        return collectionView == courseView.courseFilterView.priceCollectionView ? self.courseViewModel.priceData.count : self.courseViewModel.courseListModel.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let isPriceCollection = collectionView == courseView.courseFilterView.priceCollectionView
         
-        let cellIdentifier = isPriceCollection ? PriceButtonCollectionViewCell.cellIdentifier : CourseListCollectionViewCell.cellIdentifier
-        
+        let cellIdentifier = collectionView == courseView.courseFilterView.priceCollectionView ? PriceButtonCollectionViewCell.cellIdentifier : CourseListCollectionViewCell.cellIdentifier
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
         
-        if isPriceCollection, let priceCell = cell as? PriceButtonCollectionViewCell {
+        if let priceCell = cell as? PriceButtonCollectionViewCell {
             priceCell.updateButtonTitle(title: self.courseViewModel.priceData[indexPath.item])
             priceCell.priceButton.addTarget(self, action: #selector(didTapPriceButton(_:)), for: .touchUpInside)
         } else if let courseListCell = cell as? CourseListCollectionViewCell {
@@ -262,7 +243,6 @@ extension CourseViewController: UICollectionViewDataSource {
         return cell
     }
     
-    //코스 상세로 화면 전환
     @objc
     func pushToCourseDetialVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: courseView.courseListView.courseListCollectionView)
@@ -283,33 +263,24 @@ extension CourseViewController: UICollectionViewDataSource {
 extension CourseViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var cellWidth: CGFloat = 0
-        var cellHeight: CGFloat = 0
-        
         if collectionView == courseView.courseFilterView.priceCollectionView {
             let priceTitle = self.courseViewModel.priceData[indexPath.item]
             let font = UIFont.suit(.body_med_13)
             let textWidth = priceTitle.width(withConstrainedHeight: 30, font: font)
-            let padding: CGFloat = 20
-            cellWidth = textWidth + padding
-            cellHeight = 30
+            return CGSize(width: textWidth + 20, height: 30)
         } else {
             let screenWidth = ScreenUtils.width
-            cellWidth = ((screenWidth - 32) - 15) / 2
-            cellHeight = 246
+            return CGSize(width: ((screenWidth - 32) - 15) / 2, height: 246)
         }
         
-        return CGSize(width: cellWidth, height: cellHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        
         return collectionView == courseView.courseFilterView.priceCollectionView ? 8 : 15
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        
         return collectionView == courseView.courseFilterView.priceCollectionView ? 0 : 20
     }
     

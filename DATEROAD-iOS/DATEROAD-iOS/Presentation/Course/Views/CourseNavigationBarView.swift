@@ -75,7 +75,6 @@ class CourseNavigationBarView: BaseView {
     
     @objc
     func didTapAddCourseButton() {
-        print("나 눌렸어!")
         delegate?.didTapAddCourseButton()
     }
 }

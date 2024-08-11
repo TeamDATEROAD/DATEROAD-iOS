@@ -45,6 +45,7 @@
 		0DA853612C45CE7C00DF7F99 /* GetCourseFilterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA853602C45CE7C00DF7F99 /* GetCourseFilterResponse.swift */; };
 		0DA853632C46DC8400DF7F99 /* SubRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA853622C46DC8400DF7F99 /* SubRegion.swift */; };
 		0DA920F22C3C0AF500A6A321 /* MainContentsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA920F12C3C0AF500A6A321 /* MainContentsCell.swift */; };
+		0DC1AEBC2C689ECC00210F60 /* LocationFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC1AEBB2C689ECC00210F60 /* LocationFilterView.swift */; };
 		0DC9BEFF2C47B70600A817A8 /* StickyHeaderNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC9BEFE2C47B70600A817A8 /* StickyHeaderNavBarView.swift */; };
 		0DC9BF052C47F55800A817A8 /* GetCourseDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC9BF042C47F55800A817A8 /* GetCourseDetailResponse.swift */; };
 		0DC9BF072C47F56900A817A8 /* CourseDetailTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC9BF062C47F56900A817A8 /* CourseDetailTargetType.swift */; };
@@ -301,6 +302,7 @@
 		0DA853602C45CE7C00DF7F99 /* GetCourseFilterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCourseFilterResponse.swift; sourceTree = "<group>"; };
 		0DA853622C46DC8400DF7F99 /* SubRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubRegion.swift; sourceTree = "<group>"; };
 		0DA920F12C3C0AF500A6A321 /* MainContentsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentsCell.swift; sourceTree = "<group>"; };
+		0DC1AEBB2C689ECC00210F60 /* LocationFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFilterView.swift; sourceTree = "<group>"; };
 		0DC9BEFE2C47B70600A817A8 /* StickyHeaderNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyHeaderNavBarView.swift; sourceTree = "<group>"; };
 		0DC9BF042C47F55800A817A8 /* GetCourseDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCourseDetailResponse.swift; sourceTree = "<group>"; };
 		0DC9BF062C47F56900A817A8 /* CourseDetailTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailTargetType.swift; sourceTree = "<group>"; };
@@ -703,6 +705,33 @@
 			path = DTO;
 			sourceTree = "<group>";
 		};
+		0DC1AEB82C689DD200210F60 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0DC1AEBA2C689DF700210F60 /* Cells */,
+				0DDFEE0C2C3C513E008C6022 /* LocationFilterViewController.swift */,
+				0DC1AEBB2C689ECC00210F60 /* LocationFilterView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0DC1AEB92C689DDD00210F60 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0DDFEE102C3C6576008C6022 /* LocationModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0DC1AEBA2C689DF700210F60 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				0DDFEE0E2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift */,
+				0DDFEE122C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		0DC9BF022C47F51700A817A8 /* CourseDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -739,10 +768,8 @@
 		0DDFEE0B2C3C5126008C6022 /* LocationFilter */ = {
 			isa = PBXGroup;
 			children = (
-				0DDFEE0C2C3C513E008C6022 /* LocationFilterViewController.swift */,
-				0DDFEE0E2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift */,
-				0DDFEE102C3C6576008C6022 /* LocationModel.swift */,
-				0DDFEE122C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift */,
+				0DC1AEB92C689DDD00210F60 /* Models */,
+				0DC1AEB82C689DD200210F60 /* Views */,
 			);
 			path = LocationFilter;
 			sourceTree = "<group>";
@@ -2022,6 +2049,7 @@
 				CA80C0D72C4523A2002CAA9B /* DRBottomSheetAction.swift in Sources */,
 				CABDCEB12C4A67AA00631FB3 /* GetBannerDetailResponse.swift in Sources */,
 				743D5BF42C401FF9007C156C /* PointDetailView.swift in Sources */,
+				0DC1AEBC2C689ECC00210F60 /* LocationFilterView.swift in Sources */,
 				9E443A502C39158100C1F92C /* AddSheetViewController.swift in Sources */,
 				9E754CD42C47FECC00E2CA91 /* AddCourseService.swift in Sources */,
 				CAC80FD72C3E7BB100658EA6 /* MainViewController.swift in Sources */,

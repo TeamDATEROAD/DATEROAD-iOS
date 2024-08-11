@@ -18,17 +18,19 @@ final class NetworkService {
     let authService: AuthService = AuthService()
     
     let userService: UserService = UserService()
-
+    
     let pointDetailService: PointDetailService = PointDetailService()
-
+    
     let myCourseService: MyCourseService = MyCourseService()
-
+    
     let dateScheduleService: DateScheduleService = DateScheduleService()
-   
-   let addCourseService: AddCourseService = AddCourseService()
-   
-   let addScheduleService: AddScheduleService = AddScheduleService()
+    
+    let addCourseService: AddCourseService = AddCourseService()
+    
+    let addScheduleService: AddScheduleService = AddScheduleService()
+    
+    let courseService: CourseService = CourseService()
     
     let courseDetailService: CourseDetailService = CourseDetailService()
-
+    
 }
