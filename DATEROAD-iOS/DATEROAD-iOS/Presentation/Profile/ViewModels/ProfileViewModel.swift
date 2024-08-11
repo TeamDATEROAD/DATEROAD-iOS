@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProfileViewModel {
+final class ProfileViewModel: Serviceable {
     
     var tagData: [ProfileTagModel] = []
     
@@ -40,6 +40,9 @@ final class ProfileViewModel {
     var onSuccessRegister: ((Bool) -> Void)?
     
     var onSuccessEdit: ((Bool) -> Void)?
+    
+    var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+
  
     init(profileData: ProfileModel) {
         self.profileData = ObservablePattern(profileData)
@@ -133,6 +136,8 @@ extension ProfileViewModel {
                 UserDefaults.standard.setValue(data.refreshToken, forKey: "refreshToken")
                 print("post \(data)")
                 self.onSuccessRegister?(true)
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             default:
                 print("Failed to fetch post signup")
                 self.onSuccessRegister?(false)
@@ -149,6 +154,8 @@ extension ProfileViewModel {
             switch response {
             case .success(_):
                 self.isValidNickname.value = true
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             case .requestErr:
                 self.isValidNickname.value = false
             default:
@@ -167,6 +174,8 @@ extension ProfileViewModel {
             switch response {
             case .success(_):
                 self.onSuccessEdit?(true)
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             default:
                 print("Failed to fetch patch edit profile")
                 self.onSuccessEdit?(false)

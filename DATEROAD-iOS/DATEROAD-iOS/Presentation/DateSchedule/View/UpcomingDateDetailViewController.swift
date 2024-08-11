@@ -63,6 +63,13 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
 
 extension UpcomingDateDetailViewController {
     func bindViewModel() {
+        self.upcomingDateDetailViewModel?.onReissueSuccess.bind { [weak self] onSuccess in
+            guard let onSuccess else { return }
+            if onSuccess {
+                self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+            }
+        }
+        
         self.upcomingDateDetailViewModel?.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
             guard let isSuccess, let data = self?.upcomingDateDetailViewModel?.dateDetailData.value else { return }
             if isSuccess {

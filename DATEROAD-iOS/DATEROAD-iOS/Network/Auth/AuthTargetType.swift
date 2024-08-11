@@ -15,6 +15,7 @@ enum AuthTargetType {
     case deleteLogout
     case postSignIn(requestBody: PostSignInRequest)
     case deleteWithdrawal(requestBody: DeleteWithdrawalRequest)
+    case patchReissue
 }
 
 extension AuthTargetType: BaseTargetType {
@@ -31,6 +32,8 @@ extension AuthTargetType: BaseTargetType {
             return .get
         case .deleteLogout, .deleteWithdrawal:
             return .delete
+        case .patchReissue:
+            return .patch
         }
     }
     
@@ -46,6 +49,8 @@ extension AuthTargetType: BaseTargetType {
             return utilPath + "/signin"
         case .deleteWithdrawal:
             return utilPath + "/withdraw"
+        case .patchReissue:
+            return utilPath + "/reissue"
         }
     }
 
@@ -112,6 +117,10 @@ extension AuthTargetType: BaseTargetType {
             return headers
         case .postSignIn:
             let token = UserDefaults.standard.string(forKey: "Token") ?? ""
+            let headers = ["Content-Type" : "application/json", "Authorization" : token]
+            return headers
+        case .patchReissue:
+            let token = UserDefaults.standard.string(forKey: "refreshToken") ?? ""
             let headers = ["Content-Type" : "application/json", "Authorization" : token]
             return headers
         default:

@@ -80,6 +80,13 @@ extension MyRegisterCourseViewController {
 
 extension MyRegisterCourseViewController {
     func bindViewModel() {
+        self.myRegisterCourseViewModel.onReissueSuccess.bind { [weak self] onSuccess in
+            guard let onSuccess else { return }
+            if onSuccess {
+                self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+            }
+        }
+        
         self.myRegisterCourseViewModel.isSuccessGetMyRegisterCourseInfo.bind { [weak self] isSuccess in
             guard let self = self else { return }
             guard let isSuccess else { return }

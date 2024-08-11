@@ -85,6 +85,13 @@ extension AddScheduleFirstViewController {
    }
    
    func bindViewModel() {
+       self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
+           guard let onSuccess else { return }
+           if onSuccess {
+               self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+           }
+       }
+       
       viewModel.ispastDateVaild.bind { [weak self] isValid in
          guard let self = self else { return }
          self.viewModel.fetchPastDate {

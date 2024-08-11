@@ -7,7 +7,9 @@
 
 import Foundation
 
-class DateScheduleViewModel {
+class DateScheduleViewModel: Serviceable {
+    
+    var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
     let dateScheduleService = DateScheduleService()
     
@@ -45,6 +47,8 @@ class DateScheduleViewModel {
                 
                 self.pastDateScheduleData.value = dateScheduleInfo
                 self.isSuccessGetPastDateScheduleData.value = true
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             default:
                 self.isSuccessGetPastDateScheduleData.value = false
             }
@@ -69,6 +73,8 @@ class DateScheduleViewModel {
                 self.upcomingDateScheduleData.value = dateScheduleInfo
                 print("zz sched", self.upcomingDateScheduleData.value)
                 self.isSuccessGetUpcomingDateScheduleData.value = true
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
             default:
                 self.isSuccessGetUpcomingDateScheduleData.value = false
             }
