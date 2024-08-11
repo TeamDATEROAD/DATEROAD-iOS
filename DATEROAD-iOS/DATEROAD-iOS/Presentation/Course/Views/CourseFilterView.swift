@@ -116,14 +116,10 @@ class CourseFilterView: BaseView {
     func updatePrice(button: UIButton, buttonType: DRButtonType, isSelected: Bool) {
         button.setButtonStatus(buttonType: buttonType)
     
-        //버튼 선택했을 때
         if isSelected {
-            //버튼 배열에 저장
             priceButtons.append(button)
         } else {
-            //배열에서 선택된 인덱스 찾기
             if let index = priceButtons.firstIndex(of: button) {
-                //해당 인덱스를 배열에서 제거
                 priceButtons.remove(at: index)
             }
             button.setTitleColor(UIColor(resource: .gray400), for: .normal)

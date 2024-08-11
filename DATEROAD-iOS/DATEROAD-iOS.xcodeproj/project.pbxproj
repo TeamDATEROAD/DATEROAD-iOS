@@ -703,6 +703,31 @@
 			path = DTO;
 			sourceTree = "<group>";
 		};
+		0DC1AEB82C689DD200210F60 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0DC1AEBA2C689DF700210F60 /* Cells */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0DC1AEB92C689DDD00210F60 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0DDFEE102C3C6576008C6022 /* LocationModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0DC1AEBA2C689DF700210F60 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				0DDFEE0E2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift */,
+				0DDFEE122C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		0DC9BF022C47F51700A817A8 /* CourseDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -739,10 +764,9 @@
 		0DDFEE0B2C3C5126008C6022 /* LocationFilter */ = {
 			isa = PBXGroup;
 			children = (
+				0DC1AEB92C689DDD00210F60 /* Models */,
+				0DC1AEB82C689DD200210F60 /* Views */,
 				0DDFEE0C2C3C513E008C6022 /* LocationFilterViewController.swift */,
-				0DDFEE0E2C3C5D0A008C6022 /* CountryLabelCollectionViewCell.swift */,
-				0DDFEE102C3C6576008C6022 /* LocationModel.swift */,
-				0DDFEE122C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift */,
 			);
 			path = LocationFilter;
 			sourceTree = "<group>";

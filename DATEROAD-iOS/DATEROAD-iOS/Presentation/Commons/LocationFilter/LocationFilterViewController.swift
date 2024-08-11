@@ -265,6 +265,7 @@ private extension LocationFilterViewController {
 }
 
 extension LocationFilterViewController: UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var cellWidth: CGFloat = 0
         var cellHeight: CGFloat = 0
@@ -297,13 +298,12 @@ extension LocationFilterViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension LocationFilterViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
         return collectionView == countryCollectionView ? courseViewModel.countryData.count : courseViewModel.cityData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         let isCountryCollection = collectionView == countryCollectionView
         let cellIdentifier = isCountryCollection ? CountryLabelCollectionViewCell.cellIdentifier : CityLabelCollectionViewCell.cellIdentifier
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)

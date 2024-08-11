@@ -87,7 +87,7 @@ extension CourseViewModel {
                         title: filterList.title,
                         cost: filterList.cost,
                         time: filterList.duration,
-                        like: filrterList.like
+                        like: filterList.like
                     )
                 }
 
