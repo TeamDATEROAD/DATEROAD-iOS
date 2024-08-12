@@ -64,6 +64,7 @@
 		0DDFEE132C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDFEE122C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift */; };
 		0DF905C82C39402A0072EE65 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905C72C39402A0072EE65 /* Int+.swift */; };
 		0DF905CC2C3ABAC30072EE65 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905CB2C3ABAC30072EE65 /* GradientView.swift */; };
+		0DF9B3072C69D73800F80B99 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF9B3062C69D73800F80B99 /* UIImageView+.swift */; };
 		0DFBF92C2C43E42700762956 /* DeleteCourseSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFBF92B2C43E42700762956 /* DeleteCourseSettingView.swift */; };
 		741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */; };
 		742547032C47F0780075DD81 /* GetPointDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742547022C47F0780075DD81 /* GetPointDetailResponse.swift */; };
@@ -321,6 +322,7 @@
 		0DDFEE122C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityLabelCollectionViewCell.swift; sourceTree = "<group>"; };
 		0DF905C72C39402A0072EE65 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		0DF905CB2C3ABAC30072EE65 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		0DF9B3062C69D73800F80B99 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		0DFBF92B2C43E42700762956 /* DeleteCourseSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCourseSettingView.swift; sourceTree = "<group>"; };
 		741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseViewController.swift; sourceTree = "<group>"; };
 		742547022C47F0780075DD81 /* GetPointDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPointDetailResponse.swift; sourceTree = "<group>"; };
@@ -1292,6 +1294,7 @@
 				CAC80FC92C3C95A000658EA6 /* UICollectionViewFlowLayout+.swift */,
 				0DC9BF0B2C4813D400A817A8 /* Double+.swift */,
 				0DC9BF0D2C4813FD00A817A8 /* Float+.swift */,
+				0DF9B3062C69D73800F80B99 /* UIImageView+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1846,6 +1849,7 @@
 				CAC80FA42C3B34B400658EA6 /* UserInfoView.swift in Sources */,
 				CAC80FE92C3EC6E100658EA6 /* BannerCell.swift in Sources */,
 				CABDCEA42C49545400631FB3 /* DRWebViewController.swift in Sources */,
+				0DF9B3072C69D73800F80B99 /* UIImageView+.swift in Sources */,
 				CAC80FA02C3B10D100658EA6 /* MyPageView.swift in Sources */,
 				745547712C3D12CD00B526F3 /* PastDateDetailViewController.swift in Sources */,
 				CA4EF3E22C3537F3003B02B6 /* OnboardingModel.swift in Sources */,
