@@ -24,8 +24,12 @@ extension Serviceable {
                 UserDefaults.standard.setValue(data.refreshToken, forKey: "refreshToken")
                 UserDefaults.standard.setValue(data.userID, forKey: "userID")
                 isSuccess = true
+
             default:
                 print("Failed to fetch patch reissue")
+                for key in UserDefaults.standard.dictionaryRepresentation().keys {
+                    UserDefaults.standard.removeObject(forKey: key.description)
+                }
                 isSuccess = false
             }
         }
