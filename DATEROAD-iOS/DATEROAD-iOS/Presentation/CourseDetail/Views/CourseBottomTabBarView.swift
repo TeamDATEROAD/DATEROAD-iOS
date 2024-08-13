@@ -10,30 +10,20 @@ import Then
 
 
 class CourseBottomTabBarView: BaseView {
-
+    
     // MARK: - UI Properties
     
     let likeButtonView = UIView()
     
     let likeButtonImageView = UIImageView()
     
-   let bringCourseButton = UIButton()
+    let bringCourseButton = UIButton()
     
     // MARK: - Properties
     
-   
-    
-//    private var isLiked: Bool = false
-//    {
-//        didSet {
-//            didTapLikeButton()
-//        }
-//    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-//        setupTapGesture()
+
     }
     
     required init?(coder: NSCoder) {
@@ -92,16 +82,4 @@ class CourseBottomTabBarView: BaseView {
         }
     }
     
-    
-//    @objc private func likeButtonTapped() {
-////        isLiked.toggle()
-//    }
-    
-//    func setupTapGesture() {
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(likeButtonTapped))
-//        likeButtonView.isUserInteractionEnabled = true
-//        likeButtonView.addGestureRecognizer(tapGesture)
-//    }
-    
-
 }

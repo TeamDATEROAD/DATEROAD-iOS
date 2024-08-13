@@ -42,7 +42,6 @@ class CourseDetailView: BaseView {
     
     override func setHierarchy() {
         self.addSubviews(mainCollectionView,stickyHeaderNavBarView)
-       // mainCollectionView.addSubview(headerView)
     }
     
     override func setLayout() {
@@ -60,7 +59,7 @@ class CourseDetailView: BaseView {
     }
     
     override func setStyle() {
-        
+
         mainCollectionView.do {
             $0.contentInsetAdjustmentBehavior = .never
             $0.showsVerticalScrollIndicator = false
@@ -72,7 +71,6 @@ class CourseDetailView: BaseView {
         stickyHeaderNavBarView.do {
             $0.backgroundColor = .clear
         }
-        
         
     }
     

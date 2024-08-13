@@ -55,7 +55,6 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tabBarController?.tabBar.isHidden = true
         bindViewModel()
         setDelegate()
         registerCell()
@@ -75,6 +74,7 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
     
     override func setLayout() {
         super.setLayout()
+        self.tabBarController?.tabBar.isHidden = true
         
         courseDetailView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -90,146 +90,11 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
     override func setStyle() {
         super.setStyle()
         
-        self.view.backgroundColor = UIColor(resource: .drWhite)
-        self.navigationController?.navigationBar.isHidden = true
-        
-    }
-    
-    
-    
-    func bindViewModel() {
-//        self.courseDetailViewModel.isChange = { [weak self] in
-//            self?.courseDetailView.mainCollectionView.reloadData()
-//        }
-        self.courseDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
-            guard let onSuccess else { return }
-            if onSuccess {
-                self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
-            }
-        }
-        
-        courseDetailViewModel.currentPage.bind { [weak self] currentPage in
-            guard let self = self else { return }
-            if let bottomPageControllView = self.courseDetailView.mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
-                bottomPageControllView.pageIndex = currentPage ?? 0
-            }
-        }
-        courseDetailViewModel.isSuccessGetData.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
-            if isSuccess {
-                self?.localLikeNum = self?.courseDetailViewModel.likeSum.value ?? 0
-                self?.setSetctionCount()
-                self?.setTabBar()
-                self?.setNavBar()
-                self?.courseDetailView.mainCollectionView.reloadData()
-            }
-        }
-        
-        courseDetailViewModel.isAccess.bind { [weak self] isAccess in
-            guard let isAccess else { return }
-            self?.courseDetailView.isAccess = isAccess
-            self?.courseDetailView.mainCollectionView.reloadData()
-        }
-        
-        courseDetailViewModel.isUserLiked.bind { [weak self] isUserLiked in
-            guard let self = self else { return }
-            self.updateLikeButtonColor(isLiked: isUserLiked ?? false)
+        courseInfoTabBarView.do {
+            $0.isHidden = true
         }
         
     }
-    
-    func setAddTarget() {
-        let deleteGesture = UITapGestureRecognizer(target: self, action: #selector(didTapDeleteLabel(sender:)))
-        deleteCourseSettingView.deleteLabel.addGestureRecognizer(deleteGesture)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapLikeButton))
-        courseInfoTabBarView.likeButtonView.isUserInteractionEnabled = true
-        courseInfoTabBarView.likeButtonView.addGestureRecognizer(tapGesture)
-       
-       courseInfoTabBarView.bringCourseButton.addTarget(self, action: #selector(didTapMySchedule), for: .touchUpInside)
-        
-    }
-    
-}
-
-private extension CourseDetailViewController {
-   
-   @objc
-   func didTapMySchedule() {
-      let courseId = courseDetailViewModel.courseId
-         
-         let courseDetailViewModel = CourseDetailViewModel(courseId: courseId)
-         let addScheduleViewModel = AddScheduleViewModel()
-         addScheduleViewModel.viewedDateCourseByMeData = courseDetailViewModel
-         addScheduleViewModel.isImporting = true
-         
-         let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel)
-         self.navigationController?.pushViewController(vc, animated: false)
-         
-         // 데이터를 바인딩합니다.
-         vc.pastDateBindViewModel()
-      
-   }
-    
-    //더보기 버튼
-    @objc
-    func didTapMoreButton() {
-        let alertVC = DRBottomSheetViewController(contentView: DeleteCourseSettingView(), height: 215, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
-        alertVC.modalPresentationStyle = .overFullScreen
-        self.present(alertVC, animated: true)
-    }
-    
-    @objc
-    func didTapLikeButton() {
-//        courseDetailViewModel.toggleUserLiked()
-        isFirst = false
-        courseDetailViewModel.isUserLiked.value?.toggle()
-    
-        //true
-        if courseDetailViewModel.isUserLiked.value == true {
-//            DispatchQueue.global().sync {
-                courseDetailViewModel.likeCourse(courseId: courseId ?? 0)
-                self.courseDetailView.mainCollectionView.reloadData()
-                
-//            }
-            
-            //false
-        } else {
-//            DispatchQueue.global().sync {
-                courseDetailViewModel.deleteLikeCourse(courseId: courseId ?? 0)
-                self.courseDetailView.mainCollectionView.reloadData()
-//            }
-        }
-        
-        //        if courseDetailViewModel.isUserLiked.value ?? true {
-        //            courseDetailViewModel.isUserLiked.value = true
-        //        } else {
-        //            courseDetailViewModel.isUserLiked.value = false
-        //
-        //        }
-        
-    }
-    
-    private func updateLikeButtonColor(isLiked: Bool) {
-        print(isLiked,"🔥")
-//        let courseId = self.courseDetailViewModel.courseId
-//        print(courseId,"🚬")
-        if isLiked {
-            courseInfoTabBarView.likeButtonImageView.tintColor = UIColor(resource: .deepPurple)
-            //            self.courseDetailViewModel.likeCourse(courseId: courseId)
-        } else {
-            courseInfoTabBarView.likeButtonImageView.tintColor = UIColor(resource: .gray200)
-            //            self.courseDetailViewModel.deleteLikeCourse(courseId: courseId) { success in
-            //                if success {
-            //                    print("Successfully unliked course")
-            //                } else {
-            //                    print("Failed to unlike course")
-            //                }
-            //            }
-            
-        }
-    }
-    
     func setDelegate() {
         courseDetailView.mainCollectionView.delegate = self
         courseDetailView.mainCollectionView.dataSource = self
@@ -263,6 +128,110 @@ private extension CourseDetailViewController {
             $0.register(ContentMaskView.self, forSupplementaryViewOfKind: ContentMaskView.elementKinds, withReuseIdentifier: ContentMaskView.identifier)
         }
     }
+    
+    func bindViewModel() {
+        self.courseDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
+            guard let onSuccess else { return }
+            if onSuccess {
+                self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+            }
+        }
+        
+        courseDetailViewModel.currentPage.bind { [weak self] currentPage in
+            guard let self = self else { return }
+            if let bottomPageControllView = self.courseDetailView.mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
+                bottomPageControllView.pageIndex = currentPage ?? 0
+            }
+        }
+        
+        courseDetailViewModel.isSuccessGetData.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.localLikeNum = self?.courseDetailViewModel.likeSum.value ?? 0
+                self?.setSetctionCount()
+                self?.setTabBar()
+                self?.setNavBar()
+                self?.courseDetailView.mainCollectionView.reloadData()
+            }
+        }
+        
+        courseDetailViewModel.isAccess.bind { [weak self] isAccess in
+            guard let isAccess else { return }
+            self?.courseDetailView.isAccess = isAccess
+            self?.courseDetailView.mainCollectionView.reloadData()
+        }
+        
+        courseDetailViewModel.isUserLiked.bind { [weak self] isUserLiked in
+            guard let self = self else { return }
+            self.updateLikeButtonColor(isLiked: isUserLiked ?? false)
+        }
+        
+    }
+    
+    func setAddTarget() {
+        let deleteGesture = UITapGestureRecognizer(target: self, action: #selector(didTapDeleteLabel(sender:)))
+        deleteCourseSettingView.deleteLabel.addGestureRecognizer(deleteGesture)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapLikeButton))
+        courseInfoTabBarView.likeButtonView.isUserInteractionEnabled = true
+        courseInfoTabBarView.likeButtonView.addGestureRecognizer(tapGesture)
+        
+        courseInfoTabBarView.bringCourseButton.addTarget(self, action: #selector(didTapMySchedule), for: .touchUpInside)
+    }
+    
+}
+
+private extension CourseDetailViewController {
+    
+    @objc
+    func didTapMySchedule() {
+        let courseId = courseDetailViewModel.courseId
+        
+        let courseDetailViewModel = CourseDetailViewModel(courseId: courseId)
+        let addScheduleViewModel = AddScheduleViewModel()
+        addScheduleViewModel.viewedDateCourseByMeData = courseDetailViewModel
+        addScheduleViewModel.isImporting = true
+        
+        let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel)
+        self.navigationController?.pushViewController(vc, animated: false)
+        
+        // 데이터를 바인딩합니다.
+        vc.pastDateBindViewModel()
+        
+    }
+    
+    //더보기 버튼
+    @objc
+    func didTapMoreButton() {
+        let alertVC = DRBottomSheetViewController(contentView: DeleteCourseSettingView(), height: 215, buttonType: DisabledButton(), buttonTitle: StringLiterals.Common.cancel)
+        alertVC.modalPresentationStyle = .overFullScreen
+        self.present(alertVC, animated: true)
+    }
+    
+    @objc
+    func didTapLikeButton() {
+        isFirst = false
+        courseDetailViewModel.isUserLiked.value?.toggle()
+        
+        if courseDetailViewModel.isUserLiked.value == true {
+            courseDetailViewModel.likeCourse(courseId: courseId ?? 0)
+            self.courseDetailView.mainCollectionView.reloadData()
+            
+        } else {
+            courseDetailViewModel.deleteLikeCourse(courseId: courseId ?? 0)
+            self.courseDetailView.mainCollectionView.reloadData()
+        }
+        
+    }
+    
+    private func updateLikeButtonColor(isLiked: Bool) {
+        if isLiked {
+            courseInfoTabBarView.likeButtonImageView.tintColor = UIColor(resource: .deepPurple)
+        } else {
+            courseInfoTabBarView.likeButtonImageView.tintColor = UIColor(resource: .gray200)
+        }
+    }
+    
 }
 
 
@@ -371,8 +340,6 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return gradient
         } else if kind == BottomPageControllView.elementKinds {
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else { return UICollectionReusableView() }
-//            var likeNum = self.courseDetailViewModel.likeSum.value ?? 0
-
             if !isFirst {
                 if courseDetailViewModel.isUserLiked.value == true {
                     localLikeNum += 1
@@ -380,7 +347,6 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
                     localLikeNum -= 1
                 }
             }
-            
             
             footer.pageIndexSum = imageData.count
             footer.bindData(like: localLikeNum)
@@ -451,14 +417,13 @@ extension CourseDetailViewController {
         }
     }
     
-    //네비게이션 바 삭제 버튼 유무 분기 처리
+    ///네비게이션 바 삭제 버튼 유무 분기 처리 -> 이거 신고하기 생기면 버튼 말고 바텀 시트 분기 처리로 변경
     func setNavBar() {
         guard let isCourseMine = courseDetailViewModel.isCourseMine.value else { return }
         if isCourseMine {
             courseDetailView.stickyHeaderNavBarView.moreButton.isHidden = false
         } else {
             courseDetailView.stickyHeaderNavBarView.moreButton.isHidden = true
-            
         }
     }
     
@@ -467,7 +432,6 @@ extension CourseDetailViewController {
 extension CourseDetailViewController: ContentMaskViewDelegate {
     
     func action(rightButtonAction: RightButtonType) {
-        
         switch rightButtonAction {
         case .addCourse:
             didTapAddCourseButton()
@@ -475,21 +439,18 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
             //무료 열람 기회 확인 & 잔여 포인트
             guard let haveFreeCount = self.courseDetailViewModel.haveFreeCount.value,
                   let havePoint = self.courseDetailViewModel.havePoint.value else { return }
+            let courseId = self.courseDetailViewModel.courseId
+            
             if haveFreeCount {
                 //무료 열람 기회 사용
                 let request = PostUsePointRequest(point: 50, type: "POINT_USED", description: "무료 열람 기회 사용")
-                print("포인트 사용한 코스 아이디:",self.courseDetailViewModel.courseId )
-                let courseId = self.courseDetailViewModel.courseId
                 self.courseDetailViewModel.postUsePoint(courseId: courseId, request: request)
-                //접근 가능
                 self.courseDetailViewModel.isAccess.value = true
                 dismiss(animated: false)
             } else {
                 if havePoint {
                     //포인트로 구입
                     let request = PostUsePointRequest(point: 50, type: "POINT_USED", description: "코스 열람 50P 사용")
-                    print("포인트 사용한 코스 아이디:",self.courseDetailViewModel.courseId )
-                    let courseId = self.courseDetailViewModel.courseId
                     self.courseDetailViewModel.postUsePoint(courseId: courseId, request: request)
                     self.courseDetailViewModel.isAccess.value = true
                     dismiss(animated: false)
@@ -499,23 +460,21 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
             }
         default:
             return
-            
         }
         setSetctionCount()
         setTabBar()
-        
     }
     
     //버튼 분기 처리하기
     func didTapButton() {
         guard let haveFreeCount = self.courseDetailViewModel.haveFreeCount.value else { return }
+        
         if haveFreeCount {
             didTapFreeViewButton()
         } else {
             didTapReadCourseButton()
         }
     }
-    
     
     //열람 전 분기 처리 - 무료 사용 기회 다 쓴 경우
     func didTapReadCourseButton() {
@@ -575,7 +534,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         courseDetailViewModel.deleteCourse { [weak self] success in
             DispatchQueue.main.async {
                 if success {
-                    print("성공이다")
+                    print("성공적으로 삭제")
                     self?.navigationController?.popViewController(animated: true)
                 } else {
                     print("망함")
@@ -611,6 +570,7 @@ extension CourseDetailViewController: DRBottomSheetDelegate {
 }
 
 extension CourseDetailViewController: UIScrollViewDelegate {
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y > 350 {
             courseDetailView.stickyHeaderNavBarView.backgroundColor = .white

@@ -65,19 +65,17 @@ class CourseDetailViewModel: Serviceable {
     var bannerHeaderData: ObservablePattern<BannerHeaderModel> = ObservablePattern(nil)
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
-
     
-
     var advertisementId: Int = 0
     
     var bannerDetailTitle: String = ""
-
+    
     var numberOfSections: Int = 6
     
     var isChange: (() -> Void)?
-   
-   var startAt: String = ""
-   var tagArr = [GetCourseDetailTag]()
+    
+    var startAt: String = ""
+    var tagArr = [GetCourseDetailTag]()
     
     
     init(courseId: Int) {
@@ -85,10 +83,6 @@ class CourseDetailViewModel: Serviceable {
         getCourseDetail()
         
     }
-
-//    init(advertisementId: Int) {
-//        self.advertisementId = advertisementId
-//    }
     
     var sections: [CourseDetailSection] {
         return [.imageCarousel, .titleInfo, .mainContents, .timelineInfo, .coastInfo, .tagInfo]
@@ -97,7 +91,6 @@ class CourseDetailViewModel: Serviceable {
     func setNumberOfSections(_ count: Int) {
         self.numberOfSections = count
     }
-    
     
     func fetchSection(at index: Int) -> CourseDetailSection {
         return sections[index]
@@ -120,11 +113,6 @@ class CourseDetailViewModel: Serviceable {
         currentPage.value = index
     }
     
-    
-    func toggleUserLiked() {
-       
-    }
-    
 }
 
 extension CourseDetailViewModel {
@@ -137,8 +125,8 @@ extension CourseDetailViewModel {
                 self.conditionalData.value = ConditionalModel(courseId: self.courseId, isCourseMine: data.isCourseMine, isAccess: data.isAccess, free: data.free, totalPoint: data.totalPoint, isUserLiked: data.isUserLiked)
                 self.isChange?()
                 
-               self.startAt = data.startAt
-               
+                self.startAt = data.startAt
+                
                 if data.totalPoint >= 50 {
                     self.havePoint.value = true
                 } else {
@@ -165,8 +153,8 @@ extension CourseDetailViewModel {
                 self.timelineData.value = data.places.map { place in
                     TimelineModel(sequence: place.sequence, title: place.title, duration: Float(place.duration))
                 }
-               self.tagArr = data.tags
-               
+                self.tagArr = data.tags
+                
                 self.tagData.value = data.tags.map { tag in
                     TagModel(tag: tag.tag)
                 }
@@ -176,7 +164,7 @@ extension CourseDetailViewModel {
                 self.isSuccessGetData.value = true
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
-
+                
             default:
                 self.isSuccessGetData.value = false
                 print("Failed to fetch course data")
@@ -186,12 +174,11 @@ extension CourseDetailViewModel {
     
     
     func postUsePoint(courseId: Int, request: PostUsePointRequest) {
-        
         UsePointService().postUsePoint(courseId: self.courseId, request: request)  { result in
             switch result {
             case .success(let response):
                 self.isAccess.value = true
-                print("Successfully used points:", response)
+                print("🥽Successfully used points:", response)
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
             default:
@@ -206,7 +193,6 @@ extension CourseDetailViewModel {
         NetworkService.shared.courseDetailService.deleteCourse(courseId: courseId) { (success: Bool) in
             if success {
                 completion(success)
-
             }
         }
     }
