@@ -151,8 +151,9 @@ extension CourseDetailViewModel {
                 self.mainContentsData.value = MainContentsModel(description: data.description)
                 
                 self.timelineData.value = data.places.map { place in
-                    TimelineModel(sequence: place.sequence, title: place.title, duration: Float(place.duration))
+                    TimelineModel(sequence: place.sequence + 1, title: place.title, duration: Float(place.duration))
                 }
+                
                 self.tagArr = data.tags
                 
                 self.tagData.value = data.tags.map { tag in
@@ -162,6 +163,7 @@ extension CourseDetailViewModel {
                 self.isUserLiked.value = data.isUserLiked
                 
                 self.isSuccessGetData.value = true
+                
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
                 
