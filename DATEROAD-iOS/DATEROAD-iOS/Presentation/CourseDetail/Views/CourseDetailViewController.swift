@@ -94,6 +94,7 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
         }
         
     }
+    
     func setDelegate() {
         courseDetailView.mainCollectionView.delegate = self
         courseDetailView.mainCollectionView.dataSource = self
@@ -296,7 +297,9 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
             courseDetailView.mainCollectionView.reloadData()
         } else {
             print("신고하기 웹뷰로 연결")
-            // TODO : 웹뷰 연결
+            //임시로 아무 링크 ㅎㅎ
+            let delclareVC = DRWebViewController(urlString: "https://blog.naver.com/2cold0utside")
+            self.present(delclareVC, animated: true)
         }
         
     }
