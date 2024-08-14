@@ -37,37 +37,37 @@ class DRCustomAlertView: BaseView {
     override func setLayout() {
         
         alertView.snp.makeConstraints {
-            $0.width.equalTo(343)
-            $0.height.equalTo(162)
+            $0.width.equalTo(ScreenUtils.width * 343/375)
+            $0.height.equalTo(ScreenUtils.height * 162/812)
             $0.center.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(24)
+            $0.top.equalToSuperview().inset(ScreenUtils.height * 23/812)
         }
         
         descriptionLabel.snp.makeConstraints {
-            $0.width.equalToSuperview()
-            $0.height.equalTo(21)
-            $0.bottom.equalToSuperview().inset(92)
+            $0.horizontalEdges.equalToSuperview()
+            $0.top.equalToSuperview().inset(ScreenUtils.height * 52/812)
         }
         
         longButton.snp.makeConstraints {
-            $0.horizontalEdges.bottom.equalToSuperview().inset(14)
-            $0.height.equalTo(48)
+            $0.horizontalEdges.bottom.equalToSuperview().inset(ScreenUtils.width * 14/375)
+            $0.height.equalTo(ScreenUtils.height * 48/812)
         }
         
         leftButton.snp.makeConstraints {
-            $0.leading.bottom.equalToSuperview().inset(14)
-            $0.height.equalTo(48)
-            $0.width.equalTo(153)
+            $0.leading.bottom.equalToSuperview().inset(ScreenUtils.width * 14/375)
+            $0.height.equalTo(ScreenUtils.height * 48/812)
+            $0.width.equalTo(ScreenUtils.width * 152/375)
         }
         
         rightButton.snp.makeConstraints {
-            $0.trailing.bottom.equalToSuperview().inset(14)
-            $0.height.equalTo(48)
-            $0.leading.equalTo(leftButton.snp.trailing).offset(10)
+            $0.trailing.bottom.equalToSuperview().inset(ScreenUtils.width * 14/375)
+            $0.height.equalTo(ScreenUtils.height * 48/812)
+            $0.width.equalTo(ScreenUtils.width * 152/375)
+            $0.leading.equalTo(leftButton.snp.trailing).offset(ScreenUtils.width * 11/375)
         }
     }
     
