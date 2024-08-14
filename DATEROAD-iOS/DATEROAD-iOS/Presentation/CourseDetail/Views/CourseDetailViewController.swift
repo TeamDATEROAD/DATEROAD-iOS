@@ -399,21 +399,9 @@ private extension CourseDetailViewController {
 extension CourseDetailViewController {
     
     func setSetctionCount() {
-        guard let isCourseMine = courseDetailViewModel.isCourseMine.value,
-              let isAccess = courseDetailViewModel.isAccess.value else { return }
-        if isCourseMine {
-            if isAccess {
-                courseDetailViewModel.setNumberOfSections(6)
-            } else {
-                courseDetailViewModel.setNumberOfSections(3)
-            }
-        } else {
-            if isAccess {
-                courseDetailViewModel.setNumberOfSections(6)
-            } else {
-                courseDetailViewModel.setNumberOfSections(3)
-            }
-        }
+        guard let isAccess = courseDetailViewModel.isAccess.value else { return }
+        let sectionCount = isAccess ? 6 : 3
+        courseDetailViewModel.setNumberOfSections(sectionCount)
         courseDetailView.mainCollectionView.reloadData()
     }
     
