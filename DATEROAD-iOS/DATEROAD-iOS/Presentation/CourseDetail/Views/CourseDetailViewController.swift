@@ -29,7 +29,7 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
     
     var courseId: Int?
     
-    var isFirst: Bool = true
+    var isFirstLike: Bool = true
     
     var localLikeNum: Int = 0
     
@@ -59,7 +59,6 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
         setDelegate()
         registerCell()
         setAddTarget()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -372,7 +371,7 @@ private extension CourseDetailViewController {
     
     @objc
     func didTapLikeButton() {
-        isFirst = false
+        isFirstLike = false
         
         guard let isLiked = courseDetailViewModel.isUserLiked.value else { return }
         
@@ -386,11 +385,8 @@ private extension CourseDetailViewController {
     }
     
     private func updateLikeButtonColor(isLiked: Bool) {
-        if isLiked {
-            courseInfoTabBarView.likeButtonImageView.tintColor = UIColor(resource: .deepPurple)
-        } else {
-            courseInfoTabBarView.likeButtonImageView.tintColor = UIColor(resource: .gray200)
-        }
+        courseInfoTabBarView.likeButtonImageView.tintColor = isLiked ? UIColor(resource: .deepPurple) : UIColor(resource: .gray200)
+
     }
     
     func setSetctionCount() {
@@ -514,7 +510,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return gradient
         } else if kind == BottomPageControllView.elementKinds {
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else { return UICollectionReusableView() }
-            if !isFirst {
+            if !isFirstLike {
                 if courseDetailViewModel.isUserLiked.value == true {
                     localLikeNum += 1
                 } else {
