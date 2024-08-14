@@ -406,17 +406,8 @@ extension CourseDetailViewController {
     }
     
     func setTabBar() {
-        guard let isCourseMine = courseDetailViewModel.isCourseMine.value,
-              let isAccess = courseDetailViewModel.isAccess.value else { return }
-        if isCourseMine {
-            courseInfoTabBarView.isHidden = true
-        } else {
-            if isAccess {
-                courseInfoTabBarView.isHidden = false
-            } else {
-                courseInfoTabBarView.isHidden = true
-            }
-        }
+        guard let isAccess = courseDetailViewModel.isAccess.value else { return }
+        courseInfoTabBarView.isHidden = !isAccess || courseDetailViewModel.isCourseMine.value == true
     }
     
 }
