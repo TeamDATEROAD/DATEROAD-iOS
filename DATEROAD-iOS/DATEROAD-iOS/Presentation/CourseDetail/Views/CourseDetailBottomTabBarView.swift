@@ -9,7 +9,7 @@ import Then
 
 
 
-class CourseBottomTabBarView: BaseView {
+class CourseDetailBottomTabBarView: BaseView {
     
     // MARK: - UI Properties
     

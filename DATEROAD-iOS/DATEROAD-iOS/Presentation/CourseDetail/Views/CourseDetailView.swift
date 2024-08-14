@@ -17,15 +17,12 @@ class CourseDetailView: BaseView {
     lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
     
     let stickyHeaderNavBarView = StickyHeaderNavBarView()
-
-
     
     // MARK: - UI Properties
     
     private var courseDetailSection: [CourseDetailSection]
     
     var isAccess: Bool = false
-    
     
     // MARK: - Life Cycle
     

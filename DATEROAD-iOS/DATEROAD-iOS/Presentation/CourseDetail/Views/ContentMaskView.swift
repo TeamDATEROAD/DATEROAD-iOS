@@ -12,7 +12,7 @@ import UIKit
 import SnapKit
 
 protocol ContentMaskViewDelegate: AnyObject {
-    func didTapButton()
+    func didTapViewButton()
 }
 
 class ContentMaskView: UICollectionReusableView {
@@ -135,8 +135,7 @@ class ContentMaskView: UICollectionReusableView {
     
     @objc
     func didReadCourseButton() {
-        delegate?.didTapButton()
-        print("내가 죄송해")
+        delegate?.didTapViewButton()
     }
     
     func checkFree(haveFree: Bool, count: Int) {

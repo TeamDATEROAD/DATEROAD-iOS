@@ -17,7 +17,7 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
     
     private let courseDetailView: CourseDetailView
     
-    private let courseInfoTabBarView = CourseBottomTabBarView()
+    private let courseInfoTabBarView = CourseDetailBottomTabBarView()
     
     private var deleteCourseSettingView = DeleteCourseSettingView()
     
@@ -216,7 +216,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     }
     
     //버튼 분기 처리하기
-    func didTapButton() {
+    func didTapViewButton() {
         guard let haveFreeCount = self.courseDetailViewModel.haveFreeCount.value else { return }
         
         if haveFreeCount {
@@ -373,16 +373,15 @@ private extension CourseDetailViewController {
     @objc
     func didTapLikeButton() {
         isFirst = false
+        
+        guard let isLiked = courseDetailViewModel.isUserLiked.value else { return }
+        
         courseDetailViewModel.isUserLiked.value?.toggle()
         
-        if courseDetailViewModel.isUserLiked.value == true {
-            courseDetailViewModel.likeCourse(courseId: courseId ?? 0)
-            self.courseDetailView.mainCollectionView.reloadData()
-            
-        } else {
-            courseDetailViewModel.deleteLikeCourse(courseId: courseId ?? 0)
-            self.courseDetailView.mainCollectionView.reloadData()
-        }
+        let likeAction = isLiked ? courseDetailViewModel.deleteLikeCourse : courseDetailViewModel.likeCourse
+        
+        likeAction(courseId ?? 0)
+        self.courseDetailView.mainCollectionView.reloadData()
         
     }
     
@@ -393,10 +392,6 @@ private extension CourseDetailViewController {
             courseInfoTabBarView.likeButtonImageView.tintColor = UIColor(resource: .gray200)
         }
     }
-    
-}
-
-extension CourseDetailViewController {
     
     func setSetctionCount() {
         guard let isAccess = courseDetailViewModel.isAccess.value else { return }
@@ -419,6 +414,7 @@ extension CourseDetailViewController: ImageCarouselDelegate {
     func didSwipeImage(index: Int, vc: UIPageViewController, vcData: [UIViewController]) {
         courseDetailViewModel.didSwipeImage(to: index)
     }
+    
 }
 
 extension CourseDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -496,8 +492,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         }
     }
     
-    
-    
+
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let isAccess = self.courseDetailViewModel.isAccess.value ?? false
