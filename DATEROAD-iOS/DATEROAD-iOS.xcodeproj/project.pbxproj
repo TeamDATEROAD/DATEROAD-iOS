@@ -208,7 +208,7 @@
 		CABDCE812C48773A00631FB3 /* GetUserProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE802C48773A00631FB3 /* GetUserProfileResponse.swift */; };
 		CABDCE832C4877AE00631FB3 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE822C4877AE00631FB3 /* UserService.swift */; };
 		CABDCE852C489C7B00631FB3 /* DeleteWithdrawalRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE842C489C7B00631FB3 /* DeleteWithdrawalRequest.swift */; };
-		CABDCE982C4902C600631FB3 /* DRCustomeAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE972C4902C600631FB3 /* DRCustomeAlertView.swift */; };
+		CABDCE982C4902C600631FB3 /* DRCustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE972C4902C600631FB3 /* DRCustomAlertView.swift */; };
 		CABDCE9A2C49034100631FB3 /* GetFilteredDateCourseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE992C49034100631FB3 /* GetFilteredDateCourseResponse.swift */; };
 		CABDCE9C2C49037600631FB3 /* GetUpcomingDateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE9B2C49037600631FB3 /* GetUpcomingDateResponse.swift */; };
 		CABDCE9D2C4903A800631FB3 /* GetBannerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE8C19C2C45962B00F153B3 /* GetBannerResponse.swift */; };
@@ -460,7 +460,7 @@
 		CABDCE802C48773A00631FB3 /* GetUserProfileResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserProfileResponse.swift; sourceTree = "<group>"; };
 		CABDCE822C4877AE00631FB3 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		CABDCE842C489C7B00631FB3 /* DeleteWithdrawalRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteWithdrawalRequest.swift; sourceTree = "<group>"; };
-		CABDCE972C4902C600631FB3 /* DRCustomeAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCustomeAlertView.swift; sourceTree = "<group>"; };
+		CABDCE972C4902C600631FB3 /* DRCustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCustomAlertView.swift; sourceTree = "<group>"; };
 		CABDCE992C49034100631FB3 /* GetFilteredDateCourseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFilteredDateCourseResponse.swift; sourceTree = "<group>"; };
 		CABDCE9B2C49037600631FB3 /* GetUpcomingDateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUpcomingDateResponse.swift; sourceTree = "<group>"; };
 		CABDCEA12C4904C600631FB3 /* DateScheduleDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateScheduleDeleteView.swift; sourceTree = "<group>"; };
@@ -854,7 +854,7 @@
 			isa = PBXGroup;
 			children = (
 				7428400D2C3EC58700B21AA7 /* DRCustomAlertViewController.swift */,
-				CABDCE972C4902C600631FB3 /* DRCustomeAlertView.swift */,
+				CABDCE972C4902C600631FB3 /* DRCustomAlertView.swift */,
 			);
 			path = CustomAlert;
 			sourceTree = "<group>";
@@ -1969,7 +1969,7 @@
 				0DF905C82C39402A0072EE65 /* Int+.swift in Sources */,
 				0DC9BEFF2C47B70600A817A8 /* StickyHeaderNavBarView.swift in Sources */,
 				CAC80FE12C3E822000658EA6 /* MainModel.swift in Sources */,
-				CABDCE982C4902C600631FB3 /* DRCustomeAlertView.swift in Sources */,
+				CABDCE982C4902C600631FB3 /* DRCustomAlertView.swift in Sources */,
 				CA3D0D182C29AA7A00735097 /* UITextField+.swift in Sources */,
 				742C9D9D2C459B3C007FFB51 /* MyCourseTargetType.swift in Sources */,
 				7455476F2C3D0A6300B526F3 /* PastDateContentView.swift in Sources */,
