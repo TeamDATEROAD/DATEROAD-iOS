@@ -75,6 +75,7 @@ class CourseDetailViewModel: Serviceable {
     var isChange: (() -> Void)?
     
     var startAt: String = ""
+    
     var tagArr = [GetCourseDetailTag]()
     
     

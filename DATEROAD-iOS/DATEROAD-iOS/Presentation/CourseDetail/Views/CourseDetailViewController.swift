@@ -542,7 +542,8 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return header
         } else if kind == TimelineHeaderView.elementKinds {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TimelineHeaderView.identifier, for: indexPath) as? TimelineHeaderView else { return UICollectionReusableView() }
-            // TODO :  시작 시간 바인딩
+            let startAt = self.courseDetailViewModel.startAt
+            header.bindSubTitle(subTitle: startAt)
             return header
         } else {
             return UICollectionReusableView()
