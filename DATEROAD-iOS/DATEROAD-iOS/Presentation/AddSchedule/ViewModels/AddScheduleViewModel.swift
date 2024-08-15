@@ -98,8 +98,10 @@ extension AddScheduleViewModel {
                //동네.KOR 불러와서 지역, 동네 ENG 버전 알아내는 미친 로직
                let cityName = data.titleHeaderData.value?.city ?? ""
                if let result = LocationMapper.getCountryAndCity(from: cityName) {
-                  let country = LocationModelCountryKorToEng.Country(rawValue: result.country.rawValue).rawValue
-                  let city = LocationModelCityKorToEng.City(rawValue: result.city.rawValue).rawValue
+                  let country = result.country.rawValue
+                  let city = result.city.rawValue
+//                  let country = LocationModelCountryKorToEng.Country(rawValue: result.country.rawValue).rawValue
+//                  let city = LocationModelCityKorToEng.City(rawValue: result.city.rawValue).rawValue
                   self.city = city
                   self.country = country
                   self.isDateLocationVaild.value = true

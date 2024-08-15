@@ -370,10 +370,10 @@ extension AddScheduleFirstViewController: LocationFilterDelegate {
       print("Selected city: \(city.rawValue)")
       viewModel.dateLocation.value = city.rawValue
       viewModel.satisfyDateLocation(str: city.rawValue)
-      let country = LocationModelCountryKorToEng.Country(rawValue: country.rawValue).rawValue
-      let city = LocationModelCityKorToEng.City(rawValue: city.rawValue).rawValue
-      viewModel.country = country
-      viewModel.city = city
+//      let country = LocationModelCountryKorToEng.Country(rawValue: country.rawValue).rawValue
+//      let city = LocationModelCityKorToEng.City(rawValue: city.rawValue).rawValue
+      viewModel.country = country.rawValue
+      viewModel.city = city.rawValue
    }
    
    
