@@ -126,8 +126,7 @@ class LocationFilterView: BaseView {
         }
         
         titleLabel.do {
-            $0.text = StringLiterals.LocationFilter.title
-            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_bold_18))
+            $0.setLabel(text:StringLiterals.LocationFilter.title,textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_bold_18))
         }
         
         closeButton.do {

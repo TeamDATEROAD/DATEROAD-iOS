@@ -14,18 +14,15 @@ class CourseDetailView: BaseView {
     
     // MARK: - UI Properties
     
-    lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
+    lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeCompositioinalLayout())
     
     let stickyHeaderNavBarView = StickyHeaderNavBarView()
-
-
     
     // MARK: - UI Properties
     
     private var courseDetailSection: [CourseDetailSection]
     
     var isAccess: Bool = false
-    
     
     // MARK: - Life Cycle
     
@@ -42,7 +39,6 @@ class CourseDetailView: BaseView {
     
     override func setHierarchy() {
         self.addSubviews(mainCollectionView,stickyHeaderNavBarView)
-       // mainCollectionView.addSubview(headerView)
     }
     
     override func setLayout() {
@@ -60,7 +56,7 @@ class CourseDetailView: BaseView {
     }
     
     override func setStyle() {
-        
+
         mainCollectionView.do {
             $0.contentInsetAdjustmentBehavior = .never
             $0.showsVerticalScrollIndicator = false
@@ -73,14 +69,13 @@ class CourseDetailView: BaseView {
             $0.backgroundColor = .clear
         }
         
-        
     }
     
 }
 
 extension CourseDetailView {
     
-    func makeFlowLayout() -> UICollectionViewCompositionalLayout {
+    func makeCompositioinalLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { section, _ -> NSCollectionLayoutSection? in
             
             switch self.courseDetailSection[section]  {
