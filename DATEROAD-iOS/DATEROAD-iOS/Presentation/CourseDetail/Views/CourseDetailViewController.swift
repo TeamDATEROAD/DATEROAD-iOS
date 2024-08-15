@@ -151,7 +151,7 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
             if isSuccess {
                 self?.localLikeNum = self?.courseDetailViewModel.likeSum.value ?? 0
                 self?.setSetctionCount()
-                self?.setTabBar()
+                self?.setTabBarVisibility()
                 self?.courseDetailView.mainCollectionView.reloadData()
             }
         }
@@ -219,7 +219,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
             return
         }
         setSetctionCount()
-        setTabBar()
+        setTabBarVisibility()
     }
     
     //버튼 분기 처리하기
@@ -279,7 +279,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         self.present(customAlertVC, animated: false)
     }
     
-    //바텀시트에서 신고하기 클릭시 팝업창
+    //바텀 시트에서 신고하기 클릭시 팝업창
     func didTapDeclareLabel(){
         let customAlertVC = DRCustomAlertViewController(
             rightActionType: RightButtonType.declareCourse,
@@ -294,7 +294,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         self.present(customAlertVC, animated: false)
     }
     
-    //바텀시트에서 삭제하기 클릭시 팝업창
+    //바텀 시트에서 삭제하기 클릭시 팝업창
     func didTapDeleteLabel(){
         let customAlertVC = DRCustomAlertViewController(
             rightActionType: RightButtonType.declareCourse,
@@ -308,6 +308,8 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         customAlertVC.modalPresentationStyle = .overFullScreen
         self.present(customAlertVC, animated: false)
     }
+    
+    
     
     
     //코스 등록하기로 화면 전환
@@ -433,15 +435,12 @@ private extension CourseDetailViewController {
     }
     
     func setSetctionCount() {
-        guard let isAccess = courseDetailViewModel.isAccess.value else { return }
-        let sectionCount = isAccess ? 6 : 3
-        courseDetailViewModel.setNumberOfSections(sectionCount)
+        courseDetailViewModel.setNumberOfSections(courseDetailViewModel.isAccess.value == true ? 6 : 3)
         courseDetailView.mainCollectionView.reloadData()
     }
     
-    func setTabBar() {
-        guard let isAccess = courseDetailViewModel.isAccess.value else { return }
-        courseInfoTabBarView.isHidden = !isAccess || courseDetailViewModel.isCourseMine.value == true
+    func setTabBarVisibility() {
+        courseInfoTabBarView.isHidden = !(courseDetailViewModel.isAccess.value ?? false) || (courseDetailViewModel.isCourseMine.value == true)
     }
     
 }
