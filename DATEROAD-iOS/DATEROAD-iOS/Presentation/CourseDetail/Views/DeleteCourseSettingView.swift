@@ -37,6 +37,7 @@ final class DeleteCourseSettingView: BaseView {
     }
     
     override func setStyle() {
+        
         settingStackView.do {
             $0.axis = .vertical
             $0.alignment = .center

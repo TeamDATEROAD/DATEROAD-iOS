@@ -78,6 +78,7 @@ extension MainViewController {
                 // TODO: - 서버 통신 재시도
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+
             }
         }
         
