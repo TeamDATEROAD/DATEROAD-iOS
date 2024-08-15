@@ -14,7 +14,7 @@ class CourseDetailView: BaseView {
     
     // MARK: - UI Properties
     
-    lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
+    lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeCompositioinalLayout())
     
     let stickyHeaderNavBarView = StickyHeaderNavBarView()
     
@@ -75,7 +75,7 @@ class CourseDetailView: BaseView {
 
 extension CourseDetailView {
     
-    func makeFlowLayout() -> UICollectionViewCompositionalLayout {
+    func makeCompositioinalLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { section, _ -> NSCollectionLayoutSection? in
             
             switch self.courseDetailSection[section]  {

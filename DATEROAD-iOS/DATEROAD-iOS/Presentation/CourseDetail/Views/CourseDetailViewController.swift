@@ -381,8 +381,8 @@ private extension CourseDetailViewController {
         courseDetailViewModel.isUserLiked.value?.toggle()
         
         let likeAction = isLiked ? courseDetailViewModel.deleteLikeCourse : courseDetailViewModel.likeCourse
-        
         likeAction(courseId ?? 0)
+        
         self.courseDetailView.mainCollectionView.reloadData()
         
     }
@@ -416,6 +416,8 @@ extension CourseDetailViewController: ImageCarouselDelegate {
     
 }
 
+// MARK: - Compositonal Layout
+
 extension CourseDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -423,8 +425,6 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        _ = courseDetailViewModel.fetchSection(at: section)
-        
         return courseDetailViewModel.numberOfItemsInSection(section)
     }
     
@@ -458,11 +458,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             }
             let mainData = courseDetailViewModel.mainContentsData.value ?? MainContentsModel(description: "")
             mainContentsCell.setCell(mainContentsData: mainData)
-            if isAccess {
-                mainContentsCell.mainTextLabel.numberOfLines = 0
-            } else {
-                mainContentsCell.mainTextLabel.numberOfLines = 3
-            }
+            mainContentsCell.mainTextLabel.numberOfLines = isAccess ? 0 : 3
             return mainContentsCell
             
         case .timelineInfo:
@@ -514,11 +510,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         } else if kind == BottomPageControllView.elementKinds {
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else { return UICollectionReusableView() }
             if !isFirstLike {
-                if courseDetailViewModel.isUserLiked.value == true {
-                    localLikeNum += 1
-                } else {
-                    localLikeNum -= 1
-                }
+                localLikeNum += courseDetailViewModel.isUserLiked.value == true ? 1 : -1
             }
             
             footer.pageIndexSum = imageData.count
