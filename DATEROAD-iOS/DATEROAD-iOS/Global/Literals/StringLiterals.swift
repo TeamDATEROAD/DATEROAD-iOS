@@ -233,4 +233,10 @@ enum StringLiterals {
         static let emptyGainedPoint = "아직 포인트 획득 내역이 없어요!"
         static let emptyUsedPoint = "아직 포인트 사용 내역이 없어요!"
     }
+    
+    enum Network {
+        static let accessToken = "accessToken"
+        static let refreshToken = "refreshToken"
+        static let userID = "userID"
+    }
 }
