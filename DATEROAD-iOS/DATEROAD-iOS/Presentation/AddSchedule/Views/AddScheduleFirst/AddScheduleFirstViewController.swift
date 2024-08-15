@@ -85,13 +85,13 @@ extension AddScheduleFirstViewController {
    }
    
    func bindViewModel() {
-       self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
-           guard let onSuccess else { return }
-           if onSuccess {
-               self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
-           }
-       }
-       
+      self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
+         guard let onSuccess else { return }
+         if onSuccess {
+            self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+         }
+      }
+      
       viewModel.ispastDateVaild.bind { [weak self] isValid in
          guard let self = self else { return }
          self.viewModel.fetchPastDate {
@@ -306,10 +306,6 @@ extension AddScheduleFirstViewController: UICollectionViewDataSource, UICollecti
          print("Found matching tag in pastDateTagIndex: \(cell.tendencyTagButton.tag)")
          importingTagBtn(cell.tendencyTagButton)
          print("!!!!!!!!!!!!!!!!")
-//         viewModel.pastDateTagIndex.removeFirst()
-//         if viewModel.pastDateTagIndex.count == 0 {
-//            collectionView.reloadData()
-//         }
       }
       
       
@@ -336,10 +332,10 @@ extension AddScheduleFirstViewController: UITextFieldDelegate {
 }
 
 extension AddScheduleFirstViewController: DRBottomSheetDelegate {
-    func didTapFirstLabel() {
-        print("d")
-    }
-    
+   func didTapFirstLabel() {
+      print("d")
+   }
+   
    
    func didTapBottomButton() {
       self.dismiss(animated: true)
@@ -362,32 +358,18 @@ extension AddScheduleFirstViewController: DRBottomSheetDelegate {
 }
 
 extension AddScheduleFirstViewController: LocationFilterDelegate {
-    func getCourse() {
-        return
-    }
-    
+   func getCourse() {
+      return
+   }
+   
    func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
       print("selected country : \(country.rawValue)")
       print("Selected city: \(city.rawValue)")
       viewModel.dateLocation.value = city.rawValue
       viewModel.satisfyDateLocation(str: city.rawValue)
-//      let country = LocationModelCountryKorToEng.Country(rawValue: country.rawValue).rawValue
-//      let city = LocationModelCityKorToEng.City(rawValue: city.rawValue).rawValue
       viewModel.country = country.rawValue
       viewModel.city = city.rawValue
    }
-   
-   
-   //   func didSelectLocation(country: LocationModel.Country, city: LocationModel.City) {
-   //      print("selected country : \(country.rawValue)")
-   //      print("Selected city: \(city.rawValue)")
-   //      viewModel.dateLocation.value = city.rawValue
-   //      viewModel.satisfyDateLocation(str: city.rawValue)
-   //      let country = LocationModelCountryKorToEng.Country(rawValue: country.rawValue).rawValue
-   //      let city = LocationModelCityKorToEng.City(rawValue: city.rawValue).rawValue
-   //      viewModel.country = country
-   //      viewModel.city = city
-   //   }
    
 }
 

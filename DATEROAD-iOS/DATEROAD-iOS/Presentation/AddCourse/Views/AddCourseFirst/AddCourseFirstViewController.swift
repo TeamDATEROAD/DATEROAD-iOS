@@ -94,13 +94,13 @@ private extension AddCourseFirstViewController {
    }
    
    func bindViewModel() {
-       self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
-           guard let onSuccess else { return }
-           if onSuccess {
-               self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
-           }
-       }
-       
+      self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
+         guard let onSuccess else { return }
+         if onSuccess {
+            self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+         }
+      }
+      
       viewModel.ispastDateVaild.bind { date in
          self.viewModel.fetchPastDate()
          self.addCourseFirstView.addFirstView.tendencyTagCollectionView.reloadData()
@@ -196,8 +196,8 @@ private extension AddCourseFirstViewController {
    
    @objc
    func visitDate() {
-         addSheetView.datePickerMode(isDatePicker: true)
-         viewModel.isTimePicker = false
+      addSheetView.datePickerMode(isDatePicker: true)
+      viewModel.isTimePicker = false
       alertVC.delegate = self
       addCourseFirstView.addFirstView.dateNameTextField.resignFirstResponder()
       DispatchQueue.main.async {
@@ -208,8 +208,8 @@ private extension AddCourseFirstViewController {
    
    @objc
    func dateStartAt() {
-         addSheetView.datePickerMode(isDatePicker: false)
-         viewModel.isTimePicker = true
+      addSheetView.datePickerMode(isDatePicker: false)
+      viewModel.isTimePicker = true
       alertVC.delegate = self
       addCourseFirstView.addFirstView.dateNameTextField.resignFirstResponder()
       DispatchQueue.main.async {
@@ -253,27 +253,27 @@ private extension AddCourseFirstViewController {
    
    @objc
    func didTapTagButton(_ sender: UIButton) {
-       guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
-
-       let maxTags = 3
-       
-       // 3이 아닐 때
-       if self.viewModel.selectedTagData.count != maxTags {
-          sender.isSelected.toggle()
-          sender.isSelected ? self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
-          : self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: UnselectedButton())
-          self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
-          self.viewModel.isValidTag.value = true
-       }
-       // 그 외
-       else {
-          if sender.isSelected {
-             sender.isSelected.toggle()
-             self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType:  UnselectedButton())
-             self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
-             self.viewModel.isValidTag.value = true
-          }
-       }
+      guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
+      
+      let maxTags = 3
+      
+      // 3이 아닐 때
+      if self.viewModel.selectedTagData.count != maxTags {
+         sender.isSelected.toggle()
+         sender.isSelected ? self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
+         : self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: UnselectedButton())
+         self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
+         self.viewModel.isValidTag.value = true
+      }
+      // 그 외
+      else {
+         if sender.isSelected {
+            sender.isSelected.toggle()
+            self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType:  UnselectedButton())
+            self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
+            self.viewModel.isValidTag.value = true
+         }
+      }
    }
    
    @objc
@@ -451,18 +451,16 @@ extension AddCourseFirstViewController: DRBottomSheetDelegate {
 }
 
 extension AddCourseFirstViewController: LocationFilterDelegate {
-    func getCourse() {
-        return
-    }
-    
+   func getCourse() {
+      return
+   }
+   
    
    func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
       print("selected : \(city)")
       print("Selected city: \(city.rawValue)")
       viewModel.dateLocation.value = city.rawValue
       viewModel.satisfyDateLocation(str: city.rawValue)
-//      let country = LocationModelCountryKorToEng.Country(rawValue: country.rawValue).rawValue
-//      let city = LocationModelCityKorToEng.City(rawValue: city.rawValue).rawValue
       viewModel.country = country.rawValue
       viewModel.city = city.rawValue
    }
