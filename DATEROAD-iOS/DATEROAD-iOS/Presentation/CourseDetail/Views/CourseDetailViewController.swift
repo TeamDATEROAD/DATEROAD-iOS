@@ -170,13 +170,9 @@ final class CourseDetailViewController: BaseViewController {
     }
     
     func setAddTarget() {
-        let bottomSheetGesture = UITapGestureRecognizer(target: self, action: #selector(didTapBottomSheetLabel(sender:)))
-        deleteCourseSettingView.deleteLabel.addGestureRecognizer(bottomSheetGesture)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapLikeButton))
+        deleteCourseSettingView.deleteLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapBottomSheetLabel(sender:))))
         courseInfoTabBarView.likeButtonView.isUserInteractionEnabled = true
-        courseInfoTabBarView.likeButtonView.addGestureRecognizer(tapGesture)
-        
+        courseInfoTabBarView.likeButtonView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapLikeButton)))
         courseInfoTabBarView.bringCourseButton.addTarget(self, action: #selector(didTapMySchedule), for: .touchUpInside)
     }
     
@@ -441,126 +437,180 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         return courseDetailViewModel.numberOfItemsInSection(section)
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let sectionType = courseDetailViewModel.fetchSection(at: indexPath.section)
-        let isAccess = self.courseDetailViewModel.isAccess.value ?? false
+        let isAccess = courseDetailViewModel.isAccess.value ?? false
         
         switch sectionType {
         case .imageCarousel:
-            guard let imageCarouselCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCarouselCell.cellIdentifier, for: indexPath) as? ImageCarouselCell else {
-                return UICollectionViewCell()
-            }
-            let imageData = courseDetailViewModel.imageData.value ?? []
-            imageCarouselCell.setPageVC(thumbnailModel: imageData)
-            imageCarouselCell.setAccess(isAccess: isAccess)
-            imageCarouselCell.delegate = self
-            return imageCarouselCell
-            
+            return configureImageCarouselCell(collectionView, indexPath: indexPath, isAccess: isAccess)
         case .titleInfo:
-            guard let titleInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleInfoCell.cellIdentifier, for: indexPath) as? TitleInfoCell else {
-                return UICollectionViewCell()
-            }
-            let titleDate = courseDetailViewModel.titleHeaderData.value  ?? TitleHeaderModel(date: "", title: "", cost: 0, totalTime: 0, city: "")
-            titleInfoCell.setCell(titleHeaderData: titleDate)
-            return titleInfoCell
-            
+            return configureTitleInfoCell(collectionView, indexPath: indexPath)
         case .mainContents:
-            guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.cellIdentifier, for: indexPath) as? MainContentsCell else {
-                return UICollectionViewCell()
-            }
-            let mainData = courseDetailViewModel.mainContentsData.value ?? MainContentsModel(description: "")
-            mainContentsCell.setCell(mainContentsData: mainData)
-            mainContentsCell.mainTextLabel.numberOfLines = isAccess ? 0 : 3
-            return mainContentsCell
-            
+            return configureMainContentsCell(collectionView, indexPath: indexPath, isAccess: isAccess)
         case .timelineInfo:
-            guard let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.cellIdentifier, for: indexPath) as? TimelineInfoCell else {
-                return UICollectionViewCell()
-            }
-            let timelineItem = self.courseDetailViewModel.timelineData.value?[indexPath.row] ?? TimelineModel(sequence: 0, title: "", duration: 0)
-            timelineInfoCell.setCell(timelineData: timelineItem)
-            return timelineInfoCell
-            
+            return configureTimelineInfoCell(collectionView, indexPath: indexPath)
         case .coastInfo:
-            guard let coastInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.cellIdentifier, for: indexPath) as? CoastInfoCell else {
-                return UICollectionViewCell()
-            }
-            let coastData = self.courseDetailViewModel.titleHeaderData.value?.cost ?? 0
-            coastInfoCell.setCell(coastData: coastData)
-            return coastInfoCell
-            
+            return configureCoastInfoCell(collectionView, indexPath: indexPath)
         case .tagInfo:
-            guard let tagInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCell.cellIdentifier, for: indexPath) as? TagInfoCell else {
-                return UICollectionViewCell()
-            }
-            let tagData = self.courseDetailViewModel.tagData.value?[indexPath.row] ?? TagModel(tag: "")
-            tagInfoCell.setCell(tag: tagData.tag)
-            return tagInfoCell
+            return configureTagInfoCell(collectionView, indexPath: indexPath)
         }
     }
     
+    private func configureImageCarouselCell(_ collectionView: UICollectionView, indexPath: IndexPath, isAccess: Bool) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCarouselCell.cellIdentifier, for: indexPath) as? ImageCarouselCell else {
+            return UICollectionViewCell()
+        }
+        let imageData = courseDetailViewModel.imageData.value ?? []
+        cell.setPageVC(thumbnailModel: imageData)
+        cell.setAccess(isAccess: isAccess)
+        cell.delegate = self
+        return cell
+    }
+    
+    private func configureTitleInfoCell(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleInfoCell.cellIdentifier, for: indexPath) as? TitleInfoCell else {
+            return UICollectionViewCell()
+        }
+        let titleData = courseDetailViewModel.titleHeaderData.value ?? TitleHeaderModel(date: "", title: "", cost: 0, totalTime: 0, city: "")
+        cell.setCell(titleHeaderData: titleData)
+        return cell
+    }
+    
+    private func configureMainContentsCell(_ collectionView: UICollectionView, indexPath: IndexPath, isAccess: Bool) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.cellIdentifier, for: indexPath) as? MainContentsCell else {
+            return UICollectionViewCell()
+        }
+        let mainData = courseDetailViewModel.mainContentsData.value ?? MainContentsModel(description: "")
+        cell.setCell(mainContentsData: mainData)
+        cell.mainTextLabel.numberOfLines = isAccess ? 0 : 3
+        return cell
+    }
+    
+    private func configureTimelineInfoCell(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.cellIdentifier, for: indexPath) as? TimelineInfoCell else {
+            return UICollectionViewCell()
+        }
+        let timelineItem = courseDetailViewModel.timelineData.value?[indexPath.row] ?? TimelineModel(sequence: 0, title: "", duration: 0)
+        cell.setCell(timelineData: timelineItem)
+        return cell
+    }
+    
+    private func configureCoastInfoCell(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.cellIdentifier, for: indexPath) as? CoastInfoCell else {
+            return UICollectionViewCell()
+        }
+        let coastData = courseDetailViewModel.titleHeaderData.value?.cost ?? 0
+        cell.setCell(coastData: coastData)
+        return cell
+    }
+    
+    private func configureTagInfoCell(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCell.cellIdentifier, for: indexPath) as? TagInfoCell else {
+            return UICollectionViewCell()
+        }
+        let tagData = courseDetailViewModel.tagData.value?[indexPath.row] ?? TagModel(tag: "")
+        cell.setCell(tag: tagData.tag)
+        return cell
+    }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        let isAccess = self.courseDetailViewModel.isAccess.value ?? false
-        let titleHeaderData = self.courseDetailViewModel.titleHeaderData.value ?? TitleHeaderModel(date: "", title: "", cost: 0, totalTime: 0, city: "")
-        let imageData = self.courseDetailViewModel.imageData.value ?? []
-        
-        if kind == VisitDateView.elementKinds {
-            guard let visitDate = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: VisitDateView.identifier, for: indexPath) as? VisitDateView else {
-                return UICollectionReusableView()
-            }
-            visitDate.bindDate(titleHeaderData: titleHeaderData)
-            return visitDate
-        } else if kind == InfoBarView.elementKinds {
-            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoBarView.identifier, for: indexPath) as? InfoBarView else { return UICollectionReusableView() }
-            footer.bindTitleHeader(titleHeaderData: titleHeaderData)
-            return footer
-        } else if kind == GradientView.elementKinds {
-            guard let gradient = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: GradientView.identifier, for: indexPath) as? GradientView else { return UICollectionReusableView() }
-            return gradient
-        } else if kind == BottomPageControllView.elementKinds {
-            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else { return UICollectionReusableView() }
-            if !isFirstLike {
-                localLikeNum += courseDetailViewModel.isUserLiked.value == true ? 1 : -1
-            }
-            
-            footer.pageIndexSum = imageData.count
-            footer.bindData(like: localLikeNum)
-            return footer
-        } else if kind == ContentMaskView.elementKinds {
-            if isAccess {
-                return UICollectionReusableView()
-            } else {
-                guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ContentMaskView.identifier, for: indexPath) as? ContentMaskView else { return UICollectionReusableView() }
-                let haveFree = self.courseDetailViewModel.haveFreeCount.value ?? false
-                let count = self.courseDetailViewModel.conditionalData.value?.free ?? 0
-                footer.checkFree(haveFree: haveFree, count: count)
-                footer.delegate = self
-                return footer
-            }
-        } else if kind == InfoHeaderView.elementKinds {
-            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoHeaderView.identifier, for: indexPath) as? InfoHeaderView else { return UICollectionReusableView() }
-            switch courseDetailViewModel.fetchSection(at: indexPath.section) {
-            case .coastInfo:
-                header.bindTitle(headerTitle: StringLiterals.CourseDetail.coastInfoLabel)
-            case .tagInfo:
-                header.bindTitle(headerTitle: StringLiterals.CourseDetail.tagInfoLabel)
-            default:
-                break
-            }
-            return header
-        } else if kind == TimelineHeaderView.elementKinds {
-            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TimelineHeaderView.identifier, for: indexPath) as? TimelineHeaderView else { return UICollectionReusableView() }
-            let startAt = self.courseDetailViewModel.startAt
-            header.bindSubTitle(subTitle: startAt)
-            return header
-        } else {
+        let isAccess = courseDetailViewModel.isAccess.value ?? false
+        let titleHeaderData = courseDetailViewModel.titleHeaderData.value ?? TitleHeaderModel(date: "", title: "", cost: 0, totalTime: 0, city: "")
+        let imageData = courseDetailViewModel.imageData.value ?? []
+
+        switch kind {
+        case VisitDateView.elementKinds:
+            return configureVisitDateView(collectionView, indexPath: indexPath, titleHeaderData: titleHeaderData)
+        case InfoBarView.elementKinds:
+            return configureInfoBarView(collectionView, indexPath: indexPath, titleHeaderData: titleHeaderData)
+        case GradientView.elementKinds:
+            return configureGradientView(collectionView, indexPath: indexPath)
+        case BottomPageControllView.elementKinds:
+            return configureBottomPageControlView(collectionView, indexPath: indexPath, imageData: imageData, isAccess: isAccess)
+        case ContentMaskView.elementKinds:
+            return configureContentMaskView(collectionView, indexPath: indexPath, isAccess: isAccess)
+        case InfoHeaderView.elementKinds:
+            return configureInfoHeaderView(collectionView, indexPath: indexPath)
+        case TimelineHeaderView.elementKinds:
+            return configureTimelineHeaderView(collectionView, indexPath: indexPath)
+        default:
             return UICollectionReusableView()
         }
     }
+
+    private func configureVisitDateView(_ collectionView: UICollectionView, indexPath: IndexPath, titleHeaderData: TitleHeaderModel) -> UICollectionReusableView {
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: VisitDateView.elementKinds, withReuseIdentifier: VisitDateView.identifier, for: indexPath) as? VisitDateView else {
+            return UICollectionReusableView()
+        }
+        view.bindDate(titleHeaderData: titleHeaderData)
+        return view
+    }
     
+    private func configureInfoBarView(_ collectionView: UICollectionView, indexPath: IndexPath, titleHeaderData: TitleHeaderModel) -> UICollectionReusableView {
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: InfoBarView.elementKinds, withReuseIdentifier: InfoBarView.identifier, for: indexPath) as? InfoBarView else {
+            return UICollectionReusableView()
+        }
+        view.bindTitleHeader(titleHeaderData: titleHeaderData)
+        return view
+    }
+    
+    private func configureGradientView(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionReusableView {
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: GradientView.elementKinds, withReuseIdentifier: GradientView.identifier, for: indexPath) as? GradientView else {
+            return UICollectionReusableView()
+        }
+        return view
+    }
+    
+    private func configureBottomPageControlView(_ collectionView: UICollectionView, indexPath: IndexPath, imageData: [ThumbnailModel], isAccess: Bool) -> UICollectionReusableView {
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: BottomPageControllView.elementKinds, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else {
+            return UICollectionReusableView()
+        }
+        if !isFirstLike {
+            localLikeNum += courseDetailViewModel.isUserLiked.value == true ? 1 : -1
+        }
+        view.pageIndexSum = imageData.count
+        view.bindData(like: localLikeNum)
+        return view
+    }
+    
+    private func configureContentMaskView(_ collectionView: UICollectionView, indexPath: IndexPath, isAccess: Bool) -> UICollectionReusableView {
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: ContentMaskView.elementKinds, withReuseIdentifier: ContentMaskView.identifier, for: indexPath) as? ContentMaskView else {
+            return UICollectionReusableView()
+        }
+        if !isAccess {
+            let haveFree = courseDetailViewModel.haveFreeCount.value ?? false
+            let count = courseDetailViewModel.conditionalData.value?.free ?? 0
+            view.checkFree(haveFree: haveFree, count: count)
+            view.delegate = self
+        }
+        return view
+    }
+    
+    private func configureInfoHeaderView(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionReusableView {
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier, for: indexPath) as? InfoHeaderView else {
+            return UICollectionReusableView()
+        }
+        switch courseDetailViewModel.fetchSection(at: indexPath.section) {
+        case .coastInfo:
+            view.bindTitle(headerTitle: StringLiterals.CourseDetail.coastInfoLabel)
+        case .tagInfo:
+            view.bindTitle(headerTitle: StringLiterals.CourseDetail.tagInfoLabel)
+        default:
+            break
+        }
+        return view
+    }
+    
+    private func configureTimelineHeaderView(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionReusableView {
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: TimelineHeaderView.elementKinds, withReuseIdentifier: TimelineHeaderView.identifier, for: indexPath) as? TimelineHeaderView else {
+            return UICollectionReusableView()
+        }
+        let startAt = courseDetailViewModel.startAt
+        view.bindSubTitle(subTitle: startAt)
+        return view
+    }
 }
+
 
 
