@@ -13,12 +13,15 @@ final class MainViewController: BaseViewController {
     
     private var mainView: MainView
     
+    
     // MARK: - Properties
     
     private var mainViewModel: MainViewModel
     
     private lazy var userName = mainViewModel.mainUserData.value?.name
+    
     private lazy var point = mainViewModel.mainUserData.value?.point
+    
     
     // MARK: - Life Cycles
     
@@ -144,10 +147,8 @@ extension MainViewController {
         cell.bindIndexData(currentIndex: index, count: count)
     }
     
-    // TODO: - 코스 등록 뷰컨 연결
     @objc
     func pushToAddCourseVC() {
-        print("pushToAddCourseVC")
         let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
         self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
@@ -165,7 +166,6 @@ extension MainViewController {
         let upcomingDateDetailVC = UpcomingDateDetailViewController()
         upcomingDateDetailVC.upcomingDateDetailViewModel = DateDetailViewModel(dateID: dateID)
         upcomingDateDetailVC.setColor(index: dateID)
-//        upcomingDateDetailVC.upcomingDateDetailContentView.kakaoShareButton.isHidden = true
         self.navigationController?.pushViewController(upcomingDateDetailVC, animated: true)
     }
 
@@ -189,8 +189,13 @@ extension MainViewController {
 extension MainViewController: UICollectionViewDelegate {
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let page = Int(targetContentOffset.pointee.x / self.view.frame.width)
-        self.mainViewModel.currentIndex.value?.row = page
+        guard let cell = self.mainView.mainCollectionView.cellForItem(at: IndexPath(item: 0, section: 2)) as? BannerCell
+        else { return }
+        
+        if scrollView == cell.bannerCollectionView {
+            let page = Int(targetContentOffset.pointee.x / self.view.frame.width)
+            self.mainViewModel.currentIndex.value?.row = page
+        }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -266,6 +271,9 @@ extension MainViewController: UICollectionViewDataSource {
                 cell.bannerCollectionView.register(BannerImageCollectionViewCell.self, forCellWithReuseIdentifier: BannerImageCollectionViewCell.cellIdentifier)
                 cell.bannerCollectionView.dataSource = self
                 cell.bannerCollectionView.delegate = self
+                
+                let index = mainViewModel.currentIndex.value?.row ?? 0
+                cell.bindIndexData(currentIndex: index, count: 5)
                 return cell
             case .newDateCourse:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell else { return UICollectionViewCell() }
@@ -306,7 +314,6 @@ extension MainViewController: UICollectionViewDataSource {
            case .newDateCourse:
                let courseId = mainViewModel.newCourseData.value?[indexPath.item].courseId ?? 0
                self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
-               print("pushToDetailCourseVC")
            default:
                print("default")
            }
