@@ -21,6 +21,7 @@ enum RightButtonType {
     case addCourse
     case checkCourse
     case deleteCourse
+    case declareCourse
     case kakaoShare
     case logout
     case none

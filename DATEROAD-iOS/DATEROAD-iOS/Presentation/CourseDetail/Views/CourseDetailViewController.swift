@@ -210,6 +210,11 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
                     didTapBuyButton()
                 }
             }
+        case .declareCourse:
+            let delclareVC = DRWebViewController(urlString: "https://tally.so/r/w4L1a5")
+            self.present(delclareVC, animated: true)
+        case .deleteCourse:
+            deleteCourse()
         default:
             return
         }
@@ -274,36 +279,69 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         self.present(customAlertVC, animated: false)
     }
     
+    //바텀시트에서 신고하기 클릭시 팝업창
+    func didTapDeclareLabel(){
+        let customAlertVC = DRCustomAlertViewController(
+            rightActionType: RightButtonType.declareCourse,
+            alertTextType: .hasDecription,
+            alertButtonType: .twoButton,
+            titleText: "데이트 코스를 신고하시겠어요?",
+            descriptionText: "신고된 게시물은 확인 후 서비스의 운영원칙에\n따라 조치 예정이에요",
+            rightButtonText: "신고"
+        )
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        self.present(customAlertVC, animated: false)
+    }
+    
+    //바텀시트에서 삭제하기 클릭시 팝업창
+    func didTapDeleteLabel(){
+        let customAlertVC = DRCustomAlertViewController(
+            rightActionType: RightButtonType.declareCourse,
+            alertTextType: .hasDecription,
+            alertButtonType: .twoButton,
+            titleText: "데이트 코스를 삭제하시겠어요?",
+            descriptionText: "삭제된 코스는 복구하실 수 없어요",
+            rightButtonText: "삭제"
+        )
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        self.present(customAlertVC, animated: false)
+    }
+    
+    
     //코스 등록하기로 화면 전환
     func didTapAddCourseButton() {
         let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
         self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
     
-    /// 더보기 버튼 눌렀을 때 직접적인 액션 처리
+    func deleteCourse() {
+        print("삭제")
+        self.dismiss(animated: true)
+        courseDetailViewModel.deleteCourse { [weak self] success in
+            DispatchQueue.main.async {
+                if success {
+                    print("성공적으로 삭제")
+                    self?.navigationController?.popViewController(animated: true)
+                } else {
+                    print("삭제 실패 ㅠ")
+                }
+            }
+        }
+        courseDetailView.mainCollectionView.reloadData()
+    }
+    
+    /// 더보기 버튼 눌렀을 때 직접적인 액션 처리 -> 신고 혹은 삭제 버튼 클릭시 액션 처리
     @objc func didTapBottomSheetLabel(sender: UITapGestureRecognizer) {
-        print("didTapDeleteLabel")
+        print("삭제하기 클릭")
         self.dismiss(animated: true)
         guard let isCourseMine = courseDetailViewModel.isCourseMine.value else { return }
         if isCourseMine {
-            courseDetailViewModel.deleteCourse { [weak self] success in
-                DispatchQueue.main.async {
-                    if success {
-                        print("성공적으로 삭제")
-                        self?.navigationController?.popViewController(animated: true)
-                    } else {
-                        print("삭제 실패 ㅠ")
-                    }
-                }
-            }
-            courseDetailView.mainCollectionView.reloadData()
+            didTapDeleteLabel()
         } else {
-            print("신고하기 웹뷰로 연결")
-            //임시로 아무 링크 ㅎㅎ
-            let delclareVC = DRWebViewController(urlString: "https://blog.naver.com/2cold0utside")
-            self.present(delclareVC, animated: true)
+            didTapDeclareLabel()
         }
-        
     }
     
 }
