@@ -73,7 +73,9 @@ final class CourseDetailViewController: BaseViewController {
     
     override func setLayout() {
         super.setLayout()
+        
         self.tabBarController?.tabBar.isHidden = true
+        courseInfoTabBarView.isHidden = true
         
         courseDetailView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -82,15 +84,6 @@ final class CourseDetailViewController: BaseViewController {
         courseInfoTabBarView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(108)
-        }
-        
-    }
-    
-    override func setStyle() {
-        super.setStyle()
-        
-        courseInfoTabBarView.do {
-            $0.isHidden = true
         }
         
     }
