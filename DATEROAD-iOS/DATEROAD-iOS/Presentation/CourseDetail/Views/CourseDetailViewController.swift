@@ -247,71 +247,49 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     
     //버튼 분기 처리하기
     func didTapViewButton() {
-        guard let haveFreeCount = self.courseDetailViewModel.haveFreeCount.value else { return }
-        
-        if haveFreeCount {
-            didTapFreeViewButton()
-        } else {
-            didTapReadCourseButton()
-        }
+        courseDetailViewModel.haveFreeCount.value == true ? showFreeViewAlert() : showReadCourseAlert()
     }
     
-    //열람 전 분기 처리 - 무료 사용 기회 다 쓴 경우
-    func didTapReadCourseButton() {
-        let customAlertVC = DRCustomAlertViewController(
-            rightActionType: RightButtonType.checkCourse,
-            alertTextType: .hasDecription,
-            alertButtonType: .twoButton,
-            titleText: StringLiterals.Alert.buyCourse,
-            descriptionText: StringLiterals.Alert.canNotRefund,
-            rightButtonText: StringLiterals.CourseDetail.check
+    // 무료 사용 기회를 다 쓴 경우의 알림
+    func showReadCourseAlert() {
+        presentCustomAlert(
+            title: StringLiterals.Alert.buyCourse,
+            description: StringLiterals.Alert.canNotRefund,
+            action: .checkCourse,
+            buttonText: StringLiterals.CourseDetail.check
         )
-        customAlertVC.delegate = self
-        customAlertVC.modalPresentationStyle = .overFullScreen
-        self.present(customAlertVC, animated: false)
     }
     
-    //열람 전 분기 처리 - 무료 사용 기회 남은 경우
-    func didTapFreeViewButton() {
-        let customAlertVC = DRCustomAlertViewController(
-            rightActionType: RightButtonType.checkCourse,
-            alertTextType: .hasDecription,
-            alertButtonType: .twoButton,
-            titleText: StringLiterals.CourseDetail.freeViewTitle,
-            descriptionText: StringLiterals.CourseDetail.freeViewDescription,
-            rightButtonText: StringLiterals.CourseDetail.check
+    // 무료 사용 기회가 남은 경우의 알림
+    func showFreeViewAlert() {
+        presentCustomAlert(
+            title: StringLiterals.CourseDetail.freeViewTitle,
+            description: StringLiterals.CourseDetail.freeViewDescription,
+            action: .checkCourse,
+            buttonText: StringLiterals.CourseDetail.check
         )
-        customAlertVC.delegate = self
-        customAlertVC.modalPresentationStyle = .overFullScreen
-        self.present(customAlertVC, animated: false)
     }
-    
     
     //포인트가 부족할 때
     func showPointAlert(){
-        let customAlertVC = DRCustomAlertViewController(
-            rightActionType: RightButtonType.addCourse,
-            alertTextType: .hasDecription,
-            alertButtonType: .twoButton,
-            titleText: StringLiterals.CourseDetail.insufficientPointsTitle,
-            descriptionText: StringLiterals.CourseDetail.insufficientPointsDescription,
-            rightButtonText: StringLiterals.CourseDetail.addCourse
+        presentCustomAlert(
+            title: StringLiterals.CourseDetail.insufficientPointsTitle,
+            description: StringLiterals.CourseDetail.insufficientPointsDescription,
+            action: .addCourse,
+            buttonText: StringLiterals.CourseDetail.addCourse
         )
-        customAlertVC.delegate = self
-        customAlertVC.modalPresentationStyle = .overFullScreen
-        self.present(customAlertVC, animated: false)
     }
     
-    /// 더보기 버튼 눌렀을 때 직접적인 액션 처리 -> 신고 혹은 삭제 버튼 클릭시 액션 처리
+    // 신고 혹은 삭제 버튼 클릭 시 처리
     @objc func didTapBottomSheetLabel(sender: UITapGestureRecognizer) {
         print("삭제하기 클릭")
         self.dismiss(animated: true)
-        guard let isCourseMine = courseDetailViewModel.isCourseMine.value else { return }
-        isCourseMine ? showDeleteAlert() : showDecalreAlert()
+        courseDetailViewModel.isCourseMine.value == true ? showDeleteAlert() : showDeclareAlert()
+
     }
     
     //바텀 시트에서 신고하기 클릭시 팝업창
-    func showDecalreAlert(){
+    func showDeclareAlert(){
         presentCustomAlert(
             title: "데이트 코스를 신고하시겠어요?",
             description: "신고된 게시물은 확인 후 서비스의 운영원칙에\n따라 조치 예정이에요",
@@ -328,14 +306,14 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         )
     }
     
-    func presentCustomAlert(title: String, description: String, action: RightButtonType) {
+    func presentCustomAlert(title: String, description: String, action: RightButtonType, buttonText: String = "확인") {
         let alertVC = DRCustomAlertViewController(
             rightActionType: action,
             alertTextType: .hasDecription,
             alertButtonType: .twoButton,
             titleText: title,
             descriptionText: description,
-            rightButtonText: "확인"
+            rightButtonText: buttonText
         )
         alertVC.delegate = self
         alertVC.modalPresentationStyle = .overFullScreen
@@ -351,7 +329,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
 
 }
 
-extension CourseDetailViewController: StickyHeaderNavBarViewDelegate {
+extension CourseDetailViewController: StickyHeaderNavBarViewDelegate, DRBottomSheetDelegate {
     
     func didTapBackButton() {
         navigationController?.popViewController(animated: true)
@@ -364,20 +342,17 @@ extension CourseDetailViewController: StickyHeaderNavBarViewDelegate {
             buttonType: DisabledButton(),
             buttonTitle: StringLiterals.Common.close
         )
-        
+        bottomSheetVC.delegate = self
         deleteCourseSettingView.deleteLabel.text = courseDetailViewModel.isCourseMine.value == true ? "삭제" : "신고하기"
         bottomSheetVC.modalPresentationStyle = .overFullScreen
         present(bottomSheetVC, animated: true)
     }
 
-}
-
-extension CourseDetailViewController: DRBottomSheetDelegate {
-    
     func didTapBottomButton() {
         self.dismiss(animated: true)
     }
 }
+
 
 extension CourseDetailViewController: UIScrollViewDelegate {
     
