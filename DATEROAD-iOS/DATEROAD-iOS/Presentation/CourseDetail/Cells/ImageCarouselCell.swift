@@ -47,12 +47,12 @@ final class ImageCarouselCell: BaseCollectionViewCell {
         vcData = thumbnailModel.map { thumbnail in
             let vc = UIViewController()
             let imageView = UIImageView()
-            if let url = URL(string: thumbnail.imageUrl) {
-                imageView.kf.setImage(with: url)
-            }
+            
+            imageView.kfSetImage(with: thumbnail.imageUrl)
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
             vc.view.addSubview(imageView)
+            
             imageView.snp.makeConstraints {
                 $0.edges.equalToSuperview()
             }

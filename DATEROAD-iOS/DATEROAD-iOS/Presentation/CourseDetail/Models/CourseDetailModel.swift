@@ -31,14 +31,6 @@ struct ConditionalModel {
 struct ThumbnailModel {
     let imageUrl: String
     let sequence: Int
-//    let courseImages: [(imageUrl: String, sequence: Int)]
-//    let like: Int
-    
-//    static var thumbnailDummyData: ThumbnailModel {
-//        return ThumbnailModel(courseImages: [
-//            (imageUrl: "https://example.com/default_image.jpg", sequence: 0)
-//        ], like: 0)
-//    }
 }
 
 
@@ -101,10 +93,6 @@ struct CoastModel {
 struct TagModel {
     let tag: String
     
-    static var tagDummyData: [TagModel] = [
-        TagModel(tag: "🚙 드라이브"),
-        TagModel(tag: "🛍️ 쇼핑"),
-        TagModel(tag: "🚪 실내")
-    ]
+    static var tagDummyData: [TagModel] = []
 }
 

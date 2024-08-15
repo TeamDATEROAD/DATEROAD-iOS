@@ -55,6 +55,12 @@ enum StringLiterals {
         static let viewCoursewithPoint = "포인트로 코스 열람하기"
         static let settingDateCourse = "데이트 코스 설정"
         static let deleteCourse = "글 삭제"
+        static let check = "확인"
+        static let freeViewTitle = "무료 열람 기회를 사용해 보시겠어요?"
+        static let freeViewDescription = "무료 열람 기회는 한번 사용하면 취소할 수 없어요"
+        static let insufficientPointsTitle = "코스를 열람하기에 포인트가 부족해요"
+        static let insufficientPointsDescription = "코스를 등록하고 포인트를 모아보세요"
+        static let addCourse = "코스 등록하기"
     }
     
     enum Profile {

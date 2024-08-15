@@ -72,7 +72,10 @@ extension MainViewController {
         self.mainViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
+                
+            } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+
             }
         }
         

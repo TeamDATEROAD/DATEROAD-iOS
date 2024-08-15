@@ -188,11 +188,7 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
 extension CourseListCollectionViewCell {
     
     func configure(with course: CourseListModel) {
-            if let urlString = course.thumbnail, let url = URL(string: urlString) {
-                thumnailImgageView.kf.setImage(with: url)
-            } else {
-                thumnailImgageView.image = UIImage(named: "placeholder_image")
-            }
+            thumnailImgageView.kfSetImage(with: course.thumbnail, placeholder: UIImage(named: "placeholder_image"))
             
             if let likeCount = course.like {
                 likeNumLabel.text = "\(likeCount)"
