@@ -121,6 +121,8 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
             
             $0.register(InfoHeaderView.self, forSupplementaryViewOfKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier)
             
+            $0.register(TimelineHeaderView.self, forSupplementaryViewOfKind: TimelineHeaderView.elementKinds, withReuseIdentifier: TimelineHeaderView.identifier)
+            
             $0.register(GradientView.self, forSupplementaryViewOfKind: GradientView.elementKinds, withReuseIdentifier: GradientView.identifier)
             
             $0.register(BottomPageControllView.self, forSupplementaryViewOfKind: BottomPageControllView.elementKinds, withReuseIdentifier: BottomPageControllView.identifier)
@@ -530,8 +532,6 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         } else if kind == InfoHeaderView.elementKinds {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoHeaderView.identifier, for: indexPath) as? InfoHeaderView else { return UICollectionReusableView() }
             switch courseDetailViewModel.fetchSection(at: indexPath.section) {
-            case .timelineInfo:
-                header.bindTitle(headerTitle: StringLiterals.CourseDetail.timelineInfoLabel)
             case .coastInfo:
                 header.bindTitle(headerTitle: StringLiterals.CourseDetail.coastInfoLabel)
             case .tagInfo:
@@ -539,6 +539,10 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             default:
                 break
             }
+            return header
+        } else if kind == TimelineHeaderView.elementKinds {
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TimelineHeaderView.identifier, for: indexPath) as? TimelineHeaderView else { return UICollectionReusableView() }
+            // TODO :  시작 시간 바인딩
             return header
         } else {
             return UICollectionReusableView()

@@ -161,7 +161,7 @@ extension CourseDetailView {
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 15, trailing: 0)
         
-        let header = makeHeaderView()
+        let header = makeTimelineHeaderView()
         section.boundarySupplementaryItems = [header]
         
         return section
@@ -211,6 +211,13 @@ extension CourseDetailView {
         let gradient = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: gradientSize, elementKind: GradientView.elementKinds, alignment: .top, absoluteOffset: CGPoint(x: 0, y: collectionViewWidth * 0.27))
         
         return gradient
+    }
+    
+    func makeTimelineHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(60))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: TimelineHeaderView.elementKinds, alignment: .top)
+        header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 12, trailing: 16)
+        return header
     }
     
     func makeHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
