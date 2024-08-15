@@ -226,7 +226,7 @@ extension BannerDetailViewController {
 
 extension BannerDetailViewController: StickyHeaderNavBarViewDelegate {
     
-    func didTapDeleteButton() {}
+    func didTapMoreButton() {}
     
     func didTapBackButton() {
         navigationController?.popViewController(animated: true)

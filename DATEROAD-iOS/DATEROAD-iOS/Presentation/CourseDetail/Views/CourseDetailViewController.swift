@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegate {
+final class CourseDetailViewController: BaseViewController {
     
     
     // MARK: - UI Properties
@@ -181,38 +181,17 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
     }
     
 }
-extension CourseDetailViewController: ContentMaskViewDelegate {
+
+extension CourseDetailViewController: DRCustomAlertDelegate {
     
     func action(rightButtonAction: RightButtonType) {
         switch rightButtonAction {
         case .addCourse:
             didTapAddCourseButton()
         case .checkCourse:
-            //무료 열람 기회 확인 & 잔여 포인트
-            guard let haveFreeCount = self.courseDetailViewModel.haveFreeCount.value,
-                  let havePoint = self.courseDetailViewModel.havePoint.value else { return }
-            let courseId = self.courseDetailViewModel.courseId
-            
-            if haveFreeCount {
-                //무료 열람 기회 사용
-                let request = PostUsePointRequest(point: 50, type: "POINT_USED", description: "무료 열람 기회 사용")
-                self.courseDetailViewModel.postUsePoint(courseId: courseId, request: request)
-                self.courseDetailViewModel.isAccess.value = true
-                dismiss(animated: false)
-            } else {
-                if havePoint {
-                    //포인트로 구입
-                    let request = PostUsePointRequest(point: 50, type: "POINT_USED", description: "코스 열람 50P 사용")
-                    self.courseDetailViewModel.postUsePoint(courseId: courseId, request: request)
-                    self.courseDetailViewModel.isAccess.value = true
-                    dismiss(animated: false)
-                } else {
-                    didTapBuyButton()
-                }
-            }
+            handleCourseAccess()
         case .declareCourse:
-            let delclareVC = DRWebViewController(urlString: "https://tally.so/r/w4L1a5")
-            self.present(delclareVC, animated: true)
+            present(DRWebViewController(urlString: "https://tally.so/r/w4L1a5"), animated: true)
         case .deleteCourse:
             deleteCourse()
         default:
@@ -221,6 +200,50 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         setSetctionCount()
         setTabBarVisibility()
     }
+    
+    private func handleCourseAccess() {
+        let courseId = self.courseDetailViewModel.courseId
+        
+        if courseDetailViewModel.haveFreeCount.value == true {
+            //무료 열람 기회 사용
+            let request = PostUsePointRequest(point: 50, type: "POINT_USED", description: "무료 열람 기회 사용")
+            self.courseDetailViewModel.postUsePoint(courseId: courseId, request: request)
+            self.courseDetailViewModel.isAccess.value = true
+            dismiss(animated: false)
+        } else {
+            if courseDetailViewModel.havePoint.value == true {
+                //포인트로 구입
+                let request = PostUsePointRequest(point: 50, type: "POINT_USED", description: "코스 열람 50P 사용")
+                self.courseDetailViewModel.postUsePoint(courseId: courseId, request: request)
+                self.courseDetailViewModel.isAccess.value = true
+                dismiss(animated: false)
+            } else {
+                showPointAlert()
+            }
+        }
+        
+        setSetctionCount()
+        setTabBarVisibility()
+    }
+    
+    private func deleteCourse() {
+        print("삭제")
+        self.dismiss(animated: true)
+        courseDetailViewModel.deleteCourse { [weak self] success in
+            DispatchQueue.main.async {
+                if success {
+                    print("성공적으로 삭제")
+                    self?.navigationController?.popViewController(animated: true)
+                } else {
+                    print("삭제 실패 ㅠ")
+                }
+            }
+        }
+        courseDetailView.mainCollectionView.reloadData()
+    }
+}
+
+extension CourseDetailViewController: ContentMaskViewDelegate {
     
     //버튼 분기 처리하기
     func didTapViewButton() {
@@ -265,7 +288,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     
     
     //포인트가 부족할 때
-    func didTapBuyButton(){
+    func showPointAlert(){
         let customAlertVC = DRCustomAlertViewController(
             rightActionType: RightButtonType.addCourse,
             alertTextType: .hasDecription,
@@ -325,25 +348,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
         self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
-    
-    func deleteCourse() {
-        print("삭제")
-        self.dismiss(animated: true)
-        courseDetailViewModel.deleteCourse { [weak self] success in
-            DispatchQueue.main.async {
-                if success {
-                    print("성공적으로 삭제")
-                    self?.navigationController?.popViewController(animated: true)
-                } else {
-                    print("삭제 실패 ㅠ")
-                }
-            }
-        }
-        courseDetailView.mainCollectionView.reloadData()
-    }
-    
-    
-    
+
 }
 
 extension CourseDetailViewController: StickyHeaderNavBarViewDelegate {
@@ -352,23 +357,19 @@ extension CourseDetailViewController: StickyHeaderNavBarViewDelegate {
         navigationController?.popViewController(animated: true)
     }
     
-    //더보기 버튼 클릭시 -> BottomSheet
-    func didTapDeleteButton() {
-        guard let isCourseMine = courseDetailViewModel.isCourseMine.value else { return }
-        let moreBottomSheetVC = DRBottomSheetViewController(contentView: deleteCourseSettingView,
-                                                              height: 210,
-                                                              buttonType: DisabledButton(),
-                                                              buttonTitle: StringLiterals.Common.close)
-        if isCourseMine {
-            deleteCourseSettingView.deleteLabel.text = StringLiterals.Common.close
-        } else {
-            deleteCourseSettingView.deleteLabel.text = "신고하기"
-        }
+    func didTapMoreButton() {
+        let bottomSheetVC = DRBottomSheetViewController(
+            contentView: deleteCourseSettingView,
+            height: 210,
+            buttonType: DisabledButton(),
+            buttonTitle: StringLiterals.Common.close
+        )
         
-        moreBottomSheetVC.delegate = self
-        moreBottomSheetVC.modalPresentationStyle = .overFullScreen
-        self.present(moreBottomSheetVC, animated: true)
+        deleteCourseSettingView.deleteLabel.text = courseDetailViewModel.isCourseMine.value == true ? "삭제" : "신고하기"
+        bottomSheetVC.modalPresentationStyle = .overFullScreen
+        present(bottomSheetVC, animated: true)
     }
+
 }
 
 extension CourseDetailViewController: DRBottomSheetDelegate {
