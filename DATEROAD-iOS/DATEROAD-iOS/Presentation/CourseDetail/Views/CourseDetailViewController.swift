@@ -234,7 +234,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
             alertButtonType: .twoButton,
             titleText: StringLiterals.Alert.buyCourse,
             descriptionText: StringLiterals.Alert.canNotRefund,
-            rightButtonText: "확인"
+            rightButtonText: StringLiterals.CourseDetail.check
         )
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
@@ -247,9 +247,9 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
             rightActionType: RightButtonType.checkCourse,
             alertTextType: .hasDecription,
             alertButtonType: .twoButton,
-            titleText: "무료 열람 기회를 사용해 보시겠어요?",
-            descriptionText: "무료 열람 기회는 한번 사용하면 취소할 수 없어요",
-            rightButtonText: "확인"
+            titleText: StringLiterals.CourseDetail.freeViewTitle,
+            descriptionText: StringLiterals.CourseDetail.freeViewDescription,
+            rightButtonText: StringLiterals.CourseDetail.check
         )
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
@@ -263,9 +263,9 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
             rightActionType: RightButtonType.addCourse,
             alertTextType: .hasDecription,
             alertButtonType: .twoButton,
-            titleText: "코스를 열람하기에 포인트가 부족해요",
-            descriptionText: "코스를 등록하고 포인트를 모아보세요",
-            rightButtonText: "코스 등록하기"
+            titleText: StringLiterals.CourseDetail.insufficientPointsTitle,
+            descriptionText: StringLiterals.CourseDetail.insufficientPointsDescription,
+            rightButtonText: StringLiterals.CourseDetail.addCourse
         )
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
@@ -278,7 +278,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
     
-    /// 더보기 버튼 눌렀을때 직접적인 액션 처리
+    /// 더보기 버튼 눌렀을 때 직접적인 액션 처리
     @objc func didTapBottomSheetLabel(sender: UITapGestureRecognizer) {
         print("didTapDeleteLabel")
         self.dismiss(animated: true)
