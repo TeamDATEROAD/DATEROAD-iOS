@@ -279,37 +279,45 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         self.present(customAlertVC, animated: false)
     }
     
+    /// 더보기 버튼 눌렀을 때 직접적인 액션 처리 -> 신고 혹은 삭제 버튼 클릭시 액션 처리
+    @objc func didTapBottomSheetLabel(sender: UITapGestureRecognizer) {
+        print("삭제하기 클릭")
+        self.dismiss(animated: true)
+        guard let isCourseMine = courseDetailViewModel.isCourseMine.value else { return }
+        isCourseMine ? showDeleteAlert() : showDecalreAlert()
+    }
+    
     //바텀 시트에서 신고하기 클릭시 팝업창
-    func didTapDeclareLabel(){
-        let customAlertVC = DRCustomAlertViewController(
-            rightActionType: RightButtonType.declareCourse,
-            alertTextType: .hasDecription,
-            alertButtonType: .twoButton,
-            titleText: "데이트 코스를 신고하시겠어요?",
-            descriptionText: "신고된 게시물은 확인 후 서비스의 운영원칙에\n따라 조치 예정이에요",
-            rightButtonText: "신고"
+    func showDecalreAlert(){
+        presentCustomAlert(
+            title: "데이트 코스를 신고하시겠어요?",
+            description: "신고된 게시물은 확인 후 서비스의 운영원칙에\n따라 조치 예정이에요",
+            action: .declareCourse
         )
-        customAlertVC.delegate = self
-        customAlertVC.modalPresentationStyle = .overFullScreen
-        self.present(customAlertVC, animated: false)
     }
     
     //바텀 시트에서 삭제하기 클릭시 팝업창
-    func didTapDeleteLabel(){
-        let customAlertVC = DRCustomAlertViewController(
-            rightActionType: RightButtonType.declareCourse,
-            alertTextType: .hasDecription,
-            alertButtonType: .twoButton,
-            titleText: "데이트 코스를 삭제하시겠어요?",
-            descriptionText: "삭제된 코스는 복구하실 수 없어요",
-            rightButtonText: "삭제"
+    func showDeleteAlert(){
+        presentCustomAlert(
+            title: "데이트 코스를 삭제하시겠어요?",
+            description: "삭제된 코스는 복구하실 수 없어요",
+            action: .deleteCourse
         )
-        customAlertVC.delegate = self
-        customAlertVC.modalPresentationStyle = .overFullScreen
-        self.present(customAlertVC, animated: false)
     }
     
-    
+    func presentCustomAlert(title: String, description: String, action: RightButtonType) {
+        let alertVC = DRCustomAlertViewController(
+            rightActionType: action,
+            alertTextType: .hasDecription,
+            alertButtonType: .twoButton,
+            titleText: title,
+            descriptionText: description,
+            rightButtonText: "확인"
+        )
+        alertVC.delegate = self
+        alertVC.modalPresentationStyle = .overFullScreen
+        present(alertVC, animated: false)
+    }
     
     
     //코스 등록하기로 화면 전환
@@ -334,17 +342,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         courseDetailView.mainCollectionView.reloadData()
     }
     
-    /// 더보기 버튼 눌렀을 때 직접적인 액션 처리 -> 신고 혹은 삭제 버튼 클릭시 액션 처리
-    @objc func didTapBottomSheetLabel(sender: UITapGestureRecognizer) {
-        print("삭제하기 클릭")
-        self.dismiss(animated: true)
-        guard let isCourseMine = courseDetailViewModel.isCourseMine.value else { return }
-        if isCourseMine {
-            didTapDeleteLabel()
-        } else {
-            didTapDeclareLabel()
-        }
-    }
+    
     
 }
 
