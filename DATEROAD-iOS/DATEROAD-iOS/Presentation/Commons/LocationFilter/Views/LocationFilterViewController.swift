@@ -30,7 +30,9 @@ class LocationFilterViewController: BaseViewController {
     final let countryInset: CGFloat = 8
     
     final let cityInset: CGFloat = 8
-    
+   
+   final var isAddType: Bool = false
+   
     // MARK: - Life Cycles
     
     override func viewDidLoad() {
@@ -137,7 +139,18 @@ extension LocationFilterViewController: LocationFilterViewDelegate {
               let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
         
         let selectedCountry = courseViewModel.countryData[selectedCountryIndex]
-        let selectedCity = courseViewModel.cityData[selectedCityIndex]
+       var selectedCity = courseViewModel.cityData[selectedCityIndex]
+       if selectedCountry.rawValue != "인천" {
+          selectedCity = isAddType ? courseViewModel.cityData[selectedCityIndex+1] :
+             courseViewModel.cityData[selectedCityIndex]
+       }
+       
+       
+       
+//        var selectedCity = courseViewModel.cityData[selectedCityIndex]
+//       if isAddType {
+//          selectedCity = courseViewModel.cityData[selectedCityIndex+1]
+//       }
         
         let cityNameComponents = selectedCity.rawValue.split(separator: ".")
         let cityName = cityNameComponents.last.map { String($0) } ?? selectedCity.rawValue
@@ -157,29 +170,44 @@ extension LocationFilterViewController: LocationFilterViewDelegate {
 
 extension LocationFilterViewController: UICollectionViewDataSource {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return collectionView == locationFilterView.countryCollectionView ? courseViewModel.countryData.count : courseViewModel.cityData.count
-    }
+   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+       if collectionView == locationFilterView.cityCollectionView && isAddType {
+           // "서울 전체"를 제외한 항목 수 반환
+          return courseViewModel.cityData.filter { $0.rawValue != "서울 전체" && $0.rawValue != "경기 전체" }.count
+       } else {
+           return collectionView == locationFilterView.countryCollectionView ? courseViewModel.countryData.count : courseViewModel.cityData.count
+       }
+   }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cellIdentifier = collectionView == locationFilterView.countryCollectionView ?
-        CountryLabelCollectionViewCell.cellIdentifier :
-        CityLabelCollectionViewCell.cellIdentifier
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
-        
-        if let countryCell = cell as? CountryLabelCollectionViewCell {
-            let country = courseViewModel.countryData[indexPath.item]
-            let isSelected = courseViewModel.selectedCountryIndex.value == indexPath.item
-            countryCell.configure(with: country, isSelected: isSelected)
-        } else if let cityCell = cell as? CityLabelCollectionViewCell {
-            let city = courseViewModel.cityData[indexPath.item]
-            let isSelected = courseViewModel.selectedCityIndex.value == indexPath.item
-            cityCell.configure(with: city, isSelected: isSelected)
-        }
-        
-        return cell
-    }
+   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+       let cellIdentifier = collectionView == locationFilterView.countryCollectionView ?
+       CountryLabelCollectionViewCell.cellIdentifier :
+       CityLabelCollectionViewCell.cellIdentifier
+       
+       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
+       
+       if let countryCell = cell as? CountryLabelCollectionViewCell {
+           let country = courseViewModel.countryData[indexPath.item]
+           let isSelected = courseViewModel.selectedCountryIndex.value == indexPath.item
+           countryCell.configure(with: country, isSelected: isSelected)
+       } else if let cityCell = cell as? CityLabelCollectionViewCell {
+           // "서울 전체"를 제외한 필터링된 데이터 사용
+          if isAddType {
+             let filteredCityData = courseViewModel.cityData.filter { $0.rawValue != "서울 전체" && $0.rawValue != "경기 전체" }
+             let city = filteredCityData[indexPath.item]
+             let isSelected = courseViewModel.selectedCityIndex.value == indexPath.item
+             cityCell.configure(with: city, isSelected: isSelected)
+          } else {
+             let city = courseViewModel.cityData[indexPath.item]
+             let isSelected = courseViewModel.selectedCityIndex.value == indexPath.item
+             print(city.rawValue, "🔥🔥🔥")
+             cityCell.configure(with: city, isSelected: isSelected)
+          }
+       }
+       
+       return cell
+   }
+
 }
 
 extension LocationFilterViewController: UICollectionViewDelegate {
@@ -203,10 +231,19 @@ extension LocationFilterViewController: UICollectionViewDelegateFlowLayout {
             let cellWidth = ((screenWidth - 50) - ( countryInset * 2 )) / 3
             return CGSize(width: cellWidth, height: 33)
         } else {
-            let text = courseViewModel.cityData[indexPath.item].rawValue
-            let font = UIFont.suit(.body_med_13)
-            let textWidth = text.width(withConstrainedHeight: 30, font: font)
-            return CGSize(width: textWidth + 28, height: 30)
+           
+           if isAddType {
+              let filteredCityData = courseViewModel.cityData.filter { $0.rawValue != "서울 전체" && $0.rawValue != "경기 전체" }
+              let text = filteredCityData[indexPath.item].rawValue
+              let font = UIFont.suit(.body_med_13)
+              let textWidth = text.width(withConstrainedHeight: 30, font: font)
+              return CGSize(width: textWidth + 28, height: 30)
+           } else {
+              let text = courseViewModel.cityData[indexPath.item].rawValue
+              let font = UIFont.suit(.body_med_13)
+              let textWidth = text.width(withConstrainedHeight: 30, font: font)
+              return CGSize(width: textWidth + 28, height: 30)
+           }
         }
     }
     

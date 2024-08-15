@@ -295,6 +295,7 @@ private extension AddCourseFirstViewController {
       print("datePlaceContainer tapped!")
       let locationFilterVC = LocationFilterViewController()
       locationFilterVC.modalPresentationStyle = .overFullScreen
+      locationFilterVC.isAddType = true
       locationFilterVC.delegate = self
       self.present(locationFilterVC, animated: true)
    }
