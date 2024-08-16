@@ -17,6 +17,8 @@ final class MyPageViewController: BaseNavBarViewController {
     
     private let loadingView: DRLoadingView = DRLoadingView()
     
+    private let errorView: DRErrorView = DRErrorView()
+    
     
     // MARK: - Properties
     
@@ -58,11 +60,15 @@ final class MyPageViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.contentView.addSubviews(loadingView, myPageView)
+        self.contentView.addSubviews(errorView, loadingView, myPageView)
     }
     
     override func setLayout() {
         super.setLayout()
+        
+        errorView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         loadingView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -102,13 +108,27 @@ private extension MyPageViewController {
     }
     
     func bindViewModel() {
+        self.myPageViewModel.onFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+            self?.errorView.isHidden = !onFailure
+            self?.myPageView.isHidden = onFailure
+            self?.topInsetView.isHidden = onFailure
+            self?.navigationBarView.isHidden = onFailure
+            self?.tabBarController?.tabBar.isHidden = onFailure
+            if onFailure {
+                self?.loadingView.isHidden = true
+            }
+        }
+        
         self.myPageViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading else { return }
-            self?.loadingView.isHidden = !onLoading
-            self?.myPageView.isHidden = onLoading
-            self?.topInsetView.isHidden = onLoading
-            self?.navigationBarView.isHidden = onLoading
-            self?.tabBarController?.tabBar.isHidden = onLoading
+            guard let onLoading, let onFailNetwork = self?.myPageViewModel.onFailNetwork.value else { return }
+            if !onFailNetwork {
+                self?.loadingView.isHidden = !onLoading
+                self?.myPageView.isHidden = onLoading
+                self?.topInsetView.isHidden = onLoading
+                self?.navigationBarView.isHidden = onLoading
+                self?.tabBarController?.tabBar.isHidden = onLoading
+            }
         }
         
         self.myPageViewModel.onReissueSuccess.bind { [weak self] onSuccess in

@@ -24,6 +24,8 @@ final class MyPageViewModel: Serviceable {
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onLoading: ObservablePattern<Bool> = ObservablePattern(true)
+    
+    var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
 
 }
 
@@ -79,6 +81,7 @@ extension MyPageViewModel {
     
     func getUserProfile() {
         self.onSuccessGetUserProfile.value = false
+        self.onFailNetwork.value = false
         self.setLoading()
         
         NetworkService.shared.userService.getUserProfile( ) { response in
@@ -92,6 +95,8 @@ extension MyPageViewModel {
                self.onSuccessGetUserProfile.value = true
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
+            case .serverErr:
+                self.onFailNetwork.value = true
             default:
                 print("Failed to fetch getUserProfile")
                 self.onSuccessGetUserProfile.value = false

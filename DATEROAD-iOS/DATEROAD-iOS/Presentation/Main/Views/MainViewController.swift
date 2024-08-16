@@ -89,7 +89,9 @@ extension MainViewController {
             self?.errorView.isHidden = !onFailure
             self?.mainView.isHidden = onFailure
             self?.tabBarController?.tabBar.isHidden = onFailure
-            self?.loadingView.isHidden = true
+            if onFailure {
+                self?.loadingView.isHidden = true
+            }
         }
         
         self.mainViewModel.onLoading.bind { [weak self] onLoading in
