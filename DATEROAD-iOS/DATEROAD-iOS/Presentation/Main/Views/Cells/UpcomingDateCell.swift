@@ -41,7 +41,7 @@ final class UpcomingDateCell: BaseCollectionViewCell {
     
     override func setLayout() {
         logoImage.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(self.safeAreaInsets.top)
+            $0.top.equalToSuperview().inset(UIApplication.shared.statusBarFrame.size.height)
             $0.leading.equalToSuperview().inset(16)
             $0.size.equalTo(44)
         }
@@ -89,7 +89,7 @@ final class UpcomingDateCell: BaseCollectionViewCell {
         }
         
         profileImage.do {
-            $0.backgroundColor = UIColor(resource: .mediumPurple)
+            $0.backgroundColor = .clear
             $0.layer.cornerRadius = $0.frame.size.width / 2
             $0.image = UIImage(resource: .emptyProfileImg)
             $0.clipsToBounds = true

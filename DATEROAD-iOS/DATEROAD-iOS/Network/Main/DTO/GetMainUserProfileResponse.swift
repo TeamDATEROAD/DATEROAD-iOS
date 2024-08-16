@@ -10,5 +10,5 @@ import Foundation
 struct GetMainUserProfileResponse: Codable {
     let name: String
     let point: Int
-    let image: String
+    let image: String?
 }

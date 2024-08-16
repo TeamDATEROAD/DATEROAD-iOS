@@ -38,7 +38,7 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
     init(viewModel: CourseDetailViewModel) {
         self.courseDetailViewModel = viewModel
         self.courseId = self.courseDetailViewModel.courseId
-        self.courseDetailViewModel.getCourseDetail()
+//        self.courseDetailViewModel.getCourseDetail()
         
         self.courseDetailView = CourseDetailView(courseDetailSection:self.courseDetailViewModel.sections)
         
@@ -133,6 +133,8 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
         self.courseDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
+                // TODO: - 서버 통신 재시도
+            } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
         }

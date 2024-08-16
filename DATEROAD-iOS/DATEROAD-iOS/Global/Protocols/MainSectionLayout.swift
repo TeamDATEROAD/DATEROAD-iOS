@@ -49,7 +49,8 @@ extension MainSectionLayout {
     }
     
     var sectionContentInset: NSDirectionalEdgeInsets {
-        return NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+//        return NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        return NSDirectionalEdgeInsets.zero
     }
     
     var elementKind: String? {
@@ -71,18 +72,14 @@ extension MainSectionLayout {
 
 struct UpcomingDateLayout: MainSectionLayout {
     
-    var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(200))
-            
-    var sectionContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+    var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(185 + UIApplication.shared.statusBarFrame.size.height))
     
 }
 
 struct HotDateLayout: MainSectionLayout {
     
     var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .absolute(238), heightDimension: .estimated(356))
-    
-    var sectionContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-    
+        
     var elementKind: String? = MainHeaderView.elementKinds
     
     var supplemetaryItemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(119))
@@ -93,16 +90,12 @@ struct BannerDateLayout: MainSectionLayout {
     
     var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .absolute(ScreenUtils.width), heightDimension: .absolute(192))
     
-    var sectionContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets.zero
-
 }
 
 struct NewDateLayout: MainSectionLayout {
     
     var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(140))
-    
-    var sectionContentInset: NSDirectionalEdgeInsets =  NSDirectionalEdgeInsets.zero
-    
+        
     var elementKind: String? = MainHeaderView.elementKinds
     
     var supplemetaryItemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(80))
