@@ -15,6 +15,8 @@ final class MainViewController: BaseViewController {
     
     private let loadingView: DRLoadingView = DRLoadingView()
     
+    private let errorView: DRErrorView = DRErrorView()
+    
     
     // MARK: - Properties
     
@@ -56,10 +58,14 @@ final class MainViewController: BaseViewController {
     }
     
     override func setHierarchy() {
-        self.view.addSubviews(loadingView, mainView)
+        self.view.addSubviews(errorView, loadingView, mainView)
     }
     
     override func setLayout() {
+        errorView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         loadingView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -78,11 +84,21 @@ final class MainViewController: BaseViewController {
 extension MainViewController {
     
     func bindViewModel() {
+        self.mainViewModel.onFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+            self?.errorView.isHidden = !onFailure
+            self?.mainView.isHidden = onFailure
+            self?.tabBarController?.tabBar.isHidden = onFailure
+            self?.loadingView.isHidden = true
+        }
+        
         self.mainViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading else { return }
-            self?.loadingView.isHidden = !onLoading
-            self?.mainView.isHidden = onLoading
-            self?.tabBarController?.tabBar.isHidden = onLoading
+            guard let onLoading, let onFailNetwork = self?.mainViewModel.onFailNetwork.value else { return }
+            if !onFailNetwork {
+                self?.loadingView.isHidden = !onLoading
+                self?.mainView.isHidden = onLoading
+                self?.tabBarController?.tabBar.isHidden = onLoading
+            }
         }
         
         self.mainViewModel.onReissueSuccess.bind { [weak self] onSuccess in

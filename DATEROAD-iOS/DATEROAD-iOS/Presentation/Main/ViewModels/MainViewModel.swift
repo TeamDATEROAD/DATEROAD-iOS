@@ -6,13 +6,6 @@
 //
 
 import Foundation
-import UIKit
-
-
-//struct BannerData {
-//    let image: UIImage
-//    let courseId: Int
-//}
 
 final class MainViewModel: Serviceable {
     
@@ -46,6 +39,7 @@ final class MainViewModel: Serviceable {
     
     var onLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
+    var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
 }
 
@@ -61,6 +55,7 @@ extension MainViewModel {
     
     func getUserProfile() {
         self.isSuccessGetUserInfo.value = false
+        self.onFailNetwork.value = false
         self.setLoading()
         
         NetworkService.shared.mainService.getMainUserProfile() { response in
@@ -73,6 +68,8 @@ extension MainViewModel {
                 self.isSuccessGetUserInfo.value = true
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
+            case .serverErr:
+                self.onFailNetwork.value = true
             default:
                 print("Failed to fetch user profile")
                 return
@@ -86,6 +83,7 @@ extension MainViewModel {
         } else {
             self.isSuccessGetNewDate.value = false
         }
+        self.onFailNetwork.value = false
         self.setLoading()
         
         NetworkService.shared.mainService.getFilteredDateCourse(sortBy: sortBy) { response in
@@ -112,6 +110,8 @@ extension MainViewModel {
                 }
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
+            case .serverErr:
+                self.onFailNetwork.value = true
             default:
                 print("Failed to fetch filtered date course")
                 return
@@ -121,6 +121,7 @@ extension MainViewModel {
     
     func getUpcomingDateCourse() {
         self.isSuccessGetUpcomingDate.value = false
+        self.onFailNetwork.value = false
         self.setLoading()
         
         NetworkService.shared.mainService.getUpcomingDate() { response in
@@ -135,6 +136,8 @@ extension MainViewModel {
                 self.isSuccessGetUpcomingDate.value = true
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
+            case .serverErr:
+                self.onFailNetwork.value = true
             default:
                 print("Failed to fetch upcoming date course")
                 return
@@ -144,6 +147,7 @@ extension MainViewModel {
     
     func getBanner() {
         self.isSuccessGetBanner.value = false
+        self.onFailNetwork.value = false
         self.setLoading()
         
         NetworkService.shared.mainService.getBanner() { response in
@@ -154,6 +158,8 @@ extension MainViewModel {
                 self.isSuccessGetBanner.value = true
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
+            case .serverErr:
+                self.onFailNetwork.value = true
             default:
                 print("Failed to fetch get banner data")
                 return
@@ -171,7 +177,7 @@ extension MainViewModel {
         
         if isSuccessGetUserInfo
             && isSuccessGetHotDate
-            //            && isSuccessGetUpcomingDate
+            && isSuccessGetUpcomingDate
             && isSuccessGetBanner
             && isSuccessGetNewDate {
             self.onLoading.value = false
