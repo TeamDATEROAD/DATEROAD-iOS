@@ -39,12 +39,10 @@ class TimelineHeaderView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func bindTitle(headerTitle: String) {
-        self.titleLabel.text = headerTitle
-    }
-    
     func bindSubTitle(subTitle: String?) {
-        self.subLabel.text = subTitle
+        if let startAt = subTitle {
+            self.subLabel.text = "\(startAt) 시작"
+        }
     }
     
 }
