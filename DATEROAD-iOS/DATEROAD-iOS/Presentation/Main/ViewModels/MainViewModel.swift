@@ -137,7 +137,7 @@ extension MainViewModel {
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
             case .serverErr:
-                self.onFailNetwork.value = true
+                self.onFailNetwork.value = false
             default:
                 print("Failed to fetch upcoming date course")
                 return
@@ -177,7 +177,7 @@ extension MainViewModel {
         
         if isSuccessGetUserInfo
             && isSuccessGetHotDate
-            && isSuccessGetUpcomingDate
+//            && isSuccessGetUpcomingDate
             && isSuccessGetBanner
             && isSuccessGetNewDate {
             self.onLoading.value = false
