@@ -181,18 +181,18 @@ extension MainViewController {
         upcomingDateDetailVC.setColor(index: dateID)
         self.navigationController?.pushViewController(upcomingDateDetailVC, animated: true)
     }
-
+    
     @objc
     func pushToDateScheduleVC() {
         print("pushToDateScheduleVC")
         self.tabBarController?.selectedIndex = 2
     }
-
+    
     @objc
     func pushToPointDetailVC() {
         guard let userName = self.userName, let totalPoint = self.point else {
-                print("User name or point is nil")
-                return
+            print("User name or point is nil")
+            return
         }
         let pointDetailVC = PointDetailViewController(pointViewModel: PointViewModel(userName: userName, totalPoint: totalPoint))
         self.navigationController?.pushViewController(pointDetailVC, animated: false)
@@ -212,19 +212,19 @@ extension MainViewController: UICollectionViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-            let contentOffsetY = scrollView.contentOffset.y
-                
-            if contentOffsetY < 0 {
-                // 맨 위에서 아래로 당겼을 때
-                mainView.mainCollectionView.backgroundColor = UIColor(resource: .deepPurple)
-            } else if contentOffsetY + scrollView.frame.size.height > scrollView.contentSize.height {
-                // 맨 아래에서 위로 당겼을 때
-                mainView.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
-            } else {
-                // 일반적인 스크롤 상태
-                mainView.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
-            }
+        let contentOffsetY = scrollView.contentOffset.y
+        
+        if contentOffsetY < 0 {
+            // 맨 위에서 아래로 당겼을 때
+            mainView.mainCollectionView.backgroundColor = UIColor(resource: .deepPurple)
+        } else if contentOffsetY + scrollView.frame.size.height > scrollView.contentSize.height {
+            // 맨 아래에서 위로 당겼을 때
+            mainView.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
+        } else {
+            // 일반적인 스크롤 상태
+            mainView.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
         }
+    }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         self.mainViewModel.setLoading()
@@ -269,13 +269,13 @@ extension MainViewController: UICollectionViewDataSource {
                 // Set button actions
                 let pointLabelTapGesture = UITapGestureRecognizer(target: self, action: #selector(pushToPointDetailVC))
                 cell.pointLabel.addGestureRecognizer(pointLabelTapGesture)
-               cell.dateTicketView.moveButton.tag = mainViewModel.upcomingData.value?.dateId ?? 0
-               cell.dateTicketView.moveButton.addTarget(self, action: #selector(pushToDateDetailVC(_:)), for: .touchUpInside)
-               cell.emptyTicketView.moveButton.addTarget(self, action: #selector(pushToDateScheduleVC), for: .touchUpInside)
-               
-               // Debug prints
-               print("UpcomingDateCell configured")
-               print("DateTicketView Button Tag: \(cell.dateTicketView.moveButton.tag)")
+                cell.dateTicketView.moveButton.tag = mainViewModel.upcomingData.value?.dateId ?? 0
+                cell.dateTicketView.moveButton.addTarget(self, action: #selector(pushToDateDetailVC(_:)), for: .touchUpInside)
+                cell.emptyTicketView.moveButton.addTarget(self, action: #selector(pushToDateScheduleVC), for: .touchUpInside)
+                
+                // Debug prints
+                print("UpcomingDateCell configured")
+                print("DateTicketView Button Tag: \(cell.dateTicketView.moveButton.tag)")
                 return cell
                 
             case .hotDateCourse:
@@ -303,47 +303,47 @@ extension MainViewController: UICollectionViewDataSource {
             cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
             return cell
         }
-       
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MainHeaderView.identifier, for: indexPath)
-                            as? MainHeaderView else { return UICollectionReusableView() }
-                    
+                as? MainHeaderView else { return UICollectionReusableView() }
+        
         switch mainViewModel.sectionData[indexPath.section] {
-            case .upcomingDate, .banner:
-                return header
+        case .upcomingDate, .banner:
+            return header
             
-            case .hotDateCourse:
-                header.viewMoreButton.addTarget(self, action: #selector(pushToCourseVC), for: .touchUpInside)
-                header.bindTitle(section: .hotDateCourse, nickname: mainViewModel.nickname.value)
+        case .hotDateCourse:
+            header.viewMoreButton.addTarget(self, action: #selector(pushToCourseVC), for: .touchUpInside)
+            header.bindTitle(section: .hotDateCourse, nickname: mainViewModel.nickname.value)
             
-            case .newDateCourse:
-                header.viewMoreButton.addTarget(self, action: #selector(pushToCourseVC), for: .touchUpInside)
-                header.bindTitle(section: .newDateCourse, nickname: nil)
+        case .newDateCourse:
+            header.viewMoreButton.addTarget(self, action: #selector(pushToCourseVC), for: .touchUpInside)
+            header.bindTitle(section: .newDateCourse, nickname: nil)
         }
         return header
     }
     
-   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       if collectionView == mainView.mainCollectionView {
-           switch self.mainViewModel.sectionData[indexPath.section] {
-           case .hotDateCourse:
-               let courseId = mainViewModel.hotCourseData.value?[indexPath.item].courseId ?? 0
-               self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
-               
-           case .newDateCourse:
-               let courseId = mainViewModel.newCourseData.value?[indexPath.item].courseId ?? 0
-               self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
-               
-           default:
-               print("default")
-           }
-       } else {
-           let id = mainViewModel.bannerData.value?[indexPath.item].advertisementId ?? 1
-          let bannerDtailVC = BannerDetailViewController(viewModel: CourseDetailViewModel(courseId: 7), advertismentId: id)
-                    self.navigationController?.pushViewController(bannerDtailVC, animated: false)
-       }
-   }
-        
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == mainView.mainCollectionView {
+            switch self.mainViewModel.sectionData[indexPath.section] {
+            case .hotDateCourse:
+                let courseId = mainViewModel.hotCourseData.value?[indexPath.item].courseId ?? 0
+                self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
+                
+            case .newDateCourse:
+                let courseId = mainViewModel.newCourseData.value?[indexPath.item].courseId ?? 0
+                self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
+                
+            default:
+                print("default")
+            }
+        } else {
+            let id = mainViewModel.bannerData.value?[indexPath.item].advertisementId ?? 1
+            let bannerDtailVC = BannerDetailViewController(viewModel: CourseDetailViewModel(courseId: 7), advertismentId: id)
+            self.navigationController?.pushViewController(bannerDtailVC, animated: false)
+        }
+    }
+    
 }

@@ -12,14 +12,13 @@ import Then
 
 final class BannerDetailViewController: BaseViewController {
     
-    
     // MARK: - UI Properties
     
     private let bannerDetailView: BannerDetailView
     
     private let loadingView: DRLoadingView = DRLoadingView()
     
-//    private let courseInfoTabBarView = CourseBottomTabBarView()
+    //    private let courseInfoTabBarView = CourseBottomTabBarView()
     
     private var deleteCourseSettingView = DeleteCourseSettingView()
     
@@ -61,7 +60,7 @@ final class BannerDetailViewController: BaseViewController {
         super.setHierarchy()
         
         self.view.addSubviews(loadingView, bannerDetailView)
-//                              , courseInfoTabBarView)
+        //                              , courseInfoTabBarView)
     }
     
     override func setLayout() {
@@ -112,7 +111,7 @@ final class BannerDetailViewController: BaseViewController {
 }
 
 private extension BannerDetailViewController {
-
+    
     func setDelegate() {
         bannerDetailView.mainCollectionView.delegate = self
         bannerDetailView.mainCollectionView.dataSource = self
@@ -192,10 +191,10 @@ extension BannerDetailViewController: UICollectionViewDataSource {
             let mainData = courseDetailViewModel.mainContentsData.value ?? MainContentsModel(description: "")
             mainContentsCell.setCell(mainContentsData: mainData)
             mainContentsCell.mainTextLabel.numberOfLines = 0
-
+            
             return mainContentsCell
         }
-
+        
     }
     
     // TODO: - switch 문으로 변경
