@@ -13,6 +13,8 @@ final class MainViewController: BaseViewController {
     
     private var mainView: MainView
     
+    private let loadingView: DRLoadingView = DRLoadingView()
+    
     
     // MARK: - Properties
     
@@ -54,10 +56,14 @@ final class MainViewController: BaseViewController {
     }
     
     override func setHierarchy() {
-        self.view.addSubview(mainView)
+        self.view.addSubviews(loadingView, mainView)
     }
     
     override func setLayout() {
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         mainView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview().inset(view.frame.height * 0.1)
@@ -72,18 +78,26 @@ final class MainViewController: BaseViewController {
 extension MainViewController {
     
     func bindViewModel() {
+        self.mainViewModel.onLoading.bind { [weak self] onLoading in
+            guard let onLoading else { return }
+            self?.loadingView.isHidden = !onLoading
+            self?.mainView.isHidden = onLoading
+            self?.tabBarController?.tabBar.isHidden = onLoading
+        }
+        
         self.mainViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
                 // TODO: - 서버 통신 재시도
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
-
             }
         }
         
         self.mainViewModel.isSuccessGetUserInfo.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
+            self?.mainViewModel.setLoading()
+
             if isSuccess {
                 self?.mainView.mainCollectionView.reloadData()
             }
@@ -91,6 +105,8 @@ extension MainViewController {
         
         self.mainViewModel.isSuccessGetHotDate.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
+            self?.mainViewModel.setLoading()
+
             if isSuccess {
                 self?.mainView.mainCollectionView.reloadData()
             }
@@ -98,6 +114,8 @@ extension MainViewController {
         
         self.mainViewModel.isSuccessGetBanner.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
+            self?.mainViewModel.setLoading()
+
             if isSuccess {
                 self?.mainView.mainCollectionView.reloadData()
             }
@@ -105,6 +123,8 @@ extension MainViewController {
         
         self.mainViewModel.isSuccessGetNewDate.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
+            self?.mainViewModel.setLoading()
+
             if isSuccess {
                 self?.mainView.mainCollectionView.reloadData()
             }
@@ -112,10 +132,13 @@ extension MainViewController {
         
         self.mainViewModel.isSuccessGetUpcomingDate.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
+            self?.mainViewModel.setLoading()
+
             if isSuccess {
                 self?.mainView.mainCollectionView.reloadData()
             }
         }
+        
         self.mainViewModel.currentIndex.bind { [weak self] index in
             guard let index
             else { return }

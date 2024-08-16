@@ -43,6 +43,8 @@ final class MainViewModel: Serviceable {
     let sectionData: [MainSection] = MainSection.dataSource
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var onLoading: ObservablePattern<Bool> = ObservablePattern(true)
 
     
 }
@@ -58,6 +60,9 @@ extension MainViewModel {
     }
     
     func getUserProfile() {
+        self.isSuccessGetUserInfo.value = false
+        self.setLoading()
+
         NetworkService.shared.mainService.getMainUserProfile() { response in
             switch response {
             case .success(let data):
@@ -76,6 +81,13 @@ extension MainViewModel {
     }
     
     func getDateCourse(sortBy: String) {
+        if sortBy == "POPULAR" {
+            self.isSuccessGetHotDate.value = false
+        } else {
+            self.isSuccessGetNewDate.value = false
+        }
+        self.setLoading()
+
         NetworkService.shared.mainService.getFilteredDateCourse(sortBy: sortBy) { response in
             switch response {
             case .success(let data):
@@ -108,6 +120,9 @@ extension MainViewModel {
     }
     
     func getUpcomingDateCourse() {
+        self.isSuccessGetUpcomingDate.value = false
+        self.setLoading()
+
         NetworkService.shared.mainService.getUpcomingDate() { response in
             switch response {
             case .success(let data):
@@ -128,6 +143,9 @@ extension MainViewModel {
     }
     
     func getBanner() {
+        self.isSuccessGetBanner.value = false
+        self.setLoading()
+
         NetworkService.shared.mainService.getBanner() { response in
             switch response {
             case .success(let data):
@@ -140,6 +158,25 @@ extension MainViewModel {
                 print("Failed to fetch get banner data")
                 return
             }
+        }
+    }
+    
+    func setLoading() {
+        guard let isSuccessGetUserInfo = self.isSuccessGetUserInfo.value,
+              let isSuccessGetHotDate = self.isSuccessGetHotDate.value,
+              let isSuccessGetBanner = self.isSuccessGetBanner.value,
+              let isSuccessGetNewDate = self.isSuccessGetNewDate.value,
+              let isSuccessGetUpcomingDate = self.isSuccessGetUpcomingDate.value
+        else { return }
+        
+        if isSuccessGetUserInfo
+            && isSuccessGetHotDate
+//            && isSuccessGetUpcomingDate
+            && isSuccessGetBanner
+            && isSuccessGetNewDate {
+            self.onLoading.value = false
+        } else {
+            self.onLoading.value = true
         }
     }
 }
