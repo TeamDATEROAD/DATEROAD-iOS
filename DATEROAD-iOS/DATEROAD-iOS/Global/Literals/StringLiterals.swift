@@ -244,5 +244,6 @@ enum StringLiterals {
         static let accessToken = "accessToken"
         static let refreshToken = "refreshToken"
         static let userID = "userID"
+        static let loadingMessage = "잠시만 기다려주세요\n로딩 중이에요"
     }
 }

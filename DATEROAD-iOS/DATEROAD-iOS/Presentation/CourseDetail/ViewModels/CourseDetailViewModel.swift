@@ -66,6 +66,8 @@ class CourseDetailViewModel: Serviceable {
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
+    var onLoading: ObservablePattern<Bool> = ObservablePattern(true)
+    
     var advertisementId: Int = 0
     
     var bannerDetailTitle: String = ""
@@ -222,6 +224,9 @@ extension CourseDetailViewModel {
     
     
     func getBannerDetail(advertismentId: Int) {
+        self.isSuccessGetBannerData.value = false
+        self.setBannerDetailLoading()
+        
         NetworkService.shared.courseDetailService.getBannerDetailInfo(advertismentId: advertismentId){ response in
             switch response {
             case .success(let data):
@@ -242,6 +247,11 @@ extension CourseDetailViewModel {
                 print("Failed to fetch banner detail data")
             }
         }
+    }
+    
+    func setBannerDetailLoading() {
+        guard let isSuccessGetBannerData = self.isSuccessGetBannerData.value else { return }
+        self.onLoading.value = isSuccessGetBannerData ? false : true
     }
     
 }

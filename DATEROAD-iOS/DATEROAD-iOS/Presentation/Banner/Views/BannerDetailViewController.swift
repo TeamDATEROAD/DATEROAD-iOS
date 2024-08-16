@@ -87,8 +87,11 @@ final class BannerDetailViewController: BaseViewController {
                 bottomPageControllView.pageIndex = currentPage ?? 0
             }
         }
+        
         courseDetailViewModel.isSuccessGetBannerData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
+            self?.courseDetailViewModel.setBannerDetailLoading()
+            
             if isSuccess {
                 self?.setNavBar()
                 self?.bannerDetailView.mainCollectionView.reloadData()
