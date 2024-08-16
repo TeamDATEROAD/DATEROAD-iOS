@@ -278,8 +278,8 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     //바텀 시트에서 신고하기 클릭시 팝업창
     func showDeclareAlert(){
         presentCustomAlert(
-            title: "데이트 코스를 신고하시겠어요?",
-            description: "신고된 게시물은 확인 후 서비스의 운영원칙에\n따라 조치 예정이에요",
+            title: StringLiterals.CourseDetail.declareTitle,
+            description: StringLiterals.CourseDetail.declareDescription,
             action: .declareCourse
         )
     }
@@ -287,8 +287,8 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     //바텀 시트에서 삭제하기 클릭시 팝업창
     func showDeleteAlert(){
         presentCustomAlert(
-            title: "데이트 코스를 삭제하시겠어요?",
-            description: "삭제된 코스는 복구하실 수 없어요",
+            title: StringLiterals.CourseDetail.deleteTitle,
+            description: StringLiterals.CourseDetail.deleteDescription,
             action: .deleteCourse
         )
     }
@@ -361,9 +361,9 @@ private extension CourseDetailViewController {
     @objc
     func didTapMySchedule() {
         let courseId = courseDetailViewModel.courseId
-        
         let courseDetailViewModel = CourseDetailViewModel(courseId: courseId)
         let addScheduleViewModel = AddScheduleViewModel()
+        
         addScheduleViewModel.viewedDateCourseByMeData = courseDetailViewModel
         addScheduleViewModel.isImporting = true
         
@@ -378,7 +378,6 @@ private extension CourseDetailViewController {
     @objc
     func didTapLikeButton() {
         isFirstLike = false
-        
         guard let isLiked = courseDetailViewModel.isUserLiked.value else { return }
         
         courseDetailViewModel.isUserLiked.value?.toggle()
@@ -387,12 +386,10 @@ private extension CourseDetailViewController {
         likeAction(courseId ?? 0)
         
         self.courseDetailView.mainCollectionView.reloadData()
-        
     }
     
     func updateLikeButtonColor(isLiked: Bool) {
         courseInfoTabBarView.likeButtonImageView.tintColor = isLiked ? UIColor(resource: .deepPurple) : UIColor(resource: .gray200)
-
     }
     
     func setSetctionCount() {
