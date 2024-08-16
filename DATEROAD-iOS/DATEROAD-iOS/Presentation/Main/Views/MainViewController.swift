@@ -96,8 +96,6 @@ extension MainViewController {
         
         self.mainViewModel.isSuccessGetUserInfo.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
-            self?.mainViewModel.setLoading()
-
             if isSuccess {
                 self?.mainView.mainCollectionView.reloadData()
             }
@@ -105,8 +103,6 @@ extension MainViewController {
         
         self.mainViewModel.isSuccessGetHotDate.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
-            self?.mainViewModel.setLoading()
-
             if isSuccess {
                 self?.mainView.mainCollectionView.reloadData()
             }
@@ -114,8 +110,6 @@ extension MainViewController {
         
         self.mainViewModel.isSuccessGetBanner.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
-            self?.mainViewModel.setLoading()
-
             if isSuccess {
                 self?.mainView.mainCollectionView.reloadData()
             }
@@ -123,8 +117,6 @@ extension MainViewController {
         
         self.mainViewModel.isSuccessGetNewDate.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
-            self?.mainViewModel.setLoading()
-
             if isSuccess {
                 self?.mainView.mainCollectionView.reloadData()
             }
@@ -132,17 +124,14 @@ extension MainViewController {
         
         self.mainViewModel.isSuccessGetUpcomingDate.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
-            self?.mainViewModel.setLoading()
-
             if isSuccess {
                 self?.mainView.mainCollectionView.reloadData()
             }
         }
         
         self.mainViewModel.currentIndex.bind { [weak self] index in
-            guard let index
-            else { return }
-           let count = 5
+            guard let index else { return }
+            let count = 5
             print("index \(index.row + 1)")
             self?.updateBannerCell(index: index.row, count: count)
         }
@@ -236,7 +225,10 @@ extension MainViewController: UICollectionViewDelegate {
                 mainView.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
             }
         }
-
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        self.mainViewModel.setLoading()
+    }
     
 }
 
@@ -284,12 +276,13 @@ extension MainViewController: UICollectionViewDataSource {
                // Debug prints
                print("UpcomingDateCell configured")
                print("DateTicketView Button Tag: \(cell.dateTicketView.moveButton.tag)")
-               
                 return cell
+                
             case .hotDateCourse:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell else { return UICollectionViewCell() }
                 cell.bindData(hotDateData: mainViewModel.hotCourseData.value?[indexPath.row])
                 return cell
+                
             case .banner:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell else { return UICollectionViewCell() }
                 cell.bannerCollectionView.register(BannerImageCollectionViewCell.self, forCellWithReuseIdentifier: BannerImageCollectionViewCell.cellIdentifier)
@@ -299,6 +292,7 @@ extension MainViewController: UICollectionViewDataSource {
                 let index = mainViewModel.currentIndex.value?.row ?? 0
                 cell.bindIndexData(currentIndex: index, count: 5)
                 return cell
+                
             case .newDateCourse:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell else { return UICollectionViewCell() }
                 cell.bindData(newDateData: mainViewModel.newCourseData.value?[indexPath.row])
@@ -319,9 +313,11 @@ extension MainViewController: UICollectionViewDataSource {
         switch mainViewModel.sectionData[indexPath.section] {
             case .upcomingDate, .banner:
                 return header
+            
             case .hotDateCourse:
                 header.viewMoreButton.addTarget(self, action: #selector(pushToCourseVC), for: .touchUpInside)
                 header.bindTitle(section: .hotDateCourse, nickname: mainViewModel.nickname.value)
+            
             case .newDateCourse:
                 header.viewMoreButton.addTarget(self, action: #selector(pushToCourseVC), for: .touchUpInside)
                 header.bindTitle(section: .newDateCourse, nickname: nil)
@@ -335,14 +331,15 @@ extension MainViewController: UICollectionViewDataSource {
            case .hotDateCourse:
                let courseId = mainViewModel.hotCourseData.value?[indexPath.item].courseId ?? 0
                self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
+               
            case .newDateCourse:
                let courseId = mainViewModel.newCourseData.value?[indexPath.item].courseId ?? 0
                self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
+               
            default:
                print("default")
            }
        } else {
-          
            let id = mainViewModel.bannerData.value?[indexPath.item].advertisementId ?? 1
           let bannerDtailVC = BannerDetailViewController(viewModel: CourseDetailViewModel(courseId: 7), advertismentId: id)
                     self.navigationController?.pushViewController(bannerDtailVC, animated: false)

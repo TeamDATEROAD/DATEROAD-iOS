@@ -246,4 +246,8 @@ enum StringLiterals {
         static let userID = "userID"
         static let loadingMessage = "잠시만 기다려주세요\n로딩 중이에요"
     }
+    
+    enum WebView {
+        static let inquiryLink = "https://dateroad.notion.site/1055d2f7bfe94b3fa6c03709448def21?pvs=4"
+    }
 }

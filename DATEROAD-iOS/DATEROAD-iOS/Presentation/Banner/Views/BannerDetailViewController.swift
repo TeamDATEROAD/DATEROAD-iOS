@@ -101,15 +101,12 @@ final class BannerDetailViewController: BaseViewController {
         }
         
         courseDetailViewModel.isSuccessGetBannerData.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
-            self?.courseDetailViewModel.setBannerDetailLoading()
-            
+            guard let isSuccess else { return }            
             if isSuccess {
                 self?.setNavBar()
                 self?.bannerDetailView.mainCollectionView.reloadData()
             }
         }
-        
     }
     
 }
@@ -150,7 +147,15 @@ extension BannerDetailViewController: ImageCarouselDelegate {
     }
 }
 
-extension BannerDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension BannerDetailViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        self.courseDetailViewModel.setBannerDetailLoading()
+    }
+    
+}
+
+extension BannerDetailViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return courseDetailViewModel.bannerSectionData.count
@@ -192,8 +197,8 @@ extension BannerDetailViewController: UICollectionViewDelegate, UICollectionView
         }
 
     }
-
     
+    // TODO: - switch 문으로 변경
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let imageData = self.courseDetailViewModel.imageData.value ?? []
@@ -205,7 +210,6 @@ extension BannerDetailViewController: UICollectionViewDelegate, UICollectionView
                 return UICollectionReusableView()
             }
             visitDate.bindTitle(tagLabel: tagLabel, visitDate: createDate)
-            
             return visitDate
         } else if kind == InfoBarView.elementKinds {
             guard let infoView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoBarView.identifier, for: indexPath) as? InfoBarView else {
@@ -246,5 +250,6 @@ extension BannerDetailViewController: StickyHeaderNavBarViewDelegate {
     func didTapBackButton() {
         navigationController?.popViewController(animated: true)
     }
+    
 }
 

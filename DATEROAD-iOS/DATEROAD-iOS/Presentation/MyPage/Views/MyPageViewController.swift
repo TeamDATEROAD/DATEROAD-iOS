@@ -106,7 +106,8 @@ private extension MyPageViewController {
             guard let onLoading else { return }
             self?.loadingView.isHidden = !onLoading
             self?.myPageView.isHidden = onLoading
-            self?.navigationController?.navigationBar.isHidden = onLoading
+            self?.topInsetView.isHidden = onLoading
+            self?.navigationBarView.isHidden = onLoading
             self?.tabBarController?.tabBar.isHidden = onLoading
         }
         
@@ -135,8 +136,6 @@ private extension MyPageViewController {
         
         self.myPageViewModel.onSuccessGetUserProfile.bind { [weak self] isSuccess in
             guard let isSuccess, let data = self?.myPageViewModel.userInfoData.value else { return }
-            self?.myPageViewModel.setLoading()
-            
             if isSuccess {
                 self?.myPageView.userInfoView.bindData(userInfo: data)
                 self?.myPageView.userInfoView.tagCollectionView.reloadData()
@@ -212,7 +211,6 @@ extension MyPageViewController: DRCustomAlertDelegate {
         }
     }
     
-    // TODO: - 애플로그인일 경우에만 따로 로직 처리
     func exit() {
         if selectedAlertFlag == 1 {
             if self.myPageViewModel.isAppleLogin {
@@ -235,10 +233,17 @@ extension MyPageViewController: DRCustomAlertDelegate {
 
 // MARK: - UICollectionView Delegates
 
+extension MyPageViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        self.myPageViewModel.setLoading()
+    }
+    
+}
+
 extension MyPageViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         guard let tagTitle = TendencyTag.getTag(byEnglish: self.myPageViewModel.tagData[indexPath.item])?.tag.tagTitle else { return CGSize(width: 100, height: 30) }
         let font = UIFont.suit(.body_med_13)
         let textWidth = tagTitle.width(withConstrainedHeight: 30, font: font) + 50
@@ -285,7 +290,7 @@ extension MyPageViewController: UITableViewDelegate {
             let pointSystemVC = PointSystemViewController(pointSystemViewModel: PointSystemViewModel())
             self.navigationController?.pushViewController(pointSystemVC, animated: false)
         case .inquiry:
-            let inquiryVC = DRWebViewController(urlString: "https://dateroad.notion.site/1055d2f7bfe94b3fa6c03709448def21?pvs=4")
+            let inquiryVC = DRWebViewController(urlString: StringLiterals.WebView.inquiryLink)
             self.present(inquiryVC, animated: true)
         case .logout:
             logOutSectionTapped()
