@@ -119,9 +119,6 @@ private extension BannerDetailViewController {
             
             $0.register(InfoBarView.self, forSupplementaryViewOfKind: InfoBarView.elementKinds, withReuseIdentifier: InfoBarView.identifier)
             
-            
-            $0.register(GradientView.self, forSupplementaryViewOfKind: GradientView.elementKinds, withReuseIdentifier: GradientView.identifier)
-            
             $0.register(BottomPageControllView.self, forSupplementaryViewOfKind: BottomPageControllView.elementKinds, withReuseIdentifier: BottomPageControllView.identifier)
         }
     }
@@ -198,9 +195,6 @@ extension BannerDetailViewController: UICollectionViewDelegate, UICollectionView
             }
             infoView.allHidden()
             return infoView
-        } else if kind == GradientView.elementKinds {
-            guard let gradient = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: GradientView.identifier, for: indexPath) as? GradientView else { return UICollectionReusableView() }
-            return gradient
         } else if kind == BottomPageControllView.elementKinds {
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else { return UICollectionReusableView() }
             let likeNum = self.courseDetailViewModel.likeSum.value ?? 0

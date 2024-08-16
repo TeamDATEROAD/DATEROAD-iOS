@@ -115,9 +115,7 @@ final class CourseDetailViewController: BaseViewController {
             $0.register(InfoHeaderView.self, forSupplementaryViewOfKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier)
             
             $0.register(TimelineHeaderView.self, forSupplementaryViewOfKind: TimelineHeaderView.elementKinds, withReuseIdentifier: TimelineHeaderView.identifier)
-            
-            $0.register(GradientView.self, forSupplementaryViewOfKind: GradientView.elementKinds, withReuseIdentifier: GradientView.identifier)
-            
+                    
             $0.register(BottomPageControllView.self, forSupplementaryViewOfKind: BottomPageControllView.elementKinds, withReuseIdentifier: BottomPageControllView.identifier)
             
             $0.register(ContentMaskView.self, forSupplementaryViewOfKind: ContentMaskView.elementKinds, withReuseIdentifier: ContentMaskView.identifier)
@@ -392,7 +390,7 @@ private extension CourseDetailViewController {
         
     }
     
-    private func updateLikeButtonColor(isLiked: Bool) {
+    func updateLikeButtonColor(isLiked: Bool) {
         courseInfoTabBarView.likeButtonImageView.tintColor = isLiked ? UIColor(resource: .deepPurple) : UIColor(resource: .gray200)
 
     }
@@ -517,8 +515,6 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return configureVisitDateView(collectionView, indexPath: indexPath, titleHeaderData: titleHeaderData)
         case InfoBarView.elementKinds:
             return configureInfoBarView(collectionView, indexPath: indexPath, titleHeaderData: titleHeaderData)
-        case GradientView.elementKinds:
-            return configureGradientView(collectionView, indexPath: indexPath)
         case BottomPageControllView.elementKinds:
             return configureBottomPageControlView(collectionView, indexPath: indexPath, imageData: imageData, isAccess: isAccess)
         case ContentMaskView.elementKinds:
@@ -545,13 +541,6 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return UICollectionReusableView()
         }
         view.bindTitleHeader(titleHeaderData: titleHeaderData)
-        return view
-    }
-    
-    private func configureGradientView(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionReusableView {
-        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: GradientView.elementKinds, withReuseIdentifier: GradientView.identifier, for: indexPath) as? GradientView else {
-            return UICollectionReusableView()
-        }
         return view
     }
     
