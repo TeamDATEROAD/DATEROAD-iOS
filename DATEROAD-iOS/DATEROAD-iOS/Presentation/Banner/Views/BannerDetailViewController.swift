@@ -18,9 +18,12 @@ final class BannerDetailViewController: BaseViewController {
     
     private let loadingView: DRLoadingView = DRLoadingView()
     
+    private let errorView: DRErrorView = DRErrorView()
+    
     //    private let courseInfoTabBarView = CourseBottomTabBarView()
     
     private var deleteCourseSettingView = DeleteCourseSettingView()
+    
     
     // MARK: - Properties
     
@@ -59,12 +62,16 @@ final class BannerDetailViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(loadingView, bannerDetailView)
+        self.view.addSubviews(errorView, loadingView, bannerDetailView)
         //                              , courseInfoTabBarView)
     }
     
     override func setLayout() {
         super.setLayout()
+        
+        errorView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         loadingView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -86,10 +93,21 @@ final class BannerDetailViewController: BaseViewController {
     }
     
     func bindViewModel() {
+        self.courseDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+            self?.errorView.isHidden = !onFailure
+            self?.bannerDetailView.isHidden = onFailure
+            if onFailure {
+                self?.loadingView.isHidden = true
+            }
+        }
+        
         self.courseDetailViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading else { return }
-            self?.loadingView.isHidden = !onLoading
-            self?.bannerDetailView.isHidden = onLoading
+            guard let onLoading, let onFailNetwork = self?.courseDetailViewModel.onFailNetwork.value else { return }
+            if !onFailNetwork {
+                self?.loadingView.isHidden = !onLoading
+                self?.bannerDetailView.isHidden = onLoading
+            }
         }
         
         courseDetailViewModel.currentPage.bind { [weak self] currentPage in
