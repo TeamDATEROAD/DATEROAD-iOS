@@ -55,6 +55,7 @@ enum StringLiterals {
         static let viewCoursewithPoint = "포인트로 코스 열람하기"
         static let settingDateCourse = "데이트 코스 설정"
         static let deleteCourse = "글 삭제"
+        static let delclareCourse = "신고하기"
         static let check = "확인"
         static let freeViewTitle = "무료 열람 기회를 사용해 보시겠어요?"
         static let freeViewDescription = "무료 열람 기회는 한번 사용하면 취소할 수 없어요"
@@ -63,7 +64,6 @@ enum StringLiterals {
         static let addCourse = "코스 등록하기"
         static let declareTitle = "데이트 코스를 신고하시겠어요?"
         static let declareDescription = "신고된 게시물은 확인 후 서비스의 운영원칙에\n따라 조치 예정이에요"
-            
         static let deleteTitle = "데이트 코스를 삭제하시겠어요?"
         static let deleteDescription = "삭제된 코스는 복구하실 수 없어요"
         
