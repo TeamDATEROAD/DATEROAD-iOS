@@ -52,6 +52,7 @@ final class DateTicketView: BaseView {
         
         dateNameLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(88)
             $0.top.equalTo(dDayLabel.snp.bottom).offset(6)
         }
         
@@ -86,6 +87,9 @@ final class DateTicketView: BaseView {
         
         dateNameLabel.do {
             $0.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.title_bold_20))
+            $0.lineBreakMode = .byTruncatingTail
+            $0.numberOfLines = 1
+            $0.textAlignment = .left
         }
         
         dateLabel.do {

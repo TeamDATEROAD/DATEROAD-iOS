@@ -14,6 +14,8 @@ final class MainHeaderView: UICollectionReusableView {
     
     // MARK: - UI Properties
     
+    private let backgroundView: UIView = UIView()
+    
     let titleLabel: UILabel = UILabel()
     
     let subLabel: UILabel = UILabel()
@@ -43,10 +45,15 @@ final class MainHeaderView: UICollectionReusableView {
     }
     
     func setHierarchy() {
-        self.addSubviews(titleLabel, subLabel, viewMoreButton)
+        self.addSubview(backgroundView)
+        backgroundView.addSubviews(titleLabel, subLabel, viewMoreButton)
     }
     
     func setLayout() {
+        backgroundView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(21)
             $0.horizontalEdges.equalToSuperview().inset(16)
@@ -65,7 +72,11 @@ final class MainHeaderView: UICollectionReusableView {
     }
     
     func setStyle() {
-        self.backgroundColor = UIColor(resource: .drWhite)
+        self.backgroundColor = UIColor(resource: .deepPurple)
+        
+        backgroundView.do {
+            $0.backgroundColor = UIColor(resource: .drWhite)
+        }
         
         subLabel.do {
             $0.setLabel(alignment: .left, textColor: UIColor(resource: .gray400), font: UIFont.suit(.body_med_13))
@@ -94,8 +105,8 @@ extension MainHeaderView {
                 $0.textAlignment = .left
                 $0.numberOfLines = 2
             }
-            self.clipsToBounds = true
-            self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMinYCorner])
+            self.backgroundView.clipsToBounds = true
+            self.backgroundView.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMinYCorner])
             subLabel.do {
                 $0.text = StringLiterals.Main.hotDateSub
             }
