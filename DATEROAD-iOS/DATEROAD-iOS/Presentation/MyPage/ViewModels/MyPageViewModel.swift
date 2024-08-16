@@ -22,6 +22,8 @@ final class MyPageViewModel: Serviceable {
     var onSuccessGetUserProfile: ObservablePattern<Bool> = ObservablePattern(nil)
 
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var onLoading: ObservablePattern<Bool> = ObservablePattern(true)
 
 }
 
@@ -76,6 +78,9 @@ extension MyPageViewModel {
     }
     
     func getUserProfile() {
+        self.onSuccessGetUserProfile.value = false
+        self.setLoading()
+        
         NetworkService.shared.userService.getUserProfile( ) { response in
             switch response {
             case .success(let data):
@@ -95,4 +100,8 @@ extension MyPageViewModel {
         }
     }
     
+    func setLoading() {
+        guard let isSuccessGetUserInfo = self.onSuccessGetUserProfile.value else { return }
+        self.onLoading.value = isSuccessGetUserInfo ? false : true
+    }
 }

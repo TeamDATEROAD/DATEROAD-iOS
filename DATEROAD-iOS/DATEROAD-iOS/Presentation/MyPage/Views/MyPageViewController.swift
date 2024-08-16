@@ -15,6 +15,8 @@ final class MyPageViewController: BaseNavBarViewController {
     
     private let myPageView: MyPageView = MyPageView()
     
+    private let loadingView: DRLoadingView = DRLoadingView()
+    
     
     // MARK: - Properties
     
@@ -56,11 +58,15 @@ final class MyPageViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.contentView.addSubview(myPageView)
+        self.contentView.addSubviews(loadingView, myPageView)
     }
     
     override func setLayout() {
         super.setLayout()
+        
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         myPageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -96,6 +102,14 @@ private extension MyPageViewController {
     }
     
     func bindViewModel() {
+        self.myPageViewModel.onLoading.bind { [weak self] onLoading in
+            guard let onLoading else { return }
+            self?.loadingView.isHidden = !onLoading
+            self?.myPageView.isHidden = onLoading
+            self?.navigationController?.navigationBar.isHidden = onLoading
+            self?.tabBarController?.tabBar.isHidden = onLoading
+        }
+        
         self.myPageViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
@@ -121,6 +135,8 @@ private extension MyPageViewController {
         
         self.myPageViewModel.onSuccessGetUserProfile.bind { [weak self] isSuccess in
             guard let isSuccess, let data = self?.myPageViewModel.userInfoData.value else { return }
+            self?.myPageViewModel.setLoading()
+            
             if isSuccess {
                 self?.myPageView.userInfoView.bindData(userInfo: data)
                 self?.myPageView.userInfoView.tagCollectionView.reloadData()

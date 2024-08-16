@@ -17,6 +17,8 @@ final class BannerDetailViewController: BaseViewController {
     
     private let bannerDetailView: BannerDetailView
     
+    private let loadingView: DRLoadingView = DRLoadingView()
+    
 //    private let courseInfoTabBarView = CourseBottomTabBarView()
     
     private var deleteCourseSettingView = DeleteCourseSettingView()
@@ -58,12 +60,16 @@ final class BannerDetailViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(bannerDetailView)
+        self.view.addSubviews(loadingView, bannerDetailView)
 //                              , courseInfoTabBarView)
     }
     
     override func setLayout() {
         super.setLayout()
+        
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         bannerDetailView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -81,6 +87,12 @@ final class BannerDetailViewController: BaseViewController {
     }
     
     func bindViewModel() {
+        self.courseDetailViewModel.onLoading.bind { [weak self] onLoading in
+            guard let onLoading else { return }
+            self?.loadingView.isHidden = !onLoading
+            self?.bannerDetailView.isHidden = onLoading
+        }
+        
         courseDetailViewModel.currentPage.bind { [weak self] currentPage in
             guard let self = self else { return }
             if let bottomPageControllView = self.bannerDetailView.mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
