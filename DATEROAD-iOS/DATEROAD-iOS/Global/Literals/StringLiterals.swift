@@ -245,6 +245,7 @@ enum StringLiterals {
         static let refreshToken = "refreshToken"
         static let userID = "userID"
         static let loadingMessage = "잠시만 기다려주세요\n로딩 중이에요"
+        static let errorMessage = "현재 서버 점검 중이에요\n곧 다시 만나요"
     }
     
     enum WebView {
