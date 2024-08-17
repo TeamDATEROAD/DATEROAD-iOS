@@ -225,7 +225,7 @@ extension CourseDetailView {
     func makeBottomPageControllView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(22))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: BottomPageControllView.elementKinds, alignment: .bottom, absoluteOffset: CGPoint(x: 0, y: -55))
-        footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
         return footer
     }
     
@@ -244,7 +244,6 @@ extension CourseDetailView {
     }
     
     func makeContentMaskView() -> NSCollectionLayoutBoundarySupplementaryItem {
-
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(360))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: ContentMaskView.elementKinds, alignment: .bottom, absoluteOffset: CGPoint(x: 0, y: -70))
         footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)

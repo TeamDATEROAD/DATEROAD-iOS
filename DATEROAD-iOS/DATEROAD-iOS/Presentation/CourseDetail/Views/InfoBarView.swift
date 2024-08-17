@@ -69,7 +69,7 @@ class InfoBarView: UICollectionReusableView {
         
         timeIconImageView.snp.makeConstraints {
             $0.top.equalTo(coastIconImageView)
-            $0.leading.equalToSuperview().inset(106)
+            $0.leading.equalTo(coastIconImageView.snp.trailing).offset(102)
             $0.size.equalTo(14)
         }
         
@@ -80,7 +80,7 @@ class InfoBarView: UICollectionReusableView {
         
         locationIconImageView.snp.makeConstraints {
             $0.top.equalTo(coastIconImageView)
-            $0.leading.equalToSuperview().inset(202)
+            $0.leading.equalTo(timeIconImageView.snp.trailing).offset(72)
             $0.width.equalTo(12)
             $0.height.equalTo(14)
         }
