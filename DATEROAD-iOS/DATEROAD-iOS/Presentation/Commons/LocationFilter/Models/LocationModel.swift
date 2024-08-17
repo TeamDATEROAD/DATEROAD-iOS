@@ -43,16 +43,26 @@ enum LocationModel {
         
         enum Seoul: String, CaseIterable {
             case all = "서울 전체"
-            case gangnamSeocho = "강남/서초"
-            case jamsilSongpaGangdong = "잠실/송파/강동"
-            case kondaeSeongsuWangsimni = "건대/성수/왕십리"
-            case jongnoJunggu = "종로/중구"
-            case hongdaeHapjeongMapo = "홍대/합정/마포"
-            case yeongdeungpoYeouido = "영등포/여의도"
-            case yongsanItaewonHannam = "용산/이태원/한남"
-            case yangcheonGangseo = "양천/강서"
-            case seongbukNowonYeouido = "성북/노원/여의도"
-            case guroGwanakDongjak = "구로/관악/동작"
+           case hongdaeHapjeongMapo = "홍대/합정/마포"
+           case kondaeSeongsuSeongdong = "건대/성수/성동"
+           case gangnamSeocho = "강남/서초"
+           case yongsanItaewonHannam = "용산/이태원/한남"
+           case jongnoJunggu = "종로/중구"
+           case jamsilSongpaGangdong = "잠실/송파/강동"
+           case yeongdeungpoYeouido = "영등포/여의도"
+           case dongdaemunSeongbuk = "동대문/성북"
+           case gwanakDongjakGeumcheon = "관악/동작/금천"
+           case gwangjinJungnang = "광진/중랑"
+           case eunpyeongSeodaemun = "은평/서대문"
+           case yangcheonGangseoGuro = "양천/강서/구로"
+           case nowonDobongGangbuk = "노원/도봉/강북"
+           
+            
+//            case kondaeSeongsuWangsimni = "건대/성수/왕십리"
+//            
+//            
+//            case seongbukNowonYeouido = "성북/노원/여의도"
+//            case guroGwanakDongjak = "/관악/동작"
         }
         
         enum Gyeonggi: String, CaseIterable {
@@ -208,14 +218,15 @@ struct LocationModelCityKorToEng {
     }
 }
 
-
 extension LocationModel.City: CaseIterable {
     static var allCases: [LocationModel.City] {
         return [
             // 서울 관련 도시
-            .seoul(.all), .seoul(.gangnamSeocho), .seoul(.jamsilSongpaGangdong), .seoul(.kondaeSeongsuWangsimni),
-            .seoul(.jongnoJunggu), .seoul(.hongdaeHapjeongMapo), .seoul(.yeongdeungpoYeouido), .seoul(.yongsanItaewonHannam),
-            .seoul(.yangcheonGangseo), .seoul(.seongbukNowonYeouido), .seoul(.guroGwanakDongjak),
+         .seoul(.all), .seoul(.hongdaeHapjeongMapo), .seoul(.kondaeSeongsuSeongdong),
+         .seoul(.gangnamSeocho), .seoul(.yongsanItaewonHannam), .seoul(.jongnoJunggu),
+         .seoul(.jamsilSongpaGangdong), .seoul(.yeongdeungpoYeouido), .seoul(.dongdaemunSeongbuk),
+         .seoul(.gwanakDongjakGeumcheon), .seoul(.gwangjinJungnang), .seoul(.eunpyeongSeodaemun),
+         .seoul(.yangcheonGangseoGuro), .seoul(.nowonDobongGangbuk),
 
             // 경기 관련 도시
             .gyeonggi(.all), .gyeonggi(.seongnam), .gyeonggi(.suwon), .gyeonggi(.goyangPaju), .gyeonggi(.gimpo),
