@@ -23,7 +23,7 @@ final class DRLoadingView: BaseView {
     override func setLayout() {
         loadingImageView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
-            $0.top.equalToSuperview().inset(142 + UIApplication.shared.statusBarFrame.size.height)
+            $0.top.equalToSuperview().inset(176 + UIApplication.shared.statusBarFrame.size.height)
         }
         
         loadingMessageLabel.snp.makeConstraints {

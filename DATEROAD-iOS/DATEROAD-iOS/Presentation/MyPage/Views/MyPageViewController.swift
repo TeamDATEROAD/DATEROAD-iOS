@@ -60,7 +60,8 @@ final class MyPageViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.contentView.addSubviews(loadingView, myPageView)
+        self.view.addSubview(loadingView)
+        self.contentView.addSubview(myPageView)
     }
     
     override func setLayout() {
@@ -248,12 +249,8 @@ extension MyPageViewController: DRCustomAlertDelegate {
 extension MyPageViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            // 마지막 셀의 렌더링이 완료되었다면
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                // 약간의 지연을 준 후 로딩 상태 업데이트
-                self.myPageViewModel.setLoading()
-            }
+        if indexPath.row == 0 {
+            self.myPageViewModel.setLoading()
         }
     }
     

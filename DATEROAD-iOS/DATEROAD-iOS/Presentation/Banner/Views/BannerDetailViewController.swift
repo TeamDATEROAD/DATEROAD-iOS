@@ -29,14 +29,15 @@ final class BannerDetailViewController: BaseViewController {
     
     private let courseDetailViewModel: CourseDetailViewModel
     
+    private var advertismentId: Int
+    
     private var currentPage: Int = 0
     
     var courseId: Int?
     
     init(viewModel: CourseDetailViewModel, advertismentId: Int) {
         self.courseDetailViewModel = viewModel
-        self.courseDetailViewModel.getBannerDetail(advertismentId: advertismentId)
-        
+        self.advertismentId = advertismentId
         self.bannerDetailView = BannerDetailView(bannerDetailSection: self.courseDetailViewModel.bannerSectionData)
         
         super.init(nibName: nil, bundle: nil)
@@ -57,6 +58,12 @@ final class BannerDetailViewController: BaseViewController {
         setDelegate()
         registerCell()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.courseDetailViewModel.getBannerDetail(advertismentId: advertismentId)
     }
     
     override func setHierarchy() {
@@ -163,11 +170,7 @@ extension BannerDetailViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            // 마지막 셀의 렌더링이 완료되었다면
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                // 약간의 지연을 준 후 로딩 상태 업데이트
-                self.courseDetailViewModel.setBannerDetailLoading()
-            }
+            self.courseDetailViewModel.setBannerDetailLoading()
         }
     }
     

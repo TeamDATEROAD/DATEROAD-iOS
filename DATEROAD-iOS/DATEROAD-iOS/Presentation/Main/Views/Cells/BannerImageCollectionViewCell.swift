@@ -32,7 +32,6 @@ final class BannerImageCollectionViewCell: BaseCollectionViewCell {
         
         bannerImage.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
-            $0.image = UIImage(resource: .imgBanner1)
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFill
             $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])

@@ -51,9 +51,6 @@ final class MainViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
         self.mainViewModel.fetchSectionData()
     }
     
@@ -121,9 +118,11 @@ extension MainViewController {
         }
         
         self.mainViewModel.isSuccessGetBanner.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
+            guard let isSuccess,
+                  let cell = self?.mainView.mainCollectionView.cellForItem(at: IndexPath(item: 0, section: 2)) as? BannerCell
+            else { return }
             if isSuccess {
-                self?.mainView.mainCollectionView.reloadData()
+                cell.bannerCollectionView.reloadData()
             }
         }
         

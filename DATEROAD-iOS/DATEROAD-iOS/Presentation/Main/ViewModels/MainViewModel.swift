@@ -46,10 +46,10 @@ final class MainViewModel: Serviceable {
 extension MainViewModel {
     
     func fetchSectionData() {
+        getBanner()
         getUserProfile()
         getDateCourse(sortBy: "POPULAR")
         getDateCourse(sortBy: "LATEST")
-        getBanner()
         getUpcomingDateCourse()
     }
     
