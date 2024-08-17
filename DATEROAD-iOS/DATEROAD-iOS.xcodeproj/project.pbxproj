@@ -65,6 +65,7 @@
 		0DF905C82C39402A0072EE65 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905C72C39402A0072EE65 /* Int+.swift */; };
 		0DF905CC2C3ABAC30072EE65 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF905CB2C3ABAC30072EE65 /* GradientView.swift */; };
 		0DF9B3072C69D73800F80B99 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF9B3062C69D73800F80B99 /* UIImageView+.swift */; };
+		0DF9B3092C6E5F2400F80B99 /* TimelineHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF9B3082C6E5F2400F80B99 /* TimelineHeaderView.swift */; };
 		0DFBF92C2C43E42700762956 /* DeleteCourseSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFBF92B2C43E42700762956 /* DeleteCourseSettingView.swift */; };
 		741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */; };
 		742547032C47F0780075DD81 /* GetPointDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742547022C47F0780075DD81 /* GetPointDetailResponse.swift */; };
@@ -323,6 +324,7 @@
 		0DF905C72C39402A0072EE65 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		0DF905CB2C3ABAC30072EE65 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		0DF9B3062C69D73800F80B99 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
+		0DF9B3082C6E5F2400F80B99 /* TimelineHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineHeaderView.swift; sourceTree = "<group>"; };
 		0DFBF92B2C43E42700762956 /* DeleteCourseSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCourseSettingView.swift; sourceTree = "<group>"; };
 		741AE2E12C3728D80031849F /* ViewedCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseViewController.swift; sourceTree = "<group>"; };
 		742547022C47F0780075DD81 /* GetPointDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPointDetailResponse.swift; sourceTree = "<group>"; };
@@ -623,6 +625,7 @@
 				0D98CBA62C41099400E3618A /* CourseDetailView.swift */,
 				0D9C431A2C41B3F500687CCC /* CourseDetailBottomTabBarView.swift */,
 				0DC9BEFE2C47B70600A817A8 /* StickyHeaderNavBarView.swift */,
+				0DF9B3082C6E5F2400F80B99 /* TimelineHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1885,6 +1888,7 @@
 				0DC9BF092C47F57C00A817A8 /* CourseDetailService.swift in Sources */,
 				CA4EF3DF2C347B4E003B02B6 /* DRButtonType.swift in Sources */,
 				0DA1C7182C3DA98100DF2B92 /* CourseViewController.swift in Sources */,
+				0DF9B3092C6E5F2400F80B99 /* TimelineHeaderView.swift in Sources */,
 				CAA30AED2C37E57400835DE3 /* String+.swift in Sources */,
 				0D98CBA52C41067B00E3618A /* CourseDetailViewController.swift in Sources */,
 				0D0DA3E42C3AF3CF004210EE /* PointCollectionView.swift in Sources */,

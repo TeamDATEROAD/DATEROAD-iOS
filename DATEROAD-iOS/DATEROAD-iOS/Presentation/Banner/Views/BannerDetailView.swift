@@ -16,6 +16,8 @@ final class BannerDetailView: BaseView {
     
     lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
     
+    private let gradientView = GradientView()
+    
     let stickyHeaderNavBarView = StickyHeaderNavBarView()
 
     
@@ -40,7 +42,7 @@ final class BannerDetailView: BaseView {
     
     
     override func setHierarchy() {
-        self.addSubviews(mainCollectionView,stickyHeaderNavBarView)
+        self.addSubviews(mainCollectionView, gradientView, stickyHeaderNavBarView)
     }
     
     override func setLayout() {
@@ -48,6 +50,11 @@ final class BannerDetailView: BaseView {
         mainCollectionView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
+        }
+        
+        gradientView.snp.makeConstraints {
+            $0.top.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(104)
         }
         
         stickyHeaderNavBarView.snp.makeConstraints {
@@ -100,10 +107,8 @@ extension BannerDetailView {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         
-        let gradient = makeGradientView()
         let footer = makeBottomPageControllView()
-        
-        section.boundarySupplementaryItems = [gradient, footer]
+        section.boundarySupplementaryItems = [footer]
         
         return section
     }
@@ -137,14 +142,6 @@ extension BannerDetailView {
         let section = NSCollectionLayoutSection(group: group)
 
         return section
-    }
-
-    func makeGradientView() -> NSCollectionLayoutBoundarySupplementaryItem {
-        let gradientSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.27))
-        let collectionViewWidth = mainCollectionView.frame.width
-        let gradient = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: gradientSize, elementKind: GradientView.elementKinds, alignment: .top, absoluteOffset: CGPoint(x: 0, y: collectionViewWidth * 0.27))
-        
-        return gradient
     }
 
     func makeBottomPageControllView() -> NSCollectionLayoutBoundarySupplementaryItem {

@@ -12,7 +12,7 @@ import Then
 
 protocol StickyHeaderNavBarViewDelegate: AnyObject {
     func didTapBackButton()
-    func didTapDeleteButton()
+    func didTapMoreButton()
 }
 
 final class StickyHeaderNavBarView: UIView {
@@ -85,7 +85,7 @@ private extension StickyHeaderNavBarView {
     
     @objc
     func didTapMoreButton() {
-        delegate?.didTapDeleteButton()
+        delegate?.didTapMoreButton()
     }
     
 }

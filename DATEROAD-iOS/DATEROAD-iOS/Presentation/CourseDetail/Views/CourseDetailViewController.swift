@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegate {
+final class CourseDetailViewController: BaseViewController {
     
     
     // MARK: - UI Properties
@@ -73,7 +73,9 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
     
     override func setLayout() {
         super.setLayout()
+        
         self.tabBarController?.tabBar.isHidden = true
+        courseInfoTabBarView.isHidden = true
         
         courseDetailView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -82,15 +84,6 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
         courseInfoTabBarView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(108)
-        }
-        
-    }
-    
-    override func setStyle() {
-        super.setStyle()
-        
-        courseInfoTabBarView.do {
-            $0.isHidden = true
         }
         
     }
@@ -121,8 +114,8 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
             
             $0.register(InfoHeaderView.self, forSupplementaryViewOfKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier)
             
-            $0.register(GradientView.self, forSupplementaryViewOfKind: GradientView.elementKinds, withReuseIdentifier: GradientView.identifier)
-            
+            $0.register(TimelineHeaderView.self, forSupplementaryViewOfKind: TimelineHeaderView.elementKinds, withReuseIdentifier: TimelineHeaderView.identifier)
+                    
             $0.register(BottomPageControllView.self, forSupplementaryViewOfKind: BottomPageControllView.elementKinds, withReuseIdentifier: BottomPageControllView.identifier)
             
             $0.register(ContentMaskView.self, forSupplementaryViewOfKind: ContentMaskView.elementKinds, withReuseIdentifier: ContentMaskView.identifier)
@@ -151,7 +144,7 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
             if isSuccess {
                 self?.localLikeNum = self?.courseDetailViewModel.likeSum.value ?? 0
                 self?.setSetctionCount()
-                self?.setTabBar()
+                self?.setTabBarVisibility()
                 self?.courseDetailView.mainCollectionView.reloadData()
             }
         }
@@ -170,175 +163,185 @@ final class CourseDetailViewController: BaseViewController, DRCustomAlertDelegat
     }
     
     func setAddTarget() {
-        let bottomSheetGesture = UITapGestureRecognizer(target: self, action: #selector(didTapBottomSheetLabel(sender:)))
-        deleteCourseSettingView.deleteLabel.addGestureRecognizer(bottomSheetGesture)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapLikeButton))
+        deleteCourseSettingView.deleteLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapBottomSheetLabel(sender:))))
         courseInfoTabBarView.likeButtonView.isUserInteractionEnabled = true
-        courseInfoTabBarView.likeButtonView.addGestureRecognizer(tapGesture)
-        
+        courseInfoTabBarView.likeButtonView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapLikeButton)))
         courseInfoTabBarView.bringCourseButton.addTarget(self, action: #selector(didTapMySchedule), for: .touchUpInside)
     }
     
 }
-extension CourseDetailViewController: ContentMaskViewDelegate {
+
+extension CourseDetailViewController: DRCustomAlertDelegate {
     
     func action(rightButtonAction: RightButtonType) {
         switch rightButtonAction {
         case .addCourse:
             didTapAddCourseButton()
         case .checkCourse:
-            //무료 열람 기회 확인 & 잔여 포인트
-            guard let haveFreeCount = self.courseDetailViewModel.haveFreeCount.value,
-                  let havePoint = self.courseDetailViewModel.havePoint.value else { return }
-            let courseId = self.courseDetailViewModel.courseId
-            
-            if haveFreeCount {
-                //무료 열람 기회 사용
-                let request = PostUsePointRequest(point: 50, type: "POINT_USED", description: "무료 열람 기회 사용")
-                self.courseDetailViewModel.postUsePoint(courseId: courseId, request: request)
-                self.courseDetailViewModel.isAccess.value = true
-                dismiss(animated: false)
-            } else {
-                if havePoint {
-                    //포인트로 구입
-                    let request = PostUsePointRequest(point: 50, type: "POINT_USED", description: "코스 열람 50P 사용")
-                    self.courseDetailViewModel.postUsePoint(courseId: courseId, request: request)
-                    self.courseDetailViewModel.isAccess.value = true
-                    dismiss(animated: false)
-                } else {
-                    didTapBuyButton()
-                }
-            }
+            handleCourseAccess()
+        case .declareCourse:
+            present(DRWebViewController(urlString: "https://tally.so/r/w4L1a5"), animated: true)
+        case .deleteCourse:
+            deleteCourse()
         default:
             return
         }
         setSetctionCount()
-        setTabBar()
+        setTabBarVisibility()
     }
+    
+    private func handleCourseAccess() {
+        let courseId = self.courseDetailViewModel.courseId
+        
+        if courseDetailViewModel.haveFreeCount.value == true {
+            //무료 열람 기회 사용
+            let request = PostUsePointRequest(point: 50, type: "POINT_USED", description: "무료 열람 기회 사용")
+            self.courseDetailViewModel.postUsePoint(courseId: courseId, request: request)
+            self.courseDetailViewModel.isAccess.value = true
+            dismiss(animated: false)
+        } else {
+            if courseDetailViewModel.havePoint.value == true {
+                //포인트로 구입
+                let request = PostUsePointRequest(point: 50, type: "POINT_USED", description: "코스 열람 50P 사용")
+                self.courseDetailViewModel.postUsePoint(courseId: courseId, request: request)
+                self.courseDetailViewModel.isAccess.value = true
+                dismiss(animated: false)
+            } else {
+                showPointAlert()
+            }
+        }
+        
+        setSetctionCount()
+        setTabBarVisibility()
+    }
+    
+    private func deleteCourse() {
+        print("삭제")
+        self.dismiss(animated: true)
+        courseDetailViewModel.deleteCourse { [weak self] success in
+            DispatchQueue.main.async {
+                if success {
+                    print("성공적으로 삭제")
+                    self?.navigationController?.popViewController(animated: true)
+                } else {
+                    print("삭제 실패 ㅠ")
+                }
+            }
+        }
+        courseDetailView.mainCollectionView.reloadData()
+    }
+}
+
+extension CourseDetailViewController: ContentMaskViewDelegate {
     
     //버튼 분기 처리하기
     func didTapViewButton() {
-        guard let haveFreeCount = self.courseDetailViewModel.haveFreeCount.value else { return }
-        
-        if haveFreeCount {
-            didTapFreeViewButton()
-        } else {
-            didTapReadCourseButton()
-        }
+        courseDetailViewModel.haveFreeCount.value == true ? showFreeViewAlert() : showReadCourseAlert()
     }
     
-    //열람 전 분기 처리 - 무료 사용 기회 다 쓴 경우
-    func didTapReadCourseButton() {
-        let customAlertVC = DRCustomAlertViewController(
-            rightActionType: RightButtonType.checkCourse,
-            alertTextType: .hasDecription,
-            alertButtonType: .twoButton,
-            titleText: StringLiterals.Alert.buyCourse,
-            descriptionText: StringLiterals.Alert.canNotRefund,
-            rightButtonText: StringLiterals.CourseDetail.check
+    // 무료 사용 기회를 다 쓴 경우의 알림
+    func showReadCourseAlert() {
+        presentCustomAlert(
+            title: StringLiterals.Alert.buyCourse,
+            description: StringLiterals.Alert.canNotRefund,
+            action: .checkCourse,
+            buttonText: StringLiterals.CourseDetail.check
         )
-        customAlertVC.delegate = self
-        customAlertVC.modalPresentationStyle = .overFullScreen
-        self.present(customAlertVC, animated: false)
     }
     
-    //열람 전 분기 처리 - 무료 사용 기회 남은 경우
-    func didTapFreeViewButton() {
-        let customAlertVC = DRCustomAlertViewController(
-            rightActionType: RightButtonType.checkCourse,
-            alertTextType: .hasDecription,
-            alertButtonType: .twoButton,
-            titleText: StringLiterals.CourseDetail.freeViewTitle,
-            descriptionText: StringLiterals.CourseDetail.freeViewDescription,
-            rightButtonText: StringLiterals.CourseDetail.check
+    // 무료 사용 기회가 남은 경우의 알림
+    func showFreeViewAlert() {
+        presentCustomAlert(
+            title: StringLiterals.CourseDetail.freeViewTitle,
+            description: StringLiterals.CourseDetail.freeViewDescription,
+            action: .checkCourse,
+            buttonText: StringLiterals.CourseDetail.check
         )
-        customAlertVC.delegate = self
-        customAlertVC.modalPresentationStyle = .overFullScreen
-        self.present(customAlertVC, animated: false)
     }
-    
     
     //포인트가 부족할 때
-    func didTapBuyButton(){
-        let customAlertVC = DRCustomAlertViewController(
-            rightActionType: RightButtonType.addCourse,
+    func showPointAlert(){
+        presentCustomAlert(
+            title: StringLiterals.CourseDetail.insufficientPointsTitle,
+            description: StringLiterals.CourseDetail.insufficientPointsDescription,
+            action: .addCourse,
+            buttonText: StringLiterals.CourseDetail.addCourse
+        )
+    }
+    
+    // 신고 혹은 삭제 버튼 클릭 시 처리
+    @objc func didTapBottomSheetLabel(sender: UITapGestureRecognizer) {
+        print("삭제하기 클릭")
+        self.dismiss(animated: true)
+        courseDetailViewModel.isCourseMine.value == true ? showDeleteAlert() : showDeclareAlert()
+
+    }
+    
+    //바텀 시트에서 신고하기 클릭시 팝업창
+    func showDeclareAlert(){
+        presentCustomAlert(
+            title: StringLiterals.CourseDetail.declareTitle,
+            description: StringLiterals.CourseDetail.declareDescription,
+            action: .declareCourse
+        )
+    }
+    
+    //바텀 시트에서 삭제하기 클릭시 팝업창
+    func showDeleteAlert(){
+        presentCustomAlert(
+            title: StringLiterals.CourseDetail.deleteTitle,
+            description: StringLiterals.CourseDetail.deleteDescription,
+            action: .deleteCourse
+        )
+    }
+    
+    func presentCustomAlert(title: String, description: String, action: RightButtonType, buttonText: String = "확인") {
+        let alertVC = DRCustomAlertViewController(
+            rightActionType: action,
             alertTextType: .hasDecription,
             alertButtonType: .twoButton,
-            titleText: StringLiterals.CourseDetail.insufficientPointsTitle,
-            descriptionText: StringLiterals.CourseDetail.insufficientPointsDescription,
-            rightButtonText: StringLiterals.CourseDetail.addCourse
+            titleText: title,
+            descriptionText: description,
+            rightButtonText: buttonText
         )
-        customAlertVC.delegate = self
-        customAlertVC.modalPresentationStyle = .overFullScreen
-        self.present(customAlertVC, animated: false)
+        alertVC.delegate = self
+        alertVC.modalPresentationStyle = .overFullScreen
+        present(alertVC, animated: false)
     }
+    
     
     //코스 등록하기로 화면 전환
     func didTapAddCourseButton() {
         let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
         self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
-    
-    /// 더보기 버튼 눌렀을 때 직접적인 액션 처리
-    @objc func didTapBottomSheetLabel(sender: UITapGestureRecognizer) {
-        print("didTapDeleteLabel")
-        self.dismiss(animated: true)
-        guard let isCourseMine = courseDetailViewModel.isCourseMine.value else { return }
-        if isCourseMine {
-            courseDetailViewModel.deleteCourse { [weak self] success in
-                DispatchQueue.main.async {
-                    if success {
-                        print("성공적으로 삭제")
-                        self?.navigationController?.popViewController(animated: true)
-                    } else {
-                        print("삭제 실패 ㅠ")
-                    }
-                }
-            }
-            courseDetailView.mainCollectionView.reloadData()
-        } else {
-            print("신고하기 웹뷰로 연결")
-            //임시로 아무 링크 ㅎㅎ
-            let delclareVC = DRWebViewController(urlString: "https://blog.naver.com/2cold0utside")
-            self.present(delclareVC, animated: true)
-        }
-        
-    }
-    
+
 }
 
-extension CourseDetailViewController: StickyHeaderNavBarViewDelegate {
+extension CourseDetailViewController: StickyHeaderNavBarViewDelegate, DRBottomSheetDelegate {
     
     func didTapBackButton() {
         navigationController?.popViewController(animated: true)
     }
     
-    //더보기 버튼 클릭시 -> BottomSheet
-    func didTapDeleteButton() {
-        guard let isCourseMine = courseDetailViewModel.isCourseMine.value else { return }
-        let moreBottomSheetVC = DRBottomSheetViewController(contentView: deleteCourseSettingView,
-                                                              height: 210,
-                                                              buttonType: DisabledButton(),
-                                                              buttonTitle: StringLiterals.Common.close)
-        if isCourseMine {
-            deleteCourseSettingView.deleteLabel.text = StringLiterals.Common.close
-        } else {
-            deleteCourseSettingView.deleteLabel.text = "신고하기"
-        }
-        
-        moreBottomSheetVC.delegate = self
-        moreBottomSheetVC.modalPresentationStyle = .overFullScreen
-        self.present(moreBottomSheetVC, animated: true)
+    func didTapMoreButton() {
+        let bottomSheetVC = DRBottomSheetViewController(
+            contentView: deleteCourseSettingView,
+            height: 210,
+            buttonType: DisabledButton(),
+            buttonTitle: StringLiterals.Common.close
+        )
+        bottomSheetVC.delegate = self
+        deleteCourseSettingView.deleteLabel.text = courseDetailViewModel.isCourseMine.value == true ? StringLiterals.CourseDetail.deleteCourse : StringLiterals.CourseDetail.delclareCourse
+        bottomSheetVC.modalPresentationStyle = .overFullScreen
+        present(bottomSheetVC, animated: true)
     }
-}
 
-extension CourseDetailViewController: DRBottomSheetDelegate {
-    
     func didTapBottomButton() {
         self.dismiss(animated: true)
     }
 }
+
 
 extension CourseDetailViewController: UIScrollViewDelegate {
     
@@ -360,9 +363,9 @@ private extension CourseDetailViewController {
     @objc
     func didTapMySchedule() {
         let courseId = courseDetailViewModel.courseId
-        
         let courseDetailViewModel = CourseDetailViewModel(courseId: courseId)
         let addScheduleViewModel = AddScheduleViewModel()
+        
         addScheduleViewModel.viewedDateCourseByMeData = courseDetailViewModel
         addScheduleViewModel.isImporting = true
         
@@ -377,7 +380,6 @@ private extension CourseDetailViewController {
     @objc
     func didTapLikeButton() {
         isFirstLike = false
-        
         guard let isLiked = courseDetailViewModel.isUserLiked.value else { return }
         
         courseDetailViewModel.isUserLiked.value?.toggle()
@@ -386,29 +388,22 @@ private extension CourseDetailViewController {
         likeAction(courseId ?? 0)
         
         self.courseDetailView.mainCollectionView.reloadData()
-        
     }
     
-    private func updateLikeButtonColor(isLiked: Bool) {
+    func updateLikeButtonColor(isLiked: Bool) {
         courseInfoTabBarView.likeButtonImageView.tintColor = isLiked ? UIColor(resource: .deepPurple) : UIColor(resource: .gray200)
-
     }
     
     func setSetctionCount() {
-        guard let isAccess = courseDetailViewModel.isAccess.value else { return }
-        let sectionCount = isAccess ? 6 : 3
-        courseDetailViewModel.setNumberOfSections(sectionCount)
+        courseDetailViewModel.setNumberOfSections(courseDetailViewModel.isAccess.value == true ? 6 : 3)
         courseDetailView.mainCollectionView.reloadData()
     }
     
-    func setTabBar() {
-        guard let isAccess = courseDetailViewModel.isAccess.value else { return }
-        courseInfoTabBarView.isHidden = !isAccess || courseDetailViewModel.isCourseMine.value == true
+    func setTabBarVisibility() {
+        courseInfoTabBarView.isHidden = !(courseDetailViewModel.isAccess.value ?? false) || (courseDetailViewModel.isCourseMine.value == true)
     }
     
 }
-
-
 
 extension CourseDetailViewController: ImageCarouselDelegate {
     
@@ -430,123 +425,171 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         return courseDetailViewModel.numberOfItemsInSection(section)
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let sectionType = courseDetailViewModel.fetchSection(at: indexPath.section)
-        let isAccess = self.courseDetailViewModel.isAccess.value ?? false
+        let isAccess = courseDetailViewModel.isAccess.value ?? false
         
         switch sectionType {
         case .imageCarousel:
-            guard let imageCarouselCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCarouselCell.cellIdentifier, for: indexPath) as? ImageCarouselCell else {
-                return UICollectionViewCell()
-            }
-            let imageData = courseDetailViewModel.imageData.value ?? []
-            imageCarouselCell.setPageVC(thumbnailModel: imageData)
-            imageCarouselCell.setAccess(isAccess: isAccess)
-            imageCarouselCell.delegate = self
-            return imageCarouselCell
-            
+            return configureImageCarouselCell(collectionView, indexPath: indexPath, isAccess: isAccess)
         case .titleInfo:
-            guard let titleInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleInfoCell.cellIdentifier, for: indexPath) as? TitleInfoCell else {
-                return UICollectionViewCell()
-            }
-            let titleDate = courseDetailViewModel.titleHeaderData.value  ?? TitleHeaderModel(date: "", title: "", cost: 0, totalTime: 0, city: "")
-            titleInfoCell.setCell(titleHeaderData: titleDate)
-            return titleInfoCell
-            
+            return configureTitleInfoCell(collectionView, indexPath: indexPath)
         case .mainContents:
-            guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.cellIdentifier, for: indexPath) as? MainContentsCell else {
-                return UICollectionViewCell()
-            }
-            let mainData = courseDetailViewModel.mainContentsData.value ?? MainContentsModel(description: "")
-            mainContentsCell.setCell(mainContentsData: mainData)
-            mainContentsCell.mainTextLabel.numberOfLines = isAccess ? 0 : 3
-            return mainContentsCell
-            
+            return configureMainContentsCell(collectionView, indexPath: indexPath, isAccess: isAccess)
         case .timelineInfo:
-            guard let timelineInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.cellIdentifier, for: indexPath) as? TimelineInfoCell else {
-                return UICollectionViewCell()
-            }
-            let timelineItem = self.courseDetailViewModel.timelineData.value?[indexPath.row] ?? TimelineModel(sequence: 0, title: "", duration: 0)
-            timelineInfoCell.setCell(timelineData: timelineItem)
-            return timelineInfoCell
-            
+            return configureTimelineInfoCell(collectionView, indexPath: indexPath)
         case .coastInfo:
-            guard let coastInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.cellIdentifier, for: indexPath) as? CoastInfoCell else {
-                return UICollectionViewCell()
-            }
-            let coastData = self.courseDetailViewModel.titleHeaderData.value?.cost ?? 0
-            coastInfoCell.setCell(coastData: coastData)
-            return coastInfoCell
-            
+            return configureCoastInfoCell(collectionView, indexPath: indexPath)
         case .tagInfo:
-            guard let tagInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCell.cellIdentifier, for: indexPath) as? TagInfoCell else {
-                return UICollectionViewCell()
-            }
-            let tagData = self.courseDetailViewModel.tagData.value?[indexPath.row] ?? TagModel(tag: "")
-            tagInfoCell.setCell(tag: tagData.tag)
-            return tagInfoCell
+            return configureTagInfoCell(collectionView, indexPath: indexPath)
         }
     }
     
+    private func configureImageCarouselCell(_ collectionView: UICollectionView, indexPath: IndexPath, isAccess: Bool) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCarouselCell.cellIdentifier, for: indexPath) as? ImageCarouselCell else {
+            return UICollectionViewCell()
+        }
+        let imageData = courseDetailViewModel.imageData.value ?? []
+        cell.setPageVC(thumbnailModel: imageData)
+        cell.setAccess(isAccess: isAccess)
+        cell.delegate = self
+        return cell
+    }
+    
+    private func configureTitleInfoCell(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleInfoCell.cellIdentifier, for: indexPath) as? TitleInfoCell else {
+            return UICollectionViewCell()
+        }
+        let titleData = courseDetailViewModel.titleHeaderData.value ?? TitleHeaderModel(date: "", title: "", cost: 0, totalTime: 0, city: "")
+        cell.setCell(titleHeaderData: titleData)
+        return cell
+    }
+    
+    private func configureMainContentsCell(_ collectionView: UICollectionView, indexPath: IndexPath, isAccess: Bool) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.cellIdentifier, for: indexPath) as? MainContentsCell else {
+            return UICollectionViewCell()
+        }
+        let mainData = courseDetailViewModel.mainContentsData.value ?? MainContentsModel(description: "")
+        cell.setCell(mainContentsData: mainData)
+        cell.mainTextLabel.numberOfLines = isAccess ? 0 : 3
+        return cell
+    }
+    
+    private func configureTimelineInfoCell(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TimelineInfoCell.cellIdentifier, for: indexPath) as? TimelineInfoCell else {
+            return UICollectionViewCell()
+        }
+        let timelineItem = courseDetailViewModel.timelineData.value?[indexPath.row] ?? TimelineModel(sequence: 0, title: "", duration: 0)
+        cell.setCell(timelineData: timelineItem)
+        return cell
+    }
+    
+    private func configureCoastInfoCell(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoastInfoCell.cellIdentifier, for: indexPath) as? CoastInfoCell else {
+            return UICollectionViewCell()
+        }
+        let coastData = courseDetailViewModel.titleHeaderData.value?.cost ?? 0
+        cell.setCell(coastData: coastData)
+        return cell
+    }
+    
+    private func configureTagInfoCell(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagInfoCell.cellIdentifier, for: indexPath) as? TagInfoCell else {
+            return UICollectionViewCell()
+        }
+        let tagData = courseDetailViewModel.tagData.value?[indexPath.row] ?? TagModel(tag: "")
+        cell.setCell(tag: tagData.tag)
+        return cell
+    }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        let isAccess = self.courseDetailViewModel.isAccess.value ?? false
-        let titleHeaderData = self.courseDetailViewModel.titleHeaderData.value ?? TitleHeaderModel(date: "", title: "", cost: 0, totalTime: 0, city: "")
-        let imageData = self.courseDetailViewModel.imageData.value ?? []
-        
-        if kind == VisitDateView.elementKinds {
-            guard let visitDate = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: VisitDateView.identifier, for: indexPath) as? VisitDateView else {
-                return UICollectionReusableView()
-            }
-            visitDate.bindDate(titleHeaderData: titleHeaderData)
-            return visitDate
-        } else if kind == InfoBarView.elementKinds {
-            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoBarView.identifier, for: indexPath) as? InfoBarView else { return UICollectionReusableView() }
-            footer.bindTitleHeader(titleHeaderData: titleHeaderData)
-            return footer
-        } else if kind == GradientView.elementKinds {
-            guard let gradient = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: GradientView.identifier, for: indexPath) as? GradientView else { return UICollectionReusableView() }
-            return gradient
-        } else if kind == BottomPageControllView.elementKinds {
-            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else { return UICollectionReusableView() }
-            if !isFirstLike {
-                localLikeNum += courseDetailViewModel.isUserLiked.value == true ? 1 : -1
-            }
-            
-            footer.pageIndexSum = imageData.count
-            footer.bindData(like: localLikeNum)
-            return footer
-        } else if kind == ContentMaskView.elementKinds {
-            if isAccess {
-                return UICollectionReusableView()
-            } else {
-                guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ContentMaskView.identifier, for: indexPath) as? ContentMaskView else { return UICollectionReusableView() }
-                let haveFree = self.courseDetailViewModel.haveFreeCount.value ?? false
-                let count = self.courseDetailViewModel.conditionalData.value?.free ?? 0
-                footer.checkFree(haveFree: haveFree, count: count)
-                footer.delegate = self
-                return footer
-            }
-        } else if kind == InfoHeaderView.elementKinds {
-            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoHeaderView.identifier, for: indexPath) as? InfoHeaderView else { return UICollectionReusableView() }
-            switch courseDetailViewModel.fetchSection(at: indexPath.section) {
-            case .timelineInfo:
-                header.bindTitle(headerTitle: StringLiterals.CourseDetail.timelineInfoLabel)
-            case .coastInfo:
-                header.bindTitle(headerTitle: StringLiterals.CourseDetail.coastInfoLabel)
-            case .tagInfo:
-                header.bindTitle(headerTitle: StringLiterals.CourseDetail.tagInfoLabel)
-            default:
-                break
-            }
-            return header
-        } else {
+        let isAccess = courseDetailViewModel.isAccess.value ?? false
+        let titleHeaderData = courseDetailViewModel.titleHeaderData.value ?? TitleHeaderModel(date: "", title: "", cost: 0, totalTime: 0, city: "")
+        let imageData = courseDetailViewModel.imageData.value ?? []
+
+        switch kind {
+        case VisitDateView.elementKinds:
+            return configureVisitDateView(collectionView, indexPath: indexPath, titleHeaderData: titleHeaderData)
+        case InfoBarView.elementKinds:
+            return configureInfoBarView(collectionView, indexPath: indexPath, titleHeaderData: titleHeaderData)
+        case BottomPageControllView.elementKinds:
+            return configureBottomPageControlView(collectionView, indexPath: indexPath, imageData: imageData, isAccess: isAccess)
+        case ContentMaskView.elementKinds:
+            return configureContentMaskView(collectionView, indexPath: indexPath, isAccess: isAccess)
+        case InfoHeaderView.elementKinds:
+            return configureInfoHeaderView(collectionView, indexPath: indexPath)
+        case TimelineHeaderView.elementKinds:
+            return configureTimelineHeaderView(collectionView, indexPath: indexPath)
+        default:
             return UICollectionReusableView()
         }
     }
+
+    private func configureVisitDateView(_ collectionView: UICollectionView, indexPath: IndexPath, titleHeaderData: TitleHeaderModel) -> UICollectionReusableView {
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: VisitDateView.elementKinds, withReuseIdentifier: VisitDateView.identifier, for: indexPath) as? VisitDateView else {
+            return UICollectionReusableView()
+        }
+        view.bindDate(titleHeaderData: titleHeaderData)
+        return view
+    }
     
+    private func configureInfoBarView(_ collectionView: UICollectionView, indexPath: IndexPath, titleHeaderData: TitleHeaderModel) -> UICollectionReusableView {
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: InfoBarView.elementKinds, withReuseIdentifier: InfoBarView.identifier, for: indexPath) as? InfoBarView else {
+            return UICollectionReusableView()
+        }
+        view.bindTitleHeader(titleHeaderData: titleHeaderData)
+        return view
+    }
+    
+    private func configureBottomPageControlView(_ collectionView: UICollectionView, indexPath: IndexPath, imageData: [ThumbnailModel], isAccess: Bool) -> UICollectionReusableView {
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: BottomPageControllView.elementKinds, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else {
+            return UICollectionReusableView()
+        }
+        if !isFirstLike {
+            localLikeNum += courseDetailViewModel.isUserLiked.value == true ? 1 : -1
+        }
+        view.pageIndexSum = imageData.count
+        view.bindData(like: localLikeNum)
+        return view
+    }
+    
+    private func configureContentMaskView(_ collectionView: UICollectionView, indexPath: IndexPath, isAccess: Bool) -> UICollectionReusableView {
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: ContentMaskView.elementKinds, withReuseIdentifier: ContentMaskView.identifier, for: indexPath) as? ContentMaskView else {
+            return UICollectionReusableView()
+        }
+        if !isAccess {
+            let haveFree = courseDetailViewModel.haveFreeCount.value ?? false
+            let count = courseDetailViewModel.conditionalData.value?.free ?? 0
+            view.checkFree(haveFree: haveFree, count: count)
+            view.delegate = self
+        }
+        return view
+    }
+    
+    private func configureInfoHeaderView(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionReusableView {
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier, for: indexPath) as? InfoHeaderView else {
+            return UICollectionReusableView()
+        }
+        switch courseDetailViewModel.fetchSection(at: indexPath.section) {
+        case .coastInfo:
+            view.bindTitle(headerTitle: StringLiterals.CourseDetail.coastInfoLabel)
+        case .tagInfo:
+            view.bindTitle(headerTitle: StringLiterals.CourseDetail.tagInfoLabel)
+        default:
+            break
+        }
+        return view
+    }
+    
+    private func configureTimelineHeaderView(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionReusableView {
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: TimelineHeaderView.elementKinds, withReuseIdentifier: TimelineHeaderView.identifier, for: indexPath) as? TimelineHeaderView else {
+            return UICollectionReusableView()
+        }
+        let startAt = courseDetailViewModel.startAt
+        view.bindSubTitle(subTitle: startAt)
+        return view
+    }
 }
+
 
 
