@@ -39,10 +39,7 @@ class DateScheduleViewModel: Serviceable {
                     let tagsModel: [TagsModel] = date.tags.map { tag in
                         TagsModel(tag: tag.tag)
                     }
-                    let cityEnum = LocationModelCityEngToKor.City(rawValue: date.city)
-                    let cityInKorean = cityEnum?.toKorean()
-                    
-                    return DateCardModel(dateID: date.dateID, title: date.title, date: date.date, city: cityInKorean ?? "", tags: tagsModel, dDay: date.dDay)
+                    return DateCardModel(dateID: date.dateID, title: date.title, date: date.date, city: date.city, tags: tagsModel, dDay: date.dDay)
                 }
                 
                 self.pastDateScheduleData.value = dateScheduleInfo
@@ -63,10 +60,7 @@ class DateScheduleViewModel: Serviceable {
                     let tagsModel: [TagsModel] = date.tags.map { tag in
                         TagsModel(tag: tag.tag)
                     }
-                    let cityEnum = LocationModelCityEngToKor.City(rawValue: date.city)
-                    let cityInKorean = cityEnum?.toKorean()
-                    
-                    return DateCardModel(dateID: date.dateID, title: date.title, date: (date.date).toReadableDate() ?? "", city: cityInKorean ?? "", tags: tagsModel, dDay: date.dDay)
+                    return DateCardModel(dateID: date.dateID, title: date.title, date: (date.date).toReadableDate() ?? "", city: date.city , tags: tagsModel, dDay: date.dDay)
                 }
                 print("🍎🍎🍎🍎")
                 
