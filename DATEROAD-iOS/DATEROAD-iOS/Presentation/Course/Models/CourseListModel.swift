@@ -24,7 +24,6 @@ struct CourseListModel {
         self.cost = cost
         self.time = time
         self.like = like
-        
     }
 }
 

@@ -184,8 +184,7 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
     }
     
     func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
-        let cityNameComponents = city.rawValue.split(separator: ".")
-        let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
+        let cityName = String(city.rawValue.split(separator: ".").first ?? "")
         print(cityName,"⚽️")
         courseViewModel.selectedCityName.value = cityName
 
