@@ -138,17 +138,7 @@ extension LocationFilterViewController: LocationFilterViewDelegate {
         
         let selectedCountry = courseViewModel.countryData[selectedCountryIndex]
         let selectedCity = courseViewModel.cityData[selectedCityIndex]
-        
-        let cityNameComponents = selectedCity.rawValue.split(separator: ".")
-        let cityName = cityNameComponents.last.map { String($0) } ?? selectedCity.rawValue
-        
-        if let subRegion = SubRegion(rawValue: cityName) {
-            let formattedCityName = "\(subRegion)"
-            courseViewModel.selectedCityName.value = formattedCityName
-        } else {
-            print("💙")
-        }
-        
+   
         delegate?.didSelectCity(selectedCountry, selectedCity)
         delegate?.getCourse()
         closeLocationFilterView()

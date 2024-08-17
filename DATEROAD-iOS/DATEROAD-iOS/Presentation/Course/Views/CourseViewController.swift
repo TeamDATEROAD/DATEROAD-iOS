@@ -173,7 +173,6 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
     func getCourse() {
         let city = courseViewModel.selectedCityName.value ?? ""
         let cost = courseViewModel.selectedPriceIndex.value?.costNum()
-        
         courseViewModel.getCourse(city: city, cost: cost)
     }
     
@@ -187,15 +186,9 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
     func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
         let cityNameComponents = city.rawValue.split(separator: ".")
         let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
-        
-        if let subRegion = SubRegion(rawValue: cityName) {
-            let selectedSubRegion = "\(subRegion)"
-            
-            courseViewModel.selectedCityName.value = selectedSubRegion
-        } else {
-            print(cityName)
-        }
-        
+        print(cityName,"⚽️")
+        courseViewModel.selectedCityName.value = cityName
+
         self.courseView.courseFilterView.locationFilterButton.do {
             $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
             $0.setTitle(cityName, for: .normal)
