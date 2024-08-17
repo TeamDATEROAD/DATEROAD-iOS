@@ -55,22 +55,21 @@ class CourseFilterView: BaseView {
     }
     
     override func setLayout() {
-        
         locationFilterButton.snp.makeConstraints {
-            $0.centerY.equalTo(resetButton)
+            $0.top.equalToSuperview().inset(16)
             $0.leading.equalToSuperview().inset(16)
             $0.width.equalTo(150)
             $0.height.equalTo(30)
         }
         
         resetButton.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.top.equalToSuperview().inset(9)
             $0.trailing.equalToSuperview()
             $0.size.equalTo(44)
         }
         
         priceCollectionView.snp.makeConstraints {
-            $0.top.equalTo(locationFilterButton.snp.bottom).offset(10)
+            $0.top.equalTo(locationFilterButton.snp.bottom).offset(8)
             $0.leading.equalToSuperview().inset(16)
             $0.trailing.equalToSuperview().inset(18)
             $0.height.equalTo(30)

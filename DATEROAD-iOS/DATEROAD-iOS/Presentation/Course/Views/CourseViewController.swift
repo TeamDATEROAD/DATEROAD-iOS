@@ -281,9 +281,8 @@ extension CourseViewController: UICollectionViewDelegateFlowLayout {
         return collectionView == courseView.courseFilterView.priceCollectionView ? 8 : 15
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return collectionView == courseView.courseFilterView.priceCollectionView ? 0 : 20
+        return 0
     }
     
 }

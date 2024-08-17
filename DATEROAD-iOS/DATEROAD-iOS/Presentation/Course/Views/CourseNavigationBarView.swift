@@ -42,7 +42,6 @@ class CourseNavigationBarView: BaseView {
     }
     
     override func setLayout() {
-        
         courseLabel.snp.makeConstraints {
             $0.centerY.equalTo(addCourseButton)
             $0.leading.equalToSuperview().inset(16)
