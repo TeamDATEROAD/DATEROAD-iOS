@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 class TimelineHeaderView: UICollectionReusableView {
-
+    
     // MARK: - UI Properties
     
     private let titleLabel: UILabel = UILabel()
@@ -23,7 +23,7 @@ class TimelineHeaderView: UICollectionReusableView {
     static let elementKinds: String = "TimelineHeaderView"
     
     static let identifier: String = "TimelineHeaderView"
-
+    
     
     // MARK: - Life Cycles
     
@@ -39,15 +39,6 @@ class TimelineHeaderView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func bindSubTitle(subTitle: String?) {
-        if let startAt = subTitle {
-            self.subLabel.text = "\(startAt) 시작"
-        }
-    }
-    
-}
-
-private extension TimelineHeaderView {
     
     func setHierarchy() {
         self.addSubviews(titleLabel, subLabel)
@@ -73,8 +64,25 @@ private extension TimelineHeaderView {
         }
         
         subLabel.do {
-            $0.setLabel(text:"12:00 PM 시작",textColor: UIColor(resource: .gray400), font: UIFont.suit(.body_semi_15))
-            $0.numberOfLines = 0
+            $0.setLabel(
+                text:"12:00 PM 시작",
+                textColor: UIColor(
+                    resource: .gray400
+                ),
+                font: UIFont.suit(
+                    .body_semi_15
+                )
+            )
+        }
+    }
+    
+}
+
+extension TimelineHeaderView {
+    
+    func bindSubTitle(subTitle: String?) {
+        if let startAt = subTitle {
+            self.subLabel.text = "\(startAt) 시작"
         }
     }
     

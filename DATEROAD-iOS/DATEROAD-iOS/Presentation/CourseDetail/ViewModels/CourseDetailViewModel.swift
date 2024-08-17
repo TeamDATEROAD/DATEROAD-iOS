@@ -200,7 +200,6 @@ extension CourseDetailViewModel {
         }
     }
     
-    
     func likeCourse(courseId: Int) {
         LikeCourseService().likeCourse(courseId: courseId) { success in
             if success {
@@ -220,7 +219,6 @@ extension CourseDetailViewModel {
             }
         }
     }
-    
     
     func getBannerDetail(advertismentId: Int) {
         NetworkService.shared.courseDetailService.getBannerDetailInfo(advertismentId: advertismentId){ response in
