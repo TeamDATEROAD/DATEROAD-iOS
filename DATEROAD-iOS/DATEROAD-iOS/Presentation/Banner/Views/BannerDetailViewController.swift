@@ -18,7 +18,7 @@ final class BannerDetailViewController: BaseViewController {
     
     private let loadingView: DRLoadingView = DRLoadingView()
     
-    private let errorView: DRErrorView = DRErrorView()
+    private let errorView: DRErrorViewController = DRErrorViewController()
     
     //    private let courseInfoTabBarView = CourseBottomTabBarView()
     
@@ -62,17 +62,13 @@ final class BannerDetailViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(errorView, loadingView, bannerDetailView)
+        self.view.addSubviews(loadingView, bannerDetailView)
         //                              , courseInfoTabBarView)
     }
     
     override func setLayout() {
         super.setLayout()
-        
-        errorView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
+
         loadingView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -95,10 +91,9 @@ final class BannerDetailViewController: BaseViewController {
     func bindViewModel() {
         self.courseDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
-            self?.errorView.isHidden = !onFailure
-            self?.bannerDetailView.isHidden = onFailure
             if onFailure {
-                self?.loadingView.isHidden = true
+                let errorVC = DRErrorViewController()
+                self?.navigationController?.pushViewController(errorVC, animated: false)
             }
         }
         

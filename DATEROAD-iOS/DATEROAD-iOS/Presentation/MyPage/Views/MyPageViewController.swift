@@ -17,7 +17,7 @@ final class MyPageViewController: BaseNavBarViewController {
     
     private let loadingView: DRLoadingView = DRLoadingView()
     
-    private let errorView: DRErrorView = DRErrorView()
+    private let errorView: DRErrorViewController = DRErrorViewController()
     
     
     // MARK: - Properties
@@ -60,15 +60,11 @@ final class MyPageViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.contentView.addSubviews(errorView, loadingView, myPageView)
+        self.contentView.addSubviews(loadingView, myPageView)
     }
     
     override func setLayout() {
         super.setLayout()
-        
-        errorView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
         
         loadingView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -110,13 +106,9 @@ private extension MyPageViewController {
     func bindViewModel() {
         self.myPageViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
-            self?.errorView.isHidden = !onFailure
-            self?.myPageView.isHidden = onFailure
-            self?.topInsetView.isHidden = onFailure
-            self?.navigationBarView.isHidden = onFailure
-            self?.tabBarController?.tabBar.isHidden = onFailure
             if onFailure {
-                self?.loadingView.isHidden = true
+                let errorVC = DRErrorViewController()
+                self?.navigationController?.pushViewController(errorVC, animated: false)
             }
         }
         

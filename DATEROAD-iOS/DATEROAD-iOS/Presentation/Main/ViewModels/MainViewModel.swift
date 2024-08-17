@@ -177,7 +177,7 @@ extension MainViewModel {
         
         if isSuccessGetUserInfo
             && isSuccessGetHotDate
-//            && isSuccessGetUpcomingDate
+            && isSuccessGetUpcomingDate
             && isSuccessGetBanner
             && isSuccessGetNewDate {
             self.onLoading.value = false

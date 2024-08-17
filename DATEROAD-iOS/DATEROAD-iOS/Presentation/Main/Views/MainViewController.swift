@@ -15,7 +15,7 @@ final class MainViewController: BaseViewController {
     
     private let loadingView: DRLoadingView = DRLoadingView()
     
-    private let errorView: DRErrorView = DRErrorView()
+    private let errorView: DRErrorViewController = DRErrorViewController()
     
     
     // MARK: - Properties
@@ -58,14 +58,10 @@ final class MainViewController: BaseViewController {
     }
     
     override func setHierarchy() {
-        self.view.addSubviews(errorView, loadingView, mainView)
+        self.view.addSubviews(loadingView, mainView)
     }
     
     override func setLayout() {
-        errorView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
         loadingView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -86,11 +82,9 @@ extension MainViewController {
     func bindViewModel() {
         self.mainViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
-            self?.errorView.isHidden = !onFailure
-            self?.mainView.isHidden = onFailure
-            self?.tabBarController?.tabBar.isHidden = onFailure
             if onFailure {
-                self?.loadingView.isHidden = true
+                let errorVC = DRErrorViewController()
+                self?.navigationController?.pushViewController(errorVC, animated: false)
             }
         }
         
@@ -176,6 +170,12 @@ extension MainViewController {
         guard let cell = self.mainView.mainCollectionView.cellForItem(at: IndexPath(item: 0, section: 2)) as? BannerCell
         else { return }
         cell.bindIndexData(currentIndex: index, count: count)
+    }
+    
+    @objc
+    func dismissView() {
+        let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
+        self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
     
     @objc
