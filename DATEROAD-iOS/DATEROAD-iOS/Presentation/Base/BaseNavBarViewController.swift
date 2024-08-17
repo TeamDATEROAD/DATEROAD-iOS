@@ -182,7 +182,7 @@ extension BaseNavBarViewController {
    
    @objc
    func backButtonTapped() {
-      navigationController?.popViewController(animated: true)
+      navigationController?.popViewController(animated: false)
    }
    
 }
