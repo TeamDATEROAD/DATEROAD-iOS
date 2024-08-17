@@ -16,6 +16,8 @@ class CourseDetailView: BaseView {
     
     lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeCompositioinalLayout())
     
+    private let gradientView = GradientView()
+    
     let stickyHeaderNavBarView = StickyHeaderNavBarView()
     
     // MARK: - UI Properties
@@ -38,7 +40,7 @@ class CourseDetailView: BaseView {
     
     
     override func setHierarchy() {
-        self.addSubviews(mainCollectionView,stickyHeaderNavBarView)
+        self.addSubviews(mainCollectionView,gradientView,stickyHeaderNavBarView)
     }
     
     override func setLayout() {
@@ -48,8 +50,12 @@ class CourseDetailView: BaseView {
             $0.bottom.equalToSuperview()
         }
         
+        gradientView.snp.makeConstraints {
+            $0.top.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(104)
+        }
+        
         stickyHeaderNavBarView.snp.makeConstraints {
-            
             $0.top.horizontalEdges.equalToSuperview()
             $0.height.equalTo(104)
         }
@@ -106,10 +112,8 @@ extension CourseDetailView {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         
-        let gradient = makeGradientView()
         let footer = makeBottomPageControllView()
-        
-        section.boundarySupplementaryItems = [gradient, footer]
+        section.boundarySupplementaryItems = [footer]
         
         return section
     }
@@ -161,7 +165,7 @@ extension CourseDetailView {
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 15, trailing: 0)
         
-        let header = makeHeaderView()
+        let header = makeTimelineHeaderView()
         section.boundarySupplementaryItems = [header]
         
         return section
@@ -203,14 +207,12 @@ extension CourseDetailView {
         
         return section
     }
-
     
-    func makeGradientView() -> NSCollectionLayoutBoundarySupplementaryItem {
-        let gradientSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.27))
-        let collectionViewWidth = mainCollectionView.frame.width
-        let gradient = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: gradientSize, elementKind: GradientView.elementKinds, alignment: .top, absoluteOffset: CGPoint(x: 0, y: collectionViewWidth * 0.27))
-        
-        return gradient
+    func makeTimelineHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(60))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: TimelineHeaderView.elementKinds, alignment: .top)
+        header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 12, trailing: 16)
+        return header
     }
     
     func makeHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
@@ -223,7 +225,7 @@ extension CourseDetailView {
     func makeBottomPageControllView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(22))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: BottomPageControllView.elementKinds, alignment: .bottom, absoluteOffset: CGPoint(x: 0, y: -55))
-        footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
         return footer
     }
     
@@ -242,7 +244,6 @@ extension CourseDetailView {
     }
     
     func makeContentMaskView() -> NSCollectionLayoutBoundarySupplementaryItem {
-
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(360))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: ContentMaskView.elementKinds, alignment: .bottom, absoluteOffset: CGPoint(x: 0, y: -70))
         footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)

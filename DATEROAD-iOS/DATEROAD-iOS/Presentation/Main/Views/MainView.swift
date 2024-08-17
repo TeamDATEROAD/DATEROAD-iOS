@@ -55,6 +55,7 @@ final class MainView: BaseView {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.showsVerticalScrollIndicator = false
             $0.isScrollEnabled = true
+            $0.contentInsetAdjustmentBehavior = .never
         }
         
         floatingButton.do {

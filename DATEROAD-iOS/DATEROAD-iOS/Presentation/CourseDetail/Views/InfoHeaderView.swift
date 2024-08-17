@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 class InfoHeaderView: UICollectionReusableView {
-
+    
     // MARK: - UI Properties
     
     private let titleLabel: UILabel = UILabel()
@@ -21,7 +21,7 @@ class InfoHeaderView: UICollectionReusableView {
     static let elementKinds: String = "infoHeaderView"
     
     static let identifier: String = "InfoHeaderView"
-
+    
     
     // MARK: - Life Cycles
     
@@ -36,14 +36,6 @@ class InfoHeaderView: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func bindTitle(headerTitle: String) {
-        self.titleLabel.text = headerTitle
-    }
-    
-}
-
-private extension InfoHeaderView {
     
     func setHierarchy() {
         self.addSubview(titleLabel)
@@ -64,6 +56,14 @@ private extension InfoHeaderView {
             $0.font = UIFont.suit(.title_bold_18)
             $0.numberOfLines = 1
         }
+    }
+    
+}
+
+extension InfoHeaderView {
+    
+    func bindTitle(headerTitle: String) {
+        self.titleLabel.text = headerTitle
     }
     
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class CourseViewModel {
+final class CourseViewModel: Serviceable {
     
     var priceData: [String] = []
     
@@ -28,6 +28,8 @@ final class CourseViewModel {
     var selectedPriceIndex: ObservablePattern<Int> = ObservablePattern(nil)
     
     var isApplyButtonEnabled: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var didUpdateCityData: (() -> Void)?
     
@@ -94,6 +96,9 @@ extension CourseViewModel {
                 self.courseListModel = courseModels
                 self.didUpdateCourseList?()
 
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
+                
             default:
                 print("Failed to fetch course data")
             }

@@ -157,6 +157,14 @@ private extension ViewedCourseViewController {
 extension ViewedCourseViewController {
    
    func bindViewModel() {
+       self.viewedCourseViewModel.onReissueSuccess.bind { [weak self] onSuccess in
+           guard let onSuccess else { return }
+           if onSuccess {
+               // TODO: - 서버 통신 재시도
+           } else {
+               self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+           }
+       }
        
       self.viewedCourseViewModel.isSuccessGetViewedCourseInfo.bind { [weak self] isSuccess in
          guard let isSuccess else { return }

@@ -94,12 +94,21 @@ private extension AddCourseFirstViewController {
    }
    
    func bindViewModel() {
-      self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
-         guard let onSuccess else { return }
-         if onSuccess {
-            self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
-         }
-      }
+       self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
+           guard let onSuccess else { return }
+           if onSuccess {
+               // TODO: - 서버 통신 재시도
+           } else {
+               self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+           }
+       }
+       
+      //self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
+        // guard let onSuccess else { return }
+         //if onSuccess {
+          //  self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+         //}
+      //}
       
       viewModel.ispastDateVaild.bind { date in
          self.viewModel.fetchPastDate()

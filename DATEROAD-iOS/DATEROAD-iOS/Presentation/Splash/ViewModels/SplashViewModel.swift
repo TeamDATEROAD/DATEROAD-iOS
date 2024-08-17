@@ -18,15 +18,11 @@ final class SplashViewModel: Serviceable {
 extension SplashViewModel {
     
     func checkIsLoginned() {
-        self.onReissueSuccess.value = self.patchReissue()
-        
         guard let token = UserDefaults.standard.string(forKey: "accessToken")
         else {
             isLoginned.value = false
             return
         }
-        
         isLoginned.value = !token.isEmpty ? true : false
     }
-    
 }
