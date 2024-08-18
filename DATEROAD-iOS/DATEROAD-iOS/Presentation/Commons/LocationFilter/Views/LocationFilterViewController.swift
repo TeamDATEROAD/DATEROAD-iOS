@@ -224,19 +224,30 @@ extension LocationFilterViewController: UICollectionViewDelegateFlowLayout {
          let cellWidth = ((screenWidth - 50) - ( countryInset * 2 )) / 3
          return CGSize(width: cellWidth, height: 33)
       } else {
+//         let font = UIFont.suit(.body_med_13)
+//         if isAddType {
+//            let filteredCityData = courseViewModel.cityData.filter { $0.rawValue != "서울 전체" && $0.rawValue != "경기 전체" }
+//            let text = filteredCityData[indexPath.item].rawValue
+//            let textWidth = text.width(withConstrainedHeight: 30, font: font)
+//            return CGSize(width: textWidth + 28, height: 30)
+//         } else {
+//            let text = courseViewModel.cityData[indexPath.item].rawValue
+//            let textWidth = text.width(withConstrainedHeight: 30, font: font)
+//            return CGSize(width: textWidth + 28, height: 30)
+//         }
+         let font = UIFont.suit(.body_med_13)
+
+         let cityData = isAddType
+             ? courseViewModel.cityData.filter { $0.rawValue != "서울 전체" && $0.rawValue != "경기 전체" }
+             : courseViewModel.cityData
+
+         let text = cityData[indexPath.item].rawValue
+         let textWidth = text.width(withConstrainedHeight: 30, font: font)
+
+         return CGSize(width: textWidth + 28, height: 30)
          
-         if isAddType {
-            let filteredCityData = courseViewModel.cityData.filter { $0.rawValue != "서울 전체" && $0.rawValue != "경기 전체" }
-            let text = filteredCityData[indexPath.item].rawValue
-            let font = UIFont.suit(.body_med_13)
-            let textWidth = text.width(withConstrainedHeight: 30, font: font)
-            return CGSize(width: textWidth + 28, height: 30)
-         } else {
-            let text = courseViewModel.cityData[indexPath.item].rawValue
-            let font = UIFont.suit(.body_med_13)
-            let textWidth = text.width(withConstrainedHeight: 30, font: font)
-            return CGSize(width: textWidth + 28, height: 30)
-         }
+         
+         
       }
    }
    

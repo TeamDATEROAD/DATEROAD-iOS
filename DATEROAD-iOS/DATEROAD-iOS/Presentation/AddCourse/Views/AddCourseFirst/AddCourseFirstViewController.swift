@@ -460,8 +460,9 @@ extension AddCourseFirstViewController: DRBottomSheetDelegate {
 }
 
 extension AddCourseFirstViewController: LocationFilterDelegate {
+   
+   //TODO: CourseViewController와 LocationFilterDelegate를 함께 사용하여 getCourse() 메서드를 사용하게 되었으니, 추후 분리해야함.
    func getCourse() {
-      return
    }
    
    
