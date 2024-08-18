@@ -262,6 +262,8 @@
 		CAC80FF12C3EFF6600658EA6 /* DRPaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FF02C3EFF6600658EA6 /* DRPaddingLabel.swift */; };
 		CAC80FF32C3F203800658EA6 /* EmptyTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FF22C3F203800658EA6 /* EmptyTicketView.swift */; };
 		CAC80FF72C3FCAE500658EA6 /* BannerImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FF62C3FCAE500658EA6 /* BannerImageCollectionViewCell.swift */; };
+		CAE8760A2C6F232900D64B34 /* DRLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE876092C6F232900D64B34 /* DRLoadingView.swift */; };
+		CAE8760C2C6F68A000D64B34 /* DRErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE8760B2C6F68A000D64B34 /* DRErrorViewController.swift */; };
 		CAE8C1992C45920E00F153B3 /* GetMainUserProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE8C1982C45920E00F153B3 /* GetMainUserProfileResponse.swift */; };
 /* End PBXBuildFile section */
 
@@ -512,6 +514,8 @@
 		CAC80FF02C3EFF6600658EA6 /* DRPaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRPaddingLabel.swift; sourceTree = "<group>"; };
 		CAC80FF22C3F203800658EA6 /* EmptyTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTicketView.swift; sourceTree = "<group>"; };
 		CAC80FF62C3FCAE500658EA6 /* BannerImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		CAE876092C6F232900D64B34 /* DRLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRLoadingView.swift; sourceTree = "<group>"; };
+		CAE8760B2C6F68A000D64B34 /* DRErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRErrorViewController.swift; sourceTree = "<group>"; };
 		CAE8C1932C4581B500F153B3 /* MainTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTargetType.swift; sourceTree = "<group>"; };
 		CAE8C1952C4590B400F153B3 /* MainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainService.swift; sourceTree = "<group>"; };
 		CAE8C1982C45920E00F153B3 /* GetMainUserProfileResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMainUserProfileResponse.swift; sourceTree = "<group>"; };
@@ -1466,6 +1470,8 @@
 				74C88EEF2C4047E400A4C638 /* CustomEmptyView.swift */,
 				9E0789192C4547C200B9F9B8 /* CustomImagePicker.swift */,
 				CABDCEA32C49545400631FB3 /* DRWebViewController.swift */,
+				CAE876092C6F232900D64B34 /* DRLoadingView.swift */,
+				CAE8760B2C6F68A000D64B34 /* DRErrorViewController.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -1842,6 +1848,7 @@
 				CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */,
 				CAC80FC22C3C6CE500658EA6 /* PointSystemCollectionViewCell.swift in Sources */,
 				742547052C47F0880075DD81 /* PointDetailTargetType.swift in Sources */,
+				CAE8760C2C6F68A000D64B34 /* DRErrorViewController.swift in Sources */,
 				0D05FF0D2C3EFB2700E9BDDC /* CourseFilterView.swift in Sources */,
 				0DA1C71E2C3DCC2400DF2B92 /* Price.swift in Sources */,
 				0D98CB992C405E0200E3618A /* InfoBarView.swift in Sources */,
@@ -1992,6 +1999,7 @@
 				0DA1C7162C3DA97400DF2B92 /* CourseViewModel.swift in Sources */,
 				9E754CE22C48367B00E2CA91 /* AddScheduleViewModel.swift in Sources */,
 				0D05FF092C3EE1F700E9BDDC /* CourseListCollectionViewCell.swift in Sources */,
+				CAE8760A2C6F232900D64B34 /* DRLoadingView.swift in Sources */,
 				0DA920F22C3C0AF500A6A321 /* MainContentsCell.swift in Sources */,
 				742547112C4804D30075DD81 /* GetDateDetailResponse.swift in Sources */,
 				742547072C47F0980075DD81 /* PointDetailService.swift in Sources */,
