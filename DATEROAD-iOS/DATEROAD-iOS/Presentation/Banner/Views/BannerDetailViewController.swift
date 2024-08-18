@@ -12,18 +12,24 @@ import Then
 
 final class BannerDetailViewController: BaseViewController {
     
-    
     // MARK: - UI Properties
     
     private let bannerDetailView: BannerDetailView
     
-//    private let courseInfoTabBarView = CourseBottomTabBarView()
+    private let loadingView: DRLoadingView = DRLoadingView()
+    
+    private let errorView: DRErrorViewController = DRErrorViewController()
+    
+    //    private let courseInfoTabBarView = CourseBottomTabBarView()
     
     private var deleteCourseSettingView = DeleteCourseSettingView()
+    
     
     // MARK: - Properties
     
     private let courseDetailViewModel: CourseDetailViewModel
+    
+    private var advertismentId: Int
     
     private var currentPage: Int = 0
     
@@ -31,8 +37,7 @@ final class BannerDetailViewController: BaseViewController {
     
     init(viewModel: CourseDetailViewModel, advertismentId: Int) {
         self.courseDetailViewModel = viewModel
-        self.courseDetailViewModel.getBannerDetail(advertismentId: advertismentId)
-        
+        self.advertismentId = advertismentId
         self.bannerDetailView = BannerDetailView(bannerDetailSection: self.courseDetailViewModel.bannerSectionData)
         
         super.init(nibName: nil, bundle: nil)
@@ -55,15 +60,25 @@ final class BannerDetailViewController: BaseViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.courseDetailViewModel.getBannerDetail(advertismentId: advertismentId)
+    }
+    
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(bannerDetailView)
-//                              , courseInfoTabBarView)
+        self.view.addSubviews(loadingView, bannerDetailView)
+        //                              , courseInfoTabBarView)
     }
     
     override func setLayout() {
         super.setLayout()
+
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         bannerDetailView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -81,26 +96,42 @@ final class BannerDetailViewController: BaseViewController {
     }
     
     func bindViewModel() {
+        self.courseDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
+        }
+        
+        self.courseDetailViewModel.onLoading.bind { [weak self] onLoading in
+            guard let onLoading, let onFailNetwork = self?.courseDetailViewModel.onFailNetwork.value else { return }
+            if !onFailNetwork {
+                self?.loadingView.isHidden = !onLoading
+                self?.bannerDetailView.isHidden = onLoading
+            }
+        }
+        
         courseDetailViewModel.currentPage.bind { [weak self] currentPage in
             guard let self = self else { return }
             if let bottomPageControllView = self.bannerDetailView.mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
                 bottomPageControllView.pageIndex = currentPage ?? 0
             }
         }
+        
         courseDetailViewModel.isSuccessGetBannerData.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
+            guard let isSuccess else { return }            
             if isSuccess {
                 self?.setNavBar()
                 self?.bannerDetailView.mainCollectionView.reloadData()
             }
         }
-        
     }
     
 }
 
 private extension BannerDetailViewController {
-
+    
     func setDelegate() {
         bannerDetailView.mainCollectionView.delegate = self
         bannerDetailView.mainCollectionView.dataSource = self
@@ -132,7 +163,17 @@ extension BannerDetailViewController: ImageCarouselDelegate {
     }
 }
 
-extension BannerDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension BannerDetailViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+            self.courseDetailViewModel.setBannerDetailLoading()
+        }
+    }
+    
+}
+
+extension BannerDetailViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return courseDetailViewModel.bannerSectionData.count
@@ -169,13 +210,13 @@ extension BannerDetailViewController: UICollectionViewDelegate, UICollectionView
             let mainData = courseDetailViewModel.mainContentsData.value ?? MainContentsModel(description: "")
             mainContentsCell.setCell(mainContentsData: mainData)
             mainContentsCell.mainTextLabel.numberOfLines = 0
-
+            
             return mainContentsCell
         }
-
+        
     }
-
     
+    // TODO: - switch 문으로 변경
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let imageData = self.courseDetailViewModel.imageData.value ?? []
@@ -187,7 +228,6 @@ extension BannerDetailViewController: UICollectionViewDelegate, UICollectionView
                 return UICollectionReusableView()
             }
             visitDate.bindTitle(tagLabel: tagLabel, visitDate: createDate)
-            
             return visitDate
         } else if kind == InfoBarView.elementKinds {
             guard let infoView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoBarView.identifier, for: indexPath) as? InfoBarView else {
@@ -225,5 +265,6 @@ extension BannerDetailViewController: StickyHeaderNavBarViewDelegate {
     func didTapBackButton() {
         navigationController?.popViewController(animated: true)
     }
+    
 }
 

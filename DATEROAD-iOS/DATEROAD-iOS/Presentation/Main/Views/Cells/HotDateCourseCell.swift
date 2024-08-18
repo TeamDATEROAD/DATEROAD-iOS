@@ -169,7 +169,7 @@ final class HotDateCourseCell: BaseCollectionViewCell {
             $0.backgroundColor = UIColor(resource: .deepPurple)
             $0.textColor = UIColor(resource: .drWhite)
             $0.font = UIFont.suit(.body_bold_13)
-            $0.roundedLabel(cornerRadius: 12, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundedLabel(cornerRadius: 12, maskedCorners: [.layerMaxXMinYCorner, .layerMaxXMaxYCorner])
             $0.setPadding(top: 0, left: 0, bottom: 0, right: 10)
         }
         

@@ -15,6 +15,10 @@ final class MyPageViewController: BaseNavBarViewController {
     
     private let myPageView: MyPageView = MyPageView()
     
+    private let loadingView: DRLoadingView = DRLoadingView()
+    
+    private let errorView: DRErrorViewController = DRErrorViewController()
+    
     
     // MARK: - Properties
     
@@ -56,11 +60,16 @@ final class MyPageViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
+        self.view.addSubview(loadingView)
         self.contentView.addSubview(myPageView)
     }
     
     override func setLayout() {
         super.setLayout()
+        
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         myPageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -96,6 +105,25 @@ private extension MyPageViewController {
     }
     
     func bindViewModel() {
+        self.myPageViewModel.onFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
+        }
+        
+        self.myPageViewModel.onLoading.bind { [weak self] onLoading in
+            guard let onLoading, let onFailNetwork = self?.myPageViewModel.onFailNetwork.value else { return }
+            if !onFailNetwork {
+                self?.loadingView.isHidden = !onLoading
+                self?.myPageView.isHidden = onLoading
+                self?.topInsetView.isHidden = onLoading
+                self?.navigationBarView.isHidden = onLoading
+                self?.tabBarController?.tabBar.isHidden = onLoading
+            }
+        }
+        
         self.myPageViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
@@ -196,7 +224,6 @@ extension MyPageViewController: DRCustomAlertDelegate {
         }
     }
     
-    // TODO: - 애플로그인일 경우에만 따로 로직 처리
     func exit() {
         if selectedAlertFlag == 1 {
             if self.myPageViewModel.isAppleLogin {
@@ -219,10 +246,19 @@ extension MyPageViewController: DRCustomAlertDelegate {
 
 // MARK: - UICollectionView Delegates
 
+extension MyPageViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            self.myPageViewModel.setLoading()
+        }
+    }
+    
+}
+
 extension MyPageViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         guard let tagTitle = TendencyTag.getTag(byEnglish: self.myPageViewModel.tagData[indexPath.item])?.tag.tagTitle else { return CGSize(width: 100, height: 30) }
         let font = UIFont.suit(.body_med_13)
         let textWidth = tagTitle.width(withConstrainedHeight: 30, font: font) + 50
@@ -269,7 +305,7 @@ extension MyPageViewController: UITableViewDelegate {
             let pointSystemVC = PointSystemViewController(pointSystemViewModel: PointSystemViewModel())
             self.navigationController?.pushViewController(pointSystemVC, animated: false)
         case .inquiry:
-            let inquiryVC = DRWebViewController(urlString: "https://dateroad.notion.site/1055d2f7bfe94b3fa6c03709448def21?pvs=4")
+            let inquiryVC = DRWebViewController(urlString: StringLiterals.WebView.inquiryLink)
             self.present(inquiryVC, animated: true)
         case .logout:
             logOutSectionTapped()
