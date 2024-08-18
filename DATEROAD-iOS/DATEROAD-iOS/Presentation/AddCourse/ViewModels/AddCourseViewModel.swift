@@ -8,9 +8,9 @@
 import UIKit
 
 final class AddCourseViewModel: Serviceable {
-    
-    var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
-
+   
+   var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+   
    var pastDateDetailData: DateDetailModel?
    var ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
    
@@ -87,7 +87,7 @@ final class AddCourseViewModel: Serviceable {
    var tags: [[String: Any]] = []
    
    init(pastDateDetailData: DateDetailModel? = nil) {
-       fetchTagData()
+      fetchTagData()
       self.pastDateDetailData = pastDateDetailData
    }
 }
@@ -95,9 +95,9 @@ final class AddCourseViewModel: Serviceable {
 extension AddCourseViewModel {
    
    func getTagIndices(from tags: [String]) -> [Int] {
-       return tags.compactMap { tag in
-           TendencyTag.allCases.firstIndex { $0.tag.english == tag }
-       }
+      return tags.compactMap { tag in
+         TendencyTag.allCases.firstIndex { $0.tag.english == tag }
+      }
    }
    
    ///지난 데이트 코스 등록 데이터 바인딩 함수
@@ -110,8 +110,8 @@ extension AddCourseViewModel {
       //동네.KOR 불러와서 지역, 동네 ENG 버전 알아내는 미친 로직
       let cityName = pastDateDetailData?.city ?? ""
       if let result = LocationMapper.getCountryAndCity(from: cityName) {
-         let country = LocationModelCountryKorToEng.Country(rawValue: result.country.rawValue).rawValue
-         let city = LocationModelCityKorToEng.City(rawValue: result.city.rawValue).rawValue
+         let country = result.country.rawValue
+         let city = result.city.rawValue
          self.city = city
          self.country = country
          self.isDateLocationVaild.value = true
@@ -171,7 +171,7 @@ extension AddCourseViewModel {
    }
    
    func fetchTagData() {
-       tagData = TendencyTag.allCases.map { $0.tag }
+      tagData = TendencyTag.allCases.map { $0.tag }
    }
    
    func countSelectedTag(isSelected: Bool, tag: String) {
@@ -190,19 +190,19 @@ extension AddCourseViewModel {
    
    
    func checkTagCount() {
-       let count = selectedTagData.count
-       self.tagCount.value = count
-
-       if count >= 1 && count <= 3 {
-           self.isValidTag.value = true
-           self.isOverCount.value = false
-       } else {
-           self.isValidTag.value = false
-           if count > 3 {
-               self.isOverCount.value = true
-           }
-       }
-       print(count)
+      let count = selectedTagData.count
+      self.tagCount.value = count
+      
+      if count >= 1 && count <= 3 {
+         self.isValidTag.value = true
+         self.isOverCount.value = false
+      } else {
+         self.isValidTag.value = false
+         if count > 3 {
+            self.isOverCount.value = true
+         }
+      }
+      print(count)
    }
    
    func satisfyDateLocation(str: String) {
@@ -292,24 +292,24 @@ extension AddCourseViewModel {
       var places: [[String: Any]] = []
       
       for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
-          // Extract the numeric part from the timeRequire string
-          let timeComponents = model.timeRequire.split(separator: " ")
-          
-          if let timeString = timeComponents.first {
-              if let duration = Float(timeString) {
-                  let place = PostAddCoursePlace(title: model.placeTitle, duration: duration, sequence: index + 1)
-                  places.append(place.toDictionary())
-                  print("👍👍👍👍 : place added - \(place)")
-              } else {
-                  print("❌❌❌ : Failed to convert \(timeString) to Float")
-              }
-          } else {
-              print("❌❌❌ : Failed to extract timeString from \(model.timeRequire)")
-          }
+         // Extract the numeric part from the timeRequire string
+         let timeComponents = model.timeRequire.split(separator: " ")
+         
+         if let timeString = timeComponents.first {
+            if let duration = Float(timeString) {
+               let place = PostAddCoursePlace(title: model.placeTitle, duration: duration, sequence: index + 1)
+               places.append(place.toDictionary())
+               print("👍👍👍👍 : place added - \(place)")
+            } else {
+               print("❌❌❌ : Failed to convert \(timeString) to Float")
+            }
+         } else {
+            print("❌❌❌ : Failed to extract timeString from \(model.timeRequire)")
+         }
       }
       
       var postAddCourseTag = PostAddCourseTag()
-
+      
       postAddCourseTag.addTags(from: selectedTagData)
       
       
@@ -328,7 +328,7 @@ extension AddCourseViewModel {
          case .success(let response):
             print("Success: \(response)")
          case .reIssueJWT:
-             self.onReissueSuccess.value = self.patchReissue()
+            self.onReissueSuccess.value = self.patchReissue()
          default:
             print("Failed to fetch user profile")
             return
