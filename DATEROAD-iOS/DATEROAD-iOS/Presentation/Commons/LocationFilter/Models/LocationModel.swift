@@ -56,13 +56,6 @@ enum LocationModel {
          case eunpyeongSeodaemun = "은평/서대문"
          case yangcheonGangseoGuro = "양천/강서/구로"
          case nowonDobongGangbuk = "노원/도봉/강북"
-         
-         
-         //            case kondaeSeongsuWangsimni = "건대/성수/왕십리"
-         //
-         //
-         //            case seongbukNowonYeouido = "성북/노원/여의도"
-         //            case guroGwanakDongjak = "/관악/동작"
       }
       
       enum Gyeonggi: String, CaseIterable {
