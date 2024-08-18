@@ -262,6 +262,7 @@ extension AddScheduleFirstViewController {
       print("datePlaceContainer tapped!")
       let locationFilterVC = LocationFilterViewController()
       locationFilterVC.modalPresentationStyle = .overFullScreen
+      locationFilterVC.isAddType = true
       locationFilterVC.delegate = self
       self.present(locationFilterVC, animated: false)
    }
@@ -307,10 +308,6 @@ extension AddScheduleFirstViewController: UICollectionViewDataSource, UICollecti
          print("Found matching tag in pastDateTagIndex: \(cell.tendencyTagButton.tag)")
          importingTagBtn(cell.tendencyTagButton)
          print("!!!!!!!!!!!!!!!!")
-//         viewModel.pastDateTagIndex.removeFirst()
-//         if viewModel.pastDateTagIndex.count == 0 {
-//            collectionView.reloadData()
-//         }
       }
       
       
@@ -337,10 +334,10 @@ extension AddScheduleFirstViewController: UITextFieldDelegate {
 }
 
 extension AddScheduleFirstViewController: DRBottomSheetDelegate {
-    func didTapFirstLabel() {
-        print("d")
-    }
-    
+   func didTapFirstLabel() {
+      print("d")
+   }
+   
    
    func didTapBottomButton() {
       self.dismiss(animated: true)
@@ -363,32 +360,19 @@ extension AddScheduleFirstViewController: DRBottomSheetDelegate {
 }
 
 extension AddScheduleFirstViewController: LocationFilterDelegate {
-    func getCourse() {
-        return
-    }
-    
+   
+   //TODO: CourseViewController와 LocationFilterDelegate를 함께 사용하여 getCourse() 메서드를 사용하게 되었으니, 추후 분리해야함.
+   func getCourse() {
+   }
+   
    func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
       print("selected country : \(country.rawValue)")
       print("Selected city: \(city.rawValue)")
       viewModel.dateLocation.value = city.rawValue
       viewModel.satisfyDateLocation(str: city.rawValue)
-      let country = LocationModelCountryKorToEng.Country(rawValue: country.rawValue).rawValue
-      let city = LocationModelCityKorToEng.City(rawValue: city.rawValue).rawValue
-      viewModel.country = country
-      viewModel.city = city
+      viewModel.country = country.rawValue
+      viewModel.city = city.rawValue
    }
-   
-   
-   //   func didSelectLocation(country: LocationModel.Country, city: LocationModel.City) {
-   //      print("selected country : \(country.rawValue)")
-   //      print("Selected city: \(city.rawValue)")
-   //      viewModel.dateLocation.value = city.rawValue
-   //      viewModel.satisfyDateLocation(str: city.rawValue)
-   //      let country = LocationModelCountryKorToEng.Country(rawValue: country.rawValue).rawValue
-   //      let city = LocationModelCityKorToEng.City(rawValue: city.rawValue).rawValue
-   //      viewModel.country = country
-   //      viewModel.city = city
-   //   }
    
 }
 

@@ -112,6 +112,10 @@ class LocationFilterView: BaseView {
     }
     
     override func setStyle() {
+       cityCollectionView.do {
+          $0.showsVerticalScrollIndicator = false
+       }
+       
         dimmedView.do {
             $0.alpha = 0.7
             $0.layer.backgroundColor = UIColor(resource: .drBlack).cgColor
