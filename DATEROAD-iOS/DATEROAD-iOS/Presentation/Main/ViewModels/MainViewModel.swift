@@ -134,6 +134,8 @@ extension MainViewModel {
                                                             day: data.day,
                                                             startAt: data.startAt)
                 self.isSuccessGetUpcomingDate.value = true
+            case .requestErr:
+                self.isSuccessGetUpcomingDate.value = true
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
             case .serverErr:
