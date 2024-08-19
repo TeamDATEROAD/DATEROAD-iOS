@@ -13,6 +13,10 @@ final class MainViewController: BaseViewController {
     
     private var mainView: MainView
     
+    private let loadingView: DRLoadingView = DRLoadingView()
+    
+    private let errorView: DRErrorViewController = DRErrorViewController()
+    
     
     // MARK: - Properties
     
@@ -47,17 +51,18 @@ final class MainViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
         self.mainViewModel.fetchSectionData()
     }
     
     override func setHierarchy() {
-        self.view.addSubview(mainView)
+        self.view.addSubviews(loadingView, mainView)
     }
     
     override func setLayout() {
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         mainView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview().inset(view.frame.height * 0.1)
@@ -72,13 +77,29 @@ final class MainViewController: BaseViewController {
 extension MainViewController {
     
     func bindViewModel() {
+        self.mainViewModel.onFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
+        }
+        
+        self.mainViewModel.onLoading.bind { [weak self] onLoading in
+            guard let onLoading, let onFailNetwork = self?.mainViewModel.onFailNetwork.value else { return }
+            if !onFailNetwork {
+                self?.loadingView.isHidden = !onLoading
+                self?.mainView.isHidden = onLoading
+                self?.tabBarController?.tabBar.isHidden = onLoading
+            }
+        }
+        
         self.mainViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
                 // TODO: - 서버 통신 재시도
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
-
             }
         }
         
@@ -97,9 +118,11 @@ extension MainViewController {
         }
         
         self.mainViewModel.isSuccessGetBanner.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
+            guard let isSuccess,
+                  let cell = self?.mainView.mainCollectionView.cellForItem(at: IndexPath(item: 0, section: 2)) as? BannerCell
+            else { return }
             if isSuccess {
-                self?.mainView.mainCollectionView.reloadData()
+                cell.bannerCollectionView.reloadData()
             }
         }
         
@@ -116,10 +139,10 @@ extension MainViewController {
                 self?.mainView.mainCollectionView.reloadData()
             }
         }
+        
         self.mainViewModel.currentIndex.bind { [weak self] index in
-            guard let index
-            else { return }
-           let count = 5
+            guard let index else { return }
+            let count = 5
             print("index \(index.row + 1)")
             self?.updateBannerCell(index: index.row, count: count)
         }
@@ -149,6 +172,12 @@ extension MainViewController {
     }
     
     @objc
+    func dismissView() {
+        let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
+        self.navigationController?.pushViewController(addCourseVC, animated: false)
+    }
+    
+    @objc
     func pushToAddCourseVC() {
         let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
         self.navigationController?.pushViewController(addCourseVC, animated: false)
@@ -169,18 +198,18 @@ extension MainViewController {
         upcomingDateDetailVC.setColor(index: dateID)
         self.navigationController?.pushViewController(upcomingDateDetailVC, animated: true)
     }
-
+    
     @objc
     func pushToDateScheduleVC() {
         print("pushToDateScheduleVC")
         self.tabBarController?.selectedIndex = 2
     }
-
+    
     @objc
     func pushToPointDetailVC() {
         guard let userName = self.userName, let totalPoint = self.point else {
-                print("User name or point is nil")
-                return
+            print("User name or point is nil")
+            return
         }
         let pointDetailVC = PointDetailViewController(pointViewModel: PointViewModel(userName: userName, totalPoint: totalPoint))
         self.navigationController?.pushViewController(pointDetailVC, animated: false)
@@ -200,20 +229,29 @@ extension MainViewController: UICollectionViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-            let contentOffsetY = scrollView.contentOffset.y
-                
-            if contentOffsetY < 0 {
-                // 맨 위에서 아래로 당겼을 때
-                mainView.mainCollectionView.backgroundColor = UIColor(resource: .deepPurple)
-            } else if contentOffsetY + scrollView.frame.size.height > scrollView.contentSize.height {
-                // 맨 아래에서 위로 당겼을 때
-                mainView.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
-            } else {
-                // 일반적인 스크롤 상태
-                mainView.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
+        let contentOffsetY = scrollView.contentOffset.y
+        
+        if contentOffsetY < 0 {
+            // 맨 위에서 아래로 당겼을 때
+            mainView.mainCollectionView.backgroundColor = UIColor(resource: .deepPurple)
+        } else if contentOffsetY + scrollView.frame.size.height > scrollView.contentSize.height {
+            // 맨 아래에서 위로 당겼을 때
+            mainView.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
+        } else {
+            // 일반적인 스크롤 상태
+            mainView.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+            // 마지막 셀의 렌더링이 완료되었다면
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                // 약간의 지연을 준 후 로딩 상태 업데이트
+                self.mainViewModel.setLoading()
             }
         }
-
+    }
     
 }
 
@@ -254,19 +292,20 @@ extension MainViewController: UICollectionViewDataSource {
                 // Set button actions
                 let pointLabelTapGesture = UITapGestureRecognizer(target: self, action: #selector(pushToPointDetailVC))
                 cell.pointLabel.addGestureRecognizer(pointLabelTapGesture)
-               cell.dateTicketView.moveButton.tag = mainViewModel.upcomingData.value?.dateId ?? 0
-               cell.dateTicketView.moveButton.addTarget(self, action: #selector(pushToDateDetailVC(_:)), for: .touchUpInside)
-               cell.emptyTicketView.moveButton.addTarget(self, action: #selector(pushToDateScheduleVC), for: .touchUpInside)
-               
-               // Debug prints
-               print("UpcomingDateCell configured")
-               print("DateTicketView Button Tag: \(cell.dateTicketView.moveButton.tag)")
-               
+                cell.dateTicketView.moveButton.tag = mainViewModel.upcomingData.value?.dateId ?? 0
+                cell.dateTicketView.moveButton.addTarget(self, action: #selector(pushToDateDetailVC(_:)), for: .touchUpInside)
+                cell.emptyTicketView.moveButton.addTarget(self, action: #selector(pushToDateScheduleVC), for: .touchUpInside)
+                
+                // Debug prints
+                print("UpcomingDateCell configured")
+                print("DateTicketView Button Tag: \(cell.dateTicketView.moveButton.tag)")
                 return cell
+                
             case .hotDateCourse:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell else { return UICollectionViewCell() }
                 cell.bindData(hotDateData: mainViewModel.hotCourseData.value?[indexPath.row])
                 return cell
+                
             case .banner:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell else { return UICollectionViewCell() }
                 cell.bannerCollectionView.register(BannerImageCollectionViewCell.self, forCellWithReuseIdentifier: BannerImageCollectionViewCell.cellIdentifier)
@@ -276,6 +315,7 @@ extension MainViewController: UICollectionViewDataSource {
                 let index = mainViewModel.currentIndex.value?.row ?? 0
                 cell.bindIndexData(currentIndex: index, count: 5)
                 return cell
+                
             case .newDateCourse:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell else { return UICollectionViewCell() }
                 cell.bindData(newDateData: mainViewModel.newCourseData.value?[indexPath.row])
@@ -286,44 +326,47 @@ extension MainViewController: UICollectionViewDataSource {
             cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
             return cell
         }
-       
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MainHeaderView.identifier, for: indexPath)
-                            as? MainHeaderView else { return UICollectionReusableView() }
-                    
+                as? MainHeaderView else { return UICollectionReusableView() }
+        
         switch mainViewModel.sectionData[indexPath.section] {
-            case .upcomingDate, .banner:
-                return header
-            case .hotDateCourse:
-                header.viewMoreButton.addTarget(self, action: #selector(pushToCourseVC), for: .touchUpInside)
-                header.bindTitle(section: .hotDateCourse, nickname: mainViewModel.nickname.value)
-            case .newDateCourse:
-                header.viewMoreButton.addTarget(self, action: #selector(pushToCourseVC), for: .touchUpInside)
-                header.bindTitle(section: .newDateCourse, nickname: nil)
+        case .upcomingDate, .banner:
+            return header
+            
+        case .hotDateCourse:
+            header.viewMoreButton.addTarget(self, action: #selector(pushToCourseVC), for: .touchUpInside)
+            header.bindTitle(section: .hotDateCourse, nickname: mainViewModel.nickname.value)
+            
+        case .newDateCourse:
+            header.viewMoreButton.addTarget(self, action: #selector(pushToCourseVC), for: .touchUpInside)
+            header.bindTitle(section: .newDateCourse, nickname: nil)
         }
         return header
     }
     
-   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       if collectionView == mainView.mainCollectionView {
-           switch self.mainViewModel.sectionData[indexPath.section] {
-           case .hotDateCourse:
-               let courseId = mainViewModel.hotCourseData.value?[indexPath.item].courseId ?? 0
-               self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
-           case .newDateCourse:
-               let courseId = mainViewModel.newCourseData.value?[indexPath.item].courseId ?? 0
-               self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
-           default:
-               print("default")
-           }
-       } else {
-          
-           let id = mainViewModel.bannerData.value?[indexPath.item].advertisementId ?? 1
-          let bannerDtailVC = BannerDetailViewController(viewModel: CourseDetailViewModel(courseId: 7), advertismentId: id)
-                    self.navigationController?.pushViewController(bannerDtailVC, animated: false)
-       }
-   }
-        
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == mainView.mainCollectionView {
+            switch self.mainViewModel.sectionData[indexPath.section] {
+            case .hotDateCourse:
+                let courseId = mainViewModel.hotCourseData.value?[indexPath.item].courseId ?? 0
+                self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
+                
+            case .newDateCourse:
+                let courseId = mainViewModel.newCourseData.value?[indexPath.item].courseId ?? 0
+                self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
+                
+            default:
+                print("default")
+            }
+        } else {
+            let id = mainViewModel.bannerData.value?[indexPath.item].advertisementId ?? 1
+            let bannerDtailVC = BannerDetailViewController(viewModel: CourseDetailViewModel(courseId: 7), advertismentId: id)
+            self.navigationController?.pushViewController(bannerDtailVC, animated: false)
+        }
+    }
+    
 }

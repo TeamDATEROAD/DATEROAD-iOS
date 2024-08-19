@@ -74,8 +74,8 @@ enum StringLiterals {
         static let nickname = "닉네임"
         static let nicknamePlaceholder = "닉네임을 입력하세요."
         static let doubleCheck = "중복확인"
-        static let disabledNickname = "이미 사용중인 닉네임이에요"
-        static let enabledNickname = "사용가능한 닉네임이에요"
+        static let disabledNickname = "이미 사용 중인 닉네임이에요"
+        static let enabledNickname = "사용 가능한 닉네임이에요"
         static let countPlaceholder = "0/5"
         static let dateTendency = "나의 데이트 성향 (0/3)"
         static let registerProfile = "프로필 등록하기"
@@ -250,5 +250,12 @@ enum StringLiterals {
         static let accessToken = "accessToken"
         static let refreshToken = "refreshToken"
         static let userID = "userID"
+        static let loadingMessage = "잠시만 기다려주세요\n로딩 중이에요"
+        static let mainErrorMessage = "서버 오류가 발생했어요"
+        static let subErrorMessage = "마이페이지 문의하기를 통해 문의해 주시면\n빠르게 답변해 드릴게요"
+    }
+    
+    enum WebView {
+        static let inquiryLink = "https://dateroad.notion.site/1055d2f7bfe94b3fa6c03709448def21?pvs=4"
     }
 }
