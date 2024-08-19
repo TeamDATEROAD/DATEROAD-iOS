@@ -16,11 +16,21 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     private var upcomingDateScheduleView = UpcomingDateScheduleView()
     
+    private let loadingView: DRLoadingView = DRLoadingView()
+
+    private let errorView: DRErrorViewController = DRErrorViewController()
+    
     // MARK: - Properties
     
     private let upcomingDateScheduleViewModel = DateScheduleViewModel()
     
     // MARK: - LifeCycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         bindViewModel()
@@ -39,10 +49,14 @@ class UpcomingDateScheduleViewController: BaseViewController {
     }
     
     override func setHierarchy() {
-        self.view.addSubviews(upcomingDateScheduleView)
+        self.view.addSubviews(loadingView, upcomingDateScheduleView)
     }
     
     override func setLayout() {
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         upcomingDateScheduleView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -104,6 +118,22 @@ private extension UpcomingDateScheduleViewController {
     }
     
     func bindViewModel() {
+        self.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.bind { [weak self] onFailure in
+             guard let onFailure else { return }
+             if onFailure {
+                 let errorVC = DRErrorViewController()
+                 self?.navigationController?.pushViewController(errorVC, animated: false)
+             }
+         }
+
+        self.upcomingDateScheduleViewModel.onUpcomingScheduleLoading.bind { [weak self] onLoading in
+             guard let onLoading, let onFailNetwork = self?.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.value else { return }
+             if !onFailNetwork {
+                 self?.loadingView.isHidden = !onLoading
+                 self?.upcomingDateScheduleView.isHidden = onLoading
+             }
+         }
+        
         self.upcomingDateScheduleViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
@@ -247,5 +277,11 @@ extension UpcomingDateScheduleViewController: UICollectionViewDelegate {
         return CGFloat(26)
     }
     
-    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
+            }
+        }
+    }
 }

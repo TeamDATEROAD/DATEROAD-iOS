@@ -27,11 +27,20 @@ class DateScheduleViewModel: Serviceable {
         return (upcomingDateScheduleData.value?.count ?? 0 >= 5)
     }
     
-//    init() {
-//        getPastDateScheduleData()
-//    }
+    var onPastScheduleLoading: ObservablePattern<Bool> = ObservablePattern(true)
+
+    var onPastScheduleFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var onUpcomingScheduleLoading: ObservablePattern<Bool> = ObservablePattern(true)
+
+    var onUpcomingScheduleFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
+
     
     func getPastDateScheduleData() {
+        self.isSuccessGetPastDateScheduleData.value = false
+        self.onPastScheduleFailNetwork.value = false
+        self.setPastScheduleLoading()
+        
         dateScheduleService.getDateSchdeule(time: "PAST") { response in
             switch response {
             case .success(let data):
@@ -44,6 +53,8 @@ class DateScheduleViewModel: Serviceable {
                 
                 self.pastDateScheduleData.value = dateScheduleInfo
                 self.isSuccessGetPastDateScheduleData.value = true
+            case .serverErr:
+                self.onPastScheduleFailNetwork.value = true
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
             default:
@@ -52,7 +63,16 @@ class DateScheduleViewModel: Serviceable {
         }
     }
     
+    func setPastScheduleLoading() {
+         guard let isSuccessGetPastDateScheduleData = self.isSuccessGetPastDateScheduleData.value else { return }
+         self.onPastScheduleLoading.value = isSuccessGetPastDateScheduleData ? false : true
+     }
+    
     func getUpcomingDateScheduleData() {
+        self.isSuccessGetUpcomingDateScheduleData.value = false
+        self.onUpcomingScheduleFailNetwork.value = false
+        self.setUpcomingScheduleLoading()
+        
         dateScheduleService.getDateSchdeule(time: "FUTURE") { response in
             switch response {
             case .success(let data):
@@ -67,6 +87,8 @@ class DateScheduleViewModel: Serviceable {
                 self.upcomingDateScheduleData.value = dateScheduleInfo
                 print("zz sched", self.upcomingDateScheduleData.value)
                 self.isSuccessGetUpcomingDateScheduleData.value = true
+            case .serverErr:
+                self.onUpcomingScheduleFailNetwork.value = true
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
             default:
@@ -74,6 +96,11 @@ class DateScheduleViewModel: Serviceable {
             }
         }
     }
+    
+    func setUpcomingScheduleLoading() {
+         guard let isSuccessGetUpcomingDateScheduleData = self.isSuccessGetUpcomingDateScheduleData.value else { return }
+         self.onUpcomingScheduleLoading.value = isSuccessGetUpcomingDateScheduleData ? false : true
+     }
 
 
 }

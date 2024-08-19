@@ -16,6 +16,10 @@ class PastDateViewController: BaseNavBarViewController {
     
     var pastDateContentView = PastDateContentView()
     
+    private let loadingView: DRLoadingView = DRLoadingView()
+
+    private let errorView: DRErrorViewController = DRErrorViewController()
+    
     // MARK: - Properties
     
     private let pastDateScheduleViewModel = DateScheduleViewModel()
@@ -41,11 +45,15 @@ class PastDateViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        contentView.addSubview(pastDateContentView)
+        contentView.addSubviews(loadingView, pastDateContentView)
     }
     
     override func setLayout() {
         super.setLayout()
+        
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         pastDateContentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -88,6 +96,23 @@ private extension PastDateViewController {
 
     
     func bindViewModel() {
+        self.pastDateScheduleViewModel.onPastScheduleFailNetwork.bind { [weak self] onFailure in
+             guard let onFailure else { return }
+             if onFailure {
+                 let errorVC = DRErrorViewController()
+                 self?.navigationController?.pushViewController(errorVC, animated: false)
+             }
+         }
+
+        self.pastDateScheduleViewModel.onPastScheduleLoading.bind { [weak self] onLoading in
+            guard let onLoading, let onFailNetwork = self?.pastDateScheduleViewModel.onPastScheduleFailNetwork.value else { return
+            }
+             if !onFailNetwork {
+                 self?.loadingView.isHidden = !onLoading
+                 self?.pastDateContentView.isHidden = onLoading
+             }
+         }
+        
         self.pastDateScheduleViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
@@ -161,3 +186,12 @@ extension PastDateViewController: UICollectionViewDataSource {
     }
 }
   
+extension PastDateViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.pastDateScheduleViewModel.setPastScheduleLoading()
+            }
+        }
+    }
+}
