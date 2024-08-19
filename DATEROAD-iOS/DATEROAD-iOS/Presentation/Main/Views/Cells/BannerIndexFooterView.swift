@@ -18,7 +18,7 @@ final class BannerIndexFooterView: UICollectionReusableView {
 
     static let elementKinds: String = StringLiterals.Common.footer
 
-    static let identifier: String = "BannerImageCollectionViewCell"
+    static let identifier: String = StringLiterals.Identifier.bannerFooter
     
     
     // MARK: - Life Cycle
