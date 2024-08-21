@@ -150,35 +150,23 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
         }
         
         likeNumLabel.do {
-            $0.text = "5"
-            $0.textColor = UIColor(resource: .drWhite)
-            $0.font = UIFont.suit(.body_bold_13)
+            $0.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_bold_13))
         }
         
         locationLabel.do {
-            $0.text = "건대/성수/왕십리"
-            $0.font = UIFont.suit(.body_med_13)
-            $0.textColor = UIColor(resource: .gray400)
-            $0.numberOfLines = 1
+            $0.setLabel(numberOfLines: 1, textColor: UIColor(resource: .gray400), font: UIFont.suit(.body_med_13))
         }
         
         titleLabel.do {
-            $0.text = "나랑 스껄 할래?"
-            $0.font = UIFont.suit(.body_bold_15)
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.numberOfLines = 2
+            $0.setLabel(alignment: .left, numberOfLines: 2, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_bold_15))
         }
         
         coastLabel.do {
-            $0.text = "10만원 이하"
-            $0.font = UIFont.suit(.cap_reg_11)
-            $0.textColor = UIColor(resource: .gray400)
+            $0.setLabel(textColor: UIColor(resource: .gray400), font: UIFont.suit(.cap_reg_11))
         }
         
         timeLabel.do {
-//            $0.text = "10시간"
-            $0.font = UIFont.suit(.cap_reg_11)
-            $0.textColor = UIColor(resource: .gray400)
+            $0.setLabel(textColor: UIColor(resource: .gray400), font: UIFont.suit(.cap_reg_11))
         }
     }
     

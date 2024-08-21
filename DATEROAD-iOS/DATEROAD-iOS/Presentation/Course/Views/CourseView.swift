@@ -58,7 +58,6 @@ class CourseView: BaseView {
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
-    
     }
 
 }

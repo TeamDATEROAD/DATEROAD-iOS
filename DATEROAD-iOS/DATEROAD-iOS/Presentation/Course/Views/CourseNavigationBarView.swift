@@ -53,15 +53,12 @@ class CourseNavigationBarView: BaseView {
             $0.width.equalTo(44)
             $0.height.equalTo(30)
         }
-        
     }
     
     override func setStyle() {
         
         courseLabel.do {
-            $0.text = StringLiterals.Course.course
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.font = UIFont.suit(.title_bold_20)
+            $0.setLabel(text: StringLiterals.Course.course, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_bold_20))
         }
         
         addCourseButton.do {
