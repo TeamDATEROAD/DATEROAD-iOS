@@ -12,9 +12,10 @@ import Then
 
 final class CourseDetailViewController: BaseViewController {
     
-    
     // MARK: - UI Properties
     
+    private let loadingView: DRLoadingView = DRLoadingView()
+
     private let courseDetailView: CourseDetailView
     
     private let courseInfoTabBarView = CourseDetailBottomTabBarView()
@@ -68,7 +69,7 @@ final class CourseDetailViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(courseDetailView, courseInfoTabBarView)
+        self.view.addSubviews(loadingView, courseDetailView, courseInfoTabBarView)
     }
     
     override func setLayout() {
@@ -76,6 +77,10 @@ final class CourseDetailViewController: BaseViewController {
         
         self.tabBarController?.tabBar.isHidden = true
         courseInfoTabBarView.isHidden = true
+        
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         courseDetailView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -123,6 +128,15 @@ final class CourseDetailViewController: BaseViewController {
     }
     
     func bindViewModel() {
+        
+        self.courseDetailViewModel.onLoading.bind { [weak self] onLoading in
+            guard let onLoading, let onFailNetwork = self?.courseDetailViewModel.onFailNetwork.value else { return }
+            if !onFailNetwork {
+                self?.loadingView.isHidden = !onLoading
+                self?.courseDetailView.isHidden = onLoading
+            }
+        }
+        
         self.courseDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
@@ -141,6 +155,8 @@ final class CourseDetailViewController: BaseViewController {
         
         courseDetailViewModel.isSuccessGetData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
+            self?.courseDetailViewModel.setLoading()
+
             if isSuccess {
                 self?.localLikeNum = self?.courseDetailViewModel.likeSum.value ?? 0
                 self?.setSetctionCount()
