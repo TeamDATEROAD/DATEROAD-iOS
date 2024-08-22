@@ -17,6 +17,8 @@ final class MainViewController: BaseViewController {
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
+    private var timer: Timer?
+    
     
     // MARK: - Properties
     
@@ -53,6 +55,12 @@ final class MainViewController: BaseViewController {
         self.tabBarController?.tabBar.isHidden = false
         self.mainViewModel.fetchSectionData()
     }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.stopBannerAutoScroll()
+    }
     
     override func setHierarchy() {
         self.view.addSubviews(loadingView, mainView)
@@ -86,7 +94,9 @@ extension MainViewController {
         }
         
         self.mainViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.mainViewModel.onFailNetwork.value else { return }
+            guard let onLoading,
+                  let onFailNetwork = self?.mainViewModel.onFailNetwork.value
+            else { return }
             if !onFailNetwork {
                 self?.loadingView.isHidden = !onLoading
                 self?.mainView.isHidden = onLoading
@@ -118,11 +128,12 @@ extension MainViewController {
         }
         
         self.mainViewModel.isSuccessGetBanner.bind { [weak self] isSuccess in
-            guard let isSuccess,
-                  let cell = self?.mainView.mainCollectionView.cellForItem(at: IndexPath(item: 0, section: 2)) as? BannerCell
-            else { return }
+            guard let isSuccess else { return }
             if isSuccess {
                 self?.mainView.mainCollectionView.reloadData()
+                let initialIndexPath = IndexPath(item: 1, section: 2)
+                self?.mainView.mainCollectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
+                self?.startAutoScrollTimer()
             }
         }
         
@@ -142,9 +153,7 @@ extension MainViewController {
         
         self.mainViewModel.currentIndex.bind { [weak self] index in
             guard let index else { return }
-            let count = 5
-            print("index \(index.row + 1)")
-            self?.updateBannerCell(index: index.row, count: count)
+            self?.updateBannerCell(index: index.row, count: 5)
         }
     }
     
@@ -172,6 +181,38 @@ extension MainViewController {
         guard let bannerIndexView = self.mainView.mainCollectionView.supplementaryView(forElementKind: BannerIndexFooterView.elementKinds, at: IndexPath(item: 0, section: 2)) as? BannerIndexFooterView
         else { return }
         bannerIndexView.bindIndexData(currentIndex: index, count: count)
+        var targetIndexPath = IndexPath(item: index, section: 2)
+
+        switch index {
+        case 0:
+            targetIndexPath = IndexPath(item: 5, section: 2)
+        case 6:
+            targetIndexPath = IndexPath(item: 1, section: 2)
+        default:
+            return
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.mainView.mainCollectionView.scrollToItem(at: targetIndexPath, at: .centeredHorizontally, animated: false)
+        }
+    }
+    
+    func startAutoScrollTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(autoScrollBanner), userInfo: nil, repeats: true)
+    }
+    
+    func stopBannerAutoScroll() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    @objc
+    func autoScrollBanner() {
+        guard let currentIndex = self.mainViewModel.currentIndex.value?.row else { return }
+        let targetIndexPath = IndexPath(item: currentIndex + 1, section: 2)
+        if currentIndex >= 0 && currentIndex <= 5 {
+            self.mainView.mainCollectionView.scrollToItem(at: targetIndexPath, at: .centeredHorizontally, animated: true)
+            self.mainViewModel.currentIndex.value?.row = currentIndex + 1
+        }
     }
     
     @objc
@@ -186,7 +227,6 @@ extension MainViewController {
         self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
     
-    // 코스 둘러보기 뷰컨으로 이동
     @objc
     func pushToCourseVC() {
         self.tabBarController?.selectedIndex = 1
@@ -195,7 +235,6 @@ extension MainViewController {
     @objc
     func pushToDateDetailVC(_ sender: UIButton) {
         let dateID = sender.tag
-        print("Button with DateID \(dateID) pressed")
         let upcomingDateDetailVC = UpcomingDateDetailViewController()
         upcomingDateDetailVC.upcomingDateDetailViewModel = DateDetailViewModel(dateID: dateID)
         upcomingDateDetailVC.setColor(index: dateID)
@@ -204,18 +243,26 @@ extension MainViewController {
     
     @objc
     func pushToDateScheduleVC() {
-        print("pushToDateScheduleVC")
         self.tabBarController?.selectedIndex = 2
     }
     
     @objc
     func pushToPointDetailVC() {
-        guard let userName = self.userName, let totalPoint = self.point else {
-            print("User name or point is nil")
-            return
-        }
+        guard let userName = self.userName, 
+                let totalPoint = self.point
+        else { return }
         let pointDetailVC = PointDetailViewController(pointViewModel: PointViewModel(userName: userName, totalPoint: totalPoint))
         self.navigationController?.pushViewController(pointDetailVC, animated: false)
+    }
+    
+    @objc 
+    func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        switch gestureRecognizer.state {
+        case .began, .changed:
+            stopBannerAutoScroll()
+        default:
+            startAutoScrollTimer()
+        }
     }
 }
 
@@ -223,21 +270,12 @@ extension MainViewController: UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentOffsetY = scrollView.contentOffset.y
-        
-        if contentOffsetY < 0 {
-            // 맨 위에서 아래로 당겼을 때
-            mainView.mainCollectionView.backgroundColor = UIColor(resource: .deepPurple)
-        } else {
-            // 일반적인 스크롤 상태
-            mainView.mainCollectionView.backgroundColor = UIColor(resource: .drWhite)
-        }
+        mainView.mainCollectionView.backgroundColor = contentOffsetY < 0 ? UIColor(resource: .deepPurple) : UIColor(resource: .drWhite)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            // 마지막 셀의 렌더링이 완료되었다면
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                // 약간의 지연을 준 후 로딩 상태 업데이트
                 self.mainViewModel.setLoading()
             }
         }
@@ -277,10 +315,7 @@ extension MainViewController: UICollectionViewDataSource {
             cell.dateTicketView.moveButton.tag = mainViewModel.upcomingData.value?.dateId ?? 0
             cell.dateTicketView.moveButton.addTarget(self, action: #selector(pushToDateDetailVC(_:)), for: .touchUpInside)
             cell.emptyTicketView.moveButton.addTarget(self, action: #selector(pushToDateScheduleVC), for: .touchUpInside)
-            
-            // Debug prints
-            print("UpcomingDateCell configured")
-            print("DateTicketView Button Tag: \(cell.dateTicketView.moveButton.tag)")
+
             return cell
             
         case .hotDateCourse:
@@ -291,6 +326,10 @@ extension MainViewController: UICollectionViewDataSource {
         case .banner:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell else { return UICollectionViewCell() }
             cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
+            if indexPath.section == 2 {
+                let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+                cell.addGestureRecognizer(longPressGesture)
+            }
             return cell
             
         case .newDateCourse:
@@ -341,6 +380,7 @@ extension MainViewController: UICollectionViewDataSource {
             let id = mainViewModel.bannerData.value?[indexPath.item].advertisementId ?? 1
             let bannerDtailVC = BannerDetailViewController(viewModel: CourseDetailViewModel(courseId: 7), advertismentId: id)
             self.navigationController?.pushViewController(bannerDtailVC, animated: false)
+            
         default:
             print("default")
         }
@@ -349,6 +389,7 @@ extension MainViewController: UICollectionViewDataSource {
 }
 
 extension MainViewController: BannerIndexDelegate {
+    
     func bindIndex(currentIndex: Int) {
         self.mainViewModel.currentIndex.value?.row = currentIndex
     }
