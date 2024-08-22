@@ -64,6 +64,13 @@ final class BannerIndexFooterView: UICollectionReusableView {
 extension BannerIndexFooterView {
     
     func bindIndexData(currentIndex: Int, count: Int) {
-        self.indexLabel.text = "\(currentIndex + 1)/\(count)"
+        switch currentIndex {
+        case 0:
+            self.indexLabel.text = "1/\(count)"
+        case count + 1:
+            self.indexLabel.text = "\(count)/\(count)"
+        default:
+            self.indexLabel.text = "\(currentIndex)/\(count)"
+        }
     }
 }
