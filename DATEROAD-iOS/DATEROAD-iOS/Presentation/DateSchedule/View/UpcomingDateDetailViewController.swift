@@ -16,7 +16,11 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     var upcomingDateDetailContentView = DateDetailContentView()
     
-    var upcomingDateScheduleView = UpcomingDateScheduleView()
+//    var upcomingDateScheduleView = UpcomingDateScheduleView()
+    
+//    private let loadingView: DRLoadingView = DRLoadingView()
+
+    private let errorView: DRErrorViewController = DRErrorViewController()
     
     // MARK: - Properties
     
@@ -41,6 +45,9 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//            self.upcomingDateDetailViewModel?.setDateDetailLoading()
+//        }
     }
     
     override func setHierarchy() {
@@ -53,6 +60,10 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     override func setLayout() {
         super.setLayout()
         
+//        loadingView.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
+//        
         upcomingDateDetailContentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -69,6 +80,16 @@ extension UpcomingDateDetailViewController {
                 // TODO: - 서버 통신 재시도
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+            }
+        }
+        
+        self.upcomingDateDetailViewModel?.onFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+//            self?.errorView.isHidden = !onFailure
+            self?.upcomingDateDetailContentView.isHidden = onFailure
+            self?.tabBarController?.tabBar.isHidden = onFailure
+            if onFailure {
+//                self?.loadingView.isHidden = true
             }
         }
         
@@ -211,3 +232,13 @@ extension UpcomingDateDetailViewController: UICollectionViewDataSource {
     }
 
 }
+
+//extension UpcomingDateDetailViewController: UICollectionViewDelegate {
+//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                self.upcomingDateDetailViewModel?.setDateDetailLoading()
+//            }
+//        }
+//    }
+//}

@@ -19,7 +19,7 @@ class DateScheduleViewModel: Serviceable {
     
     var currentIndex: ObservablePattern<Int> = ObservablePattern(0)
     
-    var isSuccessGetPastDateScheduleData: ObservablePattern<Bool> = ObservablePattern(false)
+    var isSuccessGetPastDateScheduleData: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var isSuccessGetUpcomingDateScheduleData: ObservablePattern<Bool> = ObservablePattern(nil)
     

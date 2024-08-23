@@ -15,6 +15,10 @@ class PastDateDetailViewController: BaseNavBarViewController {
     
     var pastDateDetailContentView = DateDetailContentView()
     
+//    private let loadingView: DRLoadingView = DRLoadingView()
+
+    private let errorView: DRErrorViewController = DRErrorViewController()
+    
     // MARK: - Properties
     
     var pastDateDetailViewModel: DateDetailViewModel? = nil
@@ -47,6 +51,10 @@ class PastDateDetailViewController: BaseNavBarViewController {
     override func setLayout() {
         super.setLayout()
         
+//        loadingView.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
+//        
         pastDateDetailContentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -98,11 +106,6 @@ extension PastDateDetailViewController: DRBottomSheetDelegate {
 // MARK: - UI Setting Methods
 
 extension PastDateDetailViewController {
-//    @objc
-//    private func deleteDateCourse() {
-//        print("delete date course 바텀시트")
-//    }
-    
     func bindViewModel() {
         self.pastDateDetailViewModel?.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
@@ -120,6 +123,17 @@ extension PastDateDetailViewController {
                 self?.pastDateDetailContentView.dateTimeLineCollectionView.reloadData()
             }
         }
+        
+        self.pastDateDetailViewModel?.onFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+//            self?.errorView.isHidden = !onFailure
+            self?.pastDateDetailContentView.isHidden = onFailure
+            self?.tabBarController?.tabBar.isHidden = onFailure
+            if onFailure {
+//                self?.loadingView.isHidden = true
+            }
+        }
+        
     }
     
     @objc
@@ -198,3 +212,12 @@ extension PastDateDetailViewController: UICollectionViewDataSource {
 
 }
 
+//extension PastDateDetailViewController: UICollectionViewDelegate {
+//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                self.pastDateDetailViewModel?.setDateDetailLoading()
+//            }
+//        }
+//    }
+//}
