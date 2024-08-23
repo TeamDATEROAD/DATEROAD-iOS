@@ -82,17 +82,16 @@ class DateScheduleViewModel: Serviceable {
                     }
                     return DateCardModel(dateID: date.dateID, title: date.title, date: (date.date).toReadableDate() ?? "", city: date.city , tags: tagsModel, dDay: date.dDay)
                 }
-                print("🍎🍎🍎🍎")
-                
                 self.upcomingDateScheduleData.value = dateScheduleInfo
-                print("zz sched", self.upcomingDateScheduleData.value)
                 self.isSuccessGetUpcomingDateScheduleData.value = true
+                print("🍎🍎뷰모델 서버통신 성공🍎🍎", self.isSuccessGetUpcomingDateScheduleData.value)
             case .serverErr:
                 self.onUpcomingScheduleFailNetwork.value = true
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
             default:
                 self.isSuccessGetUpcomingDateScheduleData.value = false
+                print("false?")
             }
         }
     }

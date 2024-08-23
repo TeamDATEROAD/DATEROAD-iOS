@@ -28,13 +28,16 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        print(1)
         self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         bindViewModel()
-        loadDataAndReload()
+        self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
+        }
     }
         
     
@@ -45,7 +48,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
         setUIMethods()
         setAddTarget()
         setEmptyView()
-        bindViewModel()
+        // bindViewModel()
     }
     
     override func setHierarchy() {
@@ -63,18 +66,12 @@ class UpcomingDateScheduleViewController: BaseViewController {
     }
     
     func drawDateCardView() {
-        print("hi im drawing")
+        print("draw date card view")
         upcomingDateScheduleView.cardCollectionView.reloadData()
         setUIMethods()
         setEmptyView()
     }
     
-    private func loadDataAndReload() {
-        self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
-        DispatchQueue.main.async {
-            self.drawDateCardView()
-        }
-    }
 }
 
 // MARK: - UI Setting Methods
@@ -99,6 +96,7 @@ private extension UpcomingDateScheduleViewController {
         upcomingDateScheduleView.cardPageControl.do {
             $0.numberOfPages = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0
         }
+        print(upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count)
     }
     
     func setAddTarget() {
@@ -146,25 +144,14 @@ private extension UpcomingDateScheduleViewController {
         self.upcomingDateScheduleViewModel.isSuccessGetUpcomingDateScheduleData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess == true {
+                print("success 인디케이터")
                 self?.drawDateCardView()
             } else {
-                print("not success")
+                print("fail 인디케이터")
             }
         }
     }
     
-//    func updateDateSchedule() {
-//         Task {
-//             do {
-//                 let upcomingDateScheduleData = try await upcomingDateScheduleViewModel.upcomingDateScheduleData
-//                 DispatchQueue.main.async {
-//                     self.drawDateCardView()
-//                 }
-//             } catch {
-//                 print("An error occurred: \(error)")
-//             }
-//         }
-//     }
 }
 
 // MARK: - Alert Delegate
@@ -235,7 +222,6 @@ extension UpcomingDateScheduleViewController: UICollectionViewDelegateFlowLayout
     }
 }
 
-
 // MARK: - DataSource
 
 extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
@@ -245,12 +231,12 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print("coming")
         let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel(dateID: 0, title: "", date: "", city: "", tags: [], dDay: 0)
+        print(data)
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateCardCollectionViewCell.cellIdentifier, for: indexPath) as? DateCardCollectionViewCell else {
             return UICollectionViewCell()
         }
-        print("🥵🥵🥵")
+        print("🥵셀configure중🥵")
         cell.dataBind(data, indexPath.item)
         cell.setColor(index: indexPath.item)
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToUpcomingDateDetailVC(_:))))
@@ -270,18 +256,4 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
         }
     }
     
-}
-  
-extension UpcomingDateScheduleViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return CGFloat(26)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
-            }
-        }
-    }
 }
