@@ -113,15 +113,10 @@ final class CourseViewController: BaseViewController {
 extension CourseViewController {
     
     func isCellEmpty(cellCount: Int) {
-        if cellCount == 0 {
-            self.courseView.courseListView.courseListCollectionView.isHidden = true
-            self.courseView.courseListView.courseEmptyImageView.isHidden = false
-            self.courseView.courseListView.courseEmptyLabel.isHidden = false
-        } else {
-            self.courseView.courseListView.courseListCollectionView.isHidden = false
-            self.courseView.courseListView.courseEmptyImageView.isHidden = true
-            self.courseView.courseListView.courseEmptyLabel.isHidden = true
-        }
+        let isEmpty = cellCount == 0
+        self.courseView.courseListView.courseListCollectionView.isHidden = isEmpty
+        self.courseView.courseListView.courseEmptyImageView.isHidden = !isEmpty
+        self.courseView.courseListView.courseEmptyLabel.isHidden = !isEmpty
     }
     
 }
@@ -160,20 +155,12 @@ extension CourseViewController: CourseFilterViewDelegate {
         getCourse()
     }
     
-    
     @objc
     func didTapResetButton() {
         courseViewModel.fetchPriceData()
         courseViewModel.resetSelections()
         courseView.courseFilterView.resetPriceButtons()
-        
-        self.courseView.courseFilterView.locationFilterButton.do {
-            $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
-            $0.setTitle("지역", for: .normal)
-            $0.layer.borderWidth = 0
-            $0.tintColor = UIColor(resource: .gray400)
-        }
-        
+        courseView.courseFilterView.resetLocationFilterButton()
         courseViewModel.selectedCityName.value = ""
         courseViewModel.selectedPriceIndex.value = nil
         getCourse()

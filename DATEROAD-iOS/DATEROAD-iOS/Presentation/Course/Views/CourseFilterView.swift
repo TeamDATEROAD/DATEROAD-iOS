@@ -56,8 +56,7 @@ class CourseFilterView: BaseView {
     
     override func setLayout() {
         locationFilterButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(16)
-            $0.leading.equalToSuperview().inset(16)
+            $0.top.leading.equalToSuperview().inset(16)
             $0.width.equalTo(150)
             $0.height.equalTo(30)
         }
@@ -111,6 +110,11 @@ class CourseFilterView: BaseView {
         resetPriceButtons()
     }
     
+    
+}
+
+extension CourseFilterView {
+    
     func updatePrice(button: UIButton, buttonType: DRButtonType, isSelected: Bool) {
         button.setButtonStatus(buttonType: buttonType)
     
@@ -129,5 +133,14 @@ class CourseFilterView: BaseView {
             updatePrice(button: button, buttonType: UnselectedButton(), isSelected: false)
         }
         priceButtons.removeAll()
+    }
+    
+    func resetLocationFilterButton() {
+        locationFilterButton.do {
+            $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
+            $0.setTitle("지역", for: .normal)
+            $0.layer.borderWidth = 0
+            $0.tintColor = UIColor(resource: .gray400)
+        }
     }
 }
