@@ -24,7 +24,7 @@ final class CourseViewController: BaseViewController {
     private var courseListModel = CourseListModel.courseContents
     
     private var selectedButton: UIButton?
-
+    
     
     // MARK: - Life Cycle
     
@@ -39,7 +39,7 @@ final class CourseViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         getCourse()
         registerCell()
         setDelegate()
@@ -87,7 +87,7 @@ final class CourseViewController: BaseViewController {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
         }
-            
+        
         self.courseViewModel.selectedPriceIndex.bind { [weak self] index in
             self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
         }
@@ -99,28 +99,35 @@ final class CourseViewController: BaseViewController {
         
         self.courseViewModel.didUpdateCourseList = { [weak self] in
             self?.courseListModel = self?.courseViewModel.courseListModel ?? []
-
+            
             DispatchQueue.main.async {
                 self?.courseView.courseListView.courseListCollectionView.reloadData()
             }
         }
     }
     
-    @objc
-    func didTapResetButton() {
-        courseViewModel.fetchPriceData()
-        courseView.courseFilterView.priceCollectionView.reloadData()
-        courseViewModel.resetSelections()
-        courseView.courseFilterView.resetPriceButtons()
-        self.courseView.courseFilterView.locationFilterButton.do {
-            $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
-            $0.setTitle("지역", for: .normal)
-            $0.layer.borderWidth = 0
-            $0.tintColor = UIColor(resource: .gray400)
-        }
-        courseViewModel.selectedCityName.value = ""
-        courseViewModel.selectedPriceIndex.value = nil
-        getCourse()
+}
+
+// MARK: - Extensions
+
+extension CourseViewController {
+    
+    func isCellEmpty(cellCount: Int) {
+        let isEmpty = cellCount == 0
+        self.courseView.courseListView.courseListCollectionView.isHidden = isEmpty
+        self.courseView.courseListView.courseEmptyImageView.isHidden = !isEmpty
+        self.courseView.courseListView.courseEmptyLabel.isHidden = !isEmpty
+    }
+    
+}
+
+extension CourseViewController: CourseFilterViewDelegate {
+    
+    func didTapLocationFilter() {
+        let locationFilterVC = LocationFilterViewController()
+        locationFilterVC.modalPresentationStyle = .overFullScreen
+        locationFilterVC.delegate = self
+        self.present(locationFilterVC, animated: true)
     }
     
     @objc
@@ -129,13 +136,13 @@ final class CourseViewController: BaseViewController {
             previousButton.isSelected = false
             self.courseView.courseFilterView.updatePrice(button: previousButton, buttonType: UnselectedButton(), isSelected: false)
         }
-
+        
         guard let cell = sender.superview?.superview as? UICollectionViewCell,
               let indexPath = courseView.courseFilterView.priceCollectionView.indexPath(for: cell) else {
             return
         }
         sender.isSelected = !sender.isSelected
-
+        
         if sender.isSelected {
             self.courseView.courseFilterView.updatePrice(button: sender, buttonType: SelectedButton(), isSelected: true)
             courseViewModel.selectedPriceIndex.value = indexPath.row + 1
@@ -148,53 +155,31 @@ final class CourseViewController: BaseViewController {
         getCourse()
     }
     
-}
-
-// MARK: - Extensions
-
-extension CourseViewController {
-    
-    func isCellEmpty(cellCount: Int) {
-        if cellCount == 0 {
-            self.courseView.courseListView.courseListCollectionView.isHidden = true
-            self.courseView.courseListView.courseEmptyImageView.isHidden = false
-            self.courseView.courseListView.courseEmptyLabel.isHidden = false
-        } else {
-            self.courseView.courseListView.courseListCollectionView.isHidden = false
-            self.courseView.courseListView.courseEmptyImageView.isHidden = true
-            self.courseView.courseListView.courseEmptyLabel.isHidden = true
-        }
+    @objc
+    func didTapResetButton() {
+        courseViewModel.fetchPriceData()
+        courseViewModel.resetSelections()
+        courseView.courseFilterView.resetPriceButtons()
+        courseView.courseFilterView.resetLocationFilterButton()
+        courseViewModel.selectedCityName.value = ""
+        courseViewModel.selectedPriceIndex.value = nil
+        getCourse()
     }
     
 }
 
-extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate, CourseNavigationBarViewDelegate {
+extension CourseViewController: LocationFilterDelegate {
     
     func getCourse() {
         let city = courseViewModel.selectedCityName.value ?? ""
         let cost = courseViewModel.selectedPriceIndex.value?.costNum()
-        
         courseViewModel.getCourse(city: city, cost: cost)
     }
     
-    func didTapLocationFilter() {
-        let locationFilterVC = LocationFilterViewController()
-        locationFilterVC.modalPresentationStyle = .overFullScreen
-        locationFilterVC.delegate = self
-        self.present(locationFilterVC, animated: true)
-    }
-    
     func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
-        let cityNameComponents = city.rawValue.split(separator: ".")
-        let cityName = cityNameComponents.last.map { String($0) } ?? city.rawValue
-        
-        if let subRegion = SubRegion(rawValue: cityName) {
-            let selectedSubRegion = "\(subRegion)"
-            
-            courseViewModel.selectedCityName.value = selectedSubRegion
-        } else {
-            print(cityName)
-        }
+        let cityName = String(city.rawValue.split(separator: ".").first ?? "")
+        print(cityName,"⚽️")
+        courseViewModel.selectedCityName.value = cityName
         
         self.courseView.courseFilterView.locationFilterButton.do {
             $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
@@ -206,6 +191,10 @@ extension CourseViewController: LocationFilterDelegate, CourseFilterViewDelegate
             $0.tintColor = UIColor(resource: .deepPurple)
         }
     }
+    
+}
+
+extension CourseViewController: CourseNavigationBarViewDelegate {
     
     func didTapAddCourseButton() {
         let addCourseFirstVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
@@ -224,7 +213,7 @@ extension CourseViewController: UICollectionViewDelegate {
             let detailViewController = CourseDetailViewController(viewModel: detailViewModel)
             navigationController?.pushViewController(detailViewController, animated: false)
         }
-
+        
     }
 }
 
@@ -257,7 +246,7 @@ extension CourseViewController: UICollectionViewDataSource {
         let location = sender.location(in: courseView.courseListView.courseListCollectionView)
         if let indexPath = courseView.courseListView.courseListCollectionView.indexPathForItem(at: location) {
             let selectedCourse = courseListModel[indexPath.row]
-
+            
             if let courseId = selectedCourse.courseId {
                 let viewModel = CourseDetailViewModel(courseId: courseId)
                 let courseDetailVC = CourseDetailViewController(viewModel: viewModel)
@@ -288,9 +277,8 @@ extension CourseViewController: UICollectionViewDelegateFlowLayout {
         return collectionView == courseView.courseFilterView.priceCollectionView ? 8 : 15
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return collectionView == courseView.courseFilterView.priceCollectionView ? 0 : 20
+        return 0
     }
     
 }
