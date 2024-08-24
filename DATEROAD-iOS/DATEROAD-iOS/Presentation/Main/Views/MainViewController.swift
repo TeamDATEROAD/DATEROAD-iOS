@@ -370,7 +370,7 @@ extension MainViewController: UICollectionViewDataSource {
         switch self.mainViewModel.sectionData[indexPath.section] {
         case .hotDateCourse:
             let courseId = mainViewModel.hotCourseData.value?[indexPath.item].courseId ?? 0
-            self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
+            self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
             
         case .newDateCourse:
             let courseId = mainViewModel.newCourseData.value?[indexPath.item].courseId ?? 0

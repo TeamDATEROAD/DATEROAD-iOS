@@ -321,7 +321,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
 extension CourseDetailViewController: StickyHeaderNavBarViewDelegate, DRBottomSheetDelegate {
     
     func didTapBackButton() {
-        navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: false)
     }
     
     func didTapMoreButton() {

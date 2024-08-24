@@ -19,9 +19,7 @@ final class BannerDetailViewController: BaseViewController {
     private let loadingView: DRLoadingView = DRLoadingView()
     
     private let errorView: DRErrorViewController = DRErrorViewController()
-    
-    //    private let courseInfoTabBarView = CourseBottomTabBarView()
-    
+        
     private var deleteCourseSettingView = DeleteCourseSettingView()
     
     
@@ -35,6 +33,9 @@ final class BannerDetailViewController: BaseViewController {
     
     var courseId: Int?
     
+    
+    // MARK: - Life Cycle
+    
     init(viewModel: CourseDetailViewModel, advertismentId: Int) {
         self.courseDetailViewModel = viewModel
         self.advertismentId = advertismentId
@@ -47,13 +48,10 @@ final class BannerDetailViewController: BaseViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Life Cycle
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //            setSetctionCount()
         bindViewModel()
         setDelegate()
         registerCell()
@@ -70,7 +68,6 @@ final class BannerDetailViewController: BaseViewController {
         super.setHierarchy()
         
         self.view.addSubviews(loadingView, bannerDetailView)
-        //                              , courseInfoTabBarView)
     }
     
     override func setLayout() {
@@ -263,7 +260,7 @@ extension BannerDetailViewController: StickyHeaderNavBarViewDelegate {
     func didTapMoreButton() {}
     
     func didTapBackButton() {
-        navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: false)
     }
     
 }
