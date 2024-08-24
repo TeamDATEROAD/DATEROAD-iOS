@@ -58,7 +58,7 @@ final class BannerDetailView: BaseView {
         }
         
         stickyHeaderNavBarView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(50)
+            $0.top.equalToSuperview().inset(UIApplication.shared.statusBarFrame.size.height)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(54)
         }
