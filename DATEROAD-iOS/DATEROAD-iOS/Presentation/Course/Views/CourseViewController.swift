@@ -15,6 +15,8 @@ final class CourseViewController: BaseViewController {
     
     // MARK: - UI Properties
     
+    private let loadingView: DRLoadingView = DRLoadingView()
+
     private let courseView = CourseView()
     
     // MARK: - Properties
@@ -54,10 +56,15 @@ final class CourseViewController: BaseViewController {
     }
     
     override func setHierarchy() {
-        self.view.addSubview(courseView)
+        self.view.addSubviews(loadingView, courseView)
     }
     
     override func setLayout() {
+        
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         courseView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -79,12 +86,30 @@ final class CourseViewController: BaseViewController {
     }
     
     func bindViewModel() {
+        
+        self.courseViewModel.onLoading.bind { [weak self] onLoading in
+            guard let onLoading, let onFailNetwork = self?.courseViewModel.onFailNetwork.value else { return }
+            if !onFailNetwork {
+                self?.loadingView.isHidden = !onLoading
+                self?.courseView.isHidden = onLoading
+            }
+        }
+        
         self.courseViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
                 // TODO: - 서버 통신 재시도
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+            }
+        }
+        
+        courseViewModel.isSuccessGetData.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            self?.courseViewModel.setLoading()
+
+            if isSuccess {
+                self?.courseView.courseListView.courseListCollectionView.reloadData()
             }
         }
         

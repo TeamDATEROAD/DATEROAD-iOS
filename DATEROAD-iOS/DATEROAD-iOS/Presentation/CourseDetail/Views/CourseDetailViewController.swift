@@ -39,8 +39,6 @@ final class CourseDetailViewController: BaseViewController {
     init(viewModel: CourseDetailViewModel) {
         self.courseDetailViewModel = viewModel
         self.courseId = self.courseDetailViewModel.courseId
-//        self.courseDetailViewModel.getCourseDetail()
-        
         self.courseDetailView = CourseDetailView(courseDetailSection:self.courseDetailViewModel.sections)
         
         super.init(nibName: nil, bundle: nil)
