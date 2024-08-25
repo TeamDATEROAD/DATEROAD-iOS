@@ -227,7 +227,6 @@ extension CourseDetailViewModel {
     func getBannerDetail(advertismentId: Int) {
         self.isSuccessGetBannerData.value = false
         self.onFailNetwork.value = false
-        self.setBannerDetailLoading()
         
         NetworkService.shared.courseDetailService.getBannerDetailInfo(advertismentId: advertismentId){ response in
             switch response {
