@@ -46,6 +46,7 @@ final class MainViewModel: Serviceable {
 extension MainViewModel {
     
     func fetchSectionData() {
+        setLoading()
         getBanner()
         getUserProfile()
         getDateCourse(sortBy: "POPULAR")
@@ -56,7 +57,6 @@ extension MainViewModel {
     func getUserProfile() {
         self.isSuccessGetUserInfo.value = false
         self.onFailNetwork.value = false
-        self.setLoading()
         
         NetworkService.shared.mainService.getMainUserProfile() { response in
             switch response {
@@ -84,7 +84,6 @@ extension MainViewModel {
             self.isSuccessGetNewDate.value = false
         }
         self.onFailNetwork.value = false
-        self.setLoading()
         
         NetworkService.shared.mainService.getFilteredDateCourse(sortBy: sortBy) { response in
             switch response {
@@ -122,7 +121,6 @@ extension MainViewModel {
     func getUpcomingDateCourse() {
         self.isSuccessGetUpcomingDate.value = false
         self.onFailNetwork.value = false
-        self.setLoading()
         
         NetworkService.shared.mainService.getUpcomingDate() { response in
             switch response {
@@ -150,7 +148,6 @@ extension MainViewModel {
     func getBanner() {
         self.isSuccessGetBanner.value = false
         self.onFailNetwork.value = false
-        self.setLoading()
         
         NetworkService.shared.mainService.getBanner() { response in
             switch response {

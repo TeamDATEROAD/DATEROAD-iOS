@@ -264,4 +264,8 @@ enum StringLiterals {
         static let bannerFooter = "BannerIndexFooterView"
     }
     
+    enum Elementkinds {
+        static let bannerInfoHeaderView = "BannerInfoHeaderView"
+    }
+    
 }
