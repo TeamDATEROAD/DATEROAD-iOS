@@ -102,6 +102,7 @@ final class CourseViewController: BaseViewController {
             if !onFailNetwork {
                 self?.loadingView.isHidden = !onLoading
                 self?.courseView.isHidden = onLoading
+                self?.tabBarController?.tabBar.isHidden = onLoading
             }
         }
         
@@ -259,6 +260,8 @@ extension CourseViewController: UICollectionViewDataSource {
         
         return collectionView == courseView.courseFilterView.priceCollectionView ? self.courseViewModel.priceData.count : self.courseViewModel.courseListModel.count
     }
+    
+
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
