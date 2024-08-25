@@ -15,6 +15,8 @@ final class CourseDetailViewController: BaseViewController {
     // MARK: - UI Properties
     
     private let loadingView: DRLoadingView = DRLoadingView()
+    
+    private let errorView: DRErrorViewController = DRErrorViewController()
 
     private let courseDetailView: CourseDetailView
     
@@ -126,6 +128,14 @@ final class CourseDetailViewController: BaseViewController {
     }
     
     func bindViewModel() {
+        
+        self.courseDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
+        }
         
         self.courseDetailViewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.courseDetailViewModel.onFailNetwork.value else { return }
