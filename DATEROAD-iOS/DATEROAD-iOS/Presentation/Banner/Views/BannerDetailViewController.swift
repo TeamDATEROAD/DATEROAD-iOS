@@ -92,6 +92,15 @@ final class BannerDetailViewController: BaseViewController {
     }
     
     func bindViewModel() {
+        self.courseDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
+            guard let onSuccess else { return }
+            if onSuccess {
+                // TODO: - 서버 통신 재시도
+            } else {
+                self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+            }
+        }
+        
         self.courseDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
