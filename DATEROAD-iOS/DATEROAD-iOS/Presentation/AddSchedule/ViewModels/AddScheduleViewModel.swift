@@ -73,6 +73,12 @@ final class AddScheduleViewModel: Serviceable {
    
    let onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
    
+   let isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(nil)
+   
+   let onLoading: ObservablePattern<Bool> = ObservablePattern(nil)
+
+   let onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
+   
    
    init() {
       fetchTagData()
@@ -255,7 +261,23 @@ extension AddScheduleViewModel {
       editBtnEnableState.value = flag
    }
    
+   /// 로딩뷰 세팅 함수
+   func setLoading() {
+      guard let isSuccessGetData = self.isSuccessGetData.value else {
+         return
+      }
+      
+      if isSuccessGetData {
+         self.onLoading.value = false
+      } else {
+         self.onLoading.value = true
+      }
+   }
+   
    func postAddScheduel() {
+      self.isSuccessGetData.value = false
+      self.setLoading()
+      
       var places: [PostAddSchedulePlace] = []
       
       for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
@@ -295,6 +317,9 @@ extension AddScheduleViewModel {
             switch result {
             case .success(let response):
                print("Success: \(response)")
+               self.isSuccessGetData.value = true
+            case .serverErr:
+               self.onFailNetwork.value = true
             case .reIssueJWT:
                self.onReissueSuccess.value = self.patchReissue()
             default:
