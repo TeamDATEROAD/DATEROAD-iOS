@@ -11,64 +11,42 @@ final class BannerCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
         
-    lazy var bannerCollectionView: UICollectionView = UICollectionView(frame: self.bounds, collectionViewLayout: UICollectionViewFlowLayout())
-    
-    let indexLabel: DRPaddingLabel = DRPaddingLabel()
+    private let bannerImage: UIImageView = UIImageView()
 
     
     // MARK: - Life Cycle
     
     override func setHierarchy() {
-        self.addSubviews(bannerCollectionView, indexLabel)
+        self.addSubviews(bannerImage)
     }
     
     override func setLayout() {
-        bannerCollectionView.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview()
-            $0.verticalEdges.equalToSuperview()
-        }
-
-        indexLabel.snp.makeConstraints {
-            $0.bottom.equalTo(bannerCollectionView).inset(36)
-            $0.trailing.equalTo(bannerCollectionView).inset(22)
-            $0.height.equalTo(19)
+        bannerImage.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.verticalEdges.equalToSuperview().inset(30)
         }
     }
     
     override func setStyle() {
         self.backgroundColor = UIColor(resource: .drWhite)
         
-        bannerCollectionView.do {
+        bannerImage.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFill
-            $0.isPagingEnabled = true            
-            $0.contentInsetAdjustmentBehavior = .never
-            $0.showsHorizontalScrollIndicator = false
             $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
-            
-            let layout = UICollectionViewFlowLayout()
-            layout.itemSize = $0.frame.size
-            layout.minimumInteritemSpacing = 0
-            layout.minimumLineSpacing = 0
-            layout.scrollDirection = .horizontal
-            $0.collectionViewLayout = layout
-        }
- 
-        indexLabel.do {
-            $0.backgroundColor = UIColor(resource: .gray400)
-            $0.textColor = UIColor(resource: .drWhite)
-            $0.font = UIFont.suit(.cap_reg_11)
-            $0.setPadding(top: 2, left: 12, bottom: 2, right: 12)
-            $0.roundCorners(cornerRadius: 10, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
         }
     }
 }
 
 extension BannerCell {
     
-    // TODO: - 인덱스 바인딩 해주기
-    func bindIndexData(currentIndex: Int, count: Int) {
-        self.indexLabel.text = "\(currentIndex + 1)/\(count)"
+    func bindData(bannerData: BannerModel?) {
+        guard let bannerData else { return }
+        if let url = URL(string: bannerData.imageUrl) {
+            self.bannerImage.kf.setImage(with: url)
+        } else {
+            self.bannerImage.image = UIImage(resource: .imgBanner1)
+        }
     }
 }
