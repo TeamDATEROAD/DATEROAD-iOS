@@ -180,9 +180,24 @@ private extension AddScheduleSecondViewController {
    }
    
    func goBackOriginVC() {
+      // AddScheduleFirstViewController가 위치한 index 찾기
+      if let firstVCIndex = navigationController?.viewControllers.firstIndex(where: { $0 is AddScheduleFirstViewController }) {
+         
+         // AddScheduleFirstViewController의 직전의 ViewController로 이동하기 위해 -1 활용
+         if firstVCIndex > 0 {
+            let previousVC = navigationController?.viewControllers[firstVCIndex - 1]
+            navigationController?.popToViewController(previousVC!, animated: false)
+         } else { // firstVCIndex가 0보다 작거나 같은 경우
+            let tabbarVC = TabBarController()
+            tabbarVC.selectedIndex = 2
+            navigationController?.setViewControllers([tabbarVC], animated: false)
+         }
+         
+      } else { // 네비게이션 스택에 AddScheduleFirstViewController 없는 경우
          let tabbarVC = TabBarController()
-      tabbarVC.selectedIndex = 2
-      navigationController?.pushViewController(tabbarVC, animated: false)
+         tabbarVC.selectedIndex = 2
+         navigationController?.setViewControllers([tabbarVC], animated: false)
+      }
    }
    
    
