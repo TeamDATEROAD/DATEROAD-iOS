@@ -191,7 +191,7 @@ extension AddScheduleViewModel {
    }
    
    func satisfyDateLocation(str: String) {
-      let flag = (str.count > 0) ? true : false
+      let flag = !str.isEmpty
       isDateLocationVaild.value = flag
    }
    
@@ -229,11 +229,8 @@ extension AddScheduleViewModel {
    }
    
    func isAbleAddBtn() -> Bool {
-      if (datePlace.value?.count != 0) && (timeRequire.value?.count != 0) {
-         return true
-      } else {
-         return false
-      }
+      return !(datePlace.value?.isEmpty ?? true)
+      && !(timeRequire.value?.isEmpty ?? true)
    }
    
    func tapAddBtn(datePlace: String, timeRequire: String) {
