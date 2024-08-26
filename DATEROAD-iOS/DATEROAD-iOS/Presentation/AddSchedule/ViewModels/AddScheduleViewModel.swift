@@ -143,29 +143,14 @@ extension AddScheduleViewModel {
    
    func isFutureDate(date: Date, dateType: String) {
       let dateFormatter = DateFormatter()
-      
       if dateType == "date" {
          dateFormatter.dateFormat = "yyyy.MM.dd"
-         
-         let formattedDate = dateFormatter.string(from: date)
-         visitDate.value = formattedDate
-         
-         let dateStr = visitDate.value ?? ""
-         let today = Date()
-         let selectedDate = dateFormatter.date(from: dateStr)
-         
-         // 현재 selectedDate가 미래 일자가 아니라면 true
-         //         let flag = (selectedDate ?? today) <= today
-         
+         visitDate.value = dateFormatter.string(from: date)
          self.isVisitDateVaild.value = true
       } else {
-         dateFormatter.dateStyle = .none
-         dateFormatter.timeStyle = .short
          dateFormatter.dateFormat = "hh:mm a"
-         let formattedDate = dateFormatter.string(from: date)
-         dateStartAt.value = formattedDate
-         let flag = ((dateStartAt.value?.count ?? 0) > 0) ? true : false
-         self.isDateStartAtVaild.value = flag
+         dateStartAt.value = dateFormatter.string(from: date)
+         self.isDateStartAtVaild.value = !(dateStartAt.value?.isEmpty ?? true)
       }
    }
    
