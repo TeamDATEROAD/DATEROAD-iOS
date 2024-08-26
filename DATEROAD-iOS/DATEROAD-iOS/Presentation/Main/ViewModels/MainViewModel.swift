@@ -119,33 +119,33 @@ extension MainViewModel {
         }
     }
     
-   func getUpcomingDateCourse() {
-           self.isSuccessGetUpcomingDate.value = false
-           self.onFailNetwork.value = false
-           self.setLoading()
-           
-           NetworkService.shared.mainService.getUpcomingDate() { response in
-               switch response {
-               case .success(let data):
-                   self.upcomingData.value = UpcomingDateModel(dateId: data.dateID,
-                                                               dDay: data.dDay,
-                                                               dateName: data.dateName,
-                                                               month: data.month,
-                                                               day: data.day,
-                                                               startAt: data.startAt)
-                   self.isSuccessGetUpcomingDate.value = true
-               case .reIssueJWT:
-                   self.onReissueSuccess.value = self.patchReissue()
-               case.requestErr:
-                  self.isSuccessGetUpcomingDate.value = true
-               case .serverErr:
-                   self.onFailNetwork.value = false
-               default:
-                   print("Failed to fetch upcoming date course")
-                   return
-               }
-           }
-       }
+    func getUpcomingDateCourse() {
+        self.isSuccessGetUpcomingDate.value = false
+        self.onFailNetwork.value = false
+        self.setLoading()
+        
+        NetworkService.shared.mainService.getUpcomingDate() { response in
+            switch response {
+            case .success(let data):
+                self.upcomingData.value = UpcomingDateModel(dateId: data.dateID,
+                                                            dDay: data.dDay,
+                                                            dateName: data.dateName,
+                                                            month: data.month,
+                                                            day: data.day,
+                                                            startAt: data.startAt)
+                self.isSuccessGetUpcomingDate.value = true
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
+            case .requestErr:
+                self.isSuccessGetUpcomingDate.value = true
+            case .serverErr:
+                self.onFailNetwork.value = false
+            default:
+                print("Failed to fetch upcoming date course")
+                return
+            }
+        }
+    }
     
     func getBanner() {
         self.isSuccessGetBanner.value = false
