@@ -25,7 +25,7 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     // MARK: - LifeCycle
     
     override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidAppear(_ animated: Bool) {

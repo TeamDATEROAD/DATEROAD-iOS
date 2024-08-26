@@ -40,7 +40,8 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = true
+//        self.navigationController?.tabBarController?.tabBar.isHidden = false
     }
     
     override func setHierarchy() {
