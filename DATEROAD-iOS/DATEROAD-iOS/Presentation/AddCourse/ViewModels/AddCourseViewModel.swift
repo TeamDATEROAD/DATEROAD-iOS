@@ -19,6 +19,8 @@ final class AddCourseViewModel: Serviceable {
    var selectedTagData: [String] = []
    
    var pastDateTagIndex = [Int]()
+   
+   
    //MARK: - AddFirstCourse 사용되는 ViewModel
    
    /// ImageCollection 유효성 판별
@@ -28,6 +30,7 @@ final class AddCourseViewModel: Serviceable {
    /// 데이트 이름 유효성 판별 (true는 통과)
    let dateName: ObservablePattern<String> = ObservablePattern(nil)
    let isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   private let minimumDateNameLength = 5
    
    /// 방문 일자 유효성 판별 (true는 통과)
    let visitDate: ObservablePattern<String> = ObservablePattern(nil)
@@ -42,6 +45,8 @@ final class AddCourseViewModel: Serviceable {
    let isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
    let isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
    let tagCount: ObservablePattern<Int> = ObservablePattern(0)
+   private let minTagCnt = 1
+   private let maxTagCnt = 3
    
    /// 코스 지역 유효성 판별
    let dateLocation: ObservablePattern<String> = ObservablePattern("")
@@ -121,7 +126,7 @@ extension AddCourseViewModel {
       guard let tags = pastDateDetailData?.tags else {return}
       selectedTagData = tags.map { $0.tag }
       pastDateTagIndex = getTagIndices(from: selectedTagData)
-      checkTagCount()
+      checkTagCount(min: minTagCnt, max: maxTagCnt)
       
       isDateNameVaild.value = true
       isVisitDateVaild.value = true
@@ -138,8 +143,7 @@ extension AddCourseViewModel {
    //MARK: - AddCourse First 함수
    
    func satisfyDateName(str: String) {
-      let flag = (str.count >= 5) ? true : false
-      isDateNameVaild.value = flag
+      isDateNameVaild.value = str.count >= minimumDateNameLength
    }
    
    func isFutureDate(date: Date, dateType: String) {
@@ -170,20 +174,20 @@ extension AddCourseViewModel {
          }
       }
       
-      checkTagCount()
+      checkTagCount(min: minTagCnt, max: maxTagCnt)
    }
    
    
-   func checkTagCount() {
+   func checkTagCount(min: Int, max: Int) {
       let count = selectedTagData.count
       self.tagCount.value = count
       
-      if count >= 1 && count <= 3 {
+      if count >= min && count <= max {
          self.isValidTag.value = true
          self.isOverCount.value = false
       } else {
          self.isValidTag.value = false
-         if count > 3 {
+         if count > max {
             self.isOverCount.value = true
          }
       }

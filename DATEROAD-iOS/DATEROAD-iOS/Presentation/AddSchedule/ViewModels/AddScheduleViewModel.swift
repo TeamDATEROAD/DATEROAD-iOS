@@ -23,6 +23,7 @@ final class AddScheduleViewModel: Serviceable {
    /// 데이트 이름 유효성 판별 (true는 통과)
    let dateName: ObservablePattern<String> = ObservablePattern("")
    let isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   private let minimumDateNameLength = 5
    
    /// 방문 일자 유효성 판별 (true는 통과)
    let visitDate: ObservablePattern<String> = ObservablePattern(nil)
@@ -39,6 +40,8 @@ final class AddScheduleViewModel: Serviceable {
    let isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
    let isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
    let tagCount: ObservablePattern<Int> = ObservablePattern(0)
+   private let minTagCnt = 1
+   private let maxTagCnt = 3
    
    /// 코스 지역 유효성 판별
    let dateLocation: ObservablePattern<String> = ObservablePattern("")
@@ -111,7 +114,7 @@ extension AddScheduleViewModel {
                
                print("pastDateTagIndex values: \(pastDateTagIndex)")
                
-               checkTagCount()
+               checkTagCount(min: minTagCnt, max: maxTagCnt)
                
                isDateNameVaild.value = true
                isDateStartAtVaild.value = true
@@ -137,8 +140,7 @@ extension AddScheduleViewModel {
    //MARK: - AddSchedule First 함수
    
    func satisfyDateName(str: String) {
-      let flag = (str.count >= 5) ? true : false
-      isDateNameVaild.value = flag
+      isDateNameVaild.value = str.count >= minimumDateNameLength
    }
    
    func isFutureDate(date: Date, dateType: String) {
@@ -168,20 +170,20 @@ extension AddScheduleViewModel {
          }
       }
       
-      checkTagCount()
+      checkTagCount(min: minTagCnt, max: maxTagCnt)
    }
    
    
-   func checkTagCount() {
+   func checkTagCount(min: Int, max: Int) {
       let count = selectedTagData.count
       self.tagCount.value = count
       
-      if count >= 1 && count <= 3 {
+      if count >= min && count <= max {
          self.isValidTag.value = true
          self.isOverCount.value = false
       } else {
          self.isValidTag.value = false
-         if count > 3 {
+         if count > max {
             self.isOverCount.value = true
          }
       }
