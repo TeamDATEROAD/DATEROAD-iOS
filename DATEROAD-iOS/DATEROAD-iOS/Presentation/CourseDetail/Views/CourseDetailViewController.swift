@@ -37,9 +37,7 @@ final class CourseDetailViewController: BaseViewController {
     
     init(viewModel: CourseDetailViewModel) {
         self.courseDetailViewModel = viewModel
-        self.courseId = self.courseDetailViewModel.courseId
-//        self.courseDetailViewModel.getCourseDetail()
-        
+        self.courseId = self.courseDetailViewModel.courseId        
         self.courseDetailView = CourseDetailView(courseDetailSection:self.courseDetailViewModel.sections)
         
         super.init(nibName: nil, bundle: nil)
@@ -85,7 +83,6 @@ final class CourseDetailViewController: BaseViewController {
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(108)
         }
-        
     }
     
     func setDelegate() {
@@ -145,6 +142,7 @@ final class CourseDetailViewController: BaseViewController {
                 self?.localLikeNum = self?.courseDetailViewModel.likeSum.value ?? 0
                 self?.setSetctionCount()
                 self?.setTabBarVisibility()
+                self?.setNavBarVisibility()
                 self?.courseDetailView.mainCollectionView.reloadData()
             }
         }
@@ -210,7 +208,7 @@ extension CourseDetailViewController: DRCustomAlertDelegate {
                 showPointAlert()
             }
         }
-        
+        setNavBarVisibility()
         setSetctionCount()
         setTabBarVisibility()
     }
@@ -397,6 +395,10 @@ private extension CourseDetailViewController {
     func setSetctionCount() {
         courseDetailViewModel.setNumberOfSections(courseDetailViewModel.isAccess.value == true ? 6 : 3)
         courseDetailView.mainCollectionView.reloadData()
+    }
+    
+    func setNavBarVisibility() {
+        courseDetailView.stickyHeaderNavBarView.moreButton.isHidden = !(courseDetailViewModel.isAccess.value ?? false) || (courseDetailViewModel.isCourseMine.value == true)
     }
     
     func setTabBarVisibility() {
