@@ -143,38 +143,16 @@ extension AddCourseViewModel {
    }
    
    func isFutureDate(date: Date, dateType: String) {
-//      let dateFormatter = DateFormatter()
-      
       if dateType == "date" {
-//         dateFormatter.dateFormat = "yyyy.MM.dd"
-//         
-//         let formattedDate = dateFormatter.string(from: date)
-//         visitDate.value = formattedDate
-//         
-//         let dateStr = visitDate.value ?? ""
-//         let today = Date()
-//         let selectedDate = dateFormatter.date(from: dateStr)
-         // 현재 selectedDate가 미래 일자가 아니라면 true
-//         let flag = (selectedDate ?? today) <= today
          let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: date)
          visitDate.value = formattedDate
          let flag = DateFormatterManager.shared.isFutureDay(selecDateStr: formattedDate)
-         
          self.isVisitDateVaild.value = flag
       } else {
          let formattedDate = DateFormatterManager.shared.timeFormatter.string(from: date)
          dateStartAt.value = formattedDate
          self.isDateStartAtVaild.value = !(dateStartAt.value?.isEmpty ?? true)
       }
-//      else {
-//         dateFormatter.dateStyle = .none
-//         dateFormatter.timeStyle = .short
-//         dateFormatter.dateFormat = "hh:mm a"
-//         let formattedDate = dateFormatter.string(from: date)
-//         dateStartAt.value = formattedDate
-//         let flag = ((dateStartAt.value?.count ?? 0) > 0) ? true : false
-//         self.isDateStartAtVaild.value = flag
-//      }
    }
    
    func fetchTagData() {
