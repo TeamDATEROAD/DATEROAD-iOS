@@ -125,40 +125,26 @@ private extension LocationFilterViewController {
 }
 
 extension LocationFilterViewController: LocationFilterViewDelegate {
+    
+    func closeLocationFilterView() {
+        if self.navigationController == nil {
+            self.dismiss(animated: false)
+        } else {
+            self.navigationController?.popViewController(animated: false)
+        }
+    }
+    
+    func didTapApplyButton() {
+        guard let selectedCountryIndex = courseViewModel.selectedCountryIndex.value,
+              let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
+        
+        let selectedCountry = courseViewModel.countryData[selectedCountryIndex]
+        let selectedCity = courseViewModel.cityData[selectedCityIndex]
    
-   func closeLocationFilterView() {
-      if self.navigationController == nil {
-         self.dismiss(animated: false)
-      } else {
-         self.navigationController?.popViewController(animated: false)
-      }
-   }
-   
-   func didTapApplyButton() {
-      guard let selectedCountryIndex = courseViewModel.selectedCountryIndex.value,
-            let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
-      
-      let selectedCountry = courseViewModel.countryData[selectedCountryIndex]
-      var selectedCity = courseViewModel.cityData[selectedCityIndex]
-      if selectedCountry.rawValue != "인천" {
-         selectedCity = isAddType ? courseViewModel.cityData[selectedCityIndex+1] :
-         courseViewModel.cityData[selectedCityIndex]
-      }
-      
-      let cityNameComponents = selectedCity.rawValue.split(separator: ".")
-      let cityName = cityNameComponents.last.map { String($0) } ?? selectedCity.rawValue
-      
-      if let subRegion = SubRegion(rawValue: cityName) {
-         let formattedCityName = "\(subRegion)"
-         courseViewModel.selectedCityName.value = formattedCityName
-      } else {
-         print("💙")
-      }
-      
-      delegate?.didSelectCity(selectedCountry, selectedCity)
-      delegate?.getCourse()
-      closeLocationFilterView()
-   }
+        delegate?.didSelectCity(selectedCountry, selectedCity)
+        delegate?.getCourse()
+        closeLocationFilterView()
+    }
 }
 
 extension LocationFilterViewController: UICollectionViewDataSource {

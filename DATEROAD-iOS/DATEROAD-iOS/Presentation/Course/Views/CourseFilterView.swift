@@ -55,22 +55,20 @@ class CourseFilterView: BaseView {
     }
     
     override func setLayout() {
-        
         locationFilterButton.snp.makeConstraints {
-            $0.centerY.equalTo(resetButton)
-            $0.leading.equalToSuperview().inset(16)
+            $0.top.leading.equalToSuperview().inset(16)
             $0.width.equalTo(150)
             $0.height.equalTo(30)
         }
         
         resetButton.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.top.equalToSuperview().inset(9)
             $0.trailing.equalToSuperview()
             $0.size.equalTo(44)
         }
         
         priceCollectionView.snp.makeConstraints {
-            $0.top.equalTo(locationFilterButton.snp.bottom).offset(10)
+            $0.top.equalTo(locationFilterButton.snp.bottom).offset(8)
             $0.leading.equalToSuperview().inset(16)
             $0.trailing.equalToSuperview().inset(18)
             $0.height.equalTo(30)
@@ -96,7 +94,6 @@ class CourseFilterView: BaseView {
         
         resetButton.do {
             $0.setImage(UIImage(resource: .icReset), for: .normal)
-            $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             $0.adjustsImageWhenHighlighted = false
             $0.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
         }
@@ -112,6 +109,11 @@ class CourseFilterView: BaseView {
         delegate?.didTapResetButton()
         resetPriceButtons()
     }
+    
+    
+}
+
+extension CourseFilterView {
     
     func updatePrice(button: UIButton, buttonType: DRButtonType, isSelected: Bool) {
         button.setButtonStatus(buttonType: buttonType)
@@ -131,5 +133,14 @@ class CourseFilterView: BaseView {
             updatePrice(button: button, buttonType: UnselectedButton(), isSelected: false)
         }
         priceButtons.removeAll()
+    }
+    
+    func resetLocationFilterButton() {
+        locationFilterButton.do {
+            $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
+            $0.setTitle("지역", for: .normal)
+            $0.layer.borderWidth = 0
+            $0.tintColor = UIColor(resource: .gray400)
+        }
     }
 }
