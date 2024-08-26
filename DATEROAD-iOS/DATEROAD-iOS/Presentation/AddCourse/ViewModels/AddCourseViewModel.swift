@@ -9,10 +9,10 @@ import UIKit
 
 final class AddCourseViewModel: Serviceable {
    
-   var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+   let onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
    
    var pastDateDetailData: DateDetailModel?
-   var ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
+   let ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
    
    var pastDatePlaces = [DatePlaceModel]()
    
@@ -23,29 +23,29 @@ final class AddCourseViewModel: Serviceable {
    
    /// ImageCollection 유효성 판별
    var pickedImageArr = [UIImage]()
-   var isPickedImageVaild: ObservablePattern<Bool> = ObservablePattern(false)
+   let isPickedImageVaild: ObservablePattern<Bool> = ObservablePattern(false)
    
    /// 데이트 이름 유효성 판별 (true는 통과)
-   var dateName: ObservablePattern<String> = ObservablePattern(nil)
-   var isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   let dateName: ObservablePattern<String> = ObservablePattern(nil)
+   let isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    /// 방문 일자 유효성 판별 (true는 통과)
-   var visitDate: ObservablePattern<String> = ObservablePattern(nil)
-   var isVisitDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   let visitDate: ObservablePattern<String> = ObservablePattern(nil)
+   let isVisitDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    /// 데이트 시작시간 유효성 판별 (self.count > 0 인지)
-   var dateStartAt: ObservablePattern<String> = ObservablePattern(nil)
-   var isDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   let dateStartAt: ObservablePattern<String> = ObservablePattern(nil)
+   let isDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    /// 코스 등록 태그
    var tagData: [ProfileTagModel] = []
-   var isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
-   var isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
-   var tagCount: ObservablePattern<Int> = ObservablePattern(0)
+   let isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
+   let isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
+   let tagCount: ObservablePattern<Int> = ObservablePattern(0)
    
    /// 코스 지역 유효성 판별
-   var dateLocation: ObservablePattern<String> = ObservablePattern("")
-   var isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   let dateLocation: ObservablePattern<String> = ObservablePattern("")
+   let isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    var isTimePicker: Bool?
    
@@ -57,15 +57,15 @@ final class AddCourseViewModel: Serviceable {
    
    var addPlaceCollectionViewDataSource: [AddCoursePlaceModel] = []
    
-   var changeTableViewData: ObservablePattern<Int> = ObservablePattern(0)
+   let changeTableViewData: ObservablePattern<Int> = ObservablePattern(0)
    
-   var datePlace: ObservablePattern<String> = ObservablePattern("")
+   let datePlace: ObservablePattern<String> = ObservablePattern("")
    
-   var timeRequire: ObservablePattern<String> = ObservablePattern("")
+   let timeRequire: ObservablePattern<String> = ObservablePattern("")
    
-   var isValidOfSecondNextBtn: ObservablePattern<Bool> = ObservablePattern(false)
+   let isValidOfSecondNextBtn: ObservablePattern<Bool> = ObservablePattern(false)
    
-   var editBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
+   let editBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
    
    var isChange: (() -> Void)?
    
@@ -74,15 +74,15 @@ final class AddCourseViewModel: Serviceable {
    
    //MARK: - AddThirdView 전용 Viewmodel 변수
    
-   var contentTextCount: ObservablePattern<Int> = ObservablePattern(0)
+   let contentTextCount: ObservablePattern<Int> = ObservablePattern(0)
    var contentText = ""
    var contentFlag = false
    
-   var priceText: ObservablePattern<Int> = ObservablePattern(nil)
+   let priceText: ObservablePattern<Int> = ObservablePattern(nil)
    var priceFlag = false
    var price = 0
    
-   var isDoneBtnOK: ObservablePattern<Bool> = ObservablePattern(false)
+   let isDoneBtnOK: ObservablePattern<Bool> = ObservablePattern(false)
    
    var tags: [[String: Any]] = []
    

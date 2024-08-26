@@ -10,7 +10,7 @@ import UIKit
 final class AddScheduleViewModel: Serviceable {
    var isImporting = false
    var viewedDateCourseByMeData: CourseDetailViewModel?
-   var ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
+   let ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
    
    var pastDatePlaces = [TimelineModel]()
    
@@ -21,28 +21,28 @@ final class AddScheduleViewModel: Serviceable {
    //MARK: - AddFirstCourse 사용되는 ViewModel
    
    /// 데이트 이름 유효성 판별 (true는 통과)
-   var dateName: ObservablePattern<String> = ObservablePattern("")
-   var isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   let dateName: ObservablePattern<String> = ObservablePattern("")
+   let isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    /// 방문 일자 유효성 판별 (true는 통과)
-   var visitDate: ObservablePattern<String> = ObservablePattern(nil)
-   var isVisitDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   let visitDate: ObservablePattern<String> = ObservablePattern(nil)
+   let isVisitDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    /// 데이트 시작시간 유효성 판별 (self.count > 0 인지)
-   var dateStartAt: ObservablePattern<String> = ObservablePattern(nil)
-   var isDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   let dateStartAt: ObservablePattern<String> = ObservablePattern(nil)
+   let isDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    /// 코스 등록 태그 생성
    var tagData: [ProfileTagModel] = []
    
    // 선택된 태그
-   var isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
-   var isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
-   var tagCount: ObservablePattern<Int> = ObservablePattern(0)
+   let isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
+   let isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
+   let tagCount: ObservablePattern<Int> = ObservablePattern(0)
    
    /// 코스 지역 유효성 판별
-   var dateLocation: ObservablePattern<String> = ObservablePattern("")
-   var isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   let dateLocation: ObservablePattern<String> = ObservablePattern("")
+   let isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    var country = ""
    var city = ""
@@ -54,21 +54,21 @@ final class AddScheduleViewModel: Serviceable {
    
    var addPlaceCollectionViewDataSource: [AddCoursePlaceModel] = []
    
-   var changeTableViewData: ObservablePattern<Int> = ObservablePattern(0)
+   let changeTableViewData: ObservablePattern<Int> = ObservablePattern(0)
    
-   var datePlace: ObservablePattern<String> = ObservablePattern("")
+   let datePlace: ObservablePattern<String> = ObservablePattern("")
    
-   var timeRequire: ObservablePattern<String> = ObservablePattern("")
+   let timeRequire: ObservablePattern<String> = ObservablePattern("")
    
-   var isValidOfSecondNextBtn: ObservablePattern<Bool> = ObservablePattern(false)
+   let isValidOfSecondNextBtn: ObservablePattern<Bool> = ObservablePattern(false)
    
-   var editBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
+   let editBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
    
    var isChange: (() -> Void)?
    
    var isEditMode: Bool = false
    
-   var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+   let onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
    
    
    init() {
