@@ -25,10 +25,12 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
     private let myRegisterCourseViewModel = MyCourseListViewModel()
     
     // MARK: - LifeCycle
-    override func viewDidAppear(_ animated: Bool) {
-        bindViewModel()
-        loadDataAndReload()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.myRegisterCourseViewModel.setMyRegisterCourseLoading()
+        self.myRegisterCourseViewModel.setMyRegisterCourseData()
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,13 +40,13 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
         bindViewModel()
         register()
         setDelegate()
-        loadDataAndReload()
     }
     
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.contentView.addSubviews(loadingView, myRegisterCourseView)
+        self.view.addSubview(loadingView)
+        self.contentView.addSubviews(myRegisterCourseView)
     }
     
     override func setLayout() {
@@ -72,14 +74,13 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
 
 extension MyRegisterCourseViewController {
     private func setEmptyView() {
-        if let dataCount = myRegisterCourseViewModel.myRegisterCourseData.value?.count, dataCount == 0 {
+        var isEmpty = (myRegisterCourseViewModel.myRegisterCourseData.value?.count == 0)
+        myRegisterCourseView.emptyView.isHidden = !isEmpty
+        if isEmpty {
             myRegisterCourseView.emptyView.do {
-                $0.isHidden = false
                 $0.setEmptyView(emptyImage: UIImage(resource: .emptyMyRegisterCourse),
                  emptyTitle: StringLiterals.EmptyView.emptyMyRegisterCourse)
             }
-        } else {
-            myRegisterCourseView.emptyView.isHidden = true
         }
     }
 }
@@ -97,7 +98,7 @@ extension MyRegisterCourseViewController {
             }
         }
         
-        self.myRegisterCourseViewModel.onMyRegisterCourseLoading.bind { [weak self] onFailure in
+        self.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
                 self?.loadingView.isHidden = true
@@ -115,19 +116,15 @@ extension MyRegisterCourseViewController {
         }
         
         self.myRegisterCourseViewModel.isSuccessGetMyRegisterCourseInfo.bind { [weak self] isSuccess in
-            guard let self = self else { return }
             guard let isSuccess else { return }
             if isSuccess {
-                DispatchQueue.main.async {
-                    self.myRegisterCourseView.myCourseListCollectionView.reloadData()
-                    self.setEmptyView()
+                self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self?.myRegisterCourseViewModel.setMyRegisterCourseLoading()
                 }
+                self?.setEmptyView()
             }
         }
-    }
-
-    private func loadDataAndReload() {
-        self.myRegisterCourseViewModel.setMyRegisterCourseData()
     }
     
 }
@@ -150,14 +147,6 @@ extension MyRegisterCourseViewController {
 extension MyRegisterCourseViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: ScreenUtils.width, height: 140)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.myRegisterCourseViewModel.setViewedCourseLoading()
-            }
-        }
     }
 }
 

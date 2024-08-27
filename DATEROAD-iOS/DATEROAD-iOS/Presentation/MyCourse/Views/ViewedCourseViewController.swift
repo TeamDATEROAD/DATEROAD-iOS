@@ -50,17 +50,10 @@ class ViewedCourseViewController: BaseViewController {
    // MARK: - LifeCycle
 
     override func viewWillAppear(_ animated: Bool) {
-        bindViewModel()
+        self.viewedCourseViewModel.setViewedCourseLoading()
         self.viewedCourseViewModel.setViewedCourseData()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-       self.viewedCourseViewModel.setViewedCourseData()
-       bindViewModel()
-       viewedCourseView.myCourseListCollectionView.reloadData()
-       setEmptyView()
-    }
-   
+
    override func viewDidLoad() {
       super.viewDidLoad()
       
@@ -157,19 +150,21 @@ class ViewedCourseViewController: BaseViewController {
 
 private extension ViewedCourseViewController {
    func setEmptyView() {
-      let isEmpty = viewedCourseViewModel.viewedCourseData.value?.count == 0 ? true : false
-    let name =  UserDefaults.standard.string(forKey: "userName") ?? ""
-       topLabel.text = "\(name)님,\n아직 열람한\n데이트코스가 없어요"
-      createCourseView.isHidden = isEmpty
-      viewedCourseView.emptyView.snp.makeConstraints {
-         $0.top.equalToSuperview()
-      }
-      viewedCourseView.emptyView.do {
-         $0.isHidden = !isEmpty
-         $0.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
-                         emptyTitle: StringLiterals.EmptyView.emptyViewedCourse)
-      }
-      self.viewedCourseView.myCourseListCollectionView.reloadData()
+       var isEmpty = (viewedCourseViewModel.viewedCourseData.value?.count == 0)
+       viewedCourseView.emptyView.isHidden = !isEmpty
+
+       if isEmpty {
+           let name =  UserDefaults.standard.string(forKey: "userName") ?? ""
+           topLabel.text = "\(name)님,\n아직 열람한\n데이트코스가 없어요"
+           createCourseView.isHidden = isEmpty
+           viewedCourseView.emptyView.snp.makeConstraints {
+               $0.top.equalToSuperview()
+           }
+           viewedCourseView.emptyView.do {
+               $0.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
+                             emptyTitle: StringLiterals.EmptyView.emptyViewedCourse)
+           }
+       }
    }
 }
 
@@ -213,7 +208,10 @@ extension ViewedCourseViewController {
                 $0.setAttributedText(fullText: "\(name)님이 지금까지\n열람한 데이트 코스\n\(self?.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개", pointText: "\(self?.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)", pointColor: UIColor(resource: .mediumPurple), lineHeight: 1)
                 $0.numberOfLines = 3
             }
-         } else {
+             self?.viewedCourseView.myCourseListCollectionView.reloadData()
+             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                 self?.viewedCourseViewModel.setViewedCourseLoading()
+             }
              self?.setEmptyView()
          }
       }
@@ -247,14 +245,6 @@ extension ViewedCourseViewController {
 extension ViewedCourseViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: ScreenUtils.width, height: 140)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.viewedCourseViewModel.setViewedCourseLoading()
-            }
-        }
     }
 }
 
