@@ -41,6 +41,7 @@ final class MyPageViewController: BaseNavBarViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.myPageViewModel.setLoading()
         self.myPageViewModel.getUserProfile()
         self.myPageViewModel.checkSocialLogin()
     }
@@ -246,16 +247,6 @@ extension MyPageViewController: DRCustomAlertDelegate {
 
 // MARK: - UICollectionView Delegates
 
-extension MyPageViewController: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
-            self.myPageViewModel.setLoading()
-        }
-    }
-    
-}
-
 extension MyPageViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -287,6 +278,11 @@ extension MyPageViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
         let data = myPageViewModel.userInfoData.value ?? MyPageUserInfoModel(nickname: "", tagList: [], point: 0, imageURL: "")
         cell.updateButtonTitle(title: data.tagList[indexPath.row])
+        if indexPath.row == self.myPageView.userInfoView.tagCollectionView.numberOfItems(inSection: indexPath.section) - 1 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.myPageViewModel.setLoading()
+            }
+        }
         return cell
     }
     
