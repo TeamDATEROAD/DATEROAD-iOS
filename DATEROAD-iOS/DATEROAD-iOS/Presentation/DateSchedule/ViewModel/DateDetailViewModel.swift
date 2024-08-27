@@ -14,12 +14,8 @@ import KakaoSDKAuth
 import KakaoSDKUser
 
 class DateDetailViewModel: Serviceable {
-
+    
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
-
-    init(dateID: Int) {
-        getDateDetailData(dateID: dateID)
-    }
     
     var emptyDateDetailData = DateDetailModel(dateID: 0, title: "", startAt: "", city: "", tags: [], date: "", places: [], dDay: 0)
     
@@ -34,15 +30,35 @@ class DateDetailViewModel: Serviceable {
     var isSuccessDeleteDateScheduleData: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onDateDetailLoading: ObservablePattern<Bool> = ObservablePattern(true)
-
+    
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var kakaoShareInfo: [String: String] = [:]
+    
+    var kakaoPlacesInfo : [KakaoPlaceModel] = []
+    
+    var maxPlaces : Int {
+        return min(dateDetailData.value?.places.count ?? 0, 5)
+    }
+    
+    var isMoreThanFiveSchedule : Bool {
+        return (dateDetailData.value?.places.count ?? 0 >= 5)
+    }
+    
+//    init(dateID: Int) {
+//        getDateDetailData(dateID: dateID)
+//    }
+    
+}
+
+extension DateDetailViewModel {
     
     func getDateDetailData(dateID: Int) {
         self.isSuccessGetDateDetailData.value = false
         self.onFailNetwork.value = false
         self.setDateDetailLoading()
         
-        dateScheduleService.getDateDetail(dateID: dateID) { response in
+        NetworkService.shared.dateScheduleService.getDateDetail(dateID: dateID) { response in
             switch response {
             case .success(let data):
                 let tagsInfo: [TagsModel] = data.tags.map { tag in
@@ -69,10 +85,9 @@ class DateDetailViewModel: Serviceable {
      }
     
     func deleteDateSchdeuleData(dateID: Int) {
-        dateScheduleService.deleteDateSchedule(dateID: dateID) { response in
+        NetworkService.shared.dateScheduleService.deleteDateSchedule(dateID: dateID) { response in
             switch response {
             case .success(let data):
-                print(data)
                 self.isSuccessDeleteDateScheduleData.value = true
                 print("success", self.isSuccessDeleteDateScheduleData.value)
             case .reIssueJWT:
@@ -81,19 +96,6 @@ class DateDetailViewModel: Serviceable {
                 self.isSuccessDeleteDateScheduleData.value = false
             }
         }
-    }
-
-    
-    var kakaoShareInfo: [String: String] = [:]
-    
-    var kakaoPlacesInfo : [KakaoPlaceModel] = []
-    
-    var maxPlaces : Int {
-        return min(dateDetailData.value?.places.count ?? 0, 5)
-    }
-    
-    var isMoreThanFiveSchedule : Bool {
-        return (dateDetailData.value?.places.count ?? 0 >= 5)
     }
     
     func setTempArgs() {
