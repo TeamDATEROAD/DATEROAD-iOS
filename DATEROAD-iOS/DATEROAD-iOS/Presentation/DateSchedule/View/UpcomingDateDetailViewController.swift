@@ -57,25 +57,17 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
-        bindViewModel()
-        self.upcomingDateDetailViewModel?.getDateDetailData(dateID: self.dateID ?? 0)
+        self.navigationController?.tabBarController?.tabBar.isHidden = true
+        self.tabBarController?.tabBar.isHidden = true
+        self.upcomingDateDetailViewModel.setDateDetailLoading()
+        self.upcomingDateDetailViewModel.getDateDetailData(dateID: self.dateID)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        bindViewModel()
-        self.upcomingDateDetailViewModel?.getDateDetailData(dateID: self.dateID ?? 0)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.upcomingDateDetailViewModel?.setDateDetailLoading()
-        }
-    }
-   
     override func setHierarchy() {
         super.setHierarchy()
         
-        // self.view.addSubviews(loadingView)
-        // TODO: 나중에 이걸로 바꿔야 ..
-        contentView.addSubviews(loadingView, upcomingDateDetailContentView)
+         self.view.addSubview(loadingView)
+        contentView.addSubview(upcomingDateDetailContentView)
         
     }
     
@@ -97,15 +89,19 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
 extension UpcomingDateDetailViewController {
     func bindViewModel() {
         
-        self.upcomingDateDetailViewModel?.onDateDetailLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.upcomingDateDetailViewModel?.onFailNetwork.value else { return }
+        self.upcomingDateDetailViewModel.onDateDetailLoading.bind { [weak self] onLoading in
+            guard let onLoading, 
+                    let onFailNetwork = self?.upcomingDateDetailViewModel.onFailNetwork.value
+            else { return }
              if !onFailNetwork {
                  self?.loadingView.isHidden = !onLoading
                  self?.upcomingDateDetailContentView.isHidden = onLoading
+                 self?.topInsetView.isHidden = onLoading
+                 self?.navigationBarView.isHidden = onLoading
              }
          }
         
-        self.upcomingDateDetailViewModel?.onReissueSuccess.bind { [weak self] onSuccess in
+        self.upcomingDateDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
                 // TODO: - 서버 통신 재시도
@@ -114,7 +110,7 @@ extension UpcomingDateDetailViewController {
             }
         }
         
-        self.upcomingDateDetailViewModel?.onFailNetwork.bind { [weak self] onFailure in
+        self.upcomingDateDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
                 self?.loadingView.isHidden = true
@@ -123,11 +119,18 @@ extension UpcomingDateDetailViewController {
             }
         }
         
-        self.upcomingDateDetailViewModel?.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
-            guard let isSuccess, let data = self?.upcomingDateDetailViewModel?.dateDetailData.value else { return }
+        self.upcomingDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
+            guard let isSuccess, 
+                    let data = self?.upcomingDateDetailViewModel.dateDetailData.value
+            else { return }
             if isSuccess {
                 self?.upcomingDateDetailContentView.dataBind(data)
                 self?.upcomingDateDetailContentView.dateTimeLineCollectionView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self?.upcomingDateDetailViewModel.setDateDetailLoading()
+                }
+            }
+        }
             }
         }
     }

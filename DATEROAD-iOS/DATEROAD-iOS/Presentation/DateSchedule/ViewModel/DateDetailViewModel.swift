@@ -51,7 +51,6 @@ extension DateDetailViewModel {
     func getDateDetailData(dateID: Int) {
         self.isSuccessGetDateDetailData.value = false
         self.onFailNetwork.value = false
-        self.setDateDetailLoading()
         
         NetworkService.shared.dateScheduleService.getDateDetail(dateID: dateID) { response in
             switch response {
@@ -76,7 +75,7 @@ extension DateDetailViewModel {
     
     func setDateDetailLoading() {
          guard let isSuccessGetDateDetailData = self.isSuccessGetDateDetailData.value else { return }
-         self.onDateDetailLoading.value = isSuccessGetDateDetailData ? false : true
+         self.onDateDetailLoading.value = !isSuccessGetDateDetailData
      }
     
     func deleteDateSchdeuleData(dateID: Int) {
