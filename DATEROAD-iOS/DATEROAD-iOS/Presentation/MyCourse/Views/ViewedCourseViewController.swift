@@ -26,6 +26,10 @@ class ViewedCourseViewController: BaseViewController {
     
     private var viewedCourseView = MyCourseListView()
     
+    private let loadingView: DRLoadingView = DRLoadingView()
+    
+    private let errorView: DRErrorViewController = DRErrorViewController()
+    
     // MARK: - Properties
     
     private let viewedCourseViewModel: MyCourseListViewModel
@@ -65,7 +69,8 @@ class ViewedCourseViewController: BaseViewController {
    }
    
    override func setHierarchy() {
-      self.view.addSubviews(topLabel,
+      self.view.addSubviews(loadingView,
+                            topLabel,
                             createCourseView,
                             viewedCourseView)
       
@@ -73,6 +78,10 @@ class ViewedCourseViewController: BaseViewController {
    }
    
    override func setLayout() {
+      loadingView.snp.makeConstraints {
+           $0.edges.equalToSuperview()
+       }
+       
       topLabel.snp.makeConstraints {
          $0.top.equalToSuperview().inset(82)
          $0.leading.equalToSuperview().inset(16)

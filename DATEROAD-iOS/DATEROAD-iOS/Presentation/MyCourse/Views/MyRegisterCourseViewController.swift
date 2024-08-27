@@ -16,6 +16,10 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
     
     private var myRegisterCourseView = MyCourseListView()
     
+    private let loadingView: DRLoadingView = DRLoadingView()
+    
+    private let errorView: DRErrorViewController = DRErrorViewController()
+    
     // MARK: - Properties
     
     private let myRegisterCourseViewModel = MyCourseListViewModel()
@@ -40,11 +44,15 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.contentView.addSubviews(myRegisterCourseView)
+        self.contentView.addSubviews(loadingView, myRegisterCourseView)
     }
     
     override func setLayout() {
         super.setLayout()
+        
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         myRegisterCourseView.snp.makeConstraints {
             $0.top.equalToSuperview()
