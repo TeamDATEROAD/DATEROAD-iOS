@@ -16,13 +16,12 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     var upcomingDateDetailContentView = DateDetailContentView()
     
-//    var upcomingDateScheduleView = UpcomingDateScheduleView()
-    
-//    private let loadingView: DRLoadingView = DRLoadingView()
+    private let loadingView: DRLoadingView = DRLoadingView()
 
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     // MARK: - Properties
+    var dateID: Int?
     
     var upcomingDateDetailViewModel: DateDetailViewModel? = nil
     
@@ -45,25 +44,34 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//            self.upcomingDateDetailViewModel?.setDateDetailLoading()
-//        }
+        bindViewModel()
+        self.upcomingDateDetailViewModel?.getDateDetailData(dateID: self.dateID ?? 0)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        bindViewModel()
+        self.upcomingDateDetailViewModel?.getDateDetailData(dateID: self.dateID ?? 0)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.upcomingDateDetailViewModel?.setDateDetailLoading()
+        }
+    }
+   
     override func setHierarchy() {
         super.setHierarchy()
         
-        contentView.addSubviews(upcomingDateDetailContentView)
+        // self.view.addSubviews(loadingView)
+        // TODO: 나중에 이걸로 바꿔야 ..
+        contentView.addSubviews(loadingView, upcomingDateDetailContentView)
         
     }
     
     override func setLayout() {
         super.setLayout()
         
-//        loadingView.snp.makeConstraints {
-//            $0.edges.equalToSuperview()
-//        }
-//        
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         upcomingDateDetailContentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -74,6 +82,15 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
 
 extension UpcomingDateDetailViewController {
     func bindViewModel() {
+        
+        self.upcomingDateDetailViewModel?.onDateDetailLoading.bind { [weak self] onLoading in
+            guard let onLoading, let onFailNetwork = self?.upcomingDateDetailViewModel?.onFailNetwork.value else { return }
+             if !onFailNetwork {
+                 self?.loadingView.isHidden = !onLoading
+                 self?.upcomingDateDetailContentView.isHidden = onLoading
+             }
+         }
+        
         self.upcomingDateDetailViewModel?.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
@@ -85,11 +102,10 @@ extension UpcomingDateDetailViewController {
         
         self.upcomingDateDetailViewModel?.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
-//            self?.errorView.isHidden = !onFailure
-            self?.upcomingDateDetailContentView.isHidden = onFailure
-            self?.tabBarController?.tabBar.isHidden = onFailure
             if onFailure {
-//                self?.loadingView.isHidden = true
+                self?.loadingView.isHidden = true
+                let errorVC = DRErrorViewController()
+                self?.navigationController?.pushViewController(errorVC, animated: false)
             }
         }
         

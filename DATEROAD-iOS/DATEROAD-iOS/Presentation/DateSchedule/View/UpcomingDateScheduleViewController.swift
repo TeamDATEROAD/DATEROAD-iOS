@@ -28,18 +28,16 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(1)
+        bindViewModel()
         self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        bindViewModel()
         self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
         }
     }
-        
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +46,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
         setUIMethods()
         setAddTarget()
         setEmptyView()
-        // bindViewModel()
+        bindViewModel()
     }
     
     override func setHierarchy() {
@@ -115,15 +113,19 @@ private extension UpcomingDateScheduleViewController {
         }
     }
     
+    private func loadDataAndReload() {
+        self.upcomingDateScheduleViewModel.getPastDateScheduleData()
+        self.upcomingDateScheduleViewModel.isSuccessGetPastDateScheduleData.bind { [weak self] isSuccess in
+            guard let self = self else { return }
+            if isSuccess == true {
+                DispatchQueue.main.async {
+                    self.drawDateCardView()
+                }
+            }
+        }
+    }
+    
     func bindViewModel() {
-        self.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.bind { [weak self] onFailure in
-             guard let onFailure else { return }
-             if onFailure {
-                 let errorVC = DRErrorViewController()
-                 self?.navigationController?.pushViewController(errorVC, animated: false)
-             }
-         }
-
         self.upcomingDateScheduleViewModel.onUpcomingScheduleLoading.bind { [weak self] onLoading in
              guard let onLoading, let onFailNetwork = self?.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.value else { return }
              if !onFailNetwork {
@@ -148,6 +150,17 @@ private extension UpcomingDateScheduleViewController {
                 self?.drawDateCardView()
             } else {
                 print("fail 인디케이터")
+            }
+        }
+        
+        self.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.bind { [weak self] onFailure in
+            print("아아아아아아ㅏ아아아아아아아아아아아아ㅏ앙", onFailure ?? "없지롱")
+            guard let onFailure else { return }
+            if onFailure {
+                print("됨 !!")
+                self?.loadingView.isHidden = true
+                let errorVC = DRErrorViewController()
+                self?.navigationController?.pushViewController(errorVC, animated: false)
             }
         }
     }
@@ -252,6 +265,7 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
             self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
 //            upcomingDateDetailVC.upcomingDateScheduleView = upcomingDateScheduleView
             upcomingDateDetailVC.upcomingDateDetailViewModel = DateDetailViewModel(dateID: data.dateID)
+            upcomingDateDetailVC.dateID = data.dateID
             upcomingDateDetailVC.setColor(index: indexPath.item)
         }
     }

@@ -128,6 +128,15 @@ private extension PastDateViewController {
                 self?.pastDateContentView.pastDateCollectionView.reloadData()
             }
         }
+        
+        self.pastDateScheduleViewModel.onPastScheduleFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+            if onFailure {
+                self?.loadingView.isHidden = true
+                let errorVC = DRErrorViewController()
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
+        }
     }
 }
 // MARK: - CollectionView Methods
@@ -181,6 +190,7 @@ extension PastDateViewController: UICollectionViewDataSource {
             let pastDateDetailVC = PastDateDetailViewController()
             self.navigationController?.pushViewController(pastDateDetailVC, animated: false)
             pastDateDetailVC.pastDateDetailViewModel = DateDetailViewModel(dateID: data.dateID)
+            pastDateDetailVC.dateID = data.dateID
             pastDateDetailVC.setColor(index: indexPath.item)
         }
     }

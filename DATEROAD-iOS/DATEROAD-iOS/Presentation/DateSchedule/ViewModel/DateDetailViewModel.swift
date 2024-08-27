@@ -33,14 +33,14 @@ class DateDetailViewModel: Serviceable {
     
     var isSuccessDeleteDateScheduleData: ObservablePattern<Bool> = ObservablePattern(nil)
     
-//    var onDateDetailLoading: ObservablePattern<Bool> = ObservablePattern(true)
+    var onDateDetailLoading: ObservablePattern<Bool> = ObservablePattern(true)
 
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
     func getDateDetailData(dateID: Int) {
         self.isSuccessGetDateDetailData.value = false
         self.onFailNetwork.value = false
-//        self.setDateDetailLoading()
+        self.setDateDetailLoading()
         
         dateScheduleService.getDateDetail(dateID: dateID) { response in
             switch response {
@@ -63,11 +63,11 @@ class DateDetailViewModel: Serviceable {
         }
     }
     
-//    func setDateDetailLoading() {
-//         guard let isSuccessGetDateDetailData = self.isSuccessGetDateDetailData.value else { return }
-//         self.onDateDetailLoading.value = isSuccessGetDateDetailData ? false : true
-//     }
-//    
+    func setDateDetailLoading() {
+         guard let isSuccessGetDateDetailData = self.isSuccessGetDateDetailData.value else { return }
+         self.onDateDetailLoading.value = isSuccessGetDateDetailData ? false : true
+     }
+    
     func deleteDateSchdeuleData(dateID: Int) {
         dateScheduleService.deleteDateSchedule(dateID: dateID) { response in
             switch response {
