@@ -69,7 +69,11 @@ final class CourseDetailViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(loadingView, courseDetailView, courseInfoTabBarView)
+        self.view.addSubviews(
+            loadingView,
+            courseDetailView,
+            courseInfoTabBarView
+        )
     }
     
     override func setLayout() {
@@ -240,7 +244,6 @@ extension CourseDetailViewController: DRCustomAlertDelegate {
     }
     
     private func deleteCourse() {
-        print("삭제")
         self.dismiss(animated: true)
         courseDetailViewModel.deleteCourse { [weak self] success in
             DispatchQueue.main.async {
