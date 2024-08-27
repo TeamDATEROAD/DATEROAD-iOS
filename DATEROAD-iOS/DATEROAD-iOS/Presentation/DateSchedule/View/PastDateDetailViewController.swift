@@ -31,11 +31,16 @@ class PastDateDetailViewController: BaseNavBarViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
         bindViewModel()
+        self.pastDateDetailViewModel?.getDateDetailData(dateID: self.dateID ?? 0)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        bindViewModel()
+        self.pastDateDetailViewModel?.getDateDetailData(dateID: self.dateID ?? 0)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.pastDateDetailViewModel?.setDateDetailLoading()
         }
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
