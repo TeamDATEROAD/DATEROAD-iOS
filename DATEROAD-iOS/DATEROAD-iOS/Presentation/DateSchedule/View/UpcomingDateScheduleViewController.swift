@@ -20,24 +20,28 @@ final class UpcomingDateScheduleViewController: BaseViewController {
 
     private let errorView: DRErrorViewController = DRErrorViewController()
     
+    
     // MARK: - Properties
     
-    private let upcomingDateScheduleViewModel = DateScheduleViewModel()
+    private var upcomingDateScheduleViewModel: DateScheduleViewModel
+    
     
     
     // MARK: - LifeCycle
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        bindViewModel()
-        self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
+    init(upcomingDateScheduleViewModel: DateScheduleViewModel) {
+        self.upcomingDateScheduleViewModel = upcomingDateScheduleViewModel
+        
+        super.init(nibName: nil, bundle: nil)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
         self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
-        }
     }
     
     override func viewDidLoad() {
@@ -67,7 +71,6 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     
     func drawDateCardView() {
         print("draw date card view")
-        upcomingDateScheduleView.cardCollectionView.reloadData()
         setUIMethods()
         setEmptyView()
     }
@@ -88,7 +91,7 @@ private extension UpcomingDateScheduleViewController {
     
     @objc
     func pushToPastDateVC() {
-        let pastDateVC = PastDateViewController()
+        let pastDateVC = PastDateViewController(pastDateScheduleViewModel: DateScheduleViewModel())
         self.navigationController?.pushViewController(pastDateVC, animated: false)
     }
     
@@ -96,7 +99,7 @@ private extension UpcomingDateScheduleViewController {
         upcomingDateScheduleView.cardPageControl.do {
             $0.numberOfPages = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0
         }
-        print(upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count)
+        print("pagecontrol \(upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count)")
     }
     
     func setAddTarget() {
@@ -115,24 +118,15 @@ private extension UpcomingDateScheduleViewController {
         }
     }
     
-    private func loadDataAndReload() {
-        self.upcomingDateScheduleViewModel.getPastDateScheduleData()
-        self.upcomingDateScheduleViewModel.isSuccessGetPastDateScheduleData.bind { [weak self] isSuccess in
-            guard let self = self else { return }
-            if isSuccess == true {
-                DispatchQueue.main.async {
-                    self.drawDateCardView()
-                }
-            }
-        }
-    }
-    
     func bindViewModel() {
         self.upcomingDateScheduleViewModel.onUpcomingScheduleLoading.bind { [weak self] onLoading in
-             guard let onLoading, let onFailNetwork = self?.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.value else { return }
+             guard let onLoading, 
+                    let onFailNetwork = self?.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.value
+            else { return }
              if !onFailNetwork {
                  self?.loadingView.isHidden = !onLoading
                  self?.upcomingDateScheduleView.isHidden = onLoading
+                 self?.tabBarController?.tabBar.isHidden = onLoading
              }
          }
         
@@ -147,11 +141,13 @@ private extension UpcomingDateScheduleViewController {
         
         self.upcomingDateScheduleViewModel.isSuccessGetUpcomingDateScheduleData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
-            if isSuccess == true {
+            if isSuccess {
                 print("success 인디케이터")
+                self?.upcomingDateScheduleView.cardCollectionView.reloadData()
                 self?.drawDateCardView()
-            } else {
-                print("fail 인디케이터")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self?.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
+                }
             }
         }
         
@@ -263,12 +259,11 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
         let location = sender.location(in: upcomingDateScheduleView.cardCollectionView)
         if let indexPath = upcomingDateScheduleView.cardCollectionView.indexPathForItem(at: location) {
             let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel(dateID: 0, title: "", date: "", city: "", tags: [], dDay: 0)
-            let upcomingDateDetailVC = UpcomingDateDetailViewController()
+            let upcomingDateDetailVC = UpcomingDateDetailViewController(dateID: data.dateID, upcomingDateDetailViewModel: DateDetailViewModel()
+            )
+            upcomingDateDetailVC.setColor(index: indexPath.item)
             self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
 //            upcomingDateDetailVC.upcomingDateScheduleView = upcomingDateScheduleView
-            upcomingDateDetailVC.upcomingDateDetailViewModel = DateDetailViewModel(dateID: data.dateID)
-            upcomingDateDetailVC.dateID = data.dateID
-            upcomingDateDetailVC.setColor(index: indexPath.item)
         }
     }
     

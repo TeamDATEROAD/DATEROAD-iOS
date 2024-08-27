@@ -45,9 +45,9 @@ final class EmptyTicketView: BaseView {
         }
         
         moveButton.snp.makeConstraints {
-            $0.size.equalTo(44)
             $0.trailing.equalToSuperview().inset(12)
             $0.centerY.equalToSuperview()
+            $0.size.equalTo(44)
         }
     }
 

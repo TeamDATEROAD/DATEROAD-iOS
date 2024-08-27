@@ -10,9 +10,7 @@ import Foundation
 class DateScheduleViewModel: Serviceable {
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
-    
-    let dateScheduleService = DateScheduleService()
-    
+        
     var upcomingDateScheduleData: ObservablePattern<[DateCardModel]> = ObservablePattern(nil)
     
     var pastDateScheduleData: ObservablePattern<[DateCardModel]> = ObservablePattern([])
@@ -39,9 +37,8 @@ class DateScheduleViewModel: Serviceable {
     func getPastDateScheduleData() {
         self.isSuccessGetPastDateScheduleData.value = false
         self.onPastScheduleFailNetwork.value = false
-        self.setPastScheduleLoading()
         
-        dateScheduleService.getDateSchdeule(time: "PAST") { response in
+        NetworkService.shared.dateScheduleService.getDateSchdeule(time: "PAST") { response in
             switch response {
             case .success(let data):
                 let dateScheduleInfo = data.dates.map { date in
@@ -64,16 +61,16 @@ class DateScheduleViewModel: Serviceable {
     }
     
     func setPastScheduleLoading() {
-         guard let isSuccessGetPastDateScheduleData = self.isSuccessGetPastDateScheduleData.value else { return }
-         self.onPastScheduleLoading.value = isSuccessGetPastDateScheduleData ? false : true
+        guard let isSuccessGetPastDateScheduleData = self.isSuccessGetPastDateScheduleData.value
+        else { return }
+        self.onPastScheduleLoading.value = !isSuccessGetPastDateScheduleData
      }
     
     func getUpcomingDateScheduleData() {
         self.isSuccessGetUpcomingDateScheduleData.value = false
         self.onUpcomingScheduleFailNetwork.value = false
-        self.setUpcomingScheduleLoading()
         
-        dateScheduleService.getDateSchdeule(time: "FUTURE") { response in
+        NetworkService.shared.dateScheduleService.getDateSchdeule(time: "FUTURE") { response in
             switch response {
             case .success(let data):
                 let dateScheduleInfo = data.dates.map { date in
@@ -97,8 +94,9 @@ class DateScheduleViewModel: Serviceable {
     }
     
     func setUpcomingScheduleLoading() {
-         guard let isSuccessGetUpcomingDateScheduleData = self.isSuccessGetUpcomingDateScheduleData.value else { return }
-         self.onUpcomingScheduleLoading.value = isSuccessGetUpcomingDateScheduleData ? false : true
+        guard let isSuccessGetUpcomingDateScheduleData = self.isSuccessGetUpcomingDateScheduleData.value
+        else { return }
+        self.onUpcomingScheduleLoading.value = isSuccessGetUpcomingDateScheduleData ? false : true
      }
 
 
