@@ -131,6 +131,11 @@ extension UpcomingDateDetailViewController {
                 }
             }
         }
+        
+        self.upcomingDateDetailViewModel.isSuccessDeleteDateScheduleData.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.navigationController?.popViewController(animated: true)
             }
         }
     }
