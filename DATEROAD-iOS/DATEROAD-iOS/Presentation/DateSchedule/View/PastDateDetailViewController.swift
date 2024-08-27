@@ -15,13 +15,32 @@ class PastDateDetailViewController: BaseNavBarViewController {
     
     var pastDateDetailContentView = DateDetailContentView()
     
+    private let loadingView: DRLoadingView = DRLoadingView()
+
+    private let errorView: DRErrorViewController = DRErrorViewController()
+    
     // MARK: - Properties
+    var dateID: Int?
     
     var pastDateDetailViewModel: DateDetailViewModel? = nil
     
     private let dateScheduleDeleteView = DateScheduleDeleteView()
     
     // MARK: - LifeCycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+        bindViewModel()
+        self.pastDateDetailViewModel?.getDateDetailData(dateID: self.dateID ?? 0)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        bindViewModel()
+        self.pastDateDetailViewModel?.getDateDetailData(dateID: self.dateID ?? 0)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.pastDateDetailViewModel?.setDateDetailLoading()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,12 +59,16 @@ class PastDateDetailViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        contentView.addSubviews(pastDateDetailContentView)
+        contentView.addSubviews(loadingView, pastDateDetailContentView)
         
     }
     
     override func setLayout() {
         super.setLayout()
+        
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         pastDateDetailContentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -98,12 +121,16 @@ extension PastDateDetailViewController: DRBottomSheetDelegate {
 // MARK: - UI Setting Methods
 
 extension PastDateDetailViewController {
-//    @objc
-//    private func deleteDateCourse() {
-//        print("delete date course 바텀시트")
-//    }
-    
     func bindViewModel() {
+        
+        self.pastDateDetailViewModel?.onDateDetailLoading.bind { [weak self] onLoading in
+            guard let onLoading, let onFailNetwork = self?.pastDateDetailViewModel?.onFailNetwork.value else { return }
+             if !onFailNetwork {
+                 self?.loadingView.isHidden = !onLoading
+                 self?.pastDateDetailContentView.isHidden = onLoading
+             }
+         }
+        
         self.pastDateDetailViewModel?.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
@@ -118,6 +145,15 @@ extension PastDateDetailViewController {
             if isSuccess {
                 self?.pastDateDetailContentView.dataBind(data)
                 self?.pastDateDetailContentView.dateTimeLineCollectionView.reloadData()
+            }
+        }
+        
+        self.pastDateDetailViewModel?.onFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+            if onFailure {
+                self?.loadingView.isHidden = true
+                let errorVC = DRErrorViewController()
+                self?.navigationController?.pushViewController(errorVC, animated: false)
             }
         }
     }
@@ -198,3 +234,12 @@ extension PastDateDetailViewController: UICollectionViewDataSource {
 
 }
 
+//extension PastDateDetailViewController: UICollectionViewDelegate {
+//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                self.pastDateDetailViewModel?.setDateDetailLoading()
+//            }
+//        }
+//    }
+//}

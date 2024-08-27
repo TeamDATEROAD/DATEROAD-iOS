@@ -240,7 +240,7 @@ extension MainViewController {
         let upcomingDateDetailVC = UpcomingDateDetailViewController()
         upcomingDateDetailVC.upcomingDateDetailViewModel = DateDetailViewModel(dateID: dateID)
         upcomingDateDetailVC.setColor(index: dateID)
-        self.navigationController?.pushViewController(upcomingDateDetailVC, animated: true)
+        self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
     }
     
     @objc

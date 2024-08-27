@@ -17,42 +17,6 @@ class DateDetailViewModel: Serviceable {
 
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
 
-   
-//
-//    var upcomingDateDetailDummyData = DateDetailModel(
-//        dateID: 1,
-//        title: "성수동 당일치기 데이트 가볼까요? 이 정돈 어떠신지?",
-//        startAt: "12:00",
-//        city: "건대/성수/왕십리",
-//        tags: ["🎨 전시·팝업", "🎨 전시·팝업", "🎨 전시·팝업"],
-//        date: "June 24",
-//        places: [DatePlaceModel(name: "성수미술관 연남점", duration: 2,           sequence: 1),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1)]
-//    )
-//    
-//    
-//    var pastDateDetailDummyData = DateDetailModel(
-//        dateID: 1,
-//        title: "성수동 당일치기 데이트 가볼까요? 이 정돈 어떠신지?",
-//        startAt: "12:00",
-//        city: "건대/성수/왕십리",
-//        tags: ["🎨 전시·팝업", "🎨 전시·팝업", "🎨 전시·팝업"],
-//        date: "June 24",
-//        places: [DatePlaceModel(name: "성수미술관 연남점", duration: 2,
-//                     sequence: 1),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 2),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 3),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 4),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 5),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 6),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 7)]
-//    )
-    
     init(dateID: Int) {
         getDateDetailData(dateID: dateID)
     }
@@ -69,7 +33,15 @@ class DateDetailViewModel: Serviceable {
     
     var isSuccessDeleteDateScheduleData: ObservablePattern<Bool> = ObservablePattern(nil)
     
+    var onDateDetailLoading: ObservablePattern<Bool> = ObservablePattern(true)
+
+    var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
+    
     func getDateDetailData(dateID: Int) {
+        self.isSuccessGetDateDetailData.value = false
+        self.onFailNetwork.value = false
+        self.setDateDetailLoading()
+        
         dateScheduleService.getDateDetail(dateID: dateID) { response in
             switch response {
             case .success(let data):
@@ -81,22 +53,20 @@ class DateDetailViewModel: Serviceable {
                 }
                 self.dateDetailData.value = DateDetailModel(dateID: data.dateID, title: data.title, startAt: data.startAt, city: data.city, tags: tagsInfo, date: data.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "", places: datePlaceInfo, dDay: data.dDay)
                 self.isSuccessGetDateDetailData.value = true
-                print("@log ----------dsijflskdjfla", self.dateDetailData.value)
+            case .serverErr:
+                self.onFailNetwork.value = true
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
-            case .requestErr:
-                print("requestError")
-            case .decodedErr:
-                print("decodedError")
-            case .pathErr:
-                print("pathError")
-            case .serverErr:
-                print("serverError")
-            case .networkFail:
-                print("networkFail")
+            default:
+                self.isSuccessGetDateDetailData.value = false
             }
         }
     }
+    
+    func setDateDetailLoading() {
+         guard let isSuccessGetDateDetailData = self.isSuccessGetDateDetailData.value else { return }
+         self.onDateDetailLoading.value = isSuccessGetDateDetailData ? false : true
+     }
     
     func deleteDateSchdeuleData(dateID: Int) {
         dateScheduleService.deleteDateSchedule(dateID: dateID) { response in
