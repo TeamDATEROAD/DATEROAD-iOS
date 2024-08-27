@@ -146,7 +146,7 @@ private extension ProfileViewController {
         self.profileViewModel.profileImage.bind { [weak self] image in
             guard let initial = self?.initial else { return }
             if self?.editType == EditType.edit && initial {
-                self?.profileViewModel.checkValidNickname()
+                self?.profileViewModel.checkValidNicknameCount()
                 self?.profileViewModel.checkValidRegistration()
             }
         }
@@ -155,7 +155,7 @@ private extension ProfileViewController {
             guard let isValid = isValid else { return }
             
             if self?.editType == EditType.edit {
-                self?.profileViewModel.checkExistingNickname()
+                self?.profileViewModel.compareExistingNickname()
                 let isExisted = self?.profileViewModel.isExistedNickname.value ?? true
                 isExisted
                 ? self?.profileView.updateDoubleCheckButton(isValid: !isExisted)
@@ -197,7 +197,7 @@ private extension ProfileViewController {
                 self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValidCount)
                 
                 if self?.editType == EditType.edit {
-                    self?.profileViewModel.checkExistingNickname()
+                    self?.profileViewModel.compareExistingNickname()
                     let isValid = self?.profileViewModel.isExistedNickname.value ?? true
                     isValid
                     ? self?.profileView.updateDoubleCheckButton(isValid: !isValid)
@@ -219,7 +219,7 @@ private extension ProfileViewController {
         self.profileViewModel.nickname.bind { [weak self] nickname in
             guard let nickname else { return }
             self?.profileViewModel.isValidNickname.value = false
-            self?.profileViewModel.checkExistingNickname()
+            self?.profileViewModel.compareExistingNickname()
             self?.profileView.updateNicknameCount(count: nickname.count)
             
             guard let isExist = self?.profileViewModel.isExistedNickname.value else { return }
@@ -227,10 +227,10 @@ private extension ProfileViewController {
                 if isExist {
                     self?.profileViewModel.isValidNickname.value = true
                 } else {
-                    self?.profileViewModel.checkValidNickname()
+                    self?.profileViewModel.checkValidNicknameCount()
                 }
             } else {
-                self?.profileViewModel.checkValidNickname()
+                self?.profileViewModel.checkValidNicknameCount()
             }
         }
         
@@ -245,11 +245,11 @@ private extension ProfileViewController {
         }
         
         self.profileViewModel.profileData.bind { [weak self] _ in
-            self?.profileViewModel.checkExistingNickname()
+            self?.profileViewModel.compareExistingNickname()
         }
         
         self.profileViewModel.existingNickname.bind { [weak self] _ in
-            self?.profileViewModel.checkExistingNickname()
+            self?.profileViewModel.compareExistingNickname()
         }
         
         self.profileViewModel.isExistedNickname.bind { [weak self] isExisted in

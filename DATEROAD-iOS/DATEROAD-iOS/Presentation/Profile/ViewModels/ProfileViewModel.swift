@@ -28,9 +28,7 @@ final class ProfileViewModel: Serviceable {
     var isValidNicknameCount: ObservablePattern<Bool> = ObservablePattern(false)
     
     var isValidNickname: ObservablePattern<Bool> = ObservablePattern(false)
-    
-    var isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
-    
+        
     var isValidTag: ObservablePattern<Bool> = ObservablePattern(false)
     
     var isValidRegistration: ObservablePattern<Bool> = ObservablePattern(false)
@@ -62,7 +60,7 @@ extension ProfileViewModel {
     }
     
     // 닉네임 글자 수 확인 => 유효카운트 여부 & 5자초과 여부 업데이트
-    func checkValidNickname() {
+    func checkValidNicknameCount() {
         guard let nickname = self.nickname.value else { return }
         if nickname.count >= 2 && nickname.count <= 5 {
             self.isValidNicknameCount.value = true
@@ -112,7 +110,7 @@ extension ProfileViewModel {
         print("isValidNickname \(isValidNickname)  isValidTag \(isValidTag)  is5CntValid \(is5CntVaild)")
     }
     
-    func checkExistingNickname() {
+    func compareExistingNickname() {
         isExistedNickname.value = existingNickname.value == nickname.value ? true : false
     }
     
