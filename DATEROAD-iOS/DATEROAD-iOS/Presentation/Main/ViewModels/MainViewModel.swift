@@ -134,6 +134,8 @@ extension MainViewModel {
                                                             day: data.day,
                                                             startAt: data.startAt)
                 self.isSuccessGetUpcomingDate.value = true
+            case .requestErr:
+                self.isSuccessGetUpcomingDate.value = true
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
             case .requestErr:
@@ -157,6 +159,13 @@ extension MainViewModel {
             case .success(let data):
                 self.bannerData.value = data.advertisementDtoResList.map { BannerModel(advertisementId: $0.advertisementID, imageUrl: $0.thumbnail)
                 }
+                
+                // 앞뒤에 아이템을 추가하여 무한 스크롤 구현
+                guard let last = self.bannerData.value?.last,
+                      let first = self.bannerData.value?.first
+                else { return }
+                self.bannerData.value?.insert(last, at: 0)
+                self.bannerData.value?.append(first)
                 self.isSuccessGetBanner.value = true
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()

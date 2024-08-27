@@ -29,6 +29,8 @@ protocol MainSectionLayout {
     
     var scrollDirection: UICollectionLayoutSectionOrthogonalScrollingBehavior { get }
     
+    var absoluteOffset: CGPoint { get }
+    
 }
 
 extension MainSectionLayout {
@@ -49,7 +51,6 @@ extension MainSectionLayout {
     }
     
     var sectionContentInset: NSDirectionalEdgeInsets {
-//        return NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
         return NSDirectionalEdgeInsets.zero
     }
     
@@ -67,6 +68,10 @@ extension MainSectionLayout {
     
     var scrollDirection: UICollectionLayoutSectionOrthogonalScrollingBehavior {
         return .paging
+    }
+    
+    var absoluteOffset: CGPoint {
+        return .zero
     }
 }
 
@@ -90,6 +95,13 @@ struct BannerDateLayout: MainSectionLayout {
     
     var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .absolute(ScreenUtils.width), heightDimension: .absolute(192))
     
+    var elementKind: String? = BannerIndexFooterView.elementKinds
+    
+    var supplementaryAlignment: NSRectAlignment = .bottom
+    
+    var supplemetaryItemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(20))
+ 
+    var absoluteOffset: CGPoint = CGPoint(x: -16, y: -55)
 }
 
 struct NewDateLayout: MainSectionLayout {
