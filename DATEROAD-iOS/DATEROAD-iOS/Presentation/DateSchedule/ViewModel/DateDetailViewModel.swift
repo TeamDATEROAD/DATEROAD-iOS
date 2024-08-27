@@ -43,12 +43,7 @@ class DateDetailViewModel: Serviceable {
     
     var isMoreThanFiveSchedule : Bool {
         return (dateDetailData.value?.places.count ?? 0 >= 5)
-    }
-    
-//    init(dateID: Int) {
-//        getDateDetailData(dateID: dateID)
-//    }
-    
+    }    
 }
 
 extension DateDetailViewModel {

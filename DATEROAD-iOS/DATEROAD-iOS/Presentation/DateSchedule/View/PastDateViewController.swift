@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class PastDateViewController: BaseNavBarViewController {
+final class PastDateViewController: BaseNavBarViewController {
     
     // MARK: - UI Properties
     
@@ -20,14 +20,31 @@ class PastDateViewController: BaseNavBarViewController {
 
     private let errorView: DRErrorViewController = DRErrorViewController()
     
+    
     // MARK: - Properties
     
-    private let pastDateScheduleViewModel = DateScheduleViewModel()
+    var pastDateScheduleViewModel: DateScheduleViewModel
     
-    override func viewDidAppear(_ animated: Bool) {
-        bindViewModel()
-        loadDataAndReload()
+    
+    // MARK: - Life Cycles
+    
+    init(pastDateScheduleViewModel: DateScheduleViewModel) {
+        self.pastDateScheduleViewModel = pastDateScheduleViewModel
+        
+        super.init(nibName: nil, bundle: nil)
     }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.tabBarController?.tabBar.isHidden = true
+        self.tabBarController?.tabBar.isHidden = true
+        self.pastDateScheduleViewModel.setPastScheduleLoading()
+        self.pastDateScheduleViewModel.getPastDateScheduleData()
+    }
+
     
     // MARK: - LifeCycle
     

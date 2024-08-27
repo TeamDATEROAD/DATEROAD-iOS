@@ -90,7 +90,7 @@ private extension UpcomingDateScheduleViewController {
     
     @objc
     func pushToPastDateVC() {
-        let pastDateVC = PastDateViewController()
+        let pastDateVC = PastDateViewController(pastDateScheduleViewModel: DateScheduleViewModel())
         self.navigationController?.pushViewController(pastDateVC, animated: false)
     }
     
