@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class UpcomingDateDetailViewController: BaseNavBarViewController {
+final class UpcomingDateDetailViewController: BaseNavBarViewController {
 
     // MARK: - UI Properties
     
@@ -20,14 +20,28 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
 
     private let errorView: DRErrorViewController = DRErrorViewController()
     
-    // MARK: - Properties
-    var dateID: Int?
     
-    var upcomingDateDetailViewModel: DateDetailViewModel? = nil
+    // MARK: - Properties
+    
+    var dateID: Int
+    
+    var upcomingDateDetailViewModel: DateDetailViewModel
     
     private let dateScheduleDeleteView = DateScheduleDeleteView()
     
+    
     // MARK: - LifeCycle
+    
+    init(dateID: Int, upcomingDateDetailViewModel: DateDetailViewModel) {
+        self.dateID = dateID
+        self.upcomingDateDetailViewModel = upcomingDateDetailViewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,25 +57,17 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
-        bindViewModel()
-        self.upcomingDateDetailViewModel?.getDateDetailData(dateID: self.dateID ?? 0)
+        self.navigationController?.tabBarController?.tabBar.isHidden = true
+        self.tabBarController?.tabBar.isHidden = true
+        self.upcomingDateDetailViewModel.setDateDetailLoading()
+        self.upcomingDateDetailViewModel.getDateDetailData(dateID: self.dateID)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        bindViewModel()
-        self.upcomingDateDetailViewModel?.getDateDetailData(dateID: self.dateID ?? 0)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.upcomingDateDetailViewModel?.setDateDetailLoading()
-        }
-    }
-   
     override func setHierarchy() {
         super.setHierarchy()
         
-        // self.view.addSubviews(loadingView)
-        // TODO: 나중에 이걸로 바꿔야 ..
-        contentView.addSubviews(loadingView, upcomingDateDetailContentView)
+         self.view.addSubview(loadingView)
+        contentView.addSubview(upcomingDateDetailContentView)
         
     }
     
@@ -83,15 +89,19 @@ class UpcomingDateDetailViewController: BaseNavBarViewController {
 extension UpcomingDateDetailViewController {
     func bindViewModel() {
         
-        self.upcomingDateDetailViewModel?.onDateDetailLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.upcomingDateDetailViewModel?.onFailNetwork.value else { return }
+        self.upcomingDateDetailViewModel.onDateDetailLoading.bind { [weak self] onLoading in
+            guard let onLoading, 
+                    let onFailNetwork = self?.upcomingDateDetailViewModel.onFailNetwork.value
+            else { return }
              if !onFailNetwork {
                  self?.loadingView.isHidden = !onLoading
                  self?.upcomingDateDetailContentView.isHidden = onLoading
+                 self?.topInsetView.isHidden = onLoading
+                 self?.navigationBarView.isHidden = onLoading
              }
          }
         
-        self.upcomingDateDetailViewModel?.onReissueSuccess.bind { [weak self] onSuccess in
+        self.upcomingDateDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
                 // TODO: - 서버 통신 재시도
@@ -100,7 +110,7 @@ extension UpcomingDateDetailViewController {
             }
         }
         
-        self.upcomingDateDetailViewModel?.onFailNetwork.bind { [weak self] onFailure in
+        self.upcomingDateDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
                 self?.loadingView.isHidden = true
@@ -109,11 +119,23 @@ extension UpcomingDateDetailViewController {
             }
         }
         
-        self.upcomingDateDetailViewModel?.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
-            guard let isSuccess, let data = self?.upcomingDateDetailViewModel?.dateDetailData.value else { return }
+        self.upcomingDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
+            guard let isSuccess, 
+                    let data = self?.upcomingDateDetailViewModel.dateDetailData.value
+            else { return }
             if isSuccess {
                 self?.upcomingDateDetailContentView.dataBind(data)
                 self?.upcomingDateDetailContentView.dateTimeLineCollectionView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self?.upcomingDateDetailViewModel.setDateDetailLoading()
+                }
+            }
+        }
+        
+        self.upcomingDateDetailViewModel.isSuccessDeleteDateScheduleData.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.navigationController?.popViewController(animated: true)
             }
         }
     }
@@ -168,11 +190,9 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
            print("all")
            if rightButtonAction == .deleteCourse {
                print("zz")
-               upcomingDateDetailViewModel?.deleteDateSchdeuleData(dateID: upcomingDateDetailViewModel?.dateDetailData.value?.dateID ?? 0)
-               print("헉 헤어졌나??? 서버연결 delete")
-               self.navigationController?.popViewController(animated: true)
+               upcomingDateDetailViewModel.deleteDateSchdeuleData(dateID: upcomingDateDetailViewModel.dateDetailData.value?.dateID ?? 0)
            } else if rightButtonAction == .kakaoShare {
-               upcomingDateDetailViewModel?.shareToKakao(context: self)
+               upcomingDateDetailViewModel.shareToKakao(context: self)
                print("카카오 공유하기")
            }
        }
@@ -236,11 +256,11 @@ extension UpcomingDateDetailViewController: UICollectionViewDelegateFlowLayout {
 
 extension UpcomingDateDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return upcomingDateDetailViewModel?.dateDetailData.value?.places.count ?? 0
+        return upcomingDateDetailViewModel.dateDetailData.value?.places.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let data = upcomingDateDetailViewModel?.dateDetailData.value?.places[indexPath.item] else { return UICollectionViewCell() }
+        guard let data = upcomingDateDetailViewModel.dateDetailData.value?.places[indexPath.item] else { return UICollectionViewCell() }
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier, for: indexPath) as? DateTimeLineCollectionViewCell else {
             return UICollectionViewCell() }
         cell.dataBind(data, indexPath.item)
@@ -248,13 +268,3 @@ extension UpcomingDateDetailViewController: UICollectionViewDataSource {
     }
 
 }
-
-//extension UpcomingDateDetailViewController: UICollectionViewDelegate {
-//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                self.upcomingDateDetailViewModel?.setDateDetailLoading()
-//            }
-//        }
-//    }
-//}
