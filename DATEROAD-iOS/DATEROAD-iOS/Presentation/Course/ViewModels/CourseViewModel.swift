@@ -29,7 +29,13 @@ final class CourseViewModel: Serviceable {
     
     var isApplyButtonEnabled: ObservablePattern<Bool> = ObservablePattern(false)
     
+    var isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
+    
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var onLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
     var didUpdateCityData: (() -> Void)?
     
@@ -78,6 +84,7 @@ extension CourseViewModel {
     }
 
     func getCourse(city: String?, cost: Int?) {  
+        setLoading()
         NetworkService.shared.courseService.getCourseInfo(city: city ?? "", cost: cost) { response in
             switch response {
             case .success(let data):
@@ -95,13 +102,29 @@ extension CourseViewModel {
 
                 self.courseListModel = courseModels
                 self.didUpdateCourseList?()
+                self.isSuccessGetData.value = true
 
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
-                
+            case .serverErr:
+                self.onFailNetwork.value = true
             default:
+                self.isSuccessGetData.value = false
                 print("Failed to fetch course data")
             }
         }
     }
+    
+    func setLoading() {
+        guard let isSuccessGetData = self.isSuccessGetData.value else {
+            return
+        }
+        
+        if isSuccessGetData {
+            self.onLoading.value = false
+        } else {
+            self.onLoading.value = true
+        }
+    }
+
 }
