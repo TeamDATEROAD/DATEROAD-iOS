@@ -427,7 +427,7 @@ private extension CourseDetailViewController {
     }
     
     func setNavBarVisibility() {
-        courseDetailView.stickyHeaderNavBarView.moreButton.isHidden = !(courseDetailViewModel.isAccess.value ?? false) || (courseDetailViewModel.isCourseMine.value == true)
+        courseDetailView.stickyHeaderNavBarView.moreButton.isHidden = !(courseDetailViewModel.isAccess.value ?? false)
     }
     
     func setTabBarVisibility() {
