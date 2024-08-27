@@ -97,6 +97,23 @@ extension NavViewedCourseViewController {
             }
         }
         
+        self.viewedCourseViewModel.onViewedCourseFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+            if onFailure {
+                self?.loadingView.isHidden = true
+                let errorVC = DRErrorViewController()
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
+        }
+
+        self.viewedCourseViewModel.onViewedCourseLoading.bind { [weak self] onLoading in
+            guard let onLoading, let onFailNetwork = self?.viewedCourseViewModel.onViewedCourseFailNetwork.value else { return }
+            if !onFailNetwork {
+                self?.loadingView.isHidden = !onLoading
+                self?.navViewedCourseView.isHidden = onLoading
+            }
+        }
+        
         self.viewedCourseViewModel.isSuccessGetViewedCourseInfo.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
@@ -126,6 +143,14 @@ extension NavViewedCourseViewController {
 extension NavViewedCourseViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: ScreenUtils.width, height: 140)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.viewedCourseViewModel.setViewedCourseLoading()
+            }
+        }
     }
 }
 

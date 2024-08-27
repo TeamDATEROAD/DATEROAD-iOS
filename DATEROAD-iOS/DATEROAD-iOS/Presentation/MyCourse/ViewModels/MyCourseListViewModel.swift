@@ -22,7 +22,14 @@ class MyCourseListViewModel: Serviceable {
     var isSuccessGetMyRegisterCourseInfo: ObservablePattern<Bool> = ObservablePattern(false)
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
-
+    
+    var onViewedCourseLoading: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var onMyRegisterCourseLoading: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var onViewedCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var onMyRegisterCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(nil)
     
     init() {
         let name = UserDefaults.standard.string(forKey: "userName") ?? ""
@@ -34,6 +41,10 @@ class MyCourseListViewModel: Serviceable {
     }
     
     func setViewedCourseData() {
+        self.isSuccessGetViewedCourseInfo.value = false
+        self.onViewedCourseFailNetwork.value = false
+        self.setViewedCourseLoading()
+        
         NetworkService.shared.myCourseService.getViewedCourse() { response in
             switch response {
             case .success(let data):
@@ -44,21 +55,26 @@ class MyCourseListViewModel: Serviceable {
                 self.isSuccessGetViewedCourseInfo.value = true
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
-            case .requestErr:
-                print("requestError")
-            case .decodedErr:
-                print("decodedError")
-            case .pathErr:
-                print("pathError")
             case .serverErr:
-                print("serverError")
-            case .networkFail:
-                print("networkFail")
+                self.onViewedCourseFailNetwork.value = true
+            default:
+                print("내가 열람한 코스 에러")
+                self.onViewedCourseFailNetwork.value = true //TODO: - 확인
+                return
             }
         }
     }
+        
+    func setViewedCourseLoading() {
+        guard let isSuccessGetViewedCourseInfo = self.isSuccessGetViewedCourseInfo.value else { return }
+        self.onViewedCourseLoading.value = isSuccessGetViewedCourseInfo ? false : true
+    }
     
     func setMyRegisterCourseData() {
+        self.isSuccessGetMyRegisterCourseInfo.value = false
+        self.onMyRegisterCourseFailNetwork.value = false
+        self.setMyRegisterCourseLoading()
+        
         NetworkService.shared.myCourseService.getMyRegisterCourse() { response in
             switch response {
             case .success(let data):
@@ -70,17 +86,18 @@ class MyCourseListViewModel: Serviceable {
                 print("isUpdate>", self.myRegisterCourseData)
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
-            case .requestErr:
-                print("requestError")
-            case .decodedErr:
-                print("decodedError")
-            case .pathErr:
-                print("pathError")
             case .serverErr:
-                print("serverError")
-            case .networkFail:
-                print("networkFail")
+                self.onMyRegisterCourseFailNetwork.value = true
+            default:
+                print("내가 등록한 코스 에러")
+                self.onMyRegisterCourseFailNetwork.value = true //TODO: - 확인
+                return
             }
         }
+    }
+    
+    func setMyRegisterCourseLoading() {
+        guard let isSuccessGetMyRegisterCourseInfo = self.isSuccessGetMyRegisterCourseInfo.value else { return }
+        self.onMyRegisterCourseLoading.value = isSuccessGetMyRegisterCourseInfo ? false : true
     }
 }
