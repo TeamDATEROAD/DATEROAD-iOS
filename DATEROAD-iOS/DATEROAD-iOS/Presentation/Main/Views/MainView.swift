@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol BannerIndexDelegate: AnyObject {
+    func bindIndex(currentIndex: Int)
+}
+
 final class MainView: BaseView {
     
     // MARK: - UI Properties
@@ -19,6 +23,11 @@ final class MainView: BaseView {
     // MARK: - Properties
     
     private var mainSectionData: [MainSection]
+    
+    weak var delegate: BannerIndexDelegate?
+
+    
+    // MARK: - Life Cycles
     
     init(mainSectionData: [MainSection]) {
         self.mainSectionData = mainSectionData
@@ -102,6 +111,13 @@ extension MainView {
         supplemetaryItem.zIndex = 2
         section.boundarySupplementaryItems = [supplemetaryItem]
         section.orthogonalScrollingBehavior = layout.scrollDirection
+        
+        if type == BannerIndexFooterView.elementKinds {
+            section.visibleItemsInvalidationHandler = { (visibleItems, offset, env) in
+                let currentPage = Int(max(0, round(offset.x / env.container.contentSize.width)))
+                self.delegate?.bindIndex(currentIndex: currentPage)
+            }
+        }
         return section
     }
     
@@ -109,7 +125,8 @@ extension MainView {
         let supplemetaryItemSize = layout.supplemetaryItemSize
         let supplemetaryItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: supplemetaryItemSize,
                                                                            elementKind: type,
-                                                                           alignment: layout.supplementaryAlignment)
+                                                                           alignment: layout.supplementaryAlignment,
+                                                                           absoluteOffset: layout.absoluteOffset)
         return supplemetaryItem
     }
 }

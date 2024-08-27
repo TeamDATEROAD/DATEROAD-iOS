@@ -166,6 +166,7 @@ enum StringLiterals {
     
     enum Common {
         static let header = "header"
+        static let footer = "footer"
         static let cancel = "취소"
         static let close = "닫기"
     }
@@ -258,4 +259,13 @@ enum StringLiterals {
     enum WebView {
         static let inquiryLink = "https://dateroad.notion.site/1055d2f7bfe94b3fa6c03709448def21?pvs=4"
     }
+    
+    enum Identifier {
+        static let bannerFooter = "BannerIndexFooterView"
+    }
+    
+    enum Elementkinds {
+        static let bannerInfoHeaderView = "BannerInfoHeaderView"
+    }
+    
 }

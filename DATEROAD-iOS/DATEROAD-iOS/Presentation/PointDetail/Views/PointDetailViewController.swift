@@ -44,6 +44,10 @@ class PointDetailViewController: BaseNavBarViewController {
         bindViewModel()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
        self.pointViewModel.isChange.bind { [weak self] isSuccess in
           guard let isSuccess else {return}
@@ -69,6 +73,10 @@ class PointDetailViewController: BaseNavBarViewController {
         pointViewModel.getPointDetail(nowEarnedPointHidden: false)
 //       bindViewModel()
        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     override func setHierarchy() {

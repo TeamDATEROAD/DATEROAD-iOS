@@ -111,12 +111,12 @@ extension MainHeaderView {
                 $0.text = StringLiterals.Main.hotDateSub
             }
         } else {
+            self.backgroundView.clipsToBounds = false
             titleLabel.do {
                 $0.setLabel(text: StringLiterals.Main.newDateTitle, alignment: .left, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_extra_20))
                 $0.textAlignment = .left
                 $0.numberOfLines = 0
             }
-            self.clipsToBounds = false
             subLabel.do {
                 $0.text = StringLiterals.Main.newDateSub
             }

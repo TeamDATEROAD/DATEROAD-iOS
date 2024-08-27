@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class UpcomingDateScheduleViewController: BaseViewController {
+final class UpcomingDateScheduleViewController: BaseViewController {
     
     // MARK: - UI Properties
     
@@ -23,6 +23,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
     // MARK: - Properties
     
     private let upcomingDateScheduleViewModel = DateScheduleViewModel()
+    
     
     // MARK: - LifeCycle
     
@@ -41,6 +42,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         registerCell()
         setDelegate()
         setUIMethods()

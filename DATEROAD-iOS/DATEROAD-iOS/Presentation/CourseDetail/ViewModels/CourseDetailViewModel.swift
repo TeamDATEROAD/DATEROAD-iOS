@@ -86,7 +86,6 @@ class CourseDetailViewModel: Serviceable {
     init(courseId: Int) {
         self.courseId = courseId
         getCourseDetail()
-        
     }
     
     var sections: [CourseDetailSection] {
@@ -123,6 +122,7 @@ class CourseDetailViewModel: Serviceable {
 extension CourseDetailViewModel {
     
     func getCourseDetail() {
+        setLoading()
         NetworkService.shared.courseDetailService.getCourseDetailInfo(courseId: courseId){ response in
             switch response {
             case .success(let data):
@@ -227,7 +227,6 @@ extension CourseDetailViewModel {
     func getBannerDetail(advertismentId: Int) {
         self.isSuccessGetBannerData.value = false
         self.onFailNetwork.value = false
-        self.setBannerDetailLoading()
         
         NetworkService.shared.courseDetailService.getBannerDetailInfo(advertismentId: advertismentId){ response in
             switch response {
@@ -257,5 +256,18 @@ extension CourseDetailViewModel {
         guard let isSuccessGetBannerData = self.isSuccessGetBannerData.value else { return }
         self.onLoading.value = isSuccessGetBannerData ? false : true
     }
+    
+    func setLoading() {
+        guard let isSuccessGetData = self.isSuccessGetData.value else {
+            return
+        }
+        
+        if isSuccessGetData {
+            self.onLoading.value = false
+        } else {
+            self.onLoading.value = true
+        }
+    }
+
     
 }

@@ -46,6 +46,7 @@ final class MainViewModel: Serviceable {
 extension MainViewModel {
     
     func fetchSectionData() {
+        setLoading()
         getBanner()
         getUserProfile()
         getDateCourse(sortBy: "POPULAR")
@@ -56,7 +57,6 @@ extension MainViewModel {
     func getUserProfile() {
         self.isSuccessGetUserInfo.value = false
         self.onFailNetwork.value = false
-        self.setLoading()
         
         NetworkService.shared.mainService.getMainUserProfile() { response in
             switch response {
@@ -84,7 +84,6 @@ extension MainViewModel {
             self.isSuccessGetNewDate.value = false
         }
         self.onFailNetwork.value = false
-        self.setLoading()
         
         NetworkService.shared.mainService.getFilteredDateCourse(sortBy: sortBy) { response in
             switch response {
@@ -122,7 +121,6 @@ extension MainViewModel {
     func getUpcomingDateCourse() {
         self.isSuccessGetUpcomingDate.value = false
         self.onFailNetwork.value = false
-        self.setLoading()
         
         NetworkService.shared.mainService.getUpcomingDate() { response in
             switch response {
@@ -134,8 +132,12 @@ extension MainViewModel {
                                                             day: data.day,
                                                             startAt: data.startAt)
                 self.isSuccessGetUpcomingDate.value = true
+            case .requestErr:
+                self.isSuccessGetUpcomingDate.value = true
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
+            case .requestErr:
+                self.isSuccessGetUpcomingDate.value = true
             case .serverErr:
                 self.onFailNetwork.value = false
             default:
@@ -148,13 +150,19 @@ extension MainViewModel {
     func getBanner() {
         self.isSuccessGetBanner.value = false
         self.onFailNetwork.value = false
-        self.setLoading()
         
         NetworkService.shared.mainService.getBanner() { response in
             switch response {
             case .success(let data):
                 self.bannerData.value = data.advertisementDtoResList.map { BannerModel(advertisementId: $0.advertisementID, imageUrl: $0.thumbnail)
                 }
+                
+                // 앞뒤에 아이템을 추가하여 무한 스크롤 구현
+                guard let last = self.bannerData.value?.last,
+                      let first = self.bannerData.value?.first
+                else { return }
+                self.bannerData.value?.insert(last, at: 0)
+                self.bannerData.value?.append(first)
                 self.isSuccessGetBanner.value = true
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
