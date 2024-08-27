@@ -53,7 +53,6 @@ final class PastDateViewController: BaseNavBarViewController {
         
         setLeftBackButton()
         setTitleLabelStyle(title: StringLiterals.DateSchedule.pastDate, alignment: .center)
-        
         registerCell()
         setDelegate()
         bindViewModel()
@@ -62,7 +61,8 @@ final class PastDateViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        contentView.addSubviews(loadingView, pastDateContentView)
+        self.view.addSubview(loadingView)
+        contentView.addSubview(pastDateContentView)
     }
     
     override func setLayout() {
@@ -76,42 +76,18 @@ final class PastDateViewController: BaseNavBarViewController {
             $0.edges.equalToSuperview()
         }
     }
-
-    func drawDateCardView() {
-        print("hi im drawing")
-        pastDateContentView.pastDateCollectionView.reloadData()
-        DispatchQueue.main.async {
-            self.setEmptyView()
-        }
-    }
-
-    private func loadDataAndReload() {
-        self.pastDateScheduleViewModel.getPastDateScheduleData()
-        self.pastDateScheduleViewModel.isSuccessGetPastDateScheduleData.bind { [weak self] isSuccess in
-            guard let self = self else { return }
-            if isSuccess == true {
-                DispatchQueue.main.async {
-                    self.drawDateCardView()
-                }
-            }
-        }
-    }
 }
 
 // MARK: - UI Setting Methods
 
 private extension PastDateViewController {
+    
     func setEmptyView() {
-        print("all")
-        if let dataCount = pastDateScheduleViewModel.pastDateScheduleData.value?.count, dataCount == 0 {
-            print("dfd")
-            pastDateContentView.emptyView.isHidden = false
-        } else {
-            pastDateContentView.emptyView.isHidden = true
-        }
+        guard let dataCount = pastDateScheduleViewModel.pastDateScheduleData.value?.count
+        else { return }
+        pastDateContentView.emptyView.isHidden = dataCount == 0 ? false : true
     }
 
-    
     func bindViewModel() {
         self.pastDateScheduleViewModel.onPastScheduleFailNetwork.bind { [weak self] onFailure in
              guard let onFailure else { return }
@@ -122,11 +98,14 @@ private extension PastDateViewController {
          }
 
         self.pastDateScheduleViewModel.onPastScheduleLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.pastDateScheduleViewModel.onPastScheduleFailNetwork.value else { return
-            }
+            guard let onLoading, 
+                    let onFailNetwork = self?.pastDateScheduleViewModel.onPastScheduleFailNetwork.value
+            else { return }
              if !onFailNetwork {
                  self?.loadingView.isHidden = !onLoading
                  self?.pastDateContentView.isHidden = onLoading
+                 self?.topInsetView.isHidden = onLoading
+                 self?.navigationBarView.isHidden = onLoading
              }
          }
         
@@ -143,6 +122,10 @@ private extension PastDateViewController {
             guard let isSuccess else { return }
             if isSuccess {
                 self?.pastDateContentView.pastDateCollectionView.reloadData()
+                self?.setEmptyView()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self?.pastDateScheduleViewModel.setPastScheduleLoading()
+                }
             }
         }
         
