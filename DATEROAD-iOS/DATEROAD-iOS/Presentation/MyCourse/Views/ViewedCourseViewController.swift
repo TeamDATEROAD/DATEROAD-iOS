@@ -42,13 +42,18 @@ class ViewedCourseViewController: BaseViewController {
     }
     
    // MARK: - LifeCycle
+
+    override func viewWillAppear(_ animated: Bool) {
+        bindViewModel()
+        self.viewedCourseViewModel.setViewedCourseData()
+    }
     
-   override func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
        self.viewedCourseViewModel.setViewedCourseData()
        bindViewModel()
        viewedCourseView.myCourseListCollectionView.reloadData()
        setEmptyView()
-   }
+    }
    
    override func viewDidLoad() {
       super.viewDidLoad()
@@ -169,15 +174,14 @@ extension ViewedCourseViewController {
       self.viewedCourseViewModel.isSuccessGetViewedCourseInfo.bind { [weak self] isSuccess in
          guard let isSuccess else { return }
          if isSuccess {
-            
             self?.topLabel.do {
                 let name =  UserDefaults.standard.string(forKey: "userName") ?? ""
-               $0.font = UIFont.suit(.title_extra_24)
+                $0.font = UIFont.suit(.title_extra_24)
                 $0.setAttributedText(fullText: "\(name)님이 지금까지\n열람한 데이트 코스\n\(self?.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개", pointText: "\(self?.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)", pointColor: UIColor(resource: .mediumPurple), lineHeight: 1)
-               $0.numberOfLines = 3
+                $0.numberOfLines = 3
             }
+         } else {
              self?.setEmptyView()
-
          }
       }
       
