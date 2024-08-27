@@ -16,15 +16,21 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
     
     private var myRegisterCourseView = MyCourseListView()
     
+    private let loadingView: DRLoadingView = DRLoadingView()
+    
+    private let errorView: DRErrorViewController = DRErrorViewController()
+    
     // MARK: - Properties
     
     private let myRegisterCourseViewModel = MyCourseListViewModel()
     
     // MARK: - LifeCycle
-    override func viewDidAppear(_ animated: Bool) {
-        bindViewModel()
-        loadDataAndReload()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.myRegisterCourseViewModel.setMyRegisterCourseLoading()
+        self.myRegisterCourseViewModel.setMyRegisterCourseData()
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,17 +40,21 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
         bindViewModel()
         register()
         setDelegate()
-        loadDataAndReload()
     }
     
     override func setHierarchy() {
         super.setHierarchy()
         
+        self.view.addSubview(loadingView)
         self.contentView.addSubviews(myRegisterCourseView)
     }
     
     override func setLayout() {
         super.setLayout()
+        
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         myRegisterCourseView.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -64,14 +74,13 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
 
 extension MyRegisterCourseViewController {
     private func setEmptyView() {
-        if let dataCount = myRegisterCourseViewModel.myRegisterCourseData.value?.count, dataCount == 0 {
+        var isEmpty = (myRegisterCourseViewModel.myRegisterCourseData.value?.count == 0)
+        myRegisterCourseView.emptyView.isHidden = !isEmpty
+        if isEmpty {
             myRegisterCourseView.emptyView.do {
-                $0.isHidden = false
                 $0.setEmptyView(emptyImage: UIImage(resource: .emptyMyRegisterCourse),
                  emptyTitle: StringLiterals.EmptyView.emptyMyRegisterCourse)
             }
-        } else {
-            myRegisterCourseView.emptyView.isHidden = true
         }
     }
 }
@@ -89,20 +98,33 @@ extension MyRegisterCourseViewController {
             }
         }
         
-        self.myRegisterCourseViewModel.isSuccessGetMyRegisterCourseInfo.bind { [weak self] isSuccess in
-            guard let self = self else { return }
-            guard let isSuccess else { return }
-            if isSuccess {
-                DispatchQueue.main.async {
-                    self.myRegisterCourseView.myCourseListCollectionView.reloadData()
-                    self.setEmptyView()
-                }
+        self.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+            if onFailure {
+                self?.loadingView.isHidden = true
+                let errorVC = DRErrorViewController()
+                self?.navigationController?.pushViewController(errorVC, animated: false)
             }
         }
-    }
 
-    private func loadDataAndReload() {
-        self.myRegisterCourseViewModel.setMyRegisterCourseData()
+        self.myRegisterCourseViewModel.onMyRegisterCourseLoading.bind { [weak self] onLoading in
+            guard let onLoading, let onFailNetwork = self?.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.value else { return }
+            if !onFailNetwork {
+                self?.loadingView.isHidden = !onLoading
+                self?.contentView.isHidden = onLoading
+            }
+        }
+        
+        self.myRegisterCourseViewModel.isSuccessGetMyRegisterCourseInfo.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self?.myRegisterCourseViewModel.setMyRegisterCourseLoading()
+                }
+                self?.setEmptyView()
+            }
+        }
     }
     
 }
