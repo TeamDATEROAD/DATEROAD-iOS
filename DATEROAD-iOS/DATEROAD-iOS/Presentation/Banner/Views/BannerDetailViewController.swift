@@ -19,9 +19,7 @@ final class BannerDetailViewController: BaseViewController {
     private let loadingView: DRLoadingView = DRLoadingView()
     
     private let errorView: DRErrorViewController = DRErrorViewController()
-    
-    //    private let courseInfoTabBarView = CourseBottomTabBarView()
-    
+        
     private var deleteCourseSettingView = DeleteCourseSettingView()
     
     
@@ -30,10 +28,11 @@ final class BannerDetailViewController: BaseViewController {
     private let courseDetailViewModel: CourseDetailViewModel
     
     private var advertismentId: Int
-    
-    private var currentPage: Int = 0
-    
+        
     var courseId: Int?
+    
+    
+    // MARK: - Life Cycle
     
     init(viewModel: CourseDetailViewModel, advertismentId: Int) {
         self.courseDetailViewModel = viewModel
@@ -47,13 +46,10 @@ final class BannerDetailViewController: BaseViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Life Cycle
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //            setSetctionCount()
         bindViewModel()
         setDelegate()
         registerCell()
@@ -63,6 +59,7 @@ final class BannerDetailViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.courseDetailViewModel.setBannerDetailLoading()
         self.courseDetailViewModel.getBannerDetail(advertismentId: advertismentId)
     }
     
@@ -70,7 +67,6 @@ final class BannerDetailViewController: BaseViewController {
         super.setHierarchy()
         
         self.view.addSubviews(loadingView, bannerDetailView)
-        //                              , courseInfoTabBarView)
     }
     
     override func setLayout() {
@@ -96,6 +92,15 @@ final class BannerDetailViewController: BaseViewController {
     }
     
     func bindViewModel() {
+        self.courseDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
+            guard let onSuccess else { return }
+            if onSuccess {
+                // TODO: - 서버 통신 재시도
+            } else {
+                self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+            }
+        }
+        
         self.courseDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
@@ -105,7 +110,8 @@ final class BannerDetailViewController: BaseViewController {
         }
         
         self.courseDetailViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.courseDetailViewModel.onFailNetwork.value else { return }
+            guard let onLoading, 
+                    let onFailNetwork = self?.courseDetailViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
                 self?.loadingView.isHidden = !onLoading
                 self?.bannerDetailView.isHidden = onLoading
@@ -113,9 +119,9 @@ final class BannerDetailViewController: BaseViewController {
         }
         
         courseDetailViewModel.currentPage.bind { [weak self] currentPage in
-            guard let self = self else { return }
-            if let bottomPageControllView = self.bannerDetailView.mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
-                bottomPageControllView.pageIndex = currentPage ?? 0
+            guard let currentPage else { return }
+            if let bottomPageControllView = self?.bannerDetailView.mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
+                bottomPageControllView.pageIndex = currentPage
             }
         }
         
@@ -141,15 +147,10 @@ private extension BannerDetailViewController {
     func registerCell() {
         bannerDetailView.mainCollectionView.do {
             $0.register(ImageCarouselCell.self, forCellWithReuseIdentifier: ImageCarouselCell.cellIdentifier)
-            
             $0.register(TitleInfoCell.self, forCellWithReuseIdentifier: TitleInfoCell.cellIdentifier)
-            
             $0.register(MainContentsCell.self, forCellWithReuseIdentifier: MainContentsCell.cellIdentifier)
-            
             $0.register(BannerInfoHeaderView.self, forSupplementaryViewOfKind: BannerInfoHeaderView.elementKinds, withReuseIdentifier: BannerInfoHeaderView.identifier)
-            
             $0.register(InfoBarView.self, forSupplementaryViewOfKind: InfoBarView.elementKinds, withReuseIdentifier: InfoBarView.identifier)
-            
             $0.register(BottomPageControllView.self, forSupplementaryViewOfKind: BottomPageControllView.elementKinds, withReuseIdentifier: BottomPageControllView.identifier)
         }
     }
@@ -167,7 +168,9 @@ extension BannerDetailViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            self.courseDetailViewModel.setBannerDetailLoading()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.courseDetailViewModel.setBannerDetailLoading()
+            }
         }
     }
     
@@ -263,7 +266,7 @@ extension BannerDetailViewController: StickyHeaderNavBarViewDelegate {
     func didTapMoreButton() {}
     
     func didTapBackButton() {
-        navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: false)
     }
     
 }

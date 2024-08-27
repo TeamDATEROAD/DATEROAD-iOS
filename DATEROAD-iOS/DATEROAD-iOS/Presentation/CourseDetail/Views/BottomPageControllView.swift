@@ -119,6 +119,7 @@ private extension BottomPageControllView {
             $0.setTitle("3/10", for: .normal)
             $0.setTitleColor(.drWhite, for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_med_13)
+            $0.titleLabel?.textAlignment = .center
         }
     }
     

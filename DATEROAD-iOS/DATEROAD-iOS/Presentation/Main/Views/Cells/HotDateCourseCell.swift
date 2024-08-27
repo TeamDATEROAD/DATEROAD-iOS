@@ -223,7 +223,6 @@ final class HotDateCourseCell: BaseCollectionViewCell {
 
 extension HotDateCourseCell {
     
-    // TODO: - 비용 분기 처리 해주기
     func bindData(hotDateData: DateCourseModel?) {
         guard let hotDateData else { return }
         self.countryLabel.text = hotDateData.city
