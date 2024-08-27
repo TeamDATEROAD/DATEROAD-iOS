@@ -10,17 +10,23 @@ import UIKit
 import SnapKit
 import Then
 
-class UpcomingDateScheduleViewController: BaseViewController {
+final class UpcomingDateScheduleViewController: BaseViewController {
     
     // MARK: - UI Properties
     
     private var upcomingDateScheduleView = UpcomingDateScheduleView()
     
+    
     // MARK: - Properties
     
     private let upcomingDateScheduleViewModel = DateScheduleViewModel()
     
+    
     // MARK: - LifeCycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.tabBarController?.tabBar.isHidden = false
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         bindViewModel()
@@ -30,6 +36,7 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         registerCell()
         setDelegate()
         setUIMethods()
@@ -243,9 +250,9 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
 }
   
 extension UpcomingDateScheduleViewController: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return CGFloat(26)
     }
-    
     
 }
