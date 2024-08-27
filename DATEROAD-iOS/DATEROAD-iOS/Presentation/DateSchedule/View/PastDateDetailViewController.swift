@@ -87,7 +87,12 @@ final class PastDateDetailViewController: BaseNavBarViewController {
 extension PastDateDetailViewController: DRCustomAlertDelegate {
     @objc
     func tapDeleteLabel() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: .deleteCourse, alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deletePastDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
+        let customAlertVC = DRCustomAlertViewController(rightActionType: .deleteCourse, 
+                                                        alertTextType: .hasDecription,
+                                                        alertButtonType: .twoButton,
+                                                        titleText: StringLiterals.Alert.deletePastDateSchedule,
+                                                        descriptionText: StringLiterals.Alert.noMercy,
+                                                        rightButtonText: "삭제")
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         self.present(customAlertVC, animated: false)
@@ -95,9 +100,7 @@ extension PastDateDetailViewController: DRCustomAlertDelegate {
 
     func action(rightButtonAction: RightButtonType) {
         if rightButtonAction == .deleteCourse {
-            pastDateDetailViewModel?.deleteDateSchdeuleData(dateID: pastDateDetailViewModel?.dateDetailData.value?.dateID ?? 0)
-            print("헉 헤어졌나??? 서버연결 delete")
-            self.navigationController?.popViewController(animated: true)
+            pastDateDetailViewModel.deleteDateSchdeuleData(dateID: pastDateDetailViewModel.dateDetailData.value?.dateID ?? 0)
         }
     }
 }
@@ -162,6 +165,11 @@ extension PastDateDetailViewController {
                 }
             }
         }
+        
+        self.pastDateDetailViewModel.isSuccessDeleteDateScheduleData.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.navigationController?.popViewController(animated: true)
             }
         }
         
@@ -178,10 +186,8 @@ extension PastDateDetailViewController {
     @objc
     private func tapShareCourse() {
         print("코스 등록해서 공유하기 여기!!!!!!!!!!!!")
-       guard let data = pastDateDetailViewModel?.dateDetailData.value else {
-               print("No date detail data available")
-               return
-           }
+       guard let data = pastDateDetailViewModel.dateDetailData.value
+        else { return }
            
            let addCourseViewModel = AddCourseViewModel(pastDateDetailData: data)
            let vc = AddCourseFirstViewController(viewModel: addCourseViewModel)
