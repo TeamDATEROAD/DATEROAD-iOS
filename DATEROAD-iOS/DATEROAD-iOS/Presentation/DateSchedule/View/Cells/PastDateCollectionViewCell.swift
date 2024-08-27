@@ -207,7 +207,7 @@ extension PastDateCollectionViewCell {
             self.thirdTagButton.isHidden = false
             updateTagButton(title: "\(dateCardData.tags[2].tag)", button: self.thirdTagButton)
         }
-        locationLabel.text = dateCardData.date
+        locationLabel.text = dateCardData.city
         titleLabel.text = dateCardData.title
     }
     

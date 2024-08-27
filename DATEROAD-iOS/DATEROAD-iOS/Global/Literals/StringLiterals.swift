@@ -183,11 +183,11 @@ enum StringLiterals {
     
     enum DateSchedule {
         static let kakaoShare = "카카오톡으로 공유하기"
-        static let courseShare = "데이트 코스 올리고 50P 받기"
+        static let courseShare = "데이트 코스 올리고 100P 받기"
         static let upcomingDate = "데이트 일정"
         static let seePastDate = "지난 데이트 보기"
         static let pastDate = "지난 데이트"
-        static let startTime = "시작시간: "
+        static let startTime = "시작"
         static let dateSetting = "데이트 일정 설정"
         static let deleteDate = "글 삭제"
         static let quit = "취소"
