@@ -65,7 +65,6 @@ class UpcomingDateScheduleViewController: BaseViewController {
     
     func drawDateCardView() {
         print("draw date card view")
-        upcomingDateScheduleView.cardCollectionView.reloadData()
         setUIMethods()
         setEmptyView()
     }
@@ -94,7 +93,7 @@ private extension UpcomingDateScheduleViewController {
         upcomingDateScheduleView.cardPageControl.do {
             $0.numberOfPages = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0
         }
-        print(upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count)
+        print("pagecontrol \(upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count)")
     }
     
     func setAddTarget() {
@@ -112,25 +111,28 @@ private extension UpcomingDateScheduleViewController {
             upcomingDateScheduleView.emptyView.isHidden = false
         }
     }
-    
-    private func loadDataAndReload() {
-        self.upcomingDateScheduleViewModel.getPastDateScheduleData()
-        self.upcomingDateScheduleViewModel.isSuccessGetPastDateScheduleData.bind { [weak self] isSuccess in
-            guard let self = self else { return }
-            if isSuccess == true {
-                DispatchQueue.main.async {
-                    self.drawDateCardView()
-                }
-            }
-        }
-    }
+//    
+//    private func loadDataAndReload() {
+//        self.upcomingDateScheduleViewModel.getPastDateScheduleData()
+//        self.upcomingDateScheduleViewModel.isSuccessGetPastDateScheduleData.bind { [weak self] isSuccess in
+//            guard let self = self else { return }
+//            if isSuccess == true {
+//                DispatchQueue.main.async {
+//                    self.drawDateCardView()
+//                }
+//            }
+//        }
+//    }
     
     func bindViewModel() {
         self.upcomingDateScheduleViewModel.onUpcomingScheduleLoading.bind { [weak self] onLoading in
-             guard let onLoading, let onFailNetwork = self?.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.value else { return }
+             guard let onLoading, 
+                    let onFailNetwork = self?.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.value
+            else { return }
              if !onFailNetwork {
                  self?.loadingView.isHidden = !onLoading
                  self?.upcomingDateScheduleView.isHidden = onLoading
+                 self?.tabBarController?.tabBar.isHidden = onLoading
              }
          }
         
@@ -145,11 +147,13 @@ private extension UpcomingDateScheduleViewController {
         
         self.upcomingDateScheduleViewModel.isSuccessGetUpcomingDateScheduleData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
-            if isSuccess == true {
+            if isSuccess {
                 print("success 인디케이터")
+                self?.upcomingDateScheduleView.cardCollectionView.reloadData()
                 self?.drawDateCardView()
-            } else {
-                print("fail 인디케이터")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self?.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
+                }
             }
         }
         
@@ -253,6 +257,11 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
         cell.dataBind(data, indexPath.item)
         cell.setColor(index: indexPath.item)
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToUpcomingDateDetailVC(_:))))
+//        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                self.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
+//            }
+//        }
         return cell
     }
     
