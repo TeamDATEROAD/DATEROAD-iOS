@@ -408,11 +408,11 @@ extension ProfileViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let char = string.cString(using: String.Encoding.utf8) {
             let isBackSpace = strcmp(char, "\\b")
-            if isBackSpace == -92 {
+            if string.hasCharacters() || isBackSpace == -92 {
                 return true
             }
         }
-        return true
+        return false
     }
     
     /// 엔터 키 누르면 키보드 내리는 메서드
