@@ -166,6 +166,9 @@ private extension ProfileViewController {
             self?.profileViewModel.checkValidRegistration()
         }
         
+        
+        // TODO: - 중복 확인 옵저버 프로퍼티 따로 생성 후, 닉네임에 변경이 있을 때마다 그 프로퍼티 값 false로 변경, 이 값이 true여야 하단 버튼 활성화 조건 추가
+        
         self.profileViewModel.isValidNickname.bind { [weak self] isValid in
             guard let isValid,  
                     let initial = self?.initial,
@@ -190,7 +193,7 @@ private extension ProfileViewController {
         self.profileViewModel.isValidNicknameCount.bind { [weak self] isValidCount in
             guard let isValidCount, let initial = self?.initial else { return }
             if initial {
-                self?.profileView.nicknameErrMessageLabel.isHidden = isValidCount ? true : false
+                self?.profileView.nicknameErrMessageLabel.isHidden = isValidCount
                 self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValidCount)
                 
                 if self?.editType == EditType.edit {
@@ -241,13 +244,11 @@ private extension ProfileViewController {
             self?.profileView.updateRegisterButton(isValid: isValid)
         }
         
-        self.profileViewModel.profileData.bind { [weak self] profileData in
-            guard let profileData else { return }
+        self.profileViewModel.profileData.bind { [weak self] _ in
             self?.profileViewModel.checkExistingNickname()
         }
         
-        self.profileViewModel.existingNickname.bind { [weak self] nickname in
-            guard let nickname else { return }
+        self.profileViewModel.existingNickname.bind { [weak self] _ in
             self?.profileViewModel.checkExistingNickname()
         }
         
@@ -314,8 +315,9 @@ private extension ProfileViewController {
                 self.profileViewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
             }
         }
-        
-        self.profileViewModel.checkValidNickname()
+        self.profileViewModel.checkValidRegistration()
+
+//        self.profileViewModel.checkValidNickname()
     }
     
     @objc
