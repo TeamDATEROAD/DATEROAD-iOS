@@ -117,7 +117,7 @@ final class CourseViewController: BaseViewController {
         
         courseViewModel.isSuccessGetData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
-            self?.courseViewModel.setLoading()
+//            self?.courseViewModel.setLoading()
 
             if isSuccess {
                 self?.courseView.courseListView.courseListCollectionView.reloadData()
@@ -240,7 +240,25 @@ extension CourseViewController: CourseNavigationBarViewDelegate {
 }
 
 extension CourseViewController: UICollectionViewDelegate {
-    
+
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+            let totalItems = collectionView.numberOfItems(inSection: indexPath.section)
+            
+            if indexPath.row == totalItems - 2 {
+                // 로딩 뷰 표시
+                self.loadingView.isHidden = false
+                self.courseView.isHidden = true
+                self.tabBarController?.tabBar.isHidden = true
+
+                // 3초 후에 로딩 뷰 숨기고, 마지막 셀 표시
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+                    self?.loadingView.isHidden = true
+                    self?.courseView.isHidden = false
+                    self?.tabBarController?.tabBar.isHidden = false
+                }
+            }
+        }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedCourse = courseViewModel.courseListModel[indexPath.row]
         
@@ -249,9 +267,10 @@ extension CourseViewController: UICollectionViewDelegate {
             let detailViewController = CourseDetailViewController(viewModel: detailViewModel)
             navigationController?.pushViewController(detailViewController, animated: false)
         }
-        
     }
 }
+
+
 
 extension CourseViewController: UICollectionViewDataSource {
     
