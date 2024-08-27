@@ -187,21 +187,9 @@ extension PastDateViewController: UICollectionViewDataSource {
         let location = sender.location(in: pastDateContentView.pastDateCollectionView)
         if let indexPath = pastDateContentView.pastDateCollectionView.indexPathForItem(at: location) {
             guard let data = pastDateScheduleViewModel.pastDateScheduleData.value?[indexPath.item] else { return }
-            let pastDateDetailVC = PastDateDetailViewController()
-            self.navigationController?.pushViewController(pastDateDetailVC, animated: false)
-            pastDateDetailVC.pastDateDetailViewModel = DateDetailViewModel(dateID: data.dateID)
-            pastDateDetailVC.dateID = data.dateID
+            let pastDateDetailVC = PastDateDetailViewController(dateID: data.dateID, pastDateDetailViewModel: DateDetailViewModel())
             pastDateDetailVC.setColor(index: indexPath.item)
-        }
-    }
-}
-  
-extension PastDateViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.pastDateScheduleViewModel.setPastScheduleLoading()
-            }
+            self.navigationController?.pushViewController(pastDateDetailVC, animated: false)
         }
     }
 }

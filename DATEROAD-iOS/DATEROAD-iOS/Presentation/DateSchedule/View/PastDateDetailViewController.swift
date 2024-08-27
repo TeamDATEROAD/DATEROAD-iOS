@@ -10,7 +10,8 @@ import UIKit
 import SnapKit
 import Then
 
-class PastDateDetailViewController: BaseNavBarViewController {
+final class PastDateDetailViewController: BaseNavBarViewController {
+    
     // MARK: - UI Properties
     
     var pastDateDetailContentView = DateDetailContentView()
@@ -19,27 +20,34 @@ class PastDateDetailViewController: BaseNavBarViewController {
 
     private let errorView: DRErrorViewController = DRErrorViewController()
     
-    // MARK: - Properties
-    var dateID: Int?
     
-    var pastDateDetailViewModel: DateDetailViewModel? = nil
+    // MARK: - Properties
+    
+    var dateID: Int
+    
+    var pastDateDetailViewModel: DateDetailViewModel
     
     private let dateScheduleDeleteView = DateScheduleDeleteView()
     
+    
     // MARK: - LifeCycle
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
-        bindViewModel()
-        self.pastDateDetailViewModel?.getDateDetailData(dateID: self.dateID ?? 0)
+    init(dateID: Int, pastDateDetailViewModel: DateDetailViewModel) {
+        self.dateID = dateID
+        self.pastDateDetailViewModel = pastDateDetailViewModel
+        
+        super.init(nibName: nil, bundle: nil)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        bindViewModel()
-        self.pastDateDetailViewModel?.getDateDetailData(dateID: self.dateID ?? 0)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.pastDateDetailViewModel?.setDateDetailLoading()
-        }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.tabBarController?.tabBar.isHidden = true
+        self.tabBarController?.tabBar.isHidden = true
+        self.pastDateDetailViewModel.setDateDetailLoading()
+        self.pastDateDetailViewModel.getDateDetailData(dateID: self.dateID)
     }
     
     override func viewDidLoad() {
