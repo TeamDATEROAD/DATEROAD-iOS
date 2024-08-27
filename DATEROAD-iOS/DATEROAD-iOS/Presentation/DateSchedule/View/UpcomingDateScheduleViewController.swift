@@ -270,12 +270,11 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
         let location = sender.location(in: upcomingDateScheduleView.cardCollectionView)
         if let indexPath = upcomingDateScheduleView.cardCollectionView.indexPathForItem(at: location) {
             let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel(dateID: 0, title: "", date: "", city: "", tags: [], dDay: 0)
-            let upcomingDateDetailVC = UpcomingDateDetailViewController()
+            let upcomingDateDetailVC = UpcomingDateDetailViewController(dateID: data.dateID, upcomingDateDetailViewModel: DateDetailViewModel()
+            )
+            upcomingDateDetailVC.setColor(index: indexPath.item)
             self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
 //            upcomingDateDetailVC.upcomingDateScheduleView = upcomingDateScheduleView
-            upcomingDateDetailVC.upcomingDateDetailViewModel = DateDetailViewModel(dateID: data.dateID)
-            upcomingDateDetailVC.dateID = data.dateID
-            upcomingDateDetailVC.setColor(index: indexPath.item)
         }
     }
     
