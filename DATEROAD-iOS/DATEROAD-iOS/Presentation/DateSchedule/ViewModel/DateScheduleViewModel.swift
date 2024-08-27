@@ -37,7 +37,6 @@ class DateScheduleViewModel: Serviceable {
     func getPastDateScheduleData() {
         self.isSuccessGetPastDateScheduleData.value = false
         self.onPastScheduleFailNetwork.value = false
-        self.setPastScheduleLoading()
         
         NetworkService.shared.dateScheduleService.getDateSchdeule(time: "PAST") { response in
             switch response {
@@ -62,8 +61,9 @@ class DateScheduleViewModel: Serviceable {
     }
     
     func setPastScheduleLoading() {
-         guard let isSuccessGetPastDateScheduleData = self.isSuccessGetPastDateScheduleData.value else { return }
-         self.onPastScheduleLoading.value = isSuccessGetPastDateScheduleData ? false : true
+        guard let isSuccessGetPastDateScheduleData = self.isSuccessGetPastDateScheduleData.value
+        else { return }
+        self.onPastScheduleLoading.value = !isSuccessGetPastDateScheduleData
      }
     
     func getUpcomingDateScheduleData() {

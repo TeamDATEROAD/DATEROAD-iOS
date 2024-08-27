@@ -116,18 +116,6 @@ private extension UpcomingDateScheduleViewController {
             upcomingDateScheduleView.emptyView.isHidden = false
         }
     }
-//    
-//    private func loadDataAndReload() {
-//        self.upcomingDateScheduleViewModel.getPastDateScheduleData()
-//        self.upcomingDateScheduleViewModel.isSuccessGetPastDateScheduleData.bind { [weak self] isSuccess in
-//            guard let self = self else { return }
-//            if isSuccess == true {
-//                DispatchQueue.main.async {
-//                    self.drawDateCardView()
-//                }
-//            }
-//        }
-//    }
     
     func bindViewModel() {
         self.upcomingDateScheduleViewModel.onUpcomingScheduleLoading.bind { [weak self] onLoading in
@@ -262,11 +250,6 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
         cell.dataBind(data, indexPath.item)
         cell.setColor(index: indexPath.item)
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToUpcomingDateDetailVC(_:))))
-//        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                self.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
-//            }
-//        }
         return cell
     }
     
