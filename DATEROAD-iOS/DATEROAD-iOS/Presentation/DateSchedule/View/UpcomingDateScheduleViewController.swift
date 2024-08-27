@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class UpcomingDateScheduleViewController: BaseViewController {
+final class UpcomingDateScheduleViewController: BaseViewController {
     
     // MARK: - UI Properties
     
@@ -20,27 +20,32 @@ class UpcomingDateScheduleViewController: BaseViewController {
 
     private let errorView: DRErrorViewController = DRErrorViewController()
     
+    
     // MARK: - Properties
     
-    private let upcomingDateScheduleViewModel = DateScheduleViewModel()
+    private var upcomingDateScheduleViewModel: DateScheduleViewModel
+    
     
     // MARK: - LifeCycle
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        bindViewModel()
-        self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
+    init(upcomingDateScheduleViewModel: DateScheduleViewModel) {
+        self.upcomingDateScheduleViewModel = upcomingDateScheduleViewModel
+        
+        super.init(nibName: nil, bundle: nil)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
         self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
-        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         registerCell()
         setDelegate()
         setUIMethods()
