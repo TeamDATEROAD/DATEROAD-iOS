@@ -21,9 +21,9 @@ final class BannerInfoHeaderView: UICollectionReusableView {
     
     // MARK: - Properties
     
-    static let elementKinds: String = "bannerInfoHeaderView"
+    static let elementKinds: String = StringLiterals.Elementkinds.bannerInfoHeaderView
     
-    static let identifier: String = "BannerInfoHeaderView"
+    static let identifier: String = String(describing: BannerInfoHeaderView.self)
 
     
     // MARK: - Life Cycles

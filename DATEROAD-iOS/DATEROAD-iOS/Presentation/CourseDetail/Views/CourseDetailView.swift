@@ -56,8 +56,9 @@ class CourseDetailView: BaseView {
         }
         
         stickyHeaderNavBarView.snp.makeConstraints {
-            $0.top.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(104)
+            $0.top.equalToSuperview().inset(UIApplication.shared.statusBarFrame.size.height)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(54)
         }
     }
     

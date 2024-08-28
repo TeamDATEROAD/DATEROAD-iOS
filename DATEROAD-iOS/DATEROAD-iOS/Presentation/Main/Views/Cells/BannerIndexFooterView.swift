@@ -56,7 +56,7 @@ final class BannerIndexFooterView: UICollectionReusableView {
             $0.textColor = UIColor(resource: .drWhite)
             $0.font = UIFont.suit(.cap_reg_11)
             $0.setPadding(top: 2, left: 0, bottom: 2, right: 0)
-            $0.roundCorners(cornerRadius: 10, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 9, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
         }
     }
 }

@@ -14,48 +14,8 @@ import KakaoSDKAuth
 import KakaoSDKUser
 
 class DateDetailViewModel: Serviceable {
-
-    var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
-
-   
-//
-//    var upcomingDateDetailDummyData = DateDetailModel(
-//        dateID: 1,
-//        title: "성수동 당일치기 데이트 가볼까요? 이 정돈 어떠신지?",
-//        startAt: "12:00",
-//        city: "건대/성수/왕십리",
-//        tags: ["🎨 전시·팝업", "🎨 전시·팝업", "🎨 전시·팝업"],
-//        date: "June 24",
-//        places: [DatePlaceModel(name: "성수미술관 연남점", duration: 2,           sequence: 1),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 1)]
-//    )
-//    
-//    
-//    var pastDateDetailDummyData = DateDetailModel(
-//        dateID: 1,
-//        title: "성수동 당일치기 데이트 가볼까요? 이 정돈 어떠신지?",
-//        startAt: "12:00",
-//        city: "건대/성수/왕십리",
-//        tags: ["🎨 전시·팝업", "🎨 전시·팝업", "🎨 전시·팝업"],
-//        date: "June 24",
-//        places: [DatePlaceModel(name: "성수미술관 연남점", duration: 2,
-//                     sequence: 1),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 2),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 3),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 4),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 5),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 6),
-//                 DatePlaceModel(name: "성수미술관 연남점", duration: 2, sequence: 7)]
-//    )
     
-    init(dateID: Int) {
-        getDateDetailData(dateID: dateID)
-    }
+    var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var emptyDateDetailData = DateDetailModel(dateID: 0, title: "", startAt: "", city: "", tags: [], date: "", places: [], dDay: 0)
     
@@ -69,50 +29,9 @@ class DateDetailViewModel: Serviceable {
     
     var isSuccessDeleteDateScheduleData: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    func getDateDetailData(dateID: Int) {
-        dateScheduleService.getDateDetail(dateID: dateID) { response in
-            switch response {
-            case .success(let data):
-                let tagsInfo: [TagsModel] = data.tags.map { tag in
-                    TagsModel(tag: tag.tag)
-                }
-                let datePlaceInfo: [DatePlaceModel] = data.places.map { place in
-                    DatePlaceModel(name: place.title, duration: (place.duration).formatFloatTime(), sequence: place.sequence)
-                }
-                self.dateDetailData.value = DateDetailModel(dateID: data.dateID, title: data.title, startAt: data.startAt, city: data.city, tags: tagsInfo, date: data.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "", places: datePlaceInfo, dDay: data.dDay)
-                self.isSuccessGetDateDetailData.value = true
-                print("@log ----------dsijflskdjfla", self.dateDetailData.value)
-            case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
-            case .requestErr:
-                print("requestError")
-            case .decodedErr:
-                print("decodedError")
-            case .pathErr:
-                print("pathError")
-            case .serverErr:
-                print("serverError")
-            case .networkFail:
-                print("networkFail")
-            }
-        }
-    }
+    var onDateDetailLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
-    func deleteDateSchdeuleData(dateID: Int) {
-        dateScheduleService.deleteDateSchedule(dateID: dateID) { response in
-            switch response {
-            case .success(let data):
-                print(data)
-                self.isSuccessDeleteDateScheduleData.value = true
-                print("success", self.isSuccessDeleteDateScheduleData.value)
-            case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
-            default:
-                self.isSuccessDeleteDateScheduleData.value = false
-            }
-        }
-    }
-
+    var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
     var kakaoShareInfo: [String: String] = [:]
     
@@ -124,6 +43,53 @@ class DateDetailViewModel: Serviceable {
     
     var isMoreThanFiveSchedule : Bool {
         return (dateDetailData.value?.places.count ?? 0 >= 5)
+    }    
+}
+
+extension DateDetailViewModel {
+    
+    func getDateDetailData(dateID: Int) {
+        self.isSuccessGetDateDetailData.value = false
+        self.onFailNetwork.value = false
+        
+        NetworkService.shared.dateScheduleService.getDateDetail(dateID: dateID) { response in
+            switch response {
+            case .success(let data):
+                let tagsInfo: [TagsModel] = data.tags.map { tag in
+                    TagsModel(tag: tag.tag)
+                }
+                let datePlaceInfo: [DatePlaceModel] = data.places.map { place in
+                    DatePlaceModel(name: place.title, duration: (place.duration).formatFloatTime(), sequence: place.sequence)
+                }
+                self.dateDetailData.value = DateDetailModel(dateID: data.dateID, title: data.title, startAt: data.startAt, city: data.city, tags: tagsInfo, date: data.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "", places: datePlaceInfo, dDay: data.dDay)
+                self.isSuccessGetDateDetailData.value = true
+            case .serverErr:
+                self.onFailNetwork.value = true
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
+            default:
+                self.isSuccessGetDateDetailData.value = false
+            }
+        }
+    }
+    
+    func setDateDetailLoading() {
+         guard let isSuccessGetDateDetailData = self.isSuccessGetDateDetailData.value else { return }
+         self.onDateDetailLoading.value = !isSuccessGetDateDetailData
+     }
+    
+    func deleteDateSchdeuleData(dateID: Int) {
+        NetworkService.shared.dateScheduleService.deleteDateSchedule(dateID: dateID) { response in
+            switch response {
+            case .success(let data):
+                self.isSuccessDeleteDateScheduleData.value = true
+                print("success", self.isSuccessDeleteDateScheduleData.value)
+            case .reIssueJWT:
+                self.onReissueSuccess.value = self.patchReissue()
+            default:
+                self.isSuccessDeleteDateScheduleData.value = false
+            }
+        }
     }
     
     func setTempArgs() {

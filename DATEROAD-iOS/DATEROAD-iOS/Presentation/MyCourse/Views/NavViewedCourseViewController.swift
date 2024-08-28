@@ -16,15 +16,20 @@ class NavViewedCourseViewController: BaseNavBarViewController {
     
     private var navViewedCourseView = MyCourseListView()
     
+    private let loadingView: DRLoadingView = DRLoadingView()
+    
+    private let errorView: DRErrorViewController = DRErrorViewController()
+    
     // MARK: - Properties
     
     private let viewedCourseViewModel = MyCourseListViewModel()
     
     // MARK: - LifeCycle
     
-   override func viewWillAppear(_ animated: Bool) {
-      viewedCourseViewModel.setMyRegisterCourseData()
-   }
+    override func viewWillAppear(_ animated: Bool) {
+        self.viewedCourseViewModel.setNavViewedCourseLoading()
+        self.viewedCourseViewModel.setNavViewedCourseData()
+    }
    
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,12 +45,16 @@ class NavViewedCourseViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
+        self.view.addSubviews(loadingView)
         self.contentView.addSubviews(navViewedCourseView)
     }
     
     override func setLayout() {
         super.setLayout()
         
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         navViewedCourseView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -53,6 +62,7 @@ class NavViewedCourseViewController: BaseNavBarViewController {
     
     override func setStyle() {
         super.setStyle()
+        
         self.view.backgroundColor = UIColor(resource: .drWhite)
     }
 
@@ -62,15 +72,12 @@ class NavViewedCourseViewController: BaseNavBarViewController {
 
 extension NavViewedCourseViewController {
     private func setEmptyView() {
-        if viewedCourseViewModel.viewedCourseData.value?.count == 0 {
+        var isEmpty = (viewedCourseViewModel.viewedCourseData.value?.count == 0)
+        navViewedCourseView.emptyView.isHidden = !isEmpty
+        if isEmpty {
             navViewedCourseView.emptyView.do {
-                $0.isHidden = false
                 $0.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
                                 emptyTitle: StringLiterals.EmptyView.emptyNavViewedCourse)
-            }
-        } else {
-            navViewedCourseView.emptyView.do {
-                $0.isHidden = true
             }
         }
     }
@@ -89,10 +96,30 @@ extension NavViewedCourseViewController {
             }
         }
         
-        self.viewedCourseViewModel.isSuccessGetViewedCourseInfo.bind { [weak self] isSuccess in
+        self.viewedCourseViewModel.onNavViewedCourseFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+            if onFailure {
+                self?.loadingView.isHidden = true
+                let errorVC = DRErrorViewController()
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
+        }
+
+        self.viewedCourseViewModel.onNavViewedCourseLoading.bind { [weak self] onLoading in
+            guard let onLoading, let onFailNetwork = self?.viewedCourseViewModel.onViewedCourseFailNetwork.value else { return }
+            if !onFailNetwork {
+                self?.loadingView.isHidden = !onLoading
+                self?.navViewedCourseView.isHidden = onLoading
+            }
+        }
+        
+        self.viewedCourseViewModel.isSuccessGetNavViewedCourseInfo.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
                 self?.navViewedCourseView.myCourseListCollectionView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self?.viewedCourseViewModel.setNavViewedCourseLoading()
+                }
                 self?.setEmptyView()
             }
         }
