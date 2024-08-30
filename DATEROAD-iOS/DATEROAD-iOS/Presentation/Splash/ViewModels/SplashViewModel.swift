@@ -23,6 +23,6 @@ extension SplashViewModel {
             isLoginned.value = false
             return
         }
-        isLoginned.value = !token.isEmpty ? true : false
+        isLoginned.value = !token.isEmpty
     }
 }

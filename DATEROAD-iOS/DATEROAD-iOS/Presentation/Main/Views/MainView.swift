@@ -115,7 +115,6 @@ extension MainView {
         if type == BannerIndexFooterView.elementKinds {
             section.visibleItemsInvalidationHandler = { (visibleItems, offset, env) in
                 let currentPage = Int(max(0, round(offset.x / env.container.contentSize.width)))
-                print("offx \(offset.x)  round \(offset.x / env.container.contentSize.width)  wid \(env.container.contentSize.width)")
                 self.delegate?.bindIndex(currentIndex: currentPage)
             }
         }

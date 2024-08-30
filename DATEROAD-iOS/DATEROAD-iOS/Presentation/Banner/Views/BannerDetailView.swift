@@ -58,7 +58,7 @@ final class BannerDetailView: BaseView {
         }
         
         stickyHeaderNavBarView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(50)
+            $0.top.equalToSuperview().inset(UIApplication.shared.statusBarFrame.size.height)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(54)
         }
@@ -152,8 +152,8 @@ extension BannerDetailView {
     }
     
     func makeVisitDateView() -> NSCollectionLayoutBoundarySupplementaryItem {
-        let dateSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(60))
-        let date = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: dateSize, elementKind: BannerInfoHeaderView.elementKinds, alignment: .top, absoluteOffset: CGPoint(x: 0, y: -14))
+        let dateSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(71))
+        let date = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: dateSize, elementKind: BannerInfoHeaderView.elementKinds, alignment: .top, absoluteOffset: CGPoint(x: 0, y: 0))
         date.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 14, trailing: 16)
         return date
     }

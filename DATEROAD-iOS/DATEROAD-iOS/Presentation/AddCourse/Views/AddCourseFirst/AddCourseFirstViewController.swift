@@ -53,6 +53,10 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
       pastDateBindViewModel()
       setupKeyboardDismissRecognizer()
    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
+    }
    
    
    // MARK: - Methods

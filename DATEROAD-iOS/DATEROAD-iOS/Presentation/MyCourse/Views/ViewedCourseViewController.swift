@@ -14,7 +14,7 @@ class ViewedCourseViewController: BaseViewController {
     
     // MARK: - UI Properties
     
-    private var nickName: String = ""
+    private var contentView = UIView()
     
     private var topLabel = UILabel()
     
@@ -26,7 +26,13 @@ class ViewedCourseViewController: BaseViewController {
     
     private var viewedCourseView = MyCourseListView()
     
+    private let loadingView: DRLoadingView = DRLoadingView()
+    
+    private let errorView: DRErrorViewController = DRErrorViewController()
+    
     // MARK: - Properties
+    
+    private var nickName: String = ""
     
     private let viewedCourseViewModel: MyCourseListViewModel
     
@@ -42,14 +48,12 @@ class ViewedCourseViewController: BaseViewController {
     }
     
    // MARK: - LifeCycle
-    
-   override func viewDidAppear(_ animated: Bool) {
-       self.viewedCourseViewModel.setViewedCourseData()
-       bindViewModel()
-       viewedCourseView.myCourseListCollectionView.reloadData()
-       setEmptyView()
-   }
-   
+
+    override func viewWillAppear(_ animated: Bool) {
+        self.viewedCourseViewModel.setViewedCourseLoading()
+        self.viewedCourseViewModel.setViewedCourseData()
+    }
+
    override func viewDidLoad() {
       super.viewDidLoad()
       
@@ -60,14 +64,24 @@ class ViewedCourseViewController: BaseViewController {
    }
    
    override func setHierarchy() {
-      self.view.addSubviews(topLabel,
-                            createCourseView,
-                            viewedCourseView)
-      
+      self.view.addSubviews(loadingView, contentView)
+       
+      self.contentView.addSubviews(topLabel,
+                                   createCourseView,
+                                   viewedCourseView)
+       
       self.createCourseView.addSubviews(createCourseLabel, arrowButton)
    }
    
    override func setLayout() {
+       loadingView.snp.makeConstraints {
+           $0.edges.equalToSuperview()
+       }
+       
+       contentView.snp.makeConstraints {
+           $0.edges.equalToSuperview()
+       }
+       
       topLabel.snp.makeConstraints {
          $0.top.equalToSuperview().inset(82)
          $0.leading.equalToSuperview().inset(16)
@@ -99,7 +113,7 @@ class ViewedCourseViewController: BaseViewController {
          $0.width.equalTo(45)
          $0.height.equalTo(26)
       }
-   }
+    }
    
    override func setStyle() {
       self.view.backgroundColor = UIColor(resource: .drWhite)
@@ -136,19 +150,21 @@ class ViewedCourseViewController: BaseViewController {
 
 private extension ViewedCourseViewController {
    func setEmptyView() {
-      let isEmpty = viewedCourseViewModel.viewedCourseData.value?.count == 0 ? true : false
-    let name =  UserDefaults.standard.string(forKey: "userName") ?? ""
-       topLabel.text = "\(name)님,\n아직 열람한\n데이트코스가 없어요"
-      createCourseView.isHidden = isEmpty
-      viewedCourseView.emptyView.snp.makeConstraints {
-         $0.top.equalToSuperview()
-      }
-      viewedCourseView.emptyView.do {
-         $0.isHidden = !isEmpty
-         $0.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
-                         emptyTitle: StringLiterals.EmptyView.emptyViewedCourse)
-      }
-      self.viewedCourseView.myCourseListCollectionView.reloadData()
+       var isEmpty = (viewedCourseViewModel.viewedCourseData.value?.count == 0)
+       viewedCourseView.emptyView.isHidden = !isEmpty
+
+       if isEmpty {
+           let name =  UserDefaults.standard.string(forKey: "userName") ?? ""
+           topLabel.text = "\(name)님,\n아직 열람한\n데이트코스가 없어요"
+           createCourseView.isHidden = isEmpty
+           viewedCourseView.emptyView.snp.makeConstraints {
+               $0.top.equalToSuperview()
+           }
+           viewedCourseView.emptyView.do {
+               $0.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
+                             emptyTitle: StringLiterals.EmptyView.emptyViewedCourse)
+           }
+       }
    }
 }
 
@@ -166,18 +182,37 @@ extension ViewedCourseViewController {
            }
        }
        
+       self.viewedCourseViewModel.onViewedCourseFailNetwork.bind { [weak self] onFailure in
+           guard let onFailure else { return }
+           if onFailure {
+               self?.loadingView.isHidden = true
+               let errorVC = DRErrorViewController()
+               self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
+       }
+
+       self.viewedCourseViewModel.onViewedCourseLoading.bind { [weak self] onLoading in
+           guard let onLoading, let onFailNetwork = self?.viewedCourseViewModel.onViewedCourseFailNetwork.value else { return }
+           if !onFailNetwork {
+               self?.loadingView.isHidden = !onLoading
+               self?.contentView.isHidden = onLoading
+           }
+       }
+       
       self.viewedCourseViewModel.isSuccessGetViewedCourseInfo.bind { [weak self] isSuccess in
          guard let isSuccess else { return }
          if isSuccess {
-            
             self?.topLabel.do {
                 let name =  UserDefaults.standard.string(forKey: "userName") ?? ""
-               $0.font = UIFont.suit(.title_extra_24)
+                $0.font = UIFont.suit(.title_extra_24)
                 $0.setAttributedText(fullText: "\(name)님이 지금까지\n열람한 데이트 코스\n\(self?.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개", pointText: "\(self?.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)", pointColor: UIColor(resource: .mediumPurple), lineHeight: 1)
-               $0.numberOfLines = 3
+                $0.numberOfLines = 3
             }
+             self?.viewedCourseView.myCourseListCollectionView.reloadData()
+             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                 self?.viewedCourseViewModel.setViewedCourseLoading()
+             }
              self?.setEmptyView()
-
          }
       }
       
@@ -208,9 +243,9 @@ extension ViewedCourseViewController {
 // MARK: - Delegate
 
 extension ViewedCourseViewController : UICollectionViewDelegateFlowLayout {
-   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-      return CGSize(width: ScreenUtils.width, height: 140)
-   }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: ScreenUtils.width, height: 140)
+    }
 }
 
 // MARK: - DataSource

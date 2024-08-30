@@ -177,6 +177,14 @@ extension MainViewController {
         self.mainView.floatingButton.addTarget(self, action: #selector(pushToAddCourseVC), for: .touchUpInside)
     }
     
+    func setLoadingView(row: Int, section: Int) {
+        if row == self.mainView.mainCollectionView.numberOfItems(inSection: section) - 1 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.mainViewModel.setLoading()
+            }
+        }
+    }
+    
     func updateBannerCell(index: Int, count: Int) {
         guard let bannerIndexView = self.mainView.mainCollectionView.supplementaryView(forElementKind: BannerIndexFooterView.elementKinds, at: IndexPath(item: 0, section: 2)) as? BannerIndexFooterView
         else { return }
@@ -216,12 +224,6 @@ extension MainViewController {
     }
     
     @objc
-    func dismissView() {
-        let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
-        self.navigationController?.pushViewController(addCourseVC, animated: false)
-    }
-    
-    @objc
     func pushToAddCourseVC() {
         let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
         self.navigationController?.pushViewController(addCourseVC, animated: false)
@@ -235,10 +237,9 @@ extension MainViewController {
     @objc
     func pushToDateDetailVC(_ sender: UIButton) {
         let dateID = sender.tag
-        let upcomingDateDetailVC = UpcomingDateDetailViewController()
-        upcomingDateDetailVC.upcomingDateDetailViewModel = DateDetailViewModel(dateID: dateID)
+        let upcomingDateDetailVC = UpcomingDateDetailViewController(dateID: dateID, upcomingDateDetailViewModel: DateDetailViewModel())
         upcomingDateDetailVC.setColor(index: dateID)
-        self.navigationController?.pushViewController(upcomingDateDetailVC, animated: true)
+        self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
     }
     
     @objc
@@ -256,9 +257,9 @@ extension MainViewController {
     }
     
     @objc 
-    func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+    func handleLongPress(_ gestureRecognizer: UISwipeGestureRecognizer) {
         switch gestureRecognizer.state {
-        case .began, .changed:
+        case .began, .changed, .ended:
             stopBannerAutoScroll()
         default:
             startAutoScrollTimer()
@@ -271,14 +272,6 @@ extension MainViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentOffsetY = scrollView.contentOffset.y
         mainView.mainCollectionView.backgroundColor = contentOffsetY < 0 ? UIColor(resource: .deepPurple) : UIColor(resource: .drWhite)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.mainViewModel.setLoading()
-            }
-        }
     }
     
 }
@@ -315,26 +308,27 @@ extension MainViewController: UICollectionViewDataSource {
             cell.dateTicketView.moveButton.tag = mainViewModel.upcomingData.value?.dateId ?? 0
             cell.dateTicketView.moveButton.addTarget(self, action: #selector(pushToDateDetailVC(_:)), for: .touchUpInside)
             cell.emptyTicketView.moveButton.addTarget(self, action: #selector(pushToDateScheduleVC), for: .touchUpInside)
-
+            setLoadingView(row: indexPath.row, section: indexPath.section)
             return cell
             
         case .hotDateCourse:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell else { return UICollectionViewCell() }
             cell.bindData(hotDateData: mainViewModel.hotCourseData.value?[indexPath.row])
+            setLoadingView(row: indexPath.row, section: indexPath.section)
             return cell
             
         case .banner:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell else { return UICollectionViewCell() }
             cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
-            if indexPath.section == 2 {
-                let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-                cell.addGestureRecognizer(longPressGesture)
-            }
+            let longPressGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+            cell.addGestureRecognizer(longPressGesture)
+            setLoadingView(row: indexPath.row, section: indexPath.section)
             return cell
             
         case .newDateCourse:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell else { return UICollectionViewCell() }
             cell.bindData(newDateData: mainViewModel.newCourseData.value?[indexPath.row])
+            setLoadingView(row: indexPath.row, section: indexPath.section)
             return cell
         }
     }
@@ -370,11 +364,11 @@ extension MainViewController: UICollectionViewDataSource {
         switch self.mainViewModel.sectionData[indexPath.section] {
         case .hotDateCourse:
             let courseId = mainViewModel.hotCourseData.value?[indexPath.item].courseId ?? 0
-            self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
+            self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
             
         case .newDateCourse:
             let courseId = mainViewModel.newCourseData.value?[indexPath.item].courseId ?? 0
-            self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: true)
+            self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
             
         case .banner:
             let id = mainViewModel.bannerData.value?[indexPath.item].advertisementId ?? 1
