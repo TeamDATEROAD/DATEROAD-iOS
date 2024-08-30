@@ -16,6 +16,10 @@ class PointDetailViewController: BaseNavBarViewController {
     
     private let pointDetailView = PointDetailView()
     
+    private let loadingView: DRLoadingView = DRLoadingView()
+    
+    private let errorView: DRErrorViewController = DRErrorViewController()
+    
     // MARK: - Properties
     
     private var pointViewModel: PointViewModel
@@ -32,47 +36,26 @@ class PointDetailViewController: BaseNavBarViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
+        self.pointViewModel.setPointDetailLoading()
+        self.pointViewModel.getPointDetail()
+//        print("1")
+//        self.pointViewModel.updateData(nowEarnedPointHidden: false)
+//        print("3")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setLeftBackButton()
         setTitleLabelStyle(title: StringLiterals.PointDetail.title, alignment: .center)
-        setProfile(userName: pointViewModel.userName, totalPoint: pointViewModel.totalPoint)
+        setProfile(userName: pointViewModel.userName, 
+                   totalPoint: pointViewModel.totalPoint)
+        bindViewModel()
         registerCell()
         setDelegate()
         setAddTarget()
-        bindViewModel()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = true
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-       self.pointViewModel.isChange.bind { [weak self] isSuccess in
-          guard let isSuccess else {return}
-          if isSuccess == true {
-             self?.pointDetailView.pointCollectionView.reloadData()
-//             if pointViewModel.nowPointData.value.count == 0 {
-////                setSegmentViewHidden(pointDetailView.emptyGainedPointView)
-//                changeSelectedSegmentLayout
-//             } else {
-//
-//             }
-             self?.changeSelectedSegmentLayout(isEarnedPointHidden: false)
-             
-
-          } else {
-             print("SDAfsdafsdafsdafdsafsdafsadfsad")
-          }
-       }
-       
-       setDelegate()
-       setAddTarget()
-       bindViewModel()
-        pointViewModel.getPointDetail(nowEarnedPointHidden: false)
-//       bindViewModel()
-       
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -82,11 +65,17 @@ class PointDetailViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
+        self.view.addSubviews(loadingView)
+        
         self.contentView.addSubviews(pointDetailView)
     }
     
     override func setLayout() {
         super.setLayout()
+        
+        loadingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         pointDetailView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -107,11 +96,38 @@ extension PointDetailViewController {
             }
         }
         
-        // 선택된 내역의 데이터
-        self.pointViewModel.nowPointData.bind { [weak self] data in
-            print("좀 되라 \(data)")
-            self?.pointDetailView.pointCollectionView.reloadData()
+        self.pointViewModel.onFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+            if onFailure {
+                self?.loadingView.isHidden = true
+                let errorVC = DRErrorViewController()
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
         }
+
+        self.pointViewModel.onLoading.bind { [weak self] onLoading in
+            guard let onLoading, let onFailNetwork = self?.pointViewModel.onFailNetwork.value else { return }
+            if !onFailNetwork {
+                self?.loadingView.isHidden = !onLoading
+                self?.pointDetailView.isHidden = onLoading
+            }
+        }
+        
+        self.pointViewModel.isSuccessGetPointInfo.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                print("2")
+                self?.pointDetailView.pointCollectionView.reloadData()
+                print("2.1")
+                self?.pointViewModel.updateData(nowEarnedPointHidden: false)
+                print("2.2")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self?.pointViewModel.setPointDetailLoading()
+                    print("2.3")
+                }
+            }
+        }
+        
     }
     
     func setProfile(userName: String, totalPoint: Int) {
@@ -206,6 +222,8 @@ extension PointDetailViewController : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PointCollectionViewCell.cellIdentifier, for: indexPath) as? PointCollectionViewCell else { return UICollectionViewCell() }
 //        pointViewModel.updateData(nowEarnedPointHidden: pointViewModel.isEarnedPointHidden.value ?? false)
+        print("컬뷰왓어염 ㅋㅋㅋㅋㅋ")
+        print(pointViewModel.nowPointData.value)
         let data = pointViewModel.nowPointData.value?[indexPath.item] ?? PointDetailModel(sign: "", point: 0, description: "", createdAt: "")
         cell.dataBind(data, indexPath.item)
 //        cell.prepareForReuse()
