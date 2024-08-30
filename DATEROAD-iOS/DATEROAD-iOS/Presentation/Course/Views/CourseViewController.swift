@@ -62,7 +62,6 @@ final class CourseViewController: BaseViewController {
     }
     
     override func setLayout() {
-        
         loadingView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -117,7 +116,6 @@ final class CourseViewController: BaseViewController {
         
         courseViewModel.isSuccessGetData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
-//            self?.courseViewModel.setLoading()
 
             if isSuccess {
                 self?.courseView.courseListView.courseListCollectionView.reloadData()
@@ -214,7 +212,6 @@ extension CourseViewController: LocationFilterDelegate {
     
     func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
         let cityName = String(city.rawValue.split(separator: ".").first ?? "")
-        print(cityName,"⚽️")
         courseViewModel.selectedCityName.value = cityName
         
         self.courseView.courseFilterView.locationFilterButton.do {
@@ -250,7 +247,7 @@ extension CourseViewController: UICollectionViewDelegate {
                 self.courseView.isHidden = true
                 self.tabBarController?.tabBar.isHidden = true
 
-                // 3초 후에 로딩 뷰 숨기고, 마지막 셀 표시
+                // 3초 후에 로딩 뷰 숨기고 마지막 셀 표시
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
                     self?.loadingView.isHidden = true
                     self?.courseView.isHidden = false
