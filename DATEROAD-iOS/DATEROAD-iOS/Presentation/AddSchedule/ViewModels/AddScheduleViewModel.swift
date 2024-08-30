@@ -10,7 +10,7 @@ import UIKit
 final class AddScheduleViewModel: Serviceable {
    var isImporting = false
    var viewedDateCourseByMeData: CourseDetailViewModel?
-   var ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
+   let ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
    
    var pastDatePlaces = [TimelineModel]()
    
@@ -21,28 +21,31 @@ final class AddScheduleViewModel: Serviceable {
    //MARK: - AddFirstCourse 사용되는 ViewModel
    
    /// 데이트 이름 유효성 판별 (true는 통과)
-   var dateName: ObservablePattern<String> = ObservablePattern("")
-   var isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   let dateName: ObservablePattern<String> = ObservablePattern("")
+   let isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   private let minimumDateNameLength = 5
    
    /// 방문 일자 유효성 판별 (true는 통과)
-   var visitDate: ObservablePattern<String> = ObservablePattern(nil)
-   var isVisitDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   let visitDate: ObservablePattern<String> = ObservablePattern(nil)
+   let isVisitDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    /// 데이트 시작시간 유효성 판별 (self.count > 0 인지)
-   var dateStartAt: ObservablePattern<String> = ObservablePattern(nil)
-   var isDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   let dateStartAt: ObservablePattern<String> = ObservablePattern(nil)
+   let isDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    /// 코스 등록 태그 생성
    var tagData: [ProfileTagModel] = []
    
    // 선택된 태그
-   var isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
-   var isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
-   var tagCount: ObservablePattern<Int> = ObservablePattern(0)
+   let isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
+   let isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
+   let tagCount: ObservablePattern<Int> = ObservablePattern(0)
+   private let minTagCnt = 1
+   private let maxTagCnt = 3
    
    /// 코스 지역 유효성 판별
-   var dateLocation: ObservablePattern<String> = ObservablePattern("")
-   var isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   let dateLocation: ObservablePattern<String> = ObservablePattern("")
+   let isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    var country = ""
    var city = ""
@@ -54,21 +57,27 @@ final class AddScheduleViewModel: Serviceable {
    
    var addPlaceCollectionViewDataSource: [AddCoursePlaceModel] = []
    
-   var changeTableViewData: ObservablePattern<Int> = ObservablePattern(0)
+   let changeTableViewData: ObservablePattern<Int> = ObservablePattern(0)
    
-   var datePlace: ObservablePattern<String> = ObservablePattern("")
+   let datePlace: ObservablePattern<String> = ObservablePattern("")
    
-   var timeRequire: ObservablePattern<String> = ObservablePattern("")
+   let timeRequire: ObservablePattern<String> = ObservablePattern("")
    
-   var isValidOfSecondNextBtn: ObservablePattern<Bool> = ObservablePattern(false)
+   let isValidOfSecondNextBtn: ObservablePattern<Bool> = ObservablePattern(false)
    
-   var editBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
+   let editBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
    
    var isChange: (() -> Void)?
    
    var isEditMode: Bool = false
    
-   var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+   let onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+   
+   let isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(nil)
+   
+   let onLoading: ObservablePattern<Bool> = ObservablePattern(nil)
+
+   let onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
    
    
    init() {
@@ -111,7 +120,7 @@ extension AddScheduleViewModel {
                
                print("pastDateTagIndex values: \(pastDateTagIndex)")
                
-               checkTagCount()
+               checkTagCount(min: minTagCnt, max: maxTagCnt)
                
                isDateNameVaild.value = true
                isDateStartAtVaild.value = true
@@ -137,35 +146,18 @@ extension AddScheduleViewModel {
    //MARK: - AddSchedule First 함수
    
    func satisfyDateName(str: String) {
-      let flag = (str.count >= 5) ? true : false
-      isDateNameVaild.value = flag
+      isDateNameVaild.value = str.count >= minimumDateNameLength
    }
    
    func isFutureDate(date: Date, dateType: String) {
-      let dateFormatter = DateFormatter()
-      
       if dateType == "date" {
-         dateFormatter.dateFormat = "yyyy.MM.dd"
-         
-         let formattedDate = dateFormatter.string(from: date)
+         let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: date)
          visitDate.value = formattedDate
-         
-         let dateStr = visitDate.value ?? ""
-         let today = Date()
-         let selectedDate = dateFormatter.date(from: dateStr)
-         
-         // 현재 selectedDate가 미래 일자가 아니라면 true
-         //         let flag = (selectedDate ?? today) <= today
-         
          self.isVisitDateVaild.value = true
       } else {
-         dateFormatter.dateStyle = .none
-         dateFormatter.timeStyle = .short
-         dateFormatter.dateFormat = "hh:mm a"
-         let formattedDate = dateFormatter.string(from: date)
+         let formattedDate = DateFormatterManager.shared.timeFormatter.string(from: date)
          dateStartAt.value = formattedDate
-         let flag = ((dateStartAt.value?.count ?? 0) > 0) ? true : false
-         self.isDateStartAtVaild.value = flag
+         self.isDateStartAtVaild.value = !(dateStartAt.value?.isEmpty ?? true)
       }
    }
    
@@ -184,20 +176,20 @@ extension AddScheduleViewModel {
          }
       }
       
-      checkTagCount()
+      checkTagCount(min: minTagCnt, max: maxTagCnt)
    }
    
    
-   func checkTagCount() {
+   func checkTagCount(min: Int, max: Int) {
       let count = selectedTagData.count
       self.tagCount.value = count
       
-      if count >= 1 && count <= 3 {
+      if count >= min && count <= max {
          self.isValidTag.value = true
          self.isOverCount.value = false
       } else {
          self.isValidTag.value = false
-         if count > 3 {
+         if count > max {
             self.isOverCount.value = true
          }
       }
@@ -205,7 +197,7 @@ extension AddScheduleViewModel {
    }
    
    func satisfyDateLocation(str: String) {
-      let flag = (str.count > 0) ? true : false
+      let flag = !str.isEmpty
       isDateLocationVaild.value = flag
    }
    
@@ -243,11 +235,8 @@ extension AddScheduleViewModel {
    }
    
    func isAbleAddBtn() -> Bool {
-      if (datePlace.value?.count != 0) && (timeRequire.value?.count != 0) {
-         return true
-      } else {
-         return false
-      }
+      return !(datePlace.value?.isEmpty ?? true)
+      && !(timeRequire.value?.isEmpty ?? true)
    }
    
    func tapAddBtn(datePlace: String, timeRequire: String) {
@@ -272,7 +261,23 @@ extension AddScheduleViewModel {
       editBtnEnableState.value = flag
    }
    
+   /// 로딩뷰 세팅 함수
+   func setLoading() {
+      guard let isSuccessGetData = self.isSuccessGetData.value else {
+         return
+      }
+      
+      if isSuccessGetData {
+         self.onLoading.value = false
+      } else {
+         self.onLoading.value = true
+      }
+   }
+   
    func postAddScheduel() {
+      self.isSuccessGetData.value = false
+      self.setLoading()
+      
       var places: [PostAddSchedulePlace] = []
       
       for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
@@ -312,6 +317,9 @@ extension AddScheduleViewModel {
             switch result {
             case .success(let response):
                print("Success: \(response)")
+               self.isSuccessGetData.value = true
+            case .serverErr:
+               self.onFailNetwork.value = true
             case .reIssueJWT:
                self.onReissueSuccess.value = self.patchReissue()
             default:
