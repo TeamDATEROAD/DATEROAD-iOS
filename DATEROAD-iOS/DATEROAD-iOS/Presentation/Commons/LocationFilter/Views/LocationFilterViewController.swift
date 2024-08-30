@@ -139,7 +139,11 @@ extension LocationFilterViewController: LocationFilterViewDelegate {
               let selectedCityIndex = courseViewModel.selectedCityIndex.value else { return }
         
         let selectedCountry = courseViewModel.countryData[selectedCountryIndex]
-        let selectedCity = courseViewModel.cityData[selectedCityIndex]
+       var selectedCity = courseViewModel.cityData[selectedCityIndex]
+       if selectedCountry.rawValue != "인천" {
+          selectedCity = isAddType ? courseViewModel.cityData[selectedCityIndex+1] :
+          courseViewModel.cityData[selectedCityIndex]
+       }
    
         delegate?.didSelectCity(selectedCountry, selectedCity)
         delegate?.getCourse()

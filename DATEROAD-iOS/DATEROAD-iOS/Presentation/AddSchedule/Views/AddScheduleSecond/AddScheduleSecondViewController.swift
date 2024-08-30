@@ -20,6 +20,10 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
    
    private var alertVC: AddScheduleBottomSheetViewController?
    
+   private let loadingView: DRLoadingView = DRLoadingView()
+   
+   private let errorView: DRErrorViewController = DRErrorViewController()
+   
    
    // MARK: - Initializer
    
@@ -58,11 +62,15 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
       super.setHierarchy()
       
       self.view.addSubview(contentView)
-      contentView.addSubview(addScheduleSecondView)
+      contentView.addSubviews(loadingView, addScheduleSecondView)
    }
    
    override func setLayout() {
       super.setLayout()
+      
+      loadingView.snp.makeConstraints {
+         $0.edges.equalToSuperview()
+      }
       
       addScheduleSecondView.snp.makeConstraints {
          $0.top.equalToSuperview().offset(4)
@@ -76,6 +84,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
       
       addScheduleSecondView.do {
          $0.isUserInteractionEnabled = true
+         $0.backgroundColor = UIColor(resource: .drWhite)
       }
    }
    
@@ -115,15 +124,44 @@ private extension AddScheduleSecondViewController {
    }
    
    func bindViewModel() {
-       self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
-           guard let onSuccess else { return }
-           if onSuccess {
-               // TODO: - 서버 통신 재시도
-           } else {
-               self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
-           }
-       }
-       
+      self.viewModel.isSuccessGetData.bind { [weak self] isSuccess in
+         guard let isSuccess else { return }
+         if isSuccess {
+            self?.viewModel.onLoading.value = false
+         }
+      }
+      
+      self.viewModel.onFailNetwork.bind { [weak self] onFailure in
+         guard let onFailure else { return }
+         if onFailure {
+            let errorVC = DRErrorViewController()
+            self?.navigationController?.pushViewController(errorVC, animated: false)
+         }
+      }
+
+      self.viewModel.onLoading.bind { [weak self] onLoading in
+         guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
+         
+         if !onFailNetwork {
+            self?.loadingView.isHidden = !onLoading
+            self?.addScheduleSecondView.isHidden = onLoading
+            self?.tabBarController?.tabBar.isHidden = onLoading
+         }
+         
+         if !onLoading {
+            self?.successDone()
+         }
+      }
+      
+      self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
+         guard let onSuccess else { return }
+         if onSuccess {
+            // TODO: - 서버 통신 재시도
+         } else {
+            self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+         }
+      }
+      
       viewModel.isDataSourceNotEmpty()
       
       viewModel.editBtnEnableState.bind { [weak self] date in
@@ -179,10 +217,10 @@ private extension AddScheduleSecondViewController {
       self.present(customAlertVC, animated: false)
    }
    
-   func goBackOriginVC() {
-         let tabbarVC = TabBarController()
-      tabbarVC.selectedIndex = 2
-      navigationController?.pushViewController(tabbarVC, animated: false)
+   func goBackOriginVCForAddSchedule() {
+       let tabbarVC = TabBarController()
+       tabbarVC.selectedIndex = 2
+       navigationController?.popToPreviousViewController(ofType: AddScheduleFirstViewController.self, defaultViewController: tabbarVC)
    }
    
    
@@ -196,7 +234,6 @@ private extension AddScheduleSecondViewController {
    @objc
    func didTapNextBtn() {
       viewModel.postAddScheduel()
-      successDone()
    }
    
    @objc
@@ -394,7 +431,7 @@ extension AddScheduleSecondViewController: UICollectionViewDragDelegate {
 extension AddScheduleSecondViewController: DRCustomAlertDelegate {
    
    func exit() {
-      goBackOriginVC()
+      goBackOriginVCForAddSchedule()
    }
    
 }

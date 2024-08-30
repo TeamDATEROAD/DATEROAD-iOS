@@ -18,6 +18,10 @@ class AddCourseThirdViewController: BaseNavBarViewController {
    
    private let viewModel: AddCourseViewModel
    
+   private let loadingView: DRLoadingView = DRLoadingView()
+   
+   private let errorView: DRErrorViewController = DRErrorViewController()
+   
    private var keyboardHeight: CGFloat = 0.0
    
    
@@ -59,11 +63,15 @@ class AddCourseThirdViewController: BaseNavBarViewController {
       super.setHierarchy()
       
       self.view.addSubview(contentView)
-      contentView.addSubview(addCourseThirdView)
+      contentView.addSubviews(loadingView, addCourseThirdView)
    }
    
    override func setLayout() {
       super.setLayout()
+      
+      loadingView.snp.makeConstraints {
+         $0.edges.equalToSuperview()
+      }
       
       addCourseThirdView.snp.makeConstraints {
          $0.top.equalToSuperview().offset(4)
@@ -77,6 +85,7 @@ class AddCourseThirdViewController: BaseNavBarViewController {
       
       addCourseThirdView.do {
          $0.isUserInteractionEnabled = true
+         $0.backgroundColor = UIColor(resource: .drWhite)
       }
    }
    
@@ -86,6 +95,7 @@ class AddCourseThirdViewController: BaseNavBarViewController {
 // MARK: - ViewController Methods
 
 extension AddCourseThirdViewController {
+   
    @objc private func keyboardWillShow(_ notification: Notification) {
       if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
          keyboardHeight = keyboardSize.height
@@ -130,7 +140,43 @@ extension AddCourseThirdViewController {
       addCourseThirdView.addThirdView.addThirdDoneBtn.addTarget(self, action: #selector(didTapAddCourseBtn), for: .touchUpInside)
    }
    
+   func successDone() {
+      let customAlertVC = DRCustomAlertViewController(rightActionType: .none, alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertTitleLabel, descriptionText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertSubTitleLabel, longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton)
+      customAlertVC.delegate = self
+      customAlertVC.modalPresentationStyle = .overFullScreen
+      self.present(customAlertVC, animated: false)
+   }
+   
    private func bindViewModel() {
+      self.viewModel.isSuccessGetData.bind { [weak self] isSuccess in
+         guard let isSuccess else { return }
+         if isSuccess {
+            self?.viewModel.onLoading.value = false
+         }
+      }
+      
+      self.viewModel.onFailNetwork.bind { [weak self] onFailure in
+         guard let onFailure else { return }
+         if onFailure {
+            let errorVC = DRErrorViewController()
+            self?.navigationController?.pushViewController(errorVC, animated: false)
+         }
+      }
+
+      self.viewModel.onLoading.bind { [weak self] onLoading in
+         guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
+         
+         if !onFailNetwork {
+            self?.loadingView.isHidden = !onLoading
+            self?.addCourseThirdView.isHidden = onLoading
+            self?.tabBarController?.tabBar.isHidden = onLoading
+         }
+         
+         if !onLoading {
+            self?.successDone()
+         }
+      }
+      
        self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
            guard let onSuccess else { return }
            if onSuccess {
@@ -161,10 +207,10 @@ extension AddCourseThirdViewController {
       }
    }
    
-   func goBackOriginVC() {
-         let tabbarVC = TabBarController()
-      tabbarVC.selectedIndex = 1
-      navigationController?.pushViewController(tabbarVC, animated: false)
+   func goBackOriginVCForAddCourse() {
+       let tabbarVC = TabBarController()
+       tabbarVC.selectedIndex = 1
+       navigationController?.popToPreviousViewController(ofType: AddCourseFirstViewController.self, defaultViewController: tabbarVC)
    }
    
 }
@@ -272,14 +318,10 @@ extension AddCourseThirdViewController: DRCustomAlertDelegate {
    @objc
    private func didTapAddCourseBtn() {
       viewModel.postAddCourse()
-      let customAlertVC = DRCustomAlertViewController(rightActionType: .none, alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertTitleLabel, descriptionText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertSubTitleLabel, longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton)
-      customAlertVC.delegate = self
-      customAlertVC.modalPresentationStyle = .overFullScreen
-      self.present(customAlertVC, animated: false)
    }
    
    func exit() {
-      goBackOriginVC()
+      goBackOriginVCForAddCourse()
    }
    
 }
