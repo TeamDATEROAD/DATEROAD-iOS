@@ -264,34 +264,61 @@ private extension AddCourseFirstViewController {
       imagePickerViewController.presentPicker(from: self)
    }
    
+//   @objc
+//   func didTapTagButton(_ sender: UIButton) {
+//      guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
+//      
+//      let maxTags = 3
+//      
+//      // 3이 아닐 때
+//      if self.viewModel.selectedTagData.count != maxTags {
+//         sender.isSelected.toggle()
+//         sender.isSelected ? self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
+//         : self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: UnselectedButton())
+//         self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
+//         self.viewModel.isValidTag.value = true
+//      }
+//      // 그 외
+//      else {
+//         if sender.isSelected {
+//            sender.isSelected.toggle()
+//            self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType:  UnselectedButton())
+//            self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
+//            self.viewModel.isValidTag.value = true
+//         }
+//      }
+//   }
    @objc
    func didTapTagButton(_ sender: UIButton) {
       guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
-      
       let maxTags = 3
       
-      // 3이 아닐 때
-      if self.viewModel.selectedTagData.count != maxTags {
-         sender.isSelected.toggle()
-         sender.isSelected ? self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
-         : self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: UnselectedButton())
-         self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
-         self.viewModel.isValidTag.value = true
-      }
-      // 그 외
-      else {
-         if sender.isSelected {
-            sender.isSelected.toggle()
-            self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType:  UnselectedButton())
-            self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
-            self.viewModel.isValidTag.value = true
+      if sender.isSelected {
+         // 이미 선택된 태그를 해제하는 로직
+         sender.isSelected = false
+         self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: UnselectedButton())
+         self.viewModel.countSelectedTag(isSelected: false, tag: tag)
+      } else {
+         // 새로 선택하는 태그가 최대 개수 이내일 때만 처리
+         if self.viewModel.selectedTagData.count < maxTags {
+            sender.isSelected = true
+            self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
+            self.viewModel.countSelectedTag(isSelected: true, tag: tag)
          }
       }
+      
+      self.viewModel.isValidTag.value = true
    }
+
    
+//   @objc
+//   func importingTagBtn(_ sender: UIButton) {
+//      guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
+//      self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
+//      self.viewModel.isValidTag.value = true
+//   }
    @objc
    func importingTagBtn(_ sender: UIButton) {
-      guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
       self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
       self.viewModel.isValidTag.value = true
    }
@@ -394,8 +421,16 @@ extension AddCourseFirstViewController: UICollectionViewDataSource, UICollection
          cell.updateButtonTitle(tag: self.viewModel.tagData[indexPath.item])
          cell.tendencyTagButton.tag = indexPath.item
          cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
+         
+//         if viewModel.pastDateTagIndex.contains(cell.tendencyTagButton.tag) {
+//            importingTagBtn(cell.tendencyTagButton)
+//         }
          if viewModel.pastDateTagIndex.contains(cell.tendencyTagButton.tag) {
-            importingTagBtn(cell.tendencyTagButton)
+             cell.tendencyTagButton.isSelected = true
+             self.addCourseFirstView.addFirstView.updateTag(button: cell.tendencyTagButton, buttonType: SelectedButton())
+         } else {
+            cell.tendencyTagButton.isSelected = false
+            self.addCourseFirstView.addFirstView.updateTag(button: cell.tendencyTagButton, buttonType: UnselectedButton())
          }
          
          return cell

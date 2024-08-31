@@ -118,13 +118,11 @@ class ContentMaskView: UICollectionReusableView {
         gradient.locations = [0, 1]
         gradient.frame = gradientView.bounds
         gradient.colors = [
-            UIColor(resource: .drWhite).withAlphaComponent(1).cgColor,
-            UIColor(resource: .drWhite).withAlphaComponent(0.7).cgColor,
-            UIColor(resource: .drWhite).withAlphaComponent(0.2).cgColor,
-            UIColor(resource: .drWhite).withAlphaComponent(0).cgColor
-                ]
-        gradient.startPoint = CGPoint(x: 0.5, y: 0.7)
-        gradient.endPoint = CGPoint(x: 0.5, y: 0.09)
+            UIColor(resource: .drWhite).withAlphaComponent(0.3).cgColor,
+            UIColor(resource: .drWhite).withAlphaComponent(0.7).cgColor
+        ]
+        gradient.startPoint = CGPoint(x: 0.5, y: 0)
+        gradient.endPoint = CGPoint(x: 0.5, y: 0.03)
         gradientView.layer.insertSublayer(gradient, at: 0)
     }
     
@@ -137,6 +135,10 @@ class ContentMaskView: UICollectionReusableView {
     func didReadCourseButton() {
         delegate?.didTapViewButton()
     }
+    
+}
+
+extension ContentMaskView {
     
     func checkFree(haveFree: Bool, count: Int) {
         if haveFree {

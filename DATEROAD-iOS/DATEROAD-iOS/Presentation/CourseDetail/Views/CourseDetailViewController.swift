@@ -69,7 +69,11 @@ final class CourseDetailViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(loadingView, courseDetailView, courseInfoTabBarView)
+        self.view.addSubviews(
+            loadingView,
+            courseDetailView,
+            courseInfoTabBarView
+        )
     }
     
     override func setLayout() {
@@ -90,7 +94,6 @@ final class CourseDetailViewController: BaseViewController {
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(108)
         }
-        
     }
     
     func setDelegate() {
@@ -169,6 +172,7 @@ final class CourseDetailViewController: BaseViewController {
                 self?.localLikeNum = self?.courseDetailViewModel.likeSum.value ?? 0
                 self?.setSetctionCount()
                 self?.setTabBarVisibility()
+                self?.setNavBarVisibility()
                 self?.courseDetailView.mainCollectionView.reloadData()
             }
         }
@@ -234,13 +238,12 @@ extension CourseDetailViewController: DRCustomAlertDelegate {
                 showPointAlert()
             }
         }
-        
+        setNavBarVisibility()
         setSetctionCount()
         setTabBarVisibility()
     }
     
     private func deleteCourse() {
-        print("삭제")
         self.dismiss(animated: true)
         courseDetailViewModel.deleteCourse { [weak self] success in
             DispatchQueue.main.async {
@@ -421,6 +424,10 @@ private extension CourseDetailViewController {
     func setSetctionCount() {
         courseDetailViewModel.setNumberOfSections(courseDetailViewModel.isAccess.value == true ? 6 : 3)
         courseDetailView.mainCollectionView.reloadData()
+    }
+    
+    func setNavBarVisibility() {
+        courseDetailView.stickyHeaderNavBarView.moreButton.isHidden = !(courseDetailViewModel.isAccess.value ?? false)
     }
     
     func setTabBarVisibility() {
