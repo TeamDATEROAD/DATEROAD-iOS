@@ -79,7 +79,8 @@ final class AddSecondView: BaseView {
       
       datePlaceTextField.snp.makeConstraints {
          $0.verticalEdges.leading.equalToSuperview()
-         $0.width.equalTo(ScreenUtils.width*0.55)
+//         $0.width.equalTo(ScreenUtils.width*0.55)
+         $0.width.equalTo(206)
       }
       
       addPlaceButton.snp.makeConstraints {
@@ -91,7 +92,10 @@ final class AddSecondView: BaseView {
       timeRequireTextField.snp.makeConstraints {
          $0.verticalEdges.equalToSuperview()
          $0.leading.equalTo(datePlaceTextField.snp.trailing).offset(8)
-         $0.width.equalTo(ScreenUtils.width*0.225).priority(.low)
+         $0.trailing.equalTo(addPlaceButton.snp.leading).offset(-8)
+//         $0.verticalEdges.equalToSuperview()
+//         $0.leading.equalTo(datePlaceTextField.snp.trailing).offset(8)
+//         $0.width.equalTo(ScreenUtils.width*0.225).priority(.low)
       }
       
       separatorLine.snp.makeConstraints {
@@ -130,7 +134,7 @@ final class AddSecondView: BaseView {
          $0.setPlaceholder(
             placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.datePlacePlaceHolder,
             fontColor: UIColor(resource: .gray300),
-            font: .suit(.body_semi_13)
+            font: UIFont.suit(.body_semi_13)
          )
          $0.setLeftPadding(amount: 14)
          $0.textAlignment = .left
@@ -145,7 +149,7 @@ final class AddSecondView: BaseView {
          $0.setPlaceholder(
             placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder,
             fontColor: UIColor(resource: .gray300),
-            font: .suit(.body_semi_13)
+            font: UIFont.suit(.body_semi_13)
          )
          $0.textAlignment = .center
          $0.backgroundColor = UIColor(resource: .gray100)
@@ -180,6 +184,16 @@ final class AddSecondView: BaseView {
 // MARK: - View Methods
 
 extension AddSecondView {
+   
+   func updateDatePlace(text: String) {
+      datePlaceTextField.text = text
+      datePlaceTextField.font = UIFont.suit(.body_semi_13)
+   }
+   
+   func updatetimeRequire(text: String) {
+      timeRequireTextField.text = text
+      timeRequireTextField.font = UIFont.suit(.body_semi_13)
+   }
    
    func changeAddPlaceButtonState(flag: Bool) {
       let state = flag ? enabledButtonType : addCourseDisabledButtonType

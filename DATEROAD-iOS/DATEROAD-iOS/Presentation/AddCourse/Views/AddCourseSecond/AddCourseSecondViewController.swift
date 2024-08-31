@@ -134,14 +134,16 @@ private extension AddCourseSecondViewController {
       }
       
       viewModel.datePlace.bind { [weak self] date in
-          self?.addCourseSecondView.addSecondView.datePlaceTextField.text = date
+         guard let text = date else {return}
+         self?.addCourseSecondView.addSecondView.updateDatePlace(text: text)
           if let flag = self?.viewModel.isAbleAddBtn() {
               self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: flag)
           }
       }
       
       viewModel.timeRequire.bind { [weak self] date in
-         self?.addCourseSecondView.addSecondView.timeRequireTextField.text = date
+         guard let text = date else {return}
+         self?.addCourseSecondView.addSecondView.updatetimeRequire(text: text)
          if let flag = self?.viewModel.isAbleAddBtn() {
             self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: flag)
          }
