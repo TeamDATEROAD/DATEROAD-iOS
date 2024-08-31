@@ -44,7 +44,7 @@ final class CustomEmptyView: BaseView {
         }
         
         titleLabel.do {
-            $0.setLabel(alignment: .center, textColor: UIColor(resource: .gray500), font: UIFont.suit(.title_bold_18))
+            $0.setLabel(alignment: .center, textColor: UIColor(resource: .gray300), font: UIFont.suit(.title_bold_18))
             $0.lineBreakMode = .byWordWrapping
         }
     }
