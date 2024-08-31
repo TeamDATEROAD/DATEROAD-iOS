@@ -67,7 +67,7 @@ class CourseListView: BaseView {
         
         courseEmptyLabel.do {
             $0.isHidden = true
-            $0.setLabel(text: StringLiterals.Course.isCourseEmpty,textColor: UIColor(resource: .gray500), font: UIFont.suit(.title_bold_18))
+            $0.setLabel(text: StringLiterals.Course.isCourseEmpty,textColor: UIColor(resource: .gray300), font: UIFont.suit(.title_bold_18))
         }
     }
     
