@@ -170,14 +170,16 @@ private extension AddScheduleSecondViewController {
       }
       
       viewModel.datePlace.bind { [weak self] date in
-          self?.addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField.text = date
+         guard let text = date else {return}
+         self?.addScheduleSecondView.inAddScheduleSecondView.updateDatePlace(text: text)
           if let flag = self?.viewModel.isAbleAddBtn() {
               self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
           }
       }
       
       viewModel.timeRequire.bind { [weak self] date in
-         self?.addScheduleSecondView.inAddScheduleSecondView.timeRequireTextField.text = date
+         guard let text = date else {return}
+         self?.addScheduleSecondView.inAddScheduleSecondView.updatetimeRequire(text: text)
          if let flag = self?.viewModel.isAbleAddBtn() {
             self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
          }

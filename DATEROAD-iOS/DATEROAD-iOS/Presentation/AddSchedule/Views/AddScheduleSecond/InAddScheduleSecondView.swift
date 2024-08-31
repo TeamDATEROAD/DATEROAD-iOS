@@ -183,6 +183,16 @@ final class InAddScheduleSecondView: BaseView {
 
 extension InAddScheduleSecondView {
    
+   func updateDatePlace(text: String) {
+      datePlaceTextField.text = text
+      datePlaceTextField.font = UIFont.suit(.body_semi_13)
+   }
+   
+   func updatetimeRequire(text: String) {
+      timeRequireTextField.text = text
+      timeRequireTextField.font = UIFont.suit(.body_semi_13)
+   }
+   
    func changeAddPlaceButtonState(flag: Bool) {
       let state = flag ? enabledButtonType : addCourseDisabledButtonType
       addPlaceButton.setButtonStatus(buttonType: state)

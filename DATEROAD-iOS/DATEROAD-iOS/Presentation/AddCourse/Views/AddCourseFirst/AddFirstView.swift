@@ -190,7 +190,7 @@ final class AddFirstView: BaseView {
          $0.setPlaceholder(
             placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNmaePlaceHolder,
             fontColor: .gray300,
-            font: .suit(.body_semi_13)
+            font: UIFont.suit(.body_semi_13)
          )
          $0.setLeftPadding(amount: 16)
       }
@@ -253,6 +253,7 @@ extension AddFirstView {
    
    func updateDateName(text: String) {
       dateNameTextField.text = text
+      dateNameTextField.font = UIFont.suit(.body_semi_13)
    }
    
    func updateVisitDate(text: String) {
