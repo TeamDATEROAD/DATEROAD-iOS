@@ -24,8 +24,6 @@ final class PointViewModel: Serviceable {
     var nowPointData: ObservablePattern<[PointDetailModel]> = ObservablePattern([])
     
     var isEarnedPointHidden : ObservablePattern<Bool> = ObservablePattern(nil)
-   
-//    var isChange: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
@@ -48,7 +46,6 @@ final class PointViewModel: Serviceable {
         if nowEarnedPointHidden {
             nowPointData.value = usedPointData.value
         } else {
-            print("3.1")
             nowPointData.value = gainedPointData.value
         }
     }

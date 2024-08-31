@@ -40,9 +40,6 @@ class PointDetailViewController: BaseNavBarViewController {
         self.tabBarController?.tabBar.isHidden = true
         self.pointViewModel.setPointDetailLoading()
         self.pointViewModel.getPointDetail()
-//        print("1")
-//        self.pointViewModel.updateData(nowEarnedPointHidden: false)
-//        print("3")
     }
     
     override func viewDidLoad() {
@@ -116,15 +113,11 @@ extension PointDetailViewController {
         self.pointViewModel.isSuccessGetPointInfo.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
-                print("2")
                 self?.pointDetailView.pointCollectionView.reloadData()
-                print("2.1")
                 self?.pointViewModel.updateData(nowEarnedPointHidden: false)
-                print("2.2")
                 self?.changeSelectedSegmentLayout(isEarnedPointHidden: false)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     self?.pointViewModel.setPointDetailLoading()
-                    print("2.3")
                 }
             }
         }
@@ -222,12 +215,8 @@ extension PointDetailViewController : UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PointCollectionViewCell.cellIdentifier, for: indexPath) as? PointCollectionViewCell else { return UICollectionViewCell() }
-//        pointViewModel.updateData(nowEarnedPointHidden: pointViewModel.isEarnedPointHidden.value ?? false)
-        print("컬뷰왓어염 ㅋㅋㅋㅋㅋ")
-        print(pointViewModel.nowPointData.value)
         let data = pointViewModel.nowPointData.value?[indexPath.item] ?? PointDetailModel(sign: "", point: 0, description: "", createdAt: "")
         cell.dataBind(data, indexPath.item)
-//        cell.prepareForReuse()
         return cell
     }
 }
