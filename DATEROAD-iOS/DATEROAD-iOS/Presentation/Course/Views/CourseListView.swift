@@ -13,10 +13,8 @@ import Then
 class CourseListView: BaseView {
     
     // MARK: - UI Properties
-    
-    let courseEmptyImageView = UIImageView(image: .imgCourseEmpty)
-    
-    let courseEmptyLabel = UILabel()
+
+    var emptyView = CustomEmptyView()
 
     let courseListCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -33,22 +31,27 @@ class CourseListView: BaseView {
     
     override func setHierarchy() {
         self.addSubviews(
-            courseEmptyImageView,
-            courseEmptyLabel,
+            emptyView,
             courseListCollectionView
         )
     }
     
     override func setLayout() {
         
-        courseEmptyImageView.snp.makeConstraints {
+//        courseEmptyImageView.snp.makeConstraints {
+//            $0.top.equalToSuperview().inset(24)
+//            $0.horizontalEdges.equalToSuperview()
+//        }
+//        
+//        courseEmptyLabel.snp.makeConstraints {
+//            $0.top.equalTo(courseEmptyImageView.snp.bottom)
+//            $0.centerX.equalToSuperview()
+//        }
+//        
+        emptyView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(24)
             $0.horizontalEdges.equalToSuperview()
-        }
-        
-        courseEmptyLabel.snp.makeConstraints {
-            $0.top.equalTo(courseEmptyImageView.snp.bottom)
-            $0.centerX.equalToSuperview()
+            $0.height.equalTo(ScreenUtils.height * 419/812)
         }
         
         courseListCollectionView.snp.makeConstraints {
@@ -63,11 +66,10 @@ class CourseListView: BaseView {
         courseListCollectionView.showsVerticalScrollIndicator = false
         courseListCollectionView.showsHorizontalScrollIndicator = false
         
-        courseEmptyImageView.isHidden = true
-        
-        courseEmptyLabel.do {
+        emptyView.do {
             $0.isHidden = true
-            $0.setLabel(text: StringLiterals.Course.isCourseEmpty,textColor: UIColor(resource: .gray300), font: UIFont.suit(.title_bold_18))
+            $0.setEmptyView(emptyImage: UIImage(resource: .imgCourseEmpty), 
+                            emptyTitle: StringLiterals.Course.isCourseEmpty)
         }
     }
     
