@@ -146,7 +146,7 @@ private extension ProfileViewController {
         self.profileViewModel.profileImage.bind { [weak self] image in
             guard let initial = self?.initial else { return }
             if self?.editType == EditType.edit && initial {
-                self?.profileViewModel.checkValidNickname()
+                self?.profileViewModel.checkValidNicknameCount()
                 self?.profileViewModel.checkValidRegistration()
             }
         }
@@ -155,7 +155,7 @@ private extension ProfileViewController {
             guard let isValid = isValid else { return }
             
             if self?.editType == EditType.edit {
-                self?.profileViewModel.checkExistingNickname()
+                self?.profileViewModel.compareExistingNickname()
                 let isExisted = self?.profileViewModel.isExistedNickname.value ?? true
                 isExisted
                 ? self?.profileView.updateDoubleCheckButton(isValid: !isExisted)
@@ -165,6 +165,9 @@ private extension ProfileViewController {
             }
             self?.profileViewModel.checkValidRegistration()
         }
+        
+        
+        // TODO: - 중복 확인 옵저버 프로퍼티 따로 생성 후, 닉네임에 변경이 있을 때마다 그 프로퍼티 값 false로 변경, 이 값이 true여야 하단 버튼 활성화 조건 추가
         
         self.profileViewModel.isValidNickname.bind { [weak self] isValid in
             guard let isValid,  
@@ -190,11 +193,11 @@ private extension ProfileViewController {
         self.profileViewModel.isValidNicknameCount.bind { [weak self] isValidCount in
             guard let isValidCount, let initial = self?.initial else { return }
             if initial {
-                self?.profileView.nicknameErrMessageLabel.isHidden = isValidCount ? true : false
+                self?.profileView.nicknameErrMessageLabel.isHidden = isValidCount
                 self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValidCount)
                 
                 if self?.editType == EditType.edit {
-                    self?.profileViewModel.checkExistingNickname()
+                    self?.profileViewModel.compareExistingNickname()
                     let isValid = self?.profileViewModel.isExistedNickname.value ?? true
                     isValid
                     ? self?.profileView.updateDoubleCheckButton(isValid: !isValid)
@@ -216,7 +219,7 @@ private extension ProfileViewController {
         self.profileViewModel.nickname.bind { [weak self] nickname in
             guard let nickname else { return }
             self?.profileViewModel.isValidNickname.value = false
-            self?.profileViewModel.checkExistingNickname()
+            self?.profileViewModel.compareExistingNickname()
             self?.profileView.updateNicknameCount(count: nickname.count)
             
             guard let isExist = self?.profileViewModel.isExistedNickname.value else { return }
@@ -224,10 +227,10 @@ private extension ProfileViewController {
                 if isExist {
                     self?.profileViewModel.isValidNickname.value = true
                 } else {
-                    self?.profileViewModel.checkValidNickname()
+                    self?.profileViewModel.checkValidNicknameCount()
                 }
             } else {
-                self?.profileViewModel.checkValidNickname()
+                self?.profileViewModel.checkValidNicknameCount()
             }
         }
         
@@ -241,14 +244,12 @@ private extension ProfileViewController {
             self?.profileView.updateRegisterButton(isValid: isValid)
         }
         
-        self.profileViewModel.profileData.bind { [weak self] profileData in
-            guard let profileData else { return }
-            self?.profileViewModel.checkExistingNickname()
+        self.profileViewModel.profileData.bind { [weak self] _ in
+            self?.profileViewModel.compareExistingNickname()
         }
         
-        self.profileViewModel.existingNickname.bind { [weak self] nickname in
-            guard let nickname else { return }
-            self?.profileViewModel.checkExistingNickname()
+        self.profileViewModel.existingNickname.bind { [weak self] _ in
+            self?.profileViewModel.compareExistingNickname()
         }
         
         self.profileViewModel.isExistedNickname.bind { [weak self] isExisted in
@@ -314,8 +315,9 @@ private extension ProfileViewController {
                 self.profileViewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
             }
         }
-        
-        self.profileViewModel.checkValidNickname()
+        self.profileViewModel.checkValidRegistration()
+
+//        self.profileViewModel.checkValidNickname()
     }
     
     @objc
@@ -406,11 +408,11 @@ extension ProfileViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let char = string.cString(using: String.Encoding.utf8) {
             let isBackSpace = strcmp(char, "\\b")
-            if isBackSpace == -92 {
+            if string.hasCharacters() || isBackSpace == -92 {
                 return true
             }
         }
-        return true
+        return false
     }
     
     /// 엔터 키 누르면 키보드 내리는 메서드
