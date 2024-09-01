@@ -40,7 +40,7 @@ class CourseDetailView: BaseView {
     
     
     override func setHierarchy() {
-        self.addSubviews(mainCollectionView,gradientView,stickyHeaderNavBarView)
+        self.addSubviews(mainCollectionView, stickyHeaderNavBarView)
     }
     
     override func setLayout() {
@@ -50,13 +50,8 @@ class CourseDetailView: BaseView {
             $0.bottom.equalToSuperview()
         }
         
-        gradientView.snp.makeConstraints {
-            $0.top.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(104)
-        }
-        
         stickyHeaderNavBarView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(UIApplication.shared.statusBarFrame.size.height)
+            $0.top.equalToSuperview().inset(50)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(54)
         }
@@ -113,8 +108,9 @@ extension CourseDetailView {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         
+        let gradient = makeGradientView()
         let footer = makeBottomPageControllView()
-        section.boundarySupplementaryItems = [footer]
+        section.boundarySupplementaryItems = [gradient, footer]
         
         return section
     }
@@ -209,6 +205,14 @@ extension CourseDetailView {
         return section
     }
     
+    func makeGradientView() -> NSCollectionLayoutBoundarySupplementaryItem {
+        let gradientSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.27))
+        let collectionViewWidth = mainCollectionView.frame.width
+        let gradient = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: gradientSize, elementKind: GradientView.elementKinds, alignment: .top, absoluteOffset: CGPoint(x: 0, y: collectionViewWidth * 0.27))
+        
+        return gradient
+    }
+
     func makeTimelineHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(60))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: TimelineHeaderView.elementKinds, alignment: .top)

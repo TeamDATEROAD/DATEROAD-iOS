@@ -18,6 +18,12 @@ class GradientView: UICollectionReusableView {
     
     private let gradient = CAGradientLayer()
     
+    // MARK: - Properties
+    
+    static let elementKinds: String = "gradient"
+    
+    static let identifier: String = "GradientView"
+    
     // MARK: - Life Cycle
     
     override init(frame: CGRect) {

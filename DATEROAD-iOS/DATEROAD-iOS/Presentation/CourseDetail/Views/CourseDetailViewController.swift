@@ -118,6 +118,8 @@ final class CourseDetailViewController: BaseViewController {
             
             $0.register(VisitDateView.self, forSupplementaryViewOfKind: VisitDateView.elementKinds, withReuseIdentifier: VisitDateView.identifier)
             
+            $0.register(GradientView.self, forSupplementaryViewOfKind: GradientView.elementKinds, withReuseIdentifier: GradientView.identifier)
+            
             $0.register(InfoBarView.self, forSupplementaryViewOfKind: InfoBarView.elementKinds, withReuseIdentifier: InfoBarView.identifier)
             
             $0.register(InfoHeaderView.self, forSupplementaryViewOfKind: InfoHeaderView.elementKinds, withReuseIdentifier: InfoHeaderView.identifier)
@@ -543,6 +545,8 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return configureVisitDateView(collectionView, indexPath: indexPath, titleHeaderData: titleHeaderData)
         case InfoBarView.elementKinds:
             return configureInfoBarView(collectionView, indexPath: indexPath, titleHeaderData: titleHeaderData)
+        case GradientView.elementKinds:
+            return configureGradientView(collectionView, indexPath: indexPath)
         case BottomPageControllView.elementKinds:
             return configureBottomPageControlView(collectionView, indexPath: indexPath, imageData: imageData, isAccess: isAccess)
         case ContentMaskView.elementKinds:
@@ -556,6 +560,13 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         }
     }
 
+    private func configureGradientView(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionReusableView {
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: GradientView.elementKinds, withReuseIdentifier: GradientView.identifier, for: indexPath) as? GradientView else {
+            return UICollectionReusableView()
+        }
+        return view
+    }
+    
     private func configureVisitDateView(_ collectionView: UICollectionView, indexPath: IndexPath, titleHeaderData: TitleHeaderModel) -> UICollectionReusableView {
         guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: VisitDateView.elementKinds, withReuseIdentifier: VisitDateView.identifier, for: indexPath) as? VisitDateView else {
             return UICollectionReusableView()
