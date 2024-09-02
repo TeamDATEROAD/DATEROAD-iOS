@@ -91,7 +91,7 @@ final class AddCourseViewModel: Serviceable {
    
    var tags: [[String: Any]] = []
    
-   let isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(nil)
+   let isSuccessPostData: ObservablePattern<Bool> = ObservablePattern(false)
    
    let onLoading: ObservablePattern<Bool> = ObservablePattern(nil)
 
@@ -284,21 +284,12 @@ extension AddCourseViewModel {
    }
    
    /// 로딩뷰 세팅 함수
-   func setLoading() {
-      guard let isSuccessGetData = self.isSuccessGetData.value else {
-         return
-      }
-      
-      if isSuccessGetData {
-         self.onLoading.value = false
-      } else {
-         self.onLoading.value = true
-      }
+   func setLoading(isPostLoading: Bool) {
+      self.onLoading.value = isPostLoading
    }
    
    func postAddCourse() {
-      self.isSuccessGetData.value = false
-      self.setLoading()
+      self.setLoading(isPostLoading: true)
       
       var places: [[String: Any]] = []
       
@@ -338,13 +329,16 @@ extension AddCourseViewModel {
          switch result {
          case .success(let response):
             print("Success: \(response)")
-            self.isSuccessGetData.value = true
+            self.setLoading(isPostLoading: false)
+            self.isSuccessPostData.value = true
          case .serverErr:
+            self.onFailNetwork.value = true
+         case . requestErr:
             self.onFailNetwork.value = true
          case .reIssueJWT:
             self.onReissueSuccess.value = self.patchReissue()
          default:
-            print("Failed to fetch user profile")
+            print("Failed to another reason")
             return
          }
       }

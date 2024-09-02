@@ -124,32 +124,41 @@ private extension AddScheduleSecondViewController {
    }
    
    func bindViewModel() {
-      self.viewModel.isSuccessGetData.bind { [weak self] isSuccess in
+      self.viewModel.isSuccessPostData.bind { [weak self] isSuccess in
          guard let isSuccess else { return }
          if isSuccess {
-            self?.viewModel.onLoading.value = false
+            self?.successDone()
          }
       }
       
       self.viewModel.onFailNetwork.bind { [weak self] onFailure in
          guard let onFailure else { return }
+         
+         // 에러 발생 시 에러 뷰로 push
          if onFailure {
             let errorVC = DRErrorViewController()
+            
+            // DRErrorViewController가 닫힐 때의 동작 정의
+            errorVC.onDismiss = {
+               print("🚀onDismiss 출동🚀")
+               // 코스 등록 3 로딩뷰, 에러뷰 false 설정
+               self?.viewModel.onLoading.value = false
+               self?.viewModel.onFailNetwork.value = false
+               
+            }
+            
             self?.navigationController?.pushViewController(errorVC, animated: false)
          }
       }
-
+      
       self.viewModel.onLoading.bind { [weak self] onLoading in
          guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
          
-         if !onFailNetwork {
+         // postData 중이고, 에러 발생 X라면
+         if onFailNetwork == false || onLoading == false {
             self?.loadingView.isHidden = !onLoading
             self?.addScheduleSecondView.isHidden = onLoading
             self?.tabBarController?.tabBar.isHidden = onLoading
-         }
-         
-         if !onLoading {
-            self?.successDone()
          }
       }
       
@@ -172,9 +181,9 @@ private extension AddScheduleSecondViewController {
       viewModel.datePlace.bind { [weak self] date in
          guard let text = date else {return}
          self?.addScheduleSecondView.inAddScheduleSecondView.updateDatePlace(text: text)
-          if let flag = self?.viewModel.isAbleAddBtn() {
-              self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
-          }
+         if let flag = self?.viewModel.isAbleAddBtn() {
+            self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
+         }
       }
       
       viewModel.timeRequire.bind { [weak self] date in
