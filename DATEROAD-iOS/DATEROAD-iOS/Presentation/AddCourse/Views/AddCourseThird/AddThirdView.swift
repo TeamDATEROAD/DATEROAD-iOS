@@ -125,6 +125,8 @@ class AddThirdView: BaseView {
          $0.isScrollEnabled = true
          $0.textAlignment = .left
          $0.showsVerticalScrollIndicator = false
+         $0.autocorrectionType = .no
+         $0.spellCheckingType = .no
       }
       
       priceTextField.do {
@@ -133,6 +135,8 @@ class AddThirdView: BaseView {
          $0.keyboardType = .numberPad
          $0.font = .suit(.body_med_13)
          $0.textColor = UIColor(resource: .drBlack)
+         $0.autocorrectionType = .no
+         $0.spellCheckingType = .no
       }
       
       priceTextField.setPlaceholder(

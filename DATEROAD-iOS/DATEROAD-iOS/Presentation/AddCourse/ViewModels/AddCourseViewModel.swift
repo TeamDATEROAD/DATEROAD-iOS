@@ -115,9 +115,9 @@ extension AddCourseViewModel {
    func fetchPastDate() {
       dateName.value = pastDateDetailData?.title
       
-      let formattedDate = DateFormatterManager.shared.dateFormatter.string(for: pastDateDetailData?.date)
+      guard let pastDate = DateFormatterManager.shared.convertToStandardFormat(from: pastDateDetailData?.date ?? "") else { return }
+      let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: pastDate)
       visitDate.value = formattedDate
-//      visitDate.value = pastDateDetailData?.date
       
       dateStartAt.value = pastDateDetailData?.startAt
       dateLocation.value = pastDateDetailData?.city
