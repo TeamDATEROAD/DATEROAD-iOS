@@ -191,7 +191,7 @@ extension AddCourseThirdViewController {
          self?.addCourseThirdView.addThirdView.updateContentTextCount(textCnt: date ?? 0)
          let flag = (date ?? 0) >= 200 ? true : false
          self?.viewModel.contentFlag = flag
-         self?.viewModel.contentText = self?.addCourseThirdView.addThirdView.contentTextView.text ?? ""
+//         self?.viewModel.contentText = self?.addCourseThirdView.addThirdView.contentTextView.text ?? ""
          self?.viewModel.isDoneBtnValid()
       }
       viewModel.priceText.bind { [weak self] date in
@@ -230,10 +230,7 @@ extension AddCourseThirdViewController: UITextViewDelegate {
    }
    
    func textViewDidEndEditing(_ textView: UITextView) {
-      if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-         textView.text = addCourseThirdView.addThirdView.textViewPlaceHolder
-         textView.textColor = UIColor(resource: .gray300)
-      }
+      print("🔥🔥🔥🔥🔥🔥🔥아 배부르다🔥🔥🔥🔥🔥🔥🔥")
    }
    
    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -244,6 +241,7 @@ extension AddCourseThirdViewController: UITextViewDelegate {
       viewModel.contentText = changedText
       let filteredTextCount = changedText.filter { $0 != "\n" }.count
       viewModel.contentTextCount.value = filteredTextCount
+      print("🎉🎉🎉🎉\(changedText)🎉🎉🎉🎉")
       
       // 리턴 키 입력을 처리합니다.
       if text == "\n" {
