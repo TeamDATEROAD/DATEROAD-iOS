@@ -308,7 +308,7 @@ extension AddScheduleFirstViewController {
          }
       }
       
-      self.viewModel.isValidTag.value = true
+      
    }
    
    @objc

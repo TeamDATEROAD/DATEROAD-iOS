@@ -306,8 +306,6 @@ private extension AddCourseFirstViewController {
             self.viewModel.countSelectedTag(isSelected: true, tag: tag)
          }
       }
-      
-      self.viewModel.isValidTag.value = true
    }
 
    
