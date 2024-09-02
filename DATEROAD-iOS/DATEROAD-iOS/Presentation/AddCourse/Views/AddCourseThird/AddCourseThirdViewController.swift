@@ -229,8 +229,11 @@ extension AddCourseThirdViewController: UITextViewDelegate {
       viewModel.contentText = textView.text ?? ""
    }
    
-   func textViewDidEndEditing(_ textView: UITextView) {
-      print("🔥🔥🔥🔥🔥🔥🔥아 배부르다🔥🔥🔥🔥🔥🔥🔥")
+//   func textViewDidEndEditing(_ textView: UITextView) {
+//      print("🔥🔥🔥🔥🔥🔥🔥아 배부르다🔥🔥🔥🔥🔥🔥🔥")
+//   }
+   func textViewDidChange(_ textView: UITextView) {
+      textView.setFontAndLineLetterSpacing(textView.text, font: UIFont.suit(.body_med_13))
    }
    
    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
