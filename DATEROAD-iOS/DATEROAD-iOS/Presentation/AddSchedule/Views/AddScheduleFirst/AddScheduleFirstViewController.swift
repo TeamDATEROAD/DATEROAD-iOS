@@ -9,15 +9,22 @@ import UIKit
 
 class AddScheduleFirstViewController: BaseNavBarViewController {
    
+   // MARK: - Properties
+   
+   let viewModel: AddScheduleViewModel
+   
+   
+   // MARK: - UI Properties
+   
    let addScheduleFirstView = AddScheduleFirstView()
    
    let addSheetView = AddSheetView(isCustomPicker: false)
    
    lazy var alertVC = DRBottomSheetViewController(contentView: addSheetView, height: 304, buttonType: EnabledButton(), buttonTitle: StringLiterals.AddCourseOrSchedule.AddBottomSheetView.datePickerBtnTitle)
    
-   // MARK: - Properties
+   private let loadingView: DRLoadingView = DRLoadingView()
    
-   let viewModel: AddScheduleViewModel
+   private let errorView: DRErrorViewController = DRErrorViewController()
    
    init(viewModel: AddScheduleViewModel) {
       self.viewModel = viewModel
@@ -51,11 +58,15 @@ class AddScheduleFirstViewController: BaseNavBarViewController {
       super.setHierarchy()
       
       self.view.addSubview(contentView)
-      contentView.addSubview(addScheduleFirstView)
+      contentView.addSubviews(loadingView, addScheduleFirstView)
    }
    
    override func setLayout() {
       super.setLayout()
+      
+      loadingView.snp.makeConstraints {
+         $0.edges.equalToSuperview()
+      }
       
       addScheduleFirstView.snp.makeConstraints {
          $0.top.equalToSuperview().offset(4)
@@ -85,6 +96,45 @@ extension AddScheduleFirstViewController {
    }
    
    func bindViewModel() {
+      self.viewModel.isSuccessGetData.bind { [weak self] isSuccess in
+         guard let isSuccess else { return }
+         if isSuccess {
+            print("지금 tendencyTagCollectionView reload")
+            self?.addScheduleFirstView.inAddScheduleFirstView.tendencyTagCollectionView.reloadData()
+         }
+      }
+      
+      self.viewModel.onFailNetwork.bind { [weak self] onFailure in
+         guard let onFailure else { return }
+         
+         // 에러 발생 시 에러 뷰로 push
+         if onFailure {
+            let errorVC = DRErrorViewController()
+            
+            // DRErrorViewController가 닫힐 때의 동작 정의
+            errorVC.onDismiss = {
+               print("🚀onDismiss 출동🚀")
+               // 일정 등록 1 로딩뷰, 에러뷰 false 설정
+               self?.viewModel.onLoading.value = false
+               self?.viewModel.onFailNetwork.value = false
+               
+            }
+            
+            self?.navigationController?.pushViewController(errorVC, animated: false)
+         }
+      }
+      
+      self.viewModel.onLoading.bind { [weak self] onLoading in
+         guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
+         
+         // getData 중이거나, 에러 발생 X라면
+         if onFailNetwork == false || onLoading == false {
+            self?.loadingView.isHidden = !onLoading
+            self?.addScheduleFirstView.isHidden = onLoading
+            self?.tabBarController?.tabBar.isHidden = onLoading
+         }
+      }
+      
        self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
            guard let onSuccess else { return }
            if onSuccess {
@@ -96,11 +146,9 @@ extension AddScheduleFirstViewController {
        
       viewModel.ispastDateVaild.bind { [weak self] isValid in
          guard let self = self else { return }
-         self.viewModel.fetchPastDate {
-            self.addScheduleFirstView.inAddScheduleFirstView.tendencyTagCollectionView.reloadData()
-            print("지금 tendencyTagCollectionView reload")
-         }
+         self.viewModel.fetchPastDate()
       }
+      
       viewModel.isDateNameVaild.bind { date in
          guard let date = date else {return}
          self.addScheduleFirstView.updateDateNameTextField(isPassValid: date)

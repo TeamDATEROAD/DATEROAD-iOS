@@ -12,6 +12,8 @@ final class AddScheduleViewModel: Serviceable {
    var viewedDateCourseByMeData: CourseDetailViewModel?
    let ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
    
+   let isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(false)
+   
    var pastDatePlaces = [TimelineModel]()
    
    var selectedTagData: [String] = []
@@ -75,7 +77,7 @@ final class AddScheduleViewModel: Serviceable {
    
    let isSuccessPostData: ObservablePattern<Bool> = ObservablePattern(false)
    
-   let onLoading: ObservablePattern<Bool> = ObservablePattern(nil)
+   let onLoading: ObservablePattern<Bool> = ObservablePattern(false)
 
    let onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
    
@@ -93,10 +95,13 @@ extension AddScheduleViewModel {
       }
    }
    
-   func fetchPastDate(completion: @escaping () -> Void) {
+   func fetchPastDate() {
+//      self.setLoading(isLoading: true)
+      
       viewedDateCourseByMeData?.isSuccessGetData.bind { [weak self] isSuccess in
          guard let self = self else { return }
          if isSuccess == true {
+            self.setLoading(isLoading: true)
             if let data = self.viewedDateCourseByMeData {
                dateName.value = data.titleHeaderData.value?.title
                dateLocation.value = data.titleHeaderData.value?.city
@@ -132,11 +137,9 @@ extension AddScheduleViewModel {
                   pastDatePlaces = result
                }
                
-               completion() // 데이터 로딩이 완료된 후 호출
+               self.setLoading(isLoading: false)
+               isSuccessGetData.value = true
             }
-         } else {
-            print("Failed to load course details")
-            completion() // 실패한 경우에도 호출
          }
       }
    }
@@ -262,12 +265,12 @@ extension AddScheduleViewModel {
    }
    
    /// 로딩뷰 세팅 함수
-   func setLoading(isPostLoading: Bool) {
-      self.onLoading.value = isPostLoading
+   func setLoading(isLoading: Bool) {
+      self.onLoading.value = isLoading
    }
    
    func postAddScheduel() {
-      self.setLoading(isPostLoading: true)
+      self.setLoading(isLoading: true)
       
       var places: [PostAddSchedulePlace] = []
       
@@ -307,7 +310,7 @@ extension AddScheduleViewModel {
          places: places)) { result in
             switch result {
             case .success(let response):
-               self.setLoading(isPostLoading: false)
+               self.setLoading(isLoading: false)
                self.isSuccessPostData.value = true
             case .serverErr:
                self.onFailNetwork.value = true
