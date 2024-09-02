@@ -69,7 +69,7 @@ final class HotDateCourseCell: BaseCollectionViewCell {
             $0.top.equalTo(countryLabel.snp.bottom)
             $0.leading.equalToSuperview().inset(16)
             $0.trailing.equalToSuperview()
-            $0.height.equalTo(self.snp.width)
+            $0.height.equalTo(238)
         }
         
         likeView.snp.makeConstraints {
