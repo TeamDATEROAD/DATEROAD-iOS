@@ -193,4 +193,14 @@ extension AddThirdView {
       }
    }
    
+   func updateContentTextView(_ textView: UITextView, withText text: String, placeholder: String) {
+      let isTextEmpty = text.isEmpty
+      let textToDisplay = isTextEmpty ? placeholder : text
+      let textColor = isTextEmpty ? UIColor(resource: .gray300) : UIColor(resource: .drBlack)
+      
+      textView.text = textToDisplay
+      textView.setFontAndLineLetterSpacing(textView.text, font: UIFont.suit(.body_med_13))
+      textView.textColor = textColor
+   }
+   
 }

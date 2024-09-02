@@ -39,6 +39,16 @@ class AddCourseThirdViewController: BaseNavBarViewController {
    
    // MARK: - LifeCycle
    
+   override func viewWillAppear(_ animated: Bool) {
+       super.viewWillAppear(animated)
+       
+      addCourseThirdView.addThirdView.updateContentTextView(
+              addCourseThirdView.addThirdView.contentTextView,
+              withText: viewModel.contentText,
+              placeholder: addCourseThirdView.addThirdView.textViewPlaceHolder
+          )
+   }
+   
    override func viewDidLoad() {
       super.viewDidLoad()
       
@@ -232,15 +242,22 @@ extension AddCourseThirdViewController: UITextViewDelegate {
          textView.text = nil
          textView.textColor = .black
       }
+      /// textView가 선택되면 priceTextField 키보드 비활성화
       addCourseThirdView.addThirdView.priceTextField.resignFirstResponder()
+      
       print(textView.text ?? "")
       
       viewModel.contentText = textView.text ?? ""
    }
    
-//   func textViewDidEndEditing(_ textView: UITextView) {
-//      print("🔥🔥🔥🔥🔥🔥🔥아 배부르다🔥🔥🔥🔥🔥🔥🔥")
-//   }
+   func textViewDidEndEditing(_ textView: UITextView) {
+      addCourseThirdView.addThirdView.updateContentTextView(
+              addCourseThirdView.addThirdView.contentTextView,
+              withText: viewModel.contentText,
+              placeholder: addCourseThirdView.addThirdView.textViewPlaceHolder
+          )
+   }
+   
    func textViewDidChange(_ textView: UITextView) {
       textView.setFontAndLineLetterSpacing(textView.text, font: UIFont.suit(.body_med_13))
    }
