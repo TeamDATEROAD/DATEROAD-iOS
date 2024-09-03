@@ -53,6 +53,8 @@ final class ProfileViewModel: Serviceable {
     
 }
 
+// 프로필 등록 & 수정 공통 메소드
+
 extension ProfileViewModel {
     
     func fetchTagData() {
@@ -110,10 +112,6 @@ extension ProfileViewModel {
         print("isValidNickname \(isValidNickname)  isValidTag \(isValidTag)  is5CntValid \(is5CntVaild)")
     }
     
-    func compareExistingNickname() {
-        isExistedNickname.value = existingNickname.value == nickname.value ? true : false
-    }
-    
     func postSignUp(image: UIImage?) {
         let socialType = UserDefaults.standard.bool(forKey: "SocialType")
         
@@ -164,6 +162,12 @@ extension ProfileViewModel {
         }
     }
     
+}
+
+// 프로필 수정 관련 메소드
+
+extension ProfileViewModel {
+    
     func patchEditProfile() {
         guard let name = self.nickname.value else { return }
         let requestBody = PatchEditProfileRequest(name: name, tags: self.selectedTagData, image: self.profileImage.value)
@@ -180,4 +184,9 @@ extension ProfileViewModel {
             }
         }
     }
+    
+    func compareExistingNickname() {
+        isExistedNickname.value = existingNickname.value == nickname.value ? true : false
+    }
+    
 }
