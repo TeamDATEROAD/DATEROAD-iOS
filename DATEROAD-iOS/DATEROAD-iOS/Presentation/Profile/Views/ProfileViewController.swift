@@ -41,6 +41,7 @@ final class ProfileViewController: BaseNavBarViewController {
         super.viewDidLoad()
         
         setTitleLabelStyle(title: StringLiterals.Profile.myProfile, alignment: .center)
+        self.profileView.registerButton.setTitle(StringLiterals.Profile.registerProfile, for: .normal)
         registerCell()
         setDelegate()
         setAddGesture()

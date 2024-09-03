@@ -15,10 +15,10 @@ final class ProfileViewModel: Serviceable {
     
     var profileData: ObservablePattern<ProfileModel>
     
-    var isDefaultImage: Bool = true
+    var isDefaultImage: Bool = false
     
     var profileImage: ObservablePattern<UIImage>
-    
+
     var existingNickname: ObservablePattern<String>
     
     var isExistedNickname: ObservablePattern<Bool> = ObservablePattern(nil)
@@ -172,7 +172,8 @@ extension ProfileViewModel {
     
     func patchEditProfile() {
         guard let name = self.nickname.value else { return }
-        let requestBody = PatchEditProfileRequest(name: name, 
+        checkDefaultImage()
+        let requestBody = PatchEditProfileRequest(name: name,
                                                   tags: self.selectedTagData,
                                                   image: self.profileImage.value,
                                                   isDefaultImage: self.isDefaultImage)
@@ -191,7 +192,13 @@ extension ProfileViewModel {
     }
     
     func compareExistingNickname() {
-        isExistedNickname.value = existingNickname.value == nickname.value ? true : false
+        isExistedNickname.value = existingNickname.value == nickname.value
     }
-    
+
+    func checkDefaultImage() {
+        if self.profileImage.value == UIImage(resource: .emptyProfileImg) {
+            self.profileImage.value = nil
+            self.isDefaultImage = false
+        }
+    }
 }
