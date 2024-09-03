@@ -72,6 +72,7 @@ enum StringLiterals {
     enum Profile {
         static let myProfile = "내 프로필"
         static let nickname = "닉네임"
+        static let nicknameInfo = "(한글, 영문, 숫자만 가능)"
         static let nicknamePlaceholder = "닉네임을 입력하세요."
         static let doubleCheck = "중복확인"
         static let disabledNickname = "이미 사용 중인 닉네임이에요"
