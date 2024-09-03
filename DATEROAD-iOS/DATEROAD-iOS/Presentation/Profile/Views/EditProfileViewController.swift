@@ -226,6 +226,7 @@ private extension EditProfileViewController {
                 self?.navigationController?.popViewController(animated: false)
             } else {
                 // TODO: - 토스트 메세지 추가
+                self?.profileView.registerButton.isEnabled = true
                 print("fail to edit profile")
             }
         }
@@ -295,6 +296,7 @@ private extension EditProfileViewController {
     
     @objc
     func registerProfile() {
+        self.profileView.registerButton.isEnabled = false
         self.profileViewModel.patchEditProfile()
     }
     
