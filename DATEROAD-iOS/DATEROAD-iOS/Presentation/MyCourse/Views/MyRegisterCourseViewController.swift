@@ -78,7 +78,7 @@ extension MyRegisterCourseViewController {
         myRegisterCourseView.emptyView.isHidden = !isEmpty
         if isEmpty {
             myRegisterCourseView.emptyView.do {
-                $0.setEmptyView(emptyImage: UIImage(resource: .emptyMyRegisterCourse),
+                $0.setEmptyView(emptyImage: UIImage(resource: .emptyDateSchedule),
                  emptyTitle: StringLiterals.EmptyView.emptyMyRegisterCourse)
             }
         }

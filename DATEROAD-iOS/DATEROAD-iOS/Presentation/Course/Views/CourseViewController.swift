@@ -149,8 +149,7 @@ extension CourseViewController {
     func isCellEmpty(cellCount: Int) {
         let isEmpty = cellCount == 0
         self.courseView.courseListView.courseListCollectionView.isHidden = isEmpty
-        self.courseView.courseListView.courseEmptyImageView.isHidden = !isEmpty
-        self.courseView.courseListView.courseEmptyLabel.isHidden = !isEmpty
+        self.courseView.courseListView.emptyView.isHidden = !isEmpty
     }
     
 }
