@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class CourseListView: BaseView {
+final class CourseListView: BaseView {
     
     // MARK: - UI Properties
 
@@ -38,16 +38,6 @@ class CourseListView: BaseView {
     
     override func setLayout() {
         
-//        courseEmptyImageView.snp.makeConstraints {
-//            $0.top.equalToSuperview().inset(24)
-//            $0.horizontalEdges.equalToSuperview()
-//        }
-//        
-//        courseEmptyLabel.snp.makeConstraints {
-//            $0.top.equalTo(courseEmptyImageView.snp.bottom)
-//            $0.centerX.equalToSuperview()
-//        }
-//        
         emptyView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(24)
             $0.horizontalEdges.equalToSuperview()

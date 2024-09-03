@@ -33,7 +33,6 @@ final class CustomEmptyView: BaseView {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(imageView.snp.bottom)
             $0.horizontalEdges.equalToSuperview()
-//            $0.height.equalTo(50)
         }
     }
     
