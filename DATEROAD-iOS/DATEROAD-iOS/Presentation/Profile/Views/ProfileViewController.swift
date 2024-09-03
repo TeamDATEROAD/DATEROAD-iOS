@@ -227,8 +227,6 @@ private extension ProfileViewController {
             }
         }
         self.profileViewModel.checkValidRegistration()
-
-//        self.profileViewModel.checkValidNickname()
     }
     
     @objc
@@ -252,6 +250,7 @@ private extension ProfileViewController {
     
     @objc
     func registerProfile() {
+        self.profileView.registerButton.isEnabled = false
         self.profileViewModel.postSignUp(image: self.profileView.profileImageView.image)
     }
     
