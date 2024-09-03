@@ -107,7 +107,7 @@ extension ProfileViewModel {
               let isValidTag = isValidTag.value,
               let is5CntVaild = is5orLess.value else { return }
 
-        self.isValidRegistration.value = (isValidNickname && isValidTag && is5CntVaild) ? true : false
+        self.isValidRegistration.value = (isValidNickname && isValidTag && is5CntVaild)
         
         print("isValidNickname \(isValidNickname)  isValidTag \(isValidTag)  is5CntValid \(is5CntVaild)")
     }

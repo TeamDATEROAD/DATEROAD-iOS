@@ -233,16 +233,6 @@ private extension EditProfileViewController {
             self?.profileView.updateDoubleCheckButton(isValid: !isExisted)
         }
         
-        self.profileViewModel.onSuccessRegister = { [weak self] isSuccess in
-            if isSuccess {
-                let mainVC = TabBarController()
-                self?.navigationController?.pushViewController(mainVC, animated: false)
-            } else {
-                let loginVC = LoginViewController()
-                self?.navigationController?.pushViewController(loginVC, animated: false)
-            }
-        }
-        
         self.profileViewModel.onSuccessEdit = { [weak self] isSuccess in
             if isSuccess {
                 self?.navigationController?.popViewController(animated: false)

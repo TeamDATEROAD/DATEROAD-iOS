@@ -89,12 +89,11 @@ private extension ProfileViewController {
     func setAddGesture() {
         let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(self.view.endEditing(_:)))
         self.view.addGestureRecognizer(tapGesture)
-        
         self.profileView.editImageButton.addTarget(self, action: #selector(presentEditBottomSheet), for: .touchUpInside)
         
         self.profileView.doubleCheckButton.addTarget(self, action: #selector(doubleCheckNickname), for: .touchUpInside)
         
-        self.profileView.nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .allEditingEvents)
+        self.profileView.nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .editingChanged)
         
         self.profileView.registerButton.addTarget(self, action: #selector(registerProfile), for: .touchUpInside)
         
@@ -116,43 +115,40 @@ private extension ProfileViewController {
             }
         }
         
+        // 2~5 글자 수 확인 위한 변수
         self.profileViewModel.is5orLess.bind { [weak self] isValid in
-            guard let isValid = isValid else { return }
-            
+            guard let isValid else { return }
             self?.profileView.updateDoubleCheckButton(isValid: isValid)
             self?.profileViewModel.checkValidRegistration()
         }
         
-        
-        // TODO: - 중복 확인 옵저버 프로퍼티 따로 생성 후, 닉네임에 변경이 있을 때마다 그 프로퍼티 값 false로 변경, 이 값이 true여야 하단 버튼 활성화 조건 추가
-        
+        // 중복 확인 결과 변수
         self.profileViewModel.isValidNickname.bind { [weak self] isValid in
-            guard let isValid,  
+            guard let isValid, 
                     let initial = self?.initial,
-                  let isExistedNickname = self?.profileViewModel.isExistedNickname.value
+                    let nicknameCount = self?.profileViewModel.nickname.value?.count
             else { return }
             
             if initial {
-                self?.profileView.nicknameErrMessageLabel.isHidden = false
-                
+                self?.profileView.nicknameErrMessageLabel.isHidden = nicknameCount > 5
                 isValid
                 ? self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isValid)
                 : self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValid)
-                
                 self?.profileViewModel.checkValidRegistration()
             }
         }
         
+        // 최소 2글자 에러 처리 위한 변수
         self.profileViewModel.isValidNicknameCount.bind { [weak self] isValidCount in
             guard let isValidCount, let initial = self?.initial else { return }
             if initial {
                 self?.profileView.nicknameErrMessageLabel.isHidden = isValidCount
                 self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValidCount)
-                
                 self?.profileView.updateDoubleCheckButton(isValid: isValidCount)
             }
         }
         
+        // 1~3개의 유효한 태그 개수 확인 변수
         self.profileViewModel.isValidTag.bind { [weak self] isValid in
             guard let isValid, let initial = self?.initial else { return }
             if initial {
@@ -164,34 +160,22 @@ private extension ProfileViewController {
         self.profileViewModel.nickname.bind { [weak self] nickname in
             guard let nickname else { return }
             self?.profileViewModel.isValidNickname.value = false
-            self?.profileViewModel.compareExistingNickname()
             self?.profileView.updateNicknameCount(count: nickname.count)
             self?.profileViewModel.checkValidNicknameCount()
         }
         
+        // 태그 카운트 변수
         self.profileViewModel.tagCount.bind { [weak self] count in
             guard let count else { return }
             self?.profileView.updateTagCount(count: count)
         }
         
+        // 하단 버튼 활성화 여부 변수
         self.profileViewModel.isValidRegistration.bind { [weak self] isValid in
             guard let isValid else { return }
             self?.profileView.updateRegisterButton(isValid: isValid)
         }
-        
-        self.profileViewModel.profileData.bind { [weak self] _ in
-            self?.profileViewModel.compareExistingNickname()
-        }
-        
-        self.profileViewModel.existingNickname.bind { [weak self] _ in
-            self?.profileViewModel.compareExistingNickname()
-        }
-        
-        self.profileViewModel.isExistedNickname.bind { [weak self] isExisted in
-            guard let isExisted else { return }
-            self?.profileView.updateDoubleCheckButton(isValid: !isExisted)
-        }
-        
+
         self.profileViewModel.onSuccessRegister = { [weak self] isSuccess in
             if isSuccess {
                 let mainVC = TabBarController()
@@ -199,15 +183,6 @@ private extension ProfileViewController {
             } else {
                 let loginVC = LoginViewController()
                 self?.navigationController?.pushViewController(loginVC, animated: false)
-            }
-        }
-        
-        self.profileViewModel.onSuccessEdit = { [weak self] isSuccess in
-            if isSuccess {
-                self?.navigationController?.popViewController(animated: false)
-            } else {
-                // TODO: - 토스트 메세지 추가
-                print("fail to edit profile")
             }
         }
         
@@ -238,7 +213,8 @@ private extension ProfileViewController {
         // 3이 아닐 때
         if self.profileViewModel.selectedTagData.count != maxTags {
             sender.isSelected.toggle()
-            sender.isSelected ? self.profileView.updateTag(button: sender, buttonType: SelectedButton())
+            sender.isSelected 
+            ? self.profileView.updateTag(button: sender, buttonType: SelectedButton())
             : self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
             self.profileViewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
         }
