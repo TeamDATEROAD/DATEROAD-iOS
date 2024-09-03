@@ -15,6 +15,8 @@ final class ProfileViewModel: Serviceable {
     
     var profileData: ObservablePattern<ProfileModel>
     
+    var isDefaultImage: Bool = true
+    
     var profileImage: ObservablePattern<UIImage>
     
     var existingNickname: ObservablePattern<String>
@@ -170,7 +172,10 @@ extension ProfileViewModel {
     
     func patchEditProfile() {
         guard let name = self.nickname.value else { return }
-        let requestBody = PatchEditProfileRequest(name: name, tags: self.selectedTagData, image: self.profileImage.value)
+        let requestBody = PatchEditProfileRequest(name: name, 
+                                                  tags: self.selectedTagData,
+                                                  image: self.profileImage.value,
+                                                  isDefaultImage: self.isDefaultImage)
         
         NetworkService.shared.userService.patchEditProfile(requestBody: requestBody) { response in
             switch response {
