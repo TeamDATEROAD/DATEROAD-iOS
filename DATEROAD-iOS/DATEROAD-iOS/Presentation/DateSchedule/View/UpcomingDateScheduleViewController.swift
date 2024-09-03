@@ -51,8 +51,8 @@ final class UpcomingDateScheduleViewController: BaseViewController {
         setDelegate()
         setUIMethods()
         setAddTarget()
-        setEmptyView()
         bindViewModel()
+        setEmptyView()
     }
     
     override func setHierarchy() {
