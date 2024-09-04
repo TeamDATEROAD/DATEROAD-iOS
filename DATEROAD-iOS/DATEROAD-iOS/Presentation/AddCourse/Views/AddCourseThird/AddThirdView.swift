@@ -26,7 +26,7 @@ class AddThirdView: BaseView {
    
    var priceTextField: UITextField = UITextField()
    
-   let addThirdDoneBtn: UIButton = UIButton()
+//   let addThirdDoneBtn: UIButton = UIButton()
    
    private let addThirdDoneBtnContainer: UIView = UIView()
    
@@ -35,9 +35,9 @@ class AddThirdView: BaseView {
    
    let textViewPlaceHolder = StringLiterals.AddCourseOrSchedule.AddThirdView.contentTextFieldPlaceHolder
    
-   private let enabledButtonType: DRButtonType = EnabledButton()
-   
-   private let disabledButtonType: DRButtonType = addCoursePlaceDisabledButton()
+//   private let enabledButtonType: DRButtonType = EnabledButton()
+//   
+//   private let disabledButtonType: DRButtonType = addCoursePlaceDisabledButton()
    
    
    // MARK: - Methods
@@ -55,7 +55,7 @@ class AddThirdView: BaseView {
          addThirdDoneBtnContainer
       )
       
-      addThirdDoneBtnContainer.addSubview(addThirdDoneBtn)
+//      addThirdDoneBtnContainer.addSubview()
    }
    
    override func setLayout() {
@@ -95,10 +95,10 @@ class AddThirdView: BaseView {
          $0.bottom.equalToSuperview()
       }
       
-      addThirdDoneBtn.snp.makeConstraints {
-         $0.height.equalTo(54)
-         $0.bottom.horizontalEdges.equalToSuperview()
-      }
+//      addThirdDoneBtn.snp.makeConstraints {
+//         $0.height.equalTo(54)
+//         $0.bottom.horizontalEdges.equalToSuperview()
+//      }
    }
    
    override func setStyle() {
@@ -163,12 +163,7 @@ class AddThirdView: BaseView {
          $0.text = StringLiterals.AddCourseOrSchedule.AddThirdView.priceTitleLabel
       }
       
-      addThirdDoneBtn.do {
-         $0.setButtonStatus(buttonType: disabledButtonType)
-         $0.setTitle(StringLiterals.AddCourseOrSchedule.AddThirdView.addThirdDoneBtn, for: .normal)
-         $0.titleLabel?.font = .suit(.body_bold_15)
-//         $0.backgroundColor = UIColor(resource: .lime)
-      }
+      
    }
    
 }
@@ -180,11 +175,7 @@ extension AddThirdView {
       contentTextCountLabel.text = "\(textCnt)자 / 200자 이상"
    }
    
-   func updateAddThirdDoneBtn(isValid: Bool) {
-      print("현재 updateAddThirdDoneBtn \(isValid)")
-      let state = isValid ? enabledButtonType : disabledButtonType
-      addThirdDoneBtn.setButtonStatus(buttonType: state)
-   }
+   
    
    func updatePriceText(price: Int) {
       if price == 0 {

@@ -118,7 +118,7 @@ extension AddCourseThirdViewController {
    }
    
    private func adjustScrollViewForKeyboard(showKeyboard: Bool) {
-      let maxKeyboardHeight: CGFloat = 80 // 키보드 높이 제한을 200 포인트로 설정
+      let maxKeyboardHeight: CGFloat = 45
       
       let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: showKeyboard ? min(keyboardHeight, maxKeyboardHeight) : 0, right: 0)
       addCourseThirdView.scrollView.contentInset = contentInsets
@@ -147,7 +147,7 @@ extension AddCourseThirdViewController {
    
    private func addTarget() {
       //      addCourseThirdView.addThirdView.priceTextField.addTarget(self, action: #selector(textFieldDidChanacge), for: .editingChanged)
-      addCourseThirdView.addThirdView.addThirdDoneBtn.addTarget(self, action: #selector(didTapAddCourseBtn), for: .touchUpInside)
+      addCourseThirdView.addThirdDoneBtn.addTarget(self, action: #selector(didTapAddCourseBtn), for: .touchUpInside)
    }
    
    func successDone() {
@@ -222,7 +222,7 @@ extension AddCourseThirdViewController {
       }
       
       viewModel.isDoneBtnOK.bind { [weak self] date in
-         self?.addCourseThirdView.addThirdView.updateAddThirdDoneBtn(isValid: date ?? false)
+         self?.addCourseThirdView.updateAddThirdDoneBtn(isValid: date ?? false)
       }
    }
    
@@ -296,21 +296,31 @@ extension AddCourseThirdViewController: UITextFieldDelegate {
    }
    
    func textFieldDidBeginEditing(_ textField: UITextField) {
-      UIView.animate(withDuration: 0.3) {
-         let transform = CGAffineTransform(translationX: 0, y: -200)
-         self.view.transform = transform
+         UIView.animate(withDuration: 0.3) {
+            // 뷰를 이동시키지 않고 제약 조건만 변경
+            self.addCourseThirdView.addThirdDoneBtn.snp.remakeConstraints { make in
+               make.height.equalTo(54)
+               make.horizontalEdges.equalToSuperview().inset(16)
+               make.bottom.equalTo(self.view.keyboardLayoutGuide.snp.top).offset(-10) // 키보드 위로 위치
+            }
+            self.view.layoutIfNeeded() // 레이아웃을 즉시 갱신
+         }
       }
-      addCourseThirdView.addThirdView.contentTextView.resignFirstResponder()
-   }
    
    func textFieldDidEndEditing(_ textField: UITextField) {
-      print("textFieldDidEndEditing 에서 출력")
-      UIView.animate(withDuration: 0.3) {
-         let transform = CGAffineTransform(translationX: 0, y: 0)
-         self.view.transform = transform
+         UIView.animate(withDuration: 0.3) {
+            // 원래의 제약 조건으로 되돌림
+            self.addCourseThirdView.addThirdDoneBtn.snp.remakeConstraints { make in
+               make.height.equalTo(54)
+               make.horizontalEdges.equalToSuperview().inset(16)
+               make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-4) // 안전 영역 하단에 위치
+            }
+            self.view.layoutIfNeeded() // 레이아웃을 즉시 갱신
+         }
+         
+         // textField 값이 변경된 경우 처리
+         viewModel.priceText.value = Int(textField.text ?? "0")
       }
-      viewModel.priceText.value = Int(textField.text ?? "0")
-   }
    
 }
 
