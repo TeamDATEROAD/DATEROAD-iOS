@@ -40,6 +40,10 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print("🥶🥶🥶🥶viewWillAppear🥶🥶🥶🥶🥶")
+        // TODO: - 데이트일정 0개 -> 1개 될 떄 엠티뷰가 0.1초 정도 보임 + 데이트일정 등록하고 왔을 때 로딩뷰 5초로 설정해도 안 뜸
+        // viewWillAppear은 뜨는듯함
+        
         self.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
         self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
     }
@@ -71,8 +75,8 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     
     func drawDateCardView() {
         print("draw date card view")
-        setUIMethods()
         setEmptyView()
+        setUIMethods()
     }
     
 }
@@ -113,9 +117,8 @@ private extension UpcomingDateScheduleViewController {
     }
     
     func setEmptyView() {
-        if upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count == 0 {
-            upcomingDateScheduleView.emptyView.isHidden = false
-        }
+        print("🧘‍♀️🧘‍♀️엠티뷰판단중🧘‍♀️🧘‍♀️")
+        upcomingDateScheduleView.emptyView.isHidden = !(upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count == 0)
     }
     
     func bindViewModel() {
