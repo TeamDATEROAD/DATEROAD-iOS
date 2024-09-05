@@ -78,16 +78,16 @@ extension LoginViewModel {
     func loginWithApple(userInfo: ASAuthorizationAppleIDCredential) {
         guard let userIdentifier = userInfo.identityToken,
               let code = userInfo.authorizationCode,
-              let token = String(data: userIdentifier, encoding: .utf8)
+              let token = String(data: userIdentifier, encoding: .utf8),
+              let authCode = String(data: code, encoding: .utf8)
         else { return }
         
+        UserDefaults.standard.setValue(authCode, forKey: "authCode")
         self.isKaKaoLogin.value = false
         self.socialType.value = .APPLE
 
         self.setToken(token: token)
         self.setUserInfo(userInfo: userInfo)
-        let authCode = String(data: code, encoding: .utf8)
-        UserDefaults.standard.setValue(authCode, forKey: "authCode")
 
         print("identifier token: \(String(describing: token))")
         print("authorization code: \(String(describing: authCode))")
@@ -120,11 +120,11 @@ extension LoginViewModel {
         NetworkService.shared.authService.postSignIn(requestBody: requestBody) { response in
             switch response {
             case .success(let data):
-                self.onLoginSuccess.value = true
                 UserDefaults.standard.setValue(data.userID, forKey: "userID")
                 UserDefaults.standard.setValue(data.accessToken, forKey: "accessToken")
                 UserDefaults.standard.setValue(data.refreshToken, forKey: "refreshToken")
                 print("login \(data)")
+                self.onLoginSuccess.value = true
                 self.isSignIn.value = true
             case .requestErr:
                 self.isSignIn.value = false
