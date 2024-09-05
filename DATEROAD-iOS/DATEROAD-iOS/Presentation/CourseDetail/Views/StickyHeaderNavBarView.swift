@@ -48,13 +48,13 @@ private extension StickyHeaderNavBarView {
     func setLayout() {
         
         previousButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(10)
+            $0.bottom.equalToSuperview().inset(5)
             $0.leading.equalToSuperview()
             $0.size.equalTo(44)
         }
         
         moreButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(10)
+            $0.bottom.equalTo(previousButton)
             $0.trailing.equalToSuperview()
             $0.size.equalTo(44)
         }
