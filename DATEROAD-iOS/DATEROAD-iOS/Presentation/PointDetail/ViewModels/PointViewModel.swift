@@ -68,7 +68,9 @@ final class PointViewModel: Serviceable {
                 self.usedPointData.value = pointUsedInfo
                 self.isSuccessGetPointInfo.value = true
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             case .serverErr:
                 self.onFailNetwork.value = true
             default:

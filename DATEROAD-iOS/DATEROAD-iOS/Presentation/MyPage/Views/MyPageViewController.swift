@@ -128,7 +128,7 @@ private extension MyPageViewController {
         self.myPageViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                self?.myPageViewModel.getUserProfile()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }

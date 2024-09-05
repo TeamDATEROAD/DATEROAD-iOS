@@ -129,7 +129,9 @@ extension LoginViewModel {
             case .requestErr:
                 self.isSignIn.value = false
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             default:
                 print("Failed to fetch post signin")
                 self.onLoginSuccess.value = false

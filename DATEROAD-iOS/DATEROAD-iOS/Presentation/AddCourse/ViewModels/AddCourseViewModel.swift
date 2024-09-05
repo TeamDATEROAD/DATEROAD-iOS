@@ -342,7 +342,9 @@ extension AddCourseViewModel {
          case .serverErr:
             self.onFailNetwork.value = true
          case .reIssueJWT:
-            self.onReissueSuccess.value = self.patchReissue()
+             self.patchReissue { isSuccess in
+                 self.onReissueSuccess.value = isSuccess
+             }
          default:
             print("Failed to fetch user profile")
             return
