@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class AddCourseThirdViewController: BaseNavBarViewController {
+final class AddCourseThirdViewController: BaseNavBarViewController {
    
    // MARK: - UI Properties
    

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddScheduleFirstViewController: BaseNavBarViewController {
+final class AddScheduleFirstViewController: BaseNavBarViewController {
    
    // MARK: - UI Properties
    

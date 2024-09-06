@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class AddThirdView: BaseView {
+final class AddThirdView: BaseView {
    
    // MARK: - UI Properties
    
