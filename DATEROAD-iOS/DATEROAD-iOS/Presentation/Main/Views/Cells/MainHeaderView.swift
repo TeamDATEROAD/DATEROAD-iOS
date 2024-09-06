@@ -100,26 +100,28 @@ extension MainHeaderView {
         
         if section == .hotDateCourse {
             titleLabel.do {
-                $0.setAttributedText(fullText: nickname + StringLiterals.Main.hotDateTitle, pointText: nickname+"님,", pointColor: UIColor(resource: .deepPurple), lineHeight: 1.04)
+                $0.setAttributedText(fullText: nickname + StringLiterals.Main.hotDateTitle, 
+                                     pointText: nickname+"님,",
+                                     pointColor: UIColor(resource: .deepPurple), lineHeight: 1.04)
                 $0.font = UIFont.suit(.title_extra_24)
                 $0.textAlignment = .left
                 $0.numberOfLines = 2
             }
             self.backgroundView.clipsToBounds = true
             self.backgroundView.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMinYCorner])
-            subLabel.do {
-                $0.text = StringLiterals.Main.hotDateSub
-            }
+            subLabel.text = StringLiterals.Main.hotDateSub
         } else {
             self.backgroundView.clipsToBounds = false
+            self.backgroundView.roundCorners(cornerRadius: 0, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMinYCorner])
             titleLabel.do {
-                $0.setLabel(text: StringLiterals.Main.newDateTitle, alignment: .left, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_extra_20))
+                $0.setLabel(text: StringLiterals.Main.newDateTitle, 
+                            alignment: .left,
+                            textColor: UIColor(resource: .drBlack), 
+                            font: UIFont.suit(.title_extra_20))
                 $0.textAlignment = .left
                 $0.numberOfLines = 0
             }
-            subLabel.do {
-                $0.text = StringLiterals.Main.newDateSub
-            }
+            subLabel.text = StringLiterals.Main.newDateSub
         }
     }
 }

@@ -55,6 +55,15 @@ extension UserTargetType: BaseTargetType {
                 multipartData.append(MultipartFormData(provider: .data(tagData), name: "tags"))
             }
             
+            let boolString = requestBody.isDefaultImage ? "true" : "false"
+
+            // 문자열을 Data로 변환
+            let boolData = boolString.data(using: .utf8)!
+
+            // MultipartFormData 생성
+            let boolPart = MultipartFormData(provider: .data(boolData), name: "isDefaultImage")
+            multipartData.append(boolPart)
+            
             return .uploadMultipart(multipartData)
         }
     }

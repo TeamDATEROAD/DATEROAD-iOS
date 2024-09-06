@@ -15,8 +15,10 @@ final class ProfileViewModel: Serviceable {
     
     var profileData: ObservablePattern<ProfileModel>
     
-    var profileImage: ObservablePattern<UIImage>
+    var isDefaultImage: Bool = false
     
+    var profileImage: ObservablePattern<UIImage>
+
     var existingNickname: ObservablePattern<String>
     
     var isExistedNickname: ObservablePattern<Bool> = ObservablePattern(nil)
@@ -52,6 +54,8 @@ final class ProfileViewModel: Serviceable {
     }
     
 }
+
+// 프로필 등록 & 수정 공통 메소드
 
 extension ProfileViewModel {
     
@@ -105,13 +109,9 @@ extension ProfileViewModel {
               let isValidTag = isValidTag.value,
               let is5CntVaild = is5orLess.value else { return }
 
-        self.isValidRegistration.value = (isValidNickname && isValidTag && is5CntVaild) ? true : false
+        self.isValidRegistration.value = (isValidNickname && isValidTag && is5CntVaild)
         
         print("isValidNickname \(isValidNickname)  isValidTag \(isValidTag)  is5CntValid \(is5CntVaild)")
-    }
-    
-    func compareExistingNickname() {
-        isExistedNickname.value = existingNickname.value == nickname.value ? true : false
     }
     
     func postSignUp(image: UIImage?) {
@@ -164,9 +164,19 @@ extension ProfileViewModel {
         }
     }
     
+}
+
+// 프로필 수정 관련 메소드
+
+extension ProfileViewModel {
+    
     func patchEditProfile() {
         guard let name = self.nickname.value else { return }
-        let requestBody = PatchEditProfileRequest(name: name, tags: self.selectedTagData, image: self.profileImage.value)
+        checkDefaultImage()
+        let requestBody = PatchEditProfileRequest(name: name,
+                                                  tags: self.selectedTagData,
+                                                  image: self.profileImage.value,
+                                                  isDefaultImage: self.isDefaultImage)
         
         NetworkService.shared.userService.patchEditProfile(requestBody: requestBody) { response in
             switch response {
@@ -178,6 +188,17 @@ extension ProfileViewModel {
                 print("Failed to fetch patch edit profile")
                 self.onSuccessEdit?(false)
             }
+        }
+    }
+    
+    func compareExistingNickname() {
+        isExistedNickname.value = existingNickname.value == nickname.value
+    }
+
+    func checkDefaultImage() {
+        if self.profileImage.value == UIImage(resource: .emptyProfileImg) {
+            self.profileImage.value = nil
+            self.isDefaultImage = false
         }
     }
 }

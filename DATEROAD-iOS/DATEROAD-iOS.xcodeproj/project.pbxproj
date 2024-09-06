@@ -266,6 +266,7 @@
 		CAC80FF72C3FCAE500658EA6 /* BannerIndexFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FF62C3FCAE500658EA6 /* BannerIndexFooterView.swift */; };
 		CAE8760A2C6F232900D64B34 /* DRLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE876092C6F232900D64B34 /* DRLoadingView.swift */; };
 		CAE8760C2C6F68A000D64B34 /* DRErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE8760B2C6F68A000D64B34 /* DRErrorViewController.swift */; };
+		CAE890A32C86C94C00834A9E /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE890A22C86C94C00834A9E /* EditProfileViewController.swift */; };
 		CAE8C1992C45920E00F153B3 /* GetMainUserProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE8C1982C45920E00F153B3 /* GetMainUserProfileResponse.swift */; };
 /* End PBXBuildFile section */
 
@@ -520,6 +521,7 @@
 		CAC80FF62C3FCAE500658EA6 /* BannerIndexFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerIndexFooterView.swift; sourceTree = "<group>"; };
 		CAE876092C6F232900D64B34 /* DRLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRLoadingView.swift; sourceTree = "<group>"; };
 		CAE8760B2C6F68A000D64B34 /* DRErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRErrorViewController.swift; sourceTree = "<group>"; };
+		CAE890A22C86C94C00834A9E /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		CAE8C1932C4581B500F153B3 /* MainTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTargetType.swift; sourceTree = "<group>"; };
 		CAE8C1952C4590B400F153B3 /* MainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainService.swift; sourceTree = "<group>"; };
 		CAE8C1982C45920E00F153B3 /* GetMainUserProfileResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMainUserProfileResponse.swift; sourceTree = "<group>"; };
@@ -1457,6 +1459,7 @@
 				CAA30ADD2C3718C500835DE3 /* ProfileViewController.swift */,
 				CAA30ADF2C3733DF00835DE3 /* ProfileView.swift */,
 				CAC80FD12C3D7E5100658EA6 /* ProfileImageSettingView.swift */,
+				CAE890A22C86C94C00834A9E /* EditProfileViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1871,6 +1874,7 @@
 				745547712C3D12CD00B526F3 /* PastDateDetailViewController.swift in Sources */,
 				CA4EF3E22C3537F3003B02B6 /* OnboardingModel.swift in Sources */,
 				CA4EF3D52C34763B003B02B6 /* OnboardingViewController.swift in Sources */,
+				CAE890A32C86C94C00834A9E /* EditProfileViewController.swift in Sources */,
 				CABDCE732C47FA5C00631FB3 /* AuthService.swift in Sources */,
 				9E590B4C2C3D276600039690 /* AddSecondView.swift in Sources */,
 				CAA30ADE2C3718C500835DE3 /* ProfileViewController.swift in Sources */,

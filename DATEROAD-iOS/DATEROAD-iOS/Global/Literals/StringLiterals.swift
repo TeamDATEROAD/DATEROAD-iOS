@@ -72,6 +72,7 @@ enum StringLiterals {
     enum Profile {
         static let myProfile = "내 프로필"
         static let nickname = "닉네임"
+        static let nicknameInfo = "(한글, 영문, 숫자만 가능)"
         static let nicknamePlaceholder = "닉네임을 입력하세요."
         static let doubleCheck = "중복확인"
         static let disabledNickname = "이미 사용 중인 닉네임이에요"
@@ -144,7 +145,7 @@ enum StringLiterals {
         static let myPage = "마이페이지"
         static let goToPointHistory = "포인트 내역 보기"
         static let myCourse = "내가 등록한 코스"
-        static let pointSystem = "포인트 시스템 소개"
+        static let pointSystem = "포인트 제도 소개"
         static let inquiry = "문의하기"
         static let logout = "로그아웃"
         static let withdrawal = "탈퇴하기"
@@ -214,7 +215,7 @@ enum StringLiterals {
         static let priceLabelUnder30K = "3만원 이하"
         static let priceLabelUnder100K = "10만원 이하"
         static let priceLabelOver100K = "10만원 초과"
-        static let isCourseEmpty = "아직 등록된 코스가 없어요"
+        static let isCourseEmpty = "아직 등록된 코스가 없어요!"
     }
     
     enum LocationFilter {
