@@ -9,11 +9,6 @@ import UIKit
 
 class AddScheduleFirstViewController: BaseNavBarViewController {
    
-   // MARK: - Properties
-   
-   let viewModel: AddScheduleViewModel
-   
-   
    // MARK: - UI Properties
    
    let addScheduleFirstView = AddScheduleFirstView()
@@ -25,6 +20,14 @@ class AddScheduleFirstViewController: BaseNavBarViewController {
    private let loadingView: DRLoadingView = DRLoadingView()
    
    private let errorView: DRErrorViewController = DRErrorViewController()
+   
+   
+   // MARK: - Properties
+   
+   let viewModel: AddScheduleViewModel
+   
+   
+   // MARK: - Initializer
    
    init(viewModel: AddScheduleViewModel) {
       self.viewModel = viewModel
@@ -51,6 +54,7 @@ class AddScheduleFirstViewController: BaseNavBarViewController {
       setupKeyboardDismissRecognizer()
       pastDateBindViewModel()
    }
+   
    
    // MARK: - Methods
    
@@ -117,7 +121,6 @@ extension AddScheduleFirstViewController {
                // 일정 등록 1 로딩뷰, 에러뷰 false 설정
                self?.viewModel.onLoading.value = false
                self?.viewModel.onFailNetwork.value = false
-               
             }
             
             self?.navigationController?.pushViewController(errorVC, animated: false)
@@ -135,15 +138,15 @@ extension AddScheduleFirstViewController {
          }
       }
       
-       self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
-           guard let onSuccess else { return }
-           if onSuccess {
-               // TODO: - 서버 통신 재시도
-           } else {
-               self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
-           }
-       }
-       
+      self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
+         guard let onSuccess else { return }
+         if onSuccess {
+            // TODO: - 서버 통신 재시도
+         } else {
+            self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+         }
+      }
+      
       viewModel.ispastDateVaild.bind { [weak self] isValid in
          guard let self = self else { return }
          self.viewModel.fetchPastDate()
@@ -264,31 +267,6 @@ extension AddScheduleFirstViewController {
       viewModel.satisfyDateName(str: textField.text ?? "")
    }
    
-//   @objc
-//   func didTapTagButton(_ sender: UIButton) {
-//      guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
-//      
-//      let maxTags = 3
-//      
-//      // 3이 아닐 때
-//      if self.viewModel.selectedTagData.count != maxTags {
-//         sender.isSelected.toggle()
-//         sender.isSelected ? self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: SelectedButton())
-//         : self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: UnselectedButton())
-//         self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
-//         self.viewModel.isValidTag.value = true
-//      }
-//      // 그 외
-//      else {
-//         if sender.isSelected {
-//            sender.isSelected.toggle()
-//            self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType:  UnselectedButton())
-//            self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
-//            self.viewModel.isValidTag.value = true
-//         }
-//      }
-//   }
-   
    @objc
    func didTapTagButton(_ sender: UIButton) {
       guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
@@ -307,8 +285,6 @@ extension AddScheduleFirstViewController {
             self.viewModel.countSelectedTag(isSelected: true, tag: tag)
          }
       }
-      
-      
    }
    
    @objc
@@ -321,7 +297,6 @@ extension AddScheduleFirstViewController {
    func sixCheckBtnTapped() {
       let secondVC = AddScheduleSecondViewController(viewModel: self.viewModel)
       navigationController?.pushViewController(secondVC, animated: false)
-      //      print(viewModel.selectedTags.count)
    }
    
    @objc
@@ -334,6 +309,7 @@ extension AddScheduleFirstViewController {
       locationFilterVC.delegate = self
       self.present(locationFilterVC, animated: false)
    }
+   
 }
 
 extension AddScheduleFirstViewController: UICollectionViewDelegateFlowLayout {
@@ -380,7 +356,6 @@ extension AddScheduleFirstViewController: UICollectionViewDataSource, UICollecti
          self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: cell.tendencyTagButton, buttonType: UnselectedButton())
       }
       
-      
       return cell
    }
    
@@ -404,10 +379,10 @@ extension AddScheduleFirstViewController: UITextFieldDelegate {
 }
 
 extension AddScheduleFirstViewController: DRBottomSheetDelegate {
+   
    func didTapFirstLabel() {
       print("d")
    }
-   
    
    func didTapBottomButton() {
       self.dismiss(animated: true)

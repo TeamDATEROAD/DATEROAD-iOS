@@ -144,7 +144,6 @@ private extension AddScheduleSecondViewController {
                // 코스 등록 3 로딩뷰, 에러뷰 false 설정
                self?.viewModel.onLoading.value = false
                self?.viewModel.onFailNetwork.value = false
-               
             }
             
             self?.navigationController?.pushViewController(errorVC, animated: false)
@@ -229,9 +228,9 @@ private extension AddScheduleSecondViewController {
    }
    
    func goBackOriginVCForAddSchedule() {
-       let tabbarVC = TabBarController()
-       tabbarVC.selectedIndex = 2
-       navigationController?.popToPreviousViewController(ofType: AddScheduleFirstViewController.self, defaultViewController: tabbarVC)
+      let tabbarVC = TabBarController()
+      tabbarVC.selectedIndex = 2
+      navigationController?.popToPreviousViewController(ofType: AddScheduleFirstViewController.self, defaultViewController: tabbarVC)
    }
    
    
@@ -433,11 +432,12 @@ extension AddScheduleSecondViewController: UICollectionViewDropDelegate {
 // MARK: - UICollectionViewDragDelegate Methods
 
 extension AddScheduleSecondViewController: UICollectionViewDragDelegate {
+   
    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
       return []
    }
+   
 }
-
 
 extension AddScheduleSecondViewController: DRCustomAlertDelegate {
    

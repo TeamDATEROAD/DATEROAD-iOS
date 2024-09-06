@@ -20,6 +20,9 @@ final class AddScheduleFirstView: BaseView {
    
    let visitDateErrorLabel = UILabel()
    
+   
+   // MARK: - Properties
+   
    private let warningType: DRErrorType = Warning()
    
    override func setHierarchy() {
@@ -47,40 +50,6 @@ final class AddScheduleFirstView: BaseView {
    }
    
    override func setStyle() {
-//      scrollView.do {
-//         $0.showsVerticalScrollIndicator = false
-//         $0.contentInsetAdjustmentBehavior = .always
-//      }
-//      
-//      collectionView.do {
-//         let layout = UICollectionViewFlowLayout()
-//         layout.scrollDirection = .horizontal
-//         layout.minimumInteritemSpacing = 12.0
-//         $0.collectionViewLayout =  layout
-//         $0.showsHorizontalScrollIndicator = false
-//         $0.showsVerticalScrollIndicator = false
-//         $0.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 16)
-//         $0.clipsToBounds = true
-//         $0.isUserInteractionEnabled = true
-//      }
-//      
-//      cameraBtn.do {
-//         $0.setImage(.camera, for: .normal)
-//         $0.backgroundColor = .gray200
-//         $0.layer.cornerRadius = 32 / 2
-//         $0.isUserInteractionEnabled = true
-//      }
-//      
-//      imageCountLabelContainer.do {
-//         $0.backgroundColor = .gray400
-//         $0.layer.cornerRadius = 10
-//      }
-//      
-//      imageCountLabel.do {
-//         $0.setLabel(textColor: UIColor(resource: .drWhite), font: .suit(.body_med_10))
-//         $0.text = "1/10"
-//      }
-      
       for i in [dateNameErrorLabel,visitDateErrorLabel] {
          i.do {
             if i == dateNameErrorLabel {
@@ -112,10 +81,5 @@ extension AddScheduleFirstView {
          $0.layer.borderWidth = isPassValid ? 0 : 1
       }
    }
-   
-//   func updateImageCellUI(isEmpty: Bool, ImageDataCount: Int) {
-//      cameraBtn.isHidden = isEmpty
-//      imageCountLabel.text = "\(ImageDataCount)/10"
-//   }
    
 }

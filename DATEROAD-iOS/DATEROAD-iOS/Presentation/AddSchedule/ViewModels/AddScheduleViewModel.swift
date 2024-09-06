@@ -8,8 +8,11 @@
 import UIKit
 
 final class AddScheduleViewModel: Serviceable {
+   
    var isImporting = false
+   
    var viewedDateCourseByMeData: CourseDetailViewModel?
+   
    let ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
    
    let isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(false)
@@ -19,6 +22,7 @@ final class AddScheduleViewModel: Serviceable {
    var selectedTagData: [String] = []
    
    var pastDateTagIndex = [Int]()
+   
    
    //MARK: - AddFirstCourse 사용되는 ViewModel
    
@@ -78,9 +82,8 @@ final class AddScheduleViewModel: Serviceable {
    let isSuccessPostData: ObservablePattern<Bool> = ObservablePattern(false)
    
    let onLoading: ObservablePattern<Bool> = ObservablePattern(false)
-
-   let onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
    
+   let onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
    
    init() {
       fetchTagData()
@@ -96,8 +99,6 @@ extension AddScheduleViewModel {
    }
    
    func fetchPastDate() {
-//      self.setLoading(isLoading: true)
-      
       viewedDateCourseByMeData?.isSuccessGetData.bind { [weak self] isSuccess in
          guard let self = self else { return }
          if isSuccess == true {
@@ -132,7 +133,6 @@ extension AddScheduleViewModel {
                isDateLocationVaild.value = true
                
                ///코스 등록 2 AddPlaceCollectionView 구성
-               
                if let result = data.timelineData.value {
                   pastDatePlaces = result
                }
@@ -143,7 +143,6 @@ extension AddScheduleViewModel {
          }
       }
    }
-   
    
    
    //MARK: - AddSchedule First 함수
