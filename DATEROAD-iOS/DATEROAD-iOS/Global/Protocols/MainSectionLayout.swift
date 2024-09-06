@@ -83,7 +83,7 @@ struct UpcomingDateLayout: MainSectionLayout {
 
 struct HotDateLayout: MainSectionLayout {
     
-    var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .absolute(238), heightDimension: .estimated(356))
+    var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .absolute(254), heightDimension: .estimated(356))
         
     var elementKind: String? = MainHeaderView.elementKinds
     

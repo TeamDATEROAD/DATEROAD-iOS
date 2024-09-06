@@ -136,8 +136,6 @@ extension MainViewModel {
                 self.isSuccessGetUpcomingDate.value = true
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
-            case .requestErr:
-                self.isSuccessGetUpcomingDate.value = true
             case .serverErr:
                 self.onFailNetwork.value = false
             default:

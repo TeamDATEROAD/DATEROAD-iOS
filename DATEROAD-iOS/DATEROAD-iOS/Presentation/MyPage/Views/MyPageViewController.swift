@@ -179,8 +179,7 @@ private extension MyPageViewController {
             let tags = userInfoData.tagList
             
             let profile = ProfileModel(profileImage: self.myPageView.userInfoView.profileImageView.image, nickname: nickname, tags: tags)
-            let profileVC = ProfileViewController(profileViewModel: ProfileViewModel(profileData: profile),
-                                                  editType: EditType.edit)
+            let profileVC = EditProfileViewController(profileViewModel: ProfileViewModel(profileData: profile))
             
             self.navigationController?.pushViewController(profileVC, animated: false)
         }

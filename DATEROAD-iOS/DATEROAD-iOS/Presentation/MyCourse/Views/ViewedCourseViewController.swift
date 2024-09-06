@@ -161,7 +161,7 @@ private extension ViewedCourseViewController {
                $0.top.equalToSuperview()
            }
            viewedCourseView.emptyView.do {
-               $0.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
+               $0.setEmptyView(emptyImage: UIImage(resource: .emptyViewedCourse),
                              emptyTitle: StringLiterals.EmptyView.emptyViewedCourse)
            }
        }

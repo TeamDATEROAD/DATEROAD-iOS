@@ -1,13 +1,13 @@
 //
-//  ProfileViewController.swift
+//  EditProfileViewController.swift
 //  DATEROAD-iOS
 //
-//  Created by 윤희슬 on 7/5/24.
+//  Created by 윤희슬 on 9/3/24.
 //
 
 import UIKit
 
-final class ProfileViewController: BaseNavBarViewController {
+final class EditProfileViewController: BaseNavBarViewController {
     
     // MARK: - UI Properties
     
@@ -40,8 +40,9 @@ final class ProfileViewController: BaseNavBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setTitleLabelStyle(title: StringLiterals.Profile.myProfile, alignment: .center)
-        self.profileView.registerButton.setTitle(StringLiterals.Profile.registerProfile, for: .normal)
+        setLeftBackButton()
+        setTitleLabelStyle(title: StringLiterals.Profile.editProfile, alignment: .center)
+        setProfile()
         registerCell()
         setDelegate()
         setAddGesture()
@@ -74,7 +75,20 @@ final class ProfileViewController: BaseNavBarViewController {
     
 }
 
-private extension ProfileViewController {
+private extension EditProfileViewController {
+    
+    func setProfile() {
+        guard let profileImage = profileViewModel.profileData.value?.profileImage
+        else {
+            self.profileView.profileImageView.image = UIImage(resource: .emptyProfileImg)
+            return
+        }
+        
+        self.profileView.profileImageView.image = profileImage
+        self.profileViewModel.profileImage.value = profileImage
+        self.profileView.registerButton.setTitle(StringLiterals.Profile.saveProfile, for: .normal)
+        self.profileView.nicknameTextfield.text = profileViewModel.profileData.value?.nickname
+    }
     
     func registerCell() {
         self.profileView.tendencyTagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
@@ -90,6 +104,7 @@ private extension ProfileViewController {
     func setAddGesture() {
         let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(self.view.endEditing(_:)))
         self.view.addGestureRecognizer(tapGesture)
+        
         self.profileView.editImageButton.addTarget(self, action: #selector(presentEditBottomSheet), for: .touchUpInside)
         
         self.profileView.doubleCheckButton.addTarget(self, action: #selector(doubleCheckNickname), for: .touchUpInside)
@@ -116,22 +131,34 @@ private extension ProfileViewController {
             }
         }
         
-        // 2~5 글자 수 확인 위한 변수
+        self.profileViewModel.profileImage.bind { [weak self] image in
+            guard let initial = self?.initial else { return }
+            if initial {
+                self?.profileViewModel.checkValidNicknameCount()
+            }
+        }
+        
         self.profileViewModel.is5orLess.bind { [weak self] isValid in
-            guard let isValid else { return }
-            self?.profileView.updateDoubleCheckButton(isValid: isValid)
+            guard let isValid, let isExisted = self?.profileViewModel.isExistedNickname.value
+            else { return }
+            isExisted
+            ? self?.profileView.updateDoubleCheckButton(isValid: !isExisted)
+            :self?.profileView.updateDoubleCheckButton(isValid: isValid)
+            if isExisted {
+                self?.profileViewModel.isValidNickname.value = true
+            }
             self?.profileViewModel.checkValidRegistration()
         }
         
         // 중복 확인 결과 변수
         self.profileViewModel.isValidNickname.bind { [weak self] isValid in
-            guard let isValid, 
+            guard let isValid,
                     let initial = self?.initial,
-                    let nicknameCount = self?.profileViewModel.nickname.value?.count
+                  let isExistedNickname = self?.profileViewModel.isExistedNickname.value,
+                  let nicknameCount = self?.profileViewModel.nickname.value?.count
             else { return }
-            
             if initial {
-                self?.profileView.nicknameErrMessageLabel.isHidden = nicknameCount > 5
+                self?.profileView.nicknameErrMessageLabel.isHidden = nicknameCount > 5 || isExistedNickname
                 isValid
                 ? self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isValid)
                 : self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValid)
@@ -139,17 +166,21 @@ private extension ProfileViewController {
             }
         }
         
-        // 최소 2글자 에러 처리 위한 변수
         self.profileViewModel.isValidNicknameCount.bind { [weak self] isValidCount in
-            guard let isValidCount, let initial = self?.initial else { return }
+            guard let isValidCount, 
+                    let initial = self?.initial,
+                  let isValidNickname = self?.profileViewModel.isValidNickname.value
+            else { return }
             if initial {
-                self?.profileView.nicknameErrMessageLabel.isHidden = isValidCount
-                self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValidCount)
-                self?.profileView.updateDoubleCheckButton(isValid: isValidCount)
+                if isValidNickname {
+                    self?.profileView.nicknameErrMessageLabel.isHidden = false
+                } else {
+                    self?.profileView.nicknameErrMessageLabel.isHidden = isValidCount
+                    self?.profileView.updateNicknameErrLabel(errorType: ProfileErrorType.isNotValidCount)
+                }
             }
         }
         
-        // 1~3개의 유효한 태그 개수 확인 변수
         self.profileViewModel.isValidTag.bind { [weak self] isValid in
             guard let isValid, let initial = self?.initial else { return }
             if initial {
@@ -161,29 +192,42 @@ private extension ProfileViewController {
         self.profileViewModel.nickname.bind { [weak self] nickname in
             guard let nickname else { return }
             self?.profileViewModel.isValidNickname.value = false
+            self?.profileViewModel.compareExistingNickname()
             self?.profileView.updateNicknameCount(count: nickname.count)
-            self?.profileViewModel.checkValidNicknameCount()
         }
         
-        // 태그 카운트 변수
         self.profileViewModel.tagCount.bind { [weak self] count in
             guard let count else { return }
             self?.profileView.updateTagCount(count: count)
         }
         
-        // 하단 버튼 활성화 여부 변수
         self.profileViewModel.isValidRegistration.bind { [weak self] isValid in
             guard let isValid else { return }
             self?.profileView.updateRegisterButton(isValid: isValid)
         }
-
-        self.profileViewModel.onSuccessRegister = { [weak self] isSuccess in
+        
+        self.profileViewModel.existingNickname.bind { [weak self] _ in
+            self?.profileViewModel.compareExistingNickname()
+        }
+        
+        self.profileViewModel.isExistedNickname.bind { [weak self] isExisted in
+            guard let isExisted, let initial = self?.initial else { return }
+            self?.profileView.updateDoubleCheckButton(isValid: !isExisted)
+            if initial {
+                if isExisted {
+                    self?.profileViewModel.isValidNickname.value = true
+                }
+                self?.profileViewModel.checkValidNicknameCount()
+            }
+        }
+        
+        self.profileViewModel.onSuccessEdit = { [weak self] isSuccess in
             if isSuccess {
-                let mainVC = TabBarController()
-                self?.navigationController?.pushViewController(mainVC, animated: false)
+                self?.navigationController?.popViewController(animated: false)
             } else {
-                let loginVC = LoginViewController()
-                self?.navigationController?.pushViewController(loginVC, animated: false)
+                // TODO: - 토스트 메세지 추가
+                self?.profileView.registerButton.isEnabled = true
+                print("fail to edit profile")
             }
         }
         
@@ -227,7 +271,7 @@ private extension ProfileViewController {
                 self.profileViewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
             }
         }
-        self.profileViewModel.checkValidRegistration()
+        self.profileViewModel.checkValidNicknameCount()
     }
     
     @objc
@@ -241,6 +285,7 @@ private extension ProfileViewController {
         self.dismiss(animated: true)
         profileView.updateProfileImage(image: UIImage(resource: .emptyProfileImg))
         profileViewModel.profileImage.value = nil
+        profileViewModel.isDefaultImage = true
     }
     
     @objc
@@ -252,14 +297,14 @@ private extension ProfileViewController {
     @objc
     func registerProfile() {
         self.profileView.registerButton.isEnabled = false
-        self.profileViewModel.postSignUp(image: self.profileView.profileImageView.image)
+        self.profileViewModel.patchEditProfile()
     }
     
 }
 
 // MARK: - Delegates
 
-extension ProfileViewController: UICollectionViewDelegateFlowLayout {
+extension EditProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let tagTitle = self.profileViewModel.tagData[indexPath.item].tagTitle
@@ -280,24 +325,36 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
-extension ProfileViewController: UICollectionViewDataSource {
+extension EditProfileViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.profileViewModel.tagData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell 
+        else { return UICollectionViewCell() }
         cell.tendencyTagButton.tag = indexPath.item
         cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
-        cell.updateButtonTitle(tag: self.profileViewModel.tagData[indexPath.item])
-
+        cell.updateButtonTitle(title: self.profileViewModel.tagData[indexPath.item].english)
+        
+        self.profileView.updateTag(button: cell.tendencyTagButton, buttonType: UnselectedButton())
+        
+        let tagData = profileViewModel.profileData.value?.tags ?? []
+        for tags in tagData {
+            let tagTitle = self.profileViewModel.tagData[indexPath.item].english
+            if tagTitle  == tags {
+                self.profileView.updateTag(button: cell.tendencyTagButton, buttonType: SelectedButton())
+                cell.tendencyTagButton.isSelected.toggle()
+                self.profileViewModel.countSelectedTag(isSelected: cell.tendencyTagButton.isSelected, tag: tagTitle)
+            }
+        }
         return cell
     }
     
 }
 
-extension ProfileViewController: UITextFieldDelegate {
+extension EditProfileViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let char = string.cString(using: String.Encoding.utf8) {
@@ -316,7 +373,7 @@ extension ProfileViewController: UITextFieldDelegate {
     }
 }
 
-extension ProfileViewController: DRBottomSheetDelegate {
+extension EditProfileViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
         self.dismiss(animated: true)
@@ -331,11 +388,12 @@ extension ProfileViewController: DRBottomSheetDelegate {
     }
 }
 
-extension ProfileViewController: ImagePickerDelegate {
+extension EditProfileViewController: ImagePickerDelegate {
     
     func didPickImages(_ images: [UIImage]) {
         let selectedImage = images[0]
         profileView.updateProfileImage(image: selectedImage)
+        self.profileViewModel.isDefaultImage = false
         self.profileViewModel.profileImage.value = selectedImage
     }
     

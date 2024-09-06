@@ -17,6 +17,8 @@ final class ProfileView: BaseView {
     
     private let nicknameLabel: UILabel = UILabel()
     
+    private let nicknameInfoLabel: UILabel = UILabel()
+    
     let nicknameTextfield: UITextField = UITextField()
     
     private let rightViewBox: UIView = UIView()
@@ -59,6 +61,7 @@ final class ProfileView: BaseView {
         self.addSubviews(profileImageView,
                          editImageButton,
                          nicknameLabel,
+                         nicknameInfoLabel,
                          nicknameTextfield,
                          nicknameErrMessageLabel,
                          countLabel,
@@ -83,7 +86,12 @@ final class ProfileView: BaseView {
         
         nicknameLabel.snp.makeConstraints {
             $0.top.equalTo(profileImageView.snp.bottom).offset(43)
-            $0.horizontalEdges.equalToSuperview()
+            $0.leading.equalToSuperview()
+        }
+        
+        nicknameInfoLabel.snp.makeConstraints {
+            $0.centerY.equalTo(nicknameLabel)
+            $0.leading.equalTo(nicknameLabel.snp.trailing).offset(5)
         }
         
         nicknameTextfield.snp.makeConstraints {
@@ -140,12 +148,15 @@ final class ProfileView: BaseView {
             $0.isUserInteractionEnabled = true
         }
         
-        nicknameLabel.do {
-            $0.setLabel(text: StringLiterals.Profile.nickname,
-                        alignment: .left,
-                        textColor: UIColor(resource: .drBlack),
-                        font: UIFont.suit(.body_bold_15))
-        }
+        nicknameLabel.setLabel(text: StringLiterals.Profile.nickname,
+                               alignment: .left,
+                               textColor: UIColor(resource: .drBlack),
+                               font: UIFont.suit(.body_bold_15))
+        
+        nicknameInfoLabel.setLabel(text: StringLiterals.Profile.nicknameInfo,
+                               alignment: .left,
+                               textColor: UIColor(resource: .gray300),
+                               font: UIFont.suit(.body_med_13))
         
         nicknameTextfield.do {
             rightViewBox.addSubview(doubleCheckButton)
@@ -242,7 +253,8 @@ extension ProfileView {
     }
     
     func updateDoubleCheckButton(isValid: Bool) {
-       isValid ? doubleCheckButton.setButtonStatus(buttonType: enabledButtonType)
+       isValid 
+        ? doubleCheckButton.setButtonStatus(buttonType: enabledButtonType)
         : doubleCheckButton.setButtonStatus(buttonType: disabledButtonType)
         doubleCheckButton.titleLabel?.font = UIFont.suit(.body_med_13)
         doubleCheckButton.layer.cornerRadius = 10
