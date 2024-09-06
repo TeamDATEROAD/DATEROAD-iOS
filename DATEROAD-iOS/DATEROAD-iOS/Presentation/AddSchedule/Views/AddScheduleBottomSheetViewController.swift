@@ -27,9 +27,8 @@ final class AddScheduleBottomSheetViewController: BaseViewController {
    // MARK: - Initializer
    
    init(viewModel: AddScheduleViewModel) {
-      super.init(nibName: nil, bundle: nil)
-      
       self.viewModel = viewModel
+      super.init(nibName: nil, bundle: nil)
    }
    
    required init?(coder: NSCoder) {
