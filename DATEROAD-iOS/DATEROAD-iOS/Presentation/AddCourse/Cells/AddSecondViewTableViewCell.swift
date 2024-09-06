@@ -38,6 +38,7 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
          timeRequireContainer,
          moveAbleButton
       )
+      
       timeRequireContainer.addSubview(timeRequireLabel)
    }
    

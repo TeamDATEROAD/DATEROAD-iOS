@@ -11,8 +11,9 @@ final class AddCourseViewModel: Serviceable {
    
    let onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
    
-   var pastDateDetailData: DateDetailModel?
    let ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
+   
+   var pastDateDetailData: DateDetailModel?
    
    var pastDatePlaces = [DatePlaceModel]()
    
@@ -94,13 +95,14 @@ final class AddCourseViewModel: Serviceable {
    let isSuccessPostData: ObservablePattern<Bool> = ObservablePattern(false)
    
    let onLoading: ObservablePattern<Bool> = ObservablePattern(nil)
-
+   
    let onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
    
    init(pastDateDetailData: DateDetailModel? = nil) {
       fetchTagData()
       self.pastDateDetailData = pastDateDetailData
    }
+   
 }
 
 extension AddCourseViewModel {
@@ -186,7 +188,6 @@ extension AddCourseViewModel {
       
       checkTagCount(min: minTagCnt, max: maxTagCnt)
    }
-   
    
    func checkTagCount(min: Int, max: Int) {
       let count = selectedTagData.count

@@ -89,7 +89,6 @@ final class AddCourseThirdView: BaseView {
          $0.setButtonStatus(buttonType: disabledButtonType)
          $0.setTitle(StringLiterals.AddCourseOrSchedule.AddThirdView.addThirdDoneBtn, for: .normal)
          $0.titleLabel?.font = .suit(.body_bold_15)
-//         $0.backgroundColor = UIColor(resource: .lime)
       }
       
    }
@@ -97,9 +96,11 @@ final class AddCourseThirdView: BaseView {
 }
 
 extension AddCourseThirdView {
+   
    func updateAddThirdDoneBtn(isValid: Bool) {
       print("현재 updateAddThirdDoneBtn \(isValid)")
       let state = isValid ? enabledButtonType : disabledButtonType
       addThirdDoneBtn.setButtonStatus(buttonType: state)
    }
+   
 }

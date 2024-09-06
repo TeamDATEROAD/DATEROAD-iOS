@@ -26,8 +26,6 @@ class AddThirdView: BaseView {
    
    var priceTextField: UITextField = UITextField()
    
-//   let addThirdDoneBtn: UIButton = UIButton()
-   
    private let addThirdDoneBtnContainer: UIView = UIView()
    
    
@@ -35,15 +33,11 @@ class AddThirdView: BaseView {
    
    let textViewPlaceHolder = StringLiterals.AddCourseOrSchedule.AddThirdView.contentTextFieldPlaceHolder
    
-//   private let enabledButtonType: DRButtonType = EnabledButton()
-//   
-//   private let disabledButtonType: DRButtonType = addCoursePlaceDisabledButton()
-   
    
    // MARK: - Methods
    
    override func setHierarchy() {
-      addSubviews (container)
+      addSubviews(container)
       
       container.addSubviews(
          contentTitleLabel,
@@ -51,11 +45,8 @@ class AddThirdView: BaseView {
          contentTextCountLabel,
          priceTitleLabel,
          priceTextField,
-//         addThirdDoneBtn
          addThirdDoneBtnContainer
       )
-      
-//      addThirdDoneBtnContainer.addSubview()
    }
    
    override func setLayout() {
@@ -94,11 +85,6 @@ class AddThirdView: BaseView {
          $0.horizontalEdges.equalToSuperview()
          $0.bottom.equalToSuperview()
       }
-      
-//      addThirdDoneBtn.snp.makeConstraints {
-//         $0.height.equalTo(54)
-//         $0.bottom.horizontalEdges.equalToSuperview()
-//      }
    }
    
    override func setStyle() {
@@ -162,8 +148,6 @@ class AddThirdView: BaseView {
          )
          $0.text = StringLiterals.AddCourseOrSchedule.AddThirdView.priceTitleLabel
       }
-      
-      
    }
    
 }
@@ -174,8 +158,6 @@ extension AddThirdView {
    func updateContentTextCount(textCnt: Int) {
       contentTextCountLabel.text = "\(textCnt)자 / 200자 이상"
    }
-   
-   
    
    func updatePriceText(price: Int) {
       if price == 0 {
