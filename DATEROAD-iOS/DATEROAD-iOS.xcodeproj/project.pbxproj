@@ -142,7 +142,6 @@
 		9EB91E782C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */; };
 		9EBD5C712C7C557900EDE081 /* DRDateFormatterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD5C702C7C557900EDE081 /* DRDateFormatterManager.swift */; };
 		9EBD5C732C7C850400EDE081 /* UINavigationController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD5C722C7C850400EDE081 /* UINavigationController+.swift */; };
-		9EBD5C752C8581E900EDE081 /* UITextVIew+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD5C742C8581E900EDE081 /* UITextVIew+.swift */; };
 		CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A963D2C2B131300F39EBE /* BaseViewController.swift */; };
 		CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96422C2C60E800F39EBE /* LoginModel.swift */; };
 		CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96442C2C610900F39EBE /* LoginViewModel.swift */; };
@@ -407,7 +406,6 @@
 		9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		9EBD5C702C7C557900EDE081 /* DRDateFormatterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRDateFormatterManager.swift; sourceTree = "<group>"; };
 		9EBD5C722C7C850400EDE081 /* UINavigationController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+.swift"; sourceTree = "<group>"; };
-		9EBD5C742C8581E900EDE081 /* UITextVIew+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextVIew+.swift"; sourceTree = "<group>"; };
 		CA0A963D2C2B131300F39EBE /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CA0A96422C2C60E800F39EBE /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		CA0A96442C2C610900F39EBE /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -1309,7 +1307,6 @@
 				0DC9BF0D2C4813FD00A817A8 /* Float+.swift */,
 				0DF9B3062C69D73800F80B99 /* UIImageView+.swift */,
 				9EBD5C722C7C850400EDE081 /* UINavigationController+.swift */,
-				9EBD5C742C8581E900EDE081 /* UITextVIew+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1918,7 +1915,6 @@
 				CABDCEA82C4A611A00631FB3 /* BannerDetailViewController.swift in Sources */,
 				9E50988C2C403C4B00F72CD0 /* AddThirdView.swift in Sources */,
 				0DC9BF052C47F55800A817A8 /* GetCourseDetailResponse.swift in Sources */,
-				9EBD5C752C8581E900EDE081 /* UITextVIew+.swift in Sources */,
 				CABDCE7B2C48498200631FB3 /* PostSignInRequest.swift in Sources */,
 				0D0DA3E62C3AF3FB004210EE /* PointDetailViewController.swift in Sources */,
 				9E754CEB2C483AD900E2CA91 /* InAddScheduleSecondView.swift in Sources */,
