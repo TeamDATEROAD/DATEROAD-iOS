@@ -116,8 +116,8 @@ extension AddCourseViewModel {
    ///지난 데이트 코스 등록 데이터 바인딩 함수
    func fetchPastDate() {
       dateName.value = pastDateDetailData?.title
-      
-      guard let pastDate = DateFormatterManager.shared.convertToStandardFormat(from: pastDateDetailData?.date ?? "") else { return }
+      guard let pastDateDetailDataDate = pastDateDetailData?.date else {return}
+      guard let pastDate = DateFormatterManager.shared.convertToStandardFormat(from: pastDateDetailDataDate) else { return }
       let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: pastDate)
       visitDate.value = formattedDate
       
