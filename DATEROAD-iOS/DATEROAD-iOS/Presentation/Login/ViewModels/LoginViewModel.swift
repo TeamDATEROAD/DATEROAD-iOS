@@ -120,11 +120,11 @@ extension LoginViewModel {
         NetworkService.shared.authService.postSignIn(requestBody: requestBody) { response in
             switch response {
             case .success(let data):
-                self.onLoginSuccess.value = true
                 UserDefaults.standard.setValue(data.userID, forKey: "userID")
                 UserDefaults.standard.setValue(data.accessToken, forKey: "accessToken")
                 UserDefaults.standard.setValue(data.refreshToken, forKey: "refreshToken")
                 print("login \(data)")
+                self.onLoginSuccess.value = true
                 self.isSignIn.value = true
             case .requestErr:
                 self.isSignIn.value = false
