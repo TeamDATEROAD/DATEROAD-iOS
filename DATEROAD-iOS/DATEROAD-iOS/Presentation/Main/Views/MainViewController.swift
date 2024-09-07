@@ -12,9 +12,7 @@ final class MainViewController: BaseViewController {
     // MARK: - UI Properties
     
     private var mainView: MainView
-    
-    private let loadingView: DRLoadingView = DRLoadingView()
-    
+        
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     private var timer: Timer?
@@ -63,14 +61,10 @@ final class MainViewController: BaseViewController {
     }
     
     override func setHierarchy() {
-        self.view.addSubviews(loadingView, mainView)
+        self.view.addSubview(mainView)
     }
     
     override func setLayout() {
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
         mainView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview().inset(view.frame.height * 0.1)
@@ -98,7 +92,7 @@ extension MainViewController {
                   let onFailNetwork = self?.mainViewModel.onFailNetwork.value
             else { return }
             if !onFailNetwork {
-                self?.loadingView.isHidden = !onLoading
+                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                 self?.mainView.isHidden = onLoading
                 self?.tabBarController?.tabBar.isHidden = onLoading
             }
@@ -107,7 +101,7 @@ extension MainViewController {
         self.mainViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                self?.mainViewModel.fetchSectionData()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
@@ -179,7 +173,7 @@ extension MainViewController {
     
     func setLoadingView(row: Int, section: Int) {
         if row == self.mainView.mainCollectionView.numberOfItems(inSection: section) - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
                 self.mainViewModel.setLoading()
             }
         }
