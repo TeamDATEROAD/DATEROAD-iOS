@@ -89,15 +89,7 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
    
 }
 
-extension AddScheduleFirstViewController {
-   
-   func pastDateBindViewModel() {
-      if !viewModel.isImporting {
-         setRightBtnStyle()
-         setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
-      }
-      viewModel.ispastDateVaild.value = true
-   }
+private extension AddScheduleFirstViewController {
    
    func bindViewModel() {
       self.viewModel.isSuccessGetData.bind { [weak self] isSuccess in
@@ -310,6 +302,16 @@ extension AddScheduleFirstViewController {
       self.present(locationFilterVC, animated: false)
    }
    
+}
+
+extension AddScheduleFirstViewController {
+   func pastDateBindViewModel() {
+      if !viewModel.isImporting {
+         setRightBtnStyle()
+         setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
+      }
+      viewModel.ispastDateVaild.value = true
+   }
 }
 
 extension AddScheduleFirstViewController: UICollectionViewDelegateFlowLayout {

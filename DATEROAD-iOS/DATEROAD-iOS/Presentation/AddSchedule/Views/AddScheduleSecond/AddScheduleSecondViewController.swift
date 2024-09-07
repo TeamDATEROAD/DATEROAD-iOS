@@ -221,7 +221,13 @@ private extension AddScheduleSecondViewController {
    }
    
    func successDone() {
-      let customAlertVC = DRCustomAlertViewController(rightActionType: .none, alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertScheduelTitleLabel, longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton)
+      let customAlertVC = DRCustomAlertViewController(
+         rightActionType: .none,
+         alertTextType: .hasDecription,
+         alertButtonType: .oneButton,
+         titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertScheduelTitleLabel,
+         longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton
+      )
       customAlertVC.delegate = self
       customAlertVC.modalPresentationStyle = .overFullScreen
       self.present(customAlertVC, animated: false)

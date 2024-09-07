@@ -107,15 +107,15 @@ final class AddCourseThirdViewController: BaseNavBarViewController {
 
 // MARK: - ViewController Methods
 
-extension AddCourseThirdViewController {
+private extension AddCourseThirdViewController {
    
-   private func registerCell() {
+   func registerCell() {
       addCourseThirdView.collectionView.do {
          $0.register(AddCourseImageCollectionViewCell.self, forCellWithReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier)
       }
    }
    
-   private func setDelegate() {
+   func setDelegate() {
       addCourseThirdView.collectionView.do {
          $0.delegate = self
          $0.dataSource = self
@@ -125,18 +125,11 @@ extension AddCourseThirdViewController {
       addCourseThirdView.addThirdView.priceTextField.delegate = self
    }
    
-   private func addTarget() {
+   func addTarget() {
       addCourseThirdView.addThirdDoneBtn.addTarget(self, action: #selector(didTapAddCourseBtn), for: .touchUpInside)
    }
    
-   func successDone() {
-      let customAlertVC = DRCustomAlertViewController(rightActionType: .none, alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertTitleLabel, descriptionText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertSubTitleLabel, longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton)
-      customAlertVC.delegate = self
-      customAlertVC.modalPresentationStyle = .overFullScreen
-      self.present(customAlertVC, animated: false)
-   }
-   
-   private func bindViewModel() {
+   func bindViewModel() {
       self.viewModel.isSuccessPostData.bind { [weak self] isSuccess in
          guard let isSuccess else { return }
          if isSuccess {
@@ -201,6 +194,20 @@ extension AddCourseThirdViewController {
       }
    }
    
+   func successDone() {
+      let customAlertVC = DRCustomAlertViewController(
+         rightActionType: .none,
+         alertTextType: .hasDecription,
+         alertButtonType: .oneButton,
+         titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertTitleLabel,
+         descriptionText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertSubTitleLabel,
+         longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton
+      )
+      customAlertVC.delegate = self
+      customAlertVC.modalPresentationStyle = .overFullScreen
+      self.present(customAlertVC, animated: false)
+   }
+   
    func goBackOriginVCForAddCourse() {
       let tabbarVC = TabBarController()
       tabbarVC.selectedIndex = 1
@@ -208,7 +215,7 @@ extension AddCourseThirdViewController {
    }
    
    @objc
-   private func keyboardWillShow(_ notification: Notification) {
+   func keyboardWillShow(_ notification: Notification) {
       if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
          keyboardHeight = keyboardSize.height
          adjustScrollViewForKeyboard(showKeyboard: true)
@@ -216,11 +223,11 @@ extension AddCourseThirdViewController {
    }
    
    @objc
-   private func keyboardWillHide(_ notification: Notification) {
+   func keyboardWillHide(_ notification: Notification) {
       adjustScrollViewForKeyboard(showKeyboard: false)
    }
    
-   private func adjustScrollViewForKeyboard(showKeyboard: Bool) {
+   func adjustScrollViewForKeyboard(showKeyboard: Bool) {
       let maxKeyboardHeight: CGFloat = 45
       
       let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: showKeyboard ? min(keyboardHeight, maxKeyboardHeight) : 0, right: 0)

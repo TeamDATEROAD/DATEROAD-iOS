@@ -42,7 +42,7 @@ final class AddScheduleViewModel: Serviceable {
    /// 코스 등록 태그 생성
    var tagData: [ProfileTagModel] = []
    
-   // 선택된 태그
+   /// 선택된 태그
    let isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
    let isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
    let tagCount: ObservablePattern<Int> = ObservablePattern(0)
