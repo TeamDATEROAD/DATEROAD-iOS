@@ -141,7 +141,7 @@ private extension AddScheduleSecondViewController {
             // DRErrorViewController가 닫힐 때의 동작 정의
             errorVC.onDismiss = {
                print("🚀onDismiss 출동🚀")
-               // 코스 등록 3 로딩뷰, 에러뷰 false 설정
+               // 일정 등록 2 로딩뷰, 에러뷰 false 설정
                self?.viewModel.onLoading.value = false
                self?.viewModel.onFailNetwork.value = false
             }
