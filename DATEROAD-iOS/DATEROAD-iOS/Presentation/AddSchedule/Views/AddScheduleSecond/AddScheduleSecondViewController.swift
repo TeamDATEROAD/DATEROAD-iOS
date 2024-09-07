@@ -173,7 +173,7 @@ private extension AddScheduleSecondViewController {
       viewModel.isDataSourceNotEmpty()
       
       viewModel.editBtnEnableState.bind { [weak self] date in
-         guard let date = date else {return}
+         guard let date else {return}
          self?.addScheduleSecondView.editBtnState(isAble: date)
       }
       

@@ -120,14 +120,14 @@ private extension AddCourseFirstViewController {
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
       viewModel.isDateNameVaild.bind { date in
-         guard let date = date else {return}
+         guard let date else {return}
          self.addCourseFirstView.updateDateNameTextField(isPassValid: date)
          
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
       viewModel.isVisitDateVaild.bind { date in
-         guard let date = date else {return}
+         guard let date else {return}
          self.addCourseFirstView.updateVisitDateTextField(isPassValid: date)
          
          let flag = self.viewModel.isOkSixBtn()
@@ -162,7 +162,7 @@ private extension AddCourseFirstViewController {
          self.addCourseFirstView.addFirstView.updateTagCount(count: count ?? 0)
       }
       viewModel.dateLocation.bind { date in
-         guard let date = date else {return}
+         guard let date else {return}
          self.addCourseFirstView.addFirstView.updateDateLocation(text: date)
       }
    }

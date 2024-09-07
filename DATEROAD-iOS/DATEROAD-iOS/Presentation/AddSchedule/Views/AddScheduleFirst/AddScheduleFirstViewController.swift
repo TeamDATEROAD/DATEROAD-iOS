@@ -153,14 +153,14 @@ extension AddScheduleFirstViewController {
       }
       
       viewModel.isDateNameVaild.bind { date in
-         guard let date = date else {return}
+         guard let date else {return}
          self.addScheduleFirstView.updateDateNameTextField(isPassValid: date)
          
          let flag = self.viewModel.isOkSixBtn()
          self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
       }
       viewModel.isVisitDateVaild.bind { date in
-         guard let date = date else {return}
+         guard let date else {return}
          self.addScheduleFirstView.updateVisitDateTextField(isPassValid: date)
          
          let flag = self.viewModel.isOkSixBtn()
@@ -195,7 +195,7 @@ extension AddScheduleFirstViewController {
          self.addScheduleFirstView.inAddScheduleFirstView.updateTagCount(count: count ?? 0)
       }
       viewModel.dateLocation.bind { date in
-         guard let date = date else {return}
+         guard let date else {return}
          self.addScheduleFirstView.inAddScheduleFirstView.updateDateLocation(text: date)
       }
    }
