@@ -17,9 +17,9 @@ class DateScheduleViewModel: Serviceable {
     
     var currentIndex: ObservablePattern<Int> = ObservablePattern(0)
     
-    var isSuccessGetPastDateScheduleData: ObservablePattern<Bool> = ObservablePattern(nil)
+    var isSuccessGetPastDateScheduleData: ObservablePattern<Bool> = ObservablePattern(false)
     
-    var isSuccessGetUpcomingDateScheduleData: ObservablePattern<Bool> = ObservablePattern(nil)
+    var isSuccessGetUpcomingDateScheduleData: ObservablePattern<Bool> = ObservablePattern(false)
     
     var isMoreThanFiveSchedule : Bool {
         return (upcomingDateScheduleData.value?.count ?? 0 >= 5)
@@ -61,8 +61,7 @@ class DateScheduleViewModel: Serviceable {
     }
     
     func setPastScheduleLoading() {
-        guard let isSuccessGetPastDateScheduleData = self.isSuccessGetPastDateScheduleData.value
-        else { return }
+        guard let isSuccessGetPastDateScheduleData = self.isSuccessGetPastDateScheduleData.value else { return }
         self.onPastScheduleLoading.value = !isSuccessGetPastDateScheduleData
      }
     
@@ -94,10 +93,8 @@ class DateScheduleViewModel: Serviceable {
     }
     
     func setUpcomingScheduleLoading() {
-        guard let isSuccessGetUpcomingDateScheduleData = self.isSuccessGetUpcomingDateScheduleData.value
-        else { return }
-        self.onUpcomingScheduleLoading.value = isSuccessGetUpcomingDateScheduleData ? false : true
+        guard let isSuccessGetUpcomingDateScheduleData = self.isSuccessGetUpcomingDateScheduleData.value else { return }
+        self.onUpcomingScheduleLoading.value = !isSuccessGetUpcomingDateScheduleData
      }
-
 
 }

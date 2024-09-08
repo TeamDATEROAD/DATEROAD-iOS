@@ -16,8 +16,6 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     var upcomingDateDetailContentView = DateDetailContentView()
     
-    private let loadingView: DRLoadingView = DRLoadingView()
-
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     
@@ -66,18 +64,12 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-         self.view.addSubview(loadingView)
         contentView.addSubview(upcomingDateDetailContentView)
-        
     }
     
     override func setLayout() {
         super.setLayout()
-        
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
+
         upcomingDateDetailContentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -94,7 +86,7 @@ extension UpcomingDateDetailViewController {
                     let onFailNetwork = self?.upcomingDateDetailViewModel.onFailNetwork.value
             else { return }
              if !onFailNetwork {
-                 self?.loadingView.isHidden = !onLoading
+                 onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                  self?.upcomingDateDetailContentView.isHidden = onLoading
                  self?.topInsetView.isHidden = onLoading
                  self?.navigationBarView.isHidden = onLoading
@@ -113,7 +105,7 @@ extension UpcomingDateDetailViewController {
         self.upcomingDateDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
-                self?.loadingView.isHidden = true
+                self?.hideLoadingView()
                 let errorVC = DRErrorViewController()
                 self?.navigationController?.pushViewController(errorVC, animated: false)
             }
@@ -126,7 +118,7 @@ extension UpcomingDateDetailViewController {
             if isSuccess {
                 self?.upcomingDateDetailContentView.dataBind(data)
                 self?.upcomingDateDetailContentView.dateTimeLineCollectionView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     self?.upcomingDateDetailViewModel.setDateDetailLoading()
                 }
             }

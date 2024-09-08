@@ -10,16 +10,14 @@ import UIKit
 import SnapKit
 import Then
 
-class AddCourseThirdViewController: BaseNavBarViewController {
+final class AddCourseThirdViewController: BaseNavBarViewController {
    
    // MARK: - UI Properties
    
    private var addCourseThirdView = AddCourseThirdView()
    
    private let viewModel: AddCourseViewModel
-   
-   private let loadingView: DRLoadingView = DRLoadingView()
-   
+      
    private let errorView: DRErrorViewController = DRErrorViewController()
    
    private var keyboardHeight: CGFloat = 0.0
@@ -63,16 +61,12 @@ class AddCourseThirdViewController: BaseNavBarViewController {
       super.setHierarchy()
       
       self.view.addSubview(contentView)
-      contentView.addSubviews(loadingView, addCourseThirdView)
+      contentView.addSubviews(addCourseThirdView)
    }
    
    override func setLayout() {
       super.setLayout()
-      
-      loadingView.snp.makeConstraints {
-         $0.edges.equalToSuperview()
-      }
-      
+
       addCourseThirdView.snp.makeConstraints {
          $0.top.equalToSuperview().offset(4)
          $0.horizontalEdges.equalToSuperview()
@@ -167,7 +161,7 @@ extension AddCourseThirdViewController {
          guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
          
          if !onFailNetwork {
-            self?.loadingView.isHidden = !onLoading
+             onLoading ? self?.showLoadingView() : self?.hideLoadingView()
             self?.addCourseThirdView.isHidden = onLoading
             self?.tabBarController?.tabBar.isHidden = onLoading
          }

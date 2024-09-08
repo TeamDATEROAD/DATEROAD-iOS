@@ -19,7 +19,7 @@ final class MyPageViewModel: Serviceable {
     
     var onSuccessWithdrawal: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    var onSuccessGetUserProfile: ObservablePattern<Bool> = ObservablePattern(nil)
+    var onSuccessGetUserProfile: ObservablePattern<Bool> = ObservablePattern(false)
 
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
@@ -106,6 +106,6 @@ extension MyPageViewModel {
     
     func setLoading() {
         guard let isSuccessGetUserInfo = self.onSuccessGetUserProfile.value else { return }
-        self.onLoading.value = isSuccessGetUserInfo ? false : true
+        self.onLoading.value = !isSuccessGetUserInfo
     }
 }

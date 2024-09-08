@@ -25,9 +25,7 @@ class ViewedCourseViewController: BaseViewController {
     private let arrowButton = UIButton()
     
     private var viewedCourseView = MyCourseListView()
-    
-    private let loadingView: DRLoadingView = DRLoadingView()
-    
+        
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     // MARK: - Properties
@@ -50,6 +48,7 @@ class ViewedCourseViewController: BaseViewController {
    // MARK: - LifeCycle
 
     override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
         self.viewedCourseViewModel.setViewedCourseLoading()
         self.viewedCourseViewModel.setViewedCourseData()
     }
@@ -64,7 +63,9 @@ class ViewedCourseViewController: BaseViewController {
    }
    
    override func setHierarchy() {
-      self.view.addSubviews(loadingView, contentView)
+       super.setHierarchy()
+       
+      self.view.addSubview(contentView)
        
       self.contentView.addSubviews(topLabel,
                                    createCourseView,
@@ -74,9 +75,7 @@ class ViewedCourseViewController: BaseViewController {
    }
    
    override func setLayout() {
-       loadingView.snp.makeConstraints {
-           $0.edges.equalToSuperview()
-       }
+       super.setLayout()
        
        contentView.snp.makeConstraints {
            $0.edges.equalToSuperview()
@@ -116,6 +115,8 @@ class ViewedCourseViewController: BaseViewController {
     }
    
    override func setStyle() {
+       super.setStyle()
+       
       self.view.backgroundColor = UIColor(resource: .drWhite)
       
       topLabel.do {
@@ -153,10 +154,10 @@ private extension ViewedCourseViewController {
        var isEmpty = (viewedCourseViewModel.viewedCourseData.value?.count == 0)
        viewedCourseView.emptyView.isHidden = !isEmpty
 
+       createCourseView.isHidden = isEmpty
        if isEmpty {
            let name =  UserDefaults.standard.string(forKey: "userName") ?? ""
            topLabel.text = "\(name)님,\n아직 열람한\n데이트코스가 없어요"
-           createCourseView.isHidden = isEmpty
            viewedCourseView.emptyView.snp.makeConstraints {
                $0.top.equalToSuperview()
            }
@@ -185,7 +186,7 @@ extension ViewedCourseViewController {
        self.viewedCourseViewModel.onViewedCourseFailNetwork.bind { [weak self] onFailure in
            guard let onFailure else { return }
            if onFailure {
-               self?.loadingView.isHidden = true
+               self?.hideLoadingView()
                let errorVC = DRErrorViewController()
                self?.navigationController?.pushViewController(errorVC, animated: false)
            }
@@ -194,8 +195,9 @@ extension ViewedCourseViewController {
        self.viewedCourseViewModel.onViewedCourseLoading.bind { [weak self] onLoading in
            guard let onLoading, let onFailNetwork = self?.viewedCourseViewModel.onViewedCourseFailNetwork.value else { return }
            if !onFailNetwork {
-               self?.loadingView.isHidden = !onLoading
+               onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                self?.contentView.isHidden = onLoading
+               self?.tabBarController?.tabBar.isHidden = onLoading
            }
        }
        
@@ -208,11 +210,8 @@ extension ViewedCourseViewController {
                 $0.setAttributedText(fullText: "\(name)님이 지금까지\n열람한 데이트 코스\n\(self?.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개", pointText: "\(self?.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)", pointColor: UIColor(resource: .mediumPurple), lineHeight: 1)
                 $0.numberOfLines = 3
             }
-             self?.viewedCourseView.myCourseListCollectionView.reloadData()
-             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                 self?.viewedCourseViewModel.setViewedCourseLoading()
-             }
              self?.setEmptyView()
+             self?.viewedCourseView.myCourseListCollectionView.reloadData()
          }
       }
       
@@ -263,13 +262,21 @@ extension ViewedCourseViewController : UICollectionViewDataSource {
       cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToCourseDetailVC(_:))))
       return cell
    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == self.viewedCourseView.myCourseListCollectionView.numberOfItems(inSection: indexPath.section) - 1 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.viewedCourseViewModel.setViewedCourseLoading()
+            }
+        }
+    }
    
    @objc func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
       let location = sender.location(in: viewedCourseView.myCourseListCollectionView)
       let indexPath = viewedCourseView.myCourseListCollectionView.indexPathForItem(at: location)
       
-      if let index = indexPath {
-         let courseId = viewedCourseViewModel.viewedCourseData.value?[indexPath?.item ?? 0].courseId ?? 0
+      if let indexPath {
+          let courseId = viewedCourseViewModel.viewedCourseData.value?[indexPath.item].courseId ?? 0
          self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
       }
    }

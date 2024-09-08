@@ -50,9 +50,11 @@ class BaseViewController: UIViewController {
         
         // 로딩 뷰를 화면에 추가
         self.view.addSubviews(backgroundView, lottieView)
+        
         backgroundView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
         lottieView.snp.makeConstraints {
             $0.center.equalToSuperview()
         }

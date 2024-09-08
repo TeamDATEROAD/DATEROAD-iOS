@@ -10,14 +10,12 @@ import UIKit
 import SnapKit
 import Then
 
-class NavViewedCourseViewController: BaseNavBarViewController {
+final class NavViewedCourseViewController: BaseNavBarViewController {
 
     // MARK: - UI Properties
     
     private var navViewedCourseView = MyCourseListView()
-    
-    private let loadingView: DRLoadingView = DRLoadingView()
-    
+        
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     // MARK: - Properties
@@ -45,16 +43,12 @@ class NavViewedCourseViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(loadingView)
         self.contentView.addSubviews(navViewedCourseView)
     }
     
     override func setLayout() {
         super.setLayout()
-        
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+
         navViewedCourseView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -99,7 +93,7 @@ extension NavViewedCourseViewController {
         self.viewedCourseViewModel.onNavViewedCourseFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
-                self?.loadingView.isHidden = true
+                self?.hideLoadingView()
                 let errorVC = DRErrorViewController()
                 self?.navigationController?.pushViewController(errorVC, animated: false)
             }
@@ -108,7 +102,7 @@ extension NavViewedCourseViewController {
         self.viewedCourseViewModel.onNavViewedCourseLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.viewedCourseViewModel.onViewedCourseFailNetwork.value else { return }
             if !onFailNetwork {
-                self?.loadingView.isHidden = !onLoading
+                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                 self?.navViewedCourseView.isHidden = onLoading
             }
         }
@@ -117,7 +111,7 @@ extension NavViewedCourseViewController {
             guard let isSuccess else { return }
             if isSuccess {
                 self?.navViewedCourseView.myCourseListCollectionView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     self?.viewedCourseViewModel.setNavViewedCourseLoading()
                 }
                 self?.setEmptyView()

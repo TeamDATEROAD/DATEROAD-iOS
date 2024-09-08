@@ -271,12 +271,15 @@ extension MyPageViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
         let data = myPageViewModel.userInfoData.value ?? MyPageUserInfoModel(nickname: "", tagList: [], point: 0, imageURL: "")
         cell.updateButtonTitle(title: data.tagList[indexPath.row])
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == self.myPageView.userInfoView.tagCollectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.myPageViewModel.setLoading()
             }
         }
-        return cell
     }
     
 }

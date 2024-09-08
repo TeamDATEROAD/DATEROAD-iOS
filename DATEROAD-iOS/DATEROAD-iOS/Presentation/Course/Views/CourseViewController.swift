@@ -48,17 +48,21 @@ final class CourseViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+        self.tabBarController?.tabBar.isHidden = false
+        self.courseViewModel.setLoading()
         getCourse()
         courseViewModel.fetchPriceData()
     }
     
     override func setHierarchy() {
+        super.setHierarchy()
+        
         self.view.addSubview(courseView)
     }
     
     override func setLayout() {
+        super.setLayout()
+        
         courseView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -109,7 +113,6 @@ final class CourseViewController: BaseViewController {
         
         courseViewModel.isSuccessGetData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
-
             if isSuccess {
                 self?.courseView.courseListView.courseListCollectionView.reloadData()
             }
@@ -120,7 +123,6 @@ final class CourseViewController: BaseViewController {
         }
         
         self.courseViewModel.selectedCityName.bind { [weak self] index in
-            
             self?.courseViewModel.didUpdateselectedCityName?(index)
         }
         
@@ -229,24 +231,14 @@ extension CourseViewController: CourseNavigationBarViewDelegate {
 }
 
 extension CourseViewController: UICollectionViewDelegate {
-
+    
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-            let totalItems = collectionView.numberOfItems(inSection: indexPath.section)
-            
-            if indexPath.row == totalItems - 2 {
-                // 로딩 뷰 표시
-                self.showLoadingView()
-                self.courseView.isHidden = true
-                self.tabBarController?.tabBar.isHidden = true
-
-                // 3초 후에 로딩 뷰 숨기고 마지막 셀 표시
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-                    self?.hideLoadingView()
-                    self?.courseView.isHidden = false
-                    self?.tabBarController?.tabBar.isHidden = false
-                }
+        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.courseViewModel.setLoading()
             }
         }
+    }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedCourse = courseViewModel.courseListModel[indexPath.row]

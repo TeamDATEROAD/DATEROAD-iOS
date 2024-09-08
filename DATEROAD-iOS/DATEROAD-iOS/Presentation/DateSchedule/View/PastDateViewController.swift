@@ -16,8 +16,6 @@ final class PastDateViewController: BaseNavBarViewController {
     
     var pastDateContentView = PastDateContentView()
     
-    private let loadingView: DRLoadingView = DRLoadingView()
-
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     
@@ -61,17 +59,12 @@ final class PastDateViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubview(loadingView)
         contentView.addSubview(pastDateContentView)
     }
     
     override func setLayout() {
         super.setLayout()
-        
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
+
         pastDateContentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -85,7 +78,7 @@ private extension PastDateViewController {
     func setEmptyView() {
         guard let dataCount = pastDateScheduleViewModel.pastDateScheduleData.value?.count
         else { return }
-        pastDateContentView.emptyView.isHidden = dataCount == 0 ? false : true
+        pastDateContentView.emptyView.isHidden = !(dataCount == 0)
     }
 
     func bindViewModel() {
@@ -102,7 +95,7 @@ private extension PastDateViewController {
                     let onFailNetwork = self?.pastDateScheduleViewModel.onPastScheduleFailNetwork.value
             else { return }
              if !onFailNetwork {
-                 self?.loadingView.isHidden = !onLoading
+                 onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                  self?.pastDateContentView.isHidden = onLoading
                  self?.topInsetView.isHidden = onLoading
                  self?.navigationBarView.isHidden = onLoading
@@ -123,7 +116,7 @@ private extension PastDateViewController {
             if isSuccess {
                 self?.pastDateContentView.pastDateCollectionView.reloadData()
                 self?.setEmptyView()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     self?.pastDateScheduleViewModel.setPastScheduleLoading()
                 }
             }
@@ -132,7 +125,7 @@ private extension PastDateViewController {
         self.pastDateScheduleViewModel.onPastScheduleFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
-                self?.loadingView.isHidden = true
+                self?.hideLoadingView()
                 let errorVC = DRErrorViewController()
                 self?.navigationController?.pushViewController(errorVC, animated: false)
             }

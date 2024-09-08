@@ -16,8 +16,6 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     
     private var upcomingDateScheduleView = UpcomingDateScheduleView()
     
-    private let loadingView: DRLoadingView = DRLoadingView()
-
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     
@@ -40,6 +38,7 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
         self.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
         self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
     }
@@ -56,13 +55,13 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     }
     
     override func setHierarchy() {
-        self.view.addSubviews(loadingView, upcomingDateScheduleView)
+        super.setHierarchy()
+        
+        self.view.addSubview(upcomingDateScheduleView)
     }
     
     override func setLayout() {
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        super.setLayout()
         
         upcomingDateScheduleView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -124,7 +123,7 @@ private extension UpcomingDateScheduleViewController {
                     let onFailNetwork = self?.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.value
             else { return }
              if !onFailNetwork {
-                 self?.loadingView.isHidden = !onLoading
+                 onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                  self?.upcomingDateScheduleView.isHidden = onLoading
                  self?.tabBarController?.tabBar.isHidden = onLoading
              }
@@ -143,9 +142,9 @@ private extension UpcomingDateScheduleViewController {
             guard let isSuccess else { return }
             if isSuccess {
                 print("success 인디케이터")
-                self?.upcomingDateScheduleView.cardCollectionView.reloadData()
                 self?.drawDateCardView()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self?.upcomingDateScheduleView.cardCollectionView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     self?.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
                 }
             }
@@ -156,7 +155,7 @@ private extension UpcomingDateScheduleViewController {
             guard let onFailure else { return }
             if onFailure {
                 print("됨 !!")
-                self?.loadingView.isHidden = true
+                self?.hideLoadingView()
                 let errorVC = DRErrorViewController()
                 self?.navigationController?.pushViewController(errorVC, animated: false)
             }

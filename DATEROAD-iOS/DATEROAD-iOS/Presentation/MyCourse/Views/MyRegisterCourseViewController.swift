@@ -10,13 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
-class MyRegisterCourseViewController: BaseNavBarViewController {
+final class MyRegisterCourseViewController: BaseNavBarViewController {
 
     // MARK: - UI Properties
     
     private var myRegisterCourseView = MyCourseListView()
-    
-    private let loadingView: DRLoadingView = DRLoadingView()
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
@@ -45,17 +43,12 @@ class MyRegisterCourseViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubview(loadingView)
         self.contentView.addSubviews(myRegisterCourseView)
     }
     
     override func setLayout() {
         super.setLayout()
-        
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
+
         myRegisterCourseView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.bottom.equalToSuperview()
@@ -101,7 +94,7 @@ extension MyRegisterCourseViewController {
         self.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
-                self?.loadingView.isHidden = true
+                self?.hideLoadingView()
                 let errorVC = DRErrorViewController()
                 self?.navigationController?.pushViewController(errorVC, animated: false)
             }
@@ -110,7 +103,7 @@ extension MyRegisterCourseViewController {
         self.myRegisterCourseViewModel.onMyRegisterCourseLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.value else { return }
             if !onFailNetwork {
-                self?.loadingView.isHidden = !onLoading
+                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                 self?.contentView.isHidden = onLoading
             }
         }
@@ -118,11 +111,11 @@ extension MyRegisterCourseViewController {
         self.myRegisterCourseViewModel.isSuccessGetMyRegisterCourseInfo.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
+                self?.setEmptyView()
                 self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     self?.myRegisterCourseViewModel.setMyRegisterCourseLoading()
                 }
-                self?.setEmptyView()
             }
         }
     }

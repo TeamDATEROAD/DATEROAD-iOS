@@ -15,9 +15,7 @@ class PointDetailViewController: BaseNavBarViewController {
     // MARK: - UI Properties
     
     private let pointDetailView = PointDetailView()
-    
-    private let loadingView: DRLoadingView = DRLoadingView()
-    
+        
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     // MARK: - Properties
@@ -47,8 +45,7 @@ class PointDetailViewController: BaseNavBarViewController {
         
         setLeftBackButton()
         setTitleLabelStyle(title: StringLiterals.PointDetail.title, alignment: .center)
-        setProfile(userName: pointViewModel.userName,
-                   totalPoint: pointViewModel.totalPoint)
+        setProfile(userName: pointViewModel.userName, totalPoint: pointViewModel.totalPoint)
         bindViewModel()
         registerCell()
         setDelegate()
@@ -61,18 +58,12 @@ class PointDetailViewController: BaseNavBarViewController {
     
     override func setHierarchy() {
         super.setHierarchy()
-        
-        self.view.addSubviews(loadingView)
-        
+                
         self.contentView.addSubviews(pointDetailView)
     }
     
     override func setLayout() {
         super.setLayout()
-        
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
         
         pointDetailView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -96,7 +87,7 @@ extension PointDetailViewController {
         self.pointViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
-                self?.loadingView.isHidden = true
+                self?.hideLoadingView()
                 let errorVC = DRErrorViewController()
                 self?.navigationController?.pushViewController(errorVC, animated: false)
             }
@@ -105,7 +96,7 @@ extension PointDetailViewController {
         self.pointViewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.pointViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
-                self?.loadingView.isHidden = !onLoading
+                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                 self?.pointDetailView.isHidden = onLoading
             }
         }
@@ -116,7 +107,7 @@ extension PointDetailViewController {
                 self?.pointDetailView.pointCollectionView.reloadData()
                 self?.pointViewModel.updateData(nowEarnedPointHidden: false)
                 self?.changeSelectedSegmentLayout(isEarnedPointHidden: false)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     self?.pointViewModel.setPointDetailLoading()
                 }
             }

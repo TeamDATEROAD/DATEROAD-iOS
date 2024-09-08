@@ -55,25 +55,24 @@ final class MainViewController: BaseViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
         self.stopBannerAutoScroll()
     }
     
     override func setHierarchy() {
+        super.setHierarchy()
+        
         self.view.addSubview(mainView)
     }
     
     override func setLayout() {
+        super.setLayout()
+        
         mainView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview().inset(view.frame.height * 0.1)
         }
     }
-    
-    override func setStyle() {
-        self.navigationController?.navigationBar.isHidden = true
-    }
+
 }
 
 extension MainViewController {
@@ -173,7 +172,7 @@ extension MainViewController {
     
     func setLoadingView(row: Int, section: Int) {
         if row == self.mainView.mainCollectionView.numberOfItems(inSection: section) - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.mainViewModel.setLoading()
             }
         }
@@ -357,15 +356,20 @@ extension MainViewController: UICollectionViewDataSource {
         switch self.mainViewModel.sectionData[indexPath.section] {
         case .hotDateCourse:
             let courseId = mainViewModel.hotCourseData.value?[indexPath.item].courseId ?? 0
-            self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
+            let courseDetailVC = CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId))
+            courseDetailVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(courseDetailVC, animated: false)
             
         case .newDateCourse:
             let courseId = mainViewModel.newCourseData.value?[indexPath.item].courseId ?? 0
-            self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
+            let courseDetailVC = CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId))
+            courseDetailVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(courseDetailVC, animated: false)
             
         case .banner:
             let id = mainViewModel.bannerData.value?[indexPath.item].advertisementId ?? 1
             let bannerDtailVC = BannerDetailViewController(viewModel: CourseDetailViewModel(courseId: 7), advertismentId: id)
+            bannerDtailVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(bannerDtailVC, animated: false)
             
         default:
