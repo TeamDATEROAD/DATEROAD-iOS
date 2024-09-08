@@ -14,9 +14,7 @@ final class MyPageViewController: BaseNavBarViewController {
     // MARK: - UI Properties
     
     private let myPageView: MyPageView = MyPageView()
-    
-    private let loadingView: DRLoadingView = DRLoadingView()
-    
+        
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     
@@ -27,6 +25,7 @@ final class MyPageViewController: BaseNavBarViewController {
     private var loginViewModel: LoginViewModel = LoginViewModel()
     
     private var selectedAlertFlag: Int = 0
+    
     
     // MARK: - Life Cycle
     
@@ -61,17 +60,12 @@ final class MyPageViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubview(loadingView)
         self.contentView.addSubview(myPageView)
     }
     
     override func setLayout() {
         super.setLayout()
-        
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
+
         myPageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -117,7 +111,7 @@ private extension MyPageViewController {
         self.myPageViewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.myPageViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
-                self?.loadingView.isHidden = !onLoading
+                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                 self?.myPageView.isHidden = onLoading
                 self?.topInsetView.isHidden = onLoading
                 self?.navigationBarView.isHidden = onLoading
@@ -278,7 +272,7 @@ extension MyPageViewController: UICollectionViewDataSource {
         let data = myPageViewModel.userInfoData.value ?? MyPageUserInfoModel(nickname: "", tagList: [], point: 0, imageURL: "")
         cell.updateButtonTitle(title: data.tagList[indexPath.row])
         if indexPath.row == self.myPageView.userInfoView.tagCollectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
                 self.myPageViewModel.setLoading()
             }
         }
