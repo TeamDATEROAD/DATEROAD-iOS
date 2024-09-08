@@ -268,6 +268,9 @@ extension MainViewController: UICollectionViewDelegate {
         mainView.mainCollectionView.backgroundColor = contentOffsetY < 0 ? UIColor(resource: .deepPurple) : UIColor(resource: .drWhite)
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        self.setLoadingView(row: indexPath.row, section: indexPath.section)
+    }
 }
 
 extension MainViewController: UICollectionViewDataSource {
@@ -302,13 +305,11 @@ extension MainViewController: UICollectionViewDataSource {
             cell.dateTicketView.moveButton.tag = mainViewModel.upcomingData.value?.dateId ?? 0
             cell.dateTicketView.moveButton.addTarget(self, action: #selector(pushToDateDetailVC(_:)), for: .touchUpInside)
             cell.emptyTicketView.moveButton.addTarget(self, action: #selector(pushToDateScheduleVC), for: .touchUpInside)
-            setLoadingView(row: indexPath.row, section: indexPath.section)
             return cell
             
         case .hotDateCourse:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell else { return UICollectionViewCell() }
             cell.bindData(hotDateData: mainViewModel.hotCourseData.value?[indexPath.row])
-            setLoadingView(row: indexPath.row, section: indexPath.section)
             return cell
             
         case .banner:
@@ -316,13 +317,11 @@ extension MainViewController: UICollectionViewDataSource {
             cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
             let longPressGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
             cell.addGestureRecognizer(longPressGesture)
-            setLoadingView(row: indexPath.row, section: indexPath.section)
             return cell
             
         case .newDateCourse:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell else { return UICollectionViewCell() }
             cell.bindData(newDateData: mainViewModel.newCourseData.value?[indexPath.row])
-            setLoadingView(row: indexPath.row, section: indexPath.section)
             return cell
         }
     }
