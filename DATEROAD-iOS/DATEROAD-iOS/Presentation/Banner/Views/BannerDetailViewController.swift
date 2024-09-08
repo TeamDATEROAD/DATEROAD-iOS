@@ -16,8 +16,6 @@ final class BannerDetailViewController: BaseViewController {
     
     private let bannerDetailView: BannerDetailView
     
-    private let loadingView: DRLoadingView = DRLoadingView()
-    
     private let errorView: DRErrorViewController = DRErrorViewController()
         
     private var deleteCourseSettingView = DeleteCourseSettingView()
@@ -66,15 +64,11 @@ final class BannerDetailViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(loadingView, bannerDetailView)
+        self.view.addSubview(bannerDetailView)
     }
     
     override func setLayout() {
         super.setLayout()
-
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
         
         bannerDetailView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -88,7 +82,6 @@ final class BannerDetailViewController: BaseViewController {
         self.view.backgroundColor = UIColor(resource: .drWhite)
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.tabBarController?.tabBar.isHidden = true
-        
     }
     
     func bindViewModel() {
@@ -113,7 +106,7 @@ final class BannerDetailViewController: BaseViewController {
             guard let onLoading, 
                     let onFailNetwork = self?.courseDetailViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
-                self?.loadingView.isHidden = !onLoading
+                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                 self?.bannerDetailView.isHidden = onLoading
             }
         }
