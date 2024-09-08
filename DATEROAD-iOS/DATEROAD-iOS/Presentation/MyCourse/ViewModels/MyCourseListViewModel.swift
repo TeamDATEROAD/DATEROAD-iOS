@@ -41,8 +41,6 @@ class MyCourseListViewModel: Serviceable {
         let name = UserDefaults.standard.string(forKey: "userName") ?? ""
         self.userName = name
         
-        setViewedCourseData()
-        setMyRegisterCourseData()
         print("@log", myRegisterCourseData.value?.count)
     }
     
