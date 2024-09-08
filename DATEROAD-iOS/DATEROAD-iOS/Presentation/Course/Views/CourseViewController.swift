@@ -14,9 +14,7 @@ import Then
 final class CourseViewController: BaseViewController {
     
     // MARK: - UI Properties
-    
-    private let loadingView: DRLoadingView = DRLoadingView()
-    
+        
     private let errorView: DRErrorViewController = DRErrorViewController()
 
     private let courseView = CourseView()
@@ -57,14 +55,10 @@ final class CourseViewController: BaseViewController {
     }
     
     override func setHierarchy() {
-        self.view.addSubviews(loadingView, courseView)
+        self.view.addSubview(courseView)
     }
     
     override func setLayout() {
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
         courseView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -98,7 +92,7 @@ final class CourseViewController: BaseViewController {
         self.courseViewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.courseViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
-                self?.loadingView.isHidden = !onLoading
+                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                 self?.courseView.isHidden = onLoading
                 self?.tabBarController?.tabBar.isHidden = onLoading
             }
@@ -241,13 +235,13 @@ extension CourseViewController: UICollectionViewDelegate {
             
             if indexPath.row == totalItems - 2 {
                 // 로딩 뷰 표시
-                self.loadingView.isHidden = false
+                self.showLoadingView()
                 self.courseView.isHidden = true
                 self.tabBarController?.tabBar.isHidden = true
 
                 // 3초 후에 로딩 뷰 숨기고 마지막 셀 표시
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-                    self?.loadingView.isHidden = true
+                    self?.hideLoadingView()
                     self?.courseView.isHidden = false
                     self?.tabBarController?.tabBar.isHidden = false
                 }
