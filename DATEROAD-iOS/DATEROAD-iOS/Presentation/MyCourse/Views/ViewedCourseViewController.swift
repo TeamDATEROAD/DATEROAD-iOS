@@ -95,8 +95,8 @@ class ViewedCourseViewController: BaseViewController {
       }
       
       viewedCourseView.snp.makeConstraints {
-         $0.top.equalTo(createCourseView.snp.bottom).offset(10)
-         $0.bottom.equalToSuperview().inset(ScreenUtils.height*0.1)
+         $0.top.equalTo(topLabel.snp.bottom).offset(54)
+         $0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.11)
          $0.horizontalEdges.equalToSuperview()
       }
       
@@ -116,12 +116,13 @@ class ViewedCourseViewController: BaseViewController {
    
    override func setStyle() {
        super.setStyle()
-       
-      self.view.backgroundColor = UIColor(resource: .drWhite)
-      
+             
       topLabel.do {
          $0.font = UIFont.suit(.title_extra_24)
-         $0.setAttributedText(fullText: "\(viewedCourseViewModel.userName)님이 지금까지\n열람한 데이트 코스\n\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개", pointText: "\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)", pointColor: UIColor(resource: .mediumPurple), lineHeight: 1)
+         $0.setAttributedText(fullText: "\(viewedCourseViewModel.userName)님이 지금까지\n열람한 데이트 코스\n\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개", 
+                              pointText: "\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
+                              pointColor: UIColor(resource: .mediumPurple),
+                              lineHeight: 1)
          $0.numberOfLines = 3
       }
       
@@ -150,21 +151,21 @@ class ViewedCourseViewController: BaseViewController {
 // MARK: - EmptyView Methods
 
 private extension ViewedCourseViewController {
-   func setEmptyView() {
-       var isEmpty = (viewedCourseViewModel.viewedCourseData.value?.count == 0)
+    func setEmptyView() {
+       let name =  UserDefaults.standard.string(forKey: "userName") ?? ""
+        let isEmpty = (self.viewedCourseViewModel.viewedCourseData.value?.count == 0)
        viewedCourseView.emptyView.isHidden = !isEmpty
-
        createCourseView.isHidden = isEmpty
+
        if isEmpty {
-           let name =  UserDefaults.standard.string(forKey: "userName") ?? ""
            topLabel.text = "\(name)님,\n아직 열람한\n데이트코스가 없어요"
-           viewedCourseView.emptyView.snp.makeConstraints {
-               $0.top.equalToSuperview()
-           }
-           viewedCourseView.emptyView.do {
-               $0.setEmptyView(emptyImage: UIImage(resource: .emptyViewedCourse),
-                             emptyTitle: StringLiterals.EmptyView.emptyViewedCourse)
-           }
+           viewedCourseView.emptyView.setEmptyView(emptyImage: UIImage(resource: .emptyViewedCourse), emptyTitle: StringLiterals.EmptyView.emptyViewedCourse)
+       } else {
+           self.viewedCourseView.myCourseListCollectionView.reloadData()
+           self.topLabel.setAttributedText(fullText: "\(name)님이 지금까지\n열람한 데이트 코스\n\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개",
+                                    pointText: "\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
+                                    pointColor: UIColor(resource: .mediumPurple),
+                                    lineHeight: 1)
        }
    }
 }
@@ -215,31 +216,16 @@ extension ViewedCourseViewController {
 
 // MARK: - CollectionView Methods
 
-extension ViewedCourseViewController {
-   private func registerCell() {
+private extension ViewedCourseViewController {
+    
+func registerCell() {
       viewedCourseView.myCourseListCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
    }
    
-   private func setDelegate() {
-      viewedCourseView.myCourseListCollectionView.delegate = self
+func setDelegate() {
       viewedCourseView.myCourseListCollectionView.dataSource = self
    }
-   
-   func updateNicknameLabel(nickName: String) {
-      if viewedCourseViewModel.viewedCourseData.value?.count == 0 {
-         topLabel.text = "\(nickName)님,\n아직 열람한\n데이트코스가 없어요"
-      } else {
-         topLabel.text = "\(nickName)님이 지금까지\n열람한 데이트 코스\n\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개"
-      }
-   }
-}
 
-// MARK: - Delegate
-
-extension ViewedCourseViewController : UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: ScreenUtils.width, height: 140)
-    }
 }
 
 // MARK: - DataSource

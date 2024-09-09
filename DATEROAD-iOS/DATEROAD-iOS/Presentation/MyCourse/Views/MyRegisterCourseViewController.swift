@@ -14,7 +14,7 @@ final class MyRegisterCourseViewController: BaseNavBarViewController {
 
     // MARK: - UI Properties
     
-    private var myRegisterCourseView = MyCourseListView()
+    private var myRegisterCourseView = MyCourseListView(type: "nav")
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     

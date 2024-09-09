@@ -47,7 +47,6 @@ final class NavViewedCourseViewController: BaseNavBarViewController {
         register()
         setDelegate()
         bindViewModel()
-        setEmptyView()
     }
     
     override func setHierarchy() {
@@ -63,26 +62,22 @@ final class NavViewedCourseViewController: BaseNavBarViewController {
             $0.edges.equalToSuperview()
         }
     }
-    
-    override func setStyle() {
-        super.setStyle()
-        
-        self.view.backgroundColor = UIColor(resource: .drWhite)
-    }
 
 }
 
 // MARK: - EmptyView Methods
 
 extension NavViewedCourseViewController {
+    
     private func setEmptyView() {
-        var isEmpty = (viewedCourseViewModel.viewedCourseData.value?.count == 0)
+        let isEmpty = (viewedCourseViewModel.viewedCourseData.value?.count == 0)
         navViewedCourseView.emptyView.isHidden = !isEmpty
+        navViewedCourseView.myCourseListCollectionView.isHidden = isEmpty
         if isEmpty {
-            navViewedCourseView.emptyView.do {
-                $0.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
+            navViewedCourseView.emptyView.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
                                 emptyTitle: StringLiterals.EmptyView.emptyNavViewedCourse)
-            }
+        } else {
+            self.navViewedCourseView.myCourseListCollectionView.reloadData()
         }
     }
 }
