@@ -38,6 +38,7 @@ class ViewedCourseViewController: BaseViewController {
     init(viewedCourseViewModel: MyCourseListViewModel) {
         self.viewedCourseViewModel = viewedCourseViewModel
         nickName = self.viewedCourseViewModel.userName
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -49,7 +50,6 @@ class ViewedCourseViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
-        self.viewedCourseViewModel.setViewedCourseLoading()
         self.viewedCourseViewModel.setViewedCourseData()
     }
 
@@ -59,7 +59,6 @@ class ViewedCourseViewController: BaseViewController {
       registerCell()
       setDelegate()
       bindViewModel()
-      setEmptyView()
    }
    
    override func setHierarchy() {
@@ -132,11 +131,9 @@ class ViewedCourseViewController: BaseViewController {
          $0.isUserInteractionEnabled = true
       }
       
-      createCourseLabel.do {
-         $0.font = UIFont.suit(.title_bold_18)
-         $0.textColor = UIColor(resource: .drBlack)
-         $0.text = StringLiterals.ViewedCourse.registerSchedule
-      }
+      createCourseLabel.setLabel(text: StringLiterals.ViewedCourse.registerSchedule,
+                      textColor: UIColor(resource: .drBlack),
+                      font: UIFont.suit(.title_bold_18))
       
       arrowButton.do {
          $0.setButtonStatus(buttonType: EnabledButton())

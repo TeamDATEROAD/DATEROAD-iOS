@@ -48,9 +48,7 @@ final class UpcomingDateScheduleViewController: BaseViewController {
         
         registerCell()
         setDelegate()
-        setUIMethods()
         setAddTarget()
-        setEmptyView()
         bindViewModel()
     }
     
@@ -70,8 +68,12 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     
     func drawDateCardView() {
         print("draw date card view")
-        setUIMethods()
-        setEmptyView()
+        let isEmpty = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count == 0
+        upcomingDateScheduleView.emptyView.isHidden = !isEmpty
+        if !isEmpty {
+            upcomingDateScheduleView.cardPageControl.numberOfPages = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0
+            self.upcomingDateScheduleView.cardCollectionView.reloadData()
+        }
     }
     
 }
@@ -79,6 +81,7 @@ final class UpcomingDateScheduleViewController: BaseViewController {
 // MARK: - UI Setting Methods
 
 private extension UpcomingDateScheduleViewController {
+    
     @objc
     func pushToDateRegisterVC() {
         if (upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0) >= 5 {
@@ -94,27 +97,10 @@ private extension UpcomingDateScheduleViewController {
         self.navigationController?.pushViewController(pastDateVC, animated: false)
     }
     
-    func setUIMethods() {
-        upcomingDateScheduleView.cardPageControl.do {
-            $0.numberOfPages = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0
-        }
-        print("pagecontrol \(upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count)")
-    }
-    
     func setAddTarget() {
-        upcomingDateScheduleView.dateRegisterButton.do {
-            $0.addTarget(self, action: #selector(dateRegisterButtonTapped), for: .touchUpInside)
-        }
+        upcomingDateScheduleView.dateRegisterButton.addTarget(self, action: #selector(dateRegisterButtonTapped), for: .touchUpInside)
         
-        upcomingDateScheduleView.pastDateButton.do {
-            $0.addTarget(self, action: #selector(pushToPastDateVC), for: .touchUpInside)
-        }
-    }
-    
-    func setEmptyView() {
-        if upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count == 0 {
-            upcomingDateScheduleView.emptyView.isHidden = false
-        }
+        upcomingDateScheduleView.pastDateButton.addTarget(self, action: #selector(pushToPastDateVC), for: .touchUpInside)
     }
     
     func bindViewModel() {
@@ -143,8 +129,7 @@ private extension UpcomingDateScheduleViewController {
             if isSuccess {
                 print("success 인디케이터")
                 self?.drawDateCardView()
-                self?.upcomingDateScheduleView.cardCollectionView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
                     self?.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
                 }
             }
