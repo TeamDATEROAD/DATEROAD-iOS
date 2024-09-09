@@ -204,17 +204,12 @@ extension ViewedCourseViewController {
       self.viewedCourseViewModel.isSuccessGetViewedCourseInfo.bind { [weak self] isSuccess in
          guard let isSuccess else { return }
          if isSuccess {
-            self?.topLabel.do {
-                let name =  UserDefaults.standard.string(forKey: "userName") ?? ""
-                $0.font = UIFont.suit(.title_extra_24)
-                $0.setAttributedText(fullText: "\(name)님이 지금까지\n열람한 데이트 코스\n\(self?.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개", pointText: "\(self?.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)", pointColor: UIColor(resource: .mediumPurple), lineHeight: 1)
-                $0.numberOfLines = 3
-            }
              self?.setEmptyView()
-             self?.viewedCourseView.myCourseListCollectionView.reloadData()
+             DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
+                 self?.viewedCourseViewModel.setViewedCourseLoading()
+             }
          }
       }
-      
    }
 }
 
@@ -262,14 +257,6 @@ extension ViewedCourseViewController : UICollectionViewDataSource {
       cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToCourseDetailVC(_:))))
       return cell
    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == self.viewedCourseView.myCourseListCollectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.viewedCourseViewModel.setViewedCourseLoading()
-            }
-        }
-    }
    
    @objc func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
       let location = sender.location(in: viewedCourseView.myCourseListCollectionView)

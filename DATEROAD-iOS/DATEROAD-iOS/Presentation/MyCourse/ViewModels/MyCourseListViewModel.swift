@@ -25,23 +25,21 @@ class MyCourseListViewModel: Serviceable {
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    var onViewedCourseLoading: ObservablePattern<Bool> = ObservablePattern(nil)
+    var onViewedCourseLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
-    var onNavViewedCourseLoading: ObservablePattern<Bool> = ObservablePattern(nil)
+    var onNavViewedCourseLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
-    var onMyRegisterCourseLoading: ObservablePattern<Bool> = ObservablePattern(nil)
+    var onMyRegisterCourseLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
-    var onViewedCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(nil)
+    var onViewedCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
-    var onNavViewedCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(nil)
+    var onNavViewedCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
-    var onMyRegisterCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(nil)
+    var onMyRegisterCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
     init() {
         let name = UserDefaults.standard.string(forKey: "userName") ?? ""
         self.userName = name
-        
-        print("@log", myRegisterCourseData.value?.count)
     }
     
     func setViewedCourseData() {

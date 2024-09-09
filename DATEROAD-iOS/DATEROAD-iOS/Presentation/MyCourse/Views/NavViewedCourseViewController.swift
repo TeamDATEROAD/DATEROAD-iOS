@@ -20,9 +20,19 @@ final class NavViewedCourseViewController: BaseNavBarViewController {
     
     // MARK: - Properties
     
-    private let viewedCourseViewModel = MyCourseListViewModel()
+    private var viewedCourseViewModel: MyCourseListViewModel
     
     // MARK: - LifeCycle
+    
+    init(viewedCourseViewModel: MyCourseListViewModel) {
+        self.viewedCourseViewModel = viewedCourseViewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         self.viewedCourseViewModel.setNavViewedCourseLoading()
@@ -110,11 +120,10 @@ extension NavViewedCourseViewController {
         self.viewedCourseViewModel.isSuccessGetNavViewedCourseInfo.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
-                self?.navViewedCourseView.myCourseListCollectionView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self?.setEmptyView()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
                     self?.viewedCourseViewModel.setNavViewedCourseLoading()
                 }
-                self?.setEmptyView()
             }
         }
     }

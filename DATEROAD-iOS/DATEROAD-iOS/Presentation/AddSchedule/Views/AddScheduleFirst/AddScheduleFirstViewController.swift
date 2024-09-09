@@ -182,8 +182,8 @@ extension AddScheduleFirstViewController {
    
    @objc
    func didTapNavRightBtn() {
-      let vc = NavViewedCourseViewController()
-      self.navigationController?.pushViewController(vc, animated: true)
+       let vc = NavViewedCourseViewController(viewedCourseViewModel: MyCourseListViewModel())
+      self.navigationController?.pushViewController(vc, animated: false)
    }
    
    @objc

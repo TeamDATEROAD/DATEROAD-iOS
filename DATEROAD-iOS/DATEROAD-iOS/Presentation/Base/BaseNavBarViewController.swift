@@ -104,7 +104,6 @@ class BaseNavBarViewController: UIViewController {
 
 extension BaseNavBarViewController {
    
-   
    func setBackgroundColor(color: UIColor) {
       topInsetView.do {
          $0.backgroundColor = color

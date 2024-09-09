@@ -147,6 +147,9 @@ private extension MyPageViewController {
             if isSuccess {
                 self?.myPageView.userInfoView.bindData(userInfo: data)
                 self?.myPageView.userInfoView.tagCollectionView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self?.myPageViewModel.setLoading()
+                }
             }
         }
     }
@@ -272,14 +275,6 @@ extension MyPageViewController: UICollectionViewDataSource {
         let data = myPageViewModel.userInfoData.value ?? MyPageUserInfoModel(nickname: "", tagList: [], point: 0, imageURL: "")
         cell.updateButtonTitle(title: data.tagList[indexPath.row])
         return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == self.myPageView.userInfoView.tagCollectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.myPageViewModel.setLoading()
-            }
-        }
     }
     
 }

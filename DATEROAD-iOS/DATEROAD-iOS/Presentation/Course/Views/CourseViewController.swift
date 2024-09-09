@@ -115,6 +115,9 @@ final class CourseViewController: BaseViewController {
             guard let isSuccess else { return }
             if isSuccess {
                 self?.courseView.courseListView.courseListCollectionView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
+                    self?.courseViewModel.setLoading()
+                }
             }
         }
         
@@ -231,14 +234,6 @@ extension CourseViewController: CourseNavigationBarViewDelegate {
 }
 
 extension CourseViewController: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.courseViewModel.setLoading()
-            }
-        }
-    }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedCourse = courseViewModel.courseListModel[indexPath.row]
