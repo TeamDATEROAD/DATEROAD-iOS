@@ -14,7 +14,7 @@ final class NavViewedCourseViewController: BaseNavBarViewController {
 
     // MARK: - UI Properties
     
-    private var navViewedCourseView = MyCourseListView()
+    private var navViewedCourseView = MyCourseListView(type: "nav")
         
     private let errorView: DRErrorViewController = DRErrorViewController()
     
@@ -162,7 +162,8 @@ extension NavViewedCourseViewController : UICollectionViewDataSource {
         return cell
     }
     
-    @objc func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
+    @objc 
+    func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: navViewedCourseView.myCourseListCollectionView)
         let indexPath = navViewedCourseView.myCourseListCollectionView.indexPathForItem(at: location)
        
