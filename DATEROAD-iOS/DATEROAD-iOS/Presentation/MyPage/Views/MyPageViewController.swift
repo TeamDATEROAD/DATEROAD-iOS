@@ -140,7 +140,7 @@ private extension MyPageViewController {
             if isSuccess {
                 self?.navigationController?.popToRootViewController(animated: false)
             } else {
-                self?.presentAlertVC(title: "로그아웃 실패")
+                self?.presentAlertVC(title: StringLiterals.Alert.failToLogout)
             }
         }
         
@@ -149,7 +149,7 @@ private extension MyPageViewController {
             if isSuccess {
                 self?.navigationController?.popToRootViewController(animated: false)
             } else {
-                self?.presentAlertVC(title: "회원탈퇴 실패")
+                self?.presentAlertVC(title: StringLiterals.Alert.failToWithdrawal)
             }
         }
         
@@ -166,7 +166,7 @@ private extension MyPageViewController {
             if isSuccess {
                 self?.myPageViewModel.deleteWithdrawal()
             } else {
-                self?.presentAlertVC(title: "회원탈퇴 실패")
+                self?.presentAlertVC(title: StringLiterals.Alert.failToWithdrawal)
             }
         }
     }
@@ -183,7 +183,7 @@ private extension MyPageViewController {
     
     func presentAlertVC(title: String) {
         let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
-        alert.addAction(.init(title: "확인", style: .cancel))
+        alert.addAction(.init(title: StringLiterals.Alert.confirm, style: .cancel))
         self.present(alert, animated: true)
     }
     
@@ -377,7 +377,7 @@ extension MyPageViewController: ASAuthorizationControllerDelegate {
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: any Error) {
-        self.presentAlertVC(title: "로그인 실패")
+        self.presentAlertVC(title: StringLiterals.Alert.failToLogin)
     }
     
 }
