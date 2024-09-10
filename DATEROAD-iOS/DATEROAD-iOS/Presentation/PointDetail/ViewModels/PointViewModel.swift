@@ -24,23 +24,17 @@ final class PointViewModel: Serviceable {
     var nowPointData: ObservablePattern<[PointDetailModel]> = ObservablePattern([])
     
     var isEarnedPointHidden : ObservablePattern<Bool> = ObservablePattern(nil)
-   
-   var isChange: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
 
+    var onLoading: ObservablePattern<Bool> = ObservablePattern(nil)
+
+    var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(nil)
     
     init (userName: String, totalPoint: Int) {
         self.userName = userName
         self.totalPoint = totalPoint
-//        updateData(nowEarnedPointHidden: false)
-//        changeSegment(segmentIndex: 0)
     }
-    
-//    func fetchData() {
-//        self.gainedDummyData.value = self.pointDummyData.gained
-//        self.usedDummyData.value = self.pointDummyData.used
-//    }
     
     func changeSegment(segmentIndex: Int) {
         isEarnedPointHidden.value = segmentIndex != 0
@@ -57,6 +51,10 @@ final class PointViewModel: Serviceable {
     }
     
     func getPointDetail(nowEarnedPointHidden: Bool) {
+        self.isSuccessGetPointInfo.value = false
+        self.onFailNetwork.value = false
+        self.setPointDetailLoading()
+        
         NetworkService.shared.pointDetailService.getPointDetail() { response in
             switch response {
             case .success(let data):
@@ -70,22 +68,21 @@ final class PointViewModel: Serviceable {
                 self.usedPointData.value = pointUsedInfo
                 self.updateData(nowEarnedPointHidden: nowEarnedPointHidden)
                 self.isSuccessGetPointInfo.value = true
-               self.isChange.value = true
             case .reIssueJWT:
                 self.onReissueSuccess.value = self.patchReissue()
-            case .requestErr:
-                 print("requestError")
-             case .decodedErr:
-                 print("decodedError")
-             case .pathErr:
-                 print("pathError")
-             case .serverErr:
-                 print("serverError")
-             case .networkFail:
-                 print("networkFail")
+            case .serverErr:
+                self.onFailNetwork.value = true
+             default:
+                print("포인트내역 에러")
+                self.onFailNetwork.value = true //TODO: - 확인
+                return
             }
         }
-
     }
+    
+    func setPointDetailLoading() {
+          guard let isSuccessGetPointInfo = self.isSuccessGetPointInfo.value else { return }
+          self.onLoading.value = !isSuccessGetPointInfo
+      }
 
 }
