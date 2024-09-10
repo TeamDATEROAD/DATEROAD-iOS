@@ -151,10 +151,10 @@ private extension AddScheduleSecondViewController {
       }
       
       self.viewModel.onLoading.bind { [weak self] onLoading in
-         guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
+         guard let onLoading else { return }
          
-         // postData 중이고, 에러 발생 X라면
-         if onFailNetwork == false || onLoading == false {
+         // postData 중이고 or postDate 종료 됐을 때 에러 발생 X라면
+         if !onLoading {
             self?.loadingView.isHidden = !onLoading
             self?.addScheduleSecondView.isHidden = onLoading
             self?.tabBarController?.tabBar.isHidden = onLoading
