@@ -230,7 +230,7 @@ extension DateCardCollectionViewCell {
     func dataBind(_ dateCardData : DateCardModel, _ dateCardItemRow: Int) {
         self.dateLabel.text = dateCardData.date
         if dateCardData.dDay == 0 {
-            self.dDayButton.setTitle("D-Day", for: .normal)
+            self.dDayButton.setTitle(StringLiterals.DateSchedule.dDay, for: .normal)
         } else {
             self.dDayButton.setTitle("D-\(dateCardData.dDay)", for: .normal)
         }
