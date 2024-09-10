@@ -22,7 +22,7 @@ final class AddSheetView: BaseView {
    
    let customPickerView = UIPickerView()
    
-   let doneBtn = UIButton() // 추후 Captin 버튼으로 수정 예정
+   let doneBtn = UIButton()
    
    private let doneBtnTitleLabel = UILabel()
    
@@ -30,6 +30,9 @@ final class AddSheetView: BaseView {
    // MARK: - Properties
    
    var isCustomPicker: Bool
+   
+   
+   // MARK: - Initializer
    
    init(isCustomPicker: Bool) {
       self.isCustomPicker = isCustomPicker
@@ -46,18 +49,19 @@ final class AddSheetView: BaseView {
    
    override func setHierarchy() {
       switch isCustomPicker {
+         
       case true:
          addSubviews(bottomSheetView)
          bottomSheetView.addSubviews(doneBtn, customPickerView)
          doneBtn.addSubview(doneBtnTitleLabel)
       case false:
          self.addSubviews(datePicker)
+         
       }
       
    }
    
    override func setLayout() {
-      
       switch isCustomPicker {
          
       case true:
@@ -87,7 +91,6 @@ final class AddSheetView: BaseView {
          }
          
       }
-      
    }
    
    override func setStyle() {
@@ -114,8 +117,8 @@ final class AddSheetView: BaseView {
             $0.locale = Locale(identifier: "ko-KR")
             $0.isHidden = isCustomPicker  // 초기 설정에 따라 숨김
          }
-         
       }
+      
    }
    
 }

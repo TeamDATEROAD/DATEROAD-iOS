@@ -124,32 +124,40 @@ private extension AddScheduleSecondViewController {
    }
    
    func bindViewModel() {
-      self.viewModel.isSuccessGetData.bind { [weak self] isSuccess in
+      self.viewModel.isSuccessPostData.bind { [weak self] isSuccess in
          guard let isSuccess else { return }
          if isSuccess {
-            self?.viewModel.onLoading.value = false
+            self?.successDone()
          }
       }
       
       self.viewModel.onFailNetwork.bind { [weak self] onFailure in
          guard let onFailure else { return }
+         
+         // 에러 발생 시 에러 뷰로 push
          if onFailure {
             let errorVC = DRErrorViewController()
+            
+            // DRErrorViewController가 닫힐 때의 동작 정의
+            errorVC.onDismiss = {
+               print("🚀onDismiss 출동🚀")
+               // 일정 등록 2 로딩뷰, 에러뷰 false 설정
+               self?.viewModel.onLoading.value = false
+               self?.viewModel.onFailNetwork.value = false
+            }
+            
             self?.navigationController?.pushViewController(errorVC, animated: false)
          }
       }
-
+      
       self.viewModel.onLoading.bind { [weak self] onLoading in
-         guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
+         guard let onLoading else { return }
          
-         if !onFailNetwork {
+         // postData 중이고 or postDate 종료 됐을 때 에러 발생 X라면
+         if !onLoading {
             self?.loadingView.isHidden = !onLoading
             self?.addScheduleSecondView.isHidden = onLoading
             self?.tabBarController?.tabBar.isHidden = onLoading
-         }
-         
-         if !onLoading {
-            self?.successDone()
          }
       }
       
@@ -165,16 +173,16 @@ private extension AddScheduleSecondViewController {
       viewModel.isDataSourceNotEmpty()
       
       viewModel.editBtnEnableState.bind { [weak self] date in
-         guard let date = date else {return}
+         guard let date else {return}
          self?.addScheduleSecondView.editBtnState(isAble: date)
       }
       
       viewModel.datePlace.bind { [weak self] date in
          guard let text = date else {return}
          self?.addScheduleSecondView.inAddScheduleSecondView.updateDatePlace(text: text)
-          if let flag = self?.viewModel.isAbleAddBtn() {
-              self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
-          }
+         if let flag = self?.viewModel.isAbleAddBtn() {
+            self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
+         }
       }
       
       viewModel.timeRequire.bind { [weak self] date in
@@ -213,16 +221,22 @@ private extension AddScheduleSecondViewController {
    }
    
    func successDone() {
-      let customAlertVC = DRCustomAlertViewController(rightActionType: .none, alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertScheduelTitleLabel, longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton)
+      let customAlertVC = DRCustomAlertViewController(
+         rightActionType: .none,
+         alertTextType: .hasDecription,
+         alertButtonType: .oneButton,
+         titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertScheduelTitleLabel,
+         longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton
+      )
       customAlertVC.delegate = self
       customAlertVC.modalPresentationStyle = .overFullScreen
       self.present(customAlertVC, animated: false)
    }
    
    func goBackOriginVCForAddSchedule() {
-       let tabbarVC = TabBarController()
-       tabbarVC.selectedIndex = 2
-       navigationController?.popToPreviousViewController(ofType: AddScheduleFirstViewController.self, defaultViewController: tabbarVC)
+      let tabbarVC = TabBarController()
+      tabbarVC.selectedIndex = 2
+      navigationController?.popToPreviousViewController(ofType: AddScheduleFirstViewController.self, defaultViewController: tabbarVC)
    }
    
    
@@ -424,11 +438,12 @@ extension AddScheduleSecondViewController: UICollectionViewDropDelegate {
 // MARK: - UICollectionViewDragDelegate Methods
 
 extension AddScheduleSecondViewController: UICollectionViewDragDelegate {
+   
    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
       return []
    }
+   
 }
-
 
 extension AddScheduleSecondViewController: DRCustomAlertDelegate {
    

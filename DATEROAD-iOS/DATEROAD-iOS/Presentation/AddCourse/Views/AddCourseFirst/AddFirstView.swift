@@ -34,8 +34,6 @@ final class AddFirstView: BaseView {
    
    private let tagTitleLabel = UILabel()
    
-   //   private let tagVStackView = UIStackView()
-   
    let datePlaceContainer = UIView()
    
    private let datePlaceLabel = UILabel()
@@ -44,7 +42,7 @@ final class AddFirstView: BaseView {
    
    private let sixCheckNextBtnContainer = UIView()
    
-   let sixCheckNextButton = UIButton() //추후 Captin 버튼으로 수정 예정
+   let sixCheckNextButton = UIButton()
    
    let tendencyTagCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
    
@@ -63,7 +61,6 @@ final class AddFirstView: BaseView {
          textFieldStackView,
          tagContainer,
          datePlaceContainer,
-//         sixCheckNextButton
          sixCheckNextBtnContainer
       )
       
@@ -167,8 +164,8 @@ final class AddFirstView: BaseView {
          let layout = CollectionViewLeftAlignFlowLayout()
          layout.cellSpacing = 8
          $0.collectionViewLayout = layout
-         
       }
+      
       textFieldStackView.do {
          $0.axis = .vertical
          $0.spacing = 20
@@ -183,6 +180,7 @@ final class AddFirstView: BaseView {
             $0.layer.borderColor = UIColor(resource: .alertRed).cgColor
          }
       }
+      
       visitDateImage.image = UIImage(resource: .calendar)
       dateStartTimeImage.image = UIImage(resource: .time)
       

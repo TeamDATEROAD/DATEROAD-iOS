@@ -8,15 +8,21 @@
 import UIKit
 
 final class AddScheduleViewModel: Serviceable {
+   
    var isImporting = false
+   
    var viewedDateCourseByMeData: CourseDetailViewModel?
+   
    let ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
+   
+   let isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(false)
    
    var pastDatePlaces = [TimelineModel]()
    
    var selectedTagData: [String] = []
    
    var pastDateTagIndex = [Int]()
+   
    
    //MARK: - AddFirstCourse 사용되는 ViewModel
    
@@ -36,7 +42,7 @@ final class AddScheduleViewModel: Serviceable {
    /// 코스 등록 태그 생성
    var tagData: [ProfileTagModel] = []
    
-   // 선택된 태그
+   /// 선택된 태그
    let isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
    let isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
    let tagCount: ObservablePattern<Int> = ObservablePattern(0)
@@ -73,12 +79,11 @@ final class AddScheduleViewModel: Serviceable {
    
    let onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
    
-   let isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(nil)
+   let isSuccessPostData: ObservablePattern<Bool> = ObservablePattern(false)
    
-   let onLoading: ObservablePattern<Bool> = ObservablePattern(nil)
-
+   let onLoading: ObservablePattern<Bool> = ObservablePattern(false)
+   
    let onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
-   
    
    init() {
       fetchTagData()
@@ -93,10 +98,11 @@ extension AddScheduleViewModel {
       }
    }
    
-   func fetchPastDate(completion: @escaping () -> Void) {
+   func fetchPastDate() {
       viewedDateCourseByMeData?.isSuccessGetData.bind { [weak self] isSuccess in
          guard let self = self else { return }
          if isSuccess == true {
+            self.setLoading(isLoading: true)
             if let data = self.viewedDateCourseByMeData {
                dateName.value = data.titleHeaderData.value?.title
                dateLocation.value = data.titleHeaderData.value?.city
@@ -127,20 +133,16 @@ extension AddScheduleViewModel {
                isDateLocationVaild.value = true
                
                ///코스 등록 2 AddPlaceCollectionView 구성
-               
                if let result = data.timelineData.value {
                   pastDatePlaces = result
                }
                
-               completion() // 데이터 로딩이 완료된 후 호출
+               self.setLoading(isLoading: false)
+               isSuccessGetData.value = true
             }
-         } else {
-            print("Failed to load course details")
-            completion() // 실패한 경우에도 호출
          }
       }
    }
-   
    
    
    //MARK: - AddSchedule First 함수
@@ -262,21 +264,12 @@ extension AddScheduleViewModel {
    }
    
    /// 로딩뷰 세팅 함수
-   func setLoading() {
-      guard let isSuccessGetData = self.isSuccessGetData.value else {
-         return
-      }
-      
-      if isSuccessGetData {
-         self.onLoading.value = false
-      } else {
-         self.onLoading.value = true
-      }
+   func setLoading(isLoading: Bool) {
+      self.onLoading.value = isLoading
    }
    
    func postAddScheduel() {
-      self.isSuccessGetData.value = false
-      self.setLoading()
+      self.setLoading(isLoading: true)
       
       var places: [PostAddSchedulePlace] = []
       
@@ -316,14 +309,16 @@ extension AddScheduleViewModel {
          places: places)) { result in
             switch result {
             case .success(let response):
-               print("Success: \(response)")
-               self.isSuccessGetData.value = true
+               self.setLoading(isLoading: false)
+               self.isSuccessPostData.value = true
             case .serverErr:
+               self.onFailNetwork.value = true
+            case . requestErr:
                self.onFailNetwork.value = true
             case .reIssueJWT:
                self.onReissueSuccess.value = self.patchReissue()
             default:
-               print("Failed to fetch user profile")
+               print("Failed to another reason")
                return
             }
          }

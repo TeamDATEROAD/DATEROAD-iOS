@@ -117,28 +117,28 @@ private extension AddCourseSecondViewController {
    }
    
    func bindViewModel() {
-       self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
-           guard let onSuccess else { return }
-           if onSuccess {
-               // TODO: - 서버 통신 재시도
-           } else {
-               self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
-           }
-       }
-       
+      self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
+         guard let onSuccess else { return }
+         if onSuccess {
+            // TODO: - 서버 통신 재시도
+         } else {
+            self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+         }
+      }
+      
       viewModel.isDataSourceNotEmpty()
       
       viewModel.editBtnEnableState.bind { [weak self] date in
-         guard let date = date else {return}
+         guard let date else {return}
          self?.addCourseSecondView.editBtnState(isAble: date)
       }
       
       viewModel.datePlace.bind { [weak self] date in
          guard let text = date else {return}
          self?.addCourseSecondView.addSecondView.updateDatePlace(text: text)
-          if let flag = self?.viewModel.isAbleAddBtn() {
-              self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: flag)
-          }
+         if let flag = self?.viewModel.isAbleAddBtn() {
+            self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: flag)
+         }
       }
       
       viewModel.timeRequire.bind { [weak self] date in
@@ -156,8 +156,6 @@ private extension AddCourseSecondViewController {
          let state = self?.viewModel.editBtnEnableState.value ?? false
          
          self?.addCourseSecondView.editBtnState(isAble: state)
-         
-         print(" 🔥🔥🔥여기까지 완벽🔥🔥🔥")
          
          // 텍스트필드 초기화 및 addPlace버튼 비활성화
          self?.addCourseSecondView.addSecondView.finishAddPlace()
@@ -178,9 +176,7 @@ private extension AddCourseSecondViewController {
    
    func setAddTarget() {
       addCourseSecondView.editButton.addTarget(self, action: #selector(toggleEditMode), for: .touchUpInside)
-      // 🔥🔥🔥여기까지 완벽🔥🔥🔥
       addCourseSecondView.addSecondView.addPlaceButton.addTarget(self, action: #selector(tapAddPlaceBtn), for: .touchUpInside)
-      
       addCourseSecondView.addSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
    }
    
@@ -246,7 +242,6 @@ private extension AddCourseSecondViewController {
       }
       
       addCourseSecondView.updateEditBtnText(flag: flag)
-      //여기까지 뒤지게 완벽 like 미친놈
       
       Dispatch.DispatchQueue.main.async {
          collectionView.reloadData()
@@ -262,7 +257,6 @@ extension AddCourseSecondViewController: UITextFieldDelegate {
    
    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
       textField.resignFirstResponder()
-      //      textField.tintColor = UIColor.clear
       return true
    }
    
@@ -404,9 +398,11 @@ extension AddCourseSecondViewController: UICollectionViewDropDelegate {
 // MARK: - UICollectionViewDragDelegate Methods
 
 extension AddCourseSecondViewController: UICollectionViewDragDelegate {
+   
    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
       return []
    }
+   
 }
 
 

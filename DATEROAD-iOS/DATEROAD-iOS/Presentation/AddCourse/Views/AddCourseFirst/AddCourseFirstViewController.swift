@@ -27,6 +27,9 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
    
    let viewModel: AddCourseViewModel
    
+   
+   // MARK: - Initializer
+   
    init(viewModel: AddCourseViewModel) {
       self.viewModel = viewModel
       super.init(nibName: nil, bundle: nil)
@@ -35,6 +38,7 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
    required init?(coder: NSCoder) {
       fatalError("init(coder:) has not been implemented")
    }
+   
    
    // MARK: - Life Cycle
    
@@ -53,10 +57,10 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
       pastDateBindViewModel()
       setupKeyboardDismissRecognizer()
    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = true
-    }
+   
+   override func viewWillAppear(_ animated: Bool) {
+      self.tabBarController?.tabBar.isHidden = true
+   }
    
    
    // MARK: - Methods
@@ -98,21 +102,14 @@ private extension AddCourseFirstViewController {
    }
    
    func bindViewModel() {
-       self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
-           guard let onSuccess else { return }
-           if onSuccess {
-               // TODO: - 서버 통신 재시도
-           } else {
-               self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
-           }
-       }
-       
-      //self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
-        // guard let onSuccess else { return }
-         //if onSuccess {
-          //  self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
-         //}
-      //}
+      self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
+         guard let onSuccess else { return }
+         if onSuccess {
+            // TODO: - 서버 통신 재시도
+         } else {
+            self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+         }
+      }
       
       viewModel.ispastDateVaild.bind { date in
          self.viewModel.fetchPastDate()
@@ -123,14 +120,14 @@ private extension AddCourseFirstViewController {
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
       viewModel.isDateNameVaild.bind { date in
-         guard let date = date else {return}
+         guard let date else {return}
          self.addCourseFirstView.updateDateNameTextField(isPassValid: date)
          
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
       viewModel.isVisitDateVaild.bind { date in
-         guard let date = date else {return}
+         guard let date else {return}
          self.addCourseFirstView.updateVisitDateTextField(isPassValid: date)
          
          let flag = self.viewModel.isOkSixBtn()
@@ -165,7 +162,7 @@ private extension AddCourseFirstViewController {
          self.addCourseFirstView.addFirstView.updateTagCount(count: count ?? 0)
       }
       viewModel.dateLocation.bind { date in
-         guard let date = date else {return}
+         guard let date else {return}
          self.addCourseFirstView.addFirstView.updateDateLocation(text: date)
       }
    }
@@ -264,30 +261,6 @@ private extension AddCourseFirstViewController {
       imagePickerViewController.presentPicker(from: self)
    }
    
-//   @objc
-//   func didTapTagButton(_ sender: UIButton) {
-//      guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
-//      
-//      let maxTags = 3
-//      
-//      // 3이 아닐 때
-//      if self.viewModel.selectedTagData.count != maxTags {
-//         sender.isSelected.toggle()
-//         sender.isSelected ? self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
-//         : self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: UnselectedButton())
-//         self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
-//         self.viewModel.isValidTag.value = true
-//      }
-//      // 그 외
-//      else {
-//         if sender.isSelected {
-//            sender.isSelected.toggle()
-//            self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType:  UnselectedButton())
-//            self.viewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
-//            self.viewModel.isValidTag.value = true
-//         }
-//      }
-//   }
    @objc
    func didTapTagButton(_ sender: UIButton) {
       guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
@@ -306,17 +279,8 @@ private extension AddCourseFirstViewController {
             self.viewModel.countSelectedTag(isSelected: true, tag: tag)
          }
       }
-      
-      self.viewModel.isValidTag.value = true
    }
-
    
-//   @objc
-//   func importingTagBtn(_ sender: UIButton) {
-//      guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
-//      self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
-//      self.viewModel.isValidTag.value = true
-//   }
    @objc
    func importingTagBtn(_ sender: UIButton) {
       self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
@@ -339,6 +303,7 @@ private extension AddCourseFirstViewController {
       locationFilterVC.delegate = self
       self.present(locationFilterVC, animated: true)
    }
+   
 }
 extension AddCourseFirstViewController: UICollectionViewDelegateFlowLayout {
    
@@ -422,12 +387,9 @@ extension AddCourseFirstViewController: UICollectionViewDataSource, UICollection
          cell.tendencyTagButton.tag = indexPath.item
          cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
          
-//         if viewModel.pastDateTagIndex.contains(cell.tendencyTagButton.tag) {
-//            importingTagBtn(cell.tendencyTagButton)
-//         }
          if viewModel.pastDateTagIndex.contains(cell.tendencyTagButton.tag) {
-             cell.tendencyTagButton.isSelected = true
-             self.addCourseFirstView.addFirstView.updateTag(button: cell.tendencyTagButton, buttonType: SelectedButton())
+            cell.tendencyTagButton.isSelected = true
+            self.addCourseFirstView.addFirstView.updateTag(button: cell.tendencyTagButton, buttonType: SelectedButton())
          } else {
             cell.tendencyTagButton.isSelected = false
             self.addCourseFirstView.addFirstView.updateTag(button: cell.tendencyTagButton, buttonType: UnselectedButton())
@@ -503,7 +465,6 @@ extension AddCourseFirstViewController: LocationFilterDelegate {
    //TODO: CourseViewController와 LocationFilterDelegate를 함께 사용하여 getCourse() 메서드를 사용하게 되었으니, 추후 분리해야함.
    func getCourse() {
    }
-   
    
    func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
       print("selected : \(city)")
