@@ -17,8 +17,6 @@ class DateDetailViewModel: Serviceable {
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    var emptyDateDetailData = DateDetailModel(dateID: 0, title: "", startAt: "", city: "", tags: [], date: "", places: [], dDay: 0)
-    
     var userName : String = UserDefaults.standard.string(forKey: "userName") ?? ""
     
     let dateScheduleService = DateScheduleService()
