@@ -41,7 +41,8 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         print("🥶🥶🥶🥶viewWillAppear🥶🥶🥶🥶🥶")
-        // TODO: - 데이트일정 0개 -> 1개 될 떄 엠티뷰가 0.1초 정도 보임 + 데이트일정 등록하고 왔을 때 로딩뷰 5초로 설정해도 안 뜸
+        // TODO: - 데이트일정 등록하고 돌아왔을 때 그 전 뷰가 0.1초 정도 보임 & 로딩뷰가 안 뜸 -> 변경된 로딩뷰 적용 이후 수정
+        // 가끔 로드가 길면 자연스럽긴 함
         // viewWillAppear은 뜨는듯함
         
         self.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
