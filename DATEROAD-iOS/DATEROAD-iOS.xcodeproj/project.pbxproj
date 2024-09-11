@@ -180,6 +180,7 @@
 		CA4EF3DF2C347B4E003B02B6 /* DRButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3DE2C347B4E003B02B6 /* DRButtonType.swift */; };
 		CA4EF3E22C3537F3003B02B6 /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3E12C3537F3003B02B6 /* OnboardingModel.swift */; };
 		CA4EF3E52C3538AA003B02B6 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */; };
+		CA5B979B2C91848F00F90A4C /* AmplitudeSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CA5B979A2C91848F00F90A4C /* AmplitudeSwift */; };
 		CA73F16E2C6080180089856C /* EditType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA73F16D2C6080180089856C /* EditType.swift */; };
 		CA73F1702C61E1C30089856C /* PatchEditProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA73F16F2C61E1C30089856C /* PatchEditProfileRequest.swift */; };
 		CA78FE442C383D53001B1403 /* SUIT-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF62C329A6400855E61 /* SUIT-Medium.otf */; };
@@ -539,6 +540,7 @@
 			files = (
 				CA3D0D022C29A62D00735097 /* KakaoSDKCertCore in Frameworks */,
 				CA3D0CF92C29A55300735097 /* Kingfisher in Frameworks */,
+				CA5B979B2C91848F00F90A4C /* AmplitudeSwift in Frameworks */,
 				CA3D0CFC2C29A62D00735097 /* KakaoSDK in Frameworks */,
 				CA3D0CF02C29A4DB00735097 /* Moya in Frameworks */,
 				CA3D0D042C29A62D00735097 /* KakaoSDKCommon in Frameworks */,
@@ -1780,6 +1782,7 @@
 				CA3D0D012C29A62D00735097 /* KakaoSDKCertCore */,
 				CA3D0D032C29A62D00735097 /* KakaoSDKCommon */,
 				CAE890A52C8ADE9000834A9E /* Lottie */,
+				CA5B979A2C91848F00F90A4C /* AmplitudeSwift */,
 			);
 			productName = "DATEROAD-iOS";
 			productReference = CA3D0CD72C29A2F300735097 /* DATEROAD-iOS.app */;
@@ -1816,6 +1819,7 @@
 				CA3D0CF72C29A55300735097 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				CA3D0CFA2C29A62C00735097 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				CAE890A42C8ADE9000834A9E /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				CA5B97992C91848F00F90A4C /* XCRemoteSwiftPackageReference "Amplitude-Swift" */,
 			);
 			productRefGroup = CA3D0CD82C29A2F300735097 /* Products */;
 			projectDirPath = "";
@@ -2380,6 +2384,14 @@
 				kind = branch;
 			};
 		};
+		CA5B97992C91848F00F90A4C /* XCRemoteSwiftPackageReference "Amplitude-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/amplitude/Amplitude-Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		CAE890A42C8ADE9000834A9E /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios";
@@ -2435,6 +2447,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CA3D0CFA2C29A62C00735097 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKCommon;
+		};
+		CA5B979A2C91848F00F90A4C /* AmplitudeSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CA5B97992C91848F00F90A4C /* XCRemoteSwiftPackageReference "Amplitude-Swift" */;
+			productName = AmplitudeSwift;
 		};
 		CAE890A52C8ADE9000834A9E /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
