@@ -74,7 +74,7 @@ final class AddCourseThirdViewController: BaseNavBarViewController {
       super.setHierarchy()
       
       self.view.addSubview(contentView)
-      contentView.addSubviews(addCourseThirdView)
+      contentView.addSubview(addCourseThirdView)
    }
    
    override func setLayout() {
