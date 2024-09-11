@@ -49,7 +49,7 @@ class ViewedCourseViewController: BaseViewController {
    // MARK: - LifeCycle
 
     override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
+        self.viewedCourseViewModel.setViewedCourseLoading()
         self.viewedCourseViewModel.setViewedCourseData()
     }
 

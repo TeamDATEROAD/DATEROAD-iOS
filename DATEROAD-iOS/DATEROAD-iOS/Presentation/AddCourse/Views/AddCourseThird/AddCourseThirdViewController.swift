@@ -150,7 +150,7 @@ private extension AddCourseThirdViewController {
       }
       
       self.viewModel.onLoading.bind { [weak self] onLoading in
-         guard let onLoading else { return }
+          guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
          
          if !onFailNetwork {
              onLoading ? self?.showLoadingView() : self?.hideLoadingView()
