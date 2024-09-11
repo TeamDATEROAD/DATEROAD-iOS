@@ -181,6 +181,7 @@
 		CA4EF3E22C3537F3003B02B6 /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3E12C3537F3003B02B6 /* OnboardingModel.swift */; };
 		CA4EF3E52C3538AA003B02B6 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */; };
 		CA5B979B2C91848F00F90A4C /* AmplitudeSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CA5B979A2C91848F00F90A4C /* AmplitudeSwift */; };
+		CA5B979E2C91889C00F90A4C /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5B979D2C91889C00F90A4C /* AmplitudeManager.swift */; };
 		CA73F16E2C6080180089856C /* EditType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA73F16D2C6080180089856C /* EditType.swift */; };
 		CA73F1702C61E1C30089856C /* PatchEditProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA73F16F2C61E1C30089856C /* PatchEditProfileRequest.swift */; };
 		CA78FE442C383D53001B1403 /* SUIT-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF62C329A6400855E61 /* SUIT-Medium.otf */; };
@@ -443,6 +444,7 @@
 		CA4EF3DE2C347B4E003B02B6 /* DRButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRButtonType.swift; sourceTree = "<group>"; };
 		CA4EF3E12C3537F3003B02B6 /* OnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
 		CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		CA5B979D2C91889C00F90A4C /* AmplitudeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplitudeManager.swift; sourceTree = "<group>"; };
 		CA73F16D2C6080180089856C /* EditType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditType.swift; sourceTree = "<group>"; };
 		CA73F16F2C61E1C30089856C /* PatchEditProfileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchEditProfileRequest.swift; sourceTree = "<group>"; };
 		CA78FE462C38667A001B1403 /* DRErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRErrorLabel.swift; sourceTree = "<group>"; };
@@ -1180,6 +1182,7 @@
 		CA3D0D062C29A68C00735097 /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				CA5B979C2C91888E00F90A4C /* Service */,
 				CAA30AE32C37BC9800835DE3 /* UIComponents */,
 				CA4EF3DD2C347B3F003B02B6 /* Protocols */,
 				CA4EF3C12C3285E7003B02B6 /* Literals */,
@@ -1439,6 +1442,14 @@
 				CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CA5B979C2C91888E00F90A4C /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				CA5B979D2C91889C00F90A4C /* AmplitudeManager.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		CA80C0D22C44895F002CAA9B /* Models */ = {
@@ -1976,6 +1987,7 @@
 				9E754CDF2C48339B00E2CA91 /* AddScheduleFirstView.swift in Sources */,
 				CAC80FBF2C3C642300658EA6 /* PointSystemView.swift in Sources */,
 				CAA30AE22C37497200835DE3 /* TendencyTag.swift in Sources */,
+				CA5B979E2C91889C00F90A4C /* AmplitudeManager.swift in Sources */,
 				9E754CF52C4841CF00E2CA91 /* AddScheduleTargetType.swift in Sources */,
 				CA4EF3DC2C347994003B02B6 /* BaseCollectionViewCell.swift in Sources */,
 				CABDCEAC2C4A61D600631FB3 /* BannerDetailSection.swift in Sources */,
@@ -2259,6 +2271,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 72B557RJ7S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "DATEROAD-iOS/Global/Settings/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "사진 접근을 위해 권한이 필요합니다. 허용하시겠습니까?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -2297,6 +2310,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 72B557RJ7S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "DATEROAD-iOS/Global/Settings/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "사진 접근을 위해 권한이 필요합니다. 허용하시겠습니까?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
