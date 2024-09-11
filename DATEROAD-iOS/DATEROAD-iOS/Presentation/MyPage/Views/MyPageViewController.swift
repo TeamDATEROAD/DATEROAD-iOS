@@ -28,6 +28,7 @@ final class MyPageViewController: BaseNavBarViewController {
     
     private var selectedAlertFlag: Int = 0
     
+    
     // MARK: - Life Cycle
     
     init(myPageViewModel: MyPageViewModel) {
@@ -128,7 +129,7 @@ private extension MyPageViewController {
         self.myPageViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                self?.myPageViewModel.getUserProfile()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
@@ -138,6 +139,8 @@ private extension MyPageViewController {
             guard let isSuccess else { return }
             if isSuccess {
                 self?.navigationController?.popToRootViewController(animated: false)
+            } else {
+                self?.presentAlertVC(title: StringLiterals.Alert.failToLogout)
             }
         }
         
@@ -145,6 +148,8 @@ private extension MyPageViewController {
             guard let isSuccess else { return }
             if isSuccess {
                 self?.navigationController?.popToRootViewController(animated: false)
+            } else {
+                self?.presentAlertVC(title: StringLiterals.Alert.failToWithdrawal)
             }
         }
         
@@ -153,6 +158,15 @@ private extension MyPageViewController {
             if isSuccess {
                 self?.myPageView.userInfoView.bindData(userInfo: data)
                 self?.myPageView.userInfoView.tagCollectionView.reloadData()
+            }
+        }
+        
+        self.loginViewModel.onLoginSuccess.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.myPageViewModel.deleteWithdrawal()
+            } else {
+                self?.presentAlertVC(title: StringLiterals.Alert.failToWithdrawal)
             }
         }
     }
@@ -166,6 +180,29 @@ private extension MyPageViewController {
         
         self.myPageView.withdrawalButton.addTarget(self, action: #selector(withDrawalButtonTapped), for: .touchUpInside)
     }
+    
+    func presentAlertVC(title: String) {
+        let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        alert.addAction(.init(title: StringLiterals.Alert.confirm, style: .cancel))
+        self.present(alert, animated: true)
+    }
+    
+    func appleLogin() {
+        let appleProvider = ASAuthorizationAppleIDProvider()
+        let request = appleProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self
+        controller.performRequests()
+    }
+    
+}
+
+
+// MARK: @objc methods
+
+extension MyPageViewController {
     
     @objc
     func pushToPointDetailVC() {
@@ -185,13 +222,9 @@ private extension MyPageViewController {
         }
     }
     
-}
-
-extension MyPageViewController: DRCustomAlertDelegate {
-    
     @objc
-    private func logOutSectionTapped() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.logout, 
+    func logOutSectionTapped() {
+        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.logout,
                                                         alertTextType: .noDescription,
                                                         alertButtonType: .twoButton,
                                                         titleText: StringLiterals.Alert.wouldYouLogOut,
@@ -204,12 +237,12 @@ extension MyPageViewController: DRCustomAlertDelegate {
     }
     
     @objc
-    private func withDrawalButtonTapped() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none, 
+    func withDrawalButtonTapped() {
+        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none,
                                                         alertTextType: .noDescription,
                                                         alertButtonType: .twoButton,
                                                         titleText: StringLiterals.Alert.realWithdrawal,
-                                                        descriptionText: StringLiterals.Alert.lastWarning, 
+                                                        descriptionText: StringLiterals.Alert.lastWarning,
                                                         leftButtonText: StringLiterals.MyPage.alertWithdrawal,
                                                         rightButtonText: StringLiterals.Common.cancel)
         customAlertVC.delegate = self
@@ -217,6 +250,12 @@ extension MyPageViewController: DRCustomAlertDelegate {
         selectedAlertFlag = 1
         self.present(customAlertVC, animated: false)
     }
+}
+
+
+// MARK: DRCustomAlertDelegate
+
+extension MyPageViewController: DRCustomAlertDelegate {
     
     func action(rightButtonAction: RightButtonType) {
         if selectedAlertFlag == 0 {
@@ -228,20 +267,12 @@ extension MyPageViewController: DRCustomAlertDelegate {
         if selectedAlertFlag == 1 {
             if self.myPageViewModel.isAppleLogin {
                 appleLogin()
+            } else {
+                myPageViewModel.deleteWithdrawal()
             }
-            myPageViewModel.deleteWithdrawal()
         }
     }
-    
-    func appleLogin() {
-        let appleProvider = ASAuthorizationAppleIDProvider()
-        let request = appleProvider.createRequest()
-        request.requestedScopes = [.fullName, .email]
-        
-        let controller = ASAuthorizationController(authorizationRequests: [request])
-        controller.delegate = self
-        controller.performRequests()
-    }
+
 }
 
 // MARK: - UICollectionView Delegates
@@ -346,9 +377,7 @@ extension MyPageViewController: ASAuthorizationControllerDelegate {
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: any Error) {
-        let alert = UIAlertController(title: "로그인 실패", message: nil, preferredStyle: .alert)
-        alert.addAction(.init(title: "확인", style: .cancel))
-        present(alert, animated: true)
+        self.presentAlertVC(title: StringLiterals.Alert.failToLogin)
     }
     
 }

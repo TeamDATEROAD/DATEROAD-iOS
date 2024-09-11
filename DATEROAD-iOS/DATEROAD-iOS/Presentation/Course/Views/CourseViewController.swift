@@ -44,7 +44,6 @@ final class CourseViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getCourse()
         registerCell()
         setDelegate()
         bindViewModel()

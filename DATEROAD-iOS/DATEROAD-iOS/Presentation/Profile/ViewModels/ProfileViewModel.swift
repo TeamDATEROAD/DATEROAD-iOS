@@ -135,7 +135,9 @@ extension ProfileViewModel {
                 print("post \(data)")
                 self.onSuccessRegister?(true)
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             default:
                 print("Failed to fetch post signup")
                 self.onSuccessRegister?(false)
@@ -153,7 +155,9 @@ extension ProfileViewModel {
             case .success(_):
                 self.isValidNickname.value = true
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             case .requestErr:
                 self.isValidNickname.value = false
             default:
@@ -183,7 +187,9 @@ extension ProfileViewModel {
             case .success(_):
                 self.onSuccessEdit?(true)
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             default:
                 print("Failed to fetch patch edit profile")
                 self.onSuccessEdit?(false)
