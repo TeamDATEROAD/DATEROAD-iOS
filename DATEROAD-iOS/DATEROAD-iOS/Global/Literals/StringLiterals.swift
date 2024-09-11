@@ -192,6 +192,7 @@ enum StringLiterals {
         static let dateSetting = "데이트 일정 설정"
         static let deleteDate = "글 삭제"
         static let quit = "취소"
+        static let dDay = "D-Day"
     }
     
     enum Alert {

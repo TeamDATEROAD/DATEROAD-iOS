@@ -232,7 +232,7 @@ extension CourseDetailViewController: DRCustomAlertDelegate {
         } else {
             if courseDetailViewModel.havePoint.value == true {
                 //포인트로 구입
-                let request = PostUsePointRequest(point: 50, type: "POINT_USED", description: "코스 열람하기")
+                let request = PostUsePointRequest(point: 50, type: "POINT_USED", description: StringLiterals.CourseDetail.addCourse)
                 self.courseDetailViewModel.postUsePoint(courseId: courseId, request: request)
                 self.courseDetailViewModel.isAccess.value = true
                 dismiss(animated: false)

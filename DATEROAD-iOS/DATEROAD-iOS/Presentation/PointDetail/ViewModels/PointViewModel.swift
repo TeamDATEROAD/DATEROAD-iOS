@@ -26,11 +26,10 @@ final class PointViewModel: Serviceable {
     var isEarnedPointHidden : ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
-    
-    var onLoading: ObservablePattern<Bool> = ObservablePattern(nil)
-    
-    var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(nil)
 
+    var onLoading: ObservablePattern<Bool> = ObservablePattern(nil)
+
+    var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(nil)
     
     init (userName: String, totalPoint: Int) {
         self.userName = userName
@@ -43,6 +42,7 @@ final class PointViewModel: Serviceable {
     }
     
     func updateData(nowEarnedPointHidden: Bool) {
+//        nowPointData.value = gainedPointData.value
         if nowEarnedPointHidden {
             nowPointData.value = usedPointData.value
         } else {
@@ -50,7 +50,7 @@ final class PointViewModel: Serviceable {
         }
     }
     
-    func getPointDetail() {
+    func getPointDetail(nowEarnedPointHidden: Bool) {
         self.isSuccessGetPointInfo.value = false
         self.onFailNetwork.value = false
         self.setPointDetailLoading()
@@ -66,6 +66,7 @@ final class PointViewModel: Serviceable {
                 }
                 self.gainedPointData.value = pointGainedInfo
                 self.usedPointData.value = pointUsedInfo
+                self.updateData(nowEarnedPointHidden: nowEarnedPointHidden)
                 self.isSuccessGetPointInfo.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
@@ -73,19 +74,17 @@ final class PointViewModel: Serviceable {
                 }
             case .serverErr:
                 self.onFailNetwork.value = true
-            default:
+             default:
                 print("포인트내역 에러")
                 self.onFailNetwork.value = true //TODO: - 확인
                 return
-            
             }
         }
-
     }
     
     func setPointDetailLoading() {
-         guard let isSuccessGetPointInfo = self.isSuccessGetPointInfo.value else { return }
-         self.onLoading.value = !isSuccessGetPointInfo
-     }
+          guard let isSuccessGetPointInfo = self.isSuccessGetPointInfo.value else { return }
+          self.onLoading.value = !isSuccessGetPointInfo
+      }
 
 }

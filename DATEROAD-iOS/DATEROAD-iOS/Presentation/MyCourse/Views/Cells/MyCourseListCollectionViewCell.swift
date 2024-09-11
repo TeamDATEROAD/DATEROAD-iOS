@@ -65,7 +65,7 @@ class MyCourseListCollectionViewCell: BaseCollectionViewCell {
         heartButton.snp.makeConstraints {
             $0.leading.equalTo(thumbnailImageView.snp.leading).inset(5)
             $0.bottom.equalTo(thumbnailImageView.snp.bottom).inset(5)
-            $0.width.equalTo(43)
+            // $0.width.equalTo(43) TODO: 나중에 확정되면 지우기
             $0.height.equalTo(22)
         }
         

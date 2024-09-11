@@ -40,6 +40,11 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print("🥶🥶🥶🥶viewWillAppear🥶🥶🥶🥶🥶")
+        // TODO: - 데이트일정 등록하고 돌아왔을 때 그 전 뷰가 0.1초 정도 보임 & 로딩뷰가 안 뜸 -> 변경된 로딩뷰 적용 이후 수정
+        // 가끔 로드가 길면 자연스럽긴 함
+        // viewWillAppear은 뜨는듯함
+        
         self.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
         self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
     }
@@ -51,8 +56,8 @@ final class UpcomingDateScheduleViewController: BaseViewController {
         setDelegate()
         setUIMethods()
         setAddTarget()
-        setEmptyView()
         bindViewModel()
+        setEmptyView()
     }
     
     override func setHierarchy() {
@@ -71,8 +76,8 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     
     func drawDateCardView() {
         print("draw date card view")
-        setUIMethods()
         setEmptyView()
+        setUIMethods()
     }
     
 }
@@ -113,9 +118,8 @@ private extension UpcomingDateScheduleViewController {
     }
     
     func setEmptyView() {
-        if upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count == 0 {
-            upcomingDateScheduleView.emptyView.isHidden = false
-        }
+        print("🧘‍♀️🧘‍♀️엠티뷰판단중🧘‍♀️🧘‍♀️")
+        upcomingDateScheduleView.emptyView.isHidden = !(upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count == 0)
     }
     
     func bindViewModel() {
