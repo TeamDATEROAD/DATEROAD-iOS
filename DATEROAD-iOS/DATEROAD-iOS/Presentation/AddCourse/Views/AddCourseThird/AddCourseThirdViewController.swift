@@ -20,6 +20,9 @@ final class AddCourseThirdViewController: BaseNavBarViewController {
       
    private let errorView: DRErrorViewController = DRErrorViewController()
    
+   
+   // MARK: - Properties
+   
    private var keyboardHeight: CGFloat = 0.0
    
    
@@ -36,6 +39,16 @@ final class AddCourseThirdViewController: BaseNavBarViewController {
    
    
    // MARK: - LifeCycle
+   
+   override func viewWillAppear(_ animated: Bool) {
+      super.viewWillAppear(animated)
+      
+      addCourseThirdView.addThirdView.updateContentTextView(
+         addCourseThirdView.addThirdView.contentTextView,
+         withText: viewModel.contentText,
+         placeholder: addCourseThirdView.addThirdView.textViewPlaceHolder
+      )
+   }
    
    override func viewDidLoad() {
       super.viewDidLoad()
@@ -88,38 +101,15 @@ final class AddCourseThirdViewController: BaseNavBarViewController {
 
 // MARK: - ViewController Methods
 
-extension AddCourseThirdViewController {
+private extension AddCourseThirdViewController {
    
-   @objc private func keyboardWillShow(_ notification: Notification) {
-      if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-         keyboardHeight = keyboardSize.height
-         adjustScrollViewForKeyboard(showKeyboard: true)
-      }
-   }
-   
-   @objc private func keyboardWillHide(_ notification: Notification) {
-      adjustScrollViewForKeyboard(showKeyboard: false)
-   }
-   
-   private func adjustScrollViewForKeyboard(showKeyboard: Bool) {
-      let maxKeyboardHeight: CGFloat = 80 // 키보드 높이 제한을 200 포인트로 설정
-      
-      let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: showKeyboard ? min(keyboardHeight, maxKeyboardHeight) : 0, right: 0)
-      addCourseThirdView.scrollView.contentInset = contentInsets
-      addCourseThirdView.scrollView.scrollIndicatorInsets = contentInsets
-      
-      var visibleRect = CGRect()
-      visibleRect.size = addCourseThirdView.scrollView.contentSize
-      addCourseThirdView.scrollView.scrollRectToVisible(visibleRect, animated: true)
-   }
-   
-   private func registerCell() {
+   func registerCell() {
       addCourseThirdView.collectionView.do {
          $0.register(AddCourseImageCollectionViewCell.self, forCellWithReuseIdentifier: AddCourseImageCollectionViewCell.cellIdentifier)
       }
    }
    
-   private func setDelegate() {
+   func setDelegate() {
       addCourseThirdView.collectionView.do {
          $0.delegate = self
          $0.dataSource = self
@@ -129,63 +119,59 @@ extension AddCourseThirdViewController {
       addCourseThirdView.addThirdView.priceTextField.delegate = self
    }
    
-   private func addTarget() {
-      //      addCourseThirdView.addThirdView.priceTextField.addTarget(self, action: #selector(textFieldDidChanacge), for: .editingChanged)
-      addCourseThirdView.addThirdView.addThirdDoneBtn.addTarget(self, action: #selector(didTapAddCourseBtn), for: .touchUpInside)
+   func addTarget() {
+      addCourseThirdView.addThirdDoneBtn.addTarget(self, action: #selector(didTapAddCourseBtn), for: .touchUpInside)
    }
    
-   func successDone() {
-      let customAlertVC = DRCustomAlertViewController(rightActionType: .none, alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertTitleLabel, descriptionText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertSubTitleLabel, longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton)
-      customAlertVC.delegate = self
-      customAlertVC.modalPresentationStyle = .overFullScreen
-      self.present(customAlertVC, animated: false)
-   }
-   
-   private func bindViewModel() {
-      self.viewModel.isSuccessGetData.bind { [weak self] isSuccess in
+   func bindViewModel() {
+      self.viewModel.isSuccessPostData.bind { [weak self] isSuccess in
          guard let isSuccess else { return }
          if isSuccess {
-            self?.viewModel.onLoading.value = false
+            self?.successDone()
          }
       }
       
       self.viewModel.onFailNetwork.bind { [weak self] onFailure in
          guard let onFailure else { return }
+         
+         // 에러 발생 시 에러 뷰로 push
          if onFailure {
             let errorVC = DRErrorViewController()
+            // DRErrorViewController가 닫힐 때의 동작 정의
+            errorVC.onDismiss = {
+               print("🚀onDismiss 출동🚀")
+               // 코스 등록 3 로딩뷰, 에러뷰 false 설정
+               self?.viewModel.onLoading.value = false
+               self?.viewModel.onFailNetwork.value = false
+            }
+            
             self?.navigationController?.pushViewController(errorVC, animated: false)
          }
       }
-
+      
       self.viewModel.onLoading.bind { [weak self] onLoading in
-         guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
+         guard let onLoading else { return }
          
          if !onFailNetwork {
              onLoading ? self?.showLoadingView() : self?.hideLoadingView()
             self?.addCourseThirdView.isHidden = onLoading
             self?.tabBarController?.tabBar.isHidden = onLoading
          }
-         
-         if !onLoading {
-            self?.successDone()
+      }
+      
+      self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
+         guard let onSuccess else { return }
+         if onSuccess {
+            // TODO: - 서버 통신 재시도
+         } else {
+            self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
          }
       }
       
-       self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
-           guard let onSuccess else { return }
-           if onSuccess {
-               // TODO: - 서버 통신 재시도
-           } else {
-               self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
-           }
-       }
-       
       viewModel.contentTextCount.bind { [weak self] date in
-//         self?.viewModel.contentText.text = date
          self?.addCourseThirdView.addThirdView.updateContentTextCount(textCnt: date ?? 0)
          let flag = (date ?? 0) >= 200 ? true : false
          self?.viewModel.contentFlag = flag
-         self?.viewModel.contentText = self?.addCourseThirdView.addThirdView.contentTextView.text ?? ""
          self?.viewModel.isDoneBtnValid()
       }
       viewModel.priceText.bind { [weak self] date in
@@ -197,14 +183,53 @@ extension AddCourseThirdViewController {
       }
       
       viewModel.isDoneBtnOK.bind { [weak self] date in
-         self?.addCourseThirdView.addThirdView.updateAddThirdDoneBtn(isValid: date ?? false)
+         self?.addCourseThirdView.updateAddThirdDoneBtn(isValid: date ?? false)
       }
    }
    
+   func successDone() {
+      let customAlertVC = DRCustomAlertViewController(
+         rightActionType: .none,
+         alertTextType: .hasDecription,
+         alertButtonType: .oneButton,
+         titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertTitleLabel,
+         descriptionText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertSubTitleLabel,
+         longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton
+      )
+      customAlertVC.delegate = self
+      customAlertVC.modalPresentationStyle = .overFullScreen
+      self.present(customAlertVC, animated: false)
+   }
+   
    func goBackOriginVCForAddCourse() {
-       let tabbarVC = TabBarController()
-       tabbarVC.selectedIndex = 1
-       navigationController?.popToPreviousViewController(ofType: AddCourseFirstViewController.self, defaultViewController: tabbarVC)
+      let tabbarVC = TabBarController()
+      tabbarVC.selectedIndex = 1
+      navigationController?.popToPreviousViewController(ofType: AddCourseFirstViewController.self, defaultViewController: tabbarVC)
+   }
+   
+   @objc
+   func keyboardWillShow(_ notification: Notification) {
+      if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+         keyboardHeight = keyboardSize.height
+         adjustScrollViewForKeyboard(showKeyboard: true)
+      }
+   }
+   
+   @objc
+   func keyboardWillHide(_ notification: Notification) {
+      adjustScrollViewForKeyboard(showKeyboard: false)
+   }
+   
+   func adjustScrollViewForKeyboard(showKeyboard: Bool) {
+      let maxKeyboardHeight: CGFloat = 45
+      
+      let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: showKeyboard ? min(keyboardHeight, maxKeyboardHeight) : 0, right: 0)
+      addCourseThirdView.scrollView.contentInset = contentInsets
+      addCourseThirdView.scrollView.scrollIndicatorInsets = contentInsets
+      
+      var visibleRect = CGRect()
+      visibleRect.size = addCourseThirdView.scrollView.contentSize
+      addCourseThirdView.scrollView.scrollRectToVisible(visibleRect, animated: true)
    }
    
 }
@@ -217,6 +242,7 @@ extension AddCourseThirdViewController: UITextViewDelegate {
          textView.text = nil
          textView.textColor = .black
       }
+      /// textView가 선택되면 priceTextField 키보드 비활성화
       addCourseThirdView.addThirdView.priceTextField.resignFirstResponder()
       print(textView.text ?? "")
       
@@ -224,10 +250,15 @@ extension AddCourseThirdViewController: UITextViewDelegate {
    }
    
    func textViewDidEndEditing(_ textView: UITextView) {
-      if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-         textView.text = addCourseThirdView.addThirdView.textViewPlaceHolder
-         textView.textColor = UIColor(resource: .gray300)
-      }
+      addCourseThirdView.addThirdView.updateContentTextView(
+         addCourseThirdView.addThirdView.contentTextView,
+         withText: viewModel.contentText,
+         placeholder: addCourseThirdView.addThirdView.textViewPlaceHolder
+      )
+   }
+   
+   func textViewDidChange(_ textView: UITextView) {
+      textView.setFontAndLineLetterSpacing(textView.text, font: UIFont.suit(.body_med_13))
    }
    
    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -238,6 +269,7 @@ extension AddCourseThirdViewController: UITextViewDelegate {
       viewModel.contentText = changedText
       let filteredTextCount = changedText.filter { $0 != "\n" }.count
       viewModel.contentTextCount.value = filteredTextCount
+      print("🎉🎉🎉🎉\(changedText)🎉🎉🎉🎉")
       
       // 리턴 키 입력을 처리합니다.
       if text == "\n" {
@@ -246,10 +278,6 @@ extension AddCourseThirdViewController: UITextViewDelegate {
       }
       return true
    }
-   
-   // 이거 안씀
-   /// priceTextField 실시간 변경 감지
-   
    
 }
 
@@ -264,18 +292,28 @@ extension AddCourseThirdViewController: UITextFieldDelegate {
    
    func textFieldDidBeginEditing(_ textField: UITextField) {
       UIView.animate(withDuration: 0.3) {
-         let transform = CGAffineTransform(translationX: 0, y: -200)
-         self.view.transform = transform
+         // 뷰를 이동시키지 않고 제약 조건만 변경
+         self.addCourseThirdView.addThirdDoneBtn.snp.remakeConstraints { make in
+            make.height.equalTo(54)
+            make.horizontalEdges.equalToSuperview().inset(16)
+            make.bottom.equalTo(self.view.keyboardLayoutGuide.snp.top).offset(-10) // 키보드 위로 위치
+         }
+         self.view.layoutIfNeeded() // 레이아웃 즉시 갱신
       }
-      addCourseThirdView.addThirdView.contentTextView.resignFirstResponder()
    }
    
    func textFieldDidEndEditing(_ textField: UITextField) {
-      print("textFieldDidEndEditing 에서 출력")
       UIView.animate(withDuration: 0.3) {
-         let transform = CGAffineTransform(translationX: 0, y: 0)
-         self.view.transform = transform
+         // 원래의 제약 조건으로 되돌림
+         self.addCourseThirdView.addThirdDoneBtn.snp.remakeConstraints { make in
+            make.height.equalTo(54)
+            make.horizontalEdges.equalToSuperview().inset(16)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-4) // 안전 영역 하단에 위치
+         }
+         self.view.layoutIfNeeded() // 레이아웃 즉시 갱신
       }
+      
+      // textField 값이 변경된 경우 처리
       viewModel.priceText.value = Int(textField.text ?? "0")
    }
    
@@ -302,6 +340,7 @@ extension AddCourseThirdViewController: UICollectionViewDataSource, UICollection
       
       return cell
    }
+   
 }
 
 
@@ -309,13 +348,13 @@ extension AddCourseThirdViewController: UICollectionViewDataSource, UICollection
 
 extension AddCourseThirdViewController: DRCustomAlertDelegate {
    
+   func exit() {
+      goBackOriginVCForAddCourse()
+   }
+   
    @objc
    private func didTapAddCourseBtn() {
       viewModel.postAddCourse()
-   }
-   
-   func exit() {
-      goBackOriginVCForAddCourse()
    }
    
 }

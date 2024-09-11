@@ -32,4 +32,13 @@ final class DateFormatterManager {
       return (selectedDate ?? today) <= today
    }
    
+   // Kor 날짜 문자열을 "yyyy.MM.dd"로 변환하는 함수
+   func convertToStandardFormat(from dateString: String) -> Date? {
+      let currentFormatter = DateFormatter()
+      currentFormatter.locale = Locale(identifier: "ko_KR")
+      currentFormatter.dateFormat = "yyyy년 M월 d일"
+      
+      return currentFormatter.date(from: dateString)
+   }
+   
 }

@@ -85,4 +85,3 @@ struct KakaoPlaceModel {
         self.duration = duration
     }
 }
-

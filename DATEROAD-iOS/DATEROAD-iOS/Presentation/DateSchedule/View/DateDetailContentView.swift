@@ -271,7 +271,12 @@ extension DateDetailContentView {
     
     func dataBind(_ dateDetailData : DateDetailModel) {
         self.dateLabel.text = dateDetailData.date
-        self.dDayButton.setTitle("D-\(dateDetailData.dDay)", for: .normal)
+        if dateDetailData.dDay == 0 {
+            self.dDayButton.setTitle("D-Day", for: .normal)
+        } else {
+            self.dDayButton.setTitle("D-\(dateDetailData.dDay)", for: .normal)
+
+        }
         self.dateStartTimeLabel.text = "\(dateDetailData.startAt) " + StringLiterals.DateSchedule.startTime
         updateTagButton(title: "\(dateDetailData.tags[0].tag)", button: self.firstTagButton)
         if dateDetailData.tags.count >= 2 {

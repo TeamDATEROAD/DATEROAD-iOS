@@ -78,16 +78,16 @@ extension LoginViewModel {
     func loginWithApple(userInfo: ASAuthorizationAppleIDCredential) {
         guard let userIdentifier = userInfo.identityToken,
               let code = userInfo.authorizationCode,
-              let token = String(data: userIdentifier, encoding: .utf8)
+              let token = String(data: userIdentifier, encoding: .utf8),
+              let authCode = String(data: code, encoding: .utf8)
         else { return }
         
+        UserDefaults.standard.setValue(authCode, forKey: "authCode")
         self.isKaKaoLogin.value = false
         self.socialType.value = .APPLE
 
         self.setToken(token: token)
         self.setUserInfo(userInfo: userInfo)
-        let authCode = String(data: code, encoding: .utf8)
-        UserDefaults.standard.setValue(authCode, forKey: "authCode")
 
         print("identifier token: \(String(describing: token))")
         print("authorization code: \(String(describing: authCode))")
@@ -129,7 +129,9 @@ extension LoginViewModel {
             case .requestErr:
                 self.isSignIn.value = false
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             default:
                 print("Failed to fetch post signin")
                 self.onLoginSuccess.value = false

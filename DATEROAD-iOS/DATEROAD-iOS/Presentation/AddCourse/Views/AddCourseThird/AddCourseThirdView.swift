@@ -22,11 +22,17 @@ final class AddCourseThirdView: BaseView {
    
    let addThirdView: AddThirdView = AddThirdView()
    
+   let addThirdDoneBtn: UIButton = UIButton()
+   
+   private let enabledButtonType: DRButtonType = EnabledButton()
+   
+   private let disabledButtonType: DRButtonType = addCoursePlaceDisabledButton()
+   
    
    // MARK: - Methods
    
    override func setHierarchy() {
-      self.addSubview(scrollView)
+      self.addSubviews(scrollView, addThirdDoneBtn)
       scrollView.addSubview(scrollContentView)
       scrollContentView.addSubviews(collectionView, addThirdView)
    }
@@ -34,13 +40,18 @@ final class AddCourseThirdView: BaseView {
    override func setLayout() {
       scrollView.snp.makeConstraints {
          $0.top.horizontalEdges.equalToSuperview()
-         $0.bottom.equalToSuperview().inset(4)
+         $0.bottom.equalTo(addThirdDoneBtn.snp.top).offset(-10)
+      }
+      
+      addThirdDoneBtn.snp.makeConstraints {
+         $0.height.equalTo(54)
+         $0.horizontalEdges.equalToSuperview().inset(16)
+         $0.bottom.equalTo(safeAreaLayoutGuide).offset(-4)
       }
       
       scrollContentView.snp.makeConstraints {
-         $0.verticalEdges.equalToSuperview()
-         $0.width.equalToSuperview()
-         $0.height.greaterThanOrEqualTo(scrollView.snp.height)
+         $0.width.equalTo(scrollView.frameLayoutGuide)
+         $0.edges.equalTo(scrollView.contentLayoutGuide)
       }
       
       collectionView.snp.makeConstraints {
@@ -74,6 +85,22 @@ final class AddCourseThirdView: BaseView {
          $0.clipsToBounds = true
       }
       
+      addThirdDoneBtn.do {
+         $0.setButtonStatus(buttonType: disabledButtonType)
+         $0.setTitle(StringLiterals.AddCourseOrSchedule.AddThirdView.addThirdDoneBtn, for: .normal)
+         $0.titleLabel?.font = .suit(.body_bold_15)
+      }
+      
+   }
+   
+}
+
+extension AddCourseThirdView {
+   
+   func updateAddThirdDoneBtn(isValid: Bool) {
+      print("현재 updateAddThirdDoneBtn \(isValid)")
+      let state = isValid ? enabledButtonType : disabledButtonType
+      addThirdDoneBtn.setButtonStatus(buttonType: state)
    }
    
 }

@@ -55,7 +55,9 @@ class MyCourseListViewModel: Serviceable {
                 self.viewedCourseData.value = viewedCourseInfo
                 self.isSuccessGetViewedCourseInfo.value = true
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             case .serverErr:
                 self.onViewedCourseFailNetwork.value = true
             default:
@@ -84,7 +86,9 @@ class MyCourseListViewModel: Serviceable {
                 self.viewedCourseData.value = viewedCourseInfo
                 self.isSuccessGetNavViewedCourseInfo.value = true
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             case .serverErr:
                 self.onNavViewedCourseFailNetwork.value = true
             default:
@@ -115,7 +119,9 @@ class MyCourseListViewModel: Serviceable {
                 self.isSuccessGetMyRegisterCourseInfo.value = true
                 print("isUpdate>", self.myRegisterCourseData)
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             case .serverErr:
                 self.onMyRegisterCourseFailNetwork.value = true
             default:

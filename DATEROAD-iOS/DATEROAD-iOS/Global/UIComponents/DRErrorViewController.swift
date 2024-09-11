@@ -8,6 +8,10 @@
 import UIKit
 
 final class DRErrorViewController: BaseNavBarViewController {
+   
+   // MARK: - Properties
+   // 콜백 클로저 정의
+   var onDismiss: (() -> Void)?
     
     // MARK: - UI Properties
     
@@ -19,6 +23,13 @@ final class DRErrorViewController: BaseNavBarViewController {
     
     
     // MARK: - Life Cycles
+   
+   // VC 닫힐 때에 호출
+   override func viewDidDisappear(_ animated: Bool) {
+      super.viewDidDisappear(animated)
+      
+      onDismiss?()
+   }
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -189,7 +189,9 @@ extension PastDateDetailViewController {
     
     private func setButton() {
         pastDateDetailContentView.kakaoShareButton.isHidden = true
-        pastDateDetailContentView.courseShareButton.isHidden = false
+        
+        // TODO: - 코스 공유 버튼 확정 시 courseShareButton.isHidden = false로 변경
+        pastDateDetailContentView.courseShareButton.isHidden = true
         
         pastDateDetailContentView.courseShareButton.addTarget(self, action: #selector(tapShareCourse), for: .touchUpInside)
     }

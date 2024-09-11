@@ -53,7 +53,9 @@ class DateScheduleViewModel: Serviceable {
             case .serverErr:
                 self.onPastScheduleFailNetwork.value = true
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             default:
                 self.isSuccessGetPastDateScheduleData.value = false
             }
@@ -84,7 +86,9 @@ class DateScheduleViewModel: Serviceable {
             case .serverErr:
                 self.onUpcomingScheduleFailNetwork.value = true
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             default:
                 self.isSuccessGetUpcomingDateScheduleData.value = false
                 print("false?")

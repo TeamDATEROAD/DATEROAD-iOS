@@ -37,7 +37,7 @@ class PointDetailViewController: BaseNavBarViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
         self.pointViewModel.setPointDetailLoading()
-        self.pointViewModel.getPointDetail()
+        self.pointViewModel.getPointDetail(nowEarnedPointHidden: false)
     }
     
     override func viewDidLoad() {
@@ -46,10 +46,10 @@ class PointDetailViewController: BaseNavBarViewController {
         setLeftBackButton()
         setTitleLabelStyle(title: StringLiterals.PointDetail.title, alignment: .center)
         setProfile(userName: pointViewModel.userName, totalPoint: pointViewModel.totalPoint)
-        bindViewModel()
         registerCell()
         setDelegate()
         setAddTarget()
+        bindViewModel()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -75,15 +75,6 @@ class PointDetailViewController: BaseNavBarViewController {
 
 extension PointDetailViewController {
     func bindViewModel() {
-        self.pointViewModel.onReissueSuccess.bind { [weak self] onSuccess in
-            guard let onSuccess else { return }
-            if onSuccess {
-                // TODO: - 서버 통신 재시도
-            } else {
-                self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
-            }
-        }
-        
         self.pointViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {

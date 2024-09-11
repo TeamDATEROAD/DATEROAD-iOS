@@ -17,9 +17,7 @@ class DateDetailViewModel: Serviceable {
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    var emptyDateDetailData = DateDetailModel(dateID: 0, title: "", startAt: "", city: "", tags: [], date: "", places: [], dDay: 0)
-    
-    var userName : String = "수민"
+    var userName : String = UserDefaults.standard.string(forKey: "userName") ?? ""
     
     let dateScheduleService = DateScheduleService()
     
@@ -66,7 +64,9 @@ extension DateDetailViewModel {
             case .serverErr:
                 self.onFailNetwork.value = true
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             default:
                 self.isSuccessGetDateDetailData.value = false
             }
@@ -85,7 +85,9 @@ extension DateDetailViewModel {
                 self.isSuccessDeleteDateScheduleData.value = true
                 print("success", self.isSuccessDeleteDateScheduleData.value)
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             default:
                 self.isSuccessDeleteDateScheduleData.value = false
             }
