@@ -16,8 +16,6 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     
     var pastDateDetailContentView = DateDetailContentView()
     
-    private let loadingView: DRLoadingView = DRLoadingView()
-
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     
@@ -67,16 +65,11 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubview(loadingView)
         contentView.addSubviews(pastDateDetailContentView)
     }
     
     override func setLayout() {
         super.setLayout()
-        
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
         
         pastDateDetailContentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -139,7 +132,7 @@ extension PastDateDetailViewController {
                   let onFailNetwork = self?.pastDateDetailViewModel.onFailNetwork.value
             else { return }
              if !onFailNetwork {
-                 self?.loadingView.isHidden = !onLoading
+                 onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                  self?.pastDateDetailContentView.isHidden = onLoading
              }
          }
@@ -160,7 +153,7 @@ extension PastDateDetailViewController {
             if isSuccess {
                 self?.pastDateDetailContentView.dataBind(data)
                 self?.pastDateDetailContentView.dateTimeLineCollectionView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     self?.pastDateDetailViewModel.setDateDetailLoading()
                 }
             }
@@ -176,7 +169,7 @@ extension PastDateDetailViewController {
         self.pastDateDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
-                self?.loadingView.isHidden = true
+                self?.hideLoadingView()
                 let errorVC = DRErrorViewController()
                 self?.navigationController?.pushViewController(errorVC, animated: false)
             }

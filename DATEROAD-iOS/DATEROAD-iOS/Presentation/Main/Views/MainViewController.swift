@@ -12,9 +12,7 @@ final class MainViewController: BaseViewController {
     // MARK: - UI Properties
     
     private var mainView: MainView
-    
-    private let loadingView: DRLoadingView = DRLoadingView()
-    
+        
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     private var timer: Timer?
@@ -57,29 +55,24 @@ final class MainViewController: BaseViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
         self.stopBannerAutoScroll()
     }
     
     override func setHierarchy() {
-        self.view.addSubviews(loadingView, mainView)
+        super.setHierarchy()
+        
+        self.view.addSubview(mainView)
     }
     
     override func setLayout() {
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        super.setLayout()
         
         mainView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview().inset(view.frame.height * 0.1)
         }
     }
-    
-    override func setStyle() {
-        self.navigationController?.navigationBar.isHidden = true
-    }
+
 }
 
 extension MainViewController {
@@ -98,7 +91,7 @@ extension MainViewController {
                   let onFailNetwork = self?.mainViewModel.onFailNetwork.value
             else { return }
             if !onFailNetwork {
-                self?.loadingView.isHidden = !onLoading
+                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                 self?.mainView.isHidden = onLoading
                 self?.tabBarController?.tabBar.isHidden = onLoading
             }
@@ -107,7 +100,7 @@ extension MainViewController {
         self.mainViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                self?.mainViewModel.fetchSectionData()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
@@ -179,7 +172,7 @@ extension MainViewController {
     
     func setLoadingView(row: Int, section: Int) {
         if row == self.mainView.mainCollectionView.numberOfItems(inSection: section) - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
                 self.mainViewModel.setLoading()
             }
         }
@@ -274,6 +267,9 @@ extension MainViewController: UICollectionViewDelegate {
         mainView.mainCollectionView.backgroundColor = contentOffsetY < 0 ? UIColor(resource: .deepPurple) : UIColor(resource: .drWhite)
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        self.setLoadingView(row: indexPath.row, section: indexPath.section)
+    }
 }
 
 extension MainViewController: UICollectionViewDataSource {
@@ -308,13 +304,11 @@ extension MainViewController: UICollectionViewDataSource {
             cell.dateTicketView.moveButton.tag = mainViewModel.upcomingData.value?.dateId ?? 0
             cell.dateTicketView.moveButton.addTarget(self, action: #selector(pushToDateDetailVC(_:)), for: .touchUpInside)
             cell.emptyTicketView.moveButton.addTarget(self, action: #selector(pushToDateScheduleVC), for: .touchUpInside)
-            setLoadingView(row: indexPath.row, section: indexPath.section)
             return cell
             
         case .hotDateCourse:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell else { return UICollectionViewCell() }
             cell.bindData(hotDateData: mainViewModel.hotCourseData.value?[indexPath.row])
-            setLoadingView(row: indexPath.row, section: indexPath.section)
             return cell
             
         case .banner:
@@ -322,13 +316,11 @@ extension MainViewController: UICollectionViewDataSource {
             cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
             let longPressGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
             cell.addGestureRecognizer(longPressGesture)
-            setLoadingView(row: indexPath.row, section: indexPath.section)
             return cell
             
         case .newDateCourse:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell else { return UICollectionViewCell() }
             cell.bindData(newDateData: mainViewModel.newCourseData.value?[indexPath.row])
-            setLoadingView(row: indexPath.row, section: indexPath.section)
             return cell
         }
     }
@@ -364,15 +356,20 @@ extension MainViewController: UICollectionViewDataSource {
         switch self.mainViewModel.sectionData[indexPath.section] {
         case .hotDateCourse:
             let courseId = mainViewModel.hotCourseData.value?[indexPath.item].courseId ?? 0
-            self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
+            let courseDetailVC = CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId))
+            courseDetailVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(courseDetailVC, animated: false)
             
         case .newDateCourse:
             let courseId = mainViewModel.newCourseData.value?[indexPath.item].courseId ?? 0
-            self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
+            let courseDetailVC = CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId))
+            courseDetailVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(courseDetailVC, animated: false)
             
         case .banner:
             let id = mainViewModel.bannerData.value?[indexPath.item].advertisementId ?? 1
             let bannerDtailVC = BannerDetailViewController(viewModel: CourseDetailViewModel(courseId: 7), advertismentId: id)
+            bannerDtailVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(bannerDtailVC, animated: false)
             
         default:

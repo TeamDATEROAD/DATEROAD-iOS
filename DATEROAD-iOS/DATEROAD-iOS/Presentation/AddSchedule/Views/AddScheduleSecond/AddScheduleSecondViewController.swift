@@ -19,9 +19,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
    private let viewModel: AddScheduleViewModel
    
    private var alertVC: AddScheduleBottomSheetViewController?
-   
-   private let loadingView: DRLoadingView = DRLoadingView()
-   
+      
    private let errorView: DRErrorViewController = DRErrorViewController()
    
    
@@ -62,16 +60,12 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
       super.setHierarchy()
       
       self.view.addSubview(contentView)
-      contentView.addSubviews(loadingView, addScheduleSecondView)
+      contentView.addSubview(addScheduleSecondView)
    }
    
    override func setLayout() {
       super.setLayout()
-      
-      loadingView.snp.makeConstraints {
-         $0.edges.equalToSuperview()
-      }
-      
+
       addScheduleSecondView.snp.makeConstraints {
          $0.top.equalToSuperview().offset(4)
          $0.horizontalEdges.equalToSuperview()
@@ -151,11 +145,10 @@ private extension AddScheduleSecondViewController {
       }
       
       self.viewModel.onLoading.bind { [weak self] onLoading in
-         guard let onLoading else { return }
+         guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
          
-         // postData 중이고 or postDate 종료 됐을 때 에러 발생 X라면
-         if !onLoading {
-            self?.loadingView.isHidden = !onLoading
+         if !onFailNetwork {
+             onLoading ? self?.showLoadingView() : self?.hideLoadingView()
             self?.addScheduleSecondView.isHidden = onLoading
             self?.tabBarController?.tabBar.isHidden = onLoading
          }

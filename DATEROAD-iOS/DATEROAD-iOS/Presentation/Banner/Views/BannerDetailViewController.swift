@@ -16,8 +16,6 @@ final class BannerDetailViewController: BaseViewController {
     
     private let bannerDetailView: BannerDetailView
     
-    private let loadingView: DRLoadingView = DRLoadingView()
-    
     private let errorView: DRErrorViewController = DRErrorViewController()
         
     private var deleteCourseSettingView = DeleteCourseSettingView()
@@ -66,20 +64,15 @@ final class BannerDetailViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(loadingView, bannerDetailView)
+        self.view.addSubview(bannerDetailView)
     }
     
     override func setLayout() {
         super.setLayout()
-
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
         
         bannerDetailView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
     }
     
     override func setStyle() {
@@ -88,14 +81,15 @@ final class BannerDetailViewController: BaseViewController {
         self.view.backgroundColor = UIColor(resource: .drWhite)
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.tabBarController?.tabBar.isHidden = true
-        
     }
     
     func bindViewModel() {
         self.courseDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
-            guard let onSuccess else { return }
+            guard let onSuccess, let advertisementId = self?.courseDetailViewModel.advertisementId 
+            else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                self?.courseDetailViewModel.setBannerDetailLoading()
+                self?.courseDetailViewModel.getBannerDetail(advertismentId: advertisementId)
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
@@ -113,7 +107,7 @@ final class BannerDetailViewController: BaseViewController {
             guard let onLoading, 
                     let onFailNetwork = self?.courseDetailViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
-                self?.loadingView.isHidden = !onLoading
+                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                 self?.bannerDetailView.isHidden = onLoading
             }
         }
@@ -130,6 +124,9 @@ final class BannerDetailViewController: BaseViewController {
             if isSuccess {
                 self?.setNavBar()
                 self?.bannerDetailView.mainCollectionView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self?.courseDetailViewModel.setBannerDetailLoading()
+                }
             }
         }
     }
@@ -139,7 +136,6 @@ final class BannerDetailViewController: BaseViewController {
 private extension BannerDetailViewController {
     
     func setDelegate() {
-        bannerDetailView.mainCollectionView.delegate = self
         bannerDetailView.mainCollectionView.dataSource = self
         bannerDetailView.stickyHeaderNavBarView.delegate = self
     }
@@ -164,17 +160,6 @@ extension BannerDetailViewController: ImageCarouselDelegate {
     }
 }
 
-extension BannerDetailViewController: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.courseDetailViewModel.setBannerDetailLoading()
-            }
-        }
-    }
-    
-}
 
 extension BannerDetailViewController: UICollectionViewDataSource {
     
@@ -200,16 +185,13 @@ extension BannerDetailViewController: UICollectionViewDataSource {
             return imageCarouselCell
             
         case .titleInfo:
-            guard let titleInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleInfoCell.cellIdentifier, for: indexPath) as? TitleInfoCell else {
-                return UICollectionViewCell()
-            }
+            guard let titleInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleInfoCell.cellIdentifier, for: indexPath) as? TitleInfoCell
+            else { return UICollectionViewCell() }
             titleInfoCell.bindBannerTitle(title: courseDetailViewModel.bannerDetailTitle)
             return titleInfoCell
             
         case .mainContents:
-            guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.cellIdentifier, for: indexPath) as? MainContentsCell else {
-                return UICollectionViewCell()
-            }
+            guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.cellIdentifier, for: indexPath) as? MainContentsCell else { return UICollectionViewCell() }
             let mainData = courseDetailViewModel.mainContentsData.value ?? MainContentsModel(description: "")
             mainContentsCell.setCell(mainContentsData: mainData)
             mainContentsCell.mainTextLabel.numberOfLines = 0
@@ -226,26 +208,26 @@ extension BannerDetailViewController: UICollectionViewDataSource {
         let tagLabel = courseDetailViewModel.bannerHeaderData.value?.tag ?? ""
         let createDate = courseDetailViewModel.bannerHeaderData.value?.createAt ?? ""
         
-        if kind == BannerInfoHeaderView.elementKinds {
-            guard let visitDate = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BannerInfoHeaderView.identifier, for: indexPath) as? BannerInfoHeaderView else {
-                return UICollectionReusableView()
-            }
+        switch kind {
+        case BannerInfoHeaderView.elementKinds:
+            guard let visitDate = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BannerInfoHeaderView.identifier, for: indexPath) as? BannerInfoHeaderView else { return UICollectionReusableView() }
             visitDate.bindTitle(tagLabel: tagLabel, visitDate: createDate)
             return visitDate
-        } else if kind == InfoBarView.elementKinds {
-            guard let infoView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoBarView.identifier, for: indexPath) as? InfoBarView else {
-                return UICollectionReusableView()
-            }
+            
+        case InfoBarView.elementKinds:
+            guard let infoView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoBarView.identifier, for: indexPath) as? InfoBarView else { return UICollectionReusableView() }
             infoView.allHidden()
             return infoView
-        } else if kind == BottomPageControllView.elementKinds {
+            
+        case BottomPageControllView.elementKinds:
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else { return UICollectionReusableView() }
             let likeNum = self.courseDetailViewModel.likeSum.value ?? 0
             footer.pageIndexSum = imageData.count
             footer.bindData(like: likeNum)
             footer.hiddenLikeStackView()
             return footer
-        } else {
+            
+        default :
             return UICollectionReusableView()
         }
     }

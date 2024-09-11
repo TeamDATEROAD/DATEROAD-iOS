@@ -13,9 +13,7 @@ import Then
 final class CourseDetailViewController: BaseViewController {
     
     // MARK: - UI Properties
-    
-    private let loadingView: DRLoadingView = DRLoadingView()
-    
+        
     private let errorView: DRErrorViewController = DRErrorViewController()
 
     private let courseDetailView: CourseDetailView
@@ -69,11 +67,7 @@ final class CourseDetailViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(
-            loadingView,
-            courseDetailView,
-            courseInfoTabBarView
-        )
+        self.view.addSubviews(courseDetailView, courseInfoTabBarView)
     }
     
     override func setLayout() {
@@ -81,10 +75,6 @@ final class CourseDetailViewController: BaseViewController {
         
         self.tabBarController?.tabBar.isHidden = true
         courseInfoTabBarView.isHidden = true
-        
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
         
         courseDetailView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -145,7 +135,7 @@ final class CourseDetailViewController: BaseViewController {
         self.courseDetailViewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.courseDetailViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
-                self?.loadingView.isHidden = !onLoading
+                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                 self?.courseDetailView.isHidden = onLoading
             }
         }

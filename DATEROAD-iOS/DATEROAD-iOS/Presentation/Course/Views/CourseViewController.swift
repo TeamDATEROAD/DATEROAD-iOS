@@ -14,9 +14,7 @@ import Then
 final class CourseViewController: BaseViewController {
     
     // MARK: - UI Properties
-    
-    private let loadingView: DRLoadingView = DRLoadingView()
-    
+        
     private let errorView: DRErrorViewController = DRErrorViewController()
 
     private let courseView = CourseView()
@@ -50,20 +48,20 @@ final class CourseViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+        self.tabBarController?.tabBar.isHidden = false
+        self.courseViewModel.setLoading()
         getCourse()
         courseViewModel.fetchPriceData()
     }
     
     override func setHierarchy() {
-        self.view.addSubviews(loadingView, courseView)
+        super.setHierarchy()
+        
+        self.view.addSubview(courseView)
     }
     
     override func setLayout() {
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        super.setLayout()
         
         courseView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -98,7 +96,7 @@ final class CourseViewController: BaseViewController {
         self.courseViewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.courseViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
-                self?.loadingView.isHidden = !onLoading
+                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                 self?.courseView.isHidden = onLoading
                 self?.tabBarController?.tabBar.isHidden = onLoading
             }
@@ -115,9 +113,11 @@ final class CourseViewController: BaseViewController {
         
         courseViewModel.isSuccessGetData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
-
             if isSuccess {
                 self?.courseView.courseListView.courseListCollectionView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
+                    self?.courseViewModel.setLoading()
+                }
             }
         }
         
@@ -126,7 +126,6 @@ final class CourseViewController: BaseViewController {
         }
         
         self.courseViewModel.selectedCityName.bind { [weak self] index in
-            
             self?.courseViewModel.didUpdateselectedCityName?(index)
         }
         
@@ -235,24 +234,6 @@ extension CourseViewController: CourseNavigationBarViewDelegate {
 }
 
 extension CourseViewController: UICollectionViewDelegate {
-
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-            let totalItems = collectionView.numberOfItems(inSection: indexPath.section)
-            
-            if indexPath.row == totalItems - 2 {
-                // 로딩 뷰 표시
-                self.loadingView.isHidden = false
-                self.courseView.isHidden = true
-                self.tabBarController?.tabBar.isHidden = true
-
-                // 3초 후에 로딩 뷰 숨기고 마지막 셀 표시
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-                    self?.loadingView.isHidden = true
-                    self?.courseView.isHidden = false
-                    self?.tabBarController?.tabBar.isHidden = false
-                }
-            }
-        }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedCourse = courseViewModel.courseListModel[indexPath.row]

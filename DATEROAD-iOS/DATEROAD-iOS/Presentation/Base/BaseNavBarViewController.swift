@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Lottie
 import SnapKit
 import Then
 
@@ -25,6 +26,11 @@ class BaseNavBarViewController: UIViewController {
    private var rightButton = UIButton()
    
    var titleLabel = UILabel()
+    
+    private let backgroundView: UIView = UIView()
+    
+    let lottieView = LottieAnimationView(name: "loading")
+    
    
    // MARK: - Life Cycles
    
@@ -97,7 +103,6 @@ class BaseNavBarViewController: UIViewController {
 // MARK: - NavigationBar Custom Methods
 
 extension BaseNavBarViewController {
-   
    
    func setBackgroundColor(color: UIColor) {
       topInsetView.do {
@@ -174,6 +179,34 @@ extension BaseNavBarViewController {
       tapRecognizer.cancelsTouchesInView = false
       view.addGestureRecognizer(tapRecognizer)
    }
+    
+    func showLoadingView() {
+        // 로딩 뷰 설정
+        lottieView.contentMode = .scaleAspectFit
+        lottieView.loopMode = .loop
+        lottieView.play()
+        
+        backgroundView.backgroundColor = UIColor(resource: .drWhite)
+        
+        // 로딩 뷰를 화면에 추가
+        self.view.addSubviews(backgroundView, lottieView)
+        
+        backgroundView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        lottieView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+    }
+
+    func hideLoadingView() {
+        // 로딩 뷰 중지 및 제거
+        lottieView.stop()
+        backgroundView.removeFromSuperview()
+        lottieView.removeFromSuperview()
+    }
+    
    
    @objc
    private func dismissKeyboard() {

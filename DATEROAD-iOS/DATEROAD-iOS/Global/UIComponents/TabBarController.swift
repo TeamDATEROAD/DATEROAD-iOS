@@ -123,11 +123,9 @@ private extension TabBarController {
     }
     
     func setHierarchy() {
-        let homeNavVC = UINavigationController(rootViewController: homeVC)
-        homeNavVC.setNavigationBarHidden(true, animated: false)
-        
-        let viewControllers = [homeNavVC, courseVC, dateVC, viewedCourseVC, mypageVC]
-        self.setViewControllers(viewControllers, animated: true)
+        self.selectedIndex = 0
+        let viewControllers = [homeVC, courseVC, dateVC, viewedCourseVC, mypageVC]
+        self.viewControllers = viewControllers
         
         if let items = tabBar.items {
             for item in items {

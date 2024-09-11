@@ -25,8 +25,13 @@ final class LoginViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         bindViewModel()
         setAddTarget()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        hideLoadingView()
     }
     
     override func setHierarchy() {
@@ -91,6 +96,7 @@ extension LoginViewController {
             } else {
                 self?.loginViewModel.loginWithKakaoWeb()
             }
+            self?.showLoadingView()
         }
     }
     
@@ -119,6 +125,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential
         else { return }
         
+        self.showLoadingView()
         self.loginViewModel.loginWithApple(userInfo: credential)
     }
     

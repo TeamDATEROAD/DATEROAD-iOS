@@ -10,21 +10,29 @@ import UIKit
 import SnapKit
 import Then
 
-class NavViewedCourseViewController: BaseNavBarViewController {
+final class NavViewedCourseViewController: BaseNavBarViewController {
 
     // MARK: - UI Properties
     
-    private var navViewedCourseView = MyCourseListView()
-    
-    private let loadingView: DRLoadingView = DRLoadingView()
-    
+    private var navViewedCourseView = MyCourseListView(type: "nav")
+        
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     // MARK: - Properties
     
-    private let viewedCourseViewModel = MyCourseListViewModel()
+    private var viewedCourseViewModel: MyCourseListViewModel
     
     // MARK: - LifeCycle
+    
+    init(viewedCourseViewModel: MyCourseListViewModel) {
+        self.viewedCourseViewModel = viewedCourseViewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         self.viewedCourseViewModel.setNavViewedCourseLoading()
@@ -39,31 +47,20 @@ class NavViewedCourseViewController: BaseNavBarViewController {
         register()
         setDelegate()
         bindViewModel()
-        setEmptyView()
     }
     
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(loadingView)
         self.contentView.addSubviews(navViewedCourseView)
     }
     
     override func setLayout() {
         super.setLayout()
-        
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+
         navViewedCourseView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-    }
-    
-    override func setStyle() {
-        super.setStyle()
-        
-        self.view.backgroundColor = UIColor(resource: .drWhite)
     }
 
 }
@@ -71,14 +68,16 @@ class NavViewedCourseViewController: BaseNavBarViewController {
 // MARK: - EmptyView Methods
 
 extension NavViewedCourseViewController {
+    
     private func setEmptyView() {
-        var isEmpty = (viewedCourseViewModel.viewedCourseData.value?.count == 0)
+        let isEmpty = (viewedCourseViewModel.viewedCourseData.value?.count == 0)
         navViewedCourseView.emptyView.isHidden = !isEmpty
+        navViewedCourseView.myCourseListCollectionView.isHidden = isEmpty
         if isEmpty {
-            navViewedCourseView.emptyView.do {
-                $0.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
+            navViewedCourseView.emptyView.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
                                 emptyTitle: StringLiterals.EmptyView.emptyNavViewedCourse)
-            }
+        } else {
+            self.navViewedCourseView.myCourseListCollectionView.reloadData()
         }
     }
 }
@@ -99,7 +98,7 @@ extension NavViewedCourseViewController {
         self.viewedCourseViewModel.onNavViewedCourseFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
-                self?.loadingView.isHidden = true
+                self?.hideLoadingView()
                 let errorVC = DRErrorViewController()
                 self?.navigationController?.pushViewController(errorVC, animated: false)
             }
@@ -108,7 +107,7 @@ extension NavViewedCourseViewController {
         self.viewedCourseViewModel.onNavViewedCourseLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.viewedCourseViewModel.onViewedCourseFailNetwork.value else { return }
             if !onFailNetwork {
-                self?.loadingView.isHidden = !onLoading
+                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                 self?.navViewedCourseView.isHidden = onLoading
             }
         }
@@ -116,11 +115,10 @@ extension NavViewedCourseViewController {
         self.viewedCourseViewModel.isSuccessGetNavViewedCourseInfo.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
-                self?.navViewedCourseView.myCourseListCollectionView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self?.setEmptyView()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
                     self?.viewedCourseViewModel.setNavViewedCourseLoading()
                 }
-                self?.setEmptyView()
             }
         }
     }
@@ -164,7 +162,8 @@ extension NavViewedCourseViewController : UICollectionViewDataSource {
         return cell
     }
     
-    @objc func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
+    @objc 
+    func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: navViewedCourseView.myCourseListCollectionView)
         let indexPath = navViewedCourseView.myCourseListCollectionView.indexPathForItem(at: location)
        

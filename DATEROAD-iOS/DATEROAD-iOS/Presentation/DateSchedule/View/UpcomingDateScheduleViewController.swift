@@ -16,8 +16,6 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     
     private var upcomingDateScheduleView = UpcomingDateScheduleView()
     
-    private let loadingView: DRLoadingView = DRLoadingView()
-
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     
@@ -40,11 +38,7 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("🥶🥶🥶🥶viewWillAppear🥶🥶🥶🥶🥶")
-        // TODO: - 데이트일정 등록하고 돌아왔을 때 그 전 뷰가 0.1초 정도 보임 & 로딩뷰가 안 뜸 -> 변경된 로딩뷰 적용 이후 수정
-        // 가끔 로드가 길면 자연스럽긴 함
-        // viewWillAppear은 뜨는듯함
-        
+        self.tabBarController?.tabBar.isHidden = false
         self.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
         self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
     }
@@ -54,20 +48,18 @@ final class UpcomingDateScheduleViewController: BaseViewController {
         
         registerCell()
         setDelegate()
-        setUIMethods()
         setAddTarget()
         bindViewModel()
-        setEmptyView()
     }
     
     override func setHierarchy() {
-        self.view.addSubviews(loadingView, upcomingDateScheduleView)
+        super.setHierarchy()
+        
+        self.view.addSubview(upcomingDateScheduleView)
     }
     
     override func setLayout() {
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        super.setLayout()
         
         upcomingDateScheduleView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -76,8 +68,12 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     
     func drawDateCardView() {
         print("draw date card view")
-        setEmptyView()
-        setUIMethods()
+        let isEmpty = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count == 0
+        upcomingDateScheduleView.emptyView.isHidden = !isEmpty
+        if !isEmpty {
+            upcomingDateScheduleView.cardPageControl.numberOfPages = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0
+            self.upcomingDateScheduleView.cardCollectionView.reloadData()
+        }
     }
     
 }
@@ -85,6 +81,7 @@ final class UpcomingDateScheduleViewController: BaseViewController {
 // MARK: - UI Setting Methods
 
 private extension UpcomingDateScheduleViewController {
+    
     @objc
     func pushToDateRegisterVC() {
         if (upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0) >= 5 {
@@ -100,26 +97,10 @@ private extension UpcomingDateScheduleViewController {
         self.navigationController?.pushViewController(pastDateVC, animated: false)
     }
     
-    func setUIMethods() {
-        upcomingDateScheduleView.cardPageControl.do {
-            $0.numberOfPages = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0
-        }
-        print("pagecontrol \(upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count)")
-    }
-    
     func setAddTarget() {
-        upcomingDateScheduleView.dateRegisterButton.do {
-            $0.addTarget(self, action: #selector(dateRegisterButtonTapped), for: .touchUpInside)
-        }
+        upcomingDateScheduleView.dateRegisterButton.addTarget(self, action: #selector(dateRegisterButtonTapped), for: .touchUpInside)
         
-        upcomingDateScheduleView.pastDateButton.do {
-            $0.addTarget(self, action: #selector(pushToPastDateVC), for: .touchUpInside)
-        }
-    }
-    
-    func setEmptyView() {
-        print("🧘‍♀️🧘‍♀️엠티뷰판단중🧘‍♀️🧘‍♀️")
-        upcomingDateScheduleView.emptyView.isHidden = !(upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count == 0)
+        upcomingDateScheduleView.pastDateButton.addTarget(self, action: #selector(pushToPastDateVC), for: .touchUpInside)
     }
     
     func bindViewModel() {
@@ -128,7 +109,7 @@ private extension UpcomingDateScheduleViewController {
                     let onFailNetwork = self?.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.value
             else { return }
              if !onFailNetwork {
-                 self?.loadingView.isHidden = !onLoading
+                 onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                  self?.upcomingDateScheduleView.isHidden = onLoading
                  self?.tabBarController?.tabBar.isHidden = onLoading
              }
@@ -147,9 +128,8 @@ private extension UpcomingDateScheduleViewController {
             guard let isSuccess else { return }
             if isSuccess {
                 print("success 인디케이터")
-                self?.upcomingDateScheduleView.cardCollectionView.reloadData()
                 self?.drawDateCardView()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
                     self?.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
                 }
             }
@@ -160,7 +140,7 @@ private extension UpcomingDateScheduleViewController {
             guard let onFailure else { return }
             if onFailure {
                 print("됨 !!")
-                self?.loadingView.isHidden = true
+                self?.hideLoadingView()
                 let errorVC = DRErrorViewController()
                 self?.navigationController?.pushViewController(errorVC, animated: false)
             }

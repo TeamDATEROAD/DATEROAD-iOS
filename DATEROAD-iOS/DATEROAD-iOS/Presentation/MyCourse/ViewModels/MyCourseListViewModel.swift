@@ -17,39 +17,34 @@ class MyCourseListViewModel: Serviceable {
     
     var myRegisterCourseData: ObservablePattern<[MyCourseModel]> = ObservablePattern([])
     
-    var isSuccessGetViewedCourseInfo: ObservablePattern<Bool> = ObservablePattern(nil)
+    var isSuccessGetViewedCourseInfo: ObservablePattern<Bool> = ObservablePattern(false)
     
-    var isSuccessGetNavViewedCourseInfo: ObservablePattern<Bool> = ObservablePattern(nil)
+    var isSuccessGetNavViewedCourseInfo: ObservablePattern<Bool> = ObservablePattern(false)
     
     var isSuccessGetMyRegisterCourseInfo: ObservablePattern<Bool> = ObservablePattern(false)
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    var onViewedCourseLoading: ObservablePattern<Bool> = ObservablePattern(nil)
+    var onViewedCourseLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
-    var onNavViewedCourseLoading: ObservablePattern<Bool> = ObservablePattern(nil)
+    var onNavViewedCourseLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
-    var onMyRegisterCourseLoading: ObservablePattern<Bool> = ObservablePattern(nil)
+    var onMyRegisterCourseLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
-    var onViewedCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(nil)
+    var onViewedCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
-    var onNavViewedCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(nil)
+    var onNavViewedCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
-    var onMyRegisterCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(nil)
+    var onMyRegisterCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
     init() {
         let name = UserDefaults.standard.string(forKey: "userName") ?? ""
         self.userName = name
-        
-        setViewedCourseData()
-        setMyRegisterCourseData()
-        print("@log", myRegisterCourseData.value?.count)
     }
     
     func setViewedCourseData() {
         self.isSuccessGetViewedCourseInfo.value = false
         self.onViewedCourseFailNetwork.value = false
-        self.setViewedCourseLoading()
         
         NetworkService.shared.myCourseService.getViewedCourse() { response in
             switch response {
@@ -81,7 +76,6 @@ class MyCourseListViewModel: Serviceable {
     func setNavViewedCourseData() {
         self.isSuccessGetNavViewedCourseInfo.value = false
         self.onNavViewedCourseFailNetwork.value = false
-        self.setNavViewedCourseLoading()
         
         NetworkService.shared.myCourseService.getViewedCourse() { response in
             switch response {

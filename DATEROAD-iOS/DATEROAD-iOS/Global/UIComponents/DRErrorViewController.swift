@@ -48,11 +48,11 @@ final class DRErrorViewController: BaseNavBarViewController {
         
         errorImageView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
-            $0.top.equalToSuperview().offset(132)
+            $0.top.equalToSuperview().offset(206)
         }
         
         mainErrorMessageLabel.snp.makeConstraints {
-            $0.top.equalTo(errorImageView.snp.bottom).offset(30)
+            $0.top.equalTo(errorImageView.snp.bottom).offset(37)
             $0.centerX.equalToSuperview()
         }
         
@@ -73,12 +73,12 @@ final class DRErrorViewController: BaseNavBarViewController {
         
         mainErrorMessageLabel.setLabel(text: StringLiterals.Network.mainErrorMessage,
                         numberOfLines: 1,
-                        textColor: UIColor(resource: .gray500),
+                        textColor: UIColor(resource: .gray300),
                         font: UIFont.suit(.title_extra_20))
         
         subErrorMessageLabel.setLabel(text: StringLiterals.Network.subErrorMessage,
                         numberOfLines: 2,
-                        textColor: UIColor(resource: .gray500),
+                        textColor: UIColor(resource: .gray300),
                         font: UIFont.suit(.body_med_15) )
     }
     

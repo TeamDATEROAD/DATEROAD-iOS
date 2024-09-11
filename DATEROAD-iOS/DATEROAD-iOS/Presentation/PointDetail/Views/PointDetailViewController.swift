@@ -15,9 +15,7 @@ class PointDetailViewController: BaseNavBarViewController {
     // MARK: - UI Properties
     
     private let pointDetailView = PointDetailView()
-    
-    private let loadingView: DRLoadingView = DRLoadingView()
-
+        
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     // MARK: - Properties
@@ -60,17 +58,13 @@ class PointDetailViewController: BaseNavBarViewController {
     
     override func setHierarchy() {
         super.setHierarchy()
-        
-        self.view.addSubviews(loadingView)
+                
         self.contentView.addSubviews(pointDetailView)
     }
     
     override func setLayout() {
         super.setLayout()
         
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
         pointDetailView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -82,33 +76,34 @@ class PointDetailViewController: BaseNavBarViewController {
 extension PointDetailViewController {
     func bindViewModel() {
         self.pointViewModel.onFailNetwork.bind { [weak self] onFailure in
-             guard let onFailure else { return }
-             if onFailure {
-                 self?.loadingView.isHidden = true
-                 let errorVC = DRErrorViewController()
-                 self?.navigationController?.pushViewController(errorVC, animated: false)
-             }
-         }
+            guard let onFailure else { return }
+            if onFailure {
+                self?.hideLoadingView()
+                let errorVC = DRErrorViewController()
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
+        }
 
-         self.pointViewModel.onLoading.bind { [weak self] onLoading in
-             guard let onLoading, let onFailNetwork = self?.pointViewModel.onFailNetwork.value else { return }
-             if !onFailNetwork {
-                 self?.loadingView.isHidden = !onLoading
-                 self?.pointDetailView.isHidden = onLoading
-             }
-         }
-
-         self.pointViewModel.isSuccessGetPointInfo.bind { [weak self] isSuccess in
-             guard let isSuccess else { return }
-             if isSuccess {
-                 self?.pointDetailView.pointCollectionView.reloadData()
-                 self?.pointViewModel.updateData(nowEarnedPointHidden: false)
-                 self?.changeSelectedSegmentLayout(isEarnedPointHidden: false)
-                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                     self?.pointViewModel.setPointDetailLoading()
-                 }
-             }
-         }
+        self.pointViewModel.onLoading.bind { [weak self] onLoading in
+            guard let onLoading, let onFailNetwork = self?.pointViewModel.onFailNetwork.value else { return }
+            if !onFailNetwork {
+                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
+                self?.pointDetailView.isHidden = onLoading
+            }
+        }
+        
+        self.pointViewModel.isSuccessGetPointInfo.bind { [weak self] isSuccess in
+            guard let isSuccess else { return }
+            if isSuccess {
+                self?.pointDetailView.pointCollectionView.reloadData()
+                self?.pointViewModel.updateData(nowEarnedPointHidden: false)
+                self?.changeSelectedSegmentLayout(isEarnedPointHidden: false)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self?.pointViewModel.setPointDetailLoading()
+                }
+            }
+        }
+        
     }
     
     func setProfile(userName: String, totalPoint: Int) {
