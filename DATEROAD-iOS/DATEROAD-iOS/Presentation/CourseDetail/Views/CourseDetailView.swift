@@ -14,11 +14,13 @@ class CourseDetailView: BaseView {
     
     // MARK: - UI Properties
     
-    lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeCompositioinalLayout())
+    lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createCompositioinalLayout())
     
     private let gradientView = GradientView()
     
     let stickyHeaderNavBarView = StickyHeaderNavBarView()
+    
+    private let layoutFactory = DRCompositionalLayoutFactory()
     
     // MARK: - UI Properties
     
@@ -76,131 +78,24 @@ class CourseDetailView: BaseView {
 
 extension CourseDetailView {
     
-    func makeCompositioinalLayout() -> UICollectionViewCompositionalLayout {
+    func createCompositioinalLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { section, _ -> NSCollectionLayoutSection? in
             
             switch self.courseDetailSection[section]  {
-            case .imageCarousel: 
-                return self.makeImageCarouselLayout()
-            case .titleInfo: 
-                return self.makeTitleInfoLayout()
-            case .mainContents: 
-                return self.makeMainContentsLayout()
+            case .imageCarousel:
+                return self.layoutFactory.createLayout(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1), itemHeight: .fractionalHeight(1), orthogonalBehavior: .groupPaging, supplementaryItems: [self.makeGradientView(), self.makeBottomPageControllView()], itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 23, trailing: 0))
+            case .titleInfo:
+                return self.layoutFactory.createLayout(widthDimension: .fractionalWidth(1), heightDimension: .estimated(160), itemHeight: .estimated(160),supplementaryItems: [self.makeInfoBarView(), self.makeVisitDateView()], itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+            case .mainContents:
+                return self.layoutFactory.createLayout(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50), itemHeight: .estimated(50), supplementaryItems: !self.isAccess ? [self.makeContentMaskView()] : nil, itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
             case .timelineInfo:
-                return self.makeTimelineInfoLayout()
-            case .coastInfo: 
-                return self.makeCoastInfoLayout()
-            case .tagInfo: 
-                return self.makeTagInfoLayout()
+                return self.layoutFactory.createLayout(widthDimension: .fractionalWidth(1), heightDimension: .estimated(70), itemHeight: .estimated(70), supplementaryItems: [self.makeTimelineHeaderView()], sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 15, trailing: 0), itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+            case .coastInfo:
+                return self.layoutFactory.createLayout(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50), itemHeight: .fractionalHeight(1), supplementaryItems: [self.makeHeaderView()], sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0), itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+            case .tagInfo:
+                return self.layoutFactory.createLayout(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30), itemWidth: .estimated(100), itemHeight: .fractionalHeight(1), supplementaryItems: [self.makeHeaderView()], sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 153, trailing: 0), groupInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16), interItemSpacing: .fixed(7))
             }
         }
-    }
-    
-    func makeImageCarouselLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 23, trailing: 0)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
-        
-        let gradient = makeGradientView()
-        let footer = makeBottomPageControllView()
-        section.boundarySupplementaryItems = [gradient, footer]
-        
-        return section
-    }
-    
-    func makeTitleInfoLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(160))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(160))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        
-        let infoBar = makeInfoBarView()
-        let date = makeVisitDateView()
-        section.boundarySupplementaryItems = [infoBar, date]
-        
-        return section
-    }
-    
-    func makeMainContentsLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        
-        if !isAccess {
-            let header = makeContentMaskView()
-            section.boundarySupplementaryItems = [header]
-        }
-        
-        return section
-    }
-    
-    func makeTimelineInfoLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(70))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(70))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 15, trailing: 0)
-        
-        let header = makeTimelineHeaderView()
-        section.boundarySupplementaryItems = [header]
-        
-        return section
-    }
-    
-    
-    
-    func makeCoastInfoLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0)
-        
-        let header = makeHeaderView()
-        section.boundarySupplementaryItems = [header]
-        
-        return section
-    }
-    
-    func makeTagInfoLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0)
-        group.interItemSpacing = .fixed(7)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 153, trailing: 0)
-        
-        let header = makeHeaderView()
-        section.boundarySupplementaryItems = [header]
-        
-        return section
     }
     
     func makeGradientView() -> NSCollectionLayoutBoundarySupplementaryItem {

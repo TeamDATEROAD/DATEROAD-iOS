@@ -20,6 +20,7 @@
 		0D0DA3E22C3AF3B0004210EE /* PointViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0DA3E12C3AF3B0004210EE /* PointViewModel.swift */; };
 		0D0DA3E42C3AF3CF004210EE /* PointCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0DA3E32C3AF3CF004210EE /* PointCollectionView.swift */; };
 		0D0DA3E62C3AF3FB004210EE /* PointDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0DA3E52C3AF3FB004210EE /* PointDetailViewController.swift */; };
+		0D47D6C72C91DD0F0085A477 /* DRCompositionalLayoutFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D47D6C62C91DD0F0085A477 /* DRCompositionalLayoutFactory.swift */; };
 		0D9497B92C328D010004B442 /* ImageCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497B82C328D010004B442 /* ImageCarouselCell.swift */; };
 		0D9497BD2C3292C20004B442 /* TitleInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497BC2C3292C20004B442 /* TitleInfoCell.swift */; };
 		0D9497BF2C3292D60004B442 /* CoastInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497BE2C3292D60004B442 /* CoastInfoCell.swift */; };
@@ -286,6 +287,7 @@
 		0D0DA3E12C3AF3B0004210EE /* PointViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointViewModel.swift; sourceTree = "<group>"; };
 		0D0DA3E32C3AF3CF004210EE /* PointCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCollectionView.swift; sourceTree = "<group>"; };
 		0D0DA3E52C3AF3FB004210EE /* PointDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointDetailViewController.swift; sourceTree = "<group>"; };
+		0D47D6C62C91DD0F0085A477 /* DRCompositionalLayoutFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCompositionalLayoutFactory.swift; sourceTree = "<group>"; };
 		0D9497B82C328D010004B442 /* ImageCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselCell.swift; sourceTree = "<group>"; };
 		0D9497BC2C3292C20004B442 /* TitleInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleInfoCell.swift; sourceTree = "<group>"; };
 		0D9497BE2C3292D60004B442 /* CoastInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoastInfoCell.swift; sourceTree = "<group>"; };
@@ -1486,6 +1488,7 @@
 				CAE876092C6F232900D64B34 /* DRLoadingView.swift */,
 				CAE8760B2C6F68A000D64B34 /* DRErrorViewController.swift */,
 				9EBD5C702C7C557900EDE081 /* DRDateFormatterManager.swift */,
+				0D47D6C62C91DD0F0085A477 /* DRCompositionalLayoutFactory.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -1887,6 +1890,7 @@
 				9E590B4C2C3D276600039690 /* AddSecondView.swift in Sources */,
 				CAA30ADE2C3718C500835DE3 /* ProfileViewController.swift in Sources */,
 				7455475F2C3C2EC400B526F3 /* DateDetailViewModel.swift in Sources */,
+				0D47D6C72C91DD0F0085A477 /* DRCompositionalLayoutFactory.swift in Sources */,
 				7425470B2C4803CD0075DD81 /* DateScheduleTargetType.swift in Sources */,
 				9E590B4E2C3DAA5100039690 /* AddSecondViewTableViewCell.swift in Sources */,
 				CABDCE812C48773A00631FB3 /* GetUserProfileResponse.swift in Sources */,
