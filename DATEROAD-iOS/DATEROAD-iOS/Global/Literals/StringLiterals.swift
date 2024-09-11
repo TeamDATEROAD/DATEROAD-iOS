@@ -208,6 +208,10 @@ enum StringLiterals {
         static let deleteDateSchedule = "데이트 일정을 삭제하시겠어요?"
         static let deletePastDateSchedule = "지난 데이트를 삭제하시겠어요?"
         static let noMercy = "삭제된 일정은 복구하실 수 없어요"
+        static let failToLogout = "로그아웃 실패"
+        static let failToWithdrawal = "회원탈퇴 실패"
+        static let failToLogin = "로그인 실패"
+        static let confirm = "확인"
     }
     
     enum Course {

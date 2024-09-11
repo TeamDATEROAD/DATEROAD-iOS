@@ -11,8 +11,9 @@ final class AddCourseViewModel: Serviceable {
    
    let onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
    
-   var pastDateDetailData: DateDetailModel?
    let ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
+   
+   var pastDateDetailData: DateDetailModel?
    
    var pastDatePlaces = [DatePlaceModel]()
    
@@ -91,16 +92,17 @@ final class AddCourseViewModel: Serviceable {
    
    var tags: [[String: Any]] = []
    
-   let isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(nil)
+   let isSuccessPostData: ObservablePattern<Bool> = ObservablePattern(false)
    
    let onLoading: ObservablePattern<Bool> = ObservablePattern(nil)
-
+   
    let onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
    
    init(pastDateDetailData: DateDetailModel? = nil) {
       fetchTagData()
       self.pastDateDetailData = pastDateDetailData
    }
+   
 }
 
 extension AddCourseViewModel {
@@ -114,10 +116,10 @@ extension AddCourseViewModel {
    ///지난 데이트 코스 등록 데이터 바인딩 함수
    func fetchPastDate() {
       dateName.value = pastDateDetailData?.title
-      
-      let formattedDate = DateFormatterManager.shared.dateFormatter.string(for: pastDateDetailData?.date)
+      guard let pastDateDetailDataDate = pastDateDetailData?.date else {return}
+      guard let pastDate = DateFormatterManager.shared.convertToStandardFormat(from: pastDateDetailDataDate) else { return }
+      let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: pastDate)
       visitDate.value = formattedDate
-//      visitDate.value = pastDateDetailData?.date
       
       dateStartAt.value = pastDateDetailData?.startAt
       dateLocation.value = pastDateDetailData?.city
@@ -186,7 +188,6 @@ extension AddCourseViewModel {
       
       checkTagCount(min: minTagCnt, max: maxTagCnt)
    }
-   
    
    func checkTagCount(min: Int, max: Int) {
       let count = selectedTagData.count
@@ -284,21 +285,12 @@ extension AddCourseViewModel {
    }
    
    /// 로딩뷰 세팅 함수
-   func setLoading() {
-      guard let isSuccessGetData = self.isSuccessGetData.value else {
-         return
-      }
-      
-      if isSuccessGetData {
-         self.onLoading.value = false
-      } else {
-         self.onLoading.value = true
-      }
+   func setLoading(isPostLoading: Bool) {
+      self.onLoading.value = isPostLoading
    }
    
    func postAddCourse() {
-      self.isSuccessGetData.value = false
-      self.setLoading()
+      self.setLoading(isPostLoading: true)
       
       var places: [[String: Any]] = []
       
@@ -338,13 +330,18 @@ extension AddCourseViewModel {
          switch result {
          case .success(let response):
             print("Success: \(response)")
-            self.isSuccessGetData.value = true
+            self.setLoading(isPostLoading: false)
+            self.isSuccessPostData.value = true
          case .serverErr:
             self.onFailNetwork.value = true
+         case . requestErr:
+            self.onFailNetwork.value = true
          case .reIssueJWT:
-            self.onReissueSuccess.value = self.patchReissue()
+             self.patchReissue { isSuccess in
+                 self.onReissueSuccess.value = isSuccess
+             }
          default:
-            print("Failed to fetch user profile")
+            print("Failed to another reason")
             return
          }
       }

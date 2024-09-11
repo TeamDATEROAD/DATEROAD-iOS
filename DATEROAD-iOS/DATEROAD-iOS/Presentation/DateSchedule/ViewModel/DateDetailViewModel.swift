@@ -64,7 +64,9 @@ extension DateDetailViewModel {
             case .serverErr:
                 self.onFailNetwork.value = true
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             default:
                 self.isSuccessGetDateDetailData.value = false
             }
@@ -83,7 +85,9 @@ extension DateDetailViewModel {
                 self.isSuccessDeleteDateScheduleData.value = true
                 print("success", self.isSuccessDeleteDateScheduleData.value)
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             default:
                 self.isSuccessDeleteDateScheduleData.value = false
             }

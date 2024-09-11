@@ -22,7 +22,7 @@ final class AddScheduleBottomSheetView: BaseView {
    
    let customPickerView = UIPickerView()
    
-   let doneBtn = UIButton() // 추후 Captin 버튼으로 수정 예정
+   let doneBtn = UIButton()
    
    private let doneBtnTitleLabel = UILabel()
    
@@ -31,10 +31,13 @@ final class AddScheduleBottomSheetView: BaseView {
    
    var isCustomPicker: Bool
    
+   
+   // MARK: - Initializer
+   
    init(isCustomPicker: Bool) {
       self.isCustomPicker = isCustomPicker
       
-      super.init(frame: .zero)
+      super.init(frame: .zero) // 모든 Class의 초기화가 진행된 이후 super 클래스의 초기화가 이뤄져야 하기에 제일 하단에 위치
    }
    
    required init?(coder: NSCoder) {
@@ -57,7 +60,6 @@ final class AddScheduleBottomSheetView: BaseView {
    }
    
    override func setLayout() {
-      
       switch isCustomPicker {
          
       case true:
@@ -87,7 +89,6 @@ final class AddScheduleBottomSheetView: BaseView {
          }
          
       }
-      
    }
    
    override func setStyle() {

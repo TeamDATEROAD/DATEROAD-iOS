@@ -32,15 +32,13 @@ final class InAddScheduleFirstView: BaseView {
    
    private let tagTitleLabel = UILabel()
    
-   //   private let tagVStackView = UIStackView()
-   
    let datePlaceContainer = UIView()
    
    private let datePlaceLabel = UILabel()
    
    private let datePlaceImage = UIImageView()
    
-   let sixCheckNextButton = UIButton() //추후 Captin 버튼으로 수정 예정
+   let sixCheckNextButton = UIButton()
    
    let tendencyTagCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
    
@@ -64,12 +62,6 @@ final class InAddScheduleFirstView: BaseView {
          sixCheckNextButton
       )
       
-//      textFieldStackView.addArrangedSubviews(
-//         dateNameTextField,
-//         visitDateContainer,
-//         dateStartAtContainer
-//      )
-      
       visitDateContainer.addSubviews(visitDateLabel, visitDateImage)
       
       dateStartAtContainer.addSubviews(dateStartTimeLabel, dateStartTimeImage)
@@ -80,10 +72,6 @@ final class InAddScheduleFirstView: BaseView {
    }
    
    override func setLayout() {
-//      textFieldStackView.snp.makeConstraints {
-//         $0.top.horizontalEdges.equalToSuperview()
-//         $0.height.equalTo(184)
-//      }
       dateNameTextField.snp.makeConstraints {
          $0.top.horizontalEdges.equalToSuperview()
          $0.height.equalTo(48)
@@ -159,10 +147,8 @@ final class InAddScheduleFirstView: BaseView {
       }
       
       sixCheckNextButton.snp.makeConstraints {
-//         $0.top.equalTo(datePlaceContainer.snp.bottom).offset(24)
          $0.horizontalEdges.bottom.equalToSuperview()
          $0.height.equalTo(52)
-         //               $0.bottom.equalToSuperview().inset(4)
       }
       
    }
@@ -174,13 +160,7 @@ final class InAddScheduleFirstView: BaseView {
          let layout = CollectionViewLeftAlignFlowLayout()
          layout.cellSpacing = 8
          $0.collectionViewLayout = layout
-         
       }
-//      textFieldStackView.do {
-//         $0.axis = .vertical
-//         $0.spacing = 20
-//         $0.distribution = .fillEqually
-//      }
       
       [dateNameTextField, visitDateContainer, dateStartAtContainer].forEach { view in
          view.do {
@@ -190,6 +170,7 @@ final class InAddScheduleFirstView: BaseView {
             $0.layer.borderColor = UIColor(resource: .alertRed).cgColor
          }
       }
+      
       visitDateImage.image = UIImage(resource: .calendar)
       dateStartTimeImage.image = UIImage(resource: .time)
       

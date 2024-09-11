@@ -170,8 +170,9 @@ extension CourseDetailViewModel {
                 self.isSuccessGetData.value = true
                 
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
-                
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             default:
                 self.isSuccessGetData.value = false
                 print("Failed to fetch course data")
@@ -187,7 +188,9 @@ extension CourseDetailViewModel {
                 self.isAccess.value = true
                 print("🥽Successfully used points:", response)
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             default:
                 self.isSuccessGetData.value = false
                 print("Failed to post course data")
@@ -242,7 +245,9 @@ extension CourseDetailViewModel {
                 
                 self.isSuccessGetBannerData.value = true
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             case .serverErr:
                 self.onFailNetwork.value = true
             default:

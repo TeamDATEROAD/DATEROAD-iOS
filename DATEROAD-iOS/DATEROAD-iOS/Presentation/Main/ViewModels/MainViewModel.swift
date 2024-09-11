@@ -67,7 +67,9 @@ extension MainViewModel {
                 UserDefaults.standard.setValue(data.point, forKey: "userPoint")
                 self.isSuccessGetUserInfo.value = true
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             case .serverErr:
                 self.onFailNetwork.value = true
             default:
@@ -108,7 +110,9 @@ extension MainViewModel {
                     self.isSuccessGetNewDate.value = true
                 }
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             case .serverErr:
                 self.onFailNetwork.value = true
             default:
@@ -135,7 +139,9 @@ extension MainViewModel {
             case .requestErr:
                 self.isSuccessGetUpcomingDate.value = true
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             case .serverErr:
                 self.onFailNetwork.value = false
             default:
@@ -163,7 +169,9 @@ extension MainViewModel {
                 self.bannerData.value?.append(first)
                 self.isSuccessGetBanner.value = true
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             case .serverErr:
                 self.onFailNetwork.value = true
             default:

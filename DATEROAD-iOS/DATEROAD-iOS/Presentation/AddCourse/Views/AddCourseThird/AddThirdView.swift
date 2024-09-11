@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class AddThirdView: BaseView {
+final class AddThirdView: BaseView {
    
    // MARK: - UI Properties
    
@@ -26,8 +26,6 @@ class AddThirdView: BaseView {
    
    var priceTextField: UITextField = UITextField()
    
-   let addThirdDoneBtn: UIButton = UIButton()
-   
    private let addThirdDoneBtnContainer: UIView = UIView()
    
    
@@ -35,15 +33,11 @@ class AddThirdView: BaseView {
    
    let textViewPlaceHolder = StringLiterals.AddCourseOrSchedule.AddThirdView.contentTextFieldPlaceHolder
    
-   private let enabledButtonType: DRButtonType = EnabledButton()
-   
-   private let disabledButtonType: DRButtonType = addCoursePlaceDisabledButton()
-   
    
    // MARK: - Methods
    
    override func setHierarchy() {
-      addSubviews (container)
+      addSubviews(container)
       
       container.addSubviews(
          contentTitleLabel,
@@ -51,11 +45,8 @@ class AddThirdView: BaseView {
          contentTextCountLabel,
          priceTitleLabel,
          priceTextField,
-//         addThirdDoneBtn
          addThirdDoneBtnContainer
       )
-      
-      addThirdDoneBtnContainer.addSubview(addThirdDoneBtn)
    }
    
    override func setLayout() {
@@ -94,11 +85,6 @@ class AddThirdView: BaseView {
          $0.horizontalEdges.equalToSuperview()
          $0.bottom.equalToSuperview()
       }
-      
-      addThirdDoneBtn.snp.makeConstraints {
-         $0.height.equalTo(54)
-         $0.bottom.horizontalEdges.equalToSuperview()
-      }
    }
    
    override func setStyle() {
@@ -125,6 +111,8 @@ class AddThirdView: BaseView {
          $0.isScrollEnabled = true
          $0.textAlignment = .left
          $0.showsVerticalScrollIndicator = false
+         $0.autocorrectionType = .no
+         $0.spellCheckingType = .no
       }
       
       priceTextField.do {
@@ -133,6 +121,8 @@ class AddThirdView: BaseView {
          $0.keyboardType = .numberPad
          $0.font = .suit(.body_med_13)
          $0.textColor = UIColor(resource: .drBlack)
+         $0.autocorrectionType = .no
+         $0.spellCheckingType = .no
       }
       
       priceTextField.setPlaceholder(
@@ -158,13 +148,6 @@ class AddThirdView: BaseView {
          )
          $0.text = StringLiterals.AddCourseOrSchedule.AddThirdView.priceTitleLabel
       }
-      
-      addThirdDoneBtn.do {
-         $0.setButtonStatus(buttonType: disabledButtonType)
-         $0.setTitle(StringLiterals.AddCourseOrSchedule.AddThirdView.addThirdDoneBtn, for: .normal)
-         $0.titleLabel?.font = .suit(.body_bold_15)
-//         $0.backgroundColor = UIColor(resource: .lime)
-      }
    }
    
 }
@@ -176,17 +159,21 @@ extension AddThirdView {
       contentTextCountLabel.text = "\(textCnt)자 / 200자 이상"
    }
    
-   func updateAddThirdDoneBtn(isValid: Bool) {
-      print("현재 updateAddThirdDoneBtn \(isValid)")
-      let state = isValid ? enabledButtonType : disabledButtonType
-      addThirdDoneBtn.setButtonStatus(buttonType: state)
-   }
-   
    func updatePriceText(price: Int) {
       if price == 0 {
       } else {
          priceTextField.text = String(price.formattedWithSeparator)
       }
+   }
+   
+   func updateContentTextView(_ textView: UITextView, withText text: String, placeholder: String) {
+      let isTextEmpty = text.isEmpty
+      let textToDisplay = isTextEmpty ? placeholder : text
+      let textColor = isTextEmpty ? UIColor(resource: .gray300) : UIColor(resource: .drBlack)
+      
+      textView.text = textToDisplay
+      textView.setFontAndLineLetterSpacing(textView.text, font: UIFont.suit(.body_med_13))
+      textView.textColor = textColor
    }
    
 }

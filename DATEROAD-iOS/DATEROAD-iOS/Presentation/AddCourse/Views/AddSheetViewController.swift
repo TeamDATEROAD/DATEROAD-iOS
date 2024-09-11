@@ -17,6 +17,9 @@ final class AddSheetViewController: BaseViewController {
    
    var addSheetView = AddSheetView(isCustomPicker: true)
    
+   
+   // MARK: - Properties
+   
    var viewModel: AddCourseViewModel?
    
    var customPickerValues: [Double] = []
@@ -84,6 +87,7 @@ private extension AddSheetViewController {
       viewModel?.updateTimeRequireTextField(text: String(selectedValue))
       dismiss(animated: true)
    }
+   
 }
 
 

@@ -14,8 +14,6 @@ final class AddScheduleSecondView: BaseView {
    
    // MARK: - UI Properties
    
-//   var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-   
    let inAddScheduleSecondView = InAddScheduleSecondView()
    
    let editButton: UIButton = UIButton()
@@ -46,11 +44,9 @@ final class AddScheduleSecondView: BaseView {
    }
    
    override func setLayout() {
-      
       inAddScheduleSecondView.snp.makeConstraints {
          $0.verticalEdges.equalToSuperview()
          $0.horizontalEdges.equalToSuperview().inset(16)
-//         $0.bottom.equalToSuperview()
       }
       
       editButton.snp.makeConstraints {

@@ -33,7 +33,7 @@ extension MyPageViewModel {
     
     func checkSocialLogin() {
         let socialType = UserDefaults.standard.bool(forKey: "SocialType")
-        isAppleLogin = socialType ? false : true
+        isAppleLogin = !socialType
     }
 
     func deleteLogout() {
@@ -45,7 +45,9 @@ extension MyPageViewModel {
                 }
                 self.onSuccessLogout.value = true
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             default:
                 print("Failed to fetch post logout")
                 self.onSuccessLogout.value = false
@@ -70,7 +72,10 @@ extension MyPageViewModel {
                 }
                 self.onSuccessWithdrawal.value = true
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                // 토큰 재발급 서버 통신 후 값을 설정
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             default:
                 print("Failed to fetch delete withdrawal")
                 self.onSuccessWithdrawal.value = false
@@ -93,7 +98,9 @@ extension MyPageViewModel {
                self.tagData = data.tags
                self.onSuccessGetUserProfile.value = true
             case .reIssueJWT:
-                self.onReissueSuccess.value = self.patchReissue()
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
             case .serverErr:
                 self.onFailNetwork.value = true
             default:
