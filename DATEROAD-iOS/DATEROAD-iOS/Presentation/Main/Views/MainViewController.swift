@@ -112,10 +112,13 @@ extension MainViewController {
                   let userPoint = UserDefaults.standard.string(forKey: "userPoint")
             else { return }
             if isSuccess {
-                AmplitudeManager.shared.logEvent("view_main", properties: ["user_name":  userName])
-                AmplitudeManager.shared.logEvent("view_main", properties: ["user_point":  userPoint])
-                AmplitudeManager.shared.setUserProperty(userProperties: ["user_name":  userName])
-                AmplitudeManager.shared.setUserProperty(userProperties: ["user_point":  userPoint])
+                AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewMain,
+                                                                 properties: [
+                                                                    StringLiterals.Amplitude.UserProperty.userName:  userName,
+                                                                    StringLiterals.Amplitude.UserProperty.userPoint:  userPoint])
+                AmplitudeManager.shared.setUserProperty(userProperties: [
+                    StringLiterals.Amplitude.UserProperty.userName:  userName,
+                    StringLiterals.Amplitude.UserProperty.userPoint:  userPoint])
 
                 self?.mainView.mainCollectionView.reloadData()
             }

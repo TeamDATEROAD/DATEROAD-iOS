@@ -274,4 +274,18 @@ enum StringLiterals {
         static let bannerInfoHeaderView = "BannerInfoHeaderView"
     }
     
+    enum Amplitude {
+        enum EventName {
+            static let viewMain = "view_main"
+        }
+        
+        enum Property {
+            static let courseListId = "course_list_id"
+        }
+        
+        enum UserProperty {
+            static let userName = "user_name"
+            static let userPoint = "user_point"
+        }
+    }
 }
