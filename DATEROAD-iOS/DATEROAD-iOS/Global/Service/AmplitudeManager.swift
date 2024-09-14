@@ -43,8 +43,8 @@ final class AmplitudeManager {
         amplitude?.reset()
     }
     
-    // 이벤트 트래킹을 위한 메서드 추가
-    func logEvent(_ event: String, properties: [String: Any]) {
+    // 프로퍼티가 있는 이벤트 트래킹을 위한 메서드
+    func trackEventWithProperties(_ event: String, properties: [String: Any]) {
         let event = BaseEvent(
             callback: { (event: BaseEvent, code: Int, message: String) -> Void in
                 print("eventCallback: \(event.eventType), code: \(code), message: \(message)")
@@ -52,6 +52,11 @@ final class AmplitudeManager {
             eventType: event, 
             eventProperties: properties)
         self.amplitude?.track(event: event)
+    }
+    
+    // 프로퍼티가 없는 이벤트 트래킹을 위한 메서드
+    func trackEvent(_ event: String) {
+        self.amplitude?.track(eventType: event)
     }
     
     func setUserProperty(userProperties: [String: Any]) {
