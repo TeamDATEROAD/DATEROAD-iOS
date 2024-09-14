@@ -17,7 +17,8 @@ class AmplitudeManager {
     
     func initialize() {
         let amplitudeApiKey = Config.amplitudeAPIKey
-        let config = Configuration(apiKey: amplitudeApiKey, offline: false)
+        let config = Configuration(apiKey: amplitudeApiKey)
+        config.logLevel = .DEBUG
         amplitude = Amplitude(configuration: config)
     }
     

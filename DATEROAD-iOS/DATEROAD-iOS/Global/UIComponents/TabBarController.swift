@@ -24,6 +24,9 @@ final class TabBarController: UITabBarController {
     
     let mypageVC = MyPageViewController(myPageViewModel: MyPageViewModel())
     
+    
+    // MARK: - Life Cycles
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

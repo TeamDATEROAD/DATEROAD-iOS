@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let kakaoNativeAppKey = Config.kakaoNativeAppKey
         KakaoSDK.initSDK(appKey: kakaoNativeAppKey)
         
+        // Amplitude 초기화
         AmplitudeManager.shared.initialize()
         
         return true
