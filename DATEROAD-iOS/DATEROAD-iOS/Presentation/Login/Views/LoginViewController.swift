@@ -76,6 +76,9 @@ extension LoginViewController {
         
     func pushToNextVC(isSignIn: Bool) {
         if isSignIn {
+            guard let userId = UserDefaults.standard.string(forKey: "userID") else { return }
+            AmplitudeManager.shared.setUserId(userId)
+
             let mainVC = TabBarController()
             self.navigationController?.pushViewController(mainVC, animated: false)
         } else {

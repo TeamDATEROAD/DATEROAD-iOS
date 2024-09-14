@@ -1,5 +1,5 @@
 {
-  "originHash" : "3ff76538ee517b27488efdbca8606d1bd6ee57ad361fdfb5f3f21111354044a5",
+  "originHash" : "e4d2de326baeef794e185c6fe189329b6ddcf577356a999677a4cc76c0b968fc",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/amplitude/Amplitude-Swift",
       "state" : {
-        "revision" : "ce41c105bf9f0a1518f8bd6e594177c69512f054",
-        "version" : "1.9.2"
+        "branch" : "main",
+        "revision" : "ce41c105bf9f0a1518f8bd6e594177c69512f054"
       }
     },
     {

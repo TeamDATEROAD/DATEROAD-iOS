@@ -4,10 +4,12 @@
 //
 //  Created by 윤희슬 on 9/11/24.
 //
+import UIKit
 
 import AmplitudeSwift
 
-class AmplitudeManager {
+
+final class AmplitudeManager {
     
     static let shared = AmplitudeManager()
     

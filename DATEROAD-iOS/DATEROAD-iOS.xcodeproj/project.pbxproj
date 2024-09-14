@@ -2402,8 +2402,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/amplitude/Amplitude-Swift";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				branch = main;
+				kind = branch;
 			};
 		};
 		CAE890A42C8ADE9000834A9E /* XCRemoteSwiftPackageReference "lottie-ios" */ = {

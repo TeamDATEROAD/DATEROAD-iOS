@@ -51,7 +51,7 @@ extension Config {
     
     static let amplitudeAPIKey: String = {
         guard let key = Config.infoDictionary[Keys.Plist.amplitudeAPIKey] as? String else {
-            fatalError("KAKAO_APPSTORE is not set in plist for this configuration")
+            fatalError("AMPLITUDE is not set in plist for this configuration")
         }
         return key
     }()

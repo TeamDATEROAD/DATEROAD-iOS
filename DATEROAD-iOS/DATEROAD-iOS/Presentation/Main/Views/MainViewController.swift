@@ -107,8 +107,15 @@ extension MainViewController {
         }
         
         self.mainViewModel.isSuccessGetUserInfo.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
+            guard let isSuccess,
+                  let userName = UserDefaults.standard.string(forKey: "userName"),
+                  let userPoint = UserDefaults.standard.string(forKey: "userPoint")
+            else { return }
             if isSuccess {
+                AmplitudeManager.shared.logEvent("view_main", properties: ["user_name":  userName])
+                AmplitudeManager.shared.logEvent("view_main", properties: ["user_point":  userPoint])
+                
+                print("user_name : \(userName)  | user_point : \(userPoint)")
                 self?.mainView.mainCollectionView.reloadData()
             }
         }

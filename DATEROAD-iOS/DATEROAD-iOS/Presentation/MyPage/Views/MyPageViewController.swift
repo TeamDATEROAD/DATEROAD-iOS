@@ -131,6 +131,7 @@ private extension MyPageViewController {
         self.myPageViewModel.onSuccessLogout.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
+                AmplitudeManager.shared.reset()
                 self?.navigationController?.popToRootViewController(animated: false)
             } else {
                 self?.presentAlertVC(title: StringLiterals.Alert.failToLogout)
@@ -140,6 +141,7 @@ private extension MyPageViewController {
         self.myPageViewModel.onSuccessWithdrawal.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
+                AmplitudeManager.shared.reset()
                 self?.navigationController?.popToRootViewController(animated: false)
             } else {
                 self?.presentAlertVC(title: StringLiterals.Alert.failToWithdrawal)

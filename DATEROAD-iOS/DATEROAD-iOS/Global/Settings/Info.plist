@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>AMPLITUDE_API_KEY</key>
-	<string>${AMPLITUDE_API_KEY}</string>
+	<string>$(AMPLITUDE_API_KEY)</string>
 	<key>BASE_URL</key>
 	<string>$(BASE_URL)</string>
 	<key>CFBundleURLTypes</key>
