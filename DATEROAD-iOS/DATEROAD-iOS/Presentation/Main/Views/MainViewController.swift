@@ -114,8 +114,9 @@ extension MainViewController {
             if isSuccess {
                 AmplitudeManager.shared.logEvent("view_main", properties: ["user_name":  userName])
                 AmplitudeManager.shared.logEvent("view_main", properties: ["user_point":  userPoint])
-                
-                print("user_name : \(userName)  | user_point : \(userPoint)")
+                AmplitudeManager.shared.setUserProperty(userProperties: ["user_name":  userName])
+                AmplitudeManager.shared.setUserProperty(userProperties: ["user_point":  userPoint])
+
                 self?.mainView.mainCollectionView.reloadData()
             }
         }
