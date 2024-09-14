@@ -23,7 +23,12 @@ class AmplitudeManager {
     }
     
     func setUserId(_ userId: String) {
-        amplitude?.setUserId(userId: userId)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        let currentDate = Date()
+        let formattedDate = dateFormatter.string(from: currentDate)
+        print("id : \(formattedDate + userId)")
+        amplitude?.setUserId(userId: formattedDate + userId)
     }
     
     func getUserId() -> String {
@@ -37,7 +42,13 @@ class AmplitudeManager {
     }
     
     // 이벤트 트래킹을 위한 메서드 추가
-    func logEvent(_ event: String, properties: [String: Any]? = nil) {
-        amplitude?.track(eventType: event, eventProperties: properties)
+    func logEvent(_ event: String, properties: [String: Any]) {
+        let event = BaseEvent(
+            callback: { (event: BaseEvent, code: Int, message: String) -> Void in
+                print("eventCallback: \(event.eventType), code: \(code), message: \(message)")
+            },
+            eventType: event, 
+            eventProperties: properties)
+        self.amplitude?.track(event: event)
     }
 }
