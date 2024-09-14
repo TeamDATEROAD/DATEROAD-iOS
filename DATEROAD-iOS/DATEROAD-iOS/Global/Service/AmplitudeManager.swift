@@ -53,4 +53,8 @@ final class AmplitudeManager {
             eventProperties: properties)
         self.amplitude?.track(event: event)
     }
+    
+    func setUserProperty(userProperties: [String: Any]) {
+        amplitude?.identify(userProperties: userProperties)
+    }
 }
