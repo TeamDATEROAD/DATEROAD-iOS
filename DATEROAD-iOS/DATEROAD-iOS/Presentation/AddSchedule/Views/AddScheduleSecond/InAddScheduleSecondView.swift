@@ -13,9 +13,7 @@ import Then
 final class InAddScheduleSecondView: BaseView {
    
    // MARK: - UI Properties
-   
-   private let container: UIView = UIView()
-   
+      
    private let contentTitleLabel: UILabel = UILabel()
    
    private let contentSubTitleLabel: UILabel = UILabel()
@@ -29,9 +27,7 @@ final class InAddScheduleSecondView: BaseView {
    let addPlaceButton: UIButton = UIButton()
    
    let separatorLine: UIView = UIView()
-   
-   let nextBtn: UIButton = UIButton()
-   
+      
    
    // MARK: - Properties
    
@@ -45,13 +41,11 @@ final class InAddScheduleSecondView: BaseView {
    // MARK: - Methods
    
    override func setHierarchy() {
-      addSubviews (
-         container,
+      self.addSubviews (
          contentTitleLabel,
          contentSubTitleLabel,
          placeRegistrationContainer,
-         separatorLine,
-         nextBtn
+         separatorLine
       )
       
       placeRegistrationContainer.addSubviews(
@@ -63,7 +57,8 @@ final class InAddScheduleSecondView: BaseView {
    
    override func setLayout() {
       contentTitleLabel.snp.makeConstraints {
-         $0.top.horizontalEdges.equalToSuperview()
+         $0.top.equalToSuperview().inset(27)
+         $0.horizontalEdges.equalToSuperview()
       }
       
       contentSubTitleLabel.snp.makeConstraints {
@@ -79,13 +74,14 @@ final class InAddScheduleSecondView: BaseView {
       
       datePlaceTextField.snp.makeConstraints {
          $0.verticalEdges.leading.equalToSuperview()
-         $0.width.equalTo(206)
+         $0.leading.equalToSuperview()
+         $0.width.equalTo(ScreenUtils.width / 375 * 206)
       }
       
       addPlaceButton.snp.makeConstraints {
          $0.trailing.equalToSuperview()
-         $0.centerY.equalToSuperview()
-         $0.size.equalTo(44)
+         $0.verticalEdges.equalToSuperview()
+         $0.width.equalTo(ScreenUtils.width / 375 * 44)
       }
       
       timeRequireTextField.snp.makeConstraints {
@@ -95,15 +91,9 @@ final class InAddScheduleSecondView: BaseView {
       }
       
       separatorLine.snp.makeConstraints {
-         $0.top.equalTo(placeRegistrationContainer.snp.bottom).offset(21)
-         $0.horizontalEdges.equalToSuperview()
-         $0.height.equalTo(1)
-      }
-      
-      nextBtn.snp.makeConstraints {
          $0.bottom.equalToSuperview()
          $0.horizontalEdges.equalToSuperview()
-         $0.height.equalTo(54)
+         $0.height.equalTo(1)
       }
    }
    
@@ -167,11 +157,6 @@ final class InAddScheduleSecondView: BaseView {
       separatorLine.do {
          $0.backgroundColor = UIColor(resource: .gray200)
       }
-      
-      nextBtn.do {
-         $0.setButtonStatus(buttonType: disabledButtonType)
-         $0.setTitle(StringLiterals.AddCourseOrSchedule.AddSecondView.addSecondDoneBtnOfSchedule, for: .normal)
-      }
    }
    
 }
@@ -204,10 +189,10 @@ extension InAddScheduleSecondView {
       addPlaceButton.setButtonStatus(buttonType: addCourseDisabledButtonType)
    }
    
-   func changeNextBtnState(flag: Bool) {
-      let state = flag ? enabledButtonType : disabledButtonType
-      nextBtn.setButtonStatus(buttonType: state)
-   }
+//   func changeNextBtnState(flag: Bool) {
+//      let state = flag ? enabledButtonType : disabledButtonType
+//      nextBtn.setButtonStatus(buttonType: state)
+//   }
    
 }
 
