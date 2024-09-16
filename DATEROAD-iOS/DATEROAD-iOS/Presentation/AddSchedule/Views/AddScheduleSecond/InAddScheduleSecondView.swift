@@ -86,8 +86,8 @@ final class InAddScheduleSecondView: BaseView {
       
       timeRequireTextField.snp.makeConstraints {
          $0.verticalEdges.equalToSuperview()
-         $0.leading.equalTo(datePlaceTextField.snp.trailing).offset(8)
-         $0.trailing.equalTo(addPlaceButton.snp.leading).offset(-8)
+         $0.leading.equalTo(datePlaceTextField.snp.trailing).offset(ScreenUtils.width / 375 * 8).priority(.low)
+         $0.trailing.equalTo(addPlaceButton.snp.leading).offset(ScreenUtils.width / 375 * -8).priority(.low)
       }
       
       separatorLine.snp.makeConstraints {
