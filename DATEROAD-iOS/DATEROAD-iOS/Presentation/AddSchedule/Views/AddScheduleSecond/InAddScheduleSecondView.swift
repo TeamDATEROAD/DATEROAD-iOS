@@ -189,10 +189,5 @@ extension InAddScheduleSecondView {
       addPlaceButton.setButtonStatus(buttonType: addCourseDisabledButtonType)
    }
    
-//   func changeNextBtnState(flag: Bool) {
-//      let state = flag ? enabledButtonType : disabledButtonType
-//      nextBtn.setButtonStatus(buttonType: state)
-//   }
-   
 }
 
