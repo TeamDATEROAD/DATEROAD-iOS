@@ -100,7 +100,6 @@ extension CourseDetailView {
     
     func makeGradientView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let gradientSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(104))
-        let collectionViewWidth = mainCollectionView.frame.width
         let gradient = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: gradientSize, elementKind: GradientView.elementKinds, alignment: .top, absoluteOffset: CGPoint(x: 0, y: 104))
         
         return gradient

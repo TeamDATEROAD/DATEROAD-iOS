@@ -7,13 +7,6 @@
 
 import UIKit
 
-enum SupplementaryItemType {
-    case header
-    case footer
-}
-
-// MARK: - Compositional Layout
-
 class DRCompositionalLayoutFactory {
     
     func createLayout(
