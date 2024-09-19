@@ -66,6 +66,7 @@ enum StringLiterals {
         static let declareDescription = "신고된 게시물은 확인 후 서비스의 운영원칙에\n따라 조치 예정이에요"
         static let deleteTitle = "데이트 코스를 삭제하시겠어요?"
         static let deleteDescription = "삭제된 코스는 복구하실 수 없어요"
+        static let viewCourse = "코스 열람하기"
         
     }
     
