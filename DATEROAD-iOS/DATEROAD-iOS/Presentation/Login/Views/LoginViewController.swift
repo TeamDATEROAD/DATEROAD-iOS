@@ -76,9 +76,8 @@ extension LoginViewController {
         
     func pushToNextVC(isSignIn: Bool) {
         if isSignIn {
-            guard let userId = UserDefaults.standard.string(forKey: "userID") else { return }
+            guard let userId = UserDefaults.standard.string(forKey: StringLiterals.Network.userID) else { return }
             AmplitudeManager.shared.setUserId(userId)
-
             let mainVC = TabBarController()
             self.navigationController?.pushViewController(mainVC, animated: false)
         } else {
@@ -116,7 +115,7 @@ extension LoginViewController {
     
     @objc
     func didTapPrivacyPolicyButton() {
-        let privacyPolicyVC = DRWebViewController(urlString: "https://dateroad.notion.site/04da4aa279ca4b599193784091a52859?pvs=4")
+        let privacyPolicyVC = DRWebViewController(urlString: StringLiterals.WebView.privacyPolicyLink)
         self.present(privacyPolicyVC, animated: true)
     }
    

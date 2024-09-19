@@ -49,8 +49,8 @@ extension MainViewModel {
         setLoading()
         getBanner()
         getUserProfile()
-        getDateCourse(sortBy: "POPULAR")
-        getDateCourse(sortBy: "LATEST")
+        getDateCourse(sortBy: StringLiterals.Main.popular)
+        getDateCourse(sortBy: StringLiterals.Main.latest)
         getUpcomingDateCourse()
     }
     
@@ -63,8 +63,8 @@ extension MainViewModel {
             case .success(let data):
                 self.mainUserData.value = MainUserModel(name: data.name, point: data.point, imageUrl: data.image)
                 self.nickname.value = data.name
-                UserDefaults.standard.setValue(data.name, forKey: "userName")
-                UserDefaults.standard.setValue(data.point, forKey: "userPoint")
+                UserDefaults.standard.setValue(data.name, forKey: StringLiterals.Network.userName)
+                UserDefaults.standard.setValue(data.point, forKey: StringLiterals.Network.userPoint)
                 self.isSuccessGetUserInfo.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
@@ -80,7 +80,7 @@ extension MainViewModel {
     }
     
     func getDateCourse(sortBy: String) {
-        if sortBy == "POPULAR" {
+        if sortBy == StringLiterals.Main.popular {
             self.isSuccessGetHotDate.value = false
         } else {
             self.isSuccessGetNewDate.value = false
@@ -90,7 +90,7 @@ extension MainViewModel {
         NetworkService.shared.mainService.getFilteredDateCourse(sortBy: sortBy) { response in
             switch response {
             case .success(let data):
-                if sortBy == "POPULAR" {
+                if sortBy == StringLiterals.Main.popular {
                     self.hotCourseData.value = data.courses.map { DateCourseModel(courseId: $0.courseID,
                                                                                   thumbnail: $0.thumbnail,
                                                                                   title: $0.title,

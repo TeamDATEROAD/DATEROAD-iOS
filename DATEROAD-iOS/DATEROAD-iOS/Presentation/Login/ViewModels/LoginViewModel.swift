@@ -82,24 +82,18 @@ extension LoginViewModel {
               let authCode = String(data: code, encoding: .utf8)
         else { return }
         
-        UserDefaults.standard.setValue(authCode, forKey: "authCode")
+        UserDefaults.standard.setValue(authCode, forKey: StringLiterals.Network.authCode)
         self.isKaKaoLogin.value = false
         self.socialType.value = .APPLE
-
         self.setToken(token: token)
         self.setUserInfo(userInfo: userInfo)
-
-        print("identifier token: \(String(describing: token))")
-        print("authorization code: \(String(describing: authCode))")
     }
-    
-    // 유저 정보 세팅
     
     func setToken(token: String) {
         guard let value = self.isKaKaoLogin.value else { return }
-        UserDefaults.standard.setValue(value, forKey: "SocialType")
+        UserDefaults.standard.setValue(value, forKey: StringLiterals.Network.socialType)
         self.socialToken.value = token
-        UserDefaults.standard.setValue(token, forKey: "Token")
+        UserDefaults.standard.setValue(token, forKey: StringLiterals.Network.token)
         postSignIn()
     }
     
@@ -113,17 +107,16 @@ extension LoginViewModel {
     }
 
     func postSignIn() {
-        let socialType = UserDefaults.standard.bool(forKey: "SocialType")
-        
+        self.onAuthLoading.value = true
+        let socialType = UserDefaults.standard.bool(forKey: StringLiterals.Network.socialType)
         let requestBody = PostSignInRequest(platform: socialType ? SocialType.KAKAO.rawValue : SocialType.APPLE.rawValue)
         
         NetworkService.shared.authService.postSignIn(requestBody: requestBody) { response in
             switch response {
             case .success(let data):
-                UserDefaults.standard.setValue(data.userID, forKey: "userID")
-                UserDefaults.standard.setValue(data.accessToken, forKey: "accessToken")
-                UserDefaults.standard.setValue(data.refreshToken, forKey: "refreshToken")
-                print("login \(data)")
+                UserDefaults.standard.setValue(data.userID, forKey: StringLiterals.Network.userID)
+                UserDefaults.standard.setValue(data.accessToken, forKey: StringLiterals.Network.accessToken)
+                UserDefaults.standard.setValue(data.refreshToken, forKey: StringLiterals.Network.refreshToken)
                 self.onLoginSuccess.value = true
                 self.isSignIn.value = true
             case .requestErr:

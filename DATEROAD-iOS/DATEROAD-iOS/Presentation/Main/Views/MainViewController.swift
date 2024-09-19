@@ -108,8 +108,8 @@ extension MainViewController {
         
         self.mainViewModel.isSuccessGetUserInfo.bind { [weak self] isSuccess in
             guard let isSuccess,
-                  let userName = UserDefaults.standard.string(forKey: "userName"),
-                  let userPoint = UserDefaults.standard.string(forKey: "userPoint")
+                  let userName = UserDefaults.standard.string(forKey: StringLiterals.Network.userName),
+                  let userPoint = UserDefaults.standard.string(forKey: StringLiterals.Network.userPoint)
             else { return }
             if isSuccess {
                 AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewMain,
@@ -183,7 +183,7 @@ extension MainViewController {
     
     func setLoadingView(row: Int, section: Int) {
         if row == self.mainView.mainCollectionView.numberOfItems(inSection: section) - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.mainViewModel.setLoading()
             }
         }
