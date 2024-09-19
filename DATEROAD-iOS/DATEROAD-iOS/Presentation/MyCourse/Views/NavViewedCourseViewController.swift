@@ -14,7 +14,7 @@ final class NavViewedCourseViewController: BaseNavBarViewController {
 
     // MARK: - UI Properties
     
-    private var navViewedCourseView = MyCourseListView(type: "nav")
+    private var navViewedCourseView = MyCourseListView(type: StringLiterals.NavType.nav)
         
     private let errorView: DRErrorViewController = DRErrorViewController()
     

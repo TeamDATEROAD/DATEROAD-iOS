@@ -7,6 +7,7 @@
 
 import UIKit
 
+import AmplitudeSwift
 import KakaoSDKCommon
 
 @main
@@ -18,6 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 네이티브 앱 키를 사용해 iOS SDK를 초기화하는 과정
         let kakaoNativeAppKey = Config.kakaoNativeAppKey
         KakaoSDK.initSDK(appKey: kakaoNativeAppKey)
+        
+        // Amplitude 초기화
+        AmplitudeManager.shared.initialize()
+        
         return true
     }
 

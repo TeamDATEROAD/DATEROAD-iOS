@@ -107,8 +107,19 @@ extension MainViewController {
         }
         
         self.mainViewModel.isSuccessGetUserInfo.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
+            guard let isSuccess,
+                  let userName = UserDefaults.standard.string(forKey: StringLiterals.Network.userName),
+                  let userPoint = UserDefaults.standard.string(forKey: StringLiterals.Network.userPoint)
+            else { return }
             if isSuccess {
+                AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewMain,
+                                                                 properties: [
+                                                                    StringLiterals.Amplitude.UserProperty.userName:  userName,
+                                                                    StringLiterals.Amplitude.UserProperty.userPoint:  userPoint])
+                AmplitudeManager.shared.setUserProperty(userProperties: [
+                    StringLiterals.Amplitude.UserProperty.userName:  userName,
+                    StringLiterals.Amplitude.UserProperty.userPoint:  userPoint])
+
                 self?.mainView.mainCollectionView.reloadData()
             }
         }
@@ -172,7 +183,7 @@ extension MainViewController {
     
     func setLoadingView(row: Int, section: Int) {
         if row == self.mainView.mainCollectionView.numberOfItems(inSection: section) - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.mainViewModel.setLoading()
             }
         }
@@ -292,7 +303,6 @@ extension MainViewController: UICollectionViewDataSource {
 
     }
     
-    // TODO: - 다가오는 일정 없는 경우 로직 수정
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch self.mainViewModel.sectionData[indexPath.section] {
         case .upcomingDate:

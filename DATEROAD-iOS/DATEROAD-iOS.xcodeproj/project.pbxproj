@@ -180,6 +180,9 @@
 		CA4EF3DF2C347B4E003B02B6 /* DRButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3DE2C347B4E003B02B6 /* DRButtonType.swift */; };
 		CA4EF3E22C3537F3003B02B6 /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3E12C3537F3003B02B6 /* OnboardingModel.swift */; };
 		CA4EF3E52C3538AA003B02B6 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */; };
+		CA5B979B2C91848F00F90A4C /* AmplitudeSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CA5B979A2C91848F00F90A4C /* AmplitudeSwift */; };
+		CA5B979E2C91889C00F90A4C /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5B979D2C91889C00F90A4C /* AmplitudeManager.swift */; };
+		CA5B97A02C9C7B4300F90A4C /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5B979F2C9C7B4200F90A4C /* Header.swift */; };
 		CA73F16E2C6080180089856C /* EditType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA73F16D2C6080180089856C /* EditType.swift */; };
 		CA73F1702C61E1C30089856C /* PatchEditProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA73F16F2C61E1C30089856C /* PatchEditProfileRequest.swift */; };
 		CA78FE442C383D53001B1403 /* SUIT-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF62C329A6400855E61 /* SUIT-Medium.otf */; };
@@ -442,6 +445,8 @@
 		CA4EF3DE2C347B4E003B02B6 /* DRButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRButtonType.swift; sourceTree = "<group>"; };
 		CA4EF3E12C3537F3003B02B6 /* OnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
 		CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		CA5B979D2C91889C00F90A4C /* AmplitudeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplitudeManager.swift; sourceTree = "<group>"; };
+		CA5B979F2C9C7B4200F90A4C /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		CA73F16D2C6080180089856C /* EditType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditType.swift; sourceTree = "<group>"; };
 		CA73F16F2C61E1C30089856C /* PatchEditProfileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchEditProfileRequest.swift; sourceTree = "<group>"; };
 		CA78FE462C38667A001B1403 /* DRErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRErrorLabel.swift; sourceTree = "<group>"; };
@@ -539,6 +544,7 @@
 			files = (
 				CA3D0D022C29A62D00735097 /* KakaoSDKCertCore in Frameworks */,
 				CA3D0CF92C29A55300735097 /* Kingfisher in Frameworks */,
+				CA5B979B2C91848F00F90A4C /* AmplitudeSwift in Frameworks */,
 				CA3D0CFC2C29A62D00735097 /* KakaoSDK in Frameworks */,
 				CA3D0CF02C29A4DB00735097 /* Moya in Frameworks */,
 				CA3D0D042C29A62D00735097 /* KakaoSDKCommon in Frameworks */,
@@ -1178,6 +1184,7 @@
 		CA3D0D062C29A68C00735097 /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				CA5B979C2C91888E00F90A4C /* Service */,
 				CAA30AE32C37BC9800835DE3 /* UIComponents */,
 				CA4EF3DD2C347B3F003B02B6 /* Protocols */,
 				CA4EF3C12C3285E7003B02B6 /* Literals */,
@@ -1343,6 +1350,7 @@
 				CABDCEAB2C4A61D600631FB3 /* BannerDetailSection.swift */,
 				CABDCEB82C4A6C8800631FB3 /* AdTagType.swift */,
 				CA73F16D2C6080180089856C /* EditType.swift */,
+				CA5B979F2C9C7B4200F90A4C /* Header.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1437,6 +1445,14 @@
 				CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CA5B979C2C91888E00F90A4C /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				CA5B979D2C91889C00F90A4C /* AmplitudeManager.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		CA80C0D22C44895F002CAA9B /* Models */ = {
@@ -1780,6 +1796,7 @@
 				CA3D0D012C29A62D00735097 /* KakaoSDKCertCore */,
 				CA3D0D032C29A62D00735097 /* KakaoSDKCommon */,
 				CAE890A52C8ADE9000834A9E /* Lottie */,
+				CA5B979A2C91848F00F90A4C /* AmplitudeSwift */,
 			);
 			productName = "DATEROAD-iOS";
 			productReference = CA3D0CD72C29A2F300735097 /* DATEROAD-iOS.app */;
@@ -1816,6 +1833,7 @@
 				CA3D0CF72C29A55300735097 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				CA3D0CFA2C29A62C00735097 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				CAE890A42C8ADE9000834A9E /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				CA5B97992C91848F00F90A4C /* XCRemoteSwiftPackageReference "Amplitude-Swift" */,
 			);
 			productRefGroup = CA3D0CD82C29A2F300735097 /* Products */;
 			projectDirPath = "";
@@ -1874,6 +1892,7 @@
 				CA78FE492C3866FD001B1403 /* DRErrorType.swift in Sources */,
 				CAC80FF72C3FCAE500658EA6 /* BannerIndexFooterView.swift in Sources */,
 				CA80C0D12C44611E002CAA9B /* BaseService.swift in Sources */,
+				CA5B97A02C9C7B4300F90A4C /* Header.swift in Sources */,
 				CAC80FA42C3B34B400658EA6 /* UserInfoView.swift in Sources */,
 				CAC80FE92C3EC6E100658EA6 /* BannerCell.swift in Sources */,
 				CABDCEA42C49545400631FB3 /* DRWebViewController.swift in Sources */,
@@ -1972,6 +1991,7 @@
 				9E754CDF2C48339B00E2CA91 /* AddScheduleFirstView.swift in Sources */,
 				CAC80FBF2C3C642300658EA6 /* PointSystemView.swift in Sources */,
 				CAA30AE22C37497200835DE3 /* TendencyTag.swift in Sources */,
+				CA5B979E2C91889C00F90A4C /* AmplitudeManager.swift in Sources */,
 				9E754CF52C4841CF00E2CA91 /* AddScheduleTargetType.swift in Sources */,
 				CA4EF3DC2C347994003B02B6 /* BaseCollectionViewCell.swift in Sources */,
 				CABDCEAC2C4A61D600631FB3 /* BannerDetailSection.swift in Sources */,
@@ -2255,6 +2275,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 72B557RJ7S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "DATEROAD-iOS/Global/Settings/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "사진 접근을 위해 권한이 필요합니다. 허용하시겠습니까?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -2293,6 +2314,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 72B557RJ7S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "DATEROAD-iOS/Global/Settings/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "사진 접근을 위해 권한이 필요합니다. 허용하시겠습니까?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -2380,6 +2402,14 @@
 				kind = branch;
 			};
 		};
+		CA5B97992C91848F00F90A4C /* XCRemoteSwiftPackageReference "Amplitude-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/amplitude/Amplitude-Swift";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		CAE890A42C8ADE9000834A9E /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios";
@@ -2435,6 +2465,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CA3D0CFA2C29A62C00735097 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKCommon;
+		};
+		CA5B979A2C91848F00F90A4C /* AmplitudeSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CA5B97992C91848F00F90A4C /* XCRemoteSwiftPackageReference "Amplitude-Swift" */;
+			productName = AmplitudeSwift;
 		};
 		CAE890A52C8ADE9000834A9E /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;

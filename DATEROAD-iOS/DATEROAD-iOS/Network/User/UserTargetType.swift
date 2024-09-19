@@ -69,16 +69,14 @@ extension UserTargetType: BaseTargetType {
     }
     
     var headers: [String : String]? {
-        let token = UserDefaults.standard.string(forKey: "accessToken") ?? ""
+        let token = UserDefaults.standard.string(forKey: StringLiterals.Network.accessToken) ?? ""
 
         switch self {
         case .getUserProfile:
-            let headers = ["Content-Type" : "application/json", "Authorization" : "Bearer " + token]
+            let headers = HeaderType.headerWithToken(token: "Bearer " + token)
             return headers
         case .patchEditProfile:
-            let headers = ["Accept": "application/json",
-                           "Content-Type" : "multipart/form-data",
-                           "Authorization" : "Bearer " + token]
+            let headers = HeaderType.headerWithMultiPart(token: "Bearer " + token)
             return headers
         }
     }
