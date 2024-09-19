@@ -36,6 +36,8 @@ final class ProfileViewModel: Serviceable {
     var isValidRegistration: ObservablePattern<Bool> = ObservablePattern(false)
    
    var is5orLess: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var onLoading: ObservablePattern<Bool> = ObservablePattern(nil)
             
     var onSuccessRegister: ((Bool) -> Void)?
     
@@ -101,7 +103,6 @@ extension ProfileViewModel {
         } else {
             self.isValidTag.value = false
         }
-        print("\(count)  | \(selectedTagData)")
     }
     
     func checkValidRegistration() {
@@ -110,12 +111,11 @@ extension ProfileViewModel {
               let is5CntVaild = is5orLess.value else { return }
 
         self.isValidRegistration.value = (isValidNickname && isValidTag && is5CntVaild)
-        
-        print("isValidNickname \(isValidNickname)  isValidTag \(isValidTag)  is5CntValid \(is5CntVaild)")
     }
     
     func postSignUp(image: UIImage?) {
-        let socialType = UserDefaults.standard.bool(forKey: "SocialType")
+        self.onLoading.value = true
+        let socialType = UserDefaults.standard.bool(forKey: StringLiterals.Network.socialType)
         
         guard let name = self.nickname.value else { return }
 
@@ -129,11 +129,11 @@ extension ProfileViewModel {
         NetworkService.shared.authService.postSignUp(requestBody: requestBody) { response in
             switch response {
             case .success(let data):
-                UserDefaults.standard.setValue(data.userID, forKey: "userID")
-                UserDefaults.standard.setValue(data.accessToken, forKey: "accessToken")
-                UserDefaults.standard.setValue(data.refreshToken, forKey: "refreshToken")
-                print("post \(data)")
+                UserDefaults.standard.setValue(data.userID, forKey: StringLiterals.Network.userID)
+                UserDefaults.standard.setValue(data.accessToken, forKey: StringLiterals.Network.accessToken)
+                UserDefaults.standard.setValue(data.refreshToken, forKey: StringLiterals.Network.refreshToken)
                 self.onSuccessRegister?(true)
+                self.onLoading.value = false
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess

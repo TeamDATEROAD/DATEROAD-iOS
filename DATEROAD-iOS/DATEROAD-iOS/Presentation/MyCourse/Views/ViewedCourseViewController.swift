@@ -149,7 +149,7 @@ class ViewedCourseViewController: BaseViewController {
 
 private extension ViewedCourseViewController {
     func setEmptyView() {
-       let name =  UserDefaults.standard.string(forKey: "userName") ?? ""
+       let name =  UserDefaults.standard.string(forKey: StringLiterals.Network.userName) ?? ""
         let isEmpty = (self.viewedCourseViewModel.viewedCourseData.value?.count == 0)
        viewedCourseView.emptyView.isHidden = !isEmpty
        createCourseView.isHidden = isEmpty

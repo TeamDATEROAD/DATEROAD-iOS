@@ -106,25 +106,23 @@ extension AuthTargetType: BaseTargetType {
     var headers: [String : String]? {
         switch self {
         case .postSignUp:
-            let token = UserDefaults.standard.string(forKey: "Token") ?? ""
-            let headers = ["Accept": "application/json",
-                           "Content-Type" : "multipart/form-data",
-                           "Authorization" : token]
+            let token = UserDefaults.standard.string(forKey: StringLiterals.Network.token) ?? ""
+            let headers = HeaderType.headerWithMultiPart(token: token)
             return headers
         case .deleteLogout, .deleteWithdrawal:
-            let token = UserDefaults.standard.string(forKey: "accessToken") ?? ""
-            let headers = ["Content-Type" : "application/json", "Authorization" : "Bearer " + token]
+            let token = UserDefaults.standard.string(forKey: StringLiterals.Network.accessToken) ?? ""
+            let headers = HeaderType.headerWithToken(token: "Bearer " + token)
             return headers
         case .postSignIn:
-            let token = UserDefaults.standard.string(forKey: "Token") ?? ""
-            let headers = ["Content-Type" : "application/json", "Authorization" : token]
+            let token = UserDefaults.standard.string(forKey: StringLiterals.Network.token) ?? ""
+            let headers = HeaderType.headerWithToken(token: token)
             return headers
         case .patchReissue:
-            let token = UserDefaults.standard.string(forKey: "refreshToken") ?? ""
-            let headers = ["Content-Type" : "application/json", "Authorization" : token]
+            let token = UserDefaults.standard.string(forKey: StringLiterals.Network.refreshToken) ?? ""
+            let headers = HeaderType.headerWithToken(token: token)
             return headers
         default:
-            let headers = ["Content-Type" : "application/json"]
+            let headers = HeaderType.basic
             return headers
         }
     }

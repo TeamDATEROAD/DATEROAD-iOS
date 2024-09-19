@@ -17,7 +17,7 @@ class DateDetailViewModel: Serviceable {
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    var userName : String = UserDefaults.standard.string(forKey: "userName") ?? ""
+    var userName : String = UserDefaults.standard.string(forKey: StringLiterals.Network.userName) ?? ""
     
     let dateScheduleService = DateScheduleService()
     
@@ -95,7 +95,7 @@ extension DateDetailViewModel {
     }
     
     func setTempArgs() {
-        kakaoShareInfo["userName"] = userName
+        kakaoShareInfo[StringLiterals.Network.userName] = userName
         kakaoShareInfo["startAt"] = dateDetailData.value?.startAt
         print(dateDetailData.value?.places.count)
         switch dateDetailData.value?.places.count ?? 0 <= 5 {

@@ -16,16 +16,12 @@ protocol LikeCourseServiceProtocol {
 
 final class LikeCourseService: BaseService, LikeCourseServiceProtocol {
    
-    
-    
     let provider = MoyaProvider<LikeCourseTargetType>(plugins: [MoyaLoggingPlugin()])
     
     func likeCourse(courseId: Int, completion: @escaping (Bool) -> Void) {
         provider.request(.postLikeCourse(courseId: courseId)) { result in
             switch result {
             case .success(let response):
-//                let networkResult: NetworkResult<EmptyResponse> = self.judgeStatus(statusCode: response.statusCode, data: response.data)
-//                completion(networkResult)
                 if response.statusCode == 200 {
                     completion(true)
                 } else {
