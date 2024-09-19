@@ -53,6 +53,18 @@ final class LoginViewController: BaseViewController {
 extension LoginViewController {
     
     func bindViewModel() {
+        self.loginViewModel.onAuthLoading.bind { [weak self] onAuthLoading in
+            guard let onAuthLoading else { return }
+            onAuthLoading ? self?.showLoadingView() : self?.hideLoadingView()
+        }
+        
+        self.loginViewModel.onLoginSuccess.bind { [weak self] onLoginSuccess in
+            guard let onLoginSuccess else { return }
+            if !onLoginSuccess {
+                self?.presentAlertVC(title: StringLiterals.Alert.failToLogin)
+            }
+        }
+        
         self.loginViewModel.isSignIn.bind { [weak self] isSignIn in
             guard let isSignIn else { return }
             self?.pushToNextVC(isSignIn: isSignIn)
@@ -61,7 +73,7 @@ extension LoginViewController {
         self.loginViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                self?.loginViewModel.postSignIn()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }

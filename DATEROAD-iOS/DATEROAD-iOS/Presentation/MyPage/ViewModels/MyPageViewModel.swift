@@ -25,6 +25,8 @@ final class MyPageViewModel: Serviceable {
     
     var onLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
+    var onAuthLoading: ObservablePattern<Bool> = ObservablePattern(true)
+    
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
 
 }
@@ -37,6 +39,8 @@ extension MyPageViewModel {
     }
 
     func deleteLogout() {
+        self.onAuthLoading.value = true
+        self.onFailNetwork.value = false
         NetworkService.shared.authService.deleteLogout() { response in
             switch response {
             case .success(_):
@@ -44,6 +48,7 @@ extension MyPageViewModel {
                     UserDefaults.standard.removeObject(forKey: key.description)
                 }
                 self.onSuccessLogout.value = true
+                self.onAuthLoading.value = false
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
@@ -51,18 +56,21 @@ extension MyPageViewModel {
             default:
                 print("Failed to fetch post logout")
                 self.onSuccessLogout.value = false
+                self.onFailNetwork.value = true
                 return
             }
         }
     }
     
     func deleteWithdrawal() {
-        let socialType = UserDefaults.standard.bool(forKey: "SocialType")
+        self.onAuthLoading.value = true
+        self.onFailNetwork.value = false
+        let socialType = UserDefaults.standard.bool(forKey: StringLiterals.Network.socialType)
         var authCode: String?
         if socialType {
             authCode = nil
         } else {
-            authCode = UserDefaults.standard.string(forKey: "authCode")
+            authCode = UserDefaults.standard.string(forKey: StringLiterals.Network.authCode)
         }
         NetworkService.shared.authService.deleteWithdrawal(requestBody: DeleteWithdrawalRequest(authCode: authCode)) { response in
             switch response {
@@ -71,6 +79,7 @@ extension MyPageViewModel {
                     UserDefaults.standard.removeObject(forKey: key.description)
                 }
                 self.onSuccessWithdrawal.value = true
+                self.onAuthLoading.value = false
             case .reIssueJWT:
                 // 토큰 재발급 서버 통신 후 값을 설정
                 self.patchReissue { isSuccess in
@@ -79,6 +88,7 @@ extension MyPageViewModel {
             default:
                 print("Failed to fetch delete withdrawal")
                 self.onSuccessWithdrawal.value = false
+                self.onFailNetwork.value = true
                 return
             }
         }

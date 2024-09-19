@@ -30,6 +30,8 @@ final class LoginViewModel: Serviceable {
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
+    var onAuthLoading: ObservablePattern<Bool> = ObservablePattern(nil)
+    
 }
 
 extension LoginViewModel {
@@ -118,8 +120,10 @@ extension LoginViewModel {
                 UserDefaults.standard.setValue(data.accessToken, forKey: StringLiterals.Network.accessToken)
                 UserDefaults.standard.setValue(data.refreshToken, forKey: StringLiterals.Network.refreshToken)
                 self.onLoginSuccess.value = true
+                self.onAuthLoading.value = false
                 self.isSignIn.value = true
             case .requestErr:
+                self.onAuthLoading.value = false
                 self.isSignIn.value = false
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
@@ -127,6 +131,7 @@ extension LoginViewModel {
                 }
             default:
                 print("Failed to fetch post signin")
+                self.onAuthLoading.value = false
                 self.onLoginSuccess.value = false
                 return
             }
