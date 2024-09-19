@@ -298,13 +298,13 @@ extension MyPageViewController: UICollectionViewDelegateFlowLayout {
 extension MyPageViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let data = myPageViewModel.userInfoData.value ?? MyPageUserInfoModel(nickname: "", tagList: [], point: 0, imageURL: "")
+        let data = myPageViewModel.userInfoData.value ?? MyPageUserInfoModel.emptyModel
         return data.tagList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
-        let data = myPageViewModel.userInfoData.value ?? MyPageUserInfoModel(nickname: "", tagList: [], point: 0, imageURL: "")
+        let data = myPageViewModel.userInfoData.value ?? MyPageUserInfoModel.emptyModel
         cell.updateButtonTitle(title: data.tagList[indexPath.row])
         return cell
     }
