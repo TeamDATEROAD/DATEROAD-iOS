@@ -132,9 +132,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: any Error) {
-        let alert = UIAlertController(title: "로그인 실패", message: nil, preferredStyle: .alert)
-        alert.addAction(.init(title: "확인", style: .cancel))
-        present(alert, animated: true)
+        self.presentAlertVC(title: StringLiterals.Alert.failToLogin)
     }
     
 }

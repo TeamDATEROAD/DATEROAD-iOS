@@ -67,4 +67,9 @@ class BaseViewController: UIViewController {
         lottieView.removeFromSuperview()
     }
    
+    func presentAlertVC(title: String) {
+        let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        alert.addAction(.init(title: StringLiterals.Alert.confirm, style: .cancel))
+        self.present(alert, animated: true)
+    }
 }
