@@ -34,7 +34,7 @@ final class MyPageViewModel: Serviceable {
 extension MyPageViewModel {
     
     func checkSocialLogin() {
-        let socialType = UserDefaults.standard.bool(forKey: "SocialType")
+        let socialType = UserDefaults.standard.bool(forKey: StringLiterals.Network.socialType)
         isAppleLogin = !socialType
     }
 

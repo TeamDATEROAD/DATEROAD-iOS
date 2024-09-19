@@ -100,6 +100,14 @@ private extension MyPageViewController {
     }
     
     func bindViewModel() {
+        self.myPageViewModel.onAuthLoading.bind { [weak self] onAuthLoading in
+            guard let onAuthLoading, let onFailNetwork = self?.myPageViewModel.onFailNetwork.value else { return }
+            if !onFailNetwork {
+                onAuthLoading ? self?.showLoadingView() : self?.hideLoadingView()
+                self?.tabBarController?.tabBar.isHidden = onAuthLoading
+            }
+        }
+        
         self.myPageViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
@@ -177,12 +185,6 @@ private extension MyPageViewController {
         self.myPageView.userInfoView.editProfileButton.addGestureRecognizer(editProfileGesture)
         
         self.myPageView.withdrawalButton.addTarget(self, action: #selector(withDrawalButtonTapped), for: .touchUpInside)
-    }
-    
-    func presentAlertVC(title: String) {
-        let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
-        alert.addAction(.init(title: StringLiterals.Alert.confirm, style: .cancel))
-        self.present(alert, animated: true)
     }
     
     func appleLogin() {

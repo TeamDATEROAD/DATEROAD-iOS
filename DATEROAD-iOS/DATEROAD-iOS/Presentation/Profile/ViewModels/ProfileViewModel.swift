@@ -103,7 +103,6 @@ extension ProfileViewModel {
         } else {
             self.isValidTag.value = false
         }
-        print("\(count)  | \(selectedTagData)")
     }
     
     func checkValidRegistration() {
@@ -112,8 +111,6 @@ extension ProfileViewModel {
               let is5CntVaild = is5orLess.value else { return }
 
         self.isValidRegistration.value = (isValidNickname && isValidTag && is5CntVaild)
-        
-        print("isValidNickname \(isValidNickname)  isValidTag \(isValidTag)  is5CntValid \(is5CntVaild)")
     }
     
     func postSignUp(image: UIImage?) {

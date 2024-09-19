@@ -303,7 +303,6 @@ extension MainViewController: UICollectionViewDataSource {
 
     }
     
-    // TODO: - 다가오는 일정 없는 경우 로직 수정
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch self.mainViewModel.sectionData[indexPath.section] {
         case .upcomingDate:

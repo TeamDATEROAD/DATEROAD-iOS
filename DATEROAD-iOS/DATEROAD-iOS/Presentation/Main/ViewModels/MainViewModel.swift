@@ -162,9 +162,7 @@ extension MainViewModel {
                 }
                 
                 // 앞뒤에 아이템을 추가하여 무한 스크롤 구현
-                guard let last = self.bannerData.value?.last,
-                      let first = self.bannerData.value?.first
-                else { return }
+                guard let last = self.bannerData.value?.last, let first = self.bannerData.value?.first else { return }
                 self.bannerData.value?.insert(last, at: 0)
                 self.bannerData.value?.append(first)
                 self.isSuccessGetBanner.value = true

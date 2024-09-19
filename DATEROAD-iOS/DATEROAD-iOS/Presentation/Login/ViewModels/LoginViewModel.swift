@@ -62,21 +62,17 @@ extension LoginViewModel {
     
     func handleKakaoLoginResult(oauthToken: OAuthToken?, error: Error?) {
         if let error {
-            print("로그인 실패: \(error.localizedDescription)")
             self.onLoginSuccess.value = false
         } else {
             guard let oauthToken = oauthToken else { return }
             UserApi.shared.me { (user, error) in
-                print("로그인 성공 : \(String(describing: user?.kakaoAccount?.profile?.nickname))")
                 let userInfo = KakaoUserInfo(user: user)
                 self.kakaoUserInfo.value = userInfo
             }
             setToken(token: oauthToken.accessToken)
         }
     }
-    
-    // Apple 로그인
-    
+        
     func loginWithApple(userInfo: ASAuthorizationAppleIDCredential) {
         guard let userIdentifier = userInfo.identityToken,
               let code = userInfo.authorizationCode,
@@ -100,11 +96,8 @@ extension LoginViewModel {
     }
     
     func setUserInfo(userInfo: ASAuthorizationAppleIDCredential) {
-        print("user identifier : \(String(describing: userInfo.fullName)), \(String(describing: userInfo.email))")
-        
         let nickname = String(describing: userInfo.fullName?.givenName) + String(describing: userInfo.fullName?.familyName)
         let email = userInfo.email
-        
         self.appleUserInfo.value = AppleUserInfo(identifier: userInfo.user, nickname: nickname, email: email)
     }
 
