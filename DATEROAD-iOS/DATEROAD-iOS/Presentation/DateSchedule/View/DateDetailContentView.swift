@@ -178,8 +178,9 @@ class DateDetailContentView: BaseView {
             $0.titleLabel?.minimumScaleFactor = 0.5
             $0.titleLabel?.numberOfLines = 1
             $0.titleLabel?.textAlignment = .center
-
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
+            $0.isEnabled = false
+            $0.adjustsImageWhenDisabled = false
         }
         
         secondTagButton.do {
@@ -189,9 +190,10 @@ class DateDetailContentView: BaseView {
             $0.titleLabel?.minimumScaleFactor = 0.5
             $0.titleLabel?.numberOfLines = 1
             $0.titleLabel?.textAlignment = .center
-
             $0.setButtonStatus(buttonType: tagButtonType)
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
+            $0.isEnabled = false
+            $0.adjustsImageWhenDisabled = false
         }
         
         thirdTagButton.do {
@@ -203,6 +205,8 @@ class DateDetailContentView: BaseView {
             $0.titleLabel?.textAlignment = .center
             $0.setButtonStatus(buttonType: tagButtonType)
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
+            $0.isEnabled = false
+            $0.adjustsImageWhenDisabled = false
         }
 
         locationLabel.do {
