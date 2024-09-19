@@ -36,6 +36,8 @@ final class ProfileViewModel: Serviceable {
     var isValidRegistration: ObservablePattern<Bool> = ObservablePattern(false)
    
    var is5orLess: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var onLoading: ObservablePattern<Bool> = ObservablePattern(nil)
             
     var onSuccessRegister: ((Bool) -> Void)?
     
@@ -115,6 +117,7 @@ extension ProfileViewModel {
     }
     
     func postSignUp(image: UIImage?) {
+        self.onLoading.value = true
         let socialType = UserDefaults.standard.bool(forKey: StringLiterals.Network.socialType)
         
         guard let name = self.nickname.value else { return }

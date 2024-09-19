@@ -190,6 +190,11 @@ private extension ProfileViewController {
             }
         }
         
+        self.profileViewModel.onLoading.bind { [weak self] onLoading in
+            guard let onLoading else { return }
+            onLoading ? self?.showLoadingView() : self?.hideLoadingView()
+        }
+        
     }
     
     @objc
