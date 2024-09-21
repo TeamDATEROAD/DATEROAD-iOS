@@ -1456,6 +1456,7 @@
 			isa = PBXGroup;
 			children = (
 				CA5B979D2C91889C00F90A4C /* AmplitudeManager.swift */,
+				0D47D6C62C91DD0F0085A477 /* DRCompositionalLayoutFactory.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1507,7 +1508,6 @@
 				CAE876092C6F232900D64B34 /* DRLoadingView.swift */,
 				CAE8760B2C6F68A000D64B34 /* DRErrorViewController.swift */,
 				9EBD5C702C7C557900EDE081 /* DRDateFormatterManager.swift */,
-				0D47D6C62C91DD0F0085A477 /* DRCompositionalLayoutFactory.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
