@@ -47,6 +47,10 @@ final class MainViewModel: Serviceable {
     
     var courseListLocation: String = ""
     
+    var courseListCost: String = ""
+
+    var count: Int = 0
+
 }
 
 extension MainViewModel {
@@ -56,8 +60,8 @@ extension MainViewModel {
         setLoading()
         getBanner()
         getUserProfile()
-        getDateCourse(sortBy: StringLiterals.Main.popular)
-        getDateCourse(sortBy: StringLiterals.Main.latest)
+        getDateCourse(sortBy: StringLiterals.Main.hot)
+        getDateCourse(sortBy: StringLiterals.Main.new)
         getUpcomingDateCourse()
     }
     
@@ -106,21 +110,27 @@ extension MainViewModel {
                                                                               cost: $0.cost,
                                                                               duration: $0.duration.formatFloatTime()) }
                 
-                self.courseListId += sortBy == StringLiterals.Main.popular ? "HOT: " : "| NEW: "
-                self.courseListTitle += sortBy == StringLiterals.Main.popular ? "HOT: " : "| NEW: "
-                self.courseListLocation += sortBy == StringLiterals.Main.popular ? "HOT: " : "| NEW: "
+                self.courseListId += sortBy == StringLiterals.Main.hot ? StringLiterals.Main.hot : StringLiterals.Main.new
+                self.courseListTitle += sortBy == StringLiterals.Main.hot ? StringLiterals.Main.hot : StringLiterals.Main.new
+                self.courseListLocation += sortBy == StringLiterals.Main.hot ? StringLiterals.Main.hot : StringLiterals.Main.new
+                self.courseListCost += sortBy == StringLiterals.Main.hot ? StringLiterals.Main.hot : StringLiterals.Main.new
 
                 self.sortCourseType(type: sortBy, isSuccessGetData: true, dateData: dateData)
 
-                dateData.forEach { self.courseListId += "\($0.courseId) " }
-                dateData.forEach { self.courseListTitle += "\($0.title) " }
-                dateData.forEach { self.courseListLocation += "\($0.city) " }
-                
-                if sortBy == StringLiterals.Main.latest {
+                dateData.forEach {
+                    self.courseListId += "\($0.courseId) "
+                    self.courseListTitle += "\($0.title) "
+                    self.courseListLocation += "\($0.city) "
+                    self.courseListCost += "\($0.cost) "
+                }
+
+                self.count += 1
+                if self.count == 2 {
                     AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewMain,
                                                                      properties: [StringLiterals.Amplitude.Property.courseListId: self.courseListId,
                                                                                   StringLiterals.Amplitude.Property.courseListTitle: self.courseListTitle,
-                                                                                  StringLiterals.Amplitude.Property.courseListLocation: self.courseListLocation])
+                                                                                  StringLiterals.Amplitude.Property.courseListLocation: self.courseListLocation,
+                                                                                  StringLiterals.Amplitude.Property.courseListCost: self.courseListCost])
                 }
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
@@ -215,10 +225,12 @@ extension MainViewModel {
         courseListId = ""
         courseListTitle = ""
         courseListLocation = ""
+        courseListCost = ""
+        count = 0
     }
     
     func sortCourseType(type: String, isSuccessGetData: Bool, dateData: [DateCourseModel]) {
-        if type == StringLiterals.Main.popular {
+        if type == StringLiterals.Main.hot {
             self.hotCourseData.value = dateData
             self.isSuccessGetHotDate.value = isSuccessGetData
         } else {

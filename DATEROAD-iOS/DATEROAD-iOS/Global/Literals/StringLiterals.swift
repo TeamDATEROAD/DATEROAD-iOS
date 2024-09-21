@@ -184,8 +184,8 @@ enum StringLiterals {
         static let newDateSub = "가장 최근에 올라온 코스 보러가기"
         static let emptyDateTitle = "다가오는 데이트 일정이 없어요"
         static let emptyDateSub = "일정을 등록하러 가볼까요?"
-        static let popular = "popular"
-        static let latest = "latest"
+        static let hot = "HOT: "
+        static let new = "NEW: "
     }
     
     enum DateSchedule {
@@ -295,6 +295,7 @@ enum StringLiterals {
             static let courseListId = "course_list_id"
             static let courseListTitle = "course_list_title"
             static let courseListLocation = "course_list_location"
+            static let courseListCost = "course_list_cost"
         }
         
         enum UserProperty {
