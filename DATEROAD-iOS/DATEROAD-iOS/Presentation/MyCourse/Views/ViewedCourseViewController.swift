@@ -30,16 +30,15 @@ class ViewedCourseViewController: BaseViewController {
     
     // MARK: - Properties
     
-    private var nickName: String = ""
-    
     private var initial: Bool = false
             
     private let viewedCourseViewModel: MyCourseListViewModel
     
+    private let userName: String = UserDefaults.standard.string(forKey: StringLiterals.Network.userName) ?? ""
+    
     
     init(viewedCourseViewModel: MyCourseListViewModel) {
         self.viewedCourseViewModel = viewedCourseViewModel
-        nickName = self.viewedCourseViewModel.userName
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -118,10 +117,10 @@ class ViewedCourseViewController: BaseViewController {
    
    override func setStyle() {
        super.setStyle()
-             
+       
       topLabel.do {
          $0.font = UIFont.suit(.title_extra_24)
-         $0.setAttributedText(fullText: "\(viewedCourseViewModel.userName)님이 지금까지\n열람한 데이트 코스\n\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개", 
+         $0.setAttributedText(fullText: "\(self.userName)님이 지금까지\n열람한 데이트 코스\n\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개", 
                               pointText: "\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
                               pointColor: UIColor(resource: .mediumPurple),
                               lineHeight: 1)

@@ -7,12 +7,8 @@
 
 import Foundation
 
-class MyCourseListViewModel: Serviceable {
-    
-    var userName: String = ""
-    
-    let myCourseService = MyCourseService()
-    
+final class MyCourseListViewModel: Serviceable {
+            
     var viewedCourseData: ObservablePattern<[MyCourseModel]> = ObservablePattern([])
     
     var myRegisterCourseData: ObservablePattern<[MyCourseModel]> = ObservablePattern([])
@@ -37,10 +33,6 @@ class MyCourseListViewModel: Serviceable {
     
     var onMyRegisterCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
-    init() {
-        let name = UserDefaults.standard.string(forKey: StringLiterals.Network.userName) ?? ""
-        self.userName = name
-    }
     
     func setViewedCourseData() {
         self.isSuccessGetViewedCourseInfo.value = false
