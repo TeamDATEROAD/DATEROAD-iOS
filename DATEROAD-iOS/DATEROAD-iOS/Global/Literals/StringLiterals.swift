@@ -294,6 +294,7 @@ enum StringLiterals {
         enum Property {
             static let courseListId = "course_list_id"
             static let courseListTitle = "course_list_title"
+            static let courseListLocation = "course_list_location"
         }
         
         enum UserProperty {
