@@ -112,10 +112,6 @@ extension MainViewController {
                   let userPoint = UserDefaults.standard.string(forKey: StringLiterals.Network.userPoint)
             else { return }
             if isSuccess {
-                AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewMain,
-                                                                 properties: [
-                                                                    StringLiterals.Amplitude.UserProperty.userName:  userName,
-                                                                    StringLiterals.Amplitude.UserProperty.userPoint:  userPoint])
                 AmplitudeManager.shared.setUserProperty(userProperties: [
                     StringLiterals.Amplitude.UserProperty.userName:  userName,
                     StringLiterals.Amplitude.UserProperty.userPoint:  userPoint])
