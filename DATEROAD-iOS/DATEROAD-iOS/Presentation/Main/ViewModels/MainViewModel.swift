@@ -60,8 +60,8 @@ extension MainViewModel {
         setLoading()
         getBanner()
         getUserProfile()
-        getDateCourse(sortBy: StringLiterals.Main.hot)
-        getDateCourse(sortBy: StringLiterals.Main.new)
+        getDateCourse(sortBy: StringLiterals.Main.popular)
+        getDateCourse(sortBy: StringLiterals.Main.latest)
         getUpcomingDateCourse()
     }
     
@@ -230,7 +230,7 @@ extension MainViewModel {
     }
     
     func sortCourseType(type: String, isSuccessGetData: Bool, dateData: [DateCourseModel]) {
-        if type == StringLiterals.Main.hot {
+        if type == StringLiterals.Main.popular {
             self.hotCourseData.value = dateData
             self.isSuccessGetHotDate.value = isSuccessGetData
         } else {
