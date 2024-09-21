@@ -103,8 +103,11 @@ extension MainViewModel {
                                                                                   cost: $0.cost,
                                                                                   duration: $0.duration.formatFloatTime()) }
                     let courseListId = data.courses.map { $0.courseID }
-                    AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewMain, 
-                                                                     properties: [StringLiterals.Amplitude.Property.courseListId: courseListId])
+                    let courseListTitle = data.courses.map { $0.title }
+
+                    AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewMain,
+                                                                     properties: [StringLiterals.Amplitude.Property.courseListId: courseListId,
+                                                                                  StringLiterals.Amplitude.Property.courseListTitle: courseListTitle])
                     
                     self.isSuccessGetHotDate.value = true
                 } else {
