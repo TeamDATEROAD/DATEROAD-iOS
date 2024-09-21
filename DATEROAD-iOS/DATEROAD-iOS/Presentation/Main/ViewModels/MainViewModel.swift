@@ -65,6 +65,10 @@ extension MainViewModel {
                 self.nickname.value = data.name
                 UserDefaults.standard.setValue(data.name, forKey: StringLiterals.Network.userName)
                 UserDefaults.standard.setValue(data.point, forKey: StringLiterals.Network.userPoint)
+                AmplitudeManager.shared.setUserProperty(userProperties: [
+                    StringLiterals.Amplitude.UserProperty.userName:  data.name,
+                    StringLiterals.Amplitude.UserProperty.userPoint:  data.point])
+                
                 self.isSuccessGetUserInfo.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
@@ -98,6 +102,10 @@ extension MainViewModel {
                                                                                   like: $0.like,
                                                                                   cost: $0.cost,
                                                                                   duration: $0.duration.formatFloatTime()) }
+                    let courseListId = data.courses.map { $0.courseID }
+                    AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewMain, 
+                                                                     properties: [StringLiterals.Amplitude.Property.courseListId: courseListId])
+                    
                     self.isSuccessGetHotDate.value = true
                 } else {
                     self.newCourseData.value = data.courses.map { DateCourseModel(courseId: $0.courseID,
