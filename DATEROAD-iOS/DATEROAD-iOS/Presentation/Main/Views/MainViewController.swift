@@ -51,6 +51,7 @@ final class MainViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
+        self.mainViewModel.isSuccessGetBanner.value = false
         self.mainViewModel.fetchSectionData()
     }
 
@@ -87,9 +88,7 @@ extension MainViewController {
         }
         
         self.mainViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading,
-                  let onFailNetwork = self?.mainViewModel.onFailNetwork.value
-            else { return }
+            guard let onLoading, let onFailNetwork = self?.mainViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
                 onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                 self?.mainView.isHidden = onLoading

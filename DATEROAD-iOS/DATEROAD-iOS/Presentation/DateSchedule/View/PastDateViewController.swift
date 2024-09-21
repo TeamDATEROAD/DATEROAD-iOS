@@ -53,6 +53,7 @@ final class PastDateViewController: BaseNavBarViewController {
         setTitleLabelStyle(title: StringLiterals.DateSchedule.pastDate, alignment: .center)
         registerCell()
         setDelegate()
+        self.pastDateScheduleViewModel.isSuccessGetPastDateScheduleData.value = false
         bindViewModel()
     }
     

@@ -305,6 +305,7 @@ enum StringLiterals {
             static let userPoint = "user_point"
             static let userPurchaseCount = "user_purchase_count"
             static let userCourseCount = "user_course_count"
+            static let dateScheduleNum = "date_schedule_num"
         }
     }
 }
