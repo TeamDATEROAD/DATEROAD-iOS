@@ -34,6 +34,11 @@ final class MyCourseListViewModel: Serviceable {
     var onMyRegisterCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
     
+    init() {
+        setViewedCourseData()
+        setMyRegisterCourseData()
+    }
+    
     func setViewedCourseData() {
         self.isSuccessGetViewedCourseInfo.value = false
         self.onViewedCourseFailNetwork.value = false
@@ -41,9 +46,13 @@ final class MyCourseListViewModel: Serviceable {
         NetworkService.shared.myCourseService.getViewedCourse() { response in
             switch response {
             case .success(let data):
-                let viewedCourseInfo = data.courses.map {
-                    MyCourseModel(courseId: $0.courseID, thumbnail: $0.thumbnail, title: $0.title, city: $0.city, cost: $0.cost.priceRangeTag(), duration: ($0.duration).formatFloatTime(), like: $0.like)
-                }
+                let viewedCourseInfo = data.courses.map { MyCourseModel(courseId: $0.courseID,
+                                                                        thumbnail: $0.thumbnail,
+                                                                        title: $0.title,
+                                                                        city: $0.city,
+                                                                        cost: $0.cost.priceRangeTag(),
+                                                                        duration: ($0.duration).formatFloatTime(),
+                                                                        like: $0.like) }
                 AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.userPurchaseCount: viewedCourseInfo.count])
                 self.viewedCourseData.value = viewedCourseInfo
                 self.isSuccessGetViewedCourseInfo.value = true
@@ -73,9 +82,13 @@ final class MyCourseListViewModel: Serviceable {
         NetworkService.shared.myCourseService.getViewedCourse() { response in
             switch response {
             case .success(let data):
-                let viewedCourseInfo = data.courses.map {
-                    MyCourseModel(courseId: $0.courseID, thumbnail: $0.thumbnail, title: $0.title, city: $0.city, cost: $0.cost.priceRangeTag(), duration: ($0.duration).formatFloatTime(), like: $0.like)
-                }
+                let viewedCourseInfo = data.courses.map { MyCourseModel(courseId: $0.courseID,
+                                                                        thumbnail: $0.thumbnail,
+                                                                        title: $0.title,
+                                                                        city: $0.city,
+                                                                        cost: $0.cost.priceRangeTag(),
+                                                                        duration: ($0.duration).formatFloatTime(),
+                                                                        like: $0.like) }
                 self.viewedCourseData.value = viewedCourseInfo
                 self.isSuccessGetNavViewedCourseInfo.value = true
             case .reIssueJWT:
@@ -100,14 +113,18 @@ final class MyCourseListViewModel: Serviceable {
     func setMyRegisterCourseData() {
         self.isSuccessGetMyRegisterCourseInfo.value = false
         self.onMyRegisterCourseFailNetwork.value = false
-        self.setMyRegisterCourseLoading()
         
         NetworkService.shared.myCourseService.getMyRegisterCourse() { response in
             switch response {
             case .success(let data):
-                let myRegisterCourseInfo = data.courses.map {
-                    MyCourseModel(courseId: $0.courseID, thumbnail: $0.thumbnail, title: $0.title, city: $0.city, cost: ($0.cost).priceRangeTag(), duration: ($0.duration).formatFloatTime(), like: $0.like)
-                }
+                let myRegisterCourseInfo = data.courses.map { MyCourseModel(courseId: $0.courseID,
+                                                                            thumbnail: $0.thumbnail,
+                                                                            title: $0.title,
+                                                                            city: $0.city,
+                                                                            cost: ($0.cost).priceRangeTag(),
+                                                                            duration: ($0.duration).formatFloatTime(),
+                                                                            like: $0.like) }
+                AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.userCourseCount: myRegisterCourseInfo.count])
                 self.myRegisterCourseData.value = myRegisterCourseInfo
                 self.isSuccessGetMyRegisterCourseInfo.value = true
                 print("isUpdate>", self.myRegisterCourseData)
