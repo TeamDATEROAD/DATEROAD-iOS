@@ -32,6 +32,8 @@ class ViewedCourseViewController: BaseViewController {
     
     private var nickName: String = ""
     
+    private var initial: Bool = false
+            
     private let viewedCourseViewModel: MyCourseListViewModel
     
     
@@ -55,8 +57,9 @@ class ViewedCourseViewController: BaseViewController {
 
    override func viewDidLoad() {
       super.viewDidLoad()
-      
-      registerCell()
+       
+       setUserProperty()
+       registerCell()
       setDelegate()
       bindViewModel()
    }
@@ -148,6 +151,13 @@ class ViewedCourseViewController: BaseViewController {
 // MARK: - EmptyView Methods
 
 private extension ViewedCourseViewController {
+    
+    // Amplitude User Property 세팅 메소드
+    func setUserProperty() {
+        self.viewedCourseViewModel.setViewedCourseData()
+        self.initial = true
+    }
+    
     func setEmptyView() {
        let name =  UserDefaults.standard.string(forKey: StringLiterals.Network.userName) ?? ""
         let isEmpty = (self.viewedCourseViewModel.viewedCourseData.value?.count == 0)
@@ -200,8 +210,8 @@ extension ViewedCourseViewController {
        }
        
       self.viewedCourseViewModel.isSuccessGetViewedCourseInfo.bind { [weak self] isSuccess in
-         guard let isSuccess else { return }
-         if isSuccess {
+          guard let isSuccess, let initial = self?.initial else { return }
+         if isSuccess && initial {
              self?.setEmptyView()
              DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
                  self?.viewedCourseViewModel.setViewedCourseLoading()

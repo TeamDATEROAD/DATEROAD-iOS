@@ -52,6 +52,7 @@ class MyCourseListViewModel: Serviceable {
                 let viewedCourseInfo = data.courses.map {
                     MyCourseModel(courseId: $0.courseID, thumbnail: $0.thumbnail, title: $0.title, city: $0.city, cost: $0.cost.priceRangeTag(), duration: ($0.duration).formatFloatTime(), like: $0.like)
                 }
+                AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.userPurchaseCount: viewedCourseInfo.count])
                 self.viewedCourseData.value = viewedCourseInfo
                 self.isSuccessGetViewedCourseInfo.value = true
             case .reIssueJWT:
