@@ -107,15 +107,8 @@ extension MainViewController {
         }
         
         self.mainViewModel.isSuccessGetUserInfo.bind { [weak self] isSuccess in
-            guard let isSuccess,
-                  let userName = UserDefaults.standard.string(forKey: StringLiterals.Network.userName),
-                  let userPoint = UserDefaults.standard.string(forKey: StringLiterals.Network.userPoint)
-            else { return }
+            guard let isSuccess else { return }
             if isSuccess {
-                AmplitudeManager.shared.setUserProperty(userProperties: [
-                    StringLiterals.Amplitude.UserProperty.userName:  userName,
-                    StringLiterals.Amplitude.UserProperty.userPoint:  userPoint])
-
                 self?.mainView.mainCollectionView.reloadData()
             }
         }
