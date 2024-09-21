@@ -110,10 +110,10 @@ extension MainViewModel {
                                                                               cost: $0.cost,
                                                                               duration: $0.duration.formatFloatTime()) }
                 
-                self.courseListId += sortBy == StringLiterals.Main.hot ? StringLiterals.Main.hot : StringLiterals.Main.new
-                self.courseListTitle += sortBy == StringLiterals.Main.hot ? StringLiterals.Main.hot : StringLiterals.Main.new
-                self.courseListLocation += sortBy == StringLiterals.Main.hot ? StringLiterals.Main.hot : StringLiterals.Main.new
-                self.courseListCost += sortBy == StringLiterals.Main.hot ? StringLiterals.Main.hot : StringLiterals.Main.new
+                self.courseListId += sortBy == StringLiterals.Main.popular ? StringLiterals.Main.hot : StringLiterals.Main.new
+                self.courseListTitle += sortBy == StringLiterals.Main.popular ? StringLiterals.Main.hot : StringLiterals.Main.new
+                self.courseListLocation += sortBy == StringLiterals.Main.popular ? StringLiterals.Main.hot : StringLiterals.Main.new
+                self.courseListCost += sortBy == StringLiterals.Main.popular ? StringLiterals.Main.hot : StringLiterals.Main.new
 
                 self.sortCourseType(type: sortBy, isSuccessGetData: true, dateData: dateData)
 
