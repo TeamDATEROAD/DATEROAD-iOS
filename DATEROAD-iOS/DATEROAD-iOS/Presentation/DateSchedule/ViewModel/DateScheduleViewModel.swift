@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DateScheduleViewModel: Serviceable {
+final class DateScheduleViewModel: Serviceable {
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
         
@@ -33,6 +33,10 @@ class DateScheduleViewModel: Serviceable {
 
     var onUpcomingScheduleFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
 
+    
+    init() {
+        getUpcomingDateScheduleData()
+    }
     
     func getPastDateScheduleData() {
         self.isSuccessGetPastDateScheduleData.value = false
@@ -80,6 +84,8 @@ class DateScheduleViewModel: Serviceable {
                     }
                     return DateCardModel(dateID: date.dateID, title: date.title, date: (date.date).toReadableDate() ?? "", city: date.city , tags: tagsModel, dDay: date.dDay)
                 }
+                
+                AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.dateScheduleNum : dateScheduleInfo.count])
                 self.upcomingDateScheduleData.value = dateScheduleInfo
                 self.isSuccessGetUpcomingDateScheduleData.value = true
                 print("🍎🍎뷰모델 서버통신 성공🍎🍎", self.isSuccessGetUpcomingDateScheduleData.value)

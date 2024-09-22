@@ -41,11 +41,22 @@ final class MainViewModel: Serviceable {
     
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
+    var courseListId: String = ""
+    
+    var courseListTitle: String = ""
+    
+    var courseListLocation: String = ""
+    
+    var courseListCost: String = ""
+
+    var count: Int = 0
+
 }
 
 extension MainViewModel {
     
     func fetchSectionData() {
+        initProperty()
         setLoading()
         getBanner()
         getUserProfile()
@@ -65,6 +76,10 @@ extension MainViewModel {
                 self.nickname.value = data.name
                 UserDefaults.standard.setValue(data.name, forKey: StringLiterals.Network.userName)
                 UserDefaults.standard.setValue(data.point, forKey: StringLiterals.Network.userPoint)
+                AmplitudeManager.shared.setUserProperty(userProperties: [
+                    StringLiterals.Amplitude.UserProperty.userName:  data.name,
+                    StringLiterals.Amplitude.UserProperty.userPoint:  data.point])
+                
                 self.isSuccessGetUserInfo.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
@@ -80,34 +95,42 @@ extension MainViewModel {
     }
     
     func getDateCourse(sortBy: String) {
-        if sortBy == StringLiterals.Main.popular {
-            self.isSuccessGetHotDate.value = false
-        } else {
-            self.isSuccessGetNewDate.value = false
-        }
+        var dateData: [DateCourseModel] = []
+        self.sortCourseType(type: sortBy, isSuccessGetData: false, dateData: dateData)
         self.onFailNetwork.value = false
         
         NetworkService.shared.mainService.getFilteredDateCourse(sortBy: sortBy) { response in
             switch response {
             case .success(let data):
-                if sortBy == StringLiterals.Main.popular {
-                    self.hotCourseData.value = data.courses.map { DateCourseModel(courseId: $0.courseID,
-                                                                                  thumbnail: $0.thumbnail,
-                                                                                  title: $0.title,
-                                                                                  city: $0.city,
-                                                                                  like: $0.like,
-                                                                                  cost: $0.cost,
-                                                                                  duration: $0.duration.formatFloatTime()) }
-                    self.isSuccessGetHotDate.value = true
-                } else {
-                    self.newCourseData.value = data.courses.map { DateCourseModel(courseId: $0.courseID,
-                                                                                  thumbnail: $0.thumbnail,
-                                                                                  title: $0.title,
-                                                                                  city: $0.city,
-                                                                                  like: $0.like,
-                                                                                  cost: $0.cost,
-                                                                                  duration: $0.duration.formatFloatTime()) }
-                    self.isSuccessGetNewDate.value = true
+                dateData = data.courses.map { DateCourseModel(courseId: $0.courseID,
+                                                                              thumbnail: $0.thumbnail,
+                                                                              title: $0.title,
+                                                                              city: $0.city,
+                                                                              like: $0.like,
+                                                                              cost: $0.cost,
+                                                                              duration: $0.duration.formatFloatTime()) }
+                
+                self.courseListId += sortBy == StringLiterals.Main.popular ? StringLiterals.Main.hot : StringLiterals.Main.new
+                self.courseListTitle += sortBy == StringLiterals.Main.popular ? StringLiterals.Main.hot : StringLiterals.Main.new
+                self.courseListLocation += sortBy == StringLiterals.Main.popular ? StringLiterals.Main.hot : StringLiterals.Main.new
+                self.courseListCost += sortBy == StringLiterals.Main.popular ? StringLiterals.Main.hot : StringLiterals.Main.new
+
+                self.sortCourseType(type: sortBy, isSuccessGetData: true, dateData: dateData)
+
+                dateData.forEach {
+                    self.courseListId += "\($0.courseId) "
+                    self.courseListTitle += "\($0.title) "
+                    self.courseListLocation += "\($0.city) "
+                    self.courseListCost += "\($0.cost) "
+                }
+
+                self.count += 1
+                if self.count == 2 {
+                    AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewMain,
+                                                                     properties: [StringLiterals.Amplitude.Property.courseListId: self.courseListId,
+                                                                                  StringLiterals.Amplitude.Property.courseListTitle: self.courseListTitle,
+                                                                                  StringLiterals.Amplitude.Property.courseListLocation: self.courseListLocation,
+                                                                                  StringLiterals.Amplitude.Property.courseListCost: self.courseListCost])
                 }
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
@@ -197,4 +220,23 @@ extension MainViewModel {
             self.onLoading.value = true
         }
     }
+    
+    func initProperty() {
+        courseListId = ""
+        courseListTitle = ""
+        courseListLocation = ""
+        courseListCost = ""
+        count = 0
+    }
+    
+    func sortCourseType(type: String, isSuccessGetData: Bool, dateData: [DateCourseModel]) {
+        if type == StringLiterals.Main.popular {
+            self.hotCourseData.value = dateData
+            self.isSuccessGetHotDate.value = isSuccessGetData
+        } else {
+            self.newCourseData.value = dateData
+            self.isSuccessGetNewDate.value = isSuccessGetData
+        }
+    }
+
 }

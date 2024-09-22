@@ -49,6 +49,7 @@ final class UpcomingDateScheduleViewController: BaseViewController {
         registerCell()
         setDelegate()
         setAddTarget()
+        self.upcomingDateScheduleViewModel.isSuccessGetUpcomingDateScheduleData.value = false
         bindViewModel()
     }
     

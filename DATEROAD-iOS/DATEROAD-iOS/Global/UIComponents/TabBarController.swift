@@ -136,6 +136,6 @@ private extension TabBarController {
                 item.imageInsets = UIEdgeInsets(top: -imageInset, left: 0, bottom: imageInset, right: 0)
             }
         }
-        
     }
+
 }

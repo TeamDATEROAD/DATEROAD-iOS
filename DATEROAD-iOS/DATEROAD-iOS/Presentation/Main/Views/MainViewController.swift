@@ -51,6 +51,7 @@ final class MainViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
+        self.mainViewModel.isSuccessGetBanner.value = false
         self.mainViewModel.fetchSectionData()
     }
 
@@ -87,9 +88,7 @@ extension MainViewController {
         }
         
         self.mainViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading,
-                  let onFailNetwork = self?.mainViewModel.onFailNetwork.value
-            else { return }
+            guard let onLoading, let onFailNetwork = self?.mainViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
                 onLoading ? self?.showLoadingView() : self?.hideLoadingView()
                 self?.mainView.isHidden = onLoading
@@ -107,19 +106,8 @@ extension MainViewController {
         }
         
         self.mainViewModel.isSuccessGetUserInfo.bind { [weak self] isSuccess in
-            guard let isSuccess,
-                  let userName = UserDefaults.standard.string(forKey: StringLiterals.Network.userName),
-                  let userPoint = UserDefaults.standard.string(forKey: StringLiterals.Network.userPoint)
-            else { return }
+            guard let isSuccess else { return }
             if isSuccess {
-                AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewMain,
-                                                                 properties: [
-                                                                    StringLiterals.Amplitude.UserProperty.userName:  userName,
-                                                                    StringLiterals.Amplitude.UserProperty.userPoint:  userPoint])
-                AmplitudeManager.shared.setUserProperty(userProperties: [
-                    StringLiterals.Amplitude.UserProperty.userName:  userName,
-                    StringLiterals.Amplitude.UserProperty.userPoint:  userPoint])
-
                 self?.mainView.mainCollectionView.reloadData()
             }
         }
