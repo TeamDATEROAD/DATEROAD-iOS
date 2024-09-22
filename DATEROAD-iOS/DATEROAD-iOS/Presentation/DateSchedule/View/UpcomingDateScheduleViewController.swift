@@ -39,7 +39,6 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
-        self.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
         self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
     }
     
@@ -107,14 +106,21 @@ private extension UpcomingDateScheduleViewController {
     
     func bindViewModel() {
         self.upcomingDateScheduleViewModel.onUpcomingScheduleLoading.bind { [weak self] onLoading in
-             guard let onLoading, 
-                    let onFailNetwork = self?.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.value
-            else { return }
-             if !onFailNetwork {
-                 onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                 self?.upcomingDateScheduleView.isHidden = onLoading
-                 self?.tabBarController?.tabBar.isHidden = onLoading
-             }
+             guard let onLoading, let onFailNetwork = self?.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.value else { return }
+            if !onFailNetwork {
+                if onLoading {
+                    self?.showLoadingView()
+                    self?.upcomingDateScheduleView.isHidden = true
+                    self?.tabBarController?.tabBar.isHidden = true
+                } else {
+                    self?.drawDateCardView()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self?.upcomingDateScheduleView.isHidden = false
+                        self?.tabBarController?.tabBar.isHidden = false
+                        self?.hideLoadingView()
+                    }
+                }
+            }
          }
         
         self.upcomingDateScheduleViewModel.onReissueSuccess.bind { [weak self] onSuccess in
@@ -129,11 +135,7 @@ private extension UpcomingDateScheduleViewController {
         self.upcomingDateScheduleViewModel.isSuccessGetUpcomingDateScheduleData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
-                print("success 인디케이터")
-                self?.drawDateCardView()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
-                    self?.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
-                }
+                self?.upcomingDateScheduleViewModel.setUpcomingScheduleLoading()
             }
         }
         
