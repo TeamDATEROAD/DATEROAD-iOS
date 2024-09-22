@@ -85,7 +85,6 @@ class CourseDetailViewModel: Serviceable {
     
     init(courseId: Int) {
         self.courseId = courseId
-        getCourseDetail()
     }
     
     var sections: [CourseDetailSection] {
@@ -234,15 +233,10 @@ extension CourseDetailViewModel {
         NetworkService.shared.courseDetailService.getBannerDetailInfo(advertismentId: advertismentId){ response in
             switch response {
             case .success(let data):
-                
                 self.imageData.value = data.images.map { ThumbnailModel(imageUrl: $0.imageURL, sequence: $0.sequence)}
-                
                 self.bannerHeaderData.value = BannerHeaderModel(tag: AdTagType.getAdTag(byEnglish: data.adTagType)?.tag.title ?? "", createAt: data.createAt)
-                
                 self.bannerDetailTitle = data.title
-                
                 self.mainContentsData.value = MainContentsModel(description: data.description)
-                
                 self.isSuccessGetBannerData.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
@@ -254,12 +248,13 @@ extension CourseDetailViewModel {
                 self.isSuccessGetBannerData.value = false
                 print("Failed to fetch banner detail data")
             }
+            self.setBannerDetailLoading()
         }
     }
     
     func setBannerDetailLoading() {
         guard let isSuccessGetBannerData = self.isSuccessGetBannerData.value else { return }
-        self.onLoading.value = isSuccessGetBannerData ? false : true
+        self.onLoading.value = !isSuccessGetBannerData
     }
     
     func setLoading() {

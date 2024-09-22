@@ -119,11 +119,21 @@ private extension MyPageViewController {
         self.myPageViewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.myPageViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
-                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.myPageView.isHidden = onLoading
-                self?.topInsetView.isHidden = onLoading
-                self?.navigationBarView.isHidden = onLoading
-                self?.tabBarController?.tabBar.isHidden = onLoading
+                if onLoading {
+                    self?.showLoadingView()
+                    self?.myPageView.isHidden = onLoading
+                    self?.topInsetView.isHidden = onLoading
+                    self?.navigationBarView.isHidden = onLoading
+                    self?.tabBarController?.tabBar.isHidden = onLoading
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self?.myPageView.isHidden = onLoading
+                        self?.topInsetView.isHidden = onLoading
+                        self?.navigationBarView.isHidden = onLoading
+                        self?.tabBarController?.tabBar.isHidden = onLoading
+                        self?.hideLoadingView()
+                    }
+                }
             }
         }
         
@@ -161,9 +171,6 @@ private extension MyPageViewController {
             if isSuccess {
                 self?.myPageView.userInfoView.bindData(userInfo: data)
                 self?.myPageView.userInfoView.tagCollectionView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self?.myPageViewModel.setLoading()
-                }
             }
         }
         

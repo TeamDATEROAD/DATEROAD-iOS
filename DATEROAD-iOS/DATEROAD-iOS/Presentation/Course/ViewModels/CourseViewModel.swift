@@ -85,6 +85,7 @@ extension CourseViewModel {
 
     func getCourse(city: String?, cost: Int?) {  
         self.isSuccessGetData.value = false
+        self.setLoading()
         NetworkService.shared.courseService.getCourseInfo(city: city ?? "", cost: cost) { response in
             switch response {
             case .success(let data):
@@ -114,6 +115,7 @@ extension CourseViewModel {
                 self.isSuccessGetData.value = false
                 print("Failed to fetch course data")
             }
+            self.setLoading()
         }
     }
     

@@ -91,6 +91,21 @@ extension UpcomingDateDetailViewController {
                  self?.topInsetView.isHidden = onLoading
                  self?.navigationBarView.isHidden = onLoading
              }
+            if !onFailNetwork {
+                if onLoading {
+                    self?.showLoadingView()
+                    self?.upcomingDateDetailContentView.isHidden = true
+                    self?.topInsetView.isHidden = onLoading
+                    self?.navigationBarView.isHidden = onLoading
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self?.upcomingDateDetailContentView.isHidden = false
+                        self?.topInsetView.isHidden = onLoading
+                        self?.navigationBarView.isHidden = onLoading
+                        self?.hideLoadingView()
+                    }
+                }
+            }
          }
         
         self.upcomingDateDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
@@ -112,15 +127,11 @@ extension UpcomingDateDetailViewController {
         }
         
         self.upcomingDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
-            guard let isSuccess, 
-                    let data = self?.upcomingDateDetailViewModel.dateDetailData.value
-            else { return }
+            guard let isSuccess,  let data = self?.upcomingDateDetailViewModel.dateDetailData.value else { return }
             if isSuccess {
                 self?.upcomingDateDetailContentView.dataBind(data)
                 self?.upcomingDateDetailContentView.dateTimeLineCollectionView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self?.upcomingDateDetailViewModel.setDateDetailLoading()
-                }
+                self?.upcomingDateDetailViewModel.setDateDetailLoading()
             }
         }
         

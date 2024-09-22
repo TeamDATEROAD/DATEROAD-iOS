@@ -48,6 +48,7 @@ extension DateDetailViewModel {
     
     func getDateDetailData(dateID: Int) {
         self.isSuccessGetDateDetailData.value = false
+        self.setDateDetailLoading()
         self.onFailNetwork.value = false
         
         NetworkService.shared.dateScheduleService.getDateDetail(dateID: dateID) { response in
@@ -70,6 +71,7 @@ extension DateDetailViewModel {
             default:
                 self.isSuccessGetDateDetailData.value = false
             }
+            self.setDateDetailLoading()
         }
     }
     

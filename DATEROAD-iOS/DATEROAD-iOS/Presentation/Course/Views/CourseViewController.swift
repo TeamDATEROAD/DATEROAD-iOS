@@ -96,9 +96,20 @@ final class CourseViewController: BaseViewController {
         self.courseViewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.courseViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
-                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.courseView.isHidden = onLoading
-                self?.tabBarController?.tabBar.isHidden = onLoading
+                if !onFailNetwork {
+                    if onLoading {
+                        self?.showLoadingView()
+                        self?.courseView.isHidden = true
+                        self?.tabBarController?.tabBar.isHidden = true
+                    } else {
+                        self?.courseView.courseListView.courseListCollectionView.reloadData()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self?.courseView.isHidden = false
+                            self?.tabBarController?.tabBar.isHidden = false
+                            self?.hideLoadingView()
+                        }
+                    }
+                }
             }
         }
         
@@ -114,10 +125,7 @@ final class CourseViewController: BaseViewController {
         courseViewModel.isSuccessGetData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
-                self?.courseView.courseListView.courseListCollectionView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
-                    self?.courseViewModel.setLoading()
-                }
+                self?.courseViewModel.setLoading()
             }
         }
         

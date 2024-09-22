@@ -73,6 +73,7 @@ final class DateScheduleViewModel: Serviceable {
     
     func getUpcomingDateScheduleData() {
         self.isSuccessGetUpcomingDateScheduleData.value = false
+        self.setUpcomingScheduleLoading()
         self.onUpcomingScheduleFailNetwork.value = false
         
         NetworkService.shared.dateScheduleService.getDateSchdeule(time: "FUTURE") { response in
@@ -99,6 +100,7 @@ final class DateScheduleViewModel: Serviceable {
                 self.isSuccessGetUpcomingDateScheduleData.value = false
                 print("false?")
             }
+            self.setUpcomingScheduleLoading()
         }
     }
     

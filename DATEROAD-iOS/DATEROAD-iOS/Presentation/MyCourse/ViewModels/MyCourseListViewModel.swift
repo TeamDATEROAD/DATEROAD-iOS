@@ -41,6 +41,7 @@ final class MyCourseListViewModel: Serviceable {
     
     func setViewedCourseData() {
         self.isSuccessGetViewedCourseInfo.value = false
+        self.setViewedCourseLoading()
         self.onViewedCourseFailNetwork.value = false
         
         NetworkService.shared.myCourseService.getViewedCourse() { response in
