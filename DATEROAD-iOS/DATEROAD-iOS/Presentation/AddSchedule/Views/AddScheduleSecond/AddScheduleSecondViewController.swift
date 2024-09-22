@@ -59,7 +59,6 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
    override func setHierarchy() {
       super.setHierarchy()
       
-      self.view.addSubview(contentView)
       contentView.addSubview(addScheduleSecondView)
    }
    
@@ -68,7 +67,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
 
       addScheduleSecondView.snp.makeConstraints {
          $0.top.equalToSuperview().offset(4)
-         $0.horizontalEdges.equalToSuperview()
+         $0.horizontalEdges.equalToSuperview().inset(16)
          $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
       }
    }
@@ -202,7 +201,7 @@ private extension AddScheduleSecondViewController {
       }
       
       self.viewModel.isValidOfSecondNextBtn.bind { [weak self] date in
-         self?.addScheduleSecondView.inAddScheduleSecondView.changeNextBtnState(flag: date ?? false)
+         self?.addScheduleSecondView.changeNextBtnState(flag: date ?? false)
       }
       
    }
@@ -210,7 +209,7 @@ private extension AddScheduleSecondViewController {
    func setAddTarget() {
       addScheduleSecondView.editButton.addTarget(self, action: #selector(toggleEditMode), for: .touchUpInside)
       addScheduleSecondView.inAddScheduleSecondView.addPlaceButton.addTarget(self, action: #selector(tapAddPlaceBtn), for: .touchUpInside)
-      addScheduleSecondView.inAddScheduleSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
+      addScheduleSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
    }
    
    func successDone() {
