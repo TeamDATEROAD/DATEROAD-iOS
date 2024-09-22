@@ -26,6 +26,8 @@ final class MainViewController: BaseViewController {
     
     private lazy var point = mainViewModel.mainUserData.value?.point
     
+    private var initial: Bool = false
+    
     
     // MARK: - Life Cycles
     
@@ -47,11 +49,11 @@ final class MainViewController: BaseViewController {
         setDelegate()
         setAddTarget()
         bindViewModel()
+        initial = true
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewIsAppearing(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
-        self.mainViewModel.isSuccessGetBanner.value = false
         self.mainViewModel.fetchSectionData()
     }
 
@@ -82,17 +84,35 @@ extension MainViewController {
         self.mainViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
+                self?.mainViewModel.totalFetchCount = 0
                 let errorVC = DRErrorViewController()
                 self?.navigationController?.pushViewController(errorVC, animated: false)
             }
         }
         
         self.mainViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.mainViewModel.onFailNetwork.value else { return }
+            guard let onLoading, 
+                    let initial = self?.initial,
+                    let onFailNetwork = self?.mainViewModel.onFailNetwork.value
+            else { return }
             if !onFailNetwork {
-                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.mainView.isHidden = onLoading
-                self?.tabBarController?.tabBar.isHidden = onLoading
+                if onLoading {
+                    self?.showLoadingView()
+                    self?.mainView.isHidden = onLoading
+                    self?.tabBarController?.tabBar.isHidden = onLoading
+                } else {
+                    self?.mainView.mainCollectionView.reloadData()
+                    let initialIndexPath = IndexPath(item: 1, section: 2)
+                    self?.mainView.mainCollectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
+                    self?.startAutoScrollTimer()
+                    
+                    let time = initial ? 0.0 : 0.5
+                    DispatchQueue.main.asyncAfter(deadline: .now() + time) {
+                        self?.mainView.isHidden = onLoading
+                        self?.tabBarController?.tabBar.isHidden = onLoading
+                        self?.hideLoadingView()
+                    }
+                }
             }
         }
         
@@ -102,44 +122,6 @@ extension MainViewController {
                 self?.mainViewModel.fetchSectionData()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
-            }
-        }
-        
-        self.mainViewModel.isSuccessGetUserInfo.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
-            if isSuccess {
-                self?.mainView.mainCollectionView.reloadData()
-            }
-        }
-        
-        self.mainViewModel.isSuccessGetHotDate.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
-            if isSuccess {
-                self?.mainView.mainCollectionView.reloadData()
-            }
-        }
-        
-        self.mainViewModel.isSuccessGetBanner.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
-            if isSuccess {
-                self?.mainView.mainCollectionView.reloadData()
-                let initialIndexPath = IndexPath(item: 1, section: 2)
-                self?.mainView.mainCollectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
-                self?.startAutoScrollTimer()
-            }
-        }
-        
-        self.mainViewModel.isSuccessGetNewDate.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
-            if isSuccess {
-                self?.mainView.mainCollectionView.reloadData()
-            }
-        }
-        
-        self.mainViewModel.isSuccessGetUpcomingDate.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
-            if isSuccess {
-                self?.mainView.mainCollectionView.reloadData()
             }
         }
         
@@ -167,14 +149,6 @@ extension MainViewController {
     
     func setAddTarget() {
         self.mainView.floatingButton.addTarget(self, action: #selector(pushToAddCourseVC), for: .touchUpInside)
-    }
-    
-    func setLoadingView(row: Int, section: Int) {
-        if row == self.mainView.mainCollectionView.numberOfItems(inSection: section) - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.mainViewModel.setLoading()
-            }
-        }
     }
     
     func updateBannerCell(index: Int, count: Int) {
@@ -264,10 +238,6 @@ extension MainViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentOffsetY = scrollView.contentOffset.y
         mainView.mainCollectionView.backgroundColor = contentOffsetY < 0 ? UIColor(resource: .deepPurple) : UIColor(resource: .drWhite)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        self.setLoadingView(row: indexPath.row, section: indexPath.section)
     }
 }
 
