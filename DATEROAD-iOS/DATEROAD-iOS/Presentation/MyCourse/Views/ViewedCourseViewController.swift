@@ -48,7 +48,6 @@ final class ViewedCourseViewController: BaseViewController {
     // MARK: - LifeCycle
     
     override func viewWillAppear(_ animated: Bool) {
-        self.viewedCourseViewModel.setViewedCourseLoading()
         self.viewedCourseViewModel.setViewedCourseData()
     }
     
@@ -194,19 +193,25 @@ extension ViewedCourseViewController {
         self.viewedCourseViewModel.onViewedCourseLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.viewedCourseViewModel.onViewedCourseFailNetwork.value else { return }
             if !onFailNetwork {
-                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.contentView.isHidden = onLoading
-                self?.tabBarController?.tabBar.isHidden = onLoading
+                if onLoading {
+                    self?.showLoadingView()
+                    self?.contentView.isHidden = true
+                    self?.tabBarController?.tabBar.isHidden = true
+                } else {
+                    self?.setEmptyView()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self?.contentView.isHidden = false
+                        self?.tabBarController?.tabBar.isHidden = false
+                        self?.hideLoadingView()
+                    }
+                }
             }
         }
         
         self.viewedCourseViewModel.isSuccessGetViewedCourseInfo.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
-                self?.setEmptyView()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
-                    self?.viewedCourseViewModel.setViewedCourseLoading()
-                }
+                self?.viewedCourseViewModel.setViewedCourseLoading()
             }
         }
     }
