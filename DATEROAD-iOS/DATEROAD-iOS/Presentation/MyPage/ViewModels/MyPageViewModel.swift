@@ -118,6 +118,7 @@ extension MyPageViewModel {
                 self.onSuccessGetUserProfile.value = false
                 return
             }
+            self.setLoading()
         }
     }
     
