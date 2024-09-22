@@ -160,8 +160,7 @@ extension AddThirdView {
    }
    
    func updatePriceText(price: Int) {
-      if price == 0 {
-      } else {
+      if price != 0 {
          priceTextField.text = String(price.formattedWithSeparator)
       }
    }

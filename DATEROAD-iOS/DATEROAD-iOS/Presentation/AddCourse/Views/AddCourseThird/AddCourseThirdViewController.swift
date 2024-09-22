@@ -141,8 +141,8 @@ private extension AddCourseThirdViewController {
             errorVC.onDismiss = {
                print("🚀onDismiss 출동🚀")
                // 코스 등록 3 로딩뷰, 에러뷰 false 설정
-               self?.viewModel.onLoading.value = false
                self?.viewModel.onFailNetwork.value = false
+               self?.viewModel.onLoading.value = false
             }
             
             self?.navigationController?.pushViewController(errorVC, animated: false)
@@ -312,9 +312,9 @@ extension AddCourseThirdViewController: UITextFieldDelegate {
          }
          self.view.layoutIfNeeded() // 레이아웃 즉시 갱신
       }
-      
-      // textField 값이 변경된 경우 처리
-      viewModel.priceText.value = Int(textField.text ?? "0")
+      // textField 값이 변경된 경우 ',' 제거한 값으로 처리
+      let money = textField.text?.filter { $0.isNumber }
+      viewModel.priceText.value = Int(money ?? "0")
    }
    
 }
