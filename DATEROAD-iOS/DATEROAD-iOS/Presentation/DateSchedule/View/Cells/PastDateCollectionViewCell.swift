@@ -147,6 +147,8 @@ class PastDateCollectionViewCell: BaseCollectionViewCell {
             $0.titleLabel?.numberOfLines = 1
             $0.titleLabel?.textAlignment = .center
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
+            $0.isEnabled = false
+            $0.adjustsImageWhenDisabled = false
         }
         
         secondTagButton.do {
@@ -158,6 +160,8 @@ class PastDateCollectionViewCell: BaseCollectionViewCell {
             $0.titleLabel?.numberOfLines = 1
             $0.titleLabel?.textAlignment = .center
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
+            $0.isEnabled = false
+            $0.adjustsImageWhenDisabled = false
         }
         
         thirdTagButton.do {
@@ -169,6 +173,8 @@ class PastDateCollectionViewCell: BaseCollectionViewCell {
             $0.titleLabel?.numberOfLines = 1
             $0.titleLabel?.textAlignment = .center
             $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
+            $0.isEnabled = false
+            $0.adjustsImageWhenDisabled = false
         }
         
         dotDividerView.do {
