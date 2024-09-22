@@ -109,6 +109,8 @@ final class BannerDetailViewController: BaseViewController {
                     self?.showLoadingView()
                     self?.bannerDetailView.isHidden = true
                 } else {
+                    self?.setNavBar()
+                    self?.bannerDetailView.mainCollectionView.reloadData()
                     self?.bannerDetailView.isHidden = false
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         self?.hideLoadingView()
@@ -121,14 +123,6 @@ final class BannerDetailViewController: BaseViewController {
             guard let currentPage else { return }
             if let bottomPageControllView = self?.bannerDetailView.mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
                 bottomPageControllView.pageIndex = currentPage
-            }
-        }
-        
-        courseDetailViewModel.isSuccessGetBannerData.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }            
-            if isSuccess {
-                self?.setNavBar()
-                self?.bannerDetailView.mainCollectionView.reloadData()
             }
         }
     }
