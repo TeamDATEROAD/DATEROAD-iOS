@@ -9,16 +9,6 @@ import Foundation
 
 final class MainViewModel: Serviceable {
     
-    var isSuccessGetUserInfo: ObservablePattern<Bool> = ObservablePattern(false)
-    
-    var isSuccessGetHotDate: ObservablePattern<Bool> = ObservablePattern(false)
-    
-    var isSuccessGetBanner: ObservablePattern<Bool> = ObservablePattern(false)
-    
-    var isSuccessGetNewDate: ObservablePattern<Bool> = ObservablePattern(false)
-    
-    var isSuccessGetUpcomingDate: ObservablePattern<Bool> = ObservablePattern(false)
-    
     var currentIndex: ObservablePattern<IndexPath> = ObservablePattern(IndexPath(item: 0, section: 2))
     
     var nickname: ObservablePattern<String> = ObservablePattern(nil)
@@ -50,6 +40,8 @@ final class MainViewModel: Serviceable {
     var courseListCost: String = ""
 
     var count: Int = 0
+    
+    var totalFetchCount: Int = 0
 
 }
 
@@ -57,7 +49,7 @@ extension MainViewModel {
     
     func fetchSectionData() {
         initProperty()
-        setLoading()
+        setLoading(true)
         getBanner()
         getUserProfile()
         getDateCourse(sortBy: StringLiterals.Main.popular)
@@ -66,7 +58,6 @@ extension MainViewModel {
     }
     
     func getUserProfile() {
-        self.isSuccessGetUserInfo.value = false
         self.onFailNetwork.value = false
         
         NetworkService.shared.mainService.getMainUserProfile() { response in
@@ -80,23 +71,22 @@ extension MainViewModel {
                     StringLiterals.Amplitude.UserProperty.userName:  data.name,
                     StringLiterals.Amplitude.UserProperty.userPoint:  data.point])
                 
-                self.isSuccessGetUserInfo.value = true
+                self.totalFetchCount += 1
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
-            case .serverErr:
-                self.onFailNetwork.value = true
             default:
                 print("Failed to fetch user profile")
+                self.onFailNetwork.value = true
                 return
             }
+            self.checkLoadingStatus()
         }
     }
     
     func getDateCourse(sortBy: String) {
         var dateData: [DateCourseModel] = []
-        self.sortCourseType(type: sortBy, isSuccessGetData: false, dateData: dateData)
         self.onFailNetwork.value = false
         
         NetworkService.shared.mainService.getFilteredDateCourse(sortBy: sortBy) { response in
@@ -115,7 +105,7 @@ extension MainViewModel {
                 self.courseListLocation += sortBy == StringLiterals.Main.popular ? StringLiterals.Main.hot : StringLiterals.Main.new
                 self.courseListCost += sortBy == StringLiterals.Main.popular ? StringLiterals.Main.hot : StringLiterals.Main.new
 
-                self.sortCourseType(type: sortBy, isSuccessGetData: true, dateData: dateData)
+                self.sortCourseType(type: sortBy, dateData: dateData)
 
                 dateData.forEach {
                     self.courseListId += "\($0.courseId) "
@@ -132,21 +122,21 @@ extension MainViewModel {
                                                                                   StringLiterals.Amplitude.Property.courseListLocation: self.courseListLocation,
                                                                                   StringLiterals.Amplitude.Property.courseListCost: self.courseListCost])
                 }
+                self.totalFetchCount += 1
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
-            case .serverErr:
-                self.onFailNetwork.value = true
             default:
                 print("Failed to fetch filtered date course")
+                self.onFailNetwork.value = true
                 return
             }
+            self.checkLoadingStatus()
         }
     }
     
     func getUpcomingDateCourse() {
-        self.isSuccessGetUpcomingDate.value = false
         self.onFailNetwork.value = false
         
         NetworkService.shared.mainService.getUpcomingDate() { response in
@@ -158,67 +148,56 @@ extension MainViewModel {
                                                             month: data.month,
                                                             day: data.day,
                                                             startAt: data.startAt)
-                self.isSuccessGetUpcomingDate.value = true
+                self.totalFetchCount += 1
             case .requestErr:
-                self.isSuccessGetUpcomingDate.value = true
+                self.totalFetchCount += 1
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
-            case .serverErr:
-                self.onFailNetwork.value = false
             default:
                 print("Failed to fetch upcoming date course")
+                self.onFailNetwork.value = false
                 return
             }
+            self.checkLoadingStatus()
         }
     }
     
     func getBanner() {
-        self.isSuccessGetBanner.value = false
         self.onFailNetwork.value = false
         
         NetworkService.shared.mainService.getBanner() { response in
             switch response {
             case .success(let data):
-                self.bannerData.value = data.advertisementDtoResList.map { BannerModel(advertisementId: $0.advertisementID, imageUrl: $0.thumbnail)
-                }
+                self.bannerData.value = data.advertisementDtoResList.map { BannerModel(advertisementId: $0.advertisementID, imageUrl: $0.thumbnail) }
                 
-                // 앞뒤에 아이템을 추가하여 무한 스크롤 구현
                 guard let last = self.bannerData.value?.last, let first = self.bannerData.value?.first else { return }
                 self.bannerData.value?.insert(last, at: 0)
                 self.bannerData.value?.append(first)
-                self.isSuccessGetBanner.value = true
+                self.totalFetchCount += 1
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
-            case .serverErr:
-                self.onFailNetwork.value = true
             default:
                 print("Failed to fetch get banner data")
+                self.onFailNetwork.value = true
                 return
             }
+            self.checkLoadingStatus()
         }
     }
     
-    func setLoading() {
-        guard let isSuccessGetUserInfo = self.isSuccessGetUserInfo.value,
-              let isSuccessGetHotDate = self.isSuccessGetHotDate.value,
-              let isSuccessGetBanner = self.isSuccessGetBanner.value,
-              let isSuccessGetNewDate = self.isSuccessGetNewDate.value,
-              let isSuccessGetUpcomingDate = self.isSuccessGetUpcomingDate.value
-        else { return }
-        
-        if isSuccessGetUserInfo
-            && isSuccessGetHotDate
-            && isSuccessGetUpcomingDate
-            && isSuccessGetBanner
-            && isSuccessGetNewDate {
-            self.onLoading.value = false
-        } else {
-            self.onLoading.value = true
+    private func checkLoadingStatus() {
+        // 모든 데이터 요청이 성공적으로 완료되었는지 확인
+        if totalFetchCount % 5 == 0 {
+            setLoading(false)
         }
+    }
+    
+    func setLoading(_ loadingStatus: Bool) {
+        self.onLoading.value = loadingStatus
     }
     
     func initProperty() {
@@ -229,13 +208,11 @@ extension MainViewModel {
         count = 0
     }
     
-    func sortCourseType(type: String, isSuccessGetData: Bool, dateData: [DateCourseModel]) {
+    func sortCourseType(type: String, dateData: [DateCourseModel]) {
         if type == StringLiterals.Main.popular {
             self.hotCourseData.value = dateData
-            self.isSuccessGetHotDate.value = isSuccessGetData
         } else {
             self.newCourseData.value = dateData
-            self.isSuccessGetNewDate.value = isSuccessGetData
         }
     }
 
