@@ -312,9 +312,9 @@ extension AddCourseThirdViewController: UITextFieldDelegate {
          }
          self.view.layoutIfNeeded() // 레이아웃 즉시 갱신
       }
-      
-      // textField 값이 변경된 경우 처리
-      viewModel.priceText.value = Int(textField.text ?? "0")
+      // textField 값이 변경된 경우 ',' 제거한 값으로 처리
+      let money = textField.text?.filter { $0.isNumber }
+      viewModel.priceText.value = Int(money ?? "0")
    }
    
 }
