@@ -9,6 +9,10 @@ import Foundation
 
 enum StringLiterals {
     
+    enum NavType {
+        static let nav = "nav"
+    }
+    
     enum Social {
         static let apple = "apple"
         static let kakao = "kakao"
@@ -181,6 +185,8 @@ enum StringLiterals {
         static let newDateSub = "가장 최근에 올라온 코스 보러가기"
         static let emptyDateTitle = "다가오는 데이트 일정이 없어요"
         static let emptyDateSub = "일정을 등록하러 가볼까요?"
+        static let popular = "popular"
+        static let latest = "latest"
     }
     
     enum DateSchedule {
@@ -255,9 +261,14 @@ enum StringLiterals {
     }
     
     enum Network {
+        static let token = "Token"
+        static let authCode = "authCode"
+        static let socialType = "SocialType"
         static let accessToken = "accessToken"
         static let refreshToken = "refreshToken"
         static let userID = "userID"
+        static let userName = "userName"
+        static let userPoint = "userPoint"
         static let loadingMessage = "잠시만 기다려주세요\n로딩 중이에요"
         static let mainErrorMessage = "서버 오류가 발생했어요"
         static let subErrorMessage = "마이페이지 문의하기를 통해 문의해 주시면\n빠르게 답변해 드릴게요"
@@ -265,6 +276,7 @@ enum StringLiterals {
     
     enum WebView {
         static let inquiryLink = "https://dateroad.notion.site/1055d2f7bfe94b3fa6c03709448def21?pvs=4"
+        static let privacyPolicyLink = "https://dateroad.notion.site/04da4aa279ca4b599193784091a52859?pvs=4"
     }
     
     enum Identifier {
@@ -275,4 +287,18 @@ enum StringLiterals {
         static let bannerInfoHeaderView = "BannerInfoHeaderView"
     }
     
+    enum Amplitude {
+        enum EventName {
+            static let viewMain = "view_main"
+        }
+        
+        enum Property {
+            static let courseListId = "course_list_id"
+        }
+        
+        enum UserProperty {
+            static let userName = "user_name"
+            static let userPoint = "user_point"
+        }
+    }
 }

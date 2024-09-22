@@ -42,7 +42,7 @@ class MyCourseListView: BaseView {
             $0.edges.equalToSuperview()
         }
         
-        if self.type == "nav" {
+        if self.type == StringLiterals.NavType.nav {
             emptyView.snp.makeConstraints {
                 $0.top.equalToSuperview().offset(ScreenUtils.height * 84 / 812)
                 $0.horizontalEdges.equalToSuperview()

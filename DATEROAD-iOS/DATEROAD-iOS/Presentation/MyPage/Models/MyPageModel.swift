@@ -19,5 +19,9 @@ struct MyPageUserInfoModel {
         self.point = point
         self.imageURL = imageURL
     }
-}
+    
+    static var emptyModel: MyPageUserInfoModel {
+        return MyPageUserInfoModel(nickname: "", tagList: [], point: 0, imageURL: "")
+    }
 
+}

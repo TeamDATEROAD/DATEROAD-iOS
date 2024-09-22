@@ -40,9 +40,8 @@ extension AddScheduleTargetType: BaseTargetType {
     }
     
     var headers: [String: String]? {
-       let token = UserDefaults.standard.string(forKey: "accessToken") ?? ""
-       let headers = [
-         "Content-Type" : "application/json", "Authorization" : "Bearer " + token]
+       let token = UserDefaults.standard.string(forKey: StringLiterals.Network.accessToken) ?? ""
+       let headers = HeaderType.headerWithToken(token: "Bearer " + token)
         return headers
     }
 }

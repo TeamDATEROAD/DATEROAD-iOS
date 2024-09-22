@@ -53,6 +53,18 @@ final class LoginViewController: BaseViewController {
 extension LoginViewController {
     
     func bindViewModel() {
+        self.loginViewModel.onAuthLoading.bind { [weak self] onAuthLoading in
+            guard let onAuthLoading else { return }
+            onAuthLoading ? self?.showLoadingView() : self?.hideLoadingView()
+        }
+        
+        self.loginViewModel.onLoginSuccess.bind { [weak self] onLoginSuccess in
+            guard let onLoginSuccess else { return }
+            if !onLoginSuccess {
+                self?.presentAlertVC(title: StringLiterals.Alert.failToLogin)
+            }
+        }
+        
         self.loginViewModel.isSignIn.bind { [weak self] isSignIn in
             guard let isSignIn else { return }
             self?.pushToNextVC(isSignIn: isSignIn)
@@ -61,7 +73,7 @@ extension LoginViewController {
         self.loginViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                self?.loginViewModel.postSignIn()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
@@ -76,6 +88,8 @@ extension LoginViewController {
         
     func pushToNextVC(isSignIn: Bool) {
         if isSignIn {
+            guard let userId = UserDefaults.standard.string(forKey: StringLiterals.Network.userID) else { return }
+            AmplitudeManager.shared.setUserId(userId)
             let mainVC = TabBarController()
             self.navigationController?.pushViewController(mainVC, animated: false)
         } else {
@@ -113,7 +127,7 @@ extension LoginViewController {
     
     @objc
     func didTapPrivacyPolicyButton() {
-        let privacyPolicyVC = DRWebViewController(urlString: "https://dateroad.notion.site/04da4aa279ca4b599193784091a52859?pvs=4")
+        let privacyPolicyVC = DRWebViewController(urlString: StringLiterals.WebView.privacyPolicyLink)
         self.present(privacyPolicyVC, animated: true)
     }
    
@@ -130,9 +144,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: any Error) {
-        let alert = UIAlertController(title: "로그인 실패", message: nil, preferredStyle: .alert)
-        alert.addAction(.init(title: "확인", style: .cancel))
-        present(alert, animated: true)
+        self.presentAlertVC(title: StringLiterals.Alert.failToLogin)
     }
     
 }

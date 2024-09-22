@@ -18,7 +18,7 @@ final class SplashViewModel: Serviceable {
 extension SplashViewModel {
     
     func checkIsLoginned() {
-        guard let token = UserDefaults.standard.string(forKey: "accessToken")
+        guard let token = UserDefaults.standard.string(forKey: StringLiterals.Network.accessToken)
         else {
             isLoginned.value = false
             return

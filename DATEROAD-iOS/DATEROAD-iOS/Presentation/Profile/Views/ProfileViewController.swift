@@ -179,12 +179,20 @@ private extension ProfileViewController {
 
         self.profileViewModel.onSuccessRegister = { [weak self] isSuccess in
             if isSuccess {
+                guard let userId = UserDefaults.standard.string(forKey: "userID") else { return }
+                AmplitudeManager.shared.setUserId(userId)
+                
                 let mainVC = TabBarController()
                 self?.navigationController?.pushViewController(mainVC, animated: false)
             } else {
                 let loginVC = LoginViewController()
                 self?.navigationController?.pushViewController(loginVC, animated: false)
             }
+        }
+        
+        self.profileViewModel.onLoading.bind { [weak self] onLoading in
+            guard let onLoading else { return }
+            onLoading ? self?.showLoadingView() : self?.hideLoadingView()
         }
         
     }
