@@ -51,11 +51,10 @@ final class BannerDetailViewController: BaseViewController {
         bindViewModel()
         setDelegate()
         registerCell()
-        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
         
         self.courseDetailViewModel.setBannerDetailLoading()
         self.courseDetailViewModel.getBannerDetail(advertismentId: advertismentId)
@@ -104,11 +103,17 @@ final class BannerDetailViewController: BaseViewController {
         }
         
         self.courseDetailViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading, 
-                    let onFailNetwork = self?.courseDetailViewModel.onFailNetwork.value else { return }
+            guard let onLoading, let onFailNetwork = self?.courseDetailViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
-                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.bannerDetailView.isHidden = onLoading
+                if onLoading {
+                    self?.showLoadingView()
+                    self?.bannerDetailView.isHidden = true
+                } else {
+                    self?.bannerDetailView.isHidden = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self?.hideLoadingView()
+                    }
+                }
             }
         }
         
@@ -124,9 +129,6 @@ final class BannerDetailViewController: BaseViewController {
             if isSuccess {
                 self?.setNavBar()
                 self?.bannerDetailView.mainCollectionView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self?.courseDetailViewModel.setBannerDetailLoading()
-                }
             }
         }
     }
