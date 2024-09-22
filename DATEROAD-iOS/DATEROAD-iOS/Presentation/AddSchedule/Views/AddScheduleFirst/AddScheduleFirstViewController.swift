@@ -111,8 +111,8 @@ private extension AddScheduleFirstViewController {
             errorVC.onDismiss = {
                print("🚀onDismiss 출동🚀")
                // 일정 등록 1 로딩뷰, 에러뷰 false 설정
-               self?.viewModel.onLoading.value = false
                self?.viewModel.onFailNetwork.value = false
+               self?.viewModel.onLoading.value = false
             }
             
             self?.navigationController?.pushViewController(errorVC, animated: false)
