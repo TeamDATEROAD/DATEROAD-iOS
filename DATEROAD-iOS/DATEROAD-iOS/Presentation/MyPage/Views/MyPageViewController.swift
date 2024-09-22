@@ -100,6 +100,14 @@ private extension MyPageViewController {
     }
     
     func bindViewModel() {
+        self.myPageViewModel.onAuthLoading.bind { [weak self] onAuthLoading in
+            guard let onAuthLoading, let onFailNetwork = self?.myPageViewModel.onFailNetwork.value else { return }
+            if !onFailNetwork {
+                onAuthLoading ? self?.showLoadingView() : self?.hideLoadingView()
+                self?.tabBarController?.tabBar.isHidden = onAuthLoading
+            }
+        }
+        
         self.myPageViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
@@ -131,6 +139,7 @@ private extension MyPageViewController {
         self.myPageViewModel.onSuccessLogout.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
+                AmplitudeManager.shared.reset()
                 self?.navigationController?.popToRootViewController(animated: false)
             } else {
                 self?.presentAlertVC(title: StringLiterals.Alert.failToLogout)
@@ -140,6 +149,7 @@ private extension MyPageViewController {
         self.myPageViewModel.onSuccessWithdrawal.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
+                AmplitudeManager.shared.reset()
                 self?.navigationController?.popToRootViewController(animated: false)
             } else {
                 self?.presentAlertVC(title: StringLiterals.Alert.failToWithdrawal)
@@ -175,12 +185,6 @@ private extension MyPageViewController {
         self.myPageView.userInfoView.editProfileButton.addGestureRecognizer(editProfileGesture)
         
         self.myPageView.withdrawalButton.addTarget(self, action: #selector(withDrawalButtonTapped), for: .touchUpInside)
-    }
-    
-    func presentAlertVC(title: String) {
-        let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
-        alert.addAction(.init(title: StringLiterals.Alert.confirm, style: .cancel))
-        self.present(alert, animated: true)
     }
     
     func appleLogin() {
@@ -296,13 +300,13 @@ extension MyPageViewController: UICollectionViewDelegateFlowLayout {
 extension MyPageViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let data = myPageViewModel.userInfoData.value ?? MyPageUserInfoModel(nickname: "", tagList: [], point: 0, imageURL: "")
+        let data = myPageViewModel.userInfoData.value ?? MyPageUserInfoModel.emptyModel
         return data.tagList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell else { return UICollectionViewCell() }
-        let data = myPageViewModel.userInfoData.value ?? MyPageUserInfoModel(nickname: "", tagList: [], point: 0, imageURL: "")
+        let data = myPageViewModel.userInfoData.value ?? MyPageUserInfoModel.emptyModel
         cell.updateButtonTitle(title: data.tagList[indexPath.row])
         return cell
     }

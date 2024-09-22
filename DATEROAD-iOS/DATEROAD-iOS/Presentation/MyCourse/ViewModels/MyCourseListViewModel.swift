@@ -38,7 +38,7 @@ class MyCourseListViewModel: Serviceable {
     var onMyRegisterCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
     init() {
-        let name = UserDefaults.standard.string(forKey: "userName") ?? ""
+        let name = UserDefaults.standard.string(forKey: StringLiterals.Network.userName) ?? ""
         self.userName = name
     }
     

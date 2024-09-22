@@ -68,9 +68,7 @@ private extension OnboardingViewController {
     
     func bindViewModel() {
         self.onboardingViewModel.currentPage.bind { [weak self] page in
-            guard let page,
-                  let buttonText =  self?.onboardingViewModel.datasource[page].buttonText
-            else { return }
+            guard let page, let buttonText =  self?.onboardingViewModel.datasource[page].buttonText else { return }
             self?.onboardingView.bottomControlView.pageControl.currentPage = page
             self?.onboardingView.bottomControlView.updateBottomButtonText(buttonText: buttonText)
         }

@@ -30,6 +30,8 @@ final class LoginViewModel: Serviceable {
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
+    var onAuthLoading: ObservablePattern<Bool> = ObservablePattern(nil)
+    
 }
 
 extension LoginViewModel {
@@ -60,21 +62,17 @@ extension LoginViewModel {
     
     func handleKakaoLoginResult(oauthToken: OAuthToken?, error: Error?) {
         if let error {
-            print("로그인 실패: \(error.localizedDescription)")
             self.onLoginSuccess.value = false
         } else {
             guard let oauthToken = oauthToken else { return }
             UserApi.shared.me { (user, error) in
-                print("로그인 성공 : \(String(describing: user?.kakaoAccount?.profile?.nickname))")
                 let userInfo = KakaoUserInfo(user: user)
                 self.kakaoUserInfo.value = userInfo
             }
             setToken(token: oauthToken.accessToken)
         }
     }
-    
-    // Apple 로그인
-    
+        
     func loginWithApple(userInfo: ASAuthorizationAppleIDCredential) {
         guard let userIdentifier = userInfo.identityToken,
               let code = userInfo.authorizationCode,
@@ -82,51 +80,43 @@ extension LoginViewModel {
               let authCode = String(data: code, encoding: .utf8)
         else { return }
         
-        UserDefaults.standard.setValue(authCode, forKey: "authCode")
+        UserDefaults.standard.setValue(authCode, forKey: StringLiterals.Network.authCode)
         self.isKaKaoLogin.value = false
         self.socialType.value = .APPLE
-
         self.setToken(token: token)
         self.setUserInfo(userInfo: userInfo)
-
-        print("identifier token: \(String(describing: token))")
-        print("authorization code: \(String(describing: authCode))")
     }
-    
-    // 유저 정보 세팅
     
     func setToken(token: String) {
         guard let value = self.isKaKaoLogin.value else { return }
-        UserDefaults.standard.setValue(value, forKey: "SocialType")
+        UserDefaults.standard.setValue(value, forKey: StringLiterals.Network.socialType)
         self.socialToken.value = token
-        UserDefaults.standard.setValue(token, forKey: "Token")
+        UserDefaults.standard.setValue(token, forKey: StringLiterals.Network.token)
         postSignIn()
     }
     
     func setUserInfo(userInfo: ASAuthorizationAppleIDCredential) {
-        print("user identifier : \(String(describing: userInfo.fullName)), \(String(describing: userInfo.email))")
-        
         let nickname = String(describing: userInfo.fullName?.givenName) + String(describing: userInfo.fullName?.familyName)
         let email = userInfo.email
-        
         self.appleUserInfo.value = AppleUserInfo(identifier: userInfo.user, nickname: nickname, email: email)
     }
 
     func postSignIn() {
-        let socialType = UserDefaults.standard.bool(forKey: "SocialType")
-        
+        self.onAuthLoading.value = true
+        let socialType = UserDefaults.standard.bool(forKey: StringLiterals.Network.socialType)
         let requestBody = PostSignInRequest(platform: socialType ? SocialType.KAKAO.rawValue : SocialType.APPLE.rawValue)
         
         NetworkService.shared.authService.postSignIn(requestBody: requestBody) { response in
             switch response {
             case .success(let data):
-                UserDefaults.standard.setValue(data.userID, forKey: "userID")
-                UserDefaults.standard.setValue(data.accessToken, forKey: "accessToken")
-                UserDefaults.standard.setValue(data.refreshToken, forKey: "refreshToken")
-                print("login \(data)")
+                UserDefaults.standard.setValue(data.userID, forKey: StringLiterals.Network.userID)
+                UserDefaults.standard.setValue(data.accessToken, forKey: StringLiterals.Network.accessToken)
+                UserDefaults.standard.setValue(data.refreshToken, forKey: StringLiterals.Network.refreshToken)
                 self.onLoginSuccess.value = true
+                self.onAuthLoading.value = false
                 self.isSignIn.value = true
             case .requestErr:
+                self.onAuthLoading.value = false
                 self.isSignIn.value = false
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
@@ -134,6 +124,7 @@ extension LoginViewModel {
                 }
             default:
                 print("Failed to fetch post signin")
+                self.onAuthLoading.value = false
                 self.onLoginSuccess.value = false
                 return
             }
