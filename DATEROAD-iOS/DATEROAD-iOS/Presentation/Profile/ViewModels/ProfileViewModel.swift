@@ -44,6 +44,10 @@ final class ProfileViewModel: Serviceable {
     var onSuccessEdit: ((Bool) -> Void)?
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var onEditProfileLoading: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
 
  
     init(profileData: ProfileModel) {
@@ -175,6 +179,8 @@ extension ProfileViewModel {
 extension ProfileViewModel {
     
     func patchEditProfile() {
+        self.onEditProfileLoading.value = true
+        self.onFailNetwork.value = false
         guard let name = self.nickname.value else { return }
         checkDefaultImage()
         let requestBody = PatchEditProfileRequest(name: name,
@@ -186,6 +192,7 @@ extension ProfileViewModel {
             switch response {
             case .success(_):
                 self.onSuccessEdit?(true)
+                self.onEditProfileLoading.value = false
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
@@ -193,6 +200,7 @@ extension ProfileViewModel {
             default:
                 print("Failed to fetch patch edit profile")
                 self.onSuccessEdit?(false)
+                self.onFailNetwork.value = true
             }
         }
     }

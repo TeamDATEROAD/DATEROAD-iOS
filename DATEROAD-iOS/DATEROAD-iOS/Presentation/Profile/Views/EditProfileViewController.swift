@@ -225,10 +225,14 @@ private extension EditProfileViewController {
             if isSuccess {
                 self?.navigationController?.popViewController(animated: false)
             } else {
-                // TODO: - 토스트 메세지 추가
                 self?.profileView.registerButton.isEnabled = true
                 print("fail to edit profile")
             }
+        }
+        
+        self.profileViewModel.onEditProfileLoading.bind { [weak self] onLoading in
+            guard let onLoading else { return }
+            onLoading ? self?.showLoadingView() : self?.hideLoadingView()
         }
         
     }
