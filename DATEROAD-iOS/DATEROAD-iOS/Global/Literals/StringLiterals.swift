@@ -221,6 +221,7 @@ enum StringLiterals {
         static let failToWithdrawal = "회원탈퇴 실패"
         static let failToLogin = "로그인 실패"
         static let confirm = "확인"
+        static let failToEditProfile = "프로필 변경 실패"
     }
     
     enum Course {

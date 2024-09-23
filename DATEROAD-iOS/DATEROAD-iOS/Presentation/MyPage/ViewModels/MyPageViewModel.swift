@@ -96,6 +96,7 @@ extension MyPageViewModel {
     
     func getUserProfile() {
         self.onSuccessGetUserProfile.value = false
+        self.setLoading()
         self.onFailNetwork.value = false
         
         NetworkService.shared.userService.getUserProfile( ) { response in

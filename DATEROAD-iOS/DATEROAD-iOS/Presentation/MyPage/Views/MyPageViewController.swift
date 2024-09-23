@@ -39,8 +39,7 @@ final class MyPageViewController: BaseNavBarViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.myPageViewModel.setLoading()
+    override func viewIsAppearing(_ animated: Bool) {
         self.myPageViewModel.getUserProfile()
         self.myPageViewModel.checkSocialLogin()
     }
@@ -119,20 +118,18 @@ private extension MyPageViewController {
         self.myPageViewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.myPageViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
-                if onLoading {
+                if onLoading  {
                     self?.showLoadingView()
                     self?.myPageView.isHidden = onLoading
                     self?.topInsetView.isHidden = onLoading
                     self?.navigationBarView.isHidden = onLoading
                     self?.tabBarController?.tabBar.isHidden = onLoading
                 } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self?.myPageView.isHidden = onLoading
-                        self?.topInsetView.isHidden = onLoading
-                        self?.navigationBarView.isHidden = onLoading
-                        self?.tabBarController?.tabBar.isHidden = onLoading
-                        self?.hideLoadingView()
-                    }
+                    self?.myPageView.isHidden = onLoading
+                    self?.topInsetView.isHidden = onLoading
+                    self?.navigationBarView.isHidden = onLoading
+                    self?.tabBarController?.tabBar.isHidden = onLoading
+                    self?.hideLoadingView()
                 }
             }
         }
