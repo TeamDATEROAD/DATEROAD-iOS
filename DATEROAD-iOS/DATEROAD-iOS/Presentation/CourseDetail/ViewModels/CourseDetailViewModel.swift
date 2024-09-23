@@ -83,9 +83,10 @@ class CourseDetailViewModel: Serviceable {
     var tagArr = [GetCourseDetailTag]()
     
     
-    init(courseId: Int) {
-        self.courseId = courseId
-    }
+   init(courseId: Int) {
+      self.courseId = courseId
+      getCourseDetail()
+   }
     
     var sections: [CourseDetailSection] {
         return [.imageCarousel, .titleInfo, .mainContents, .timelineInfo, .coastInfo, .tagInfo]
