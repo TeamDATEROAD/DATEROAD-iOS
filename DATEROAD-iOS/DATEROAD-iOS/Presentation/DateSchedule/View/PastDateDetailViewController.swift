@@ -128,13 +128,18 @@ extension PastDateDetailViewController {
     
     func bindViewModel() {
         self.pastDateDetailViewModel.onDateDetailLoading.bind { [weak self] onLoading in
-            guard let onLoading,
-                  let onFailNetwork = self?.pastDateDetailViewModel.onFailNetwork.value
-            else { return }
-             if !onFailNetwork {
-                 onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                 self?.pastDateDetailContentView.isHidden = onLoading
-             }
+            guard let onLoading, let onFailNetwork = self?.pastDateDetailViewModel.onFailNetwork.value else { return }
+            if !onFailNetwork {
+                if onLoading {
+                    self?.showLoadingView()
+                    self?.pastDateDetailContentView.isHidden = true
+                } else {
+                    self?.pastDateDetailContentView.isHidden = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self?.hideLoadingView()
+                    }
+                }
+            }
          }
         
         self.pastDateDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
@@ -147,15 +152,11 @@ extension PastDateDetailViewController {
         }
         
         self.pastDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
-            guard let isSuccess, 
-                    let data = self?.pastDateDetailViewModel.dateDetailData.value
-            else { return }
+            guard let isSuccess, let data = self?.pastDateDetailViewModel.dateDetailData.value else { return }
             if isSuccess {
                 self?.pastDateDetailContentView.dataBind(data)
                 self?.pastDateDetailContentView.dateTimeLineCollectionView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self?.pastDateDetailViewModel.setDateDetailLoading()
-                }
+                self?.pastDateDetailViewModel.setDateDetailLoading()
             }
         }
         

@@ -92,21 +92,29 @@ private extension PastDateViewController {
          }
 
         self.pastDateScheduleViewModel.onPastScheduleLoading.bind { [weak self] onLoading in
-            guard let onLoading, 
-                    let onFailNetwork = self?.pastDateScheduleViewModel.onPastScheduleFailNetwork.value
-            else { return }
-             if !onFailNetwork {
-                 onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                 self?.pastDateContentView.isHidden = onLoading
-                 self?.topInsetView.isHidden = onLoading
-                 self?.navigationBarView.isHidden = onLoading
-             }
+            guard let onLoading, let onFailNetwork = self?.pastDateScheduleViewModel.onPastScheduleFailNetwork.value else { return }
+            if !onFailNetwork {
+                if onLoading {
+                    self?.showLoadingView()
+                    self?.pastDateContentView.isHidden = onLoading
+                    self?.topInsetView.isHidden = onLoading
+                    self?.navigationBarView.isHidden = onLoading
+                } else {
+                    self?.pastDateContentView.isHidden = onLoading
+                    self?.topInsetView.isHidden = onLoading
+                    self?.navigationBarView.isHidden = onLoading
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self?.hideLoadingView()
+                    }
+                }
+            }
          }
         
         self.pastDateScheduleViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                self?.pastDateScheduleViewModel.setPastScheduleLoading()
+                self?.pastDateScheduleViewModel.getPastDateScheduleData()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
@@ -117,9 +125,7 @@ private extension PastDateViewController {
             if isSuccess {
                 self?.pastDateContentView.pastDateCollectionView.reloadData()
                 self?.setEmptyView()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self?.pastDateScheduleViewModel.setPastScheduleLoading()
-                }
+                self?.pastDateScheduleViewModel.setPastScheduleLoading()
             }
         }
         

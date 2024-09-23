@@ -25,9 +25,7 @@ final class MainViewController: BaseViewController {
     private lazy var userName = mainViewModel.mainUserData.value?.name
     
     private lazy var point = mainViewModel.mainUserData.value?.point
-    
-    private var initial: Bool = false
-    
+        
     
     // MARK: - Life Cycles
     
@@ -49,7 +47,6 @@ final class MainViewController: BaseViewController {
         setDelegate()
         setAddTarget()
         bindViewModel()
-        initial = true
     }
     
     override func viewIsAppearing(_ animated: Bool) {
@@ -91,10 +88,7 @@ extension MainViewController {
         }
         
         self.mainViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading, 
-                    let initial = self?.initial,
-                    let onFailNetwork = self?.mainViewModel.onFailNetwork.value
-            else { return }
+            guard let onLoading, let onFailNetwork = self?.mainViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
                     self?.showLoadingView()
@@ -106,8 +100,7 @@ extension MainViewController {
                     self?.mainView.mainCollectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
                     self?.startAutoScrollTimer()
                     
-                    let time = initial ? 0.2 : 0.5
-                    DispatchQueue.main.asyncAfter(deadline: .now() + time) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         self?.mainView.isHidden = onLoading
                         self?.tabBarController?.tabBar.isHidden = onLoading
                         self?.hideLoadingView()

@@ -210,7 +210,7 @@ extension BaseNavBarViewController {
     func presentAlertVC(title: String) {
         let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
         let alertAction = UIAlertAction(title: StringLiterals.Alert.confirm, style: .cancel) { _ in
-            self.navigationController?.popToRootViewController(animated: false)
+            self.navigationController?.popViewController(animated: false)
         }
         alert.addAction(alertAction)
         self.present(alert, animated: true)
