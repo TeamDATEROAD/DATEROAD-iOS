@@ -71,6 +71,7 @@ final class UpcomingDateScheduleViewController: BaseViewController {
         let isEmpty = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count == 0
         upcomingDateScheduleView.emptyView.isHidden = !isEmpty
         upcomingDateScheduleView.cardCollectionView.isHidden = isEmpty
+        upcomingDateScheduleView.cardPageControl.isHidden = isEmpty
         if !isEmpty {
             upcomingDateScheduleView.cardPageControl.numberOfPages = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0
             self.upcomingDateScheduleView.cardCollectionView.reloadData()
