@@ -257,7 +257,8 @@ extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch self.mainViewModel.sectionData[indexPath.section] {
         case .upcomingDate:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingDateCell.cellIdentifier, for: indexPath) as? UpcomingDateCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingDateCell.cellIdentifier, for: indexPath) as? UpcomingDateCell 
+            else { return UICollectionViewCell() }
             cell.bindData(upcomingData: mainViewModel.upcomingData.value, mainUserData: mainViewModel.mainUserData.value)
             // Set button actions
             let pointLabelTapGesture = UITapGestureRecognizer(target: self, action: #selector(pushToPointDetailVC))
@@ -268,19 +269,22 @@ extension MainViewController: UICollectionViewDataSource {
             return cell
             
         case .hotDateCourse:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell 
+            else { return UICollectionViewCell() }
             cell.bindData(hotDateData: mainViewModel.hotCourseData.value?[indexPath.row])
             return cell
             
         case .banner:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell 
+            else { return UICollectionViewCell() }
             cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
             let longPressGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
             cell.addGestureRecognizer(longPressGesture)
             return cell
             
         case .newDateCourse:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell 
+            else { return UICollectionViewCell() }
             cell.bindData(newDateData: mainViewModel.newCourseData.value?[indexPath.row])
             return cell
         }
@@ -288,8 +292,8 @@ extension MainViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == StringLiterals.Common.header {
-            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MainHeaderView.identifier, for: indexPath)
-                    as? MainHeaderView else { return UICollectionReusableView() }
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MainHeaderView.identifier, for: indexPath) as? MainHeaderView
+            else { return UICollectionReusableView() }
             
             switch mainViewModel.sectionData[indexPath.section] {
             case .upcomingDate, .banner:
@@ -305,8 +309,8 @@ extension MainViewController: UICollectionViewDataSource {
             }
             return header
         } else {
-            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BannerIndexFooterView.identifier, for: indexPath)
-                    as? BannerIndexFooterView else { return UICollectionReusableView() }
+            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BannerIndexFooterView.identifier, for: indexPath) as? BannerIndexFooterView
+            else { return UICollectionReusableView() }
             let index = mainViewModel.currentIndex.value?.row ?? 0
             footer.bindIndexData(currentIndex: index, count: 5)
             return footer
