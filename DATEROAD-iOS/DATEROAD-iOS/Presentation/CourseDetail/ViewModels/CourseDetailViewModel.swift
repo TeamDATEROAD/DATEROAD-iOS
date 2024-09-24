@@ -231,6 +231,7 @@ extension CourseDetailViewModel {
     
     func getBannerDetail(advertismentId: Int) {
         self.isSuccessGetBannerData.value = false
+        self.setBannerDetailLoading()
         self.onFailNetwork.value = false
         
         NetworkService.shared.courseDetailService.getBannerDetailInfo(advertismentId: advertismentId){ response in
@@ -245,13 +246,10 @@ extension CourseDetailViewModel {
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
-            case .serverErr:
-                self.onFailNetwork.value = true
             default:
-                self.isSuccessGetBannerData.value = false
+                self.onFailNetwork.value = true
                 print("Failed to fetch banner detail data")
             }
-            self.setBannerDetailLoading()
         }
     }
     
@@ -261,16 +259,8 @@ extension CourseDetailViewModel {
     }
     
     func setLoading() {
-        guard let isSuccessGetData = self.isSuccessGetData.value else {
-            return
-        }
-        
-        if isSuccessGetData {
-            self.onLoading.value = false
-        } else {
-            self.onLoading.value = true
-        }
+        guard let isSuccessGetData = self.isSuccessGetData.value else { return }
+        self.onLoading.value = !isSuccessGetData
     }
-
     
 }
