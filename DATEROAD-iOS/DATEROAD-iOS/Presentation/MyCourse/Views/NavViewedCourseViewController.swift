@@ -42,7 +42,8 @@ final class NavViewedCourseViewController: BaseNavBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setLeftBackButton()
+        setLeftButtonStyle(image: UIImage(named: "leftArrow"))
+        setLeftButtonAction(target: self, action: #selector(leftButtonTapped))
         setTitleLabelStyle(title: StringLiterals.ViewedCourse.title, alignment: .center)
         register()
         setDelegate()
@@ -63,6 +64,14 @@ final class NavViewedCourseViewController: BaseNavBarViewController {
         }
     }
 
+}
+
+extension NavViewedCourseViewController {
+    @objc
+    func leftButtonTapped() {
+        navigationController?.popViewController(animated: false)
+        AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.clickPurchasedBack)
+    }
 }
 
 // MARK: - EmptyView Methods

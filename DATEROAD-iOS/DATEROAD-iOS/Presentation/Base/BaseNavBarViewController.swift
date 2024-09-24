@@ -117,7 +117,6 @@ extension BaseNavBarViewController {
       leftButton.do {
          $0.isHidden = false
          $0.setImage(image, for: .normal)
-         setLeftButtonAction(target: self, action: #selector(backButtonTapped))
       }
    }
    

@@ -301,6 +301,7 @@ enum StringLiterals {
             static let clickOpenKakao = "click_open_kakao"
             static let clickCloseKakao = "click_close_kakao"
             static let viewPurchasedCourse = "view_purchased_course"
+            static let clickPurchasedBack = "click_purchased_back"
         }
         
         enum Property {
