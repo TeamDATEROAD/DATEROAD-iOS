@@ -325,5 +325,11 @@ enum StringLiterals {
             static let userCourseCount = "user_course_count"
             static let dateScheduleNum = "date_schedule_num"
         }
+       
+       enum ViewPath {
+          static let dateSchedule = "데이트 일정"
+          static let viewedCourse = "내가 열람한 코스"
+          static let courseDetail = "코스 상세"
+       }
     }
 }
