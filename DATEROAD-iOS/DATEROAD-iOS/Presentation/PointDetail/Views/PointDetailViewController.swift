@@ -95,7 +95,7 @@ extension PointDetailViewController {
                     self?.pointViewModel.updateData(nowEarnedPointHidden: false)
                     self?.changeSelectedSegmentLayout(isEarnedPointHidden: false)
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.pointDetailView.isHidden = onLoading
                         self?.hideLoadingView()
                     }

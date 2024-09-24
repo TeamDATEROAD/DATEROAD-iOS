@@ -115,7 +115,7 @@ private extension UpcomingDateScheduleViewController {
                     self?.tabBarController?.tabBar.isHidden = true
                 } else {
                     self?.drawDateCardView()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.upcomingDateScheduleView.isHidden = false
                         self?.tabBarController?.tabBar.isHidden = false
                         self?.hideLoadingView()

@@ -136,7 +136,7 @@ private extension MyPageViewController {
                     self?.tabBarController?.tabBar.isHidden = onLoading
                 } else {
                     self?.myPageView.userInfoView.onLoading = {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                             self?.myPageView.isHidden = onLoading
                             self?.topInsetView.isHidden = onLoading
                             self?.navigationBarView.isHidden = onLoading

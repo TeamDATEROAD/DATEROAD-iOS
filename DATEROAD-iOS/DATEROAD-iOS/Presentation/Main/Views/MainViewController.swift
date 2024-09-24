@@ -100,7 +100,7 @@ extension MainViewController {
                     self?.mainView.mainCollectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
                     self?.startAutoScrollTimer()
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.mainView.isHidden = onLoading
                         self?.tabBarController?.tabBar.isHidden = onLoading
                         self?.hideLoadingView()

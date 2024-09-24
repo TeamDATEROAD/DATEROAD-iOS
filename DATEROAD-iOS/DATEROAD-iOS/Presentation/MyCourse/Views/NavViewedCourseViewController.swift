@@ -113,7 +113,7 @@ extension NavViewedCourseViewController {
                     self?.navViewedCourseView.isHidden = onLoading
                 } else {
                     self?.setEmptyView()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.navViewedCourseView.isHidden = onLoading
                         self?.tabBarController?.tabBar.isHidden = false
                         self?.hideLoadingView()

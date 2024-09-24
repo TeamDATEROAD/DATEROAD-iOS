@@ -141,7 +141,7 @@ extension PastDateDetailViewController {
                     self?.pastDateDetailContentView.dataBind(data)
                     self?.pastDateDetailContentView.dateTimeLineCollectionView.reloadData()
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.pastDateDetailContentView.isHidden = false
                         self?.hideLoadingView()
                     }

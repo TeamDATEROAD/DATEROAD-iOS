@@ -114,7 +114,7 @@ final class BannerDetailViewController: BaseViewController {
                     self?.setNavBar()
                     self?.bannerDetailView.mainCollectionView.reloadData()
                     self?.bannerDetailView.isHidden = false
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.hideLoadingView()
                     }
                 }

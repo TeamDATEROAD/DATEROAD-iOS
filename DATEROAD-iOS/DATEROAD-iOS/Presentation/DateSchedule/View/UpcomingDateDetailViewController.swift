@@ -92,7 +92,7 @@ extension UpcomingDateDetailViewController {
                     self?.topInsetView.isHidden = onLoading
                     self?.navigationBarView.isHidden = onLoading
                 } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.upcomingDateDetailContentView.isHidden = false
                         self?.topInsetView.isHidden = onLoading
                         self?.navigationBarView.isHidden = onLoading

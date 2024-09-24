@@ -99,7 +99,7 @@ private extension PastDateViewController {
                     self?.navigationBarView.isHidden = onLoading
                 } else {
                     self?.pastDateContentView.pastDateCollectionView.reloadData()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.setEmptyView()
                         self?.pastDateContentView.isHidden = onLoading
                         self?.topInsetView.isHidden = onLoading
