@@ -170,6 +170,7 @@ extension UpcomingDateDetailViewController {
 extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     @objc
     private func tapKakaoButton() {
+        AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickKakaoShare, properties: [StringLiterals.Amplitude.Property.dateCourseNum : upcomingDateDetailViewModel.dateCourseNum, StringLiterals.Amplitude.Property.dateTotalDuration : upcomingDateDetailViewModel.dateTotalDuration])
         let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.kakaoShare,
                                                       alertTextType: .noDescription,
                                                       alertButtonType: .twoButton,

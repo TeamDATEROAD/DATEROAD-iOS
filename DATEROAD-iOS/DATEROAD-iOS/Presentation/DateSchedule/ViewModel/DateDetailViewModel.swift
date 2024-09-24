@@ -41,7 +41,11 @@ class DateDetailViewModel: Serviceable {
     
     var isMoreThanFiveSchedule : Bool {
         return (dateDetailData.value?.places.count ?? 0 >= 5)
-    }    
+    }
+    
+    var dateCourseNum : Int = 0
+    
+    var dateTotalDuration : Float = 0
 }
 
 extension DateDetailViewModel {
@@ -62,6 +66,8 @@ extension DateDetailViewModel {
                 }
                 self.dateDetailData.value = DateDetailModel(dateID: data.dateID, title: data.title, startAt: data.startAt, city: data.city, tags: tagsInfo, date: data.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "", places: datePlaceInfo, dDay: data.dDay)
                 self.isSuccessGetDateDetailData.value = true
+                self.dateCourseNum = self.dateDetailData.value?.places.count ?? 0
+                self.dateTotalDuration = datePlaceInfo.map { Float($0.duration) ?? 0 }.reduce(0, +)
             case .serverErr:
                 self.onFailNetwork.value = true
             case .reIssueJWT:
