@@ -29,6 +29,8 @@ final class DateDetailViewModel: Serviceable {
     
     var isSuccessDeleteDateScheduleData: ObservablePattern<Bool> = ObservablePattern(nil)
     
+    var onDeleteDateDetailLoading: ObservablePattern<Bool> = ObservablePattern(true)
+    
     var onDateDetailLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
@@ -81,6 +83,8 @@ extension DateDetailViewModel {
      }
     
     func deleteDateSchdeuleData(dateID: Int) {
+        self.onFailNetwork.value = false
+        
         NetworkService.shared.dateScheduleService.deleteDateSchedule(dateID: dateID) { response in
             switch response {
             case .success:
@@ -92,7 +96,7 @@ extension DateDetailViewModel {
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
-                self.isSuccessDeleteDateScheduleData.value = false
+                self.onFailNetwork.value = true
             }
         }
     }
@@ -107,7 +111,7 @@ extension DateDetailViewModel {
                 kakaoShareInfo["name\(i+1)"] = dateDetailData.value?.places[i].name
                 kakaoShareInfo["duration\(i+1)"] = "\(dateDetailData.value?.places[i].duration ?? "") 시간"
             }
-            for i in maxPlaces...5 {
+            for _ in maxPlaces...5 {
                 kakaoPlacesInfo.append(KakaoPlaceModel(name: nil, duration: nil))
             }
         case false:

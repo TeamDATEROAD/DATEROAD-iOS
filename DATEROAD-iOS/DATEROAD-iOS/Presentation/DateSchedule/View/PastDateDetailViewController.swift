@@ -165,25 +165,27 @@ extension PastDateDetailViewController {
             }
         }
         
-        self.pastDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
+        self.pastDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] _ in
             self?.pastDateDetailViewModel.setDateDetailLoading()
         }
         
         self.pastDateDetailViewModel.isSuccessDeleteDateScheduleData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
-                self?.navigationController?.popViewController(animated: true)
+                self?.navigationController?.popViewController(animated: false)
             }
         }
         
         self.pastDateDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                self?.hideLoadingView()
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.pastDateDetailViewModel.onFailNetwork.value = false
+                 self?.pastDateDetailViewModel.onDateDetailLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
     }
     

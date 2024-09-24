@@ -66,7 +66,7 @@ final class MyRegisterCourseViewController: BaseNavBarViewController {
 
 extension MyRegisterCourseViewController {
     private func setEmptyView() {
-        var isEmpty = (myRegisterCourseViewModel.myRegisterCourseData.value?.count == 0)
+        let isEmpty = (myRegisterCourseViewModel.myRegisterCourseData.value?.count == 0)
         myRegisterCourseView.emptyView.isHidden = !isEmpty
         if isEmpty {
             myRegisterCourseView.emptyView.do {
@@ -91,12 +91,15 @@ extension MyRegisterCourseViewController {
         }
         
         self.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                self?.hideLoadingView()
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.value = false
+                  self?.myRegisterCourseViewModel.onMyRegisterCourseLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
 
         self.myRegisterCourseViewModel.onMyRegisterCourseLoading.bind { [weak self] onLoading in
@@ -117,8 +120,7 @@ extension MyRegisterCourseViewController {
             }
         }
         
-        self.myRegisterCourseViewModel.isSuccessGetMyRegisterCourseInfo.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
+        self.myRegisterCourseViewModel.isSuccessGetMyRegisterCourseInfo.bind { [weak self] _ in
             self?.myRegisterCourseViewModel.setMyRegisterCourseLoading()
         }
     }

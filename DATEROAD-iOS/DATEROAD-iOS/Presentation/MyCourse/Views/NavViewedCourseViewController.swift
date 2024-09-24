@@ -97,12 +97,15 @@ extension NavViewedCourseViewController {
         }
         
         self.viewedCourseViewModel.onNavViewedCourseFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                self?.hideLoadingView()
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.viewedCourseViewModel.onNavViewedCourseFailNetwork.value = false
+                  self?.viewedCourseViewModel.onNavViewedCourseLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
 
         self.viewedCourseViewModel.onNavViewedCourseLoading.bind { [weak self] onLoading in
@@ -122,8 +125,7 @@ extension NavViewedCourseViewController {
             }
         }
         
-        self.viewedCourseViewModel.isSuccessGetNavViewedCourseInfo.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
+        self.viewedCourseViewModel.isSuccessGetNavViewedCourseInfo.bind { [weak self] _ in
             self?.viewedCourseViewModel.setNavViewedCourseLoading()
         }
     }
@@ -172,7 +174,7 @@ extension NavViewedCourseViewController : UICollectionViewDataSource {
         let location = sender.location(in: navViewedCourseView.myCourseListCollectionView)
         let indexPath = navViewedCourseView.myCourseListCollectionView.indexPathForItem(at: location)
        
-       if let index = indexPath {
+        if indexPath != nil {
           guard let courseId = viewedCourseViewModel.viewedCourseData.value?[indexPath?.item ?? 0].courseId else {return}
           
           let courseDetailViewModel = CourseDetailViewModel(courseId: courseId)

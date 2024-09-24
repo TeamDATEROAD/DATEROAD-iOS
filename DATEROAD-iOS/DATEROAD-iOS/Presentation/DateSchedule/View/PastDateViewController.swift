@@ -119,8 +119,7 @@ private extension PastDateViewController {
             }
         }
         
-        self.pastDateScheduleViewModel.isSuccessGetPastDateScheduleData.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
+        self.pastDateScheduleViewModel.isSuccessGetPastDateScheduleData.bind { [weak self] _ in
             self?.pastDateScheduleViewModel.setPastScheduleLoading()
         }
     }

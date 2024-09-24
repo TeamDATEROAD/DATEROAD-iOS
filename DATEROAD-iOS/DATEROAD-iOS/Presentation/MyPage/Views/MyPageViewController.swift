@@ -106,7 +106,7 @@ private extension MyPageViewController {
                     self?.showLoadingView()
                     self?.tabBarController?.tabBar.isHidden = onAuthLoading
                 } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.tabBarController?.tabBar.isHidden = onAuthLoading
                         self?.hideLoadingView()
                     }
@@ -115,11 +115,15 @@ private extension MyPageViewController {
         }
         
         self.myPageViewModel.onFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.myPageViewModel.onFailNetwork.value = false
+                 self?.myPageViewModel.onLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
         
         self.myPageViewModel.onLoading.bind { [weak self] onLoading in

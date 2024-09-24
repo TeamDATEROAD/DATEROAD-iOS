@@ -119,12 +119,15 @@ extension UpcomingDateDetailViewController {
         }
         
         self.upcomingDateDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                self?.hideLoadingView()
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.upcomingDateDetailViewModel.onFailNetwork.value = false
+                 self?.upcomingDateDetailViewModel.onDateDetailLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
         
         self.upcomingDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
@@ -139,7 +142,7 @@ extension UpcomingDateDetailViewController {
         self.upcomingDateDetailViewModel.isSuccessDeleteDateScheduleData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
-                self?.navigationController?.popViewController(animated: true)
+                self?.navigationController?.popViewController(animated: false)
             }
         }
     }

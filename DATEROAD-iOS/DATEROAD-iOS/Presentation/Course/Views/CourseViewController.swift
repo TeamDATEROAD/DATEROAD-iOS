@@ -85,11 +85,15 @@ final class CourseViewController: BaseViewController {
     func bindViewModel() {
         
         self.courseViewModel.onFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.courseViewModel.onFailNetwork.value = false
+                 self?.courseViewModel.onLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
         
         self.courseViewModel.onLoading.bind { [weak self] onLoading in
@@ -121,8 +125,7 @@ final class CourseViewController: BaseViewController {
             }
         }
         
-        courseViewModel.isSuccessGetData.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
+        self.courseViewModel.isSuccessGetData.bind { [weak self] _ in
             self?.courseViewModel.setLoading()
         }
         

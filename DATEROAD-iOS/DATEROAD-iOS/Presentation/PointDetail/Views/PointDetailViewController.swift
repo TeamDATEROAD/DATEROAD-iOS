@@ -74,14 +74,18 @@ class PointDetailViewController: BaseNavBarViewController {
 
 
 extension PointDetailViewController {
+    
     func bindViewModel() {
         self.pointViewModel.onFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                self?.hideLoadingView()
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.pointViewModel.onFailNetwork.value = false
+                  self?.pointViewModel.onLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
 
         self.pointViewModel.onLoading.bind { [weak self] onLoading in
@@ -103,8 +107,7 @@ extension PointDetailViewController {
             }
         }
         
-        self.pointViewModel.isSuccessGetPointInfo.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
+        self.pointViewModel.isSuccessGetPointInfo.bind { [weak self] _ in
             self?.pointViewModel.setPointDetailLoading()
         }
         

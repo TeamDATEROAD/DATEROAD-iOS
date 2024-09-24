@@ -126,13 +126,16 @@ final class CourseDetailViewController: BaseViewController {
     }
     
     func bindViewModel() {
-        
         self.courseDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.courseDetailViewModel.onFailNetwork.value = false
+                  self?.courseDetailViewModel.onLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
         
         self.courseDetailViewModel.onLoading.bind { [weak self] onLoading in

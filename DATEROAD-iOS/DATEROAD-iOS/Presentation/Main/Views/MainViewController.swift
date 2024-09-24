@@ -79,12 +79,15 @@ extension MainViewController {
     
     func bindViewModel() {
         self.mainViewModel.onFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                self?.mainViewModel.totalFetchCount = 0
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.mainViewModel.onFailNetwork.value = false
+                 self?.mainViewModel.onLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
         
         self.mainViewModel.onLoading.bind { [weak self] onLoading in
