@@ -8,6 +8,7 @@
 import Foundation
 
 extension Int {
+    
     var formattedWithSeparator: String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
@@ -16,16 +17,17 @@ extension Int {
     
     func priceRangeTag() -> String {
         switch self {
-        case ..<30000:
+        case ...30000:
             return StringLiterals.Course.priceLabelUnder30K
-        case 30000..<50000:
+        case 30001...50000:
             return StringLiterals.Course.priceLabelUnder50K
-        case 50000..<100000:
+        case 50001...100000:
             return StringLiterals.Course.priceLabelUnder100K
         default:
             return StringLiterals.Course.priceLabelOver100K
         }
     }
+    
     
     func costNum() -> Int {
         switch self {
