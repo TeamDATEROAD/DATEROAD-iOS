@@ -102,12 +102,6 @@ var cardCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UI
             $0.collectionViewLayout = layout
         }
         
-//        UpcomingDateScheduleView.dateCardCollectionViewLayout.do {
-//            $0.scrollDirection = .horizontal
-//            $0.minimumLineSpacing = ScreenUtils.width * 0.0693
-//            $0.itemSize = CGSize(width: ScreenUtils.width * 0.776, height: ScreenUtils.height*0.5)
-//        }
-        
         cardPageControl.do {
             $0.currentPage = 0
             $0.pageIndicatorTintColor = UIColor(resource: .gray200)

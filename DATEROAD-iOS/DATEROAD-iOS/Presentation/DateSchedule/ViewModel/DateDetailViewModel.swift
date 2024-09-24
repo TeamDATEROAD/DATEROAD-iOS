@@ -62,16 +62,13 @@ extension DateDetailViewModel {
                 }
                 self.dateDetailData.value = DateDetailModel(dateID: data.dateID, title: data.title, startAt: data.startAt, city: data.city, tags: tagsInfo, date: data.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "", places: datePlaceInfo, dDay: data.dDay)
                 self.isSuccessGetDateDetailData.value = true
-            case .serverErr:
-                self.onFailNetwork.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
-                self.isSuccessGetDateDetailData.value = false
+                self.onFailNetwork.value = true
             }
-            self.setDateDetailLoading()
         }
     }
     

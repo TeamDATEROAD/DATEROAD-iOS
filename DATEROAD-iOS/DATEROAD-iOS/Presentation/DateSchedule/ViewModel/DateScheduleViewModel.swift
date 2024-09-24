@@ -40,6 +40,7 @@ final class DateScheduleViewModel: Serviceable {
     
     func getPastDateScheduleData() {
         self.isSuccessGetPastDateScheduleData.value = false
+        self.setPastScheduleLoading()
         self.onPastScheduleFailNetwork.value = false
         
         NetworkService.shared.dateScheduleService.getDateSchdeule(time: "PAST") { response in
@@ -54,14 +55,12 @@ final class DateScheduleViewModel: Serviceable {
                 
                 self.pastDateScheduleData.value = dateScheduleInfo
                 self.isSuccessGetPastDateScheduleData.value = true
-            case .serverErr:
-                self.onPastScheduleFailNetwork.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
-                self.isSuccessGetPastDateScheduleData.value = false
+                self.onPastScheduleFailNetwork.value = true
             }
         }
     }
