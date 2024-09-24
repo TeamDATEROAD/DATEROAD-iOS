@@ -13,7 +13,9 @@ import KakaoSDKCommon
 import KakaoSDKAuth
 import KakaoSDKUser
 
-class DateDetailViewModel: Serviceable {
+final class DateDetailViewModel: Serviceable {
+    
+    var type: ObservablePattern<NetworkType> = ObservablePattern(nil)
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
@@ -64,6 +66,7 @@ extension DateDetailViewModel {
                 self.isSuccessGetDateDetailData.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
+                    self.type.value = NetworkType.getDateDetail
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
@@ -80,11 +83,12 @@ extension DateDetailViewModel {
     func deleteDateSchdeuleData(dateID: Int) {
         NetworkService.shared.dateScheduleService.deleteDateSchedule(dateID: dateID) { response in
             switch response {
-            case .success(let data):
+            case .success:
                 self.isSuccessDeleteDateScheduleData.value = true
                 print("success", self.isSuccessDeleteDateScheduleData.value)
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
+                    self.type.value = NetworkType.deleteDateSchedule
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
