@@ -121,7 +121,10 @@ class CourseDetailViewModel: Serviceable {
 extension CourseDetailViewModel {
     
     func getCourseDetail() {
+        self.isSuccessGetData.value = false
         setLoading()
+        self.onFailNetwork.value = false
+
         NetworkService.shared.courseDetailService.getCourseDetailInfo(courseId: courseId){ response in
             switch response {
             case .success(let data):
@@ -173,7 +176,7 @@ extension CourseDetailViewModel {
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
-                self.isSuccessGetData.value = false
+                self.onFailNetwork.value = true
                 print("Failed to fetch course data")
             }
         }

@@ -138,8 +138,21 @@ final class CourseDetailViewController: BaseViewController {
         self.courseDetailViewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.courseDetailViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
-                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.courseDetailView.isHidden = onLoading
+                if onLoading {
+                    self?.showLoadingView()
+                    self?.courseDetailView.isHidden = onLoading
+                } else {
+                    self?.localLikeNum = self?.courseDetailViewModel.likeSum.value ?? 0
+                    self?.setSetctionCount()
+                    self?.setTabBarVisibility()
+                    self?.setNavBarVisibility()
+                    self?.courseDetailView.mainCollectionView.reloadData()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self?.courseDetailView.isHidden = onLoading
+                        self?.hideLoadingView()
+                    }
+                }
             }
         }
         
@@ -162,14 +175,6 @@ final class CourseDetailViewController: BaseViewController {
         courseDetailViewModel.isSuccessGetData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             self?.courseDetailViewModel.setLoading()
-            
-            if isSuccess {
-                self?.localLikeNum = self?.courseDetailViewModel.likeSum.value ?? 0
-                self?.setSetctionCount()
-                self?.setTabBarVisibility()
-                self?.setNavBarVisibility()
-                self?.courseDetailView.mainCollectionView.reloadData()
-            }
         }
         
         courseDetailViewModel.isAccess.bind { [weak self] isAccess in
