@@ -226,6 +226,7 @@ private extension AddScheduleFirstViewController {
    @objc
    func didTapNavRightBtn() {
        let vc = NavViewedCourseViewController(viewedCourseViewModel: MyCourseListViewModel())
+      AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.clickBringCourse)
       self.navigationController?.pushViewController(vc, animated: false)
    }
    
