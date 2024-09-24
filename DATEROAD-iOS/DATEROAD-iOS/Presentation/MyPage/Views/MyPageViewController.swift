@@ -102,8 +102,15 @@ private extension MyPageViewController {
         self.myPageViewModel.onAuthLoading.bind { [weak self] onAuthLoading in
             guard let onAuthLoading, let onFailNetwork = self?.myPageViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
-                onAuthLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.tabBarController?.tabBar.isHidden = onAuthLoading
+                if onAuthLoading {
+                    self?.showLoadingView()
+                    self?.tabBarController?.tabBar.isHidden = onAuthLoading
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self?.tabBarController?.tabBar.isHidden = onAuthLoading
+                        self?.hideLoadingView()
+                    }
+                }
             }
         }
         
@@ -121,15 +128,27 @@ private extension MyPageViewController {
                   let onFailNetwork = self?.myPageViewModel.onFailNetwork.value
             else { return }
             if !onFailNetwork {
-                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.myPageView.isHidden = onLoading
-                self?.topInsetView.isHidden = onLoading
-                self?.navigationBarView.isHidden = onLoading
-                self?.tabBarController?.tabBar.isHidden = onLoading
-                
-                // `onDismiss` 설정 이후 `bindData` 호출
-                self?.myPageView.userInfoView.bindData(userInfo: data)
-                self?.myPageView.userInfoView.tagCollectionView.reloadData()
+                if onLoading {
+                    self?.showLoadingView()
+                    self?.myPageView.isHidden = onLoading
+                    self?.topInsetView.isHidden = onLoading
+                    self?.navigationBarView.isHidden = onLoading
+                    self?.tabBarController?.tabBar.isHidden = onLoading
+                } else {
+                    self?.myPageView.userInfoView.onLoading = {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            self?.myPageView.isHidden = onLoading
+                            self?.topInsetView.isHidden = onLoading
+                            self?.navigationBarView.isHidden = onLoading
+                            self?.tabBarController?.tabBar.isHidden = onLoading
+                            self?.hideLoadingView()
+                        }
+                    }
+                    
+                    // `onDismiss` 설정 이후 `bindData` 호출
+                    self?.myPageView.userInfoView.bindData(userInfo: data)
+                    self?.myPageView.userInfoView.tagCollectionView.reloadData()
+                }
             }
         }
         
