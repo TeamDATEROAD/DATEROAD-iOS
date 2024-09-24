@@ -25,7 +25,6 @@ final class MyRegisterCourseViewController: BaseNavBarViewController {
     // MARK: - LifeCycle
     
     override func viewWillAppear(_ animated: Bool) {
-        self.myRegisterCourseViewModel.setMyRegisterCourseLoading()
         self.myRegisterCourseViewModel.setMyRegisterCourseData()
     }
 
@@ -103,20 +102,24 @@ extension MyRegisterCourseViewController {
         self.myRegisterCourseViewModel.onMyRegisterCourseLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.value else { return }
             if !onFailNetwork {
-                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.contentView.isHidden = onLoading
+                if onLoading {
+                    self?.showLoadingView()
+                    self?.contentView.isHidden = onLoading
+                } else {
+                    self?.setEmptyView()
+                    self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self?.contentView.isHidden = onLoading
+                        self?.hideLoadingView()
+                    }
+                }
             }
         }
         
         self.myRegisterCourseViewModel.isSuccessGetMyRegisterCourseInfo.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
-            if isSuccess {
-                self?.setEmptyView()
-                self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self?.myRegisterCourseViewModel.setMyRegisterCourseLoading()
-                }
-            }
+            self?.myRegisterCourseViewModel.setMyRegisterCourseLoading()
         }
     }
     
