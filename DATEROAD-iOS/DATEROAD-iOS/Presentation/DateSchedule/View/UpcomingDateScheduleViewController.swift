@@ -166,7 +166,7 @@ extension UpcomingDateScheduleViewController: DRCustomAlertDelegate {
             self.present(customAlertVC, animated: false)
         } else {
             print("push to 일정등록하기")
-           let vc = AddScheduleFirstViewController(viewModel: AddScheduleViewModel())
+           let vc = AddScheduleFirstViewController(viewModel: AddScheduleViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.dateSchedule)
            self.navigationController?.pushViewController(vc, animated: false)
         }
         
