@@ -23,6 +23,8 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     var dateID: Int
     
+    var networkType: NetworkType?
+    
     var upcomingDateDetailViewModel: DateDetailViewModel
     
     private let dateScheduleDeleteView = DateScheduleDeleteView()
@@ -79,18 +81,10 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
 // MARK: - UI Setting Methods
 
 extension UpcomingDateDetailViewController {
+    
     func bindViewModel() {
-        
         self.upcomingDateDetailViewModel.onDateDetailLoading.bind { [weak self] onLoading in
-            guard let onLoading, 
-                    let onFailNetwork = self?.upcomingDateDetailViewModel.onFailNetwork.value
-            else { return }
-             if !onFailNetwork {
-                 onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                 self?.upcomingDateDetailContentView.isHidden = onLoading
-                 self?.topInsetView.isHidden = onLoading
-                 self?.navigationBarView.isHidden = onLoading
-             }
+            guard let onLoading,  let onFailNetwork = self?.upcomingDateDetailViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
                     self?.showLoadingView()
@@ -109,9 +103,16 @@ extension UpcomingDateDetailViewController {
          }
         
         self.upcomingDateDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
-            guard let onSuccess else { return }
+            guard let onSuccess, let dateID = self?.dateID else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                switch self?.networkType {
+                case .deleteDateSchedule:
+                    self?.upcomingDateDetailViewModel.deleteDateSchdeuleData(dateID: dateID)
+                case .getDateDetail:
+                    self?.upcomingDateDetailViewModel.getDateDetailData(dateID: dateID)
+                default:
+                    self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+                }
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
