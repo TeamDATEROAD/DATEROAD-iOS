@@ -54,6 +54,7 @@ enum StringLiterals {
 	enum CourseDetail {
         static let timelineInfoLabel = "코스 타임라인"
         static let coastInfoLabel = "총 비용"
+        static let priceLabelZero = "무지출"
         static let tagInfoLabel = "태그"
         static let bringCourseLabel = "내 일정에 추가하기"
         static let viewCoursewithPoint = "포인트로 코스 열람하기"
