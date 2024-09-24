@@ -293,6 +293,7 @@ enum StringLiterals {
     enum Amplitude {
         enum EventName {
             static let viewMain = "view_main"
+            static let viewDateSchedule = "view_date_schedule"
         }
         
         enum Property {

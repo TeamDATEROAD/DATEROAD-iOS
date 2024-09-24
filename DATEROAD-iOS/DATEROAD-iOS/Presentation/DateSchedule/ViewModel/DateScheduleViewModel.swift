@@ -87,6 +87,7 @@ final class DateScheduleViewModel: Serviceable {
                 }
                 
                 AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.dateScheduleNum : dateScheduleInfo.count])
+                AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewDateSchedule)
                 self.upcomingDateScheduleData.value = dateScheduleInfo
                 self.isSuccessGetUpcomingDateScheduleData.value = true
                 print("🍎🍎뷰모델 서버통신 성공🍎🍎", self.isSuccessGetUpcomingDateScheduleData.value)
