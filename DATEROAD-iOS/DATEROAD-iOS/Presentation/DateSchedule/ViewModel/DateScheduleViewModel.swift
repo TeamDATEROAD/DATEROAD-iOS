@@ -85,9 +85,10 @@ final class DateScheduleViewModel: Serviceable {
                     }
                     return DateCardModel(dateID: date.dateID, title: date.title, date: (date.date).toReadableDate() ?? "", city: date.city , tags: tagsModel, dDay: date.dDay)
                 }
-                
+                let dateScheduleNum = data.dates.count
                 AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.dateScheduleNum : dateScheduleInfo.count])
                 AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewDateSchedule)
+                AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.countDateSchedule, properties: [StringLiterals.Amplitude.Property.dateScheduleNum : dateScheduleNum])
                 self.upcomingDateScheduleData.value = dateScheduleInfo
                 self.isSuccessGetUpcomingDateScheduleData.value = true
                 print("🍎🍎뷰모델 서버통신 성공🍎🍎", self.isSuccessGetUpcomingDateScheduleData.value)

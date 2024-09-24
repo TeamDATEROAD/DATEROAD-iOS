@@ -294,6 +294,7 @@ enum StringLiterals {
         enum EventName {
             static let viewMain = "view_main"
             static let viewDateSchedule = "view_date_schedule"
+            static let countDateSchedule = "count_date_schedule"
         }
         
         enum Property {
@@ -301,6 +302,7 @@ enum StringLiterals {
             static let courseListTitle = "course_list_title"
             static let courseListLocation = "course_list_location"
             static let courseListCost = "course_list_cost"
+            static let dateScheduleNum = "date_schedule_num"
         }
         
         enum UserProperty {
