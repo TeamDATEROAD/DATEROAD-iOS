@@ -110,7 +110,7 @@ private extension ProfileViewController {
         self.profileViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                self?.profileViewModel.postSignUp(image: self?.profileView.profileImageView.image)
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
