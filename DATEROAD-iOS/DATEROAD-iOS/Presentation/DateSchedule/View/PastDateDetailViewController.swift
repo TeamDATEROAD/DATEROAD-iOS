@@ -44,7 +44,6 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.tabBarController?.tabBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = true
-        self.pastDateDetailViewModel.setDateDetailLoading()
         self.pastDateDetailViewModel.getDateDetailData(dateID: self.dateID)
     }
     
@@ -128,14 +127,20 @@ extension PastDateDetailViewController {
     
     func bindViewModel() {
         self.pastDateDetailViewModel.onDateDetailLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.pastDateDetailViewModel.onFailNetwork.value else { return }
+            guard let onLoading,
+                    let onFailNetwork = self?.pastDateDetailViewModel.onFailNetwork.value,
+                    let data = self?.pastDateDetailViewModel.dateDetailData.value
+            else { return }
             if !onFailNetwork {
                 if onLoading {
                     self?.showLoadingView()
                     self?.pastDateDetailContentView.isHidden = true
                 } else {
-                    self?.pastDateDetailContentView.isHidden = false
+                    self?.pastDateDetailContentView.dataBind(data)
+                    self?.pastDateDetailContentView.dateTimeLineCollectionView.reloadData()
+                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self?.pastDateDetailContentView.isHidden = false
                         self?.hideLoadingView()
                     }
                 }
@@ -152,12 +157,8 @@ extension PastDateDetailViewController {
         }
         
         self.pastDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
-            guard let isSuccess, let data = self?.pastDateDetailViewModel.dateDetailData.value else { return }
-            if isSuccess {
-                self?.pastDateDetailContentView.dataBind(data)
-                self?.pastDateDetailContentView.dateTimeLineCollectionView.reloadData()
-                self?.pastDateDetailViewModel.setDateDetailLoading()
-            }
+            guard let isSuccess else { return }
+            self?.pastDateDetailViewModel.setDateDetailLoading()
         }
         
         self.pastDateDetailViewModel.isSuccessDeleteDateScheduleData.bind { [weak self] isSuccess in
