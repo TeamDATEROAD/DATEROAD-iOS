@@ -219,7 +219,6 @@ final class NewDateCourseCell: BaseCollectionViewCell {
 
 extension NewDateCourseCell {
     
-    // TODO: - 비용 분기 처리 해주기
     func bindData(newDateData: DateCourseModel?) {
         guard let newDateData else { return }
         self.countryLabel.text = newDateData.city
