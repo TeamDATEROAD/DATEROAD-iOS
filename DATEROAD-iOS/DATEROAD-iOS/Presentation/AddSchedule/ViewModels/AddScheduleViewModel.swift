@@ -27,7 +27,7 @@ final class AddScheduleViewModel: Serviceable {
    //MARK: - AddFirstCourse 사용되는 ViewModel
    
    /// 데이트 이름 유효성 판별 (true는 통과)
-   let dateName: ObservablePattern<String> = ObservablePattern(nil)
+   let dateName: ObservablePattern<String> = ObservablePattern("")
    let isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    private let minimumDateNameLength = 5
    
@@ -45,30 +45,18 @@ final class AddScheduleViewModel: Serviceable {
    /// 선택된 태그
    let isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
    let isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
-   let tagCount: ObservablePattern<Int> = ObservablePattern(nil)
+   let tagCount: ObservablePattern<Int> = ObservablePattern(0)
    private let minTagCnt = 1
    private let maxTagCnt = 3
    
    /// 코스 지역 유효성 판별
-   let dateLocation: ObservablePattern<String> = ObservablePattern(nil)
+   let dateLocation: ObservablePattern<String> = ObservablePattern("")
    let isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    var country = ""
    var city = ""
    
    var isTimePicker: Bool?
-   
-   // AddFirstCourse Amplitude 관련 변수
-   
-   var dateTitle: Bool
-   
-   var dateDate: Bool
-   
-   var dateTime: Bool
-   
-   var dateTagNum: Int
-   
-   var dateArea: Bool
    
    
    //MARK: - AddSecondView 전용 Viewmodel 변수
@@ -77,9 +65,9 @@ final class AddScheduleViewModel: Serviceable {
    
    let changeTableViewData: ObservablePattern<Int> = ObservablePattern(0)
    
-   let datePlace: ObservablePattern<String> = ObservablePattern(nil)
+   let datePlace: ObservablePattern<String> = ObservablePattern("")
    
-   let timeRequire: ObservablePattern<String> = ObservablePattern(nil)
+   let timeRequire: ObservablePattern<String> = ObservablePattern("")
    
    let isValidOfSecondNextBtn: ObservablePattern<Bool> = ObservablePattern(false)
    
@@ -98,24 +86,11 @@ final class AddScheduleViewModel: Serviceable {
    let onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
    
    init() {
-      dateTitle = false
-      dateDate = false
-      dateTime = false
-      dateTagNum = 0
-      dateArea = false
       fetchTagData()
    }
 }
 
 extension AddScheduleViewModel {
-   
-   func resetAddFirstScheduleAmplitude() {
-      dateTitle = false
-      dateDate = false
-      dateTime = false
-      dateTagNum = 0
-      dateArea = false
-   }
    
    func getTagIndices(from tags: [String]) -> [Int] {
       return tags.compactMap { tag in
