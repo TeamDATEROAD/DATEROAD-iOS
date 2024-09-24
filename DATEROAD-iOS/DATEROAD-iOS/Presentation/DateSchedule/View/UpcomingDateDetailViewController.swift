@@ -23,6 +23,8 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     var dateID: Int
     
+    var viewPath: String
+    
     var upcomingDateDetailViewModel: DateDetailViewModel
     
     private let dateScheduleDeleteView = DateScheduleDeleteView()
@@ -30,8 +32,9 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - LifeCycle
     
-    init(dateID: Int, upcomingDateDetailViewModel: DateDetailViewModel) {
+    init(dateID: Int, viewPath: String, upcomingDateDetailViewModel: DateDetailViewModel) {
         self.dateID = dateID
+        self.viewPath = viewPath
         self.upcomingDateDetailViewModel = upcomingDateDetailViewModel
         
         super.init(nibName: nil, bundle: nil)
@@ -59,6 +62,8 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
         self.tabBarController?.tabBar.isHidden = true
         self.upcomingDateDetailViewModel.setDateDetailLoading()
         self.upcomingDateDetailViewModel.getDateDetailData(dateID: self.dateID)
+        
+        AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewScheduleDetails, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
     }
     
     override func setHierarchy() {

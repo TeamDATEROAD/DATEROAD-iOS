@@ -296,6 +296,7 @@ enum StringLiterals {
             static let viewDateSchedule = "view_date_schedule"
             static let countDateSchedule = "count_date_schedule"
             static let clickAddSchedule = "click_add_schedule"
+            static let viewScheduleDetails = "view_schedule_details"
             static let clickKakaoShare = "click_kakao_share"
             static let clickOpenKakao = "click_open_kakao"
             static let clickCloseKakao = "click_close_kakao"
@@ -308,6 +309,7 @@ enum StringLiterals {
             static let courseListLocation = "course_list_location"
             static let courseListCost = "course_list_cost"
             static let dateScheduleNum = "date_schedule_num"
+            static let viewPath = "view_path"
             static let dateCourseNum = "date_course_num"
             static let dateTotalDuration = "date_total_duration"
         }
