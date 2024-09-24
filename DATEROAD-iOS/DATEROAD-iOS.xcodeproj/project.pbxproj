@@ -24,7 +24,7 @@
 		0D58A7AA2C99D6400034F1B7 /* CollectionViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D58A7A92C99D6400034F1B7 /* CollectionViewUtils.swift */; };
 		0D9497B92C328D010004B442 /* ImageCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497B82C328D010004B442 /* ImageCarouselCell.swift */; };
 		0D9497BD2C3292C20004B442 /* TitleInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497BC2C3292C20004B442 /* TitleInfoCell.swift */; };
-		0D9497BF2C3292D60004B442 /* CoastInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497BE2C3292D60004B442 /* CoastInfoCell.swift */; };
+		0D9497BF2C3292D60004B442 /* CostInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497BE2C3292D60004B442 /* CostInfoCell.swift */; };
 		0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497D02C32A75A0004B442 /* InfoHeaderView.swift */; };
 		0D9497D32C33BD760004B442 /* BottomPageControllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9497D22C33BD760004B442 /* BottomPageControllView.swift */; };
 		0D98CB992C405E0200E3618A /* InfoBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D98CB982C405E0200E3618A /* InfoBarView.swift */; };
@@ -295,7 +295,7 @@
 		0D58A7A92C99D6400034F1B7 /* CollectionViewUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewUtils.swift; sourceTree = "<group>"; };
 		0D9497B82C328D010004B442 /* ImageCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselCell.swift; sourceTree = "<group>"; };
 		0D9497BC2C3292C20004B442 /* TitleInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleInfoCell.swift; sourceTree = "<group>"; };
-		0D9497BE2C3292D60004B442 /* CoastInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoastInfoCell.swift; sourceTree = "<group>"; };
+		0D9497BE2C3292D60004B442 /* CostInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostInfoCell.swift; sourceTree = "<group>"; };
 		0D9497D02C32A75A0004B442 /* InfoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoHeaderView.swift; sourceTree = "<group>"; };
 		0D9497D22C33BD760004B442 /* BottomPageControllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPageControllView.swift; sourceTree = "<group>"; };
 		0D98CB982C405E0200E3618A /* InfoBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBarView.swift; sourceTree = "<group>"; };
@@ -660,7 +660,7 @@
 				0D9497B82C328D010004B442 /* ImageCarouselCell.swift */,
 				0D9497BC2C3292C20004B442 /* TitleInfoCell.swift */,
 				0DA920F12C3C0AF500A6A321 /* MainContentsCell.swift */,
-				0D9497BE2C3292D60004B442 /* CoastInfoCell.swift */,
+				0D9497BE2C3292D60004B442 /* CostInfoCell.swift */,
 				0D06D9A12C3605760094C505 /* TagInfoCell.swift */,
 				0D06D9A72C36946C0094C505 /* TimelineInfoCell.swift */,
 			);
@@ -1874,7 +1874,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D0DA3E02C3AF396004210EE /* PointModel.swift in Sources */,
-				0D9497BF2C3292D60004B442 /* CoastInfoCell.swift in Sources */,
+				0D9497BF2C3292D60004B442 /* CostInfoCell.swift in Sources */,
 				9E754CDD2C482F6000E2CA91 /* InAddScheduleFirstView.swift in Sources */,
 				CAC80FBD2C3C61BC00658EA6 /* PointSystemViewController.swift in Sources */,
 				9EBD5C712C7C557900EDE081 /* DRDateFormatterManager.swift in Sources */,
