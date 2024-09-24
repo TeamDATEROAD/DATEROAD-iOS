@@ -130,15 +130,6 @@ private extension AddScheduleFirstViewController {
          }
       }
       
-      self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
-         guard let onSuccess else { return }
-         if onSuccess {
-            // TODO: - 서버 통신 재시도
-         } else {
-            self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
-         }
-      }
-      
       viewModel.ispastDateVaild.bind { [weak self] isValid in
          guard let self = self else { return }
          self.viewModel.fetchPastDate()
