@@ -201,6 +201,13 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
                print("카카오 공유하기")
            }
        }
+    
+    func leftButtonAction(rightButtonAction: RightButtonType) {
+        if rightButtonAction == .kakaoShare {
+            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickCloseKakao, properties: [StringLiterals.Amplitude.Property.dateCourseNum : upcomingDateDetailViewModel.dateCourseNum, StringLiterals.Amplitude.Property.dateTotalDuration : upcomingDateDetailViewModel.dateTotalDuration])
+        }
+    }
+
 }
 
 
