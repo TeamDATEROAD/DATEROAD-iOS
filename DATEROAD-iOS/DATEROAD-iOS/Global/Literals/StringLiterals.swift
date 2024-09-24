@@ -293,6 +293,8 @@ enum StringLiterals {
     enum Amplitude {
         enum EventName {
             static let viewMain = "view_main"
+           static let viewAddSchedule = "view_add_schedule"
+           static let clickSchedule1Back = "click_schedule1_back"
         }
         
         enum Property {
@@ -300,6 +302,12 @@ enum StringLiterals {
             static let courseListTitle = "course_list_title"
             static let courseListLocation = "course_list_location"
             static let courseListCost = "course_list_cost"
+           static let viewPath = "view_path"
+           static let dateTitle = "date_title"
+           static let dateDate = "date_date"
+           static let dateTime = "date_time"
+           static let dateTagNum = "date_tag_num"
+           static let dateArea = "date_area"
         }
         
         enum UserProperty {
