@@ -26,11 +26,15 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
    
    let viewModel: AddScheduleViewModel
    
+   var viewPath: String
+   
    
    // MARK: - Initializer
    
-   init(viewModel: AddScheduleViewModel) {
+   init(viewModel: AddScheduleViewModel, viewPath: String) {
       self.viewModel = viewModel
+      self.viewPath = viewPath
+      
       super.init(nibName: nil, bundle: nil)
    }
    
@@ -53,6 +57,8 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
       
       setupKeyboardDismissRecognizer()
       pastDateBindViewModel()
+      
+      AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddSchedule, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
    }
    
    
@@ -142,19 +148,18 @@ private extension AddScheduleFirstViewController {
       viewModel.ispastDateVaild.bind { [weak self] isValid in
          guard let self = self else { return }
          self.viewModel.fetchPastDate()
+         AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
       }
       
       viewModel.isDateNameVaild.bind { date in
          guard let date else {return}
          self.addScheduleFirstView.updateDateNameTextField(isPassValid: date)
-         
          let flag = self.viewModel.isOkSixBtn()
          self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
       }
       viewModel.isVisitDateVaild.bind { date in
          guard let date else {return}
          self.addScheduleFirstView.updateVisitDateTextField(isPassValid: date)
-         
          let flag = self.viewModel.isOkSixBtn()
          self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
       }
@@ -174,21 +179,27 @@ private extension AddScheduleFirstViewController {
       viewModel.dateName.bind { date in
          guard let text = date else {return}
          self.addScheduleFirstView.inAddScheduleFirstView.updateDateName(text: text)
+         self.viewModel.dateTitle = true
       }
       viewModel.visitDate.bind { date in
          guard let text = date else {return}
          self.addScheduleFirstView.inAddScheduleFirstView.updateVisitDate(text: text)
+         self.viewModel.dateDate = true
       }
       viewModel.dateStartAt.bind { date in
          guard let text = date else {return}
          self.addScheduleFirstView.inAddScheduleFirstView.updatedateStartTime(text: text)
+         self.viewModel.dateTime = true
       }
       viewModel.tagCount.bind { count in
-         self.addScheduleFirstView.inAddScheduleFirstView.updateTagCount(count: count ?? 0)
+         guard let count else {return}
+         self.addScheduleFirstView.inAddScheduleFirstView.updateTagCount(count: count)
+         self.viewModel.dateTagNum = count
       }
       viewModel.dateLocation.bind { date in
          guard let date else {return}
          self.addScheduleFirstView.inAddScheduleFirstView.updateDateLocation(text: date)
+         self.viewModel.dateArea = true
       }
    }
    
@@ -312,6 +323,27 @@ extension AddScheduleFirstViewController {
          setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
       }
       viewModel.ispastDateVaild.value = true
+   }
+   
+   private func schedule1BackAmplitude() {
+      AmplitudeManager.shared.trackEventWithProperties(
+         StringLiterals.Amplitude.EventName.clickSchedule1Back,
+         properties: [
+            StringLiterals.Amplitude.Property.dateTitle: viewModel.dateTitle,
+            StringLiterals.Amplitude.Property.dateDate: viewModel.dateDate,
+            StringLiterals.Amplitude.Property.dateTime: viewModel.dateTime,
+            StringLiterals.Amplitude.Property.dateTagNum: viewModel.dateTagNum,
+            StringLiterals.Amplitude.Property.dateArea: viewModel.dateArea
+         ]
+      )
+      viewModel.resetAddFirstScheduleAmplitude()
+   }
+   
+   /// BaseNavBarViewController에서 backButtonTapped() 오버라이드
+   @objc
+   override func backButtonTapped() {
+      schedule1BackAmplitude()
+      super.backButtonTapped()
    }
 }
 
