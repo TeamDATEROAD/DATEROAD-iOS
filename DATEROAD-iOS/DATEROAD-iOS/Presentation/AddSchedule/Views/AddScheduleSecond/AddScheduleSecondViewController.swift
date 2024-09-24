@@ -113,6 +113,9 @@ private extension AddScheduleSecondViewController {
          for i in viewModel.pastDatePlaces {
             viewModel.tapAddBtn(datePlace: i.title, timeRequire: String(i.duration))
          }
+         AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewAddBringcourse2)
+      } else {
+         AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewAddSchedule2)
       }
    }
    
