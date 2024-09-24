@@ -295,6 +295,8 @@ enum StringLiterals {
             static let viewMain = "view_main"
            static let viewAddSchedule = "view_add_schedule"
            static let clickSchedule1Back = "click_schedule1_back"
+           static let viewAddSchedule2 = "view_add_schedule2"
+           static let clickSchedule2Back = "click_schedule2_back"
         }
         
         enum Property {
@@ -308,6 +310,9 @@ enum StringLiterals {
            static let dateTime = "date_time"
            static let dateTagNum = "date_tag_num"
            static let dateArea = "date_area"
+           static let dateDetailLocation = "date_detail_location"
+           static let dateDetailTime = "date_detail_time"
+           static let dateCourseNum = "date_course_num"
         }
         
         enum UserProperty {
