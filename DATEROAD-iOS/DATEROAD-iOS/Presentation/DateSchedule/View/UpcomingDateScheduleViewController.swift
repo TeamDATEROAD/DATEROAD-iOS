@@ -169,7 +169,7 @@ extension UpcomingDateScheduleViewController: DRCustomAlertDelegate {
            let vc = AddScheduleFirstViewController(viewModel: AddScheduleViewModel())
            self.navigationController?.pushViewController(vc, animated: false)
         }
-        
+        AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.clickAddSchedule)
     }
 }
 
