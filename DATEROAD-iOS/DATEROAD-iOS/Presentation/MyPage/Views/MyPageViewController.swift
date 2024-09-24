@@ -14,7 +14,7 @@ final class MyPageViewController: BaseNavBarViewController {
     // MARK: - UI Properties
     
     private let myPageView: MyPageView = MyPageView()
-        
+    
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     
@@ -64,7 +64,7 @@ final class MyPageViewController: BaseNavBarViewController {
     
     override func setLayout() {
         super.setLayout()
-
+        
         myPageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -116,21 +116,20 @@ private extension MyPageViewController {
         }
         
         self.myPageViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.myPageViewModel.onFailNetwork.value else { return }
+            guard let onLoading,
+                  let data = self?.myPageViewModel.userInfoData.value,
+                  let onFailNetwork = self?.myPageViewModel.onFailNetwork.value
+            else { return }
             if !onFailNetwork {
-                if onLoading  {
-                    self?.showLoadingView()
-                    self?.myPageView.isHidden = onLoading
-                    self?.topInsetView.isHidden = onLoading
-                    self?.navigationBarView.isHidden = onLoading
-                    self?.tabBarController?.tabBar.isHidden = onLoading
-                } else {
-                    self?.myPageView.isHidden = onLoading
-                    self?.topInsetView.isHidden = onLoading
-                    self?.navigationBarView.isHidden = onLoading
-                    self?.tabBarController?.tabBar.isHidden = onLoading
-                    self?.hideLoadingView()
-                }
+                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
+                self?.myPageView.isHidden = onLoading
+                self?.topInsetView.isHidden = onLoading
+                self?.navigationBarView.isHidden = onLoading
+                self?.tabBarController?.tabBar.isHidden = onLoading
+                
+                // `onDismiss` 설정 이후 `bindData` 호출
+                self?.myPageView.userInfoView.bindData(userInfo: data)
+                self?.myPageView.userInfoView.tagCollectionView.reloadData()
             }
         }
         
@@ -160,14 +159,6 @@ private extension MyPageViewController {
                 self?.navigationController?.popToRootViewController(animated: false)
             } else {
                 self?.presentAlertVC(title: StringLiterals.Alert.failToWithdrawal)
-            }
-        }
-        
-        self.myPageViewModel.onSuccessGetUserProfile.bind { [weak self] isSuccess in
-            guard let isSuccess, let data = self?.myPageViewModel.userInfoData.value else { return }
-            if isSuccess {
-                self?.myPageView.userInfoView.bindData(userInfo: data)
-                self?.myPageView.userInfoView.tagCollectionView.reloadData()
             }
         }
         
@@ -276,7 +267,7 @@ extension MyPageViewController: DRCustomAlertDelegate {
             }
         }
     }
-
+    
 }
 
 // MARK: - UICollectionView Delegates
