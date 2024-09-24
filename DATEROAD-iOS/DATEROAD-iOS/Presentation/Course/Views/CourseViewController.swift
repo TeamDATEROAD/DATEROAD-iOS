@@ -49,7 +49,6 @@ final class CourseViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
-        self.courseViewModel.setLoading()
         getCourse()
         courseViewModel.fetchPriceData()
     }
@@ -103,7 +102,7 @@ final class CourseViewController: BaseViewController {
                         self?.tabBarController?.tabBar.isHidden = true
                     } else {
                         self?.courseView.courseListView.courseListCollectionView.reloadData()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                             self?.courseView.isHidden = false
                             self?.tabBarController?.tabBar.isHidden = false
                             self?.hideLoadingView()
@@ -124,9 +123,7 @@ final class CourseViewController: BaseViewController {
         
         courseViewModel.isSuccessGetData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
-            if isSuccess {
-                self?.courseViewModel.setLoading()
-            }
+            self?.courseViewModel.setLoading()
         }
         
         self.courseViewModel.selectedPriceIndex.bind { [weak self] index in
