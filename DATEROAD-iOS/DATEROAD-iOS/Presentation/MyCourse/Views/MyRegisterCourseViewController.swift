@@ -84,7 +84,7 @@ extension MyRegisterCourseViewController {
         self.myRegisterCourseViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                self?.myRegisterCourseViewModel.setMyRegisterCourseData()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
