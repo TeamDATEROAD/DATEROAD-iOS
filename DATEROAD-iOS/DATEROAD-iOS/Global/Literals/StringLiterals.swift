@@ -297,6 +297,7 @@ enum StringLiterals {
             static let countDateSchedule = "count_date_schedule"
             static let clickAddSchedule = "click_add_schedule"
             static let clickKakaoShare = "click_kakao_share"
+            static let clickOpenKakao = "click_open_kakao"
         }
         
         enum Property {

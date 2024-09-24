@@ -197,6 +197,7 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
                upcomingDateDetailViewModel.deleteDateSchdeuleData(dateID: upcomingDateDetailViewModel.dateDetailData.value?.dateID ?? 0)
            } else if rightButtonAction == .kakaoShare {
                upcomingDateDetailViewModel.shareToKakao(context: self)
+               AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickOpenKakao, properties: [StringLiterals.Amplitude.Property.dateCourseNum : upcomingDateDetailViewModel.dateCourseNum, StringLiterals.Amplitude.Property.dateTotalDuration : upcomingDateDetailViewModel.dateTotalDuration])
                print("카카오 공유하기")
            }
        }
