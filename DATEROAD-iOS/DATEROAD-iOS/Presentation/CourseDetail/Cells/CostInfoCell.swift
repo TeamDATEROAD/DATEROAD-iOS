@@ -52,11 +52,7 @@ final class CostInfoCell: BaseCollectionViewCell {
 extension CostInfoCell {
     
     func setCell(costData: Int) {
-        if costData == 0 {
-            costLabel.text = StringLiterals.CourseDetail.priceLabelZero
-        } else {
-            costLabel.text = "\(costData.formattedWithSeparator)원"
-        }
+        costLabel.text = costData == 0 ? StringLiterals.CourseDetail.priceLabelZero : "\(costData.formattedWithSeparator)원"
     }
     
 }
