@@ -297,6 +297,9 @@ enum StringLiterals {
            static let clickSchedule1Back = "click_schedule1_back"
            static let viewAddSchedule2 = "view_add_schedule2"
            static let clickSchedule2Back = "click_schedule2_back"
+           static let clickBringCourse = "click_bring_course"
+           static let viewAddBringcourse = "view_add_bringcourse"
+           static let viewAddBringcourse2 = "view_add_bringcourse2"
         }
         
         enum Property {
