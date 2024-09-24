@@ -198,8 +198,8 @@ extension ViewedCourseViewController {
                     self?.contentView.isHidden = true
                     self?.tabBarController?.tabBar.isHidden = true
                 } else {
-                    self?.setEmptyView()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self?.setEmptyView()
                         self?.contentView.isHidden = false
                         self?.tabBarController?.tabBar.isHidden = false
                         self?.hideLoadingView()
@@ -210,9 +210,7 @@ extension ViewedCourseViewController {
         
         self.viewedCourseViewModel.isSuccessGetViewedCourseInfo.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
-            if isSuccess {
-                self?.viewedCourseViewModel.setViewedCourseLoading()
-            }
+            self?.viewedCourseViewModel.setViewedCourseLoading()
         }
     }
 }

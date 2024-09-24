@@ -107,19 +107,23 @@ extension NavViewedCourseViewController {
         self.viewedCourseViewModel.onNavViewedCourseLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.viewedCourseViewModel.onViewedCourseFailNetwork.value else { return }
             if !onFailNetwork {
-                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.navViewedCourseView.isHidden = onLoading
+                if onLoading {
+                    self?.showLoadingView()
+                    self?.navViewedCourseView.isHidden = onLoading
+                } else {
+                    self?.setEmptyView()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self?.navViewedCourseView.isHidden = onLoading
+                        self?.tabBarController?.tabBar.isHidden = false
+                        self?.hideLoadingView()
+                    }
+                }
             }
         }
         
         self.viewedCourseViewModel.isSuccessGetNavViewedCourseInfo.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
-            if isSuccess {
-                self?.setEmptyView()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
-                    self?.viewedCourseViewModel.setNavViewedCourseLoading()
-                }
-            }
+            self?.viewedCourseViewModel.setNavViewedCourseLoading()
         }
     }
 }
