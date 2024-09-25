@@ -58,7 +58,7 @@ final class AddScheduleViewModel: Serviceable {
    
    var isTimePicker: Bool?
    
-   // AddFirstCourse Amplitude 관련 변수
+   // AddFirstSchedule Amplitude 관련 변수
    
    var dateTitle: Bool
    
@@ -97,12 +97,27 @@ final class AddScheduleViewModel: Serviceable {
    
    let onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
    
+   // AddScondSchedule Amplitude 관련 변수
+   
+   var dateDetailLocation: Bool
+   
+   var dateDetailTime: Bool
+   
+   var dateCourseNum: Int
+   
+   
+   // MARK: - Initializer
+   
    init() {
       dateTitle = false
       dateDate = false
       dateTime = false
       dateTagNum = 0
       dateArea = false
+      dateDetailLocation = false
+      dateDetailTime = false
+      dateCourseNum = 0
+      
       fetchTagData()
    }
 }
