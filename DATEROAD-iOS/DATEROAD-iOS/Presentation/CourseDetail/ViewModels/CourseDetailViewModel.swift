@@ -88,11 +88,12 @@ class CourseDetailViewModel: Serviceable {
     
     var courseListTitle: String = ""
     
+    var purchaseSuccess: Bool = false
     
-   init(courseId: Int) {
-      self.courseId = courseId
-      getCourseDetail()
-   }
+    init(courseId: Int) {
+        self.courseId = courseId
+        getCourseDetail()
+    }
     
     var sections: [CourseDetailSection] {
         return [.imageCarousel, .titleInfo, .mainContents, .timelineInfo, .coastInfo, .tagInfo]
@@ -135,6 +136,7 @@ extension CourseDetailViewModel {
                 dump(data)
                 self.conditionalData.value = ConditionalModel(courseId: self.courseId, isCourseMine: data.isCourseMine, isAccess: data.isAccess, free: data.free, totalPoint: data.totalPoint, isUserLiked: data.isUserLiked)
                 self.isChange?()
+                self.purchaseSuccess = data.isAccess
                 
                 self.startAt = data.startAt
                 
@@ -168,13 +170,13 @@ extension CourseDetailViewModel {
                 }
                 
                 self.isUserLiked.value = data.isUserLiked
-
+                
                 self.isSuccessGetData.value = true
                 
                 self.userFreeRemained = "\(data.free)"
                 self.courseListId = "\(data.courseID)"
                 self.courseListTitle = "\(data.title)"
-               
+                
                 AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.userFreeRemained : data.free])
                 AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewCourseDetails,
                                                                  properties: [StringLiterals.Amplitude.Property.courseListId: self.courseListId,
@@ -280,6 +282,6 @@ extension CourseDetailViewModel {
             self.onLoading.value = true
         }
     }
-
+    
     
 }

@@ -344,6 +344,7 @@ extension CourseDetailViewController: StickyHeaderNavBarViewDelegate, DRBottomSh
     
     func didTapBackButton() {
         navigationController?.popViewController(animated: false)
+        AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickCourseBack, properties: [StringLiterals.Amplitude.Property.purchaseSuccess : courseDetailViewModel.purchaseSuccess])
     }
     
     func didTapMoreButton() {
