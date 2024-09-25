@@ -109,10 +109,11 @@ private extension AddScheduleSecondViewController {
    }
    
    func pastDateBindViewModel() {
-      if viewModel.pastDatePlaces.count > 0  {
+      if viewModel.isImporting  {
          for i in viewModel.pastDatePlaces {
             viewModel.tapAddBtn(datePlace: i.title, timeRequire: String(i.duration))
          }
+         viewModel.pastDatePlaces.removeAll()
          AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewAddBringcourse2)
       } else {
          AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewAddSchedule2)
