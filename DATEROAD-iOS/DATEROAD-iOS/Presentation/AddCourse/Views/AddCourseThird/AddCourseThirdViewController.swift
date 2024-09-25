@@ -175,9 +175,11 @@ private extension AddCourseThirdViewController {
          self?.viewModel.isDoneBtnValid()
       }
       viewModel.priceText.bind { [weak self] date in
-         self?.addCourseThirdView.addThirdView.updatePriceText(price: date ?? 0)
-         let flag = (date ?? 0 > 0) ? true : false
-         self?.viewModel.price = date ?? 0
+         guard let date = date else {return}
+         self?.addCourseThirdView.addThirdView.updatePriceText(price: date)
+         let flag = (date >= 0) ? true : false
+         self?.viewModel.courseCost = flag
+         self?.viewModel.price = date
          self?.viewModel.priceFlag = flag
          self?.viewModel.isDoneBtnValid()
       }
@@ -234,6 +236,16 @@ private extension AddCourseThirdViewController {
    
 }
 
+extension AddCourseThirdViewController {
+   
+   @objc
+   override func backButtonTapped() {
+      viewModel.course3BackAmplitude()
+      super.backButtonTapped()
+   }
+   
+}
+
 
 extension AddCourseThirdViewController: UITextViewDelegate {
    
@@ -269,7 +281,9 @@ extension AddCourseThirdViewController: UITextViewDelegate {
       viewModel.contentText = changedText
       let filteredTextCount = changedText.filter { $0 != "\n" }.count
       viewModel.contentTextCount.value = filteredTextCount
+      viewModel.courseContentNum = filteredTextCount
       print("🎉🎉🎉🎉\(changedText)🎉🎉🎉🎉")
+      viewModel.courseContentBool = filteredTextCount > 0 ? true : false
       
       // 리턴 키 입력을 처리합니다.
       if text == "\n" {
