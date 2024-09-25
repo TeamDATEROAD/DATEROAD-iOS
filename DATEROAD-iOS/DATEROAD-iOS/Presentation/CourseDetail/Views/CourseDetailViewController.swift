@@ -38,6 +38,8 @@ final class CourseDetailViewController: BaseViewController {
     
     private var isLikeNetwork: Bool = false
     
+    private var clickCoursePurchase: Bool = false
+    
     init(viewModel: CourseDetailViewModel) {
         self.courseDetailViewModel = viewModel
         self.courseId = self.courseDetailViewModel.courseId
@@ -258,6 +260,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     
     //버튼 분기 처리하기
     func didTapViewButton() {
+        self.clickCoursePurchase = true
         courseDetailViewModel.haveFreeCount.value == true ? showFreeViewAlert() : showReadCourseAlert()
     }
     
@@ -344,7 +347,7 @@ extension CourseDetailViewController: StickyHeaderNavBarViewDelegate, DRBottomSh
     
     func didTapBackButton() {
         navigationController?.popViewController(animated: false)
-        AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickCourseBack, properties: [StringLiterals.Amplitude.Property.purchaseSuccess : courseDetailViewModel.purchaseSuccess])
+        AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickCourseBack, properties: [StringLiterals.Amplitude.Property.purchaseSuccess : courseDetailViewModel.purchaseSuccess, StringLiterals.Amplitude.Property.clickCoursePurchase : self.clickCoursePurchase])
     }
     
     func didTapMoreButton() {

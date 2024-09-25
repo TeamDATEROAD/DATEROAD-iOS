@@ -303,6 +303,7 @@ enum StringLiterals {
             static let courseListLocation = "course_list_location"
             static let courseListCost = "course_list_cost"
             static let purchaseSuccess = "purchase_success"
+            static let clickCoursePurchase = "click_course_purchase"
         }
         
         enum UserProperty {
