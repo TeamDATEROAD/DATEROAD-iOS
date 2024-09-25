@@ -17,7 +17,7 @@ final class AddCourseThirdViewController: BaseNavBarViewController {
    private var addCourseThirdView = AddCourseThirdView()
    
    private let viewModel: AddCourseViewModel
-      
+   
    private let errorView: DRErrorViewController = DRErrorViewController()
    
    
@@ -30,6 +30,7 @@ final class AddCourseThirdViewController: BaseNavBarViewController {
    
    init(viewModel: AddCourseViewModel) {
       self.viewModel = viewModel
+      
       super.init(nibName: nil, bundle: nil)
    }
    
@@ -79,7 +80,7 @@ final class AddCourseThirdViewController: BaseNavBarViewController {
    
    override func setLayout() {
       super.setLayout()
-
+      
       addCourseThirdView.snp.makeConstraints {
          $0.top.equalToSuperview().offset(4)
          $0.horizontalEdges.equalToSuperview()
@@ -150,10 +151,10 @@ private extension AddCourseThirdViewController {
       }
       
       self.viewModel.onLoading.bind { [weak self] onLoading in
-          guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
+         guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
          
          if !onFailNetwork {
-             onLoading ? self?.showLoadingView() : self?.hideLoadingView()
+            onLoading ? self?.showLoadingView() : self?.hideLoadingView()
             self?.addCourseThirdView.isHidden = onLoading
             self?.tabBarController?.tabBar.isHidden = onLoading
          }
@@ -174,6 +175,7 @@ private extension AddCourseThirdViewController {
          self?.viewModel.contentFlag = flag
          self?.viewModel.isDoneBtnValid()
       }
+      
       viewModel.priceText.bind { [weak self] date in
          guard let date = date else {return}
          self?.addCourseThirdView.addThirdView.updatePriceText(price: date)

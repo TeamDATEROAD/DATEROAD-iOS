@@ -18,6 +18,7 @@ final class AddCourseSecondViewController: BaseNavBarViewController {
    
    init(viewModel: AddCourseViewModel) {
       self.viewModel = viewModel
+      
       super.init(nibName: nil, bundle: nil)
    }
    
@@ -247,7 +248,7 @@ private extension AddCourseSecondViewController {
          collectionView.reloadData()
       }
    }
-   // 얘 통과 진짜 미친놈
+   
 }
 
 extension AddCourseSecondViewController {

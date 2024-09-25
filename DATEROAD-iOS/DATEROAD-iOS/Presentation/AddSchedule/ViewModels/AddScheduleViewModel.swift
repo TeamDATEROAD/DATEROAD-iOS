@@ -26,37 +26,48 @@ final class AddScheduleViewModel: Serviceable {
    
    //MARK: - AddFirstCourse 사용되는 ViewModel
    
-   /// 데이트 이름 유효성 판별 (true는 통과)
+   // 데이트 이름 유효성 판별 (true는 통과)
    let dateName: ObservablePattern<String> = ObservablePattern(nil)
+   
    let isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   
    private let minimumDateNameLength = 5
    
-   /// 방문 일자 유효성 판별 (true는 통과)
+   // 방문 일자 유효성 판별 (true는 통과)
    let visitDate: ObservablePattern<String> = ObservablePattern(nil)
+   
    let isVisitDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
-   /// 데이트 시작시간 유효성 판별 (self.count > 0 인지)
+   // 데이트 시작시간 유효성 판별 (self.count > 0 인지)
    let dateStartAt: ObservablePattern<String> = ObservablePattern(nil)
+   
    let isDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
-   /// 코스 등록 태그 생성
+   // 코스 등록 태그 생성
    var tagData: [ProfileTagModel] = []
    
-   /// 선택된 태그
+   // 선택된 태그
    let isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
+   
    let isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
+   
    let tagCount: ObservablePattern<Int> = ObservablePattern(nil)
+   
    private let minTagCnt = 1
+   
    private let maxTagCnt = 3
    
-   /// 코스 지역 유효성 판별
+   // 코스 지역 유효성 판별
    let dateLocation: ObservablePattern<String> = ObservablePattern(nil)
+   
    let isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
-   var country = ""
-   var city = ""
-   
+   // 기타
    var isTimePicker: Bool?
+   
+   var country = ""
+   
+   var city = ""
    
    
    //MARK: - AddSecondView 전용 Viewmodel 변수
@@ -111,6 +122,7 @@ final class AddScheduleViewModel: Serviceable {
       initAmplitudeVar()
       fetchTagData()
    }
+   
 }
 
 extension AddScheduleViewModel {
@@ -248,7 +260,6 @@ extension AddScheduleViewModel {
       checkTagCount(min: minTagCnt, max: maxTagCnt)
    }
    
-   
    func checkTagCount(min: Int, max: Int) {
       let count = selectedTagData.count
       self.tagCount.value = count
@@ -378,9 +389,9 @@ extension AddScheduleViewModel {
                self.setLoading(isLoading: false)
                self.isSuccessPostData.value = true
             case .reIssueJWT:
-                self.patchReissue { isSuccess in
-                    self.onReissueSuccess.value = isSuccess
-                }
+               self.patchReissue { isSuccess in
+                  self.onReissueSuccess.value = isSuccess
+               }
             default:
                self.onFailNetwork.value = true
                print("Failed to another reason")

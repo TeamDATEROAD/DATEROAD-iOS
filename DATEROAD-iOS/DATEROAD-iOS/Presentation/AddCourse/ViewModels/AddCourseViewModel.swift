@@ -24,38 +24,50 @@ final class AddCourseViewModel: Serviceable {
    
    //MARK: - AddFirstCourse 사용되는 ViewModel
    
-   /// ImageCollection 유효성 판별
+   // ImageCollection 유효성 판별
    var pickedImageArr = [UIImage]()
+   
    let isPickedImageVaild: ObservablePattern<Bool> = ObservablePattern(false)
    
-   /// 데이트 이름 유효성 판별 (true는 통과)
+   // 데이트 이름 유효성 판별 (true는 통과)
    let dateName: ObservablePattern<String> = ObservablePattern(nil)
+   
    let isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   
    private let minimumDateNameLength = 5
    
-   /// 방문 일자 유효성 판별 (true는 통과)
+   // 방문 일자 유효성 판별 (true는 통과)
    let visitDate: ObservablePattern<String> = ObservablePattern(nil)
+   
    let isVisitDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
-   /// 데이트 시작시간 유효성 판별 (self.count > 0 인지)
+   // 데이트 시작시간 유효성 판별 (self.count > 0 인지)
    let dateStartAt: ObservablePattern<String> = ObservablePattern(nil)
+   
    let isDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
-   /// 코스 등록 태그
+   // 코스 등록 태그
    var tagData: [ProfileTagModel] = []
+   
    let isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
+   
    let isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
+   
    let tagCount: ObservablePattern<Int> = ObservablePattern(nil)
+   
    private let minTagCnt = 1
    private let maxTagCnt = 3
    
-   /// 코스 지역 유효성 판별
+   // 코스 지역 유효성 판별
    let dateLocations: ObservablePattern<String> = ObservablePattern(nil)
+   
    let isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
+   // 기타
    var isTimePicker: Bool?
    
    var country = ""
+   
    var city = ""
    
    
@@ -81,11 +93,15 @@ final class AddCourseViewModel: Serviceable {
    //MARK: - AddThirdView 전용 Viewmodel 변수
    
    let contentTextCount: ObservablePattern<Int> = ObservablePattern(nil)
+   
    var contentText = ""
+   
    var contentFlag = false
    
    let priceText: ObservablePattern<Int> = ObservablePattern(nil)
+   
    var priceFlag = false
+   
    var price = 0
    
    let isDoneBtnOK: ObservablePattern<Bool> = ObservablePattern(false)
@@ -233,6 +249,7 @@ extension AddCourseViewModel {
       }
       
    }
+   
    
    //MARK: - AddCourse First 함수
    
@@ -409,9 +426,9 @@ extension AddCourseViewModel {
             self.setLoading(isPostLoading: false)
             self.isSuccessPostData.value = true
          case .reIssueJWT:
-             self.patchReissue { isSuccess in
-                 self.onReissueSuccess.value = isSuccess
-             }
+            self.patchReissue { isSuccess in
+               self.onReissueSuccess.value = isSuccess
+            }
          default:
             self.onFailNetwork.value = true
             print("Failed to another reason")

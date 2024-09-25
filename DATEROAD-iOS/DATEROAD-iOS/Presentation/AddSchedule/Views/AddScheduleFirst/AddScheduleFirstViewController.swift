@@ -157,20 +157,24 @@ private extension AddScheduleFirstViewController {
          let flag = self.viewModel.isOkSixBtn()
          self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isVisitDateVaild.bind { date in
          guard let date else {return}
          self.addScheduleFirstView.updateVisitDateTextField(isPassValid: date)
          let flag = self.viewModel.isOkSixBtn()
          self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isDateStartAtVaild.bind { date in
          let flag = self.viewModel.isOkSixBtn()
          self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isValidTag.bind { date in
          let flag = self.viewModel.isOkSixBtn()
          self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isDateLocationVaild.bind { date in
          let flag = self.viewModel.isOkSixBtn()
          self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
@@ -181,21 +185,25 @@ private extension AddScheduleFirstViewController {
          self.addScheduleFirstView.inAddScheduleFirstView.updateDateName(text: text)
          self.viewModel.dateTitle = true
       }
+      
       viewModel.visitDate.bind { date in
          guard let text = date else {return}
          self.addScheduleFirstView.inAddScheduleFirstView.updateVisitDate(text: text)
          self.viewModel.dateDate = true
       }
+      
       viewModel.dateStartAt.bind { date in
          guard let text = date else {return}
          self.addScheduleFirstView.inAddScheduleFirstView.updatedateStartTime(text: text)
          self.viewModel.dateTime = true
       }
+      
       viewModel.tagCount.bind { count in
          guard let count else {return}
          self.addScheduleFirstView.inAddScheduleFirstView.updateTagCount(count: count)
          self.viewModel.dateTagNum = count
       }
+      
       viewModel.dateLocation.bind { date in
          guard let date else {return}
          self.addScheduleFirstView.inAddScheduleFirstView.updateDateLocation(text: date)
@@ -236,7 +244,7 @@ private extension AddScheduleFirstViewController {
    
    @objc
    func didTapNavRightBtn() {
-       let vc = NavViewedCourseViewController(viewedCourseViewModel: MyCourseListViewModel())
+      let vc = NavViewedCourseViewController(viewedCourseViewModel: MyCourseListViewModel())
       AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.clickBringCourse)
       self.navigationController?.pushViewController(vc, animated: false)
    }
@@ -319,6 +327,7 @@ private extension AddScheduleFirstViewController {
 }
 
 extension AddScheduleFirstViewController {
+   
    func pastDateBindViewModel() {
       if !viewModel.isBroughtData {
          setRightBtnStyle()
@@ -327,14 +336,13 @@ extension AddScheduleFirstViewController {
       viewModel.ispastDateVaild.value = true
    }
    
-   
-   
    /// BaseNavBarViewController에서 backButtonTapped() 오버라이드
    @objc
    override func backButtonTapped() {
       viewModel.schedule1BackAmplitude()
       super.backButtonTapped()
    }
+   
 }
 
 extension AddScheduleFirstViewController: UICollectionViewDelegateFlowLayout {

@@ -46,6 +46,10 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
    
    // MARK: - Life Cycle
    
+   override func viewWillAppear(_ animated: Bool) {
+      self.tabBarController?.tabBar.isHidden = true
+   }
+   
    override func viewDidLoad() {
       super.viewDidLoad()
       
@@ -61,10 +65,6 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
       pastDateBindViewModel()
       setupKeyboardDismissRecognizer()
       AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewCourse1, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
-   }
-   
-   override func viewWillAppear(_ animated: Bool) {
-      self.tabBarController?.tabBar.isHidden = true
    }
    
    
@@ -120,12 +120,14 @@ private extension AddCourseFirstViewController {
          self.viewModel.fetchPastDate()
          self.addCourseFirstView.addFirstView.tendencyTagCollectionView.reloadData()
       }
+      
       viewModel.isPickedImageVaild.bind { date in
          guard let value = self.viewModel.isPickedImageVaild.value else {return}
          self.viewModel.courseImage = value
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isDateNameVaild.bind { date in
          guard let date else {return}
          self.addCourseFirstView.updateDateNameTextField(isPassValid: date)
@@ -133,6 +135,7 @@ private extension AddCourseFirstViewController {
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isVisitDateVaild.bind { date in
          guard let date else {return}
          self.addCourseFirstView.updateVisitDateTextField(isPassValid: date)
@@ -140,10 +143,12 @@ private extension AddCourseFirstViewController {
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isDateStartAtVaild.bind { date in
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isValidTag.bind { date in
          guard let value = self.viewModel.isValidTag.value else {return}
          //코스는 아직 불러오기 기능이 없기에 isValidTag 속에 아래 코드 적용
@@ -151,6 +156,7 @@ private extension AddCourseFirstViewController {
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isDateLocationVaild.bind { date in
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
@@ -160,19 +166,23 @@ private extension AddCourseFirstViewController {
          guard let text = date else {return}
          self.addCourseFirstView.addFirstView.updateDateName(text: text)
       }
+      
       viewModel.visitDate.bind { date in
          guard let text = date else {return}
          self.addCourseFirstView.addFirstView.updateVisitDate(text: text)
          self.viewModel.courseDate = true
       }
+      
       viewModel.dateStartAt.bind { date in
          guard let text = date else {return}
          self.addCourseFirstView.addFirstView.updatedateStartTime(text: text)
          self.viewModel.courseStartTime = true
       }
+      
       viewModel.tagCount.bind { count in
          self.addCourseFirstView.addFirstView.updateTagCount(count: count ?? 0)
       }
+      
       viewModel.dateLocations.bind { date in
          guard let date else {return}
          self.addCourseFirstView.addFirstView.updateDateLocation(text: date)
@@ -190,10 +200,12 @@ private extension AddCourseFirstViewController {
          $0.delegate = self
          $0.dataSource = self
       }
+      
       addCourseFirstView.addFirstView.tendencyTagCollectionView.do {
          $0.delegate = self
          $0.dataSource = self
       }
+      
       addCourseFirstView.addFirstView.dateNameTextField.delegate = self
       imagePickerViewController.delegate = self
    }

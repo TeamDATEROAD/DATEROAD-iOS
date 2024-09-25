@@ -13,7 +13,7 @@ import Then
 final class InAddScheduleSecondView: BaseView {
    
    // MARK: - UI Properties
-      
+   
    private let contentTitleLabel: UILabel = UILabel()
    
    private let contentSubTitleLabel: UILabel = UILabel()
@@ -27,7 +27,7 @@ final class InAddScheduleSecondView: BaseView {
    let addPlaceButton: UIButton = UIButton()
    
    let separatorLine: UIView = UIView()
-      
+   
    
    // MARK: - Properties
    

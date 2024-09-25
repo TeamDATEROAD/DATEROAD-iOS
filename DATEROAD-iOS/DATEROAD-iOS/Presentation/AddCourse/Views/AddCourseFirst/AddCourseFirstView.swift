@@ -36,9 +36,13 @@ final class AddCourseFirstView: BaseView {
    
    private let warningType: DRErrorType = Warning()
    
+   
+   // MARK: - Methods
+   
    override func setHierarchy() {
       self.addSubview(scrollView)
       scrollView.addSubview(scrollContentView)
+      
       scrollContentView.addSubviews(
          collectionView,
          imageAccessoryView,
@@ -46,6 +50,7 @@ final class AddCourseFirstView: BaseView {
          dateNameErrorLabel,
          visitDateErrorLabel
       )
+      
       imageAccessoryView.addSubviews(cameraBtn, imageCountLabelContainer)
       imageCountLabelContainer.addSubview(imageCountLabel)
    }

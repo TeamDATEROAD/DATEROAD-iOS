@@ -29,6 +29,7 @@ final class AddSheetViewController: BaseViewController {
    
    init(viewModel: AddCourseViewModel) {
       self.viewModel = viewModel
+      
       super.init(nibName: nil, bundle: nil)
    }
    
@@ -70,7 +71,7 @@ final class AddSheetViewController: BaseViewController {
 
 private extension AddSheetViewController {
    
-   private func setCustomPicker() {
+   func setCustomPicker() {
       customPickerValues = Array(stride(from: 0.5, to: 6.5, by: 0.5))
       addSheetView.customPickerView.dataSource = self
       addSheetView.customPickerView.delegate = self
@@ -78,10 +79,11 @@ private extension AddSheetViewController {
       addSheetView.doneBtn.addTarget(self, action: #selector(didTapDoneBtn), for: .touchUpInside)
    }
    
+   
    // MARK: - @objc Methods
    
    @objc
-   private func didTapDoneBtn() {
+   func didTapDoneBtn() {
       let selectedRow = addSheetView.customPickerView.selectedRow(inComponent: 0)
       let selectedValue = customPickerValues[selectedRow]
       viewModel?.updateTimeRequireTextField(text: String(selectedValue))

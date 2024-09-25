@@ -37,7 +37,7 @@ final class AddScheduleBottomSheetView: BaseView {
    init(isCustomPicker: Bool) {
       self.isCustomPicker = isCustomPicker
       
-      super.init(frame: .zero) // 모든 Class의 초기화가 진행된 이후 super 클래스의 초기화가 이뤄져야 하기에 제일 하단에 위치
+      super.init(frame: .zero)
    }
    
    required init?(coder: NSCoder) {
@@ -49,14 +49,16 @@ final class AddScheduleBottomSheetView: BaseView {
    
    override func setHierarchy() {
       switch isCustomPicker {
+         
       case true:
          addSubviews(bottomSheetView)
          bottomSheetView.addSubviews(doneBtn, customPickerView)
          doneBtn.addSubview(doneBtnTitleLabel)
+         
       case false:
          self.addSubviews(datePicker)
+         
       }
-      
    }
    
    override func setLayout() {

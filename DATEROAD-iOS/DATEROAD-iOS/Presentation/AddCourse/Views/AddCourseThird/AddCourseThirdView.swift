@@ -90,7 +90,6 @@ final class AddCourseThirdView: BaseView {
          $0.setTitle(StringLiterals.AddCourseOrSchedule.AddThirdView.addThirdDoneBtn, for: .normal)
          $0.titleLabel?.font = .suit(.body_bold_15)
       }
-      
    }
    
 }

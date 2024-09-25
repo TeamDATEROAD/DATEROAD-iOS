@@ -19,7 +19,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
    private let viewModel: AddScheduleViewModel
    
    private var alertVC: AddScheduleBottomSheetViewController?
-      
+   
    private let errorView: DRErrorViewController = DRErrorViewController()
    
    
@@ -27,6 +27,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
    
    init(viewModel: AddScheduleViewModel) {
       self.viewModel = viewModel
+      
       super.init(nibName: nil, bundle: nil)
    }
    
@@ -64,7 +65,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
    
    override func setLayout() {
       super.setLayout()
-
+      
       addScheduleSecondView.snp.makeConstraints {
          $0.top.equalToSuperview().offset(4)
          $0.horizontalEdges.equalToSuperview().inset(16)
@@ -151,7 +152,7 @@ private extension AddScheduleSecondViewController {
          guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
          
          if !onFailNetwork {
-             onLoading ? self?.showLoadingView() : self?.hideLoadingView()
+            onLoading ? self?.showLoadingView() : self?.hideLoadingView()
             self?.addScheduleSecondView.isHidden = onLoading
             self?.tabBarController?.tabBar.isHidden = onLoading
          }
@@ -211,7 +212,6 @@ private extension AddScheduleSecondViewController {
       self.viewModel.isValidOfSecondNextBtn.bind { [weak self] date in
          self?.addScheduleSecondView.changeNextBtnState(flag: date ?? false)
       }
-      
    }
    
    func setAddTarget() {
@@ -302,6 +302,7 @@ private extension AddScheduleSecondViewController {
          collectionView.reloadData()
       }
    }
+   
 }
 
 extension AddScheduleSecondViewController {

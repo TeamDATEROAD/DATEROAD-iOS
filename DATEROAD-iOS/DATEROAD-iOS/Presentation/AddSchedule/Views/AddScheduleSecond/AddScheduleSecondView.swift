@@ -23,7 +23,7 @@ final class AddScheduleSecondView: BaseView {
    var addPlaceCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
    
    let nextBtn: UIButton = UIButton()
-
+   
    
    // MARK: - Properties
    
