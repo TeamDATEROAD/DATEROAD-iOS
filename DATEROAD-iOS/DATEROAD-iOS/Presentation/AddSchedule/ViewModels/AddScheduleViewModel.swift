@@ -146,6 +146,17 @@ extension AddScheduleViewModel {
       self.resetAddFirstScheduleAmplitude()
    }
    
+   func schedule2BackAmplitude() {
+      AmplitudeManager.shared.trackEventWithProperties(
+         StringLiterals.Amplitude.EventName.clickSchedule2Back,
+         properties: [
+            StringLiterals.Amplitude.Property.dateDetailLocation: self.dateDetailLocation,
+            StringLiterals.Amplitude.Property.dateDetailTime: self.dateDetailTime,
+            StringLiterals.Amplitude.Property.dateCourseNum: self.dateCourseNum
+         ]
+      )
+   }
+   
    func getTagIndices(from tags: [String]) -> [Int] {
       return tags.compactMap { tag in
          TendencyTag.allCases.firstIndex { $0.tag.english == tag }

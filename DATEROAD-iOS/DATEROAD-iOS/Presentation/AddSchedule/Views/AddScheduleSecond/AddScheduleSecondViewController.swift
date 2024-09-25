@@ -175,6 +175,7 @@ private extension AddScheduleSecondViewController {
       viewModel.datePlace.bind { [weak self] date in
          guard let text = date else {return}
          self?.addScheduleSecondView.inAddScheduleSecondView.updateDatePlace(text: text)
+         self?.viewModel.dateDetailLocation = true
          if let flag = self?.viewModel.isAbleAddBtn() {
             self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
          }
@@ -183,13 +184,17 @@ private extension AddScheduleSecondViewController {
       viewModel.timeRequire.bind { [weak self] date in
          guard let text = date else {return}
          self?.addScheduleSecondView.inAddScheduleSecondView.updatetimeRequire(text: text)
+         self?.viewModel.dateDetailTime = true
          if let flag = self?.viewModel.isAbleAddBtn() {
             self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
          }
       }
       
       self.viewModel.isChange = { [weak self] in
-         print(self?.viewModel.addPlaceCollectionViewDataSource ?? "")
+         guard let cnt = self?.viewModel.addPlaceCollectionViewDataSource.count else {return}
+         print(cnt)
+         
+         self?.viewModel.dateCourseNum = cnt
          self?.viewModel.isDataSourceNotEmpty()
          
          let state = self?.viewModel.editBtnEnableState.value ?? false
@@ -297,6 +302,16 @@ private extension AddScheduleSecondViewController {
          collectionView.reloadData()
       }
    }
+}
+
+extension AddScheduleSecondViewController {
+   
+   @objc
+   override func backButtonTapped() {
+      viewModel.schedule2BackAmplitude()
+      super.backButtonTapped()
+   }
+   
 }
 
 
