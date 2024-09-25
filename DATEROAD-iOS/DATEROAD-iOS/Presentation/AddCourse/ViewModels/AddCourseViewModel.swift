@@ -342,7 +342,7 @@ extension AddCourseViewModel {
    func isSourceMoreThanOne() {
       let cnt = addPlaceCollectionViewDataSource.count
       self.locationNum = cnt
-      let flag = (cnt >= 2) ? true : false
+      let flag = (cnt >= 2)
       print("지금 데이터소스 개수 : \(addPlaceCollectionViewDataSource.count)\nflag: \(flag)")
       isValidOfSecondNextBtn.value = flag
    }
