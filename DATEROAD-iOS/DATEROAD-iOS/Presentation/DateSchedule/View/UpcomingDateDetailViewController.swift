@@ -195,13 +195,13 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     }
 
     func action(rightButtonAction: RightButtonType) {
-           if rightButtonAction == .deleteCourse {
-               upcomingDateDetailViewModel.deleteDateSchdeuleData(dateID: upcomingDateDetailViewModel.dateDetailData.value?.dateID ?? 0)
-           } else if rightButtonAction == .kakaoShare {
-               upcomingDateDetailViewModel.shareToKakao(context: self)
-               AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickOpenKakao, properties: [StringLiterals.Amplitude.Property.dateCourseNum : upcomingDateDetailViewModel.dateCourseNum, StringLiterals.Amplitude.Property.dateTotalDuration : upcomingDateDetailViewModel.dateTotalDuration])
-           }
-       }
+        if rightButtonAction == .deleteCourse {
+            upcomingDateDetailViewModel.deleteDateSchdeuleData(dateID: upcomingDateDetailViewModel.dateDetailData.value?.dateID ?? 0)
+        } else if rightButtonAction == .kakaoShare {
+            upcomingDateDetailViewModel.shareToKakao(context: self)
+            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickOpenKakao, properties: [StringLiterals.Amplitude.Property.dateCourseNum : upcomingDateDetailViewModel.dateCourseNum, StringLiterals.Amplitude.Property.dateTotalDuration : upcomingDateDetailViewModel.dateTotalDuration])
+        }
+   }
     
     func leftButtonAction(rightButtonAction: RightButtonType) {
         if rightButtonAction == .kakaoShare {
