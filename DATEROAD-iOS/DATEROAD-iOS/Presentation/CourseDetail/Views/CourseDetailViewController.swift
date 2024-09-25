@@ -40,6 +40,8 @@ final class CourseDetailViewController: BaseViewController {
     
     private var clickCoursePurchase: Bool = false
     
+    private var courseListLike: Bool = false
+    
     init(viewModel: CourseDetailViewModel) {
         self.courseDetailViewModel = viewModel
         self.courseId = self.courseDetailViewModel.courseId
@@ -404,11 +406,15 @@ private extension CourseDetailViewController {
     @objc
     func didTapLikeButton() {
         isFirstLike = false
+        courseListLike = true
+        
         guard let isLiked = courseDetailViewModel.isUserLiked.value else { return }
         courseDetailViewModel.isUserLiked.value?.toggle()
         
         let likeAction = isLiked ? courseDetailViewModel.deleteLikeCourse : courseDetailViewModel.likeCourse
         likeAction(courseId ?? 0)
+        
+        AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickCourseLikes, properties: [StringLiterals.Amplitude.Property.courseListLike : self.courseListLike])
         
         self.courseDetailView.mainCollectionView.reloadData()
     }
