@@ -58,18 +58,6 @@ final class AddScheduleViewModel: Serviceable {
    
    var isTimePicker: Bool?
    
-   // AddFirstSchedule Amplitude 관련 변수
-   
-   var dateTitle: Bool
-   
-   var dateDate: Bool
-   
-   var dateTime: Bool
-   
-   var dateTagNum: Int
-   
-   var dateArea: Bool
-   
    
    //MARK: - AddSecondView 전용 Viewmodel 변수
    
@@ -97,18 +85,37 @@ final class AddScheduleViewModel: Serviceable {
    
    let onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
    
-   // AddScondSchedule Amplitude 관련 변수
    
-   var dateDetailLocation: Bool
+   //MARK: - AddSchedule Amplitude 관련 변수
    
-   var dateDetailTime: Bool
+   var dateTitle: Bool = false
    
-   var dateCourseNum: Int
+   var dateDate: Bool = false
+   
+   var dateTime: Bool = false
+   
+   var dateTagNum: Int = 0
+   
+   var dateArea: Bool = false
+   
+   var dateDetailLocation: Bool = false
+   
+   var dateDetailTime: Bool = false
+   
+   var dateCourseNum: Int = 0
    
    
    // MARK: - Initializer
    
    init() {
+      initAmplitudeVar()
+      fetchTagData()
+   }
+}
+
+extension AddScheduleViewModel {
+   
+   func initAmplitudeVar() {
       dateTitle = false
       dateDate = false
       dateTime = false
@@ -117,12 +124,7 @@ final class AddScheduleViewModel: Serviceable {
       dateDetailLocation = false
       dateDetailTime = false
       dateCourseNum = 0
-      
-      fetchTagData()
    }
-}
-
-extension AddScheduleViewModel {
    
    func resetAddFirstScheduleAmplitude() {
       dateTitle = false

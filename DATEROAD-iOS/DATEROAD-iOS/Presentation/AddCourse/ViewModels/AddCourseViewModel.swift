@@ -101,34 +101,44 @@ final class AddCourseViewModel: Serviceable {
    
    //MARK: - AddCourse Amplitude 관련 변수
    
-   var courseImage: Bool
+   var courseImage = false
    
-   var courseTitle: Bool
+   var courseTitle = false
    
-   var courseDate: Bool
+   var courseDate = false
    
-   var courseStartTime: Bool
+   var courseStartTime = false
    
-   var courseTags: Bool
+   var courseTags = false
    
-   var courseLocation: Bool
+   var courseLocation = false
    
-   var dateLocation: Bool
+   var dateLocation = false
    
-   var dateSpendTime: Bool
+   var dateSpendTime = false
    
-   var locationNum: Int
+   var locationNum = 0
    
-   var courseContentBool: Bool
+   var courseContentBool = false
    
-   var courseContentNum: Int
+   var courseContentNum = 0
    
-   var courseCost: Bool
+   var courseCost = false
    
    
    // MARK: - Initializer
    
    init(pastDateDetailData: DateDetailModel? = nil) {
+      initAmplitudeVar()
+      fetchTagData()
+      self.pastDateDetailData = pastDateDetailData
+   }
+   
+}
+
+extension AddCourseViewModel {
+   
+   func initAmplitudeVar() {
       courseImage = false
       courseTitle = false
       courseDate = false
@@ -141,14 +151,7 @@ final class AddCourseViewModel: Serviceable {
       courseContentBool = false
       courseContentNum = 0
       courseCost = false
-      
-      fetchTagData()
-      self.pastDateDetailData = pastDateDetailData
    }
-   
-}
-
-extension AddCourseViewModel {
    
    func course1BackAmplitude() {
       AmplitudeManager.shared.trackEventWithProperties(
