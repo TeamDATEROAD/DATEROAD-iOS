@@ -295,12 +295,9 @@ extension AddScheduleViewModel {
    
    func updateTimeRequireTextField(text: String) {
       if let doubleValue = Double(text) {
-         let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
-         String(Int(doubleValue)) : String(doubleValue)
-         timeRequire.value = "\(text) 시간"
-      } else {
-         timeRequire.value = "\(text) 시간"
+         let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(doubleValue)) : String(doubleValue)
       }
+      timeRequire.value = "(text) 시간"
    }
    
    func isAbleAddBtn() -> Bool {
@@ -380,15 +377,12 @@ extension AddScheduleViewModel {
             case .success(let response):
                self.setLoading(isLoading: false)
                self.isSuccessPostData.value = true
-            case .serverErr:
-               self.onFailNetwork.value = true
-            case . requestErr:
-               self.onFailNetwork.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
+               self.onFailNetwork.value = true
                print("Failed to another reason")
                return
             }

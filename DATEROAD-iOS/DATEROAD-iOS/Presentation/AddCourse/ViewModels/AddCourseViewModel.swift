@@ -318,12 +318,9 @@ extension AddCourseViewModel {
    
    func updateTimeRequireTextField(text: String) {
       if let doubleValue = Double(text) {
-         let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
-         String(Int(doubleValue)) : String(doubleValue)
-         timeRequire.value = "\(text) 시간"
-      } else {
-         timeRequire.value = "\(text) 시간"
+         let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(doubleValue)) : String(doubleValue)
       }
+      timeRequire.value = "(text) 시간"
    }
    
    func isAbleAddBtn() -> Bool {
@@ -360,12 +357,7 @@ extension AddCourseViewModel {
    //MARK: - AddThirdView 전용 func
    
    func isDoneBtnValid() {
-      if contentFlag && priceFlag {
-         print("contentFlag : \(contentFlag)\npriceFlag : \(priceFlag)")
-         isDoneBtnOK.value = true
-      } else {
-         isDoneBtnOK.value = false
-      }
+      isDoneBtnOK.value = contentFlag && priceFlag
    }
    
    /// 로딩뷰 세팅 함수
@@ -416,15 +408,12 @@ extension AddCourseViewModel {
             print("Success: \(response)")
             self.setLoading(isPostLoading: false)
             self.isSuccessPostData.value = true
-         case .serverErr:
-            self.onFailNetwork.value = true
-         case . requestErr:
-            self.onFailNetwork.value = true
          case .reIssueJWT:
              self.patchReissue { isSuccess in
                  self.onReissueSuccess.value = isSuccess
              }
          default:
+            self.onFailNetwork.value = true
             print("Failed to another reason")
             return
          }
