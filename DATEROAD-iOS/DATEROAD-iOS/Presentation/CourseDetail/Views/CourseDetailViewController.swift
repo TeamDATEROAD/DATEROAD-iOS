@@ -406,7 +406,7 @@ private extension CourseDetailViewController {
     @objc
     func didTapLikeButton() {
         isFirstLike = false
-        courseListLike = true
+        courseListLike.toggle()
         
         guard let isLiked = courseDetailViewModel.isUserLiked.value else { return }
         courseDetailViewModel.isUserLiked.value?.toggle()
