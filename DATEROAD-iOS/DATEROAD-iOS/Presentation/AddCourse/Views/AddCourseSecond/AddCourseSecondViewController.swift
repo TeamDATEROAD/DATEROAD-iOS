@@ -108,6 +108,8 @@ private extension AddCourseSecondViewController {
       }
    }
    
+   //TODO: - 추후 데이트코스 공유 코스 등록 기능 살아날 시 수정해야함.
+   // isImporting 변수 생성하여 AddSchedule과 동일하게 수행하도록 수정
    func pastDateBindViewModel() {
       if viewModel.pastDatePlaces.count > 0  {
          for i in viewModel.pastDatePlaces {
