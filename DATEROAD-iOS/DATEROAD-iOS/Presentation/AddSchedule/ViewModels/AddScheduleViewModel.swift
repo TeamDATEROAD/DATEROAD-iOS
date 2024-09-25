@@ -317,7 +317,9 @@ extension AddScheduleViewModel {
    
    /// dataSource 개수 >= 2 라면 (다음 2/3) 버튼 활성화
    func isSourceMoreThanOne() {
-      let flag = (addPlaceCollectionViewDataSource.count >= 2) ? true : false
+      let cnt = addPlaceCollectionViewDataSource.count
+      self.dateCourseNum = cnt
+      let flag = (cnt >= 2) ? true : false
       print("지금 데이터소스 개수 : \(addPlaceCollectionViewDataSource.count)\nflag: \(flag)")
       isValidOfSecondNextBtn.value = flag
    }

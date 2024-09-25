@@ -195,7 +195,6 @@ private extension AddScheduleSecondViewController {
          guard let cnt = self?.viewModel.addPlaceCollectionViewDataSource.count else {return}
          print(cnt)
          
-         self?.viewModel.dateCourseNum = cnt
          self?.viewModel.isDataSourceNotEmpty()
          
          let state = self?.viewModel.editBtnEnableState.value ?? false
