@@ -177,9 +177,9 @@ private extension AddCourseThirdViewController {
       }
       
       viewModel.priceText.bind { [weak self] date in
-         guard let date = date else {return}
+         guard let date else {return}
          self?.addCourseThirdView.addThirdView.updatePriceText(price: date)
-         let flag = (date >= 0) ? true : false
+         let flag = (date >= 0)
          self?.viewModel.courseCost = flag
          self?.viewModel.price = date
          self?.viewModel.priceFlag = flag

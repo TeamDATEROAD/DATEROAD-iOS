@@ -114,7 +114,13 @@ private extension AddCourseSecondViewController {
    func pastDateBindViewModel() {
       if viewModel.pastDatePlaces.count > 0  {
          for i in viewModel.pastDatePlaces {
-            viewModel.tapAddBtn(datePlace: i.name, timeRequire: i.duration)
+            if let doubleValue = Double(String(i.duration)) {
+               let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
+               String(Int(doubleValue)) : String(doubleValue)
+               viewModel.tapAddBtn(datePlace: i.name, timeRequire: "\(text) 시간")
+            } else {
+               viewModel.tapAddBtn(datePlace: i.name, timeRequire: "\(String(i.duration)) 시간")
+            }
          }
       }
    }
