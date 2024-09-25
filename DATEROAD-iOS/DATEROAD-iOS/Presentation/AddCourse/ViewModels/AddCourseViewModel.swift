@@ -45,12 +45,12 @@ final class AddCourseViewModel: Serviceable {
    var tagData: [ProfileTagModel] = []
    let isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
    let isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
-   let tagCount: ObservablePattern<Int> = ObservablePattern(0)
+   let tagCount: ObservablePattern<Int> = ObservablePattern(nil)
    private let minTagCnt = 1
    private let maxTagCnt = 3
    
    /// 코스 지역 유효성 판별
-   let dateLocation: ObservablePattern<String> = ObservablePattern("")
+   let dateLocations: ObservablePattern<String> = ObservablePattern(nil)
    let isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
    var isTimePicker: Bool?
@@ -65,9 +65,9 @@ final class AddCourseViewModel: Serviceable {
    
    let changeTableViewData: ObservablePattern<Int> = ObservablePattern(0)
    
-   let datePlace: ObservablePattern<String> = ObservablePattern("")
+   let datePlace: ObservablePattern<String> = ObservablePattern(nil)
    
-   let timeRequire: ObservablePattern<String> = ObservablePattern("")
+   let timeRequire: ObservablePattern<String> = ObservablePattern(nil)
    
    let isValidOfSecondNextBtn: ObservablePattern<Bool> = ObservablePattern(false)
    
@@ -80,7 +80,7 @@ final class AddCourseViewModel: Serviceable {
    
    //MARK: - AddThirdView 전용 Viewmodel 변수
    
-   let contentTextCount: ObservablePattern<Int> = ObservablePattern(0)
+   let contentTextCount: ObservablePattern<Int> = ObservablePattern(nil)
    var contentText = ""
    var contentFlag = false
    
@@ -98,7 +98,50 @@ final class AddCourseViewModel: Serviceable {
    
    let onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
    
+   
+   //MARK: - AddCourse Amplitude 관련 변수
+   
+   var courseImage: Bool
+   
+   var courseTitle: Bool
+   
+   var courseDate: Bool
+   
+   var courseStartTime: Bool
+   
+   var courseTags: Bool
+   
+   var courseLocation: Bool
+   
+   var dateLocation: Bool
+   
+   var dateSpendTime: Bool
+   
+   var locationNum: Int
+   
+   var courseContentBool: Bool
+   
+   var courseContentNum: Int
+   
+   var courseCost: Bool
+   
+   
+   // MARK: - Initializer
+   
    init(pastDateDetailData: DateDetailModel? = nil) {
+      courseImage = false
+      courseTitle = false
+      courseDate = false
+      courseStartTime = false
+      courseTags = false
+      courseLocation = false
+      dateLocation = false
+      dateSpendTime = false
+      locationNum = 0
+      courseContentBool = false
+      courseContentNum = 0
+      courseCost = false
+      
       fetchTagData()
       self.pastDateDetailData = pastDateDetailData
    }
@@ -122,7 +165,7 @@ extension AddCourseViewModel {
       visitDate.value = formattedDate
       
       dateStartAt.value = pastDateDetailData?.startAt
-      dateLocation.value = pastDateDetailData?.city
+      dateLocations.value = pastDateDetailData?.city
       
       //동네.KOR 불러와서 지역, 동네 ENG 버전 알아내는 미친 로직
       let cityName = pastDateDetailData?.city ?? ""
