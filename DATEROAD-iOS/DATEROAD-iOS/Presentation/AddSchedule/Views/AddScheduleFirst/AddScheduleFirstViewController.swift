@@ -325,24 +325,12 @@ extension AddScheduleFirstViewController {
       viewModel.ispastDateVaild.value = true
    }
    
-   private func schedule1BackAmplitude() {
-      AmplitudeManager.shared.trackEventWithProperties(
-         StringLiterals.Amplitude.EventName.clickSchedule1Back,
-         properties: [
-            StringLiterals.Amplitude.Property.dateTitle: viewModel.dateTitle,
-            StringLiterals.Amplitude.Property.dateDate: viewModel.dateDate,
-            StringLiterals.Amplitude.Property.dateTime: viewModel.dateTime,
-            StringLiterals.Amplitude.Property.dateTagNum: viewModel.dateTagNum,
-            StringLiterals.Amplitude.Property.dateArea: viewModel.dateArea
-         ]
-      )
-      viewModel.resetAddFirstScheduleAmplitude()
-   }
+   
    
    /// BaseNavBarViewController에서 backButtonTapped() 오버라이드
    @objc
    override func backButtonTapped() {
-      schedule1BackAmplitude()
+      viewModel.schedule1BackAmplitude()
       super.backButtonTapped()
    }
 }
