@@ -173,9 +173,6 @@ extension AddCourseViewModel {
             StringLiterals.Amplitude.Property.locationNum: self.locationNum
          ]
       )
-      print("🔥\ndateLocation : \(dateLocation)")
-      print("dateSpendTime : \(dateSpendTime)")
-      print("locationNum : \(locationNum)\n🔥")
    }
    
    func course3BackAmplitude() {
