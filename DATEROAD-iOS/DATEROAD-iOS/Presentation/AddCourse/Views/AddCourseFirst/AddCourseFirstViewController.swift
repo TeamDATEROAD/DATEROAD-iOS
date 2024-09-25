@@ -27,11 +27,15 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
    
    let viewModel: AddCourseViewModel
    
+   var viewPath: String
+   
    
    // MARK: - Initializer
    
-   init(viewModel: AddCourseViewModel) {
+   init(viewModel: AddCourseViewModel, viewPath: String) {
       self.viewModel = viewModel
+      self.viewPath = viewPath
+      
       super.init(nibName: nil, bundle: nil)
    }
    
@@ -56,6 +60,7 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
       bindViewModel()
       pastDateBindViewModel()
       setupKeyboardDismissRecognizer()
+      AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewCourse1, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
    }
    
    override func viewWillAppear(_ animated: Bool) {

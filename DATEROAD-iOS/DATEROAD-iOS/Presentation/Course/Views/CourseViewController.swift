@@ -235,7 +235,7 @@ extension CourseViewController: LocationFilterDelegate {
 extension CourseViewController: CourseNavigationBarViewDelegate {
     
     func didTapAddCourseButton() {
-        let addCourseFirstVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
+       let addCourseFirstVC = AddCourseFirstViewController(viewModel: AddCourseViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.exploreCourse)
         self.navigationController?.pushViewController(addCourseFirstVC, animated: false)
     }
     

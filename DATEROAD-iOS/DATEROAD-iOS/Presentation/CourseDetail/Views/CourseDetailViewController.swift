@@ -332,9 +332,9 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     }
     
     
-    //코스 등록하기로 화면 전환
+    //포인트 부족 -> 코스 등록하기로 화면 전환
     func didTapAddCourseButton() {
-        let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
+       let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.exploreCourse)
         self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
     

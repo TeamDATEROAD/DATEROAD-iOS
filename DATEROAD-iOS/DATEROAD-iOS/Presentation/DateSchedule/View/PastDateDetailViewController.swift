@@ -184,7 +184,7 @@ extension PastDateDetailViewController {
         else { return }
            
            let addCourseViewModel = AddCourseViewModel(pastDateDetailData: data)
-           let vc = AddCourseFirstViewController(viewModel: addCourseViewModel)
+       let vc = AddCourseFirstViewController(viewModel: addCourseViewModel, viewPath: StringLiterals.Amplitude.ViewPath.dateSchedule)
            self.navigationController?.pushViewController(vc, animated: false)
     }
     
