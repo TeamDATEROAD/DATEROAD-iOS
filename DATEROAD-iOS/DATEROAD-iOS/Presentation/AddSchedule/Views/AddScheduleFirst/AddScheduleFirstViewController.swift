@@ -267,8 +267,10 @@ private extension AddScheduleFirstViewController {
    
    @objc
    func textFieldDidChanacge(_ textField: UITextField) {
-      viewModel.dateName.value = textField.text ?? ""
-      viewModel.satisfyDateName(str: textField.text ?? "")
+      guard let text = textField.text else {return}
+      viewModel.dateName.value = text
+      viewModel.satisfyDateName(str: text)
+      self.viewModel.dateTitle = !text.isEmpty ? true : false
    }
    
    @objc
