@@ -75,7 +75,6 @@ final class PointViewModel: Serviceable {
             case .serverErr:
                 self.onFailNetwork.value = true
              default:
-                print("포인트내역 에러")
                 self.onFailNetwork.value = true //TODO: - 확인
                 return
             }

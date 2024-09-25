@@ -91,7 +91,6 @@ extension DateDetailViewModel {
             switch response {
             case .success(let data):
                 self.isSuccessDeleteDateScheduleData.value = true
-                print("success", self.isSuccessDeleteDateScheduleData.value)
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
@@ -105,7 +104,6 @@ extension DateDetailViewModel {
     func setTempArgs() {
         kakaoShareInfo[StringLiterals.Network.userName] = userName
         kakaoShareInfo["startAt"] = dateDetailData.value?.startAt
-        print(dateDetailData.value?.places.count)
         switch dateDetailData.value?.places.count ?? 0 <= 5 {
         case true:
             for i in 0...maxPlaces-1 {
@@ -127,7 +125,6 @@ extension DateDetailViewModel {
 
         if !AuthApi.hasToken() {
             // Generate Redirect URI
-            print("is 1")
             let redirectURI = "kakao\(Config.kakaoNativeAppKey)://oauth"
             // Redirect to Kakao login page
             let loginUrl = "https://kauth.kakao.com/oauth/authorize?client_id=\(Config.kakaoNativeAppKey)&redirect_uri=\(redirectURI)&response_type=code"

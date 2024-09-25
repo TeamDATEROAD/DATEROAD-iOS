@@ -188,7 +188,6 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     
     @objc
     private func tapDeleteLabel() {
-        print("dfdsf")
         let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.deleteCourse, alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deleteDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
@@ -196,14 +195,11 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     }
 
     func action(rightButtonAction: RightButtonType) {
-           print("all")
            if rightButtonAction == .deleteCourse {
-               print("zz")
                upcomingDateDetailViewModel.deleteDateSchdeuleData(dateID: upcomingDateDetailViewModel.dateDetailData.value?.dateID ?? 0)
            } else if rightButtonAction == .kakaoShare {
                upcomingDateDetailViewModel.shareToKakao(context: self)
                AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickOpenKakao, properties: [StringLiterals.Amplitude.Property.dateCourseNum : upcomingDateDetailViewModel.dateCourseNum, StringLiterals.Amplitude.Property.dateTotalDuration : upcomingDateDetailViewModel.dateTotalDuration])
-               print("카카오 공유하기")
            }
        }
     
@@ -228,13 +224,11 @@ extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
     }
     
     func didTapBottomButton() {
-        print("hi")
         self.dismiss(animated: false)
     }
     
     @objc
     func didTapFirstLabel() {
-        print("sdjflksd ㅇㄴㄹㅁㄴㅇㄹ")
         self.dismiss(animated: false)
         tapDeleteLabel()
     }
