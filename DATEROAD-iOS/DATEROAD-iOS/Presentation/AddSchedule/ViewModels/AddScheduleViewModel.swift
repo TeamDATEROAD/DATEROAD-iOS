@@ -9,7 +9,7 @@ import UIKit
 
 final class AddScheduleViewModel: Serviceable {
    
-   var isImporting = false
+   var isBroughtData = false
    
    var viewedDateCourseByMeData: CourseDetailViewModel?
    

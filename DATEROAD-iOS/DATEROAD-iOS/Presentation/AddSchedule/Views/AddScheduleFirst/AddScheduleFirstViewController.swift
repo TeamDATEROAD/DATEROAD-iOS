@@ -320,7 +320,7 @@ private extension AddScheduleFirstViewController {
 
 extension AddScheduleFirstViewController {
    func pastDateBindViewModel() {
-      if !viewModel.isImporting {
+      if !viewModel.isBroughtData {
          setRightBtnStyle()
          setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
       }

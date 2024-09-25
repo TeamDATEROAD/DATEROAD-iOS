@@ -109,7 +109,7 @@ private extension AddScheduleSecondViewController {
    }
    
    func pastDateBindViewModel() {
-      if viewModel.isImporting  {
+      if viewModel.isBroughtData  {
          for i in viewModel.pastDatePlaces {
             viewModel.tapAddBtn(datePlace: i.title, timeRequire: String(i.duration))
          }

@@ -173,7 +173,7 @@ extension NavViewedCourseViewController : UICollectionViewDataSource {
           let courseDetailViewModel = CourseDetailViewModel(courseId: courseId)
           let addScheduleViewModel = AddScheduleViewModel()
           addScheduleViewModel.viewedDateCourseByMeData = courseDetailViewModel
-          addScheduleViewModel.isImporting = true
+          addScheduleViewModel.isBroughtData = true
           
           let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel, viewPath: StringLiterals.Amplitude.ViewPath.viewedCourse)
           // 데이터를 바인딩합니다.
