@@ -300,6 +300,10 @@ enum StringLiterals {
            static let clickBringCourse = "click_bring_course"
            static let viewAddBringcourse = "view_add_bringcourse"
            static let viewAddBringcourse2 = "view_add_bringcourse2"
+           static let viewCourse1 = "view_course1"
+           static let clickCourse1Back = "click_course1_back"
+           static let clickCourse2Back = "click_course2_back"
+           static let clickCourse3Back = "click_course3_back"
         }
         
         enum Property {
@@ -316,6 +320,18 @@ enum StringLiterals {
            static let dateDetailLocation = "date_detail_location"
            static let dateDetailTime = "date_detail_time"
            static let dateCourseNum = "date_course_num"
+           static let courseImage = "course_image"
+           static let courseTitle = "course_title"
+           static let courseDate = "course_date"
+           static let courseStartTime = "course_start_time"
+           static let courseTags = "course_tags"
+           static let courseLocation = "course_location"
+           static let dateLocation = "date_location"
+           static let dateSpendTime = "date_spend_time"
+           static let locationNum = "location_num"
+           static let courseContentBool = "course_content_bool"
+           static let courseContentNum = "course_content_num"
+           static let courseCost = "course_cost"
         }
         
         enum UserProperty {
@@ -327,6 +343,8 @@ enum StringLiterals {
         }
        
        enum ViewPath {
+          static let home = "홈"
+          static let exploreCourse = "코스 둘러보기"
           static let dateSchedule = "데이트 일정"
           static let viewedCourse = "내가 열람한 코스"
           static let courseDetail = "코스 상세"
