@@ -146,6 +146,7 @@ private extension AddCourseFirstViewController {
       }
       viewModel.isValidTag.bind { date in
          guard let value = self.viewModel.isValidTag.value else {return}
+         //코스는 아직 불러오기 기능이 없기에 isValidTag 속에 아래 코드 적용
          self.viewModel.courseTags = value
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
@@ -158,7 +159,6 @@ private extension AddCourseFirstViewController {
       viewModel.dateName.bind { date in
          guard let text = date else {return}
          self.addCourseFirstView.addFirstView.updateDateName(text: text)
-         self.viewModel.courseTitle = true
       }
       viewModel.visitDate.bind { date in
          guard let text = date else {return}
@@ -243,8 +243,10 @@ private extension AddCourseFirstViewController {
    
    @objc
    func textFieldDidChanacge(_ textField: UITextField) {
-      viewModel.dateName.value = textField.text ?? ""
-      viewModel.satisfyDateName(str: textField.text ?? "")
+      guard let text = textField.text else {return}
+      viewModel.dateName.value = text
+      viewModel.satisfyDateName(str: text)
+      self.viewModel.courseTitle = !text.isEmpty ? true : false
    }
    
    @objc
