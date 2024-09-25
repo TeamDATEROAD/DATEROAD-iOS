@@ -164,6 +164,31 @@ extension AddCourseViewModel {
       )
    }
    
+   func course2BackAmplitude() {
+      AmplitudeManager.shared.trackEventWithProperties(
+         StringLiterals.Amplitude.EventName.clickCourse2Back,
+         properties: [
+            StringLiterals.Amplitude.Property.dateLocation: self.dateLocation,
+            StringLiterals.Amplitude.Property.dateSpendTime: self.dateSpendTime,
+            StringLiterals.Amplitude.Property.locationNum: self.locationNum
+         ]
+      )
+      print("🔥\ndateLocation : \(dateLocation)")
+      print("dateSpendTime : \(dateSpendTime)")
+      print("locationNum : \(locationNum)\n🔥")
+   }
+   
+   func course3BackAmplitude() {
+      AmplitudeManager.shared.trackEventWithProperties(
+         StringLiterals.Amplitude.EventName.clickCourse3Back,
+         properties: [
+            StringLiterals.Amplitude.Property.courseContentBool: self.courseContentBool,
+            StringLiterals.Amplitude.Property.courseContentNum: self.courseContentNum,
+            StringLiterals.Amplitude.Property.courseCost: self.courseCost
+         ]
+      )
+   }
+   
    func getTagIndices(from tags: [String]) -> [Int] {
       return tags.compactMap { tag in
          TendencyTag.allCases.firstIndex { $0.tag.english == tag }
@@ -318,7 +343,9 @@ extension AddCourseViewModel {
    
    /// dataSource 개수 >= 2 라면 (다음 2/3) 버튼 활성화
    func isSourceMoreThanOne() {
-      let flag = (addPlaceCollectionViewDataSource.count >= 2) ? true : false
+      let cnt = addPlaceCollectionViewDataSource.count
+      self.locationNum = cnt
+      let flag = (cnt >= 2) ? true : false
       print("지금 데이터소스 개수 : \(addPlaceCollectionViewDataSource.count)\nflag: \(flag)")
       isValidOfSecondNextBtn.value = flag
    }

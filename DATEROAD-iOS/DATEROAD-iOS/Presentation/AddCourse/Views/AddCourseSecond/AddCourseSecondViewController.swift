@@ -138,6 +138,7 @@ private extension AddCourseSecondViewController {
       viewModel.datePlace.bind { [weak self] date in
          guard let text = date else {return}
          self?.addCourseSecondView.addSecondView.updateDatePlace(text: text)
+         self?.viewModel.dateLocation = true
          if let flag = self?.viewModel.isAbleAddBtn() {
             self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: flag)
          }
@@ -146,13 +147,13 @@ private extension AddCourseSecondViewController {
       viewModel.timeRequire.bind { [weak self] date in
          guard let text = date else {return}
          self?.addCourseSecondView.addSecondView.updatetimeRequire(text: text)
+         self?.viewModel.dateSpendTime = true
          if let flag = self?.viewModel.isAbleAddBtn() {
             self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: flag)
          }
       }
       
       self.viewModel.isChange = { [weak self] in
-         print(self?.viewModel.addPlaceCollectionViewDataSource ?? "")
          self?.viewModel.isDataSourceNotEmpty()
          
          let state = self?.viewModel.editBtnEnableState.value ?? false
@@ -162,11 +163,8 @@ private extension AddCourseSecondViewController {
          // 텍스트필드 초기화 및 addPlace버튼 비활성화
          self?.addCourseSecondView.addSecondView.finishAddPlace()
          
-         
          // 다음 버튼 활성화 여부 판별 함수
          self?.viewModel.isSourceMoreThanOne()
-         
-         
          self?.addCourseSecondView.addPlaceCollectionView.reloadData()
       }
       
@@ -250,6 +248,16 @@ private extension AddCourseSecondViewController {
       }
    }
    // 얘 통과 진짜 미친놈
+}
+
+extension AddCourseSecondViewController {
+   
+   @objc
+   override func backButtonTapped() {
+      viewModel.course2BackAmplitude()
+      super.backButtonTapped()
+   }
+   
 }
 
 
