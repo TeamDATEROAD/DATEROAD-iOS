@@ -166,8 +166,10 @@ extension CourseDetailViewModel {
                 }
                 
                 self.isUserLiked.value = data.isUserLiked
-                
+
                 self.isSuccessGetData.value = true
+                
+                AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.userFreeRemained : data.free])
                 
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
