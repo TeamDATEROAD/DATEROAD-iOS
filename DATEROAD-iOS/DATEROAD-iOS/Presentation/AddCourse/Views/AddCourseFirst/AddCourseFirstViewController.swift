@@ -121,6 +121,8 @@ private extension AddCourseFirstViewController {
          self.addCourseFirstView.addFirstView.tendencyTagCollectionView.reloadData()
       }
       viewModel.isPickedImageVaild.bind { date in
+         guard let value = self.viewModel.isPickedImageVaild.value else {return}
+         self.viewModel.courseImage = value
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
@@ -143,6 +145,8 @@ private extension AddCourseFirstViewController {
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
       viewModel.isValidTag.bind { date in
+         guard let value = self.viewModel.isValidTag.value else {return}
+         self.viewModel.courseTags = value
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
@@ -154,21 +158,25 @@ private extension AddCourseFirstViewController {
       viewModel.dateName.bind { date in
          guard let text = date else {return}
          self.addCourseFirstView.addFirstView.updateDateName(text: text)
+         self.viewModel.courseTitle = true
       }
       viewModel.visitDate.bind { date in
          guard let text = date else {return}
          self.addCourseFirstView.addFirstView.updateVisitDate(text: text)
+         self.viewModel.courseDate = true
       }
       viewModel.dateStartAt.bind { date in
          guard let text = date else {return}
          self.addCourseFirstView.addFirstView.updatedateStartTime(text: text)
+         self.viewModel.courseStartTime = true
       }
       viewModel.tagCount.bind { count in
          self.addCourseFirstView.addFirstView.updateTagCount(count: count ?? 0)
       }
-      viewModel.dateLocation.bind { date in
+      viewModel.dateLocations.bind { date in
          guard let date else {return}
          self.addCourseFirstView.addFirstView.updateDateLocation(text: date)
+         self.viewModel.courseLocation = true
       }
    }
    
@@ -310,6 +318,17 @@ private extension AddCourseFirstViewController {
    }
    
 }
+
+extension AddCourseFirstViewController {
+   
+   @objc
+   override func backButtonTapped() {
+      viewModel.course1BackAmplitude()
+      super.backButtonTapped()
+   }
+   
+}
+
 extension AddCourseFirstViewController: UICollectionViewDelegateFlowLayout {
    
    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -474,7 +493,7 @@ extension AddCourseFirstViewController: LocationFilterDelegate {
    func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
       print("selected : \(city)")
       print("Selected city: \(city.rawValue)")
-      viewModel.dateLocation.value = city.rawValue
+      viewModel.dateLocations.value = city.rawValue
       viewModel.satisfyDateLocation(str: city.rawValue)
       viewModel.country = country.rawValue
       viewModel.city = city.rawValue

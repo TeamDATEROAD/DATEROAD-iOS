@@ -150,6 +150,20 @@ final class AddCourseViewModel: Serviceable {
 
 extension AddCourseViewModel {
    
+   func course1BackAmplitude() {
+      AmplitudeManager.shared.trackEventWithProperties(
+         StringLiterals.Amplitude.EventName.clickCourse1Back,
+         properties: [
+            StringLiterals.Amplitude.Property.courseImage: self.courseImage,
+            StringLiterals.Amplitude.Property.courseTitle: self.courseTitle,
+            StringLiterals.Amplitude.Property.courseDate: self.courseDate,
+            StringLiterals.Amplitude.Property.courseStartTime: self.courseStartTime,
+            StringLiterals.Amplitude.Property.courseTags: self.courseTags,
+            StringLiterals.Amplitude.Property.courseLocation: self.courseLocation
+         ]
+      )
+   }
+   
    func getTagIndices(from tags: [String]) -> [Int] {
       return tags.compactMap { tag in
          TendencyTag.allCases.firstIndex { $0.tag.english == tag }
