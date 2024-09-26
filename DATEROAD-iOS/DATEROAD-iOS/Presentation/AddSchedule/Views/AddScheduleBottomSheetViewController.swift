@@ -28,6 +28,7 @@ final class AddScheduleBottomSheetViewController: BaseViewController {
    
    init(viewModel: AddScheduleViewModel) {
       self.viewModel = viewModel
+      
       super.init(nibName: nil, bundle: nil)
    }
    
@@ -65,11 +66,11 @@ final class AddScheduleBottomSheetViewController: BaseViewController {
    
 }
 
-// MARK: - ViewController Methods
+// MARK: - Extension Methods
 
 private extension AddScheduleBottomSheetViewController {
    
-   private func setCustomPicker() {
+   func setCustomPicker() {
       customPickerValues = Array(stride(from: 0.5, to: 6.5, by: 0.5))
       addSheetView.customPickerView.dataSource = self
       addSheetView.customPickerView.delegate = self
@@ -77,10 +78,8 @@ private extension AddScheduleBottomSheetViewController {
       addSheetView.doneBtn.addTarget(self, action: #selector(didTapDoneBtn), for: .touchUpInside)
    }
    
-   // MARK: - @objc Methods
-   
    @objc
-   private func didTapDoneBtn() {
+   func didTapDoneBtn() {
       let selectedRow = addSheetView.customPickerView.selectedRow(inComponent: 0)
       let selectedValue = customPickerValues[selectedRow]
       viewModel?.updateTimeRequireTextField(text: String(selectedValue))
@@ -92,7 +91,16 @@ private extension AddScheduleBottomSheetViewController {
 
 // MARK: - UIPickerViewDataSource, UIPickerViewDelegate Methods
 
-extension AddScheduleBottomSheetViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+
+extension AddScheduleBottomSheetViewController: UIPickerViewDelegate {
+   
+   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+      return String(customPickerValues[row])
+   }
+   
+}
+
+extension AddScheduleBottomSheetViewController: UIPickerViewDataSource {
    
    func numberOfComponents(in pickerView: UIPickerView) -> Int {
       return 1
@@ -100,10 +108,6 @@ extension AddScheduleBottomSheetViewController: UIPickerViewDataSource, UIPicker
    
    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
       return customPickerValues.count
-   }
-   
-   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-      return String(customPickerValues[row])
    }
    
 }

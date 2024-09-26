@@ -196,8 +196,8 @@ extension ProfileViewModel {
                 }
             default:
                 print("Failed to fetch patch edit profile")
-                self.onSuccessEdit?(false)
                 self.onFailNetwork.value = true
+                self.onSuccessEdit?(false)
             }
         }
     }

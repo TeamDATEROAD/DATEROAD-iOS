@@ -341,9 +341,9 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     }
     
     
-    //코스 등록하기로 화면 전환
+    //포인트 부족 -> 코스 등록하기로 화면 전환
     func didTapAddCourseButton() {
-        let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
+       let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.exploreCourse)
         self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
     
@@ -398,9 +398,9 @@ private extension CourseDetailViewController {
         let addScheduleViewModel = AddScheduleViewModel()
         
         addScheduleViewModel.viewedDateCourseByMeData = courseDetailViewModel
-        addScheduleViewModel.isImporting = true
+        addScheduleViewModel.isBroughtData = true
         
-        let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel)
+       let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel, viewPath: StringLiterals.Amplitude.ViewPath.courseDetail)
        // 데이터를 바인딩합니다.
        vc.pastDateBindViewModel()
         self.navigationController?.pushViewController(vc, animated: false)

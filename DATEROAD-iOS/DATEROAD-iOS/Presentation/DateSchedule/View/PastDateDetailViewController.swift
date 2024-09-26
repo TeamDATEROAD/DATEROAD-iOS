@@ -189,6 +189,8 @@ extension PastDateDetailViewController {
         }
     }
     
+   //TODO: - 추후 데이트코스 공유 코스 등록 기능 살아날 시 수정해야함.
+   // isBroughtData 변수 생성하여 AddSchedule과 동일하게 수행하도록 수정
     @objc
     private func tapShareCourse() {
         print("코스 등록해서 공유하기 여기!!!!!!!!!!!!")
@@ -196,7 +198,7 @@ extension PastDateDetailViewController {
         else { return }
            
            let addCourseViewModel = AddCourseViewModel(pastDateDetailData: data)
-           let vc = AddCourseFirstViewController(viewModel: addCourseViewModel)
+       let vc = AddCourseFirstViewController(viewModel: addCourseViewModel, viewPath: StringLiterals.Amplitude.ViewPath.dateSchedule)
            self.navigationController?.pushViewController(vc, animated: false)
     }
     

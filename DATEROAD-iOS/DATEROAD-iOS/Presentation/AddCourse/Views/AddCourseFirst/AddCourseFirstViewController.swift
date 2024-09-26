@@ -27,11 +27,15 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
    
    let viewModel: AddCourseViewModel
    
+   var viewPath: String
+   
    
    // MARK: - Initializer
    
-   init(viewModel: AddCourseViewModel) {
+   init(viewModel: AddCourseViewModel, viewPath: String) {
       self.viewModel = viewModel
+      self.viewPath = viewPath
+      
       super.init(nibName: nil, bundle: nil)
    }
    
@@ -41,6 +45,10 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
    
    
    // MARK: - Life Cycle
+   
+   override func viewWillAppear(_ animated: Bool) {
+      self.tabBarController?.tabBar.isHidden = true
+   }
    
    override func viewDidLoad() {
       super.viewDidLoad()
@@ -56,10 +64,7 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
       bindViewModel()
       pastDateBindViewModel()
       setupKeyboardDismissRecognizer()
-   }
-   
-   override func viewWillAppear(_ animated: Bool) {
-      self.tabBarController?.tabBar.isHidden = true
+      AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewCourse1, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
    }
    
    
@@ -106,10 +111,14 @@ private extension AddCourseFirstViewController {
          self.viewModel.fetchPastDate()
          self.addCourseFirstView.addFirstView.tendencyTagCollectionView.reloadData()
       }
+      
       viewModel.isPickedImageVaild.bind { date in
+         guard let value = self.viewModel.isPickedImageVaild.value else {return}
+         self.viewModel.courseImage = value
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isDateNameVaild.bind { date in
          guard let date else {return}
          self.addCourseFirstView.updateDateNameTextField(isPassValid: date)
@@ -117,6 +126,7 @@ private extension AddCourseFirstViewController {
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isVisitDateVaild.bind { date in
          guard let date else {return}
          self.addCourseFirstView.updateVisitDateTextField(isPassValid: date)
@@ -124,14 +134,20 @@ private extension AddCourseFirstViewController {
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isDateStartAtVaild.bind { date in
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isValidTag.bind { date in
+         guard let value = self.viewModel.isValidTag.value else {return}
+         //코스는 아직 불러오기 기능이 없기에 isValidTag 속에 아래 코드 적용
+         self.viewModel.courseTags = value
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isDateLocationVaild.bind { date in
          let flag = self.viewModel.isOkSixBtn()
          self.addCourseFirstView.addFirstView.updateSixCheckButton(isValid: flag)
@@ -141,20 +157,27 @@ private extension AddCourseFirstViewController {
          guard let text = date else {return}
          self.addCourseFirstView.addFirstView.updateDateName(text: text)
       }
+      
       viewModel.visitDate.bind { date in
          guard let text = date else {return}
          self.addCourseFirstView.addFirstView.updateVisitDate(text: text)
+         self.viewModel.courseDate = true
       }
+      
       viewModel.dateStartAt.bind { date in
          guard let text = date else {return}
          self.addCourseFirstView.addFirstView.updatedateStartTime(text: text)
+         self.viewModel.courseStartTime = true
       }
+      
       viewModel.tagCount.bind { count in
          self.addCourseFirstView.addFirstView.updateTagCount(count: count ?? 0)
       }
-      viewModel.dateLocation.bind { date in
+      
+      viewModel.dateLocations.bind { date in
          guard let date else {return}
          self.addCourseFirstView.addFirstView.updateDateLocation(text: date)
+         self.viewModel.courseLocation = true
       }
    }
    
@@ -168,10 +191,12 @@ private extension AddCourseFirstViewController {
          $0.delegate = self
          $0.dataSource = self
       }
+      
       addCourseFirstView.addFirstView.tendencyTagCollectionView.do {
          $0.delegate = self
          $0.dataSource = self
       }
+      
       addCourseFirstView.addFirstView.dateNameTextField.delegate = self
       imagePickerViewController.delegate = self
    }
@@ -221,8 +246,10 @@ private extension AddCourseFirstViewController {
    
    @objc
    func textFieldDidChanacge(_ textField: UITextField) {
-      viewModel.dateName.value = textField.text ?? ""
-      viewModel.satisfyDateName(str: textField.text ?? "")
+      guard let text = textField.text else {return}
+      viewModel.dateName.value = text
+      viewModel.satisfyDateName(str: text)
+      self.viewModel.courseTitle = !text.isEmpty ? true : false
    }
    
    @objc
@@ -273,7 +300,7 @@ private extension AddCourseFirstViewController {
    }
    
    @objc
-   func importingTagBtn(_ sender: UIButton) {
+   func broughtTagBtn(_ sender: UIButton) {
       self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
       self.viewModel.isValidTag.value = true
    }
@@ -285,7 +312,7 @@ private extension AddCourseFirstViewController {
    }
    
    @objc
-   private func datePlaceContainerTapped() {
+   func datePlaceContainerTapped() {
       // datePlaceContainer가 탭되었을 때 수행할 동작을 여기에 구현합니다.
       print("datePlaceContainer tapped!")
       let locationFilterVC = LocationFilterViewController()
@@ -296,6 +323,17 @@ private extension AddCourseFirstViewController {
    }
    
 }
+
+extension AddCourseFirstViewController {
+   
+   @objc
+   override func backButtonTapped() {
+      viewModel.course1BackAmplitude()
+      super.backButtonTapped()
+   }
+   
+}
+
 extension AddCourseFirstViewController: UICollectionViewDelegateFlowLayout {
    
    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -329,7 +367,20 @@ extension AddCourseFirstViewController: UICollectionViewDelegateFlowLayout {
    
 }
 
-extension AddCourseFirstViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension AddCourseFirstViewController: UICollectionViewDelegate {
+   
+   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+      if collectionView == addCourseFirstView.collectionView {
+         let isImageEmpty = (viewModel.pickedImageArr.count<1) ? true : false
+         if isImageEmpty  && collectionView == addCourseFirstView.collectionView {
+            imagePickerViewController.presentPicker(from: self)
+         }
+      }
+   }
+   
+}
+
+extension AddCourseFirstViewController: UICollectionViewDataSource {
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
       if collectionView == addCourseFirstView.collectionView {
@@ -387,15 +438,6 @@ extension AddCourseFirstViewController: UICollectionViewDataSource, UICollection
          }
          
          return cell
-      }
-   }
-   
-   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-      if collectionView == addCourseFirstView.collectionView {
-         let isImageEmpty = (viewModel.pickedImageArr.count<1) ? true : false
-         if isImageEmpty  && collectionView == addCourseFirstView.collectionView {
-            imagePickerViewController.presentPicker(from: self)
-         }
       }
    }
    
@@ -460,7 +502,7 @@ extension AddCourseFirstViewController: LocationFilterDelegate {
    func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
       print("selected : \(city)")
       print("Selected city: \(city.rawValue)")
-      viewModel.dateLocation.value = city.rawValue
+      viewModel.dateLocations.value = city.rawValue
       viewModel.satisfyDateLocation(str: city.rawValue)
       viewModel.country = country.rawValue
       viewModel.city = city.rawValue

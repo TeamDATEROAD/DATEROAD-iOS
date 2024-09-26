@@ -55,8 +55,8 @@ extension MyPageViewModel {
                 }
             default:
                 print("Failed to fetch post logout")
-                self.onSuccessLogout.value = false
                 self.onFailNetwork.value = true
+                self.onSuccessLogout.value = false
                 return
             }
         }
@@ -119,7 +119,6 @@ extension MyPageViewModel {
                 self.onSuccessGetUserProfile.value = false
                 return
             }
-            self.setLoading()
         }
     }
     

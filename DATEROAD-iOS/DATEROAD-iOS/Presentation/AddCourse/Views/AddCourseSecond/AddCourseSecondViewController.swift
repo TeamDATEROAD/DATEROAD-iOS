@@ -18,6 +18,7 @@ final class AddCourseSecondViewController: BaseNavBarViewController {
    
    init(viewModel: AddCourseViewModel) {
       self.viewModel = viewModel
+      
       super.init(nibName: nil, bundle: nil)
    }
    
@@ -75,7 +76,7 @@ final class AddCourseSecondViewController: BaseNavBarViewController {
 }
 
 
-// MARK: - ViewController Methods
+// MARK: - Extension Methods
 
 private extension AddCourseSecondViewController {
    
@@ -108,6 +109,8 @@ private extension AddCourseSecondViewController {
       }
    }
    
+   //TODO: - 추후 데이트코스 공유 코스 등록 기능 살아날 시 수정해야함.
+   // isBroughtData 변수 생성하여 AddSchedule과 동일하게 수행하도록 수정
    func pastDateBindViewModel() {
       if viewModel.pastDatePlaces.count > 0  {
          for i in viewModel.pastDatePlaces {
@@ -133,21 +136,22 @@ private extension AddCourseSecondViewController {
       viewModel.datePlace.bind { [weak self] date in
          guard let text = date else {return}
          self?.addCourseSecondView.addSecondView.updateDatePlace(text: text)
+         self?.viewModel.dateLocation = true
          if let flag = self?.viewModel.isAbleAddBtn() {
             self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: flag)
          }
       }
       
       viewModel.timeRequire.bind { [weak self] date in
-         guard let text = date else {return}
-         self?.addCourseSecondView.addSecondView.updatetimeRequire(text: text)
+         guard let date else {return}
+         self?.addCourseSecondView.addSecondView.updatetimeRequire(text: date)
+         self?.viewModel.dateSpendTime = true
          if let flag = self?.viewModel.isAbleAddBtn() {
             self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: flag)
          }
       }
       
       self.viewModel.isChange = { [weak self] in
-         print(self?.viewModel.addPlaceCollectionViewDataSource ?? "")
          self?.viewModel.isDataSourceNotEmpty()
          
          let state = self?.viewModel.editBtnEnableState.value ?? false
@@ -157,11 +161,8 @@ private extension AddCourseSecondViewController {
          // 텍스트필드 초기화 및 addPlace버튼 비활성화
          self?.addCourseSecondView.addSecondView.finishAddPlace()
          
-         
          // 다음 버튼 활성화 여부 판별 함수
          self?.viewModel.isSourceMoreThanOne()
-         
-         
          self?.addCourseSecondView.addPlaceCollectionView.reloadData()
       }
       
@@ -179,6 +180,20 @@ private extension AddCourseSecondViewController {
    
    
    // MARK: - @objc Methods
+   
+   @objc
+   func textFieldTapped(_ textField: UITextField) {
+      let alertVC = AddSheetViewController(viewModel: viewModel)
+      alertVC.addSheetView = AddSheetView(isCustomPicker: true)
+      
+      self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
+      addCourseSecondView.addSecondView.datePlaceTextField.resignFirstResponder()
+      
+      DispatchQueue.main.async {
+         alertVC.modalPresentationStyle = .overFullScreen
+         self.present(alertVC, animated: true, completion: nil)
+      }
+   }
    
    @objc
    func tapAddPlaceBtn() {
@@ -244,7 +259,17 @@ private extension AddCourseSecondViewController {
          collectionView.reloadData()
       }
    }
-   // 얘 통과 진짜 미친놈
+   
+}
+
+extension AddCourseSecondViewController {
+   
+   @objc
+   override func backButtonTapped() {
+      viewModel.course2BackAmplitude()
+      super.backButtonTapped()
+   }
+   
 }
 
 
@@ -271,33 +296,24 @@ extension AddCourseSecondViewController: UITextFieldDelegate {
       print(textField.text ?? "")
    }
    
-   @objc
-   private func textFieldTapped(_ textField: UITextField) {
-      let alertVC = AddSheetViewController(viewModel: viewModel)
-      alertVC.addSheetView = AddSheetView(isCustomPicker: true)
-      
-      self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
-      addCourseSecondView.addSecondView.datePlaceTextField.resignFirstResponder()
-      
-      DispatchQueue.main.async {
-         alertVC.modalPresentationStyle = .overFullScreen
-         self.present(alertVC, animated: true, completion: nil)
-      }
-   }
-   
 }
 
 
-// MARK: - UICollectionViewDataSource, UICollectionViewDelegate Methods
+// MARK: - UICollectionViewDelegate Methods
 
-extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-   
+extension AddCourseSecondViewController: UICollectionViewDelegate {
    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
       collectionView == addCourseSecondView.collectionView ? false : true
    }
    
    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
    }
+}
+
+
+// MARK: - UICollectionViewDataSource Methods
+
+extension AddCourseSecondViewController: UICollectionViewDataSource {
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
       if collectionView == addCourseSecondView.collectionView {

@@ -26,11 +26,15 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
    
    let viewModel: AddScheduleViewModel
    
+   var viewPath: String
+   
    
    // MARK: - Initializer
    
-   init(viewModel: AddScheduleViewModel) {
+   init(viewModel: AddScheduleViewModel, viewPath: String) {
       self.viewModel = viewModel
+      self.viewPath = viewPath
+      
       super.init(nibName: nil, bundle: nil)
    }
    
@@ -50,9 +54,9 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
       registerCell()
       setDelegate()
       bindViewModel()
-      
       setupKeyboardDismissRecognizer()
       pastDateBindViewModel()
+      AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddSchedule, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
    }
    
    
@@ -133,30 +137,33 @@ private extension AddScheduleFirstViewController {
       viewModel.ispastDateVaild.bind { [weak self] isValid in
          guard let self = self else { return }
          self.viewModel.fetchPastDate()
+         AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
       }
       
       viewModel.isDateNameVaild.bind { date in
          guard let date else {return}
          self.addScheduleFirstView.updateDateNameTextField(isPassValid: date)
-         
          let flag = self.viewModel.isOkSixBtn()
          self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isVisitDateVaild.bind { date in
          guard let date else {return}
          self.addScheduleFirstView.updateVisitDateTextField(isPassValid: date)
-         
          let flag = self.viewModel.isOkSixBtn()
          self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isDateStartAtVaild.bind { date in
          let flag = self.viewModel.isOkSixBtn()
          self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isValidTag.bind { date in
          let flag = self.viewModel.isOkSixBtn()
          self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
       }
+      
       viewModel.isDateLocationVaild.bind { date in
          let flag = self.viewModel.isOkSixBtn()
          self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
@@ -165,21 +172,31 @@ private extension AddScheduleFirstViewController {
       viewModel.dateName.bind { date in
          guard let text = date else {return}
          self.addScheduleFirstView.inAddScheduleFirstView.updateDateName(text: text)
+         self.viewModel.dateTitle = true
       }
+      
       viewModel.visitDate.bind { date in
          guard let text = date else {return}
          self.addScheduleFirstView.inAddScheduleFirstView.updateVisitDate(text: text)
+         self.viewModel.dateDate = true
       }
+      
       viewModel.dateStartAt.bind { date in
          guard let text = date else {return}
          self.addScheduleFirstView.inAddScheduleFirstView.updatedateStartTime(text: text)
+         self.viewModel.dateTime = true
       }
+      
       viewModel.tagCount.bind { count in
-         self.addScheduleFirstView.inAddScheduleFirstView.updateTagCount(count: count ?? 0)
+         guard let count else {return}
+         self.addScheduleFirstView.inAddScheduleFirstView.updateTagCount(count: count)
+         self.viewModel.dateTagNum = count
       }
+      
       viewModel.dateLocation.bind { date in
          guard let date else {return}
          self.addScheduleFirstView.inAddScheduleFirstView.updateDateLocation(text: date)
+         self.viewModel.dateArea = true
       }
    }
    
@@ -216,7 +233,8 @@ private extension AddScheduleFirstViewController {
    
    @objc
    func didTapNavRightBtn() {
-       let vc = NavViewedCourseViewController(viewedCourseViewModel: MyCourseListViewModel())
+      let vc = NavViewedCourseViewController(viewedCourseViewModel: MyCourseListViewModel())
+      AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.clickBringCourse)
       self.navigationController?.pushViewController(vc, animated: false)
    }
    
@@ -246,8 +264,10 @@ private extension AddScheduleFirstViewController {
    
    @objc
    func textFieldDidChanacge(_ textField: UITextField) {
-      viewModel.dateName.value = textField.text ?? ""
-      viewModel.satisfyDateName(str: textField.text ?? "")
+      guard let text = textField.text else {return}
+      viewModel.dateName.value = text
+      viewModel.satisfyDateName(str: text)
+      self.viewModel.dateTitle = !text.isEmpty ? true : false
    }
    
    @objc
@@ -271,7 +291,7 @@ private extension AddScheduleFirstViewController {
    }
    
    @objc
-   func importingTagBtn(_ sender: UIButton) {
+   func broughtTagBtn(_ sender: UIButton) {
       self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: SelectedButton())
       self.viewModel.isValidTag.value = true
    }
@@ -283,7 +303,7 @@ private extension AddScheduleFirstViewController {
    }
    
    @objc
-   private func datePlaceContainerTapped() {
+   func datePlaceContainerTapped() {
       // datePlaceContainer가 탭되었을 때 수행할 동작을 여기에 구현합니다.
       print("datePlaceContainer tapped!")
       let locationFilterVC = LocationFilterViewController()
@@ -296,13 +316,22 @@ private extension AddScheduleFirstViewController {
 }
 
 extension AddScheduleFirstViewController {
+   
    func pastDateBindViewModel() {
-      if !viewModel.isImporting {
+      if !viewModel.isBroughtData {
          setRightBtnStyle()
          setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
       }
       viewModel.ispastDateVaild.value = true
    }
+   
+   /// BaseNavBarViewController에서 backButtonTapped() 오버라이드
+   @objc
+   override func backButtonTapped() {
+      viewModel.schedule1BackAmplitude()
+      super.backButtonTapped()
+   }
+   
 }
 
 extension AddScheduleFirstViewController: UICollectionViewDelegateFlowLayout {
@@ -326,7 +355,11 @@ extension AddScheduleFirstViewController: UICollectionViewDelegateFlowLayout {
    
 }
 
-extension AddScheduleFirstViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension AddScheduleFirstViewController: UICollectionViewDelegate {
+   
+}
+
+extension AddScheduleFirstViewController: UICollectionViewDataSource {
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
       return viewModel.tagData.count

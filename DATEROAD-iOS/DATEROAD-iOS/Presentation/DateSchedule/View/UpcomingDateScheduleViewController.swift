@@ -162,7 +162,8 @@ extension UpcomingDateScheduleViewController: DRCustomAlertDelegate {
             customAlertVC.modalPresentationStyle = .overFullScreen
             self.present(customAlertVC, animated: false)
         } else {
-           let vc = AddScheduleFirstViewController(viewModel: AddScheduleViewModel())
+            print("push to 일정등록하기")
+           let vc = AddScheduleFirstViewController(viewModel: AddScheduleViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.dateSchedule)
            self.navigationController?.pushViewController(vc, animated: false)
         }
         AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.clickAddSchedule)

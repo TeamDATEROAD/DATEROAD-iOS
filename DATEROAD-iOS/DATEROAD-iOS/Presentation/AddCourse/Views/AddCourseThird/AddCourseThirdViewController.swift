@@ -17,7 +17,7 @@ final class AddCourseThirdViewController: BaseNavBarViewController {
    private var addCourseThirdView = AddCourseThirdView()
    
    private let viewModel: AddCourseViewModel
-      
+   
    private let errorView: DRErrorViewController = DRErrorViewController()
    
    
@@ -30,6 +30,7 @@ final class AddCourseThirdViewController: BaseNavBarViewController {
    
    init(viewModel: AddCourseViewModel) {
       self.viewModel = viewModel
+      
       super.init(nibName: nil, bundle: nil)
    }
    
@@ -79,7 +80,7 @@ final class AddCourseThirdViewController: BaseNavBarViewController {
    
    override func setLayout() {
       super.setLayout()
-
+      
       addCourseThirdView.snp.makeConstraints {
          $0.top.equalToSuperview().offset(4)
          $0.horizontalEdges.equalToSuperview()
@@ -150,10 +151,10 @@ private extension AddCourseThirdViewController {
       }
       
       self.viewModel.onLoading.bind { [weak self] onLoading in
-          guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
+         guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
          
          if !onFailNetwork {
-             onLoading ? self?.showLoadingView() : self?.hideLoadingView()
+            onLoading ? self?.showLoadingView() : self?.hideLoadingView()
             self?.addCourseThirdView.isHidden = onLoading
             self?.tabBarController?.tabBar.isHidden = onLoading
          }
@@ -174,10 +175,12 @@ private extension AddCourseThirdViewController {
          self?.viewModel.contentFlag = flag
          self?.viewModel.isDoneBtnValid()
       }
+      
       viewModel.priceText.bind { [weak self] date in
          guard let date else {return}
          self?.addCourseThirdView.addThirdView.updatePriceText(price: date)
          let flag = (date >= 0)
+         self?.viewModel.courseCost = flag
          self?.viewModel.price = date
          self?.viewModel.priceFlag = flag
          self?.viewModel.isDoneBtnValid()
@@ -208,6 +211,18 @@ private extension AddCourseThirdViewController {
       navigationController?.popToPreviousViewController(ofType: AddCourseFirstViewController.self, defaultViewController: tabbarVC)
    }
    
+   func adjustScrollViewForKeyboard(showKeyboard: Bool) {
+      let maxKeyboardHeight: CGFloat = 45
+      
+      let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: showKeyboard ? min(keyboardHeight, maxKeyboardHeight) : 0, right: 0)
+      addCourseThirdView.scrollView.contentInset = contentInsets
+      addCourseThirdView.scrollView.scrollIndicatorInsets = contentInsets
+      
+      var visibleRect = CGRect()
+      visibleRect.size = addCourseThirdView.scrollView.contentSize
+      addCourseThirdView.scrollView.scrollRectToVisible(visibleRect, animated: true)
+   }
+   
    @objc
    func keyboardWillShow(_ notification: Notification) {
       if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
@@ -221,16 +236,14 @@ private extension AddCourseThirdViewController {
       adjustScrollViewForKeyboard(showKeyboard: false)
    }
    
-   func adjustScrollViewForKeyboard(showKeyboard: Bool) {
-      let maxKeyboardHeight: CGFloat = 45
-      
-      let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: showKeyboard ? min(keyboardHeight, maxKeyboardHeight) : 0, right: 0)
-      addCourseThirdView.scrollView.contentInset = contentInsets
-      addCourseThirdView.scrollView.scrollIndicatorInsets = contentInsets
-      
-      var visibleRect = CGRect()
-      visibleRect.size = addCourseThirdView.scrollView.contentSize
-      addCourseThirdView.scrollView.scrollRectToVisible(visibleRect, animated: true)
+}
+
+extension AddCourseThirdViewController {
+   
+   @objc
+   override func backButtonTapped() {
+      viewModel.course3BackAmplitude()
+      super.backButtonTapped()
    }
    
 }
@@ -270,7 +283,9 @@ extension AddCourseThirdViewController: UITextViewDelegate {
       viewModel.contentText = changedText
       let filteredTextCount = changedText.filter { $0 != "\n" }.count
       viewModel.contentTextCount.value = filteredTextCount
+      viewModel.courseContentNum = filteredTextCount
       print("🎉🎉🎉🎉\(changedText)🎉🎉🎉🎉")
+      viewModel.courseContentBool = filteredTextCount > 0 ? true : false
       
       // 리턴 키 입력을 처리합니다.
       if text == "\n" {
@@ -323,7 +338,11 @@ extension AddCourseThirdViewController: UITextFieldDelegate {
 
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate Methods
 
-extension AddCourseThirdViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension AddCourseThirdViewController: UICollectionViewDelegate {
+   
+}
+
+extension AddCourseThirdViewController: UICollectionViewDataSource {
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
       return viewModel.pickedImageArr.count

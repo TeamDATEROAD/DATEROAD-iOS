@@ -187,7 +187,7 @@ extension MainViewController {
     
     @objc
     func pushToAddCourseVC() {
-        let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
+       let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.home)
         self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
     

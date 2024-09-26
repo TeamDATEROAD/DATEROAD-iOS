@@ -130,6 +130,18 @@ private extension EditProfileViewController {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
         }
+       
+       self.profileViewModel.onFailNetwork.bind { [weak self] onFailure in
+          guard let onFailure else { return }
+          if onFailure {
+             let errorVC = DRErrorViewController()
+             errorVC.onDismiss = {
+                self?.profileViewModel.onFailNetwork.value = false
+                self?.profileViewModel.onEditProfileLoading.value = false
+             }
+             self?.navigationController?.pushViewController(errorVC, animated: false)
+          }
+       }
         
         self.profileViewModel.profileImage.bind { [weak self] image in
             guard let initial = self?.initial else { return }
