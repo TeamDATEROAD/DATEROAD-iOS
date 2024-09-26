@@ -82,10 +82,6 @@ extension MainViewController {
            guard let onFailure else { return }
            if onFailure {
               let errorVC = DRErrorViewController(type: StringLiterals.Common.main)
-              errorVC.onDismiss = {
-                 self?.mainViewModel.onFailNetwork.value = false
-                 self?.mainViewModel.onLoading.value = false
-              }
               self?.navigationController?.pushViewController(errorVC, animated: false)
            }
         }
