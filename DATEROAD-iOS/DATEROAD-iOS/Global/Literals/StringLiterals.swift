@@ -52,6 +52,7 @@ enum StringLiterals {
    }
    
    enum CourseDetail {
+      static let priceLabelZero = "무지출"
       static let timelineInfoLabel = "코스 타임라인"
       static let coastInfoLabel = "총 비용"
       static let tagInfoLabel = "태그"
@@ -320,6 +321,9 @@ enum StringLiterals {
          static let clickCourse1Back = "click_course1_back"
          static let clickCourse2Back = "click_course2_back"
          static let clickCourse3Back = "click_course3_back"
+		 static let viewCourseDetails = "view_course_details"
+         static let clickCourseBack = "click_course_back"
+         static let clickCourseLikes = "click_course_likes"
       }
       
       enum Property {
@@ -350,6 +354,9 @@ enum StringLiterals {
          static let courseContentBool = "course_content_bool"
          static let courseContentNum = "course_content_num"
          static let courseCost = "course_cost"
+		 static let purchaseSuccess = "purchase_success"
+         static let clickCoursePurchase = "click_course_purchase"
+         static let courseListLike = "course_list_like"
       }
       
       enum UserProperty {
@@ -358,6 +365,7 @@ enum StringLiterals {
          static let userPurchaseCount = "user_purchase_count"
          static let userCourseCount = "user_course_count"
          static let dateScheduleNum = "date_schedule_num"
+		 static let userFreeRemained = "user_free_remained"
       }
       
       enum ViewPath {

@@ -70,11 +70,18 @@ final class CourseDetailViewModel: Serviceable {
     
     var tagArr = [GetCourseDetailTag]()
     
+    var userFreeRemained: String = ""
     
-   init(courseId: Int) {
-      self.courseId = courseId
-      getCourseDetail()
-   }
+    var courseListId: String = ""
+    
+    var courseListTitle: String = ""
+    
+    var purchaseSuccess: Bool = false
+    
+    init(courseId: Int) {
+        self.courseId = courseId
+        getCourseDetail()
+    }
     
     var sections: [CourseDetailSection] {
         return [.imageCarousel, .titleInfo, .mainContents, .timelineInfo, .coastInfo, .tagInfo]
@@ -118,38 +125,28 @@ extension CourseDetailViewModel {
             switch response {
             case .success(let data):
                 dump(data)
-                self.conditionalData.value = ConditionalModel(courseId: self.courseId, isCourseMine: data.isCourseMine, isAccess: data.isAccess, free: data.free, totalPoint: data.totalPoint, isUserLiked: data.isUserLiked)
+                self.conditionalData.value = ConditionalModel(
+                    courseId: self.courseId,
+                    isCourseMine: data.isCourseMine,
+                    isAccess: data.isAccess,
+                    free: data.free,
+                    totalPoint: data.totalPoint,
+                    isUserLiked: data.isUserLiked
+                )
                 self.isChange?()
-                
+                self.purchaseSuccess = data.isAccess
                 self.startAt = data.startAt
-                
-                if data.totalPoint >= 50 {
-                    self.havePoint.value = true
-                } else {
-                    self.havePoint.value = false
-                }
-                
-                if data.free > 0 && data.free <= 3 {
-                    self.haveFreeCount.value = true
-                } else {
-                    self.haveFreeCount.value = false
-                }
-                
+                self.havePoint.value = data.totalPoint >= 50
+                self.haveFreeCount.value = data.free > 0 && data.free <= 3
                 self.isAccess.value = data.isAccess
                 self.isCourseMine.value = data.isCourseMine
-                
                 self.imageData.value = data.images.map {ThumbnailModel(imageUrl: $0.imageURL, sequence: $0.sequence)}
-                
                 self.likeSum.value = data.like
                 self.titleHeaderData.value = TitleHeaderModel(date: data.date, title: data.title, cost: data.totalCost, totalTime: data.totalTime, city: data.city)
-                
-                
                 self.mainContentsData.value = MainContentsModel(description: data.description)
-                
                 self.timelineData.value = data.places.map { place in
                     TimelineModel(sequence: place.sequence, title: place.title, duration: Float(place.duration))
                 }
-                
                 self.tagArr = data.tags
                 
                 self.tagData.value = data.tags.map { tag in
@@ -157,8 +154,15 @@ extension CourseDetailViewModel {
                 }
                 
                 self.isUserLiked.value = data.isUserLiked
-                
                 self.isSuccessGetData.value = true
+                self.userFreeRemained = "\(data.free)"
+                self.courseListId = "\(data.courseID)"
+                self.courseListTitle = "\(data.title)"
+                
+                AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.userFreeRemained : data.free])
+                AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewCourseDetails,
+                                                                 properties: [StringLiterals.Amplitude.Property.courseListId: self.courseListId,
+                                                                              StringLiterals.Amplitude.Property.courseListTitle: self.courseListTitle])
                 
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
@@ -241,5 +245,6 @@ extension CourseDetailViewModel {
         guard let isSuccessGetData = self.isSuccessGetData.value else { return }
         self.onLoading.value = !isSuccessGetData
     }
+    
     
 }
