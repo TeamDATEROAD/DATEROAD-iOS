@@ -2287,6 +2287,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 72B557RJ7S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "DATEROAD-iOS/Global/Settings/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "데이트로드";
 				INFOPLIST_KEY_NSCameraUsageDescription = "사진 접근을 위해 권한이 필요합니다. 허용하시겠습니까?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -2327,6 +2328,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 72B557RJ7S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "DATEROAD-iOS/Global/Settings/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "데이트로드";
 				INFOPLIST_KEY_NSCameraUsageDescription = "사진 접근을 위해 권한이 필요합니다. 허용하시겠습니까?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
