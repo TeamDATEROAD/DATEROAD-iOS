@@ -177,6 +177,8 @@ enum StringLiterals {
       static let footer = "footer"
       static let cancel = "취소"
       static let close = "닫기"
+       static let common = "COMMON"
+       static let main = "MAIN"
    }
    
    enum Main {
