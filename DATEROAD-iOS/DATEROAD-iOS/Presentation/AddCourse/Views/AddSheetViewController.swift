@@ -95,7 +95,15 @@ private extension AddSheetViewController {
 
 // MARK: - UIPickerViewDataSource, UIPickerViewDelegate Methods
 
-extension AddSheetViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+extension AddSheetViewController: UIPickerViewDelegate {
+   
+   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+      return String(customPickerValues[row])
+   }
+   
+}
+
+extension AddSheetViewController: UIPickerViewDataSource {
    
    func numberOfComponents(in pickerView: UIPickerView) -> Int {
       return 1
@@ -103,10 +111,6 @@ extension AddSheetViewController: UIPickerViewDataSource, UIPickerViewDelegate {
    
    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
       return customPickerValues.count
-   }
-   
-   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-      return String(customPickerValues[row])
    }
    
 }

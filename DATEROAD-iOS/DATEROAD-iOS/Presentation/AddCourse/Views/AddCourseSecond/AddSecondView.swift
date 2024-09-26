@@ -178,7 +178,7 @@ final class AddSecondView: BaseView {
 }
 
 
-// MARK: - View Methods
+// MARK: - Extension Methods
 
 extension AddSecondView {
    

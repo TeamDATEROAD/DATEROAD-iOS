@@ -406,9 +406,7 @@ extension AddCourseViewModel {
       }
       
       var postAddCourseTag = PostAddCourseTag()
-      
       postAddCourseTag.addTags(from: selectedTagData)
-      
       
       guard let dateName = dateName.value else {return}
       guard let visitDate = visitDate.value else {return}

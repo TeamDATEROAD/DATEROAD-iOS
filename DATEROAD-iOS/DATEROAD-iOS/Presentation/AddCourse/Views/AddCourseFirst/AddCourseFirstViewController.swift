@@ -300,7 +300,7 @@ private extension AddCourseFirstViewController {
    }
    
    @objc
-   func importingTagBtn(_ sender: UIButton) {
+   func broughtTagBtn(_ sender: UIButton) {
       self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
       self.viewModel.isValidTag.value = true
    }
@@ -312,7 +312,7 @@ private extension AddCourseFirstViewController {
    }
    
    @objc
-   private func datePlaceContainerTapped() {
+   func datePlaceContainerTapped() {
       // datePlaceContainer가 탭되었을 때 수행할 동작을 여기에 구현합니다.
       print("datePlaceContainer tapped!")
       let locationFilterVC = LocationFilterViewController()
@@ -367,7 +367,20 @@ extension AddCourseFirstViewController: UICollectionViewDelegateFlowLayout {
    
 }
 
-extension AddCourseFirstViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension AddCourseFirstViewController: UICollectionViewDelegate {
+   
+   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+      if collectionView == addCourseFirstView.collectionView {
+         let isImageEmpty = (viewModel.pickedImageArr.count<1) ? true : false
+         if isImageEmpty  && collectionView == addCourseFirstView.collectionView {
+            imagePickerViewController.presentPicker(from: self)
+         }
+      }
+   }
+   
+}
+
+extension AddCourseFirstViewController: UICollectionViewDataSource {
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
       if collectionView == addCourseFirstView.collectionView {
@@ -425,15 +438,6 @@ extension AddCourseFirstViewController: UICollectionViewDataSource, UICollection
          }
          
          return cell
-      }
-   }
-   
-   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-      if collectionView == addCourseFirstView.collectionView {
-         let isImageEmpty = (viewModel.pickedImageArr.count<1) ? true : false
-         if isImageEmpty  && collectionView == addCourseFirstView.collectionView {
-            imagePickerViewController.presentPicker(from: self)
-         }
       }
    }
    

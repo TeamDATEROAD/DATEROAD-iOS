@@ -160,9 +160,10 @@ final class AddCourseFirstView: BaseView {
    
 }
 
+
+// MARK: - Extension Methods
+
 extension AddCourseFirstView {
-   
-   // MARK: - Methods
    
    func updateDateNameTextField(isPassValid: Bool) {
       dateNameErrorLabel.isHidden = isPassValid

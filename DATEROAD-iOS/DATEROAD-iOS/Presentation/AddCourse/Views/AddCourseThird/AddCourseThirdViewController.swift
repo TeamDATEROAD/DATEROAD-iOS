@@ -211,6 +211,18 @@ private extension AddCourseThirdViewController {
       navigationController?.popToPreviousViewController(ofType: AddCourseFirstViewController.self, defaultViewController: tabbarVC)
    }
    
+   func adjustScrollViewForKeyboard(showKeyboard: Bool) {
+      let maxKeyboardHeight: CGFloat = 45
+      
+      let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: showKeyboard ? min(keyboardHeight, maxKeyboardHeight) : 0, right: 0)
+      addCourseThirdView.scrollView.contentInset = contentInsets
+      addCourseThirdView.scrollView.scrollIndicatorInsets = contentInsets
+      
+      var visibleRect = CGRect()
+      visibleRect.size = addCourseThirdView.scrollView.contentSize
+      addCourseThirdView.scrollView.scrollRectToVisible(visibleRect, animated: true)
+   }
+   
    @objc
    func keyboardWillShow(_ notification: Notification) {
       if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
@@ -222,18 +234,6 @@ private extension AddCourseThirdViewController {
    @objc
    func keyboardWillHide(_ notification: Notification) {
       adjustScrollViewForKeyboard(showKeyboard: false)
-   }
-   
-   func adjustScrollViewForKeyboard(showKeyboard: Bool) {
-      let maxKeyboardHeight: CGFloat = 45
-      
-      let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: showKeyboard ? min(keyboardHeight, maxKeyboardHeight) : 0, right: 0)
-      addCourseThirdView.scrollView.contentInset = contentInsets
-      addCourseThirdView.scrollView.scrollIndicatorInsets = contentInsets
-      
-      var visibleRect = CGRect()
-      visibleRect.size = addCourseThirdView.scrollView.contentSize
-      addCourseThirdView.scrollView.scrollRectToVisible(visibleRect, animated: true)
    }
    
 }
@@ -338,7 +338,11 @@ extension AddCourseThirdViewController: UITextFieldDelegate {
 
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate Methods
 
-extension AddCourseThirdViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension AddCourseThirdViewController: UICollectionViewDelegate {
+   
+}
+
+extension AddCourseThirdViewController: UICollectionViewDataSource {
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
       return viewModel.pickedImageArr.count

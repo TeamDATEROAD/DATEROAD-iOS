@@ -291,7 +291,7 @@ private extension AddScheduleFirstViewController {
    }
    
    @objc
-   func importingTagBtn(_ sender: UIButton) {
+   func broughtTagBtn(_ sender: UIButton) {
       self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: SelectedButton())
       self.viewModel.isValidTag.value = true
    }

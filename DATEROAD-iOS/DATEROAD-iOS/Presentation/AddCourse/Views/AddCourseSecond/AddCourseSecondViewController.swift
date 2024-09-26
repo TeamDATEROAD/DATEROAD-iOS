@@ -76,7 +76,7 @@ final class AddCourseSecondViewController: BaseNavBarViewController {
 }
 
 
-// MARK: - ViewController Methods
+// MARK: - Extension Methods
 
 private extension AddCourseSecondViewController {
    
@@ -182,6 +182,20 @@ private extension AddCourseSecondViewController {
    // MARK: - @objc Methods
    
    @objc
+   func textFieldTapped(_ textField: UITextField) {
+      let alertVC = AddSheetViewController(viewModel: viewModel)
+      alertVC.addSheetView = AddSheetView(isCustomPicker: true)
+      
+      self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
+      addCourseSecondView.addSecondView.datePlaceTextField.resignFirstResponder()
+      
+      DispatchQueue.main.async {
+         alertVC.modalPresentationStyle = .overFullScreen
+         self.present(alertVC, animated: true, completion: nil)
+      }
+   }
+   
+   @objc
    func tapAddPlaceBtn() {
       viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")
    }
@@ -282,33 +296,24 @@ extension AddCourseSecondViewController: UITextFieldDelegate {
       print(textField.text ?? "")
    }
    
-   @objc
-   private func textFieldTapped(_ textField: UITextField) {
-      let alertVC = AddSheetViewController(viewModel: viewModel)
-      alertVC.addSheetView = AddSheetView(isCustomPicker: true)
-      
-      self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
-      addCourseSecondView.addSecondView.datePlaceTextField.resignFirstResponder()
-      
-      DispatchQueue.main.async {
-         alertVC.modalPresentationStyle = .overFullScreen
-         self.present(alertVC, animated: true, completion: nil)
-      }
-   }
-   
 }
 
 
-// MARK: - UICollectionViewDataSource, UICollectionViewDelegate Methods
+// MARK: - UICollectionViewDelegate Methods
 
-extension AddCourseSecondViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-   
+extension AddCourseSecondViewController: UICollectionViewDelegate {
    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
       collectionView == addCourseSecondView.collectionView ? false : true
    }
    
    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
    }
+}
+
+
+// MARK: - UICollectionViewDataSource Methods
+
+extension AddCourseSecondViewController: UICollectionViewDataSource {
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
       if collectionView == addCourseSecondView.collectionView {
