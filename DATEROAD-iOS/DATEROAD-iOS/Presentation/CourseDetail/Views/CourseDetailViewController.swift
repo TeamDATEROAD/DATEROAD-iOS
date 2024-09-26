@@ -126,27 +126,43 @@ final class CourseDetailViewController: BaseViewController {
     }
     
     func bindViewModel() {
-        
         self.courseDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.courseDetailViewModel.onFailNetwork.value = false
+                  self?.courseDetailViewModel.onLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
         
         self.courseDetailViewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.courseDetailViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
-                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.courseDetailView.isHidden = onLoading
+                if onLoading {
+                    self?.showLoadingView()
+                    self?.courseDetailView.isHidden = onLoading
+                } else {
+                    self?.localLikeNum = self?.courseDetailViewModel.likeSum.value ?? 0
+                    self?.setSetctionCount()
+                    self?.setTabBarVisibility()
+                    self?.setNavBarVisibility()
+                    self?.courseDetailView.mainCollectionView.reloadData()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self?.courseDetailView.isHidden = onLoading
+                        self?.hideLoadingView()
+                    }
+                }
             }
         }
         
         self.courseDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                self?.courseDetailViewModel.getCourseDetail()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
@@ -162,14 +178,6 @@ final class CourseDetailViewController: BaseViewController {
         courseDetailViewModel.isSuccessGetData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             self?.courseDetailViewModel.setLoading()
-            
-            if isSuccess {
-                self?.localLikeNum = self?.courseDetailViewModel.likeSum.value ?? 0
-                self?.setSetctionCount()
-                self?.setTabBarVisibility()
-                self?.setNavBarVisibility()
-                self?.courseDetailView.mainCollectionView.reloadData()
-            }
         }
         
         courseDetailViewModel.isAccess.bind { [weak self] isAccess in
@@ -203,7 +211,7 @@ extension CourseDetailViewController: DRCustomAlertDelegate {
         case .checkCourse:
             handleCourseAccess()
         case .declareCourse:
-            present(DRWebViewController(urlString: "https://tally.so/r/w4L1a5"), animated: true)
+            present(DRWebViewController(urlString: StringLiterals.WebView.declareLink), animated: true)
         case .deleteCourse:
             deleteCourse()
         default:
@@ -218,14 +226,14 @@ extension CourseDetailViewController: DRCustomAlertDelegate {
         
         if courseDetailViewModel.haveFreeCount.value == true {
             //무료 열람 기회 사용
-            let request = PostUsePointRequest(point: 50, type: "POINT_USED", description: "무료 열람 기회 사용")
+            let request = PostUsePointRequest(point: 50, type: StringLiterals.CourseDetail.pointUsed, description: StringLiterals.CourseDetail.usedFreeView)
             self.courseDetailViewModel.postUsePoint(courseId: courseId, request: request)
             self.courseDetailViewModel.isAccess.value = true
             dismiss(animated: false)
         } else {
             if courseDetailViewModel.havePoint.value == true {
                 //포인트로 구입
-                let request = PostUsePointRequest(point: 50, type: "POINT_USED", description: StringLiterals.CourseDetail.viewCourse)
+                let request = PostUsePointRequest(point: 50, type: StringLiterals.CourseDetail.pointUsed, description: StringLiterals.CourseDetail.viewCourse)
                 self.courseDetailViewModel.postUsePoint(courseId: courseId, request: request)
                 self.courseDetailViewModel.isAccess.value = true
                 dismiss(animated: false)
@@ -247,6 +255,7 @@ extension CourseDetailViewController: DRCustomAlertDelegate {
                     self?.navigationController?.popViewController(animated: true)
                 } else {
                     print("삭제 실패 ㅠ")
+                    self?.presentAlertVC(title: StringLiterals.Alert.failToDeleteCourse)
                 }
             }
         }
@@ -317,7 +326,7 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         )
     }
     
-    func presentCustomAlert(title: String, description: String, action: RightButtonType, buttonText: String = "확인") {
+    func presentCustomAlert(title: String, description: String, action: RightButtonType, buttonText: String = StringLiterals.Alert.confirm) {
         let alertVC = DRCustomAlertViewController(
             rightActionType: action,
             alertTextType: .hasDecription,
@@ -404,7 +413,13 @@ private extension CourseDetailViewController {
         courseDetailViewModel.isUserLiked.value?.toggle()
         
         let likeAction = isLiked ? courseDetailViewModel.deleteLikeCourse : courseDetailViewModel.likeCourse
-        likeAction(courseId ?? 0)
+        likeAction(courseId ?? 0) { [weak self] isSuccess in
+            DispatchQueue.main.async {
+                if !isSuccess {
+                    isLiked ? self?.presentAlertVC(title: StringLiterals.Alert.failToDeleteLike) : self?.presentAlertVC(title: StringLiterals.Alert.failToAddLike)
+                }
+            }
+        }
         
         self.courseDetailView.mainCollectionView.reloadData()
     }

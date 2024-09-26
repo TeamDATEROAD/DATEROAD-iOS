@@ -11,10 +11,6 @@ final class PointSystemViewModel {
     
     var pointSystemData: [PointSystemModel] = []
     
-//    init() {
-//        fetchData()
-//    }
-    
 }
 
 extension PointSystemViewModel {

@@ -15,7 +15,7 @@ protocol LocationFilterDelegate: AnyObject {
    func getCourse()
 }
 
-class LocationFilterViewController: BaseViewController {
+final class LocationFilterViewController: BaseViewController {
    
    // MARK: - UI Properties
    

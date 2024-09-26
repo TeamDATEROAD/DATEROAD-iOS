@@ -111,7 +111,13 @@ private extension AddScheduleSecondViewController {
    func pastDateBindViewModel() {
       if viewModel.pastDatePlaces.count > 0  {
          for i in viewModel.pastDatePlaces {
-            viewModel.tapAddBtn(datePlace: i.title, timeRequire: String(i.duration))
+            if let doubleValue = Double(String(i.duration)) {
+               let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
+               String(Int(doubleValue)) : String(doubleValue)
+               viewModel.tapAddBtn(datePlace: i.title, timeRequire: "\(text) 시간")
+            } else {
+               viewModel.tapAddBtn(datePlace: i.title, timeRequire: "\(String(i.duration)) 시간")
+            }
          }
       }
    }
@@ -156,7 +162,7 @@ private extension AddScheduleSecondViewController {
       self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
          guard let onSuccess else { return }
          if onSuccess {
-            // TODO: - 서버 통신 재시도
+             self?.viewModel.postAddScheduel()
          } else {
             self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
          }

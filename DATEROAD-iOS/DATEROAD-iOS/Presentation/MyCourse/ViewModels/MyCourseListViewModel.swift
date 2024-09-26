@@ -61,8 +61,6 @@ final class MyCourseListViewModel: Serviceable {
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
-            case .serverErr:
-                self.onViewedCourseFailNetwork.value = true
             default:
                 self.onViewedCourseFailNetwork.value = true //TODO: - 확인
                 return
@@ -95,8 +93,6 @@ final class MyCourseListViewModel: Serviceable {
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
-            case .serverErr:
-                self.onNavViewedCourseFailNetwork.value = true
             default:
                 self.onNavViewedCourseFailNetwork.value = true //TODO: - 확인
                 return
@@ -111,6 +107,7 @@ final class MyCourseListViewModel: Serviceable {
     
     func setMyRegisterCourseData() {
         self.isSuccessGetMyRegisterCourseInfo.value = false
+        self.setMyRegisterCourseLoading()
         self.onMyRegisterCourseFailNetwork.value = false
         
         NetworkService.shared.myCourseService.getMyRegisterCourse() { response in
@@ -130,8 +127,6 @@ final class MyCourseListViewModel: Serviceable {
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
-            case .serverErr:
-                self.onMyRegisterCourseFailNetwork.value = true
             default:
                 self.onMyRegisterCourseFailNetwork.value = true //TODO: - 확인
                 return

@@ -79,12 +79,15 @@ extension MainViewController {
     
     func bindViewModel() {
         self.mainViewModel.onFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                self?.mainViewModel.totalFetchCount = 0
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.mainViewModel.onFailNetwork.value = false
+                 self?.mainViewModel.onLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
         
         self.mainViewModel.onLoading.bind { [weak self] onLoading in
@@ -100,7 +103,7 @@ extension MainViewController {
                     self?.mainView.mainCollectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
                     self?.startAutoScrollTimer()
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.mainView.isHidden = onLoading
                         self?.tabBarController?.tabBar.isHidden = onLoading
                         self?.hideLoadingView()
@@ -257,7 +260,8 @@ extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch self.mainViewModel.sectionData[indexPath.section] {
         case .upcomingDate:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingDateCell.cellIdentifier, for: indexPath) as? UpcomingDateCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingDateCell.cellIdentifier, for: indexPath) as? UpcomingDateCell 
+            else { return UICollectionViewCell() }
             cell.bindData(upcomingData: mainViewModel.upcomingData.value, mainUserData: mainViewModel.mainUserData.value)
             // Set button actions
             let pointLabelTapGesture = UITapGestureRecognizer(target: self, action: #selector(pushToPointDetailVC))
@@ -268,19 +272,22 @@ extension MainViewController: UICollectionViewDataSource {
             return cell
             
         case .hotDateCourse:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell 
+            else { return UICollectionViewCell() }
             cell.bindData(hotDateData: mainViewModel.hotCourseData.value?[indexPath.row])
             return cell
             
         case .banner:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell 
+            else { return UICollectionViewCell() }
             cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
             let longPressGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
             cell.addGestureRecognizer(longPressGesture)
             return cell
             
         case .newDateCourse:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell 
+            else { return UICollectionViewCell() }
             cell.bindData(newDateData: mainViewModel.newCourseData.value?[indexPath.row])
             return cell
         }
@@ -288,8 +295,8 @@ extension MainViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == StringLiterals.Common.header {
-            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MainHeaderView.identifier, for: indexPath)
-                    as? MainHeaderView else { return UICollectionReusableView() }
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MainHeaderView.identifier, for: indexPath) as? MainHeaderView
+            else { return UICollectionReusableView() }
             
             switch mainViewModel.sectionData[indexPath.section] {
             case .upcomingDate, .banner:
@@ -305,8 +312,8 @@ extension MainViewController: UICollectionViewDataSource {
             }
             return header
         } else {
-            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BannerIndexFooterView.identifier, for: indexPath)
-                    as? BannerIndexFooterView else { return UICollectionReusableView() }
+            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BannerIndexFooterView.identifier, for: indexPath) as? BannerIndexFooterView
+            else { return UICollectionReusableView() }
             let index = mainViewModel.currentIndex.value?.row ?? 0
             footer.bindIndexData(currentIndex: index, count: 5)
             return footer

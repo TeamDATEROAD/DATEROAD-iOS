@@ -23,6 +23,8 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     var dateID: Int
     
+    var networkType: NetworkType?
+    
     var viewPath: String
     
     var upcomingDateDetailViewModel: DateDetailViewModel
@@ -84,18 +86,10 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
 // MARK: - UI Setting Methods
 
 extension UpcomingDateDetailViewController {
+    
     func bindViewModel() {
-        
         self.upcomingDateDetailViewModel.onDateDetailLoading.bind { [weak self] onLoading in
-            guard let onLoading, 
-                    let onFailNetwork = self?.upcomingDateDetailViewModel.onFailNetwork.value
-            else { return }
-             if !onFailNetwork {
-                 onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                 self?.upcomingDateDetailContentView.isHidden = onLoading
-                 self?.topInsetView.isHidden = onLoading
-                 self?.navigationBarView.isHidden = onLoading
-             }
+            guard let onLoading,  let onFailNetwork = self?.upcomingDateDetailViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
                     self?.showLoadingView()
@@ -103,7 +97,7 @@ extension UpcomingDateDetailViewController {
                     self?.topInsetView.isHidden = onLoading
                     self?.navigationBarView.isHidden = onLoading
                 } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.upcomingDateDetailContentView.isHidden = false
                         self?.topInsetView.isHidden = onLoading
                         self?.navigationBarView.isHidden = onLoading
@@ -114,21 +108,31 @@ extension UpcomingDateDetailViewController {
          }
         
         self.upcomingDateDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
-            guard let onSuccess else { return }
+            guard let onSuccess, let dateID = self?.dateID else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                switch self?.networkType {
+                case .deleteDateSchedule:
+                    self?.upcomingDateDetailViewModel.deleteDateSchdeuleData(dateID: dateID)
+                case .getDateDetail:
+                    self?.upcomingDateDetailViewModel.getDateDetailData(dateID: dateID)
+                default:
+                    self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+                }
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
         }
         
         self.upcomingDateDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                self?.hideLoadingView()
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.upcomingDateDetailViewModel.onFailNetwork.value = false
+                 self?.upcomingDateDetailViewModel.onDateDetailLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
         
         self.upcomingDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
@@ -143,7 +147,7 @@ extension UpcomingDateDetailViewController {
         self.upcomingDateDetailViewModel.isSuccessDeleteDateScheduleData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
-                self?.navigationController?.popViewController(animated: true)
+                self?.navigationController?.popViewController(animated: false)
             }
         }
     }

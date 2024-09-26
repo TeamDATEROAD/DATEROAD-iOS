@@ -111,21 +111,18 @@ private extension AddCourseSecondViewController {
    func pastDateBindViewModel() {
       if viewModel.pastDatePlaces.count > 0  {
          for i in viewModel.pastDatePlaces {
-            viewModel.tapAddBtn(datePlace: i.name, timeRequire: i.duration)
+            if let doubleValue = Double(String(i.duration)) {
+               let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
+               String(Int(doubleValue)) : String(doubleValue)
+               viewModel.tapAddBtn(datePlace: i.name, timeRequire: "\(text) 시간")
+            } else {
+               viewModel.tapAddBtn(datePlace: i.name, timeRequire: "\(String(i.duration)) 시간")
+            }
          }
       }
    }
    
    func bindViewModel() {
-      self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
-         guard let onSuccess else { return }
-         if onSuccess {
-            // TODO: - 서버 통신 재시도
-         } else {
-            self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
-         }
-      }
-      
       viewModel.isDataSourceNotEmpty()
       
       viewModel.editBtnEnableState.bind { [weak self] date in

@@ -56,7 +56,6 @@ final class BannerDetailViewController: BaseViewController {
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
         
-        self.courseDetailViewModel.setBannerDetailLoading()
         self.courseDetailViewModel.getBannerDetail(advertismentId: advertismentId)
     }
     
@@ -83,11 +82,14 @@ final class BannerDetailViewController: BaseViewController {
     }
     
     func bindViewModel() {
+        self.courseDetailViewModel.isSuccessGetBannerData.bind { [weak self] onSuccess in
+            guard let onSuccess  else { return }
+            self?.courseDetailViewModel.onLoading.value = !onSuccess
+        }
+        
         self.courseDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
-            guard let onSuccess, let advertisementId = self?.courseDetailViewModel.advertisementId 
-            else { return }
+            guard let onSuccess, let advertisementId = self?.courseDetailViewModel.advertisementId else { return }
             if onSuccess {
-                self?.courseDetailViewModel.setBannerDetailLoading()
                 self?.courseDetailViewModel.getBannerDetail(advertismentId: advertisementId)
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
@@ -95,11 +97,15 @@ final class BannerDetailViewController: BaseViewController {
         }
         
         self.courseDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.courseDetailViewModel.onFailNetwork.value = false
+                 self?.courseDetailViewModel.onLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
         
         self.courseDetailViewModel.onLoading.bind { [weak self] onLoading in
@@ -112,7 +118,7 @@ final class BannerDetailViewController: BaseViewController {
                     self?.setNavBar()
                     self?.bannerDetailView.mainCollectionView.reloadData()
                     self?.bannerDetailView.isHidden = false
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.hideLoadingView()
                     }
                 }
@@ -197,7 +203,6 @@ extension BannerDetailViewController: UICollectionViewDataSource {
         
     }
     
-    // TODO: - switch 문으로 변경
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let imageData = self.courseDetailViewModel.imageData.value ?? []

@@ -162,7 +162,7 @@ private extension AddCourseThirdViewController {
       self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
          guard let onSuccess else { return }
          if onSuccess {
-            // TODO: - 서버 통신 재시도
+             self?.viewModel.postAddCourse()
          } else {
             self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
          }
@@ -175,9 +175,10 @@ private extension AddCourseThirdViewController {
          self?.viewModel.isDoneBtnValid()
       }
       viewModel.priceText.bind { [weak self] date in
-         self?.addCourseThirdView.addThirdView.updatePriceText(price: date ?? 0)
-         let flag = (date ?? 0 > 0) ? true : false
-         self?.viewModel.price = date ?? 0
+         guard let date else {return}
+         self?.addCourseThirdView.addThirdView.updatePriceText(price: date)
+         let flag = (date >= 0)
+         self?.viewModel.price = date
          self?.viewModel.priceFlag = flag
          self?.viewModel.isDoneBtnValid()
       }

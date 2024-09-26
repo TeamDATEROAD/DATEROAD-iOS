@@ -21,7 +21,7 @@ extension DRCustomAlertDelegate {
     func leftButtonAction(rightButtonAction: RightButtonType) {}
 }
 
-class DRCustomAlertViewController: BaseViewController {
+final class DRCustomAlertViewController: BaseViewController {
     
     // MARK: - UI Properties
     

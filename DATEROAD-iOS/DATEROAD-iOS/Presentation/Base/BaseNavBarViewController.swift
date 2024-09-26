@@ -56,7 +56,7 @@ class BaseNavBarViewController: UIViewController {
       navigationBarView.snp.makeConstraints {
          $0.top.equalTo(topInsetView.snp.bottom)
          $0.horizontalEdges.equalToSuperview()
-         $0.height.equalTo(55) //임시 네비바 높이
+         $0.height.equalTo(55)
       }
       
       contentView.snp.makeConstraints {
@@ -66,12 +66,12 @@ class BaseNavBarViewController: UIViewController {
       
       leftButton.snp.makeConstraints {
          $0.centerY.equalToSuperview()
-         $0.leading.equalToSuperview() //탭바 확정 후 다시 수정 - 메인화면 로고 패딩과 다른 백버튼 패딩이 다름
+         $0.leading.equalToSuperview()
       }
       
       rightButton.snp.makeConstraints {
          $0.centerY.equalToSuperview()
-         $0.trailing.equalToSuperview()//탭바 확정 후 다시 수정 - 메인화면 로고 패딩과 다른 백버튼 패딩이 다름 22
+         $0.trailing.equalToSuperview()
       }
       
       titleLabel.snp.makeConstraints {

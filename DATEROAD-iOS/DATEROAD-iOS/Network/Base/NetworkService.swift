@@ -33,4 +33,8 @@ final class NetworkService {
     
     let courseDetailService: CourseDetailService = CourseDetailService()
     
+    let likedCourseService: LikeCourseService = LikeCourseService()
+    
+    let usePointService: UsePointService = UsePointService()
+    
 }

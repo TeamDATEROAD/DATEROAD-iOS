@@ -114,7 +114,7 @@ private extension UpcomingDateScheduleViewController {
                     self?.tabBarController?.tabBar.isHidden = true
                 } else {
                     self?.drawDateCardView()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.upcomingDateScheduleView.isHidden = false
                         self?.tabBarController?.tabBar.isHidden = false
                         self?.hideLoadingView()
@@ -126,7 +126,7 @@ private extension UpcomingDateScheduleViewController {
         self.upcomingDateScheduleViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                self?.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
@@ -189,7 +189,6 @@ extension UpcomingDateScheduleViewController: UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: ScreenUtils.width * 0.776, height: ScreenUtils.height*0.5)
-//        return UpcomingDateScheduleView.dateCardCollectionViewLayout.itemSize
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -202,8 +201,6 @@ extension UpcomingDateScheduleViewController: UICollectionViewDelegateFlowLayout
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//        let layout = UpcomingDateScheduleView.dateCardCollectionViewLayout
-        
         let cellWidthIncludingSpacing = ScreenUtils.width * 0.776 + ScreenUtils.width * 0.0693
         
         var offset = targetContentOffset.pointee
@@ -214,7 +211,6 @@ extension UpcomingDateScheduleViewController: UICollectionViewDelegateFlowLayout
         targetContentOffset.pointee = offset
         self.upcomingDateScheduleViewModel.currentIndex.value = Int(roundedIndex)
         upcomingDateScheduleView.cardPageControl.currentPage = Int(roundedIndex)
-        // upcomingDateScheduleView.updatePageControlSelectedIndex(index: Int(roundedIndex))
     }
 }
 
@@ -246,7 +242,6 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
             )
             upcomingDateDetailVC.setColor(index: indexPath.item)
             self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
-//            upcomingDateDetailVC.upcomingDateScheduleView = upcomingDateScheduleView
         }
     }
     

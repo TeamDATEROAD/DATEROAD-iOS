@@ -18,6 +18,7 @@ final class TitleInfoCell: BaseCollectionViewCell {
     private let titleLabel = UILabel()
     
     
+    // MARK: - Life Cycles
     
     override func setHierarchy() {
         
