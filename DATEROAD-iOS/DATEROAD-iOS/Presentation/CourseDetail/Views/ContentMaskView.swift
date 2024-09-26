@@ -15,7 +15,7 @@ protocol ContentMaskViewDelegate: AnyObject {
     func didTapViewButton()
 }
 
-class ContentMaskView: UICollectionReusableView {
+final class ContentMaskView: UICollectionReusableView {
     
     // MARK: - UI Properties
     
@@ -35,9 +35,9 @@ class ContentMaskView: UICollectionReusableView {
     
     weak var delegate: ContentMaskViewDelegate?
     
-    static let elementKinds: String = "ContentMaskView"
+    static let elementKinds: String = StringLiterals.Elementkinds.contentMaskView
     
-    static let identifier: String = "ContentMaskView"
+    static let identifier: String = StringLiterals.Elementkinds.contentMaskView
     
     // MARK: - Life Cycle
     

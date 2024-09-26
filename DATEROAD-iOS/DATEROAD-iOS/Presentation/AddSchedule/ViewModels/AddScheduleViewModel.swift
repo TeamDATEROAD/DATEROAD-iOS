@@ -9,7 +9,7 @@ import UIKit
 
 final class AddScheduleViewModel: Serviceable {
    
-   var isImporting = false
+   var isBroughtData = false
    
    var viewedDateCourseByMeData: CourseDetailViewModel?
    
@@ -26,48 +26,57 @@ final class AddScheduleViewModel: Serviceable {
    
    //MARK: - AddFirstCourse 사용되는 ViewModel
    
-   /// 데이트 이름 유효성 판별 (true는 통과)
-   let dateName: ObservablePattern<String> = ObservablePattern("")
+   // 데이트 이름 유효성 판별 (true는 통과)
+   let dateName: ObservablePattern<String> = ObservablePattern(nil)
+   
    let isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+   
    private let minimumDateNameLength = 5
    
-   /// 방문 일자 유효성 판별 (true는 통과)
+   // 방문 일자 유효성 판별 (true는 통과)
    let visitDate: ObservablePattern<String> = ObservablePattern(nil)
+   
    let isVisitDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
-   /// 데이트 시작시간 유효성 판별 (self.count > 0 인지)
+   // 데이트 시작시간 유효성 판별 (self.count > 0 인지)
    let dateStartAt: ObservablePattern<String> = ObservablePattern(nil)
+   
    let isDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
-   /// 코스 등록 태그 생성
+   // 코스 등록 태그 생성
    var tagData: [ProfileTagModel] = []
    
-   /// 선택된 태그
+   // 선택된 태그
    let isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
+   
    let isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
-   let tagCount: ObservablePattern<Int> = ObservablePattern(0)
+   
+   let tagCount: ObservablePattern<Int> = ObservablePattern(nil)
+   
    private let minTagCnt = 1
+   
    private let maxTagCnt = 3
    
-   /// 코스 지역 유효성 판별
-   let dateLocation: ObservablePattern<String> = ObservablePattern("")
+   // 코스 지역 유효성 판별
+   let dateLocation: ObservablePattern<String> = ObservablePattern(nil)
+   
    let isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
    
-   var country = ""
-   var city = ""
-   
+   // 기타
    var isTimePicker: Bool?
+   
+   var country = ""
+   
+   var city = ""
    
    
    //MARK: - AddSecondView 전용 Viewmodel 변수
    
    var addPlaceCollectionViewDataSource: [AddCoursePlaceModel] = []
    
-   let changeTableViewData: ObservablePattern<Int> = ObservablePattern(0)
+   let datePlace: ObservablePattern<String> = ObservablePattern(nil)
    
-   let datePlace: ObservablePattern<String> = ObservablePattern("")
-   
-   let timeRequire: ObservablePattern<String> = ObservablePattern("")
+   let timeRequire: ObservablePattern<String> = ObservablePattern(nil)
    
    let isValidOfSecondNextBtn: ObservablePattern<Bool> = ObservablePattern(false)
    
@@ -85,12 +94,80 @@ final class AddScheduleViewModel: Serviceable {
    
    let onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
    
+   
+   //MARK: - AddSchedule Amplitude 관련 변수
+   
+   var dateTitle: Bool = false
+   
+   var dateDate: Bool = false
+   
+   var dateTime: Bool = false
+   
+   var dateTagNum: Int = 0
+   
+   var dateArea: Bool = false
+   
+   var dateDetailLocation: Bool = false
+   
+   var dateDetailTime: Bool = false
+   
+   var dateCourseNum: Int = 0
+   
+   
+   // MARK: - Initializer
+   
    init() {
+      initAmplitudeVar()
       fetchTagData()
    }
+   
 }
 
 extension AddScheduleViewModel {
+   
+   func initAmplitudeVar() {
+      dateTitle = false
+      dateDate = false
+      dateTime = false
+      dateTagNum = 0
+      dateArea = false
+      dateDetailLocation = false
+      dateDetailTime = false
+      dateCourseNum = 0
+   }
+   
+   func resetAddFirstScheduleAmplitude() {
+      dateTitle = false
+      dateDate = false
+      dateTime = false
+      dateTagNum = 0
+      dateArea = false
+   }
+   
+   func schedule1BackAmplitude() {
+      AmplitudeManager.shared.trackEventWithProperties(
+         StringLiterals.Amplitude.EventName.clickSchedule1Back,
+         properties: [
+            StringLiterals.Amplitude.Property.dateTitle: self.dateTitle,
+            StringLiterals.Amplitude.Property.dateDate: self.dateDate,
+            StringLiterals.Amplitude.Property.dateTime: self.dateTime,
+            StringLiterals.Amplitude.Property.dateTagNum: self.dateTagNum,
+            StringLiterals.Amplitude.Property.dateArea: self.dateArea
+         ]
+      )
+      self.resetAddFirstScheduleAmplitude()
+   }
+   
+   func schedule2BackAmplitude() {
+      AmplitudeManager.shared.trackEventWithProperties(
+         StringLiterals.Amplitude.EventName.clickSchedule2Back,
+         properties: [
+            StringLiterals.Amplitude.Property.dateDetailLocation: self.dateDetailLocation,
+            StringLiterals.Amplitude.Property.dateDetailTime: self.dateDetailTime,
+            StringLiterals.Amplitude.Property.dateCourseNum: self.dateCourseNum
+         ]
+      )
+   }
    
    func getTagIndices(from tags: [String]) -> [Int] {
       return tags.compactMap { tag in
@@ -177,10 +254,8 @@ extension AddScheduleViewModel {
             selectedTagData.remove(at: index)
          }
       }
-      
       checkTagCount(min: minTagCnt, max: maxTagCnt)
    }
-   
    
    func checkTagCount(min: Int, max: Int) {
       let count = selectedTagData.count
@@ -227,13 +302,11 @@ extension AddScheduleViewModel {
    }
    
    func updateTimeRequireTextField(text: String) {
+      var formattedText = text
       if let doubleValue = Double(text) {
-         let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
-         String(Int(doubleValue)) : String(doubleValue)
-         timeRequire.value = "\(text) 시간"
-      } else {
-         timeRequire.value = "\(text) 시간"
+         formattedText = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(doubleValue)) : String(doubleValue)
       }
+      timeRequire.value = "\(formattedText) 시간"
    }
    
    func isAbleAddBtn() -> Bool {
@@ -247,12 +320,17 @@ extension AddScheduleViewModel {
       //viewmodel 값 초기화
       self.datePlace.value = ""
       self.timeRequire.value = ""
+      
+      self.dateDetailLocation = false
+      self.dateDetailTime = false
       self.isChange?()
    }
    
    /// dataSource 개수 >= 2 라면 (다음 2/3) 버튼 활성화
    func isSourceMoreThanOne() {
-      let flag = (addPlaceCollectionViewDataSource.count >= 2) ? true : false
+      let cnt = addPlaceCollectionViewDataSource.count
+      self.dateCourseNum = cnt
+      let flag = (cnt >= 2)
       print("지금 데이터소스 개수 : \(addPlaceCollectionViewDataSource.count)\nflag: \(flag)")
       isValidOfSecondNextBtn.value = flag
    }
@@ -309,17 +387,15 @@ extension AddScheduleViewModel {
          places: places)) { result in
             switch result {
             case .success(let response):
+               print("Success: \(response)")
                self.setLoading(isLoading: false)
                self.isSuccessPostData.value = true
-            case .serverErr:
-               self.onFailNetwork.value = true
-            case . requestErr:
-               self.onFailNetwork.value = true
             case .reIssueJWT:
-                self.patchReissue { isSuccess in
-                    self.onReissueSuccess.value = isSuccess
-                }
+               self.patchReissue { isSuccess in
+                  self.onReissueSuccess.value = isSuccess
+               }
             default:
+               self.onFailNetwork.value = true
                print("Failed to another reason")
                return
             }

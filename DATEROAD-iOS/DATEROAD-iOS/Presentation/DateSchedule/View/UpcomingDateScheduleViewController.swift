@@ -67,7 +67,6 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     }
     
     func drawDateCardView() {
-        print("draw date card view")
         let isEmpty = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count == 0
         upcomingDateScheduleView.emptyView.isHidden = !isEmpty
         upcomingDateScheduleView.cardCollectionView.isHidden = isEmpty
@@ -115,7 +114,7 @@ private extension UpcomingDateScheduleViewController {
                     self?.tabBarController?.tabBar.isHidden = true
                 } else {
                     self?.drawDateCardView()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.upcomingDateScheduleView.isHidden = false
                         self?.tabBarController?.tabBar.isHidden = false
                         self?.hideLoadingView()
@@ -127,7 +126,7 @@ private extension UpcomingDateScheduleViewController {
         self.upcomingDateScheduleViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                self?.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
@@ -141,10 +140,8 @@ private extension UpcomingDateScheduleViewController {
         }
         
         self.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.bind { [weak self] onFailure in
-            print("아아아아아아ㅏ아아아아아아아아아아아아ㅏ앙", onFailure ?? "없지롱")
             guard let onFailure else { return }
             if onFailure {
-                print("됨 !!")
                 self?.hideLoadingView()
                 let errorVC = DRErrorViewController()
                 self?.navigationController?.pushViewController(errorVC, animated: false)
@@ -166,10 +163,10 @@ extension UpcomingDateScheduleViewController: DRCustomAlertDelegate {
             self.present(customAlertVC, animated: false)
         } else {
             print("push to 일정등록하기")
-           let vc = AddScheduleFirstViewController(viewModel: AddScheduleViewModel())
+           let vc = AddScheduleFirstViewController(viewModel: AddScheduleViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.dateSchedule)
            self.navigationController?.pushViewController(vc, animated: false)
         }
-        
+        AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.clickAddSchedule)
     }
 }
 
@@ -193,7 +190,6 @@ extension UpcomingDateScheduleViewController: UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: ScreenUtils.width * 0.776, height: ScreenUtils.height*0.5)
-//        return UpcomingDateScheduleView.dateCardCollectionViewLayout.itemSize
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -206,8 +202,6 @@ extension UpcomingDateScheduleViewController: UICollectionViewDelegateFlowLayout
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//        let layout = UpcomingDateScheduleView.dateCardCollectionViewLayout
-        
         let cellWidthIncludingSpacing = ScreenUtils.width * 0.776 + ScreenUtils.width * 0.0693
         
         var offset = targetContentOffset.pointee
@@ -218,7 +212,6 @@ extension UpcomingDateScheduleViewController: UICollectionViewDelegateFlowLayout
         targetContentOffset.pointee = offset
         self.upcomingDateScheduleViewModel.currentIndex.value = Int(roundedIndex)
         upcomingDateScheduleView.cardPageControl.currentPage = Int(roundedIndex)
-        // upcomingDateScheduleView.updatePageControlSelectedIndex(index: Int(roundedIndex))
     }
 }
 
@@ -231,12 +224,10 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel(dateID: 0, title: "", date: "", city: "", tags: [], dDay: 0)
-        print(data)
+        let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel.emptyModel
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateCardCollectionViewCell.cellIdentifier, for: indexPath) as? DateCardCollectionViewCell else {
             return UICollectionViewCell()
         }
-        print("🥵셀configure중🥵")
         cell.dataBind(data, indexPath.item)
         cell.setColor(index: indexPath.item)
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToUpcomingDateDetailVC(_:))))
@@ -247,12 +238,11 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
     func pushToUpcomingDateDetailVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: upcomingDateScheduleView.cardCollectionView)
         if let indexPath = upcomingDateScheduleView.cardCollectionView.indexPathForItem(at: location) {
-            let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel(dateID: 0, title: "", date: "", city: "", tags: [], dDay: 0)
-            let upcomingDateDetailVC = UpcomingDateDetailViewController(dateID: data.dateID, upcomingDateDetailViewModel: DateDetailViewModel()
+            let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel.emptyModel
+            let upcomingDateDetailVC = UpcomingDateDetailViewController(dateID: data.dateID, viewPath: StringLiterals.TabBar.date, upcomingDateDetailViewModel: DateDetailViewModel()
             )
             upcomingDateDetailVC.setColor(index: indexPath.item)
             self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
-//            upcomingDateDetailVC.upcomingDateScheduleView = upcomingDateScheduleView
         }
     }
     

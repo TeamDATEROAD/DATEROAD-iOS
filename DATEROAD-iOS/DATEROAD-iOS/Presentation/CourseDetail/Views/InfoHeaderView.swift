@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class InfoHeaderView: UICollectionReusableView {
+final class InfoHeaderView: UICollectionReusableView {
     
     // MARK: - UI Properties
     

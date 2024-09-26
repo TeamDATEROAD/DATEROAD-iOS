@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class CourseView: BaseView {
+final class CourseView: BaseView {
     
     // MARK: - UI Properties
    

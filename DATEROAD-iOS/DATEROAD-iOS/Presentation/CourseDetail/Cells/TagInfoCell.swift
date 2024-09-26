@@ -45,6 +45,7 @@ final class TagInfoCell: BaseCollectionViewCell {
 }
 
 extension TagInfoCell {
+    
     func setCell(tag: String) {
         guard let tendencyTag = TendencyTag.getTag(byEnglish: tag) else { return }
         tagButton.do {

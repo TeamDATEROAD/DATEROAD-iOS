@@ -25,7 +25,6 @@ final class MyRegisterCourseViewController: BaseNavBarViewController {
     // MARK: - LifeCycle
     
     override func viewWillAppear(_ animated: Bool) {
-        self.myRegisterCourseViewModel.setMyRegisterCourseLoading()
         self.myRegisterCourseViewModel.setMyRegisterCourseData()
     }
 
@@ -67,7 +66,7 @@ final class MyRegisterCourseViewController: BaseNavBarViewController {
 
 extension MyRegisterCourseViewController {
     private func setEmptyView() {
-        var isEmpty = (myRegisterCourseViewModel.myRegisterCourseData.value?.count == 0)
+        let isEmpty = (myRegisterCourseViewModel.myRegisterCourseData.value?.count == 0)
         myRegisterCourseView.emptyView.isHidden = !isEmpty
         if isEmpty {
             myRegisterCourseView.emptyView.do {
@@ -85,38 +84,44 @@ extension MyRegisterCourseViewController {
         self.myRegisterCourseViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                self?.myRegisterCourseViewModel.setMyRegisterCourseData()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
         }
         
         self.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                self?.hideLoadingView()
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.value = false
+                  self?.myRegisterCourseViewModel.onMyRegisterCourseLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
 
         self.myRegisterCourseViewModel.onMyRegisterCourseLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.value else { return }
             if !onFailNetwork {
-                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.contentView.isHidden = onLoading
+                if onLoading {
+                    self?.showLoadingView()
+                    self?.contentView.isHidden = onLoading
+                } else {
+                    self?.setEmptyView()
+                    self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self?.contentView.isHidden = onLoading
+                        self?.hideLoadingView()
+                    }
+                }
             }
         }
         
-        self.myRegisterCourseViewModel.isSuccessGetMyRegisterCourseInfo.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
-            if isSuccess {
-                self?.setEmptyView()
-                self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self?.myRegisterCourseViewModel.setMyRegisterCourseLoading()
-                }
-            }
+        self.myRegisterCourseViewModel.isSuccessGetMyRegisterCourseInfo.bind { [weak self] _ in
+            self?.myRegisterCourseViewModel.setMyRegisterCourseLoading()
         }
     }
     

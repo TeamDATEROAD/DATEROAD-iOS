@@ -114,7 +114,7 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
 }
 
 
-// MARK: - CollectionViewCell Methods
+// MARK: - Extension Methods
 
 extension AddCourseImageCollectionViewCell {
    

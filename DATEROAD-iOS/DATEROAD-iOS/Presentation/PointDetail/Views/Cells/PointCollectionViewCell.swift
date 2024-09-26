@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class PointCollectionViewCell: BaseCollectionViewCell {
+final class PointCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     

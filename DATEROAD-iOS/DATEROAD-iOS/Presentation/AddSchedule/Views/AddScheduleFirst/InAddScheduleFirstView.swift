@@ -150,7 +150,6 @@ final class InAddScheduleFirstView: BaseView {
          $0.horizontalEdges.bottom.equalToSuperview()
          $0.height.equalTo(52)
       }
-      
    }
    
    override func setStyle() {
@@ -235,9 +234,10 @@ final class InAddScheduleFirstView: BaseView {
    
 }
 
+
+// MARK: - Extension Methods
+
 extension InAddScheduleFirstView {
-   
-   // MARK: - Methods
    
    func updateDateName(text: String) {
       dateNameTextField.text = text

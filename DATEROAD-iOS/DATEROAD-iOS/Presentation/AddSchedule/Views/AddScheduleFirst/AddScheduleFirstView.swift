@@ -64,9 +64,10 @@ final class AddScheduleFirstView: BaseView {
    
 }
 
+
+// MARK: - Extension Methods
+
 extension AddScheduleFirstView {
-   
-   // MARK: - Methods
    
    func updateDateNameTextField(isPassValid: Bool) {
       dateNameErrorLabel.isHidden = isPassValid

@@ -18,8 +18,6 @@ final class PointSystemView: BaseView {
     let pointSystemCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
     
-    // MARK: - Properties
-    
     // MARK: - Life Cycle
     
     override func setHierarchy() {

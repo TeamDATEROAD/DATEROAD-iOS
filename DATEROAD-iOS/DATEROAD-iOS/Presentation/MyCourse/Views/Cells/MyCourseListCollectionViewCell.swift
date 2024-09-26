@@ -11,7 +11,7 @@ import SnapKit
 import Then
 import Kingfisher
 
-class MyCourseListCollectionViewCell: BaseCollectionViewCell {
+final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
 
     // MARK: - UI Properties
     
@@ -65,7 +65,6 @@ class MyCourseListCollectionViewCell: BaseCollectionViewCell {
         heartButton.snp.makeConstraints {
             $0.leading.equalTo(thumbnailImageView.snp.leading).inset(5)
             $0.bottom.equalTo(thumbnailImageView.snp.bottom).inset(5)
-            // $0.width.equalTo(43) TODO: 나중에 확정되면 지우기
             $0.height.equalTo(22)
         }
         
@@ -91,7 +90,6 @@ class MyCourseListCollectionViewCell: BaseCollectionViewCell {
             $0.leading.equalToSuperview()
             $0.top.equalTo(titleLabel.snp.bottom).offset(10)
             $0.height.equalTo(26)
-           //$0.width.equalTo(150)
         }
         
         timeButton.snp.makeConstraints {
@@ -163,6 +161,7 @@ class MyCourseListCollectionViewCell: BaseCollectionViewCell {
 }
 
 extension MyCourseListCollectionViewCell {
+    
     func dataBind(_ viewedCourseData: MyCourseModel?, _ viewedCourseItemRow: Int?) {
         guard let viewedCourseData else { return }
         self.courseID = viewedCourseData.courseId
