@@ -14,7 +14,7 @@ protocol CourseNavigationBarViewDelegate: AnyObject {
     func didTapAddCourseButton()
 }
 
-class CourseNavigationBarView: BaseView {
+final class CourseNavigationBarView: BaseView {
     
     // MARK: - UI Properties
     

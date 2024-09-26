@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class GradientView: UICollectionReusableView {
+final class GradientView: UICollectionReusableView {
     
     // MARK: - UI Properties
     

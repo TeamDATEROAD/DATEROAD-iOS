@@ -7,20 +7,8 @@
 
 import UIKit
 
-enum CourseDetailSection {
-    case imageCarousel
-    case titleInfo
-    case mainContents
-    case timelineInfo
-    case coastInfo
-    case tagInfo
-    
-    static var dataSource: [CourseDetailSection] {
-        return [.imageCarousel, .titleInfo, .mainContents, .timelineInfo, .coastInfo, .tagInfo]
-    }
-}
 
-class CourseDetailViewModel: Serviceable {
+final class CourseDetailViewModel: Serviceable {
     
     var courseId: Int
     
@@ -122,7 +110,10 @@ class CourseDetailViewModel: Serviceable {
 extension CourseDetailViewModel {
     
     func getCourseDetail() {
+        self.isSuccessGetData.value = false
         setLoading()
+        self.onFailNetwork.value = false
+
         NetworkService.shared.courseDetailService.getCourseDetailInfo(courseId: courseId){ response in
             switch response {
             case .success(let data):
@@ -174,7 +165,7 @@ extension CourseDetailViewModel {
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
-                self.isSuccessGetData.value = false
+                self.onFailNetwork.value = true
                 print("Failed to fetch course data")
             }
         }
@@ -182,7 +173,7 @@ extension CourseDetailViewModel {
     
     
     func postUsePoint(courseId: Int, request: PostUsePointRequest) {
-        UsePointService().postUsePoint(courseId: self.courseId, request: request)  { result in
+        NetworkService.shared.usePointService.postUsePoint(courseId: self.courseId, request: request)  { result in
             switch result {
             case .success(let response):
                 self.isAccess.value = true
@@ -201,34 +192,25 @@ extension CourseDetailViewModel {
     
     func deleteCourse(completion: @escaping (Bool) -> Void) {
         NetworkService.shared.courseDetailService.deleteCourse(courseId: courseId) { (success: Bool) in
-            if success {
-                completion(success)
-            }
+            completion(success)
         }
     }
     
-    func likeCourse(courseId: Int) {
-        LikeCourseService().likeCourse(courseId: courseId) { success in
-            if success {
-                
-            } else {
-                print("ffsdasdfsadfsadfsdfdsafs")
-            }
+    func likeCourse(courseId: Int, completion: @escaping (Bool) -> Void) {
+        NetworkService.shared.likedCourseService.likeCourse(courseId: courseId) { success in
+            completion(success)
         }
     }
     
-    func deleteLikeCourse(courseId: Int) {
-        LikeCourseService().deleteLikeCourse(courseId: courseId) { success in
-            if success {
-                
-            } else {
-                print("dfsadfasdsfasdfadsfdsasf")
-            }
+    func deleteLikeCourse(courseId: Int, completion: @escaping (Bool) -> Void) {
+        NetworkService.shared.likedCourseService.deleteLikeCourse(courseId: courseId) { success in
+            completion(success)
         }
     }
     
     func getBannerDetail(advertismentId: Int) {
         self.isSuccessGetBannerData.value = false
+        self.setBannerDetailLoading()
         self.onFailNetwork.value = false
         
         NetworkService.shared.courseDetailService.getBannerDetailInfo(advertismentId: advertismentId){ response in
@@ -243,13 +225,10 @@ extension CourseDetailViewModel {
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
-            case .serverErr:
-                self.onFailNetwork.value = true
             default:
-                self.isSuccessGetBannerData.value = false
+                self.onFailNetwork.value = true
                 print("Failed to fetch banner detail data")
             }
-            self.setBannerDetailLoading()
         }
     }
     
@@ -259,16 +238,8 @@ extension CourseDetailViewModel {
     }
     
     func setLoading() {
-        guard let isSuccessGetData = self.isSuccessGetData.value else {
-            return
-        }
-        
-        if isSuccessGetData {
-            self.onLoading.value = false
-        } else {
-            self.onLoading.value = true
-        }
+        guard let isSuccessGetData = self.isSuccessGetData.value else { return }
+        self.onLoading.value = !isSuccessGetData
     }
-
     
 }

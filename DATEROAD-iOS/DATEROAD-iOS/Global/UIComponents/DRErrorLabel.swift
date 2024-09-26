@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DRErrorLabel: UILabel {
+final class DRErrorLabel: UILabel {
     
     // MARK: - Properties
         

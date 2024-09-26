@@ -7,7 +7,8 @@
 
 import UIKit
 
-class DRPaddingLabel: UILabel {
+final class DRPaddingLabel: UILabel {
+    
     var padding = UIEdgeInsets.zero
 
     override func drawText(in rect: CGRect) {

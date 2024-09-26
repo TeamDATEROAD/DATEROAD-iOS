@@ -13,7 +13,7 @@ protocol ImagePickerDelegate: AnyObject {
    func didPickImages(_ images: [UIImage])
 }
 
-class CustomImagePicker: NSObject, PHPickerViewControllerDelegate {
+final class CustomImagePicker: NSObject, PHPickerViewControllerDelegate {
    
    // MARK: - Properties
    

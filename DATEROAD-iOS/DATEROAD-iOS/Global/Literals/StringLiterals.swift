@@ -71,7 +71,8 @@ enum StringLiterals {
         static let deleteTitle = "데이트 코스를 삭제하시겠어요?"
         static let deleteDescription = "삭제된 코스는 복구하실 수 없어요"
         static let viewCourse = "코스 열람하기"
-        
+        static let pointUsed = "POINT_USED"
+        static let usedFreeView = "무료 열람 기회 사용"
     }
     
     enum Profile {
@@ -222,6 +223,10 @@ enum StringLiterals {
         static let failToLogin = "로그인 실패"
         static let confirm = "확인"
         static let failToEditProfile = "프로필 변경 실패"
+        static let failToDeleteCourse = "코스 삭제 실패"
+        static let failToAddLike = "좋아요 등록 실패"
+        static let failToDeleteLike = "좋아요 해제 실패"
+        static let delete = "삭제"
     }
     
     enum Course {
@@ -280,6 +285,7 @@ enum StringLiterals {
     enum WebView {
         static let inquiryLink = "https://dateroad.notion.site/1055d2f7bfe94b3fa6c03709448def21?pvs=4"
         static let privacyPolicyLink = "https://dateroad.notion.site/04da4aa279ca4b599193784091a52859?pvs=4"
+        static let declareLink = "https://tally.so/r/w4L1a5"
     }
     
     enum Identifier {
@@ -288,6 +294,7 @@ enum StringLiterals {
     
     enum Elementkinds {
         static let bannerInfoHeaderView = "BannerInfoHeaderView"
+        static let contentMaskView = "ContentMaskView"
     }
     
     enum Amplitude {

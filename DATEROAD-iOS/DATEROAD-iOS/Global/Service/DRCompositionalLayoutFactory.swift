@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DRCompositionalLayoutFactory {
+final class DRCompositionalLayoutFactory {
     
     func createLayout(
         widthDimension: NSCollectionLayoutDimension,

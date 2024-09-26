@@ -10,13 +10,13 @@ import UIKit
 import SnapKit
 import Then
 
-class UpcomingDateScheduleView: BaseView {
+final class UpcomingDateScheduleView: BaseView {
     
     // MARK: - UI Properties
     
     private let titleLabel = UILabel()
     
-var cardCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    var cardCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     var cardPageControl = UIPageControl()
     
@@ -26,9 +26,6 @@ var cardCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UI
     
     var pastDateButton = UIButton()
     
-    // MARK: - Properties
-    
-//    static var dateCardCollectionViewLayout = UICollectionViewFlowLayout()
     
     // MARK: - LifeCycle
     
@@ -101,12 +98,6 @@ var cardCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UI
             layout.scrollDirection = .horizontal
             $0.collectionViewLayout = layout
         }
-        
-//        UpcomingDateScheduleView.dateCardCollectionViewLayout.do {
-//            $0.scrollDirection = .horizontal
-//            $0.minimumLineSpacing = ScreenUtils.width * 0.0693
-//            $0.itemSize = CGSize(width: ScreenUtils.width * 0.776, height: ScreenUtils.height*0.5)
-//        }
         
         cardPageControl.do {
             $0.currentPage = 0

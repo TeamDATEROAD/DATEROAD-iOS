@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class InfoBarView: UICollectionReusableView {
+final class InfoBarView: UICollectionReusableView {
     
     // MARK: - UI Properties
     

@@ -36,10 +36,6 @@ final class StickyHeaderNavBarView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
-
-
-private extension StickyHeaderNavBarView {
     
     func setHierarchy() {
         self.addSubviews(previousButton, moreButton)
@@ -77,6 +73,10 @@ private extension StickyHeaderNavBarView {
             $0.addTarget(self, action: #selector(didTapMoreButton), for: .touchUpInside)
         }
     }
+}
+
+
+private extension StickyHeaderNavBarView {
     
     @objc
     func didTapPreviousButton() {
