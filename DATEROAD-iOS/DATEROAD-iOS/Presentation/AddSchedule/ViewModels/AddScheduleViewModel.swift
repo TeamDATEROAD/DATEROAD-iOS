@@ -320,6 +320,8 @@ extension AddScheduleViewModel {
       //viewmodel 값 초기화
       self.datePlace.value = ""
       self.timeRequire.value = ""
+      self.dateDetailLocation = false
+      self.dateDetailTime = false
       self.isChange?()
    }
    

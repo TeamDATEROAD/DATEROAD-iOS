@@ -245,7 +245,6 @@ extension AddCourseViewModel {
       if let result = pastDateDetailData?.places {
          pastDatePlaces = result
       }
-      
    }
    
    
@@ -282,7 +281,6 @@ extension AddCourseViewModel {
             selectedTagData.remove(at: index)
          }
       }
-      
       checkTagCount(min: minTagCnt, max: maxTagCnt)
    }
    
@@ -350,6 +348,8 @@ extension AddCourseViewModel {
       //viewmodel 값 초기화
       self.datePlace.value = ""
       self.timeRequire.value = ""
+      self.dateLocation = false
+      self.dateSpendTime = false
       self.isChange?()
    }
    
