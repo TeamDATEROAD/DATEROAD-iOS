@@ -54,10 +54,8 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
       registerCell()
       setDelegate()
       bindViewModel()
-      
       setupKeyboardDismissRecognizer()
       pastDateBindViewModel()
-      
       AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddSchedule, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
    }
    
@@ -314,7 +312,7 @@ private extension AddScheduleFirstViewController {
    }
    
    @objc
-   private func datePlaceContainerTapped() {
+   func datePlaceContainerTapped() {
       // datePlaceContainer가 탭되었을 때 수행할 동작을 여기에 구현합니다.
       print("datePlaceContainer tapped!")
       let locationFilterVC = LocationFilterViewController()
@@ -366,7 +364,11 @@ extension AddScheduleFirstViewController: UICollectionViewDelegateFlowLayout {
    
 }
 
-extension AddScheduleFirstViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension AddScheduleFirstViewController: UICollectionViewDelegate {
+   
+}
+
+extension AddScheduleFirstViewController: UICollectionViewDataSource {
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
       return viewModel.tagData.count

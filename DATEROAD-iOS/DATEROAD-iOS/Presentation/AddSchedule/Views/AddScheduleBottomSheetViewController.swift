@@ -66,7 +66,7 @@ final class AddScheduleBottomSheetViewController: BaseViewController {
    
 }
 
-// MARK: - ViewController Methods
+// MARK: - Extension Methods
 
 private extension AddScheduleBottomSheetViewController {
    
@@ -77,9 +77,6 @@ private extension AddScheduleBottomSheetViewController {
       addSheetView.customPickerView.reloadAllComponents()
       addSheetView.doneBtn.addTarget(self, action: #selector(didTapDoneBtn), for: .touchUpInside)
    }
-   
-   
-   // MARK: - @objc Methods
    
    @objc
    func didTapDoneBtn() {
@@ -94,7 +91,16 @@ private extension AddScheduleBottomSheetViewController {
 
 // MARK: - UIPickerViewDataSource, UIPickerViewDelegate Methods
 
-extension AddScheduleBottomSheetViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+
+extension AddScheduleBottomSheetViewController: UIPickerViewDelegate {
+   
+   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+      return String(customPickerValues[row])
+   }
+   
+}
+
+extension AddScheduleBottomSheetViewController: UIPickerViewDataSource {
    
    func numberOfComponents(in pickerView: UIPickerView) -> Int {
       return 1
@@ -102,10 +108,6 @@ extension AddScheduleBottomSheetViewController: UIPickerViewDataSource, UIPicker
    
    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
       return customPickerValues.count
-   }
-   
-   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-      return String(customPickerValues[row])
    }
    
 }

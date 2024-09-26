@@ -249,6 +249,20 @@ private extension AddScheduleSecondViewController {
    // MARK: - @objc Methods
    
    @objc
+   func textFieldTapped(_ textField: UITextField) {
+      let alertVC = AddScheduleBottomSheetViewController(viewModel: viewModel)
+      alertVC.addSheetView = AddScheduleBottomSheetView(isCustomPicker: true)
+      
+      self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
+      addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField.resignFirstResponder()
+      
+      DispatchQueue.main.async {
+         alertVC.modalPresentationStyle = .overFullScreen
+         self.present(alertVC, animated: true, completion: nil)
+      }
+   }
+   
+   @objc
    func tapAddPlaceBtn() {
       viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")
    }
@@ -304,7 +318,7 @@ private extension AddScheduleSecondViewController {
       }
       addScheduleSecondView.updateEditBtnText(flag: flag)
       
-      Dispatch.DispatchQueue.main.async {
+      DispatchQueue.main.async {
          collectionView.reloadData()
       }
    }
@@ -345,26 +359,12 @@ extension AddScheduleSecondViewController: UITextFieldDelegate {
       print(textField.text ?? "")
    }
    
-   @objc
-   private func textFieldTapped(_ textField: UITextField) {
-      let alertVC = AddScheduleBottomSheetViewController(viewModel: viewModel)
-      alertVC.addSheetView = AddScheduleBottomSheetView(isCustomPicker: true)
-      
-      self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
-      addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField.resignFirstResponder()
-      
-      DispatchQueue.main.async {
-         alertVC.modalPresentationStyle = .overFullScreen
-         self.present(alertVC, animated: true, completion: nil)
-      }
-   }
-   
 }
 
 
-// MARK: - UICollectionViewDataSource, UICollectionViewDelegate Methods
+// MARK: - UICollectionViewDelegate Methods
 
-extension AddScheduleSecondViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension AddScheduleSecondViewController: UICollectionViewDelegate {
    
    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
       return true
@@ -372,6 +372,13 @@ extension AddScheduleSecondViewController: UICollectionViewDataSource, UICollect
    
    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
    }
+   
+}
+
+
+// MARK: - UICollectionViewDataSource Methods
+
+extension AddScheduleSecondViewController: UICollectionViewDataSource {
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
       return viewModel.addPlaceCollectionViewDataSource.count
@@ -452,7 +459,7 @@ extension AddScheduleSecondViewController: UICollectionViewDropDelegate {
 }
 
 
-// MARK: - UICollectionViewDragDelegate Methods
+// MARK: - UICollectionViewDragDelegate Method
 
 extension AddScheduleSecondViewController: UICollectionViewDragDelegate {
    
@@ -461,6 +468,9 @@ extension AddScheduleSecondViewController: UICollectionViewDragDelegate {
    }
    
 }
+
+
+// MARK: - DRCustomAlertDelegate Method
 
 extension AddScheduleSecondViewController: DRCustomAlertDelegate {
    

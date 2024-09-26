@@ -162,7 +162,7 @@ final class InAddScheduleSecondView: BaseView {
 }
 
 
-// MARK: - View Methods
+// MARK: - Extension Methods
 
 extension InAddScheduleSecondView {
    

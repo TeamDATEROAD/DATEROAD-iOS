@@ -254,7 +254,6 @@ extension AddScheduleViewModel {
             selectedTagData.remove(at: index)
          }
       }
-      
       checkTagCount(min: minTagCnt, max: maxTagCnt)
    }
    
@@ -303,10 +302,11 @@ extension AddScheduleViewModel {
    }
    
    func updateTimeRequireTextField(text: String) {
+      var formattedText = text
       if let doubleValue = Double(text) {
-         let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(doubleValue)) : String(doubleValue)
+         formattedText = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(doubleValue)) : String(doubleValue)
       }
-      timeRequire.value = "\(text) 시간"
+      timeRequire.value = "\(formattedText) 시간"
    }
    
    func isAbleAddBtn() -> Bool {
@@ -320,6 +320,7 @@ extension AddScheduleViewModel {
       //viewmodel 값 초기화
       self.datePlace.value = ""
       self.timeRequire.value = ""
+      
       self.dateDetailLocation = false
       self.dateDetailTime = false
       self.isChange?()
@@ -386,6 +387,7 @@ extension AddScheduleViewModel {
          places: places)) { result in
             switch result {
             case .success(let response):
+               print("Success: \(response)")
                self.setLoading(isLoading: false)
                self.isSuccessPostData.value = true
             case .reIssueJWT:

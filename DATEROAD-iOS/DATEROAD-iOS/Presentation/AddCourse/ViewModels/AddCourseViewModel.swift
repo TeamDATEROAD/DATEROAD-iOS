@@ -56,6 +56,7 @@ final class AddCourseViewModel: Serviceable {
    let tagCount: ObservablePattern<Int> = ObservablePattern(nil)
    
    private let minTagCnt = 1
+   
    private let maxTagCnt = 3
    
    // 코스 지역 유효성 판별
@@ -248,7 +249,7 @@ extension AddCourseViewModel {
    }
    
    
-   //MARK: - AddCourse First 함수
+   //MARK: - AddCourse FirstView 관련 함수
    
    func satisfyDateName(str: String) {
       isDateNameVaild.value = str.count >= minimumDateNameLength
@@ -323,17 +324,18 @@ extension AddCourseViewModel {
    }
    
    
-   //MARK: - AddSecondView 전용 func
+   //MARK: - AddCourse SecondView 관련 함수
    
    func updatePlaceCollectionView() {
       print(addPlaceCollectionViewDataSource)
    }
    
    func updateTimeRequireTextField(text: String) {
+      var formattedText = text
       if let doubleValue = Double(text) {
-         let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(doubleValue)) : String(doubleValue)
+         formattedText = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(doubleValue)) : String(doubleValue)
       }
-      timeRequire.value = "\(text) 시간"
+      timeRequire.value = "\(formattedText) 시간"
    }
    
    func isAbleAddBtn() -> Bool {
@@ -348,6 +350,7 @@ extension AddCourseViewModel {
       //viewmodel 값 초기화
       self.datePlace.value = ""
       self.timeRequire.value = ""
+      
       self.dateLocation = false
       self.dateSpendTime = false
       self.isChange?()
@@ -369,7 +372,7 @@ extension AddCourseViewModel {
    }
    
    
-   //MARK: - AddThirdView 전용 func
+   //MARK: - AddCourse ThirdView 관련 함수
    
    func isDoneBtnValid() {
       isDoneBtnOK.value = contentFlag && priceFlag

@@ -124,7 +124,7 @@ final class AddScheduleBottomSheetView: BaseView {
 }
 
 
-// MARK: - View Methods
+// MARK: - Extension Methods
 
 extension AddScheduleBottomSheetView {
    
