@@ -11,16 +11,16 @@ import SnapKit
 import Then
 
 
-final class CoastInfoCell: BaseCollectionViewCell {
+final class CostInfoCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
     private let timelineBackgroundView = UIView()
     
-    private let coastLabel = UILabel()
+    private let costLabel = UILabel()
 
     override func setHierarchy() {
-        self.addSubviews(timelineBackgroundView, coastLabel)
+        self.addSubviews(timelineBackgroundView, costLabel)
     }
     
     override func setLayout() {
@@ -29,7 +29,7 @@ final class CoastInfoCell: BaseCollectionViewCell {
             $0.height.equalTo(50)
         }
         
-        coastLabel.snp.makeConstraints {
+        costLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(20)
             $0.centerY.equalTo(timelineBackgroundView)
         }
@@ -41,7 +41,7 @@ final class CoastInfoCell: BaseCollectionViewCell {
             $0.layer.cornerRadius = 14
         }
         
-        coastLabel.do {
+        costLabel.do {
             $0.text = "90,000원"
             $0.font = UIFont.suit(.body_bold_15)
             $0.textColor = UIColor(resource: .drBlack)
@@ -49,10 +49,10 @@ final class CoastInfoCell: BaseCollectionViewCell {
     }
 }
 
-extension CoastInfoCell {
+extension CostInfoCell {
     
-    func setCell(coastData: Int) {
-        coastLabel.text = "\(coastData.formattedWithSeparator)원"
+    func setCell(costData: Int) {
+        costLabel.text = costData == 0 ? StringLiterals.CourseDetail.priceLabelZero : "\(costData.formattedWithSeparator)원"
     }
     
 }

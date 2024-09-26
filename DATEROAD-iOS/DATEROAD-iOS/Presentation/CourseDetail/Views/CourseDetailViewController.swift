@@ -105,7 +105,7 @@ final class CourseDetailViewController: BaseViewController {
             
             $0.register(TimelineInfoCell.self, forCellWithReuseIdentifier: TimelineInfoCell.cellIdentifier)
             
-            $0.register(CoastInfoCell.self, forCellWithReuseIdentifier: CoastInfoCell.cellIdentifier)
+            $0.register(CostInfoCell.self, forCellWithReuseIdentifier: CostInfoCell.cellIdentifier)
             
             $0.register(TagInfoCell.self, forCellWithReuseIdentifier: TagInfoCell.cellIdentifier)
             
@@ -516,9 +516,9 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
     }
     
     private func configureCoastInfoCell(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionViewUtils.dequeueAndConfigureCell(collectionView: collectionView, indexPath: indexPath, identifier: CoastInfoCell.cellIdentifier) { (cell: CoastInfoCell) in
-            let coastData = courseDetailViewModel.titleHeaderData.value?.cost ?? 0
-            cell.setCell(coastData: coastData)
+        return collectionViewUtils.dequeueAndConfigureCell(collectionView: collectionView, indexPath: indexPath, identifier: CostInfoCell.cellIdentifier) { (cell: CostInfoCell) in
+            let costData = courseDetailViewModel.titleHeaderData.value?.cost ?? 0
+            cell.setCell(costData: costData)
         }
     }
     
