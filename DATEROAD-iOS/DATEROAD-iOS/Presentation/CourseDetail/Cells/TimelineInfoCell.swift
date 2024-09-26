@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TimelineInfoCell: BaseCollectionViewCell {
+final class TimelineInfoCell: BaseCollectionViewCell {
 
     // MARK: - UI Properties
     

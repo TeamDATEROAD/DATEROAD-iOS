@@ -42,7 +42,8 @@ final class NavViewedCourseViewController: BaseNavBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setLeftBackButton()
+        setLeftButtonStyle(image: UIImage(named: "leftArrow"))
+        setLeftButtonAction(target: self, action: #selector(leftButtonTapped))
         setTitleLabelStyle(title: StringLiterals.ViewedCourse.title, alignment: .center)
         register()
         setDelegate()
@@ -63,6 +64,14 @@ final class NavViewedCourseViewController: BaseNavBarViewController {
         }
     }
 
+}
+
+extension NavViewedCourseViewController {
+    @objc
+    func leftButtonTapped() {
+        navigationController?.popViewController(animated: false)
+        AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.clickPurchasedBack)
+    }
 }
 
 // MARK: - EmptyView Methods
@@ -89,37 +98,44 @@ extension NavViewedCourseViewController {
         self.viewedCourseViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                self?.viewedCourseViewModel.setNavViewedCourseLoading()
+                self?.viewedCourseViewModel.setNavViewedCourseData()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
         }
         
         self.viewedCourseViewModel.onNavViewedCourseFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                self?.hideLoadingView()
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.viewedCourseViewModel.onNavViewedCourseFailNetwork.value = false
+                  self?.viewedCourseViewModel.onNavViewedCourseLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
 
         self.viewedCourseViewModel.onNavViewedCourseLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.viewedCourseViewModel.onViewedCourseFailNetwork.value else { return }
             if !onFailNetwork {
-                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.navViewedCourseView.isHidden = onLoading
+                if onLoading {
+                    self?.showLoadingView()
+                    self?.navViewedCourseView.isHidden = onLoading
+                } else {
+                    self?.setEmptyView()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self?.navViewedCourseView.isHidden = onLoading
+                        self?.tabBarController?.tabBar.isHidden = false
+                        self?.hideLoadingView()
+                    }
+                }
             }
         }
         
-        self.viewedCourseViewModel.isSuccessGetNavViewedCourseInfo.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
-            if isSuccess {
-                self?.setEmptyView()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
-                    self?.viewedCourseViewModel.setNavViewedCourseLoading()
-                }
-            }
+        self.viewedCourseViewModel.isSuccessGetNavViewedCourseInfo.bind { [weak self] _ in
+            self?.viewedCourseViewModel.setNavViewedCourseLoading()
         }
     }
 }
@@ -167,15 +183,15 @@ extension NavViewedCourseViewController : UICollectionViewDataSource {
         let location = sender.location(in: navViewedCourseView.myCourseListCollectionView)
         let indexPath = navViewedCourseView.myCourseListCollectionView.indexPathForItem(at: location)
        
-       if let index = indexPath {
+        if indexPath != nil {
           guard let courseId = viewedCourseViewModel.viewedCourseData.value?[indexPath?.item ?? 0].courseId else {return}
           
           let courseDetailViewModel = CourseDetailViewModel(courseId: courseId)
           let addScheduleViewModel = AddScheduleViewModel()
           addScheduleViewModel.viewedDateCourseByMeData = courseDetailViewModel
-          addScheduleViewModel.isImporting = true
+          addScheduleViewModel.isBroughtData = true
           
-          let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel)
+          let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel, viewPath: StringLiterals.Amplitude.ViewPath.viewedCourse)
           // 데이터를 바인딩합니다.
           vc.pastDateBindViewModel()
           self.navigationController?.pushViewController(vc, animated: false)

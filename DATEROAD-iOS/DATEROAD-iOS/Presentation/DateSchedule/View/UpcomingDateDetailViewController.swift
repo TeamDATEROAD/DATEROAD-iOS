@@ -23,6 +23,10 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     var dateID: Int
     
+    var networkType: NetworkType?
+    
+    var viewPath: String
+    
     var upcomingDateDetailViewModel: DateDetailViewModel
     
     private let dateScheduleDeleteView = DateScheduleDeleteView()
@@ -30,8 +34,9 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - LifeCycle
     
-    init(dateID: Int, upcomingDateDetailViewModel: DateDetailViewModel) {
+    init(dateID: Int, viewPath: String, upcomingDateDetailViewModel: DateDetailViewModel) {
         self.dateID = dateID
+        self.viewPath = viewPath
         self.upcomingDateDetailViewModel = upcomingDateDetailViewModel
         
         super.init(nibName: nil, bundle: nil)
@@ -59,6 +64,8 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
         self.tabBarController?.tabBar.isHidden = true
         self.upcomingDateDetailViewModel.setDateDetailLoading()
         self.upcomingDateDetailViewModel.getDateDetailData(dateID: self.dateID)
+        
+        AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewScheduleDetails, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
     }
     
     override func setHierarchy() {
@@ -79,18 +86,10 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
 // MARK: - UI Setting Methods
 
 extension UpcomingDateDetailViewController {
+    
     func bindViewModel() {
-        
         self.upcomingDateDetailViewModel.onDateDetailLoading.bind { [weak self] onLoading in
-            guard let onLoading, 
-                    let onFailNetwork = self?.upcomingDateDetailViewModel.onFailNetwork.value
-            else { return }
-             if !onFailNetwork {
-                 onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                 self?.upcomingDateDetailContentView.isHidden = onLoading
-                 self?.topInsetView.isHidden = onLoading
-                 self?.navigationBarView.isHidden = onLoading
-             }
+            guard let onLoading,  let onFailNetwork = self?.upcomingDateDetailViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
                     self?.showLoadingView()
@@ -98,7 +97,7 @@ extension UpcomingDateDetailViewController {
                     self?.topInsetView.isHidden = onLoading
                     self?.navigationBarView.isHidden = onLoading
                 } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.upcomingDateDetailContentView.isHidden = false
                         self?.topInsetView.isHidden = onLoading
                         self?.navigationBarView.isHidden = onLoading
@@ -109,21 +108,31 @@ extension UpcomingDateDetailViewController {
          }
         
         self.upcomingDateDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
-            guard let onSuccess else { return }
+            guard let onSuccess, let dateID = self?.dateID else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                switch self?.networkType {
+                case .deleteDateSchedule:
+                    self?.upcomingDateDetailViewModel.deleteDateSchdeuleData(dateID: dateID)
+                case .getDateDetail:
+                    self?.upcomingDateDetailViewModel.getDateDetailData(dateID: dateID)
+                default:
+                    self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+                }
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
         }
         
         self.upcomingDateDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                self?.hideLoadingView()
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.upcomingDateDetailViewModel.onFailNetwork.value = false
+                 self?.upcomingDateDetailViewModel.onDateDetailLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
         
         self.upcomingDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
@@ -138,7 +147,7 @@ extension UpcomingDateDetailViewController {
         self.upcomingDateDetailViewModel.isSuccessDeleteDateScheduleData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
-                self?.navigationController?.popViewController(animated: true)
+                self?.navigationController?.popViewController(animated: false)
             }
         }
     }
@@ -170,6 +179,7 @@ extension UpcomingDateDetailViewController {
 extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     @objc
     private func tapKakaoButton() {
+        AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickKakaoShare, properties: [StringLiterals.Amplitude.Property.dateCourseNum : upcomingDateDetailViewModel.dateCourseNum, StringLiterals.Amplitude.Property.dateTotalDuration : upcomingDateDetailViewModel.dateTotalDuration])
         let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.kakaoShare,
                                                       alertTextType: .noDescription,
                                                       alertButtonType: .twoButton,
@@ -182,7 +192,6 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     
     @objc
     private func tapDeleteLabel() {
-        print("dfdsf")
         let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.deleteCourse, alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deleteDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
@@ -190,15 +199,20 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     }
 
     func action(rightButtonAction: RightButtonType) {
-           print("all")
-           if rightButtonAction == .deleteCourse {
-               print("zz")
-               upcomingDateDetailViewModel.deleteDateSchdeuleData(dateID: upcomingDateDetailViewModel.dateDetailData.value?.dateID ?? 0)
-           } else if rightButtonAction == .kakaoShare {
-               upcomingDateDetailViewModel.shareToKakao(context: self)
-               print("카카오 공유하기")
-           }
-       }
+        if rightButtonAction == .deleteCourse {
+            upcomingDateDetailViewModel.deleteDateSchdeuleData(dateID: upcomingDateDetailViewModel.dateDetailData.value?.dateID ?? 0)
+        } else if rightButtonAction == .kakaoShare {
+            upcomingDateDetailViewModel.shareToKakao(context: self)
+            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickOpenKakao, properties: [StringLiterals.Amplitude.Property.dateCourseNum : upcomingDateDetailViewModel.dateCourseNum, StringLiterals.Amplitude.Property.dateTotalDuration : upcomingDateDetailViewModel.dateTotalDuration])
+        }
+   }
+    
+    func leftButtonAction(rightButtonAction: RightButtonType) {
+        if rightButtonAction == .kakaoShare {
+            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickCloseKakao, properties: [StringLiterals.Amplitude.Property.dateCourseNum : upcomingDateDetailViewModel.dateCourseNum, StringLiterals.Amplitude.Property.dateTotalDuration : upcomingDateDetailViewModel.dateTotalDuration])
+        }
+    }
+
 }
 
 
@@ -214,13 +228,11 @@ extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
     }
     
     func didTapBottomButton() {
-        print("hi")
         self.dismiss(animated: false)
     }
     
     @objc
     func didTapFirstLabel() {
-        print("sdjflksd ㅇㄴㄹㅁㄴㅇㄹ")
         self.dismiss(animated: false)
         tapDeleteLabel()
     }

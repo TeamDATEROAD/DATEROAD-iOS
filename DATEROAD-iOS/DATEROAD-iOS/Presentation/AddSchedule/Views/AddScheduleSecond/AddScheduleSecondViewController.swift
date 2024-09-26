@@ -19,7 +19,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
    private let viewModel: AddScheduleViewModel
    
    private var alertVC: AddScheduleBottomSheetViewController?
-      
+   
    private let errorView: DRErrorViewController = DRErrorViewController()
    
    
@@ -27,6 +27,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
    
    init(viewModel: AddScheduleViewModel) {
       self.viewModel = viewModel
+      
       super.init(nibName: nil, bundle: nil)
    }
    
@@ -64,7 +65,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
    
    override func setLayout() {
       super.setLayout()
-
+      
       addScheduleSecondView.snp.makeConstraints {
          $0.top.equalToSuperview().offset(4)
          $0.horizontalEdges.equalToSuperview().inset(16)
@@ -109,7 +110,7 @@ private extension AddScheduleSecondViewController {
    }
    
    func pastDateBindViewModel() {
-      if viewModel.pastDatePlaces.count > 0  {
+      if viewModel.isBroughtData  {
          for i in viewModel.pastDatePlaces {
             if let doubleValue = Double(String(i.duration)) {
                let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
@@ -119,6 +120,10 @@ private extension AddScheduleSecondViewController {
                viewModel.tapAddBtn(datePlace: i.title, timeRequire: "\(String(i.duration)) 시간")
             }
          }
+         viewModel.pastDatePlaces.removeAll()
+         AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewAddBringcourse2)
+      } else {
+         AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewAddSchedule2)
       }
    }
    
@@ -153,7 +158,7 @@ private extension AddScheduleSecondViewController {
          guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
          
          if !onFailNetwork {
-             onLoading ? self?.showLoadingView() : self?.hideLoadingView()
+            onLoading ? self?.showLoadingView() : self?.hideLoadingView()
             self?.addScheduleSecondView.isHidden = onLoading
             self?.tabBarController?.tabBar.isHidden = onLoading
          }
@@ -162,7 +167,7 @@ private extension AddScheduleSecondViewController {
       self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
          guard let onSuccess else { return }
          if onSuccess {
-            // TODO: - 서버 통신 재시도
+             self?.viewModel.postAddScheduel()
          } else {
             self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
          }
@@ -178,21 +183,25 @@ private extension AddScheduleSecondViewController {
       viewModel.datePlace.bind { [weak self] date in
          guard let text = date else {return}
          self?.addScheduleSecondView.inAddScheduleSecondView.updateDatePlace(text: text)
+         self?.viewModel.dateDetailLocation = true
          if let flag = self?.viewModel.isAbleAddBtn() {
             self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
          }
       }
       
       viewModel.timeRequire.bind { [weak self] date in
-         guard let text = date else {return}
-         self?.addScheduleSecondView.inAddScheduleSecondView.updatetimeRequire(text: text)
+         guard let date else {return}
+         self?.addScheduleSecondView.inAddScheduleSecondView.updatetimeRequire(text: date)
+         self?.viewModel.dateDetailTime = true
          if let flag = self?.viewModel.isAbleAddBtn() {
             self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
          }
       }
       
       self.viewModel.isChange = { [weak self] in
-         print(self?.viewModel.addPlaceCollectionViewDataSource ?? "")
+         guard let cnt = self?.viewModel.addPlaceCollectionViewDataSource.count else {return}
+         print(cnt)
+         
          self?.viewModel.isDataSourceNotEmpty()
          
          let state = self?.viewModel.editBtnEnableState.value ?? false
@@ -209,7 +218,6 @@ private extension AddScheduleSecondViewController {
       self.viewModel.isValidOfSecondNextBtn.bind { [weak self] date in
          self?.addScheduleSecondView.changeNextBtnState(flag: date ?? false)
       }
-      
    }
    
    func setAddTarget() {
@@ -239,6 +247,20 @@ private extension AddScheduleSecondViewController {
    
    
    // MARK: - @objc Methods
+   
+   @objc
+   func textFieldTapped(_ textField: UITextField) {
+      let alertVC = AddScheduleBottomSheetViewController(viewModel: viewModel)
+      alertVC.addSheetView = AddScheduleBottomSheetView(isCustomPicker: true)
+      
+      self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
+      addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField.resignFirstResponder()
+      
+      DispatchQueue.main.async {
+         alertVC.modalPresentationStyle = .overFullScreen
+         self.present(alertVC, animated: true, completion: nil)
+      }
+   }
    
    @objc
    func tapAddPlaceBtn() {
@@ -296,10 +318,21 @@ private extension AddScheduleSecondViewController {
       }
       addScheduleSecondView.updateEditBtnText(flag: flag)
       
-      Dispatch.DispatchQueue.main.async {
+      DispatchQueue.main.async {
          collectionView.reloadData()
       }
    }
+   
+}
+
+extension AddScheduleSecondViewController {
+   
+   @objc
+   override func backButtonTapped() {
+      viewModel.schedule2BackAmplitude()
+      super.backButtonTapped()
+   }
+   
 }
 
 
@@ -326,26 +359,12 @@ extension AddScheduleSecondViewController: UITextFieldDelegate {
       print(textField.text ?? "")
    }
    
-   @objc
-   private func textFieldTapped(_ textField: UITextField) {
-      let alertVC = AddScheduleBottomSheetViewController(viewModel: viewModel)
-      alertVC.addSheetView = AddScheduleBottomSheetView(isCustomPicker: true)
-      
-      self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
-      addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField.resignFirstResponder()
-      
-      DispatchQueue.main.async {
-         alertVC.modalPresentationStyle = .overFullScreen
-         self.present(alertVC, animated: true, completion: nil)
-      }
-   }
-   
 }
 
 
-// MARK: - UICollectionViewDataSource, UICollectionViewDelegate Methods
+// MARK: - UICollectionViewDelegate Methods
 
-extension AddScheduleSecondViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension AddScheduleSecondViewController: UICollectionViewDelegate {
    
    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
       return true
@@ -353,6 +372,13 @@ extension AddScheduleSecondViewController: UICollectionViewDataSource, UICollect
    
    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
    }
+   
+}
+
+
+// MARK: - UICollectionViewDataSource Methods
+
+extension AddScheduleSecondViewController: UICollectionViewDataSource {
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
       return viewModel.addPlaceCollectionViewDataSource.count
@@ -433,7 +459,7 @@ extension AddScheduleSecondViewController: UICollectionViewDropDelegate {
 }
 
 
-// MARK: - UICollectionViewDragDelegate Methods
+// MARK: - UICollectionViewDragDelegate Method
 
 extension AddScheduleSecondViewController: UICollectionViewDragDelegate {
    
@@ -442,6 +468,9 @@ extension AddScheduleSecondViewController: UICollectionViewDragDelegate {
    }
    
 }
+
+
+// MARK: - DRCustomAlertDelegate Method
 
 extension AddScheduleSecondViewController: DRCustomAlertDelegate {
    

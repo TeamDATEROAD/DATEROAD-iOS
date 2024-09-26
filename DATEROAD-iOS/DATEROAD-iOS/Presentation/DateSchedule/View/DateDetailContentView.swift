@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DateDetailContentView: BaseView {
+final class DateDetailContentView: BaseView {
 
     // MARK: - UI Properties
     

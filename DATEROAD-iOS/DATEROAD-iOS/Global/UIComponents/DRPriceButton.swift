@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DRPriceButton: UIButton {
+final class DRPriceButton: UIButton {
     
     // MARK: - Properties
         

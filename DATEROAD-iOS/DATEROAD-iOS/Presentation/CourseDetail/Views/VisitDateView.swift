@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class VisitDateView: UICollectionReusableView {
+final class VisitDateView: UICollectionReusableView {
     
     // MARK: - UI Properties
     

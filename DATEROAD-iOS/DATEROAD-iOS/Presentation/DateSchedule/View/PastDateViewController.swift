@@ -39,7 +39,6 @@ final class PastDateViewController: BaseNavBarViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.tabBarController?.tabBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = true
-        self.pastDateScheduleViewModel.setPastScheduleLoading()
         self.pastDateScheduleViewModel.getPastDateScheduleData()
     }
 
@@ -77,8 +76,7 @@ final class PastDateViewController: BaseNavBarViewController {
 private extension PastDateViewController {
     
     func setEmptyView() {
-        guard let dataCount = pastDateScheduleViewModel.pastDateScheduleData.value?.count
-        else { return }
+        guard let dataCount = pastDateScheduleViewModel.pastDateScheduleData.value?.count else { return }
         pastDateContentView.emptyView.isHidden = !(dataCount == 0)
     }
 
@@ -100,10 +98,12 @@ private extension PastDateViewController {
                     self?.topInsetView.isHidden = onLoading
                     self?.navigationBarView.isHidden = onLoading
                 } else {
-                    self?.pastDateContentView.isHidden = onLoading
-                    self?.topInsetView.isHidden = onLoading
-                    self?.navigationBarView.isHidden = onLoading
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    self?.pastDateContentView.pastDateCollectionView.reloadData()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self?.setEmptyView()
+                        self?.pastDateContentView.isHidden = onLoading
+                        self?.topInsetView.isHidden = onLoading
+                        self?.navigationBarView.isHidden = onLoading
                         self?.hideLoadingView()
                     }
                 }
@@ -113,29 +113,14 @@ private extension PastDateViewController {
         self.pastDateScheduleViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                self?.pastDateScheduleViewModel.setPastScheduleLoading()
                 self?.pastDateScheduleViewModel.getPastDateScheduleData()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
         }
         
-        self.pastDateScheduleViewModel.isSuccessGetPastDateScheduleData.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
-            if isSuccess {
-                self?.pastDateContentView.pastDateCollectionView.reloadData()
-                self?.setEmptyView()
-                self?.pastDateScheduleViewModel.setPastScheduleLoading()
-            }
-        }
-        
-        self.pastDateScheduleViewModel.onPastScheduleFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                self?.hideLoadingView()
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+        self.pastDateScheduleViewModel.isSuccessGetPastDateScheduleData.bind { [weak self] _ in
+            self?.pastDateScheduleViewModel.setPastScheduleLoading()
         }
     }
 }

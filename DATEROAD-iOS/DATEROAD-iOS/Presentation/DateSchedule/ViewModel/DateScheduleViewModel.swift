@@ -40,6 +40,7 @@ final class DateScheduleViewModel: Serviceable {
     
     func getPastDateScheduleData() {
         self.isSuccessGetPastDateScheduleData.value = false
+        self.setPastScheduleLoading()
         self.onPastScheduleFailNetwork.value = false
         
         NetworkService.shared.dateScheduleService.getDateSchdeule(time: "PAST") { response in
@@ -49,19 +50,22 @@ final class DateScheduleViewModel: Serviceable {
                     let tagsModel: [TagsModel] = date.tags.map { tag in
                         TagsModel(tag: tag.tag)
                     }
-                    return DateCardModel(dateID: date.dateID, title: date.title, date: date.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "", city: date.city, tags: tagsModel, dDay: date.dDay)
+                    return DateCardModel(dateID: date.dateID, 
+                                         title: date.title,
+                                         date: date.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "",
+                                         city: date.city,
+                                         tags: tagsModel,
+                                         dDay: date.dDay)
                 }
                 
                 self.pastDateScheduleData.value = dateScheduleInfo
                 self.isSuccessGetPastDateScheduleData.value = true
-            case .serverErr:
-                self.onPastScheduleFailNetwork.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
-                self.isSuccessGetPastDateScheduleData.value = false
+                self.onPastScheduleFailNetwork.value = true
             }
         }
     }
@@ -85,11 +89,12 @@ final class DateScheduleViewModel: Serviceable {
                     }
                     return DateCardModel(dateID: date.dateID, title: date.title, date: (date.date).toReadableDate() ?? "", city: date.city , tags: tagsModel, dDay: date.dDay)
                 }
-                
+                let dateScheduleNum = data.dates.count
                 AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.dateScheduleNum : dateScheduleInfo.count])
+                AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewDateSchedule)
+                AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.countDateSchedule, properties: [StringLiterals.Amplitude.Property.dateScheduleNum : dateScheduleNum])
                 self.upcomingDateScheduleData.value = dateScheduleInfo
                 self.isSuccessGetUpcomingDateScheduleData.value = true
-                print("🍎🍎뷰모델 서버통신 성공🍎🍎", self.isSuccessGetUpcomingDateScheduleData.value)
             case .serverErr:
                 self.onUpcomingScheduleFailNetwork.value = true
             case .reIssueJWT:
@@ -98,7 +103,6 @@ final class DateScheduleViewModel: Serviceable {
                 }
             default:
                 self.isSuccessGetUpcomingDateScheduleData.value = false
-                print("false?")
             }
             self.setUpcomingScheduleLoading()
         }

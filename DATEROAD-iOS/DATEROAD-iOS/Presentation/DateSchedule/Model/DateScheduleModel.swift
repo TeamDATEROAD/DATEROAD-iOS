@@ -23,6 +23,10 @@ struct DateCardModel {
         self.tags = tags
         self.dDay = dDay
     }
+    
+    static var emptyModel: DateCardModel {
+        return DateCardModel(dateID: 0, title: "", date: "", city: "", tags: [], dDay: 0)
+    }
 }
 
 struct TagsModel {

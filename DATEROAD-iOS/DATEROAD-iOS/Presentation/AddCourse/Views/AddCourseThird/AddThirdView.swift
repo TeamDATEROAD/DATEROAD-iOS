@@ -152,7 +152,6 @@ final class AddThirdView: BaseView {
    
 }
 
-
 extension AddThirdView {
    
    func updateContentTextCount(textCnt: Int) {

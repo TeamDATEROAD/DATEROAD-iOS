@@ -115,7 +115,7 @@ final class AddCourseSecondView: BaseView {
 }
 
 
-// MARK: - View Methods
+// MARK: - Extension Methods
 
 extension AddCourseSecondView {
    

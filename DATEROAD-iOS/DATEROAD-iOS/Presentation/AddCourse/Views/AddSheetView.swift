@@ -54,6 +54,7 @@ final class AddSheetView: BaseView {
          addSubviews(bottomSheetView)
          bottomSheetView.addSubviews(doneBtn, customPickerView)
          doneBtn.addSubview(doneBtnTitleLabel)
+      
       case false:
          self.addSubviews(datePicker)
          
@@ -118,13 +119,12 @@ final class AddSheetView: BaseView {
             $0.isHidden = isCustomPicker  // 초기 설정에 따라 숨김
          }
       }
-      
    }
    
 }
 
 
-// MARK: - View Methods
+// MARK: - Extension Methods
 
 extension AddSheetView {
    

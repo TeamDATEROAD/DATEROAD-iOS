@@ -95,7 +95,7 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
 }
 
 
-// MARK: - CollectionViewCell Methods
+// MARK: - Extension Methods
 
 extension AddSecondViewCollectionViewCell {
    

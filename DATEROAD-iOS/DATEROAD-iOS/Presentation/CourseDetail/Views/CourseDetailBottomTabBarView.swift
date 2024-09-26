@@ -8,8 +8,7 @@ import SnapKit
 import Then
 
 
-
-class CourseDetailBottomTabBarView: BaseView {
+final class CourseDetailBottomTabBarView: BaseView {
     
     // MARK: - UI Properties
     

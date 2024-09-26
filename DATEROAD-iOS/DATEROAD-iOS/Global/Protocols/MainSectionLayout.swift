@@ -89,6 +89,8 @@ struct HotDateLayout: MainSectionLayout {
     
     var supplemetaryItemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(119))
     
+    var scrollDirection: UICollectionLayoutSectionOrthogonalScrollingBehavior = .continuous
+    
 }
 
 struct BannerDateLayout: MainSectionLayout {
@@ -102,6 +104,7 @@ struct BannerDateLayout: MainSectionLayout {
     var supplemetaryItemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(20))
  
     var absoluteOffset: CGPoint = CGPoint(x: -16, y: -55)
+    
 }
 
 struct NewDateLayout: MainSectionLayout {

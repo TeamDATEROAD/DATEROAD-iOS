@@ -14,7 +14,7 @@ final class MyPageViewController: BaseNavBarViewController {
     // MARK: - UI Properties
     
     private let myPageView: MyPageView = MyPageView()
-        
+    
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     
@@ -64,7 +64,7 @@ final class MyPageViewController: BaseNavBarViewController {
     
     override func setLayout() {
         super.setLayout()
-
+        
         myPageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -102,34 +102,58 @@ private extension MyPageViewController {
         self.myPageViewModel.onAuthLoading.bind { [weak self] onAuthLoading in
             guard let onAuthLoading, let onFailNetwork = self?.myPageViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
-                onAuthLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.tabBarController?.tabBar.isHidden = onAuthLoading
+                if onAuthLoading {
+                    self?.showLoadingView()
+                    self?.tabBarController?.tabBar.isHidden = onAuthLoading
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self?.tabBarController?.tabBar.isHidden = onAuthLoading
+                        self?.hideLoadingView()
+                    }
+                }
             }
         }
         
         self.myPageViewModel.onFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.myPageViewModel.onFailNetwork.value = false
+                 self?.myPageViewModel.onLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
+       
+       self.myPageViewModel.onSuccessGetUserProfile.bind { [weak self] onSuccess in
+          guard let onSuccess, let data = self?.myPageViewModel.userInfoData.value else { return }
+          if onSuccess {
+             DispatchQueue.main.async {
+                self?.myPageView.userInfoView.bindData(userInfo: data)
+                self?.myPageView.userInfoView.tagCollectionView.reloadData()
+             }
+          }
+          self?.myPageViewModel.setLoading()
+       }
         
         self.myPageViewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.myPageViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
-                if onLoading  {
+                if onLoading {
                     self?.showLoadingView()
                     self?.myPageView.isHidden = onLoading
                     self?.topInsetView.isHidden = onLoading
                     self?.navigationBarView.isHidden = onLoading
                     self?.tabBarController?.tabBar.isHidden = onLoading
                 } else {
-                    self?.myPageView.isHidden = onLoading
-                    self?.topInsetView.isHidden = onLoading
-                    self?.navigationBarView.isHidden = onLoading
-                    self?.tabBarController?.tabBar.isHidden = onLoading
-                    self?.hideLoadingView()
+                   DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                      self?.myPageView.isHidden = onLoading
+                      self?.topInsetView.isHidden = onLoading
+                      self?.navigationBarView.isHidden = onLoading
+                      self?.tabBarController?.tabBar.isHidden = onLoading
+                      self?.hideLoadingView()
+                   }
                 }
             }
         }
@@ -160,14 +184,6 @@ private extension MyPageViewController {
                 self?.navigationController?.popToRootViewController(animated: false)
             } else {
                 self?.presentAlertVC(title: StringLiterals.Alert.failToWithdrawal)
-            }
-        }
-        
-        self.myPageViewModel.onSuccessGetUserProfile.bind { [weak self] isSuccess in
-            guard let isSuccess, let data = self?.myPageViewModel.userInfoData.value else { return }
-            if isSuccess {
-                self?.myPageView.userInfoView.bindData(userInfo: data)
-                self?.myPageView.userInfoView.tagCollectionView.reloadData()
             }
         }
         
@@ -276,7 +292,7 @@ extension MyPageViewController: DRCustomAlertDelegate {
             }
         }
     }
-
+    
 }
 
 // MARK: - UICollectionView Delegates

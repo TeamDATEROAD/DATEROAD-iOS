@@ -13,7 +13,9 @@ import KakaoSDKCommon
 import KakaoSDKAuth
 import KakaoSDKUser
 
-class DateDetailViewModel: Serviceable {
+final class DateDetailViewModel: Serviceable {
+    
+    var type: ObservablePattern<NetworkType> = ObservablePattern(nil)
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
@@ -26,6 +28,8 @@ class DateDetailViewModel: Serviceable {
     var isSuccessGetDateDetailData: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var isSuccessDeleteDateScheduleData: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var onDeleteDateDetailLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
     var onDateDetailLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
@@ -41,7 +45,11 @@ class DateDetailViewModel: Serviceable {
     
     var isMoreThanFiveSchedule : Bool {
         return (dateDetailData.value?.places.count ?? 0 >= 5)
-    }    
+    }
+    
+    var dateCourseNum : Int = 0
+    
+    var dateTotalDuration : Float = 0
 }
 
 extension DateDetailViewModel {
@@ -60,18 +68,28 @@ extension DateDetailViewModel {
                 let datePlaceInfo: [DatePlaceModel] = data.places.map { place in
                     DatePlaceModel(name: place.title, duration: (place.duration).formatFloatTime(), sequence: place.sequence)
                 }
-                self.dateDetailData.value = DateDetailModel(dateID: data.dateID, title: data.title, startAt: data.startAt, city: data.city, tags: tagsInfo, date: data.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "", places: datePlaceInfo, dDay: data.dDay)
+                self.dateDetailData.value = DateDetailModel(dateID: data.dateID,
+                                                            title: data.title,
+                                                            startAt: data.startAt,
+                                                            city: data.city,
+                                                            tags: tagsInfo,
+                                                            date: data.date.formatDateFromString(inputFormat: "yyyy.MM.dd",
+                                                                                                 outputFormat: "yyyy년 M월 d일") ?? "",
+                                                            places: datePlaceInfo,
+                                                            dDay: data.dDay)
                 self.isSuccessGetDateDetailData.value = true
+                self.dateCourseNum = self.dateDetailData.value?.places.count ?? 0
+                self.dateTotalDuration = datePlaceInfo.map { Float($0.duration) ?? 0 }.reduce(0, +)
             case .serverErr:
                 self.onFailNetwork.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
+                    self.type.value = NetworkType.getDateDetail
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
-                self.isSuccessGetDateDetailData.value = false
+                self.onFailNetwork.value = true
             }
-            self.setDateDetailLoading()
         }
     }
     
@@ -81,17 +99,19 @@ extension DateDetailViewModel {
      }
     
     func deleteDateSchdeuleData(dateID: Int) {
+        self.onFailNetwork.value = false
+        
         NetworkService.shared.dateScheduleService.deleteDateSchedule(dateID: dateID) { response in
             switch response {
-            case .success(let data):
+            case .success:
                 self.isSuccessDeleteDateScheduleData.value = true
-                print("success", self.isSuccessDeleteDateScheduleData.value)
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
+                    self.type.value = NetworkType.deleteDateSchedule
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
-                self.isSuccessDeleteDateScheduleData.value = false
+                self.onFailNetwork.value = true
             }
         }
     }
@@ -99,14 +119,13 @@ extension DateDetailViewModel {
     func setTempArgs() {
         kakaoShareInfo[StringLiterals.Network.userName] = userName
         kakaoShareInfo["startAt"] = dateDetailData.value?.startAt
-        print(dateDetailData.value?.places.count)
         switch dateDetailData.value?.places.count ?? 0 <= 5 {
         case true:
             for i in 0...maxPlaces-1 {
                 kakaoShareInfo["name\(i+1)"] = dateDetailData.value?.places[i].name
                 kakaoShareInfo["duration\(i+1)"] = "\(dateDetailData.value?.places[i].duration ?? "") 시간"
             }
-            for i in maxPlaces...5 {
+            for _ in maxPlaces...5 {
                 kakaoPlacesInfo.append(KakaoPlaceModel(name: nil, duration: nil))
             }
         case false:
@@ -121,7 +140,6 @@ extension DateDetailViewModel {
 
         if !AuthApi.hasToken() {
             // Generate Redirect URI
-            print("is 1")
             let redirectURI = "kakao\(Config.kakaoNativeAppKey)://oauth"
             // Redirect to Kakao login page
             let loginUrl = "https://kauth.kakao.com/oauth/authorize?client_id=\(Config.kakaoNativeAppKey)&redirect_uri=\(redirectURI)&response_type=code"

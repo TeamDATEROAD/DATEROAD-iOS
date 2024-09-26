@@ -109,13 +109,10 @@ extension CourseViewModel {
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
-            case .serverErr:
-                self.onFailNetwork.value = true
             default:
-                self.isSuccessGetData.value = false
+                self.onFailNetwork.value = true
                 print("Failed to fetch course data")
             }
-            self.setLoading()
         }
     }
     

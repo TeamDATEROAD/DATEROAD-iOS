@@ -49,7 +49,6 @@ final class CourseViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
-        self.courseViewModel.setLoading()
         getCourse()
         courseViewModel.fetchPriceData()
     }
@@ -86,11 +85,15 @@ final class CourseViewController: BaseViewController {
     func bindViewModel() {
         
         self.courseViewModel.onFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.courseViewModel.onFailNetwork.value = false
+                 self?.courseViewModel.onLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
         
         self.courseViewModel.onLoading.bind { [weak self] onLoading in
@@ -103,7 +106,7 @@ final class CourseViewController: BaseViewController {
                         self?.tabBarController?.tabBar.isHidden = true
                     } else {
                         self?.courseView.courseListView.courseListCollectionView.reloadData()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                             self?.courseView.isHidden = false
                             self?.tabBarController?.tabBar.isHidden = false
                             self?.hideLoadingView()
@@ -116,17 +119,14 @@ final class CourseViewController: BaseViewController {
         self.courseViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                self?.getCourse()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
         }
         
-        courseViewModel.isSuccessGetData.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
-            if isSuccess {
-                self?.courseViewModel.setLoading()
-            }
+        self.courseViewModel.isSuccessGetData.bind { [weak self] _ in
+            self?.courseViewModel.setLoading()
         }
         
         self.courseViewModel.selectedPriceIndex.bind { [weak self] index in
@@ -235,7 +235,7 @@ extension CourseViewController: LocationFilterDelegate {
 extension CourseViewController: CourseNavigationBarViewDelegate {
     
     func didTapAddCourseButton() {
-        let addCourseFirstVC = AddCourseFirstViewController(viewModel: AddCourseViewModel())
+       let addCourseFirstVC = AddCourseFirstViewController(viewModel: AddCourseViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.exploreCourse)
         self.navigationController?.pushViewController(addCourseFirstVC, animated: false)
     }
     
