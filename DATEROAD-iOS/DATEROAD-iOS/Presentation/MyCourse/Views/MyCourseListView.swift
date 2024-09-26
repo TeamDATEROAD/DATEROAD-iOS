@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MyCourseListView: BaseView {
+final class MyCourseListView: BaseView {
 
     // MARK: - UI Properties
     

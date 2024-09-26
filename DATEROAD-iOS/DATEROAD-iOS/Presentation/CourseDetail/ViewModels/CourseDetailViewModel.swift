@@ -173,7 +173,7 @@ extension CourseDetailViewModel {
     
     
     func postUsePoint(courseId: Int, request: PostUsePointRequest) {
-        UsePointService().postUsePoint(courseId: self.courseId, request: request)  { result in
+        NetworkService.shared.usePointService.postUsePoint(courseId: self.courseId, request: request)  { result in
             switch result {
             case .success(let response):
                 self.isAccess.value = true

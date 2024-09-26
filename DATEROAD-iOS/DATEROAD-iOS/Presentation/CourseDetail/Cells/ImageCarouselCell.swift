@@ -27,9 +27,7 @@ final class ImageCarouselCell: BaseCollectionViewCell {
     var thumbnailModel: ThumbnailModel?
     
     let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-    
-    static let identifier: String = "ImageCarouselCell"
-    
+        
     weak var delegate: ImageCarouselDelegate?
     
     override init(frame: CGRect) {

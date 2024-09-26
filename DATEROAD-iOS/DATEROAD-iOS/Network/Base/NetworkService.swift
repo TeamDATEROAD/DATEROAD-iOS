@@ -35,5 +35,6 @@ final class NetworkService {
     
     let likedCourseService: LikeCourseService = LikeCourseService()
     
+    let usePointService: UsePointService = UsePointService()
     
 }

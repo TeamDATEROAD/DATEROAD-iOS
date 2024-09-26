@@ -86,7 +86,7 @@ extension PastDateDetailViewController: DRCustomAlertDelegate {
                                                         alertButtonType: .twoButton,
                                                         titleText: StringLiterals.Alert.deletePastDateSchedule,
                                                         descriptionText: StringLiterals.Alert.noMercy,
-                                                        rightButtonText: "삭제")
+                                                        rightButtonText: StringLiterals.Alert.delete)
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         self.present(customAlertVC, animated: false)

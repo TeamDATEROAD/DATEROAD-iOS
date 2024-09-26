@@ -252,7 +252,6 @@
 		CAC80FC52C3C759B00658EA6 /* PointSystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FC42C3C759B00658EA6 /* PointSystemModel.swift */; };
 		CAC80FC82C3C75F200658EA6 /* PointSystemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FC72C3C75F200658EA6 /* PointSystemViewModel.swift */; };
 		CAC80FCA2C3C95A100658EA6 /* UICollectionViewFlowLayout+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FC92C3C95A000658EA6 /* UICollectionViewFlowLayout+.swift */; };
-		CAC80FCC2C3D2EA600658EA6 /* DRButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FCB2C3D2EA600658EA6 /* DRButton.swift */; };
 		CAC80FCE2C3D2FD800658EA6 /* BottomControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FCD2C3D2FD800658EA6 /* BottomControlView.swift */; };
 		CAC80FD02C3D723200658EA6 /* DRBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FCF2C3D723200658EA6 /* DRBottomSheetViewController.swift */; };
 		CAC80FD22C3D7E5100658EA6 /* ProfileImageSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FD12C3D7E5100658EA6 /* ProfileImageSettingView.swift */; };
@@ -515,7 +514,6 @@
 		CAC80FC42C3C759B00658EA6 /* PointSystemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSystemModel.swift; sourceTree = "<group>"; };
 		CAC80FC72C3C75F200658EA6 /* PointSystemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSystemViewModel.swift; sourceTree = "<group>"; };
 		CAC80FC92C3C95A000658EA6 /* UICollectionViewFlowLayout+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewFlowLayout+.swift"; sourceTree = "<group>"; };
-		CAC80FCB2C3D2EA600658EA6 /* DRButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRButton.swift; sourceTree = "<group>"; };
 		CAC80FCD2C3D2FD800658EA6 /* BottomControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomControlView.swift; sourceTree = "<group>"; };
 		CAC80FCF2C3D723200658EA6 /* DRBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRBottomSheetViewController.swift; sourceTree = "<group>"; };
 		CAC80FD12C3D7E5100658EA6 /* ProfileImageSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageSettingView.swift; sourceTree = "<group>"; };
@@ -1506,7 +1504,6 @@
 				CA78FE462C38667A001B1403 /* DRErrorLabel.swift */,
 				0D07420B2C3B0339004B3F59 /* TabBarController.swift */,
 				CAC80FF02C3EFF6600658EA6 /* DRPaddingLabel.swift */,
-				CAC80FCB2C3D2EA600658EA6 /* DRButton.swift */,
 				CAC80FCF2C3D723200658EA6 /* DRBottomSheetViewController.swift */,
 				74C88EEF2C4047E400A4C638 /* CustomEmptyView.swift */,
 				9E0789192C4547C200B9F9B8 /* CustomImagePicker.swift */,
@@ -1950,7 +1947,6 @@
 				CAA30AED2C37E57400835DE3 /* String+.swift in Sources */,
 				0D98CBA52C41067B00E3618A /* CourseDetailViewController.swift in Sources */,
 				0D0DA3E42C3AF3CF004210EE /* PointCollectionView.swift in Sources */,
-				CAC80FCC2C3D2EA600658EA6 /* DRButton.swift in Sources */,
 				CAC80FA22C3B10EA00658EA6 /* MyPageViewController.swift in Sources */,
 				CA73F1702C61E1C30089856C /* PatchEditProfileRequest.swift in Sources */,
 				CA4EF3C02C3285BA003B02B6 /* SocialType.swift in Sources */,

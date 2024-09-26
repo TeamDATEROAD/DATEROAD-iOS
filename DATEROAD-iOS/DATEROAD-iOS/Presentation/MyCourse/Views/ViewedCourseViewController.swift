@@ -262,6 +262,7 @@ extension ViewedCourseViewController : UICollectionViewDataSource {
 }
 
 extension ViewedCourseViewController {
+    
     @objc
     func pushToCourseUploadVC(_ gesture: UITapGestureRecognizer) {
         goToUpcomingDateScheduleVC()

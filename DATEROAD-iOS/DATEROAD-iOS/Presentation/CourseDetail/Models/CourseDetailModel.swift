@@ -43,6 +43,7 @@ struct MainContentsModel {
     var description: String
 }
 
+
 struct TimelineModel {
     let sequence: Int
     let title: String
@@ -54,8 +55,6 @@ struct TimelineModel {
         self.duration = duration
     }
 }
-
-
 
 
 struct CoastModel {

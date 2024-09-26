@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class TimelineHeaderView: UICollectionReusableView {
+final class TimelineHeaderView: UICollectionReusableView {
     
     // MARK: - UI Properties
     

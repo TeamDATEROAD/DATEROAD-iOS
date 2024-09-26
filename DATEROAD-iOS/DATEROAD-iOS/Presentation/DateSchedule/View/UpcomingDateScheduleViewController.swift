@@ -227,7 +227,7 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel(dateID: 0, title: "", date: "", city: "", tags: [], dDay: 0)
+        let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel.emptyData
         print(data)
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateCardCollectionViewCell.cellIdentifier, for: indexPath) as? DateCardCollectionViewCell else {
             return UICollectionViewCell()
@@ -243,7 +243,7 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
     func pushToUpcomingDateDetailVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: upcomingDateScheduleView.cardCollectionView)
         if let indexPath = upcomingDateScheduleView.cardCollectionView.indexPathForItem(at: location) {
-            let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel(dateID: 0, title: "", date: "", city: "", tags: [], dDay: 0)
+            let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel.emptyData
             let upcomingDateDetailVC = UpcomingDateDetailViewController(dateID: data.dateID, upcomingDateDetailViewModel: DateDetailViewModel()
             )
             upcomingDateDetailVC.setColor(index: indexPath.item)

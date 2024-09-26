@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 
-class BottomPageControllView: UICollectionReusableView {
+final class BottomPageControllView: UICollectionReusableView {
     
     // MARK: - UI Properties
     

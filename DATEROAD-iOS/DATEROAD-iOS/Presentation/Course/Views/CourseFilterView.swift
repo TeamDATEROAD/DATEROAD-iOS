@@ -15,7 +15,7 @@ protocol CourseFilterViewDelegate: AnyObject {
     func didTapResetButton()
 }
 
-class CourseFilterView: BaseView {
+final class CourseFilterView: BaseView {
     
     // MARK: - UI Properties
     

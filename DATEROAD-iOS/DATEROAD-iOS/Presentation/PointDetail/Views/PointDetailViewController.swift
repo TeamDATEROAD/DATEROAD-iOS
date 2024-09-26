@@ -126,6 +126,7 @@ extension PointDetailViewController {
 // MARK: - Private Method
 
 private extension PointDetailViewController {
+    
     @objc
     func didChangeValue(segment: UISegmentedControl) {
         pointViewModel.changeSegment(segmentIndex: pointDetailView.segmentControl.selectedSegmentIndex)

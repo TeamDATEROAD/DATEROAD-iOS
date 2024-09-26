@@ -226,6 +226,7 @@ enum StringLiterals {
         static let failToDeleteCourse = "코스 삭제 실패"
         static let failToAddLike = "좋아요 등록 실패"
         static let failToDeleteLike = "좋아요 해제 실패"
+        static let delete = "삭제"
     }
     
     enum Course {
@@ -293,6 +294,7 @@ enum StringLiterals {
     
     enum Elementkinds {
         static let bannerInfoHeaderView = "BannerInfoHeaderView"
+        static let contentMaskView = "ContentMaskView"
     }
     
     enum Amplitude {

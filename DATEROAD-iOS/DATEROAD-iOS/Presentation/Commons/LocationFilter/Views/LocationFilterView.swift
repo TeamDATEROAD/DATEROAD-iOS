@@ -15,7 +15,7 @@ protocol LocationFilterViewDelegate: AnyObject {
     func didTapApplyButton()
 }
 
-class LocationFilterView: BaseView {
+final class LocationFilterView: BaseView {
     
     // MARK: - UI Properties
     

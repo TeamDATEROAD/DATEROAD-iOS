@@ -64,7 +64,14 @@ extension DateDetailViewModel {
                 let datePlaceInfo: [DatePlaceModel] = data.places.map { place in
                     DatePlaceModel(name: place.title, duration: (place.duration).formatFloatTime(), sequence: place.sequence)
                 }
-                self.dateDetailData.value = DateDetailModel(dateID: data.dateID, title: data.title, startAt: data.startAt, city: data.city, tags: tagsInfo, date: data.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "", places: datePlaceInfo, dDay: data.dDay)
+                self.dateDetailData.value = DateDetailModel(dateID: data.dateID, 
+                                                            title: data.title,
+                                                            startAt: data.startAt,
+                                                            city: data.city,
+                                                            tags: tagsInfo,
+                                                            date: data.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "",
+                                                            places: datePlaceInfo,
+                                                            dDay: data.dDay)
                 self.isSuccessGetDateDetailData.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
