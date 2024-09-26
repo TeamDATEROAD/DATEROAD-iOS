@@ -75,8 +75,6 @@ final class AddCourseViewModel: Serviceable {
    
    var addPlaceCollectionViewDataSource: [AddCoursePlaceModel] = []
    
-   let changeTableViewData: ObservablePattern<Int> = ObservablePattern(0)
-   
    let datePlace: ObservablePattern<String> = ObservablePattern(nil)
    
    let timeRequire: ObservablePattern<String> = ObservablePattern(nil)
