@@ -7,20 +7,8 @@
 
 import UIKit
 
-enum CourseDetailSection {
-    case imageCarousel
-    case titleInfo
-    case mainContents
-    case timelineInfo
-    case coastInfo
-    case tagInfo
-    
-    static var dataSource: [CourseDetailSection] {
-        return [.imageCarousel, .titleInfo, .mainContents, .timelineInfo, .coastInfo, .tagInfo]
-    }
-}
 
-class CourseDetailViewModel: Serviceable {
+final class CourseDetailViewModel: Serviceable {
     
     var courseId: Int
     
@@ -204,29 +192,19 @@ extension CourseDetailViewModel {
     
     func deleteCourse(completion: @escaping (Bool) -> Void) {
         NetworkService.shared.courseDetailService.deleteCourse(courseId: courseId) { (success: Bool) in
-            if success {
-                completion(success)
-            }
+            completion(success)
         }
     }
     
-    func likeCourse(courseId: Int) {
-        LikeCourseService().likeCourse(courseId: courseId) { success in
-            if success {
-                
-            } else {
-                print("ffsdasdfsadfsadfsdfdsafs")
-            }
+    func likeCourse(courseId: Int, completion: @escaping (Bool) -> Void) {
+        NetworkService.shared.likedCourseService.likeCourse(courseId: courseId) { success in
+            completion(success)
         }
     }
     
-    func deleteLikeCourse(courseId: Int) {
-        LikeCourseService().deleteLikeCourse(courseId: courseId) { success in
-            if success {
-                
-            } else {
-                print("dfsadfasdsfasdfadsfdsasf")
-            }
+    func deleteLikeCourse(courseId: Int, completion: @escaping (Bool) -> Void) {
+        NetworkService.shared.likedCourseService.deleteLikeCourse(courseId: courseId) { success in
+            completion(success)
         }
     }
     
