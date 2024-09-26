@@ -16,8 +16,8 @@ KAKAO_APPSTORE = itms-apps://itunes.apple.com/app/362057947
 AMPLITUDE_API_KEY = 64978a485f90b6b5fd9bd823c936e1dc
 
 //테스트서버
-BASE_URL = http:/$()/43.202.136.114/
+//BASE_URL = http:/$()/43.202.136.114/
 
 //운영서버
-//BASE_URL = http:/$()/13.124.191.61/
+BASE_URL = http:/$()/13.124.191.61/
 
