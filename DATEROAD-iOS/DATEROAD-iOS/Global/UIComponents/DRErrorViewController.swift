@@ -8,10 +8,6 @@
 import UIKit
 
 final class DRErrorViewController: BaseNavBarViewController {
-   
-   // MARK: - Properties
-   // 콜백 클로저 정의
-   var onDismiss: (() -> Void)?
     
     // MARK: - UI Properties
     
@@ -22,8 +18,25 @@ final class DRErrorViewController: BaseNavBarViewController {
     private let subErrorMessageLabel: UILabel = UILabel()
     
     
+    // MARK: - Properties
+    // 콜백 클로저 정의
+    var onDismiss: (() -> Void)?
+    
+    var type: String
+    
+    
     // MARK: - Life Cycles
-   
+    
+    init(type: String = StringLiterals.Common.common) {
+        self.type = type
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
    // VC 닫힐 때에 호출
    override func viewDidDisappear(_ animated: Bool) {
       super.viewDidDisappear(animated)
@@ -80,6 +93,22 @@ final class DRErrorViewController: BaseNavBarViewController {
                         numberOfLines: 2,
                         textColor: UIColor(resource: .gray300),
                         font: UIFont.suit(.body_med_15) )
+    }
+    
+}
+
+extension DRErrorViewController {
+    
+    @objc
+    override func backButtonTapped() {
+        if self.type == StringLiterals.Common.main {
+            for key in UserDefaults.standard.dictionaryRepresentation().keys {
+                UserDefaults.standard.removeObject(forKey: key.description)
+            }
+            navigationController?.popToRootViewController(animated: false)
+        } else {
+            navigationController?.popViewController(animated: false)
+        }
     }
     
 }

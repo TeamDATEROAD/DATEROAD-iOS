@@ -129,7 +129,6 @@ extension BaseNavBarViewController {
    
    func setRightBtnStyle() {
       rightButton.do {
-         //          $0.setTitle(S, for: .normal)
          $0.contentHorizontalAlignment = .center
          var config = UIButton.Configuration.plain()
          var titleAttr = AttributedString.init(StringLiterals.AddCourseOrSchedule.AddFirstView.addScheduleRightBtn)
