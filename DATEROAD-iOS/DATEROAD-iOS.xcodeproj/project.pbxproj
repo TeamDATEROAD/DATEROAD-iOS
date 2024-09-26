@@ -186,6 +186,7 @@
 		CA5B979E2C91889C00F90A4C /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5B979D2C91889C00F90A4C /* AmplitudeManager.swift */; };
 		CA5B97A02C9C7B4300F90A4C /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5B979F2C9C7B4200F90A4C /* Header.swift */; };
 		CA5B97A22CA2FCD700F90A4C /* NetworkType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5B97A12CA2FCD700F90A4C /* NetworkType.swift */; };
+		CA5B97A42CA5562000F90A4C /* CourseDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5B97A32CA5562000F90A4C /* CourseDetailSection.swift */; };
 		CA73F16E2C6080180089856C /* EditType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA73F16D2C6080180089856C /* EditType.swift */; };
 		CA73F1702C61E1C30089856C /* PatchEditProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA73F16F2C61E1C30089856C /* PatchEditProfileRequest.swift */; };
 		CA78FE442C383D53001B1403 /* SUIT-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF62C329A6400855E61 /* SUIT-Medium.otf */; };
@@ -453,6 +454,7 @@
 		CA5B979D2C91889C00F90A4C /* AmplitudeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplitudeManager.swift; sourceTree = "<group>"; };
 		CA5B979F2C9C7B4200F90A4C /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		CA5B97A12CA2FCD700F90A4C /* NetworkType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkType.swift; sourceTree = "<group>"; };
+		CA5B97A32CA5562000F90A4C /* CourseDetailSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailSection.swift; sourceTree = "<group>"; };
 		CA73F16D2C6080180089856C /* EditType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditType.swift; sourceTree = "<group>"; };
 		CA73F16F2C61E1C30089856C /* PatchEditProfileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchEditProfileRequest.swift; sourceTree = "<group>"; };
 		CA78FE462C38667A001B1403 /* DRErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRErrorLabel.swift; sourceTree = "<group>"; };
@@ -1359,6 +1361,7 @@
 				CA73F16D2C6080180089856C /* EditType.swift */,
 				CA5B979F2C9C7B4200F90A4C /* Header.swift */,
 				CA5B97A12CA2FCD700F90A4C /* NetworkType.swift */,
+				CA5B97A32CA5562000F90A4C /* CourseDetailSection.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -2108,6 +2111,7 @@
 				CA80C0CF2C445D38002CAA9B /* MoyaLoggingPluggin.swift in Sources */,
 				9E754CF32C4841BE00E2CA91 /* AddScheduleService.swift in Sources */,
 				CAC80FB92C3BCE4E00658EA6 /* MyPageSection.swift in Sources */,
+				CA5B97A42CA5562000F90A4C /* CourseDetailSection.swift in Sources */,
 				CABDCEB92C4A6C8800631FB3 /* AdTagType.swift in Sources */,
 				CAC80FDE2C3E7F0100658EA6 /* MainViewModel.swift in Sources */,
 				CA78FE472C38667A001B1403 /* DRErrorLabel.swift in Sources */,
