@@ -125,12 +125,20 @@ private extension MyPageViewController {
               self?.navigationController?.pushViewController(errorVC, animated: false)
            }
         }
+       
+       self.myPageViewModel.onSuccessGetUserProfile.bind { [weak self] onSuccess in
+          guard let onSuccess, let data = self?.myPageViewModel.userInfoData.value else { return }
+          if onSuccess {
+             DispatchQueue.main.async {
+                self?.myPageView.userInfoView.bindData(userInfo: data)
+                self?.myPageView.userInfoView.tagCollectionView.reloadData()
+             }
+          }
+          self?.myPageViewModel.setLoading()
+       }
         
         self.myPageViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading,
-                  let data = self?.myPageViewModel.userInfoData.value,
-                  let onFailNetwork = self?.myPageViewModel.onFailNetwork.value
-            else { return }
+            guard let onLoading, let onFailNetwork = self?.myPageViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
                     self?.showLoadingView()
@@ -139,19 +147,13 @@ private extension MyPageViewController {
                     self?.navigationBarView.isHidden = onLoading
                     self?.tabBarController?.tabBar.isHidden = onLoading
                 } else {
-                    self?.myPageView.userInfoView.onLoading = {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                            self?.myPageView.isHidden = onLoading
-                            self?.topInsetView.isHidden = onLoading
-                            self?.navigationBarView.isHidden = onLoading
-                            self?.tabBarController?.tabBar.isHidden = onLoading
-                            self?.hideLoadingView()
-                        }
-                    }
-                    
-                    // `onDismiss` 설정 이후 `bindData` 호출
-                    self?.myPageView.userInfoView.bindData(userInfo: data)
-                    self?.myPageView.userInfoView.tagCollectionView.reloadData()
+                   DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                      self?.myPageView.isHidden = onLoading
+                      self?.topInsetView.isHidden = onLoading
+                      self?.navigationBarView.isHidden = onLoading
+                      self?.tabBarController?.tabBar.isHidden = onLoading
+                      self?.hideLoadingView()
+                   }
                 }
             }
         }

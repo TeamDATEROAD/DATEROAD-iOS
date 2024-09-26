@@ -34,11 +34,6 @@ final class UserInfoView: BaseView {
     private let rightArrowButton: UIImageView = UIImageView()
     
     
-    // MARK: - UI Properties
-    
-    var onLoading: (() -> (Void))?
-    
-    
     // MARK: - Life Cycle
     
     override func setHierarchy() {
@@ -183,13 +178,6 @@ extension UserInfoView {
             return
         }
         let url = URL(string: imageURL)
-        self.profileImageView.kf.setImage(with: url) { result in
-            switch result {
-            case .success:
-                self.onLoading?()
-            case .failure(let error):
-                print(error)
-            }
-        }
+        self.profileImageView.kf.setImage(with: url)
     }
 }
