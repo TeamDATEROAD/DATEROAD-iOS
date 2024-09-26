@@ -123,10 +123,7 @@ extension ProfileViewModel {
         
         guard let name = self.nickname.value else { return }
 
-        let requestBody = PostSignUpRequest(userSignUpReq: UserSignUpReq(name: name,
-                                                                         platform: socialType 
-                                                                         ? SocialType.KAKAO.rawValue
-                                                                         : SocialType.APPLE.rawValue),
+        let requestBody = PostSignUpRequest(userSignUpReq: UserSignUpReq(name: name, platform: socialType ? SocialType.KAKAO.rawValue : SocialType.APPLE.rawValue),
                                             image: image,
                                             tag: self.selectedTagData)
         

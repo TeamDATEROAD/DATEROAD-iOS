@@ -23,6 +23,8 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     
     var dateID: Int
     
+    var networkType: NetworkType?
+    
     var pastDateDetailViewModel: DateDetailViewModel
     
     private let dateScheduleDeleteView = DateScheduleDeleteView()
@@ -44,7 +46,6 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.tabBarController?.tabBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = true
-        self.pastDateDetailViewModel.setDateDetailLoading()
         self.pastDateDetailViewModel.getDateDetailData(dateID: self.dateID)
     }
     
@@ -85,7 +86,7 @@ extension PastDateDetailViewController: DRCustomAlertDelegate {
                                                         alertButtonType: .twoButton,
                                                         titleText: StringLiterals.Alert.deletePastDateSchedule,
                                                         descriptionText: StringLiterals.Alert.noMercy,
-                                                        rightButtonText: "삭제")
+                                                        rightButtonText: StringLiterals.Alert.delete)
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         self.present(customAlertVC, animated: false)
@@ -128,14 +129,20 @@ extension PastDateDetailViewController {
     
     func bindViewModel() {
         self.pastDateDetailViewModel.onDateDetailLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.pastDateDetailViewModel.onFailNetwork.value else { return }
+            guard let onLoading,
+                    let onFailNetwork = self?.pastDateDetailViewModel.onFailNetwork.value,
+                    let data = self?.pastDateDetailViewModel.dateDetailData.value
+            else { return }
             if !onFailNetwork {
                 if onLoading {
                     self?.showLoadingView()
                     self?.pastDateDetailContentView.isHidden = true
                 } else {
-                    self?.pastDateDetailContentView.isHidden = false
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    self?.pastDateDetailContentView.dataBind(data)
+                    self?.pastDateDetailContentView.dateTimeLineCollectionView.reloadData()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self?.pastDateDetailContentView.isHidden = false
                         self?.hideLoadingView()
                     }
                 }
@@ -143,37 +150,42 @@ extension PastDateDetailViewController {
          }
         
         self.pastDateDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
-            guard let onSuccess else { return }
+            guard let onSuccess, let dateID = self?.dateID else { return }
             if onSuccess {
-                // TODO: - 서버 통신 재시도
+                switch self?.networkType {
+                case .deleteDateSchedule:
+                    self?.pastDateDetailViewModel.deleteDateSchdeuleData(dateID: dateID)
+                case .getDateDetail:
+                    self?.pastDateDetailViewModel.getDateDetailData(dateID: dateID)
+                default:
+                    self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+                }
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
         }
         
-        self.pastDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
-            guard let isSuccess, let data = self?.pastDateDetailViewModel.dateDetailData.value else { return }
-            if isSuccess {
-                self?.pastDateDetailContentView.dataBind(data)
-                self?.pastDateDetailContentView.dateTimeLineCollectionView.reloadData()
-                self?.pastDateDetailViewModel.setDateDetailLoading()
-            }
+        self.pastDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] _ in
+            self?.pastDateDetailViewModel.setDateDetailLoading()
         }
         
         self.pastDateDetailViewModel.isSuccessDeleteDateScheduleData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
-                self?.navigationController?.popViewController(animated: true)
+                self?.navigationController?.popViewController(animated: false)
             }
         }
         
         self.pastDateDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                self?.hideLoadingView()
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.pastDateDetailViewModel.onFailNetwork.value = false
+                 self?.pastDateDetailViewModel.onDateDetailLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
     }
     

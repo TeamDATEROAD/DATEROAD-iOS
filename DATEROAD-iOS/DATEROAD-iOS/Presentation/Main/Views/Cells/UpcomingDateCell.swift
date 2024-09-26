@@ -100,7 +100,6 @@ final class UpcomingDateCell: BaseCollectionViewCell {
 
 extension UpcomingDateCell {
     
-    // TODO: - 0일 때 D-Day 변환 하는 거 수정 & 다가오는 일정 없는 경우 수정
     func bindData(upcomingData: UpcomingDateModel?, mainUserData: MainUserModel?) {
         if let upcomingData {
             emptyTicketView.isHidden = true
@@ -121,5 +120,6 @@ extension UpcomingDateCell {
         let url = URL(string: imageUrl)
         profileImage.kf.setImage(with: url)
         profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
+        profileImage.backgroundColor = .clear
     }
 }

@@ -40,6 +40,7 @@ final class DateScheduleViewModel: Serviceable {
     
     func getPastDateScheduleData() {
         self.isSuccessGetPastDateScheduleData.value = false
+        self.setPastScheduleLoading()
         self.onPastScheduleFailNetwork.value = false
         
         NetworkService.shared.dateScheduleService.getDateSchdeule(time: "PAST") { response in
@@ -49,19 +50,22 @@ final class DateScheduleViewModel: Serviceable {
                     let tagsModel: [TagsModel] = date.tags.map { tag in
                         TagsModel(tag: tag.tag)
                     }
-                    return DateCardModel(dateID: date.dateID, title: date.title, date: date.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "", city: date.city, tags: tagsModel, dDay: date.dDay)
+                    return DateCardModel(dateID: date.dateID, 
+                                         title: date.title,
+                                         date: date.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "",
+                                         city: date.city,
+                                         tags: tagsModel,
+                                         dDay: date.dDay)
                 }
                 
                 self.pastDateScheduleData.value = dateScheduleInfo
                 self.isSuccessGetPastDateScheduleData.value = true
-            case .serverErr:
-                self.onPastScheduleFailNetwork.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
-                self.isSuccessGetPastDateScheduleData.value = false
+                self.onPastScheduleFailNetwork.value = true
             }
         }
     }

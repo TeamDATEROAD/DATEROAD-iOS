@@ -74,34 +74,41 @@ class PointDetailViewController: BaseNavBarViewController {
 
 
 extension PointDetailViewController {
+    
     func bindViewModel() {
         self.pointViewModel.onFailNetwork.bind { [weak self] onFailure in
-            guard let onFailure else { return }
-            if onFailure {
-                self?.hideLoadingView()
-                let errorVC = DRErrorViewController()
-                self?.navigationController?.pushViewController(errorVC, animated: false)
-            }
+           guard let onFailure else { return }
+           if onFailure {
+              let errorVC = DRErrorViewController()
+              errorVC.onDismiss = {
+                 self?.pointViewModel.onFailNetwork.value = false
+                  self?.pointViewModel.onLoading.value = false
+              }
+              self?.navigationController?.pushViewController(errorVC, animated: false)
+           }
         }
 
         self.pointViewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.pointViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
-                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.pointDetailView.isHidden = onLoading
+                if onLoading {
+                    self?.showLoadingView()
+                    self?.pointDetailView.isHidden = onLoading
+                } else {
+                    self?.pointDetailView.pointCollectionView.reloadData()
+                    self?.pointViewModel.updateData(nowEarnedPointHidden: false)
+                    self?.changeSelectedSegmentLayout(isEarnedPointHidden: false)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self?.pointDetailView.isHidden = onLoading
+                        self?.hideLoadingView()
+                    }
+                }
             }
         }
         
-        self.pointViewModel.isSuccessGetPointInfo.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
-            if isSuccess {
-                self?.pointDetailView.pointCollectionView.reloadData()
-                self?.pointViewModel.updateData(nowEarnedPointHidden: false)
-                self?.changeSelectedSegmentLayout(isEarnedPointHidden: false)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self?.pointViewModel.setPointDetailLoading()
-                }
-            }
+        self.pointViewModel.isSuccessGetPointInfo.bind { [weak self] _ in
+            self?.pointViewModel.setPointDetailLoading()
         }
         
     }
@@ -119,6 +126,7 @@ extension PointDetailViewController {
 // MARK: - Private Method
 
 private extension PointDetailViewController {
+    
     @objc
     func didChangeValue(segment: UISegmentedControl) {
         pointViewModel.changeSegment(segmentIndex: pointDetailView.segmentControl.selectedSegmentIndex)

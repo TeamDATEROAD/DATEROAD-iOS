@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PointDetailView: BaseView {
+final class PointDetailView: BaseView {
 
     // MARK: - UI Properties
     
