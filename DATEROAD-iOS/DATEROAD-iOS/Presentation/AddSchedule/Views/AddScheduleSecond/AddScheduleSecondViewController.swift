@@ -190,8 +190,8 @@ private extension AddScheduleSecondViewController {
       }
       
       viewModel.timeRequire.bind { [weak self] date in
-         guard let text = date else {return}
-         self?.addScheduleSecondView.inAddScheduleSecondView.updatetimeRequire(text: text)
+         guard let date else {return}
+         self?.addScheduleSecondView.inAddScheduleSecondView.updatetimeRequire(text: date)
          self?.viewModel.dateDetailTime = true
          if let flag = self?.viewModel.isAbleAddBtn() {
             self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)

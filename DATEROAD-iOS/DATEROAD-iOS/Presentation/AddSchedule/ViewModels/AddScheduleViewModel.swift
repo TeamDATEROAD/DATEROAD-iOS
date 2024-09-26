@@ -308,7 +308,7 @@ extension AddScheduleViewModel {
       if let doubleValue = Double(text) {
          let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(doubleValue)) : String(doubleValue)
       }
-      timeRequire.value = "(text) 시간"
+      timeRequire.value = "\(text) 시간"
    }
    
    func isAbleAddBtn() -> Bool {

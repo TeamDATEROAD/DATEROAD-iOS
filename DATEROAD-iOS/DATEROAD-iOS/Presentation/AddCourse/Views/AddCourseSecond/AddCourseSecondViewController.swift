@@ -152,8 +152,8 @@ private extension AddCourseSecondViewController {
       }
       
       viewModel.timeRequire.bind { [weak self] date in
-         guard let text = date else {return}
-         self?.addCourseSecondView.addSecondView.updatetimeRequire(text: text)
+         guard let date else {return}
+         self?.addCourseSecondView.addSecondView.updatetimeRequire(text: date)
          self?.viewModel.dateSpendTime = true
          if let flag = self?.viewModel.isAbleAddBtn() {
             self?.addCourseSecondView.addSecondView.changeAddPlaceButtonState(flag: flag)
