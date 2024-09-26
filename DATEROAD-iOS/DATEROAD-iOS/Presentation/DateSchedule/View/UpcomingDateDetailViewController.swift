@@ -25,6 +25,8 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     var networkType: NetworkType?
     
+    var viewPath: String
+    
     var upcomingDateDetailViewModel: DateDetailViewModel
     
     private let dateScheduleDeleteView = DateScheduleDeleteView()
@@ -32,8 +34,9 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - LifeCycle
     
-    init(dateID: Int, upcomingDateDetailViewModel: DateDetailViewModel) {
+    init(dateID: Int, viewPath: String, upcomingDateDetailViewModel: DateDetailViewModel) {
         self.dateID = dateID
+        self.viewPath = viewPath
         self.upcomingDateDetailViewModel = upcomingDateDetailViewModel
         
         super.init(nibName: nil, bundle: nil)
@@ -61,6 +64,8 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
         self.tabBarController?.tabBar.isHidden = true
         self.upcomingDateDetailViewModel.setDateDetailLoading()
         self.upcomingDateDetailViewModel.getDateDetailData(dateID: self.dateID)
+        
+        AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewScheduleDetails, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
     }
     
     override func setHierarchy() {
@@ -174,6 +179,7 @@ extension UpcomingDateDetailViewController {
 extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     @objc
     private func tapKakaoButton() {
+        AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickKakaoShare, properties: [StringLiterals.Amplitude.Property.dateCourseNum : upcomingDateDetailViewModel.dateCourseNum, StringLiterals.Amplitude.Property.dateTotalDuration : upcomingDateDetailViewModel.dateTotalDuration])
         let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.kakaoShare,
                                                       alertTextType: .noDescription,
                                                       alertButtonType: .twoButton,
@@ -193,12 +199,20 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     }
 
     func action(rightButtonAction: RightButtonType) {
-           if rightButtonAction == .deleteCourse {
-               upcomingDateDetailViewModel.deleteDateSchdeuleData(dateID: upcomingDateDetailViewModel.dateDetailData.value?.dateID ?? 0)
-           } else if rightButtonAction == .kakaoShare {
-               upcomingDateDetailViewModel.shareToKakao(context: self)
-           }
-       }
+        if rightButtonAction == .deleteCourse {
+            upcomingDateDetailViewModel.deleteDateSchdeuleData(dateID: upcomingDateDetailViewModel.dateDetailData.value?.dateID ?? 0)
+        } else if rightButtonAction == .kakaoShare {
+            upcomingDateDetailViewModel.shareToKakao(context: self)
+            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickOpenKakao, properties: [StringLiterals.Amplitude.Property.dateCourseNum : upcomingDateDetailViewModel.dateCourseNum, StringLiterals.Amplitude.Property.dateTotalDuration : upcomingDateDetailViewModel.dateTotalDuration])
+        }
+   }
+    
+    func leftButtonAction(rightButtonAction: RightButtonType) {
+        if rightButtonAction == .kakaoShare {
+            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickCloseKakao, properties: [StringLiterals.Amplitude.Property.dateCourseNum : upcomingDateDetailViewModel.dateCourseNum, StringLiterals.Amplitude.Property.dateTotalDuration : upcomingDateDetailViewModel.dateTotalDuration])
+        }
+    }
+
 }
 
 

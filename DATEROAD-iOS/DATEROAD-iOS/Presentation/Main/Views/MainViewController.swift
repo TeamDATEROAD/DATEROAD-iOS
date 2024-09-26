@@ -199,7 +199,7 @@ extension MainViewController {
     @objc
     func pushToDateDetailVC(_ sender: UIButton) {
         let dateID = sender.tag
-        let upcomingDateDetailVC = UpcomingDateDetailViewController(dateID: dateID, upcomingDateDetailViewModel: DateDetailViewModel())
+        let upcomingDateDetailVC = UpcomingDateDetailViewController(dateID: dateID, viewPath: StringLiterals.TabBar.home, upcomingDateDetailViewModel: DateDetailViewModel())
         upcomingDateDetailVC.setColor(index: dateID)
         self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
     }
