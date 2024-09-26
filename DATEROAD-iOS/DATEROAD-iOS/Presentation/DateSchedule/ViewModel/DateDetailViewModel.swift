@@ -45,7 +45,11 @@ final class DateDetailViewModel: Serviceable {
     
     var isMoreThanFiveSchedule : Bool {
         return (dateDetailData.value?.places.count ?? 0 >= 5)
-    }    
+    }
+    
+    var dateCourseNum : Int = 0
+    
+    var dateTotalDuration : Float = 0
 }
 
 extension DateDetailViewModel {
@@ -64,15 +68,20 @@ extension DateDetailViewModel {
                 let datePlaceInfo: [DatePlaceModel] = data.places.map { place in
                     DatePlaceModel(name: place.title, duration: (place.duration).formatFloatTime(), sequence: place.sequence)
                 }
-                self.dateDetailData.value = DateDetailModel(dateID: data.dateID, 
+                self.dateDetailData.value = DateDetailModel(dateID: data.dateID,
                                                             title: data.title,
                                                             startAt: data.startAt,
                                                             city: data.city,
                                                             tags: tagsInfo,
-                                                            date: data.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "",
+                                                            date: data.date.formatDateFromString(inputFormat: "yyyy.MM.dd",
+                                                                                                 outputFormat: "yyyy년 M월 d일") ?? "",
                                                             places: datePlaceInfo,
                                                             dDay: data.dDay)
                 self.isSuccessGetDateDetailData.value = true
+                self.dateCourseNum = self.dateDetailData.value?.places.count ?? 0
+                self.dateTotalDuration = datePlaceInfo.map { Float($0.duration) ?? 0 }.reduce(0, +)
+            case .serverErr:
+                self.onFailNetwork.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.type.value = NetworkType.getDateDetail
@@ -96,7 +105,6 @@ extension DateDetailViewModel {
             switch response {
             case .success:
                 self.isSuccessDeleteDateScheduleData.value = true
-                print("success", self.isSuccessDeleteDateScheduleData.value)
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.type.value = NetworkType.deleteDateSchedule
@@ -111,7 +119,6 @@ extension DateDetailViewModel {
     func setTempArgs() {
         kakaoShareInfo[StringLiterals.Network.userName] = userName
         kakaoShareInfo["startAt"] = dateDetailData.value?.startAt
-        print(dateDetailData.value?.places.count)
         switch dateDetailData.value?.places.count ?? 0 <= 5 {
         case true:
             for i in 0...maxPlaces-1 {
@@ -133,7 +140,6 @@ extension DateDetailViewModel {
 
         if !AuthApi.hasToken() {
             // Generate Redirect URI
-            print("is 1")
             let redirectURI = "kakao\(Config.kakaoNativeAppKey)://oauth"
             // Redirect to Kakao login page
             let loginUrl = "https://kauth.kakao.com/oauth/authorize?client_id=\(Config.kakaoNativeAppKey)&redirect_uri=\(redirectURI)&response_type=code"

@@ -49,6 +49,7 @@ final class ViewedCourseViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.viewedCourseViewModel.setViewedCourseData()
+        AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewPurchasedCourse)
     }
     
     override func viewDidLoad() {

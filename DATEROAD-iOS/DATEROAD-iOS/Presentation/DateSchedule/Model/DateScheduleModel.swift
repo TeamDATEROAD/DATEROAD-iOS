@@ -24,7 +24,7 @@ struct DateCardModel {
         self.dDay = dDay
     }
     
-    static var emptyData: DateCardModel {
+    static var emptyModel: DateCardModel {
         return DateCardModel(dateID: 0, title: "", date: "", city: "", tags: [], dDay: 0)
     }
 }
