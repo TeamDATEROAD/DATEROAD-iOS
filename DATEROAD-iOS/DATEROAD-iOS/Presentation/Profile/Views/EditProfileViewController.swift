@@ -179,7 +179,7 @@ private extension EditProfileViewController {
         }
         
         self.profileViewModel.isValidNicknameCount.bind { [weak self] isValidCount in
-            guard let isValidCount, 
+            guard let isValidCount,
                     let initial = self?.initial,
                   let isValidNickname = self?.profileViewModel.isValidNickname.value
             else { return }
@@ -274,7 +274,7 @@ private extension EditProfileViewController {
         // 3이 아닐 때
         if self.profileViewModel.selectedTagData.count != maxTags {
             sender.isSelected.toggle()
-            sender.isSelected 
+            sender.isSelected
             ? self.profileView.updateTag(button: sender, buttonType: SelectedButton())
             : self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
             self.profileViewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
@@ -300,8 +300,7 @@ private extension EditProfileViewController {
     func deletePhoto() {
         self.dismiss(animated: true)
         profileView.updateProfileImage(image: UIImage(resource: .emptyProfileImg))
-        profileViewModel.profileImage.value = nil
-        profileViewModel.isDefaultImage = true
+        profileViewModel.profileImage.value = UIImage(resource: .emptyProfileImg)
     }
     
     @objc
@@ -348,7 +347,7 @@ extension EditProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell 
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier, for: indexPath) as? TendencyTagCollectionViewCell
         else { return UICollectionViewCell() }
         cell.tendencyTagButton.tag = indexPath.item
         cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
@@ -409,8 +408,8 @@ extension EditProfileViewController: ImagePickerDelegate {
     func didPickImages(_ images: [UIImage]) {
         let selectedImage = images[0]
         profileView.updateProfileImage(image: selectedImage)
-        self.profileViewModel.isDefaultImage = false
         self.profileViewModel.profileImage.value = selectedImage
     }
     
 }
+
