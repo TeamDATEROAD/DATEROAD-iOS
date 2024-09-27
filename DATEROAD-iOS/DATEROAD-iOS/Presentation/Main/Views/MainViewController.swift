@@ -177,7 +177,6 @@ extension MainViewController {
         let targetIndexPath = IndexPath(item: currentIndex + 1, section: 2)
         if currentIndex >= 0 && currentIndex <= 5 {
             self.mainView.mainCollectionView.scrollToItem(at: targetIndexPath, at: .centeredHorizontally, animated: true)
-            self.mainViewModel.currentIndex.value?.row = currentIndex + 1
         }
     }
     
