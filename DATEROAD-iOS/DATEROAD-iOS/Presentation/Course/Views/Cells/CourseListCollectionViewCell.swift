@@ -54,7 +54,19 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        // 셀이 재사용될 때 이미지나 데이터를 초기화합니다.
+        thumnailImgageView.image = nil
+        likeBoxView.removeFromSuperview()
+        likeButton.image = nil
+        likeNumLabel.text = nil
+        locationLabel.text = nil
+        titleLabel.text = nil
+        coastLabel.text = nil
+        timeLabel.text = nil
+    }
 
     @objc private func handleTapGesture(_ sender: UITapGestureRecognizer) {
         print("눌림?")
