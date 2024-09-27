@@ -15,7 +15,7 @@ protocol CourseListCollectionViewCellDelegate: AnyObject {
     func didTapCourseListCell()
 }
 
-class CourseListCollectionViewCell: BaseCollectionViewCell {
+final class CourseListCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
@@ -45,7 +45,7 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
- 
+        
         // 탭 제스처 추가
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
         addGestureRecognizer(tapGesture)
@@ -54,27 +54,19 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         // 셀이 재사용될 때 이미지나 데이터를 초기화합니다.
         thumnailImgageView.image = nil
-        likeBoxView.removeFromSuperview()
-        likeButton.image = nil
         likeNumLabel.text = nil
         locationLabel.text = nil
         titleLabel.text = nil
         coastLabel.text = nil
         timeLabel.text = nil
     }
-
-    @objc private func handleTapGesture(_ sender: UITapGestureRecognizer) {
-        print("눌림?")
-        delegate?.didTapCourseListCell()
-    }
     
     override func setHierarchy() {
-        
         self.addSubviews(
             thumnailImgageView,
             likeBoxView,
@@ -187,26 +179,31 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
 extension CourseListCollectionViewCell {
     
     func configure(with course: CourseListModel) {
-            thumnailImgageView.kfSetImage(with: course.thumbnail, placeholder: UIImage(named: "placeholder_image"))
-            
-            if let likeCount = course.like {
-                likeNumLabel.text = "\(likeCount)"
-            } else {
-                likeNumLabel.text = nil
-            }
-            
-            locationLabel.text = course.location
-            titleLabel.text = course.title
-            if let coast = course.cost {
-                coastLabel.text = "\(coast.priceRangeTag())"
-            } else {
-                coastLabel.text = nil
-            }
-            
-            if let time = course.time {
-                timeLabel.text = "\(time.formatFloatTime())시간"
-            } else {
-                timeLabel.text = nil
-            }
+        thumnailImgageView.kfSetImage(with: course.thumbnail, placeholder: UIImage(named: "placeholder_image"))
+        
+        if let likeCount = course.like {
+            likeNumLabel.text = "\(likeCount)"
+        } else {
+            likeNumLabel.text = nil
         }
+        
+        locationLabel.text = course.location
+        titleLabel.text = course.title
+        if let coast = course.cost {
+            coastLabel.text = "\(coast.priceRangeTag())"
+        } else {
+            coastLabel.text = nil
+        }
+        
+        if let time = course.time {
+            timeLabel.text = "\(time.formatFloatTime())시간"
+        } else {
+            timeLabel.text = nil
+        }
+    }
+    
+    @objc
+    private func handleTapGesture(_ sender: UITapGestureRecognizer) {
+        delegate?.didTapCourseListCell()
+    }
 }

@@ -118,8 +118,11 @@ extension UpcomingDateCell {
             return
         }
         let url = URL(string: imageUrl)
-        profileImage.kf.setImage(with: url)
-        profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
-        profileImage.backgroundColor = .clear
+        profileImage.do {
+            $0.clipsToBounds = true
+            $0.layer.cornerRadius = $0.frame.size.width / 2
+            $0.backgroundColor = .clear
+            $0.kf.setImage(with: url)
+        }
     }
 }
