@@ -195,6 +195,10 @@ final class CourseDetailViewController: BaseViewController {
             self.updateLikeButtonColor(isLiked: isUserLiked ?? false)
         }
         
+        courseDetailViewModel.errMessage.bind { [weak self] message in
+            guard let message else { return }
+            self?.presentAlertVC(title: message)
+        }
     }
     
     func setAddTarget() {

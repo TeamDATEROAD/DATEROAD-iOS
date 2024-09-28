@@ -95,14 +95,12 @@ final class DateScheduleViewModel: Serviceable {
                 AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.countDateSchedule, properties: [StringLiterals.Amplitude.Property.dateScheduleNum : dateScheduleNum])
                 self.upcomingDateScheduleData.value = dateScheduleInfo
                 self.isSuccessGetUpcomingDateScheduleData.value = true
-            case .serverErr:
-                self.onUpcomingScheduleFailNetwork.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
-                self.isSuccessGetUpcomingDateScheduleData.value = false
+                self.onUpcomingScheduleFailNetwork.value = true
             }
             self.setUpcomingScheduleLoading()
         }

@@ -42,7 +42,6 @@ final class PointViewModel: Serviceable {
     }
     
     func updateData(nowEarnedPointHidden: Bool) {
-//        nowPointData.value = gainedPointData.value
         if nowEarnedPointHidden {
             nowPointData.value = usedPointData.value
         } else {
@@ -72,8 +71,6 @@ final class PointViewModel: Serviceable {
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
-            case .serverErr:
-                self.onFailNetwork.value = true
              default:
                 self.onFailNetwork.value = true //TODO: - 확인
                 return

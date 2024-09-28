@@ -388,6 +388,7 @@ extension MyPageViewController: ASAuthorizationControllerDelegate {
         guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential
         else { return }
         
+        self.myPageViewModel.onAuthLoading.value = true
         self.loginViewModel.loginWithApple(userInfo: credential)
     }
     

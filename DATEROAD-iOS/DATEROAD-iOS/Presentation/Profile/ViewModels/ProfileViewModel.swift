@@ -117,14 +117,14 @@ extension ProfileViewModel {
         self.isValidRegistration.value = (isValidNickname && isValidTag && is5CntVaild)
     }
     
-    func postSignUp(image: UIImage?) {
+    func postSignUp() {
         self.onLoading.value = true
         let socialType = UserDefaults.standard.bool(forKey: StringLiterals.Network.socialType)
         
         guard let name = self.nickname.value else { return }
-
+        self.checkDefaultImage()
         let requestBody = PostSignUpRequest(userSignUpReq: UserSignUpReq(name: name, platform: socialType ? SocialType.KAKAO.rawValue : SocialType.APPLE.rawValue),
-                                            image: image,
+                                            image: self.profileImage.value,
                                             tag: self.selectedTagData)
         
         NetworkService.shared.authService.postSignUp(requestBody: requestBody) { response in
@@ -209,7 +209,10 @@ extension ProfileViewModel {
     func checkDefaultImage() {
         if self.profileImage.value == UIImage(resource: .emptyProfileImg) {
             self.profileImage.value = nil
+            self.isDefaultImage = true
+        } else {
             self.isDefaultImage = false
         }
     }
 }
+
