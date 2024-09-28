@@ -110,7 +110,8 @@ private extension ProfileViewController {
         self.profileViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                self?.profileViewModel.postSignUp(image: self?.profileView.profileImageView.image)
+                self?.profileViewModel.profileImage.value = self?.profileView.profileImageView.image
+                self?.profileViewModel.postSignUp()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
@@ -125,7 +126,7 @@ private extension ProfileViewController {
         
         // 중복 확인 결과 변수
         self.profileViewModel.isValidNickname.bind { [weak self] isValid in
-            guard let isValid, 
+            guard let isValid,
                     let initial = self?.initial,
                     let nicknameCount = self?.profileViewModel.nickname.value?.count
             else { return }
@@ -185,8 +186,8 @@ private extension ProfileViewController {
                 let mainVC = TabBarController()
                 self?.navigationController?.pushViewController(mainVC, animated: false)
             } else {
-                let loginVC = LoginViewController()
-                self?.navigationController?.pushViewController(loginVC, animated: false)
+                let errorVC = DRErrorViewController(type: StringLiterals.Common.main)
+                self?.navigationController?.pushViewController(errorVC, animated: false)
             }
         }
         
@@ -222,7 +223,7 @@ private extension ProfileViewController {
         // 3이 아닐 때
         if self.profileViewModel.selectedTagData.count != maxTags {
             sender.isSelected.toggle()
-            sender.isSelected 
+            sender.isSelected
             ? self.profileView.updateTag(button: sender, buttonType: SelectedButton())
             : self.profileView.updateTag(button: sender, buttonType: UnselectedButton())
             self.profileViewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
@@ -248,7 +249,7 @@ private extension ProfileViewController {
     func deletePhoto() {
         self.dismiss(animated: true)
         profileView.updateProfileImage(image: UIImage(resource: .emptyProfileImg))
-        profileViewModel.profileImage.value = nil
+        profileViewModel.profileImage.value = UIImage(resource: .emptyProfileImg)
     }
     
     @objc
@@ -260,7 +261,7 @@ private extension ProfileViewController {
     @objc
     func registerProfile() {
         self.profileView.registerButton.isEnabled = false
-        self.profileViewModel.postSignUp(image: self.profileView.profileImageView.image)
+        self.profileViewModel.postSignUp()
     }
     
 }
@@ -348,3 +349,4 @@ extension ProfileViewController: ImagePickerDelegate {
     }
     
 }
+
