@@ -231,6 +231,7 @@ enum StringLiterals {
       static let failToDeleteLike = "좋아요 해제 실패"
        static let failToDeleteSchedule = "데이트 일정 삭제 실패"
       static let delete = "삭제"
+      static let notFound = "대상을 찾을 수 없습니다."
    }
    
    enum Course {

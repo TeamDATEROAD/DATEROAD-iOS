@@ -206,9 +206,7 @@ extension MainViewController {
     
     @objc
     func pushToPointDetailVC() {
-        guard let userName = self.userName, 
-                let totalPoint = self.point
-        else { return }
+        guard let userName = self.userName, let totalPoint = self.point else { return }
         let pointDetailVC = PointDetailViewController(pointViewModel: PointViewModel(userName: userName, totalPoint: totalPoint))
         self.navigationController?.pushViewController(pointDetailVC, animated: false)
     }
