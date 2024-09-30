@@ -11,23 +11,24 @@ import SnapKit
 import Then
 
 final class MyRegisterCourseViewController: BaseNavBarViewController {
-
+    
     // MARK: - UI Properties
     
     private var myRegisterCourseView = MyCourseListView(type: StringLiterals.NavType.nav)
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
+    
     // MARK: - Properties
     
     private let myRegisterCourseViewModel = MyCourseListViewModel()
+    
     
     // MARK: - LifeCycle
     
     override func viewWillAppear(_ animated: Bool) {
         self.myRegisterCourseViewModel.setMyRegisterCourseData()
     }
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +48,7 @@ final class MyRegisterCourseViewController: BaseNavBarViewController {
     
     override func setLayout() {
         super.setLayout()
-
+        
         myRegisterCourseView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.bottom.equalToSuperview()
@@ -59,27 +60,32 @@ final class MyRegisterCourseViewController: BaseNavBarViewController {
         super.setStyle()
         self.view.backgroundColor = UIColor(resource: .drWhite)
     }
-
+    
 }
+
 
 // MARK: - EmptyView Methods
 
 extension MyRegisterCourseViewController {
+    
     private func setEmptyView() {
         let isEmpty = (myRegisterCourseViewModel.myRegisterCourseData.value?.count == 0)
         myRegisterCourseView.emptyView.isHidden = !isEmpty
         if isEmpty {
             myRegisterCourseView.emptyView.do {
                 $0.setEmptyView(emptyImage: UIImage(resource: .emptyDateSchedule),
-                 emptyTitle: StringLiterals.EmptyView.emptyMyRegisterCourse)
+                                emptyTitle: StringLiterals.EmptyView.emptyMyRegisterCourse)
             }
         }
     }
+    
 }
+
 
 // MARK: - DataBind
 
 extension MyRegisterCourseViewController {
+    
     func bindViewModel() {
         self.myRegisterCourseViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
@@ -91,17 +97,17 @@ extension MyRegisterCourseViewController {
         }
         
         self.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.bind { [weak self] onFailure in
-           guard let onFailure else { return }
-           if onFailure {
-              let errorVC = DRErrorViewController()
-              errorVC.onDismiss = {
-                 self?.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.value = false
-                  self?.myRegisterCourseViewModel.onMyRegisterCourseLoading.value = false
-              }
-              self?.navigationController?.pushViewController(errorVC, animated: false)
-           }
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                errorVC.onDismiss = {
+                    self?.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.value = false
+                    self?.myRegisterCourseViewModel.onMyRegisterCourseLoading.value = false
+                }
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
         }
-
+        
         self.myRegisterCourseViewModel.onMyRegisterCourseLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.value else { return }
             if !onFailNetwork {
@@ -127,30 +133,38 @@ extension MyRegisterCourseViewController {
     
 }
 
+
 // MARK: - CollectionView Methods
 
-extension MyRegisterCourseViewController {
-    private func register() {
+private extension MyRegisterCourseViewController {
+    
+    func register() {
         myRegisterCourseView.myCourseListCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
     }
     
-    private func setDelegate() {
+    func setDelegate() {
         myRegisterCourseView.myCourseListCollectionView.delegate = self
         myRegisterCourseView.myCourseListCollectionView.dataSource = self
     }
+    
 }
+
 
 // MARK: - Delegate
 
 extension MyRegisterCourseViewController : UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: ScreenUtils.width, height: 140)
     }
+    
 }
+
 
 // MARK: - DataSource
 
 extension MyRegisterCourseViewController : UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return myRegisterCourseViewModel.myRegisterCourseData.value?.count ?? 0
     }
@@ -164,14 +178,15 @@ extension MyRegisterCourseViewController : UICollectionViewDataSource {
         return cell
     }
     
-    @objc func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
+    @objc
+    func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: myRegisterCourseView.myCourseListCollectionView)
         let indexPath = myRegisterCourseView.myCourseListCollectionView.indexPathForItem(at: location)
-
-       if let index = indexPath {
-           let courseId = myRegisterCourseViewModel.myRegisterCourseData.value?[indexPath?.item ?? 0].courseId ?? 0
-           self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
-       }
+        
+        if let index = indexPath {
+            let courseId = myRegisterCourseViewModel.myRegisterCourseData.value?[indexPath?.item ?? 0].courseId ?? 0
+            self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
+        }
     }
     
 }

@@ -28,22 +28,23 @@ final class ViewedCourseViewController: BaseViewController {
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
+    
     // MARK: - Properties
-                
+    
     private let viewedCourseViewModel: MyCourseListViewModel
     
     private let userName: String = UserDefaults.standard.string(forKey: StringLiterals.Network.userName) ?? ""
     
-    
     init(viewedCourseViewModel: MyCourseListViewModel) {
         self.viewedCourseViewModel = viewedCourseViewModel
-
+        
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     // MARK: - LifeCycle
     
@@ -145,6 +146,7 @@ final class ViewedCourseViewController: BaseViewController {
     
 }
 
+
 // MARK: - EmptyView Methods
 
 private extension ViewedCourseViewController {
@@ -166,7 +168,9 @@ private extension ViewedCourseViewController {
                                             lineHeight: 1)
         }
     }
+    
 }
+
 
 // MARK: - DataBind
 
@@ -183,15 +187,15 @@ extension ViewedCourseViewController {
         }
         
         self.viewedCourseViewModel.onViewedCourseFailNetwork.bind { [weak self] onFailure in
-           guard let onFailure else { return }
-           if onFailure {
-              let errorVC = DRErrorViewController()
-              errorVC.onDismiss = {
-                 self?.viewedCourseViewModel.onViewedCourseFailNetwork.value = false
-                  self?.viewedCourseViewModel.onViewedCourseLoading.value = false
-              }
-              self?.navigationController?.pushViewController(errorVC, animated: false)
-           }
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                errorVC.onDismiss = {
+                    self?.viewedCourseViewModel.onViewedCourseFailNetwork.value = false
+                    self?.viewedCourseViewModel.onViewedCourseLoading.value = false
+                }
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
         }
         
         self.viewedCourseViewModel.onViewedCourseLoading.bind { [weak self] onLoading in
@@ -216,7 +220,9 @@ extension ViewedCourseViewController {
             self?.viewedCourseViewModel.setViewedCourseLoading()
         }
     }
+    
 }
+
 
 // MARK: - CollectionView Methods
 
@@ -231,6 +237,7 @@ private extension ViewedCourseViewController {
     }
     
 }
+
 
 // MARK: - DataSource
 
@@ -275,4 +282,5 @@ extension ViewedCourseViewController {
         tabbarVC.selectedIndex = 2
         navigationController?.pushViewController(tabbarVC, animated: false)
     }
+    
 }

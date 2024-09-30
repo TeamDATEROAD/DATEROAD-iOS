@@ -12,23 +12,23 @@ protocol DRErrorType {
     var fontColor: UIColor { get }
     
     var font: UIFont { get }
-        
+    
 }
 
 extension DRErrorType {
-            
+    
     var font: UIFont  { return UIFont.suit(.cap_reg_11) }
-        
+    
 }
 
 struct Warning: DRErrorType {
     
     var fontColor: UIColor = UIColor(resource: .alertRed)
-            
+    
 }
 
 struct Correct: DRErrorType {
-        
+    
     var fontColor: UIColor = UIColor(resource: .deepPurple)
-                    
+    
 }

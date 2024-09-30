@@ -18,7 +18,7 @@ final class ProfileViewModel: Serviceable {
     var isDefaultImage: Bool = false
     
     var profileImage: ObservablePattern<UIImage>
-
+    
     var existingNickname: ObservablePattern<String>
     
     var isExistedNickname: ObservablePattern<Bool> = ObservablePattern(nil)
@@ -30,15 +30,15 @@ final class ProfileViewModel: Serviceable {
     var isValidNicknameCount: ObservablePattern<Bool> = ObservablePattern(false)
     
     var isValidNickname: ObservablePattern<Bool> = ObservablePattern(false)
-        
+    
     var isValidTag: ObservablePattern<Bool> = ObservablePattern(false)
     
     var isValidRegistration: ObservablePattern<Bool> = ObservablePattern(false)
-   
-   var is5orLess: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var is5orLess: ObservablePattern<Bool> = ObservablePattern(false)
     
     var onLoading: ObservablePattern<Bool> = ObservablePattern(nil)
-            
+    
     var onSuccessRegister: ((Bool) -> Void)?
     
     var onSuccessEdit: ((Bool) -> Void)?
@@ -48,8 +48,8 @@ final class ProfileViewModel: Serviceable {
     var onEditProfileLoading: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
-
- 
+    
+    
     init(profileData: ProfileModel) {
         self.profileData = ObservablePattern(profileData)
         self.profileImage = ObservablePattern(profileData.profileImage)
@@ -74,34 +74,32 @@ extension ProfileViewModel {
         guard let nickname = self.nickname.value else { return }
         if nickname.count >= 2 && nickname.count <= 5 {
             self.isValidNicknameCount.value = true
-           self.is5orLess.value = true
+            self.is5orLess.value = true
         } else {
-           self.is5orLess.value = false
-           if nickname.count < 2 {
+            self.is5orLess.value = false
+            if nickname.count < 2 {
                 self.isValidNicknameCount.value = false
             }
         }
     }
     
     func countSelectedTag(isSelected: Bool, tag: String) {
-          if isSelected {
-             if !selectedTagData.contains(tag) {
-                 selectedTagData.append(tag)
-             }
-          } else {
-             if let index = selectedTagData.firstIndex(of: tag) {
-                 selectedTagData.remove(at: index)
-             }
-          }
-        
+        if isSelected {
+            if !selectedTagData.contains(tag) {
+                selectedTagData.append(tag)
+            }
+        } else {
+            if let index = selectedTagData.firstIndex(of: tag) {
+                selectedTagData.remove(at: index)
+            }
+        }
         checkTagCount()
-       }
-    
+    }
     
     func checkTagCount() {
         let count = selectedTagData.count
         self.tagCount.value = count
-
+        
         if count >= 1 && count <= 3 {
             self.isValidTag.value = true
         } else {
@@ -113,7 +111,7 @@ extension ProfileViewModel {
         guard let isValidNickname = isValidNickname.value,
               let isValidTag = isValidTag.value,
               let is5CntVaild = is5orLess.value else { return }
-
+        
         self.isValidRegistration.value = (isValidNickname && isValidTag && is5CntVaild)
     }
     
@@ -122,7 +120,7 @@ extension ProfileViewModel {
         let socialType = UserDefaults.standard.bool(forKey: StringLiterals.Network.socialType)
         
         guard let name = self.nickname.value else { return }
-
+        
         let requestBody = PostSignUpRequest(userSignUpReq: UserSignUpReq(name: name, platform: socialType ? SocialType.KAKAO.rawValue : SocialType.APPLE.rawValue),
                                             image: image,
                                             tag: self.selectedTagData)
@@ -144,7 +142,6 @@ extension ProfileViewModel {
                 self.onSuccessRegister?(false)
                 return
             }
-            
         }
     }
     
@@ -205,11 +202,12 @@ extension ProfileViewModel {
     func compareExistingNickname() {
         isExistedNickname.value = existingNickname.value == nickname.value
     }
-
+    
     func checkDefaultImage() {
         if self.profileImage.value == UIImage(resource: .emptyProfileImg) {
             self.profileImage.value = nil
             self.isDefaultImage = false
         }
     }
+    
 }

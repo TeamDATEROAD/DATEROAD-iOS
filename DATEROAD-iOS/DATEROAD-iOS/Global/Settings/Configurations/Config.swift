@@ -8,7 +8,7 @@
 import Foundation
 
 enum Config {
-
+    
     enum Keys {
         enum Plist {
             static let kakaoNativeAppKey = "KAKAO_NATIVE_APP_KEY"
@@ -17,7 +17,7 @@ enum Config {
             static let amplitudeAPIKey = "AMPLITUDE_API_KEY"
         }
     }
-
+    
     private static let infoDictionary: [String: Any] = {
         guard let dict = Bundle.main.infoDictionary else {
             fatalError("plist cannot found !!!")
@@ -34,7 +34,7 @@ extension Config {
         }
         return key
     }()
-
+    
     static let baseURL: String = {
         guard let key = Config.infoDictionary[Keys.Plist.baseURL] as? String else {
             fatalError("BASE_URL is not set in plist for this configuration")

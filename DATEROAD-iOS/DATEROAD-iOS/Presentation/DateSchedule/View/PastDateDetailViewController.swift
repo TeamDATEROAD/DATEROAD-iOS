@@ -51,7 +51,7 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setLeftBackButton()
         setTitleLabelStyle(title: "지난 데이트", alignment: .center)
         setRightButtonStyle(image: UIImage(resource: .moreButton))
@@ -76,12 +76,14 @@ final class PastDateDetailViewController: BaseNavBarViewController {
             $0.edges.equalToSuperview()
         }
     }
+    
 }
 
 extension PastDateDetailViewController: DRCustomAlertDelegate {
+    
     @objc
     func tapDeleteLabel() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: .deleteCourse, 
+        let customAlertVC = DRCustomAlertViewController(rightActionType: .deleteCourse,
                                                         alertTextType: .hasDecription,
                                                         alertButtonType: .twoButton,
                                                         titleText: StringLiterals.Alert.deletePastDateSchedule,
@@ -91,17 +93,20 @@ extension PastDateDetailViewController: DRCustomAlertDelegate {
         customAlertVC.modalPresentationStyle = .overFullScreen
         self.present(customAlertVC, animated: false)
     }
-
+    
     func action(rightButtonAction: RightButtonType) {
         if rightButtonAction == .deleteCourse {
             pastDateDetailViewModel.deleteDateSchdeuleData(dateID: pastDateDetailViewModel.dateDetailData.value?.dateID ?? 0)
         }
     }
+    
 }
+
 
 // MARK: - BottomSheet Methods
 
 extension PastDateDetailViewController: DRBottomSheetDelegate {
+    
     @objc
     private func deleteDateCourse() {
         let labelTap = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
@@ -121,7 +126,9 @@ extension PastDateDetailViewController: DRBottomSheetDelegate {
         self.dismiss(animated: false)
         tapDeleteLabel()
     }
+    
 }
+
 
 // MARK: - UI Setting Methods
 
@@ -130,8 +137,8 @@ extension PastDateDetailViewController {
     func bindViewModel() {
         self.pastDateDetailViewModel.onDateDetailLoading.bind { [weak self] onLoading in
             guard let onLoading,
-                    let onFailNetwork = self?.pastDateDetailViewModel.onFailNetwork.value,
-                    let data = self?.pastDateDetailViewModel.dateDetailData.value
+                  let onFailNetwork = self?.pastDateDetailViewModel.onFailNetwork.value,
+                  let data = self?.pastDateDetailViewModel.dateDetailData.value
             else { return }
             if !onFailNetwork {
                 if onLoading {
@@ -147,7 +154,7 @@ extension PastDateDetailViewController {
                     }
                 }
             }
-         }
+        }
         
         self.pastDateDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess, let dateID = self?.dateID else { return }
@@ -177,29 +184,29 @@ extension PastDateDetailViewController {
         }
         
         self.pastDateDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
-           guard let onFailure else { return }
-           if onFailure {
-              let errorVC = DRErrorViewController()
-              errorVC.onDismiss = {
-                 self?.pastDateDetailViewModel.onFailNetwork.value = false
-                 self?.pastDateDetailViewModel.onDateDetailLoading.value = false
-              }
-              self?.navigationController?.pushViewController(errorVC, animated: false)
-           }
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                errorVC.onDismiss = {
+                    self?.pastDateDetailViewModel.onFailNetwork.value = false
+                    self?.pastDateDetailViewModel.onDateDetailLoading.value = false
+                }
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
         }
     }
     
-   //TODO: - 추후 데이트코스 공유 코스 등록 기능 살아날 시 수정해야함.
-   // isBroughtData 변수 생성하여 AddSchedule과 동일하게 수행하도록 수정
+    //TODO: - 추후 데이트코스 공유 코스 등록 기능 살아날 시 수정해야함.
+    // isBroughtData 변수 생성하여 AddSchedule과 동일하게 수행하도록 수정
     @objc
     private func tapShareCourse() {
         print("코스 등록해서 공유하기 여기!!!!!!!!!!!!")
-       guard let data = pastDateDetailViewModel.dateDetailData.value
+        guard let data = pastDateDetailViewModel.dateDetailData.value
         else { return }
-           
-           let addCourseViewModel = AddCourseViewModel(pastDateDetailData: data)
-       let vc = AddCourseFirstViewController(viewModel: addCourseViewModel, viewPath: StringLiterals.Amplitude.ViewPath.dateSchedule)
-           self.navigationController?.pushViewController(vc, animated: false)
+        
+        let addCourseViewModel = AddCourseViewModel(pastDateDetailData: data)
+        let vc = AddCourseFirstViewController(viewModel: addCourseViewModel, viewPath: StringLiterals.Amplitude.ViewPath.dateSchedule)
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     
     private func setButton() {
@@ -222,11 +229,14 @@ extension PastDateDetailViewController {
         }
         pastDateDetailContentView.setColor(index: index)
     }
+    
 }
+
 
 // MARK: - CollectionView Methods
 
 private extension PastDateDetailViewController {
+    
     func registerCell() {
         pastDateDetailContentView.dateTimeLineCollectionView.register(DateTimeLineCollectionViewCell.self, forCellWithReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier)
     }
@@ -235,11 +245,13 @@ private extension PastDateDetailViewController {
         pastDateDetailContentView.dateTimeLineCollectionView.delegate = self
         pastDateDetailContentView.dateTimeLineCollectionView.dataSource = self
     }
+    
 }
 
 // MARK: - Delegate
 
 extension PastDateDetailViewController: UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return DateDetailContentView.dateTimeLineCollectionViewLayout.itemSize
     }
@@ -250,9 +262,11 @@ extension PastDateDetailViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
+
 // MARK: - DataSource
 
 extension PastDateDetailViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return pastDateDetailViewModel.dateDetailData.value?.places.count ?? 0
     }
@@ -264,6 +278,6 @@ extension PastDateDetailViewController: UICollectionViewDataSource {
         cell.dataBind(data, indexPath.item)
         return cell
     }
-
+    
 }
 

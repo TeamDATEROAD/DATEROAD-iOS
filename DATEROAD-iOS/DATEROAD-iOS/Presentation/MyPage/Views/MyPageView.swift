@@ -62,5 +62,5 @@ final class MyPageView: BaseView {
             $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
         }
     }
- 
+    
 }

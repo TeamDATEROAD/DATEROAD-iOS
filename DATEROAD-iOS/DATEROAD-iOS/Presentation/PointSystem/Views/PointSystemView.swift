@@ -70,4 +70,5 @@ final class PointSystemView: BaseView {
             $0.backgroundColor = UIColor(resource: .drWhite)
         }
     }
+    
 }

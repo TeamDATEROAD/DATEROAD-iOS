@@ -26,7 +26,7 @@ public enum SubRegion {
     case YANGCHEON_GANGSEO
     case SEONGBUK_NOWON_JUNGBANG
     case GURO_GWANAK_DONGJAK
-
+    
     // 경기 소분류
     case GYEONGGI_ENTIRE
     case SEONGNAM
@@ -45,10 +45,10 @@ public enum SubRegion {
     case BUCHEON_ANSHAN
     case DONGDUCHEON_YEONCHEON
     case PYEONGTAEK_OSAN_ANSEONG
-
+    
     // 인천 소분류
     case INCHEON_ENTIRE
-
+    
     // Initialization with raw string values and main region association
     init?(rawValue: String) {
         switch rawValue {
@@ -64,7 +64,7 @@ public enum SubRegion {
         case "양천/강서": self = .YANGCHEON_GANGSEO
         case "성북/노원/중랑": self = .SEONGBUK_NOWON_JUNGBANG
         case "구로/관악/동작": self = .GURO_GWANAK_DONGJAK
-
+            
         // 경기 소분류
         case "경기 전체": self = .GYEONGGI_ENTIRE
         case "성남": self = .SEONGNAM
@@ -83,28 +83,28 @@ public enum SubRegion {
         case "부천/안산": self = .BUCHEON_ANSHAN
         case "동두천/연천": self = .DONGDUCHEON_YEONCHEON
         case "평택/오산/안성": self = .PYEONGTAEK_OSAN_ANSEONG
-
+            
         // 인천 소분류
         case "인천 전체": self = .INCHEON_ENTIRE
-
+            
         default:
             return nil
         }
     }
-
-
+    
     var mainRegion: MainRegion {
         switch self {
         case .SEOUL_ENTIRE, .GANGNAM_SEOCHO, .JAMSIL_SONGPA_GANGDONG, .KONDAE_SUNGSOO_WANGSIMNI, .JONGNO_JUNGRO,
-             .HONGDAE_HAPJEONG_MAPO, .YEONGDEUNGPO_YEOUIDO, .YONGSAN_ITAEWON_HANNAM, .YANGCHEON_GANGSEO, .SEONGBUK_NOWON_JUNGBANG,
-             .GURO_GWANAK_DONGJAK:
+                .HONGDAE_HAPJEONG_MAPO, .YEONGDEUNGPO_YEOUIDO, .YONGSAN_ITAEWON_HANNAM, .YANGCHEON_GANGSEO, .SEONGBUK_NOWON_JUNGBANG,
+                .GURO_GWANAK_DONGJAK:
             return .SEOUL
         case .GYEONGGI_ENTIRE, .SEONGNAM, .SUWON, .GOYANG_PAJU, .GIMPO, .YONGIN_HWASEONG, .ANYANG_GWACHEON, .POCHEON_YANGJU,
-             .NAMYANGJU_UIJEONGBU, .GWANGJU_ICHEON_YEOJU, .GAPYEONG_YANGPYEONG, .GUNPO_UIWANG, .HANAM_GURI, .SIHEUNG_GWANGMYEONG,
-             .BUCHEON_ANSHAN, .DONGDUCHEON_YEONCHEON, .PYEONGTAEK_OSAN_ANSEONG:
+                .NAMYANGJU_UIJEONGBU, .GWANGJU_ICHEON_YEOJU, .GAPYEONG_YANGPYEONG, .GUNPO_UIWANG, .HANAM_GURI, .SIHEUNG_GWANGMYEONG,
+                .BUCHEON_ANSHAN, .DONGDUCHEON_YEONCHEON, .PYEONGTAEK_OSAN_ANSEONG:
             return .GYEONGGI
         case .INCHEON_ENTIRE:
             return .INCHEON
         }
     }
+    
 }

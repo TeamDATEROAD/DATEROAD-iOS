@@ -20,6 +20,7 @@ final class ImageCarouselCell: BaseCollectionViewCell {
     
     let pageControllView = BottomPageControllView()
     
+    
     // MARK: - Properties
     
     var vcData: [UIViewController] = []
@@ -27,7 +28,7 @@ final class ImageCarouselCell: BaseCollectionViewCell {
     var thumbnailModel: ThumbnailModel?
     
     let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-        
+    
     weak var delegate: ImageCarouselDelegate?
     
     override init(frame: CGRect) {
@@ -89,15 +90,17 @@ final class ImageCarouselCell: BaseCollectionViewCell {
             pageViewController.dataSource = nil
         }
     }
+    
 }
 
-
 extension ImageCarouselCell: UIPageViewControllerDelegate {
+    
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         guard let currentVC = pageViewController.viewControllers?.first,
               let currentIndex = vcData.firstIndex(of: currentVC) else { return }
         self.delegate?.didSwipeImage(index: currentIndex, vc: pageViewController, vcData: vcData)
     }
+    
 }
 
 extension ImageCarouselCell: UIPageViewControllerDataSource {
@@ -115,4 +118,5 @@ extension ImageCarouselCell: UIPageViewControllerDataSource {
         
         return nextIndex == vcData.count ? nil : vcData[nextIndex]
     }
+    
 }

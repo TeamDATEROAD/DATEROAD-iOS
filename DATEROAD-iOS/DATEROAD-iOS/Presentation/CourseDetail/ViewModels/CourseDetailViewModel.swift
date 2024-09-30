@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class CourseDetailViewModel: Serviceable {
     
     var courseId: Int
@@ -120,7 +119,7 @@ extension CourseDetailViewModel {
         self.isSuccessGetData.value = false
         setLoading()
         self.onFailNetwork.value = false
-
+        
         NetworkService.shared.courseDetailService.getCourseDetailInfo(courseId: courseId){ response in
             switch response {
             case .success(let data):
@@ -174,7 +173,6 @@ extension CourseDetailViewModel {
             }
         }
     }
-    
     
     func postUsePoint(courseId: Int, request: PostUsePointRequest) {
         NetworkService.shared.usePointService.postUsePoint(courseId: self.courseId, request: request)  { result in
@@ -245,6 +243,5 @@ extension CourseDetailViewModel {
         guard let isSuccessGetData = self.isSuccessGetData.value else { return }
         self.onLoading.value = !isSuccessGetData
     }
-    
     
 }

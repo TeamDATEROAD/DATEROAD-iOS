@@ -10,9 +10,9 @@ import UIKit
 final class BannerCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
-        
+    
     private let bannerImage: UIImageView = UIImageView()
-
+    
     
     // MARK: - Life Cycle
     
@@ -37,6 +37,7 @@ final class BannerCell: BaseCollectionViewCell {
             $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
         }
     }
+    
 }
 
 extension BannerCell {
@@ -49,4 +50,5 @@ extension BannerCell {
             self.bannerImage.image = UIImage(resource: .imgBanner1)
         }
     }
+    
 }

@@ -12,11 +12,11 @@ protocol MainSectionLayout {
     var itemSize: NSCollectionLayoutSize { get }
     
     var groupSize: NSCollectionLayoutSize { get }
-        
+    
     var itemContentInset: NSDirectionalEdgeInsets { get }
     
     var groupContentInset: NSDirectionalEdgeInsets { get }
-
+    
     var sectionContentInset: NSDirectionalEdgeInsets { get }
     
     var headerContentInset: NSDirectionalEdgeInsets { get }
@@ -24,7 +24,7 @@ protocol MainSectionLayout {
     var elementKind: String? { get }
     
     var supplemetaryItemSize: NSCollectionLayoutSize { get }
-
+    
     var supplementaryAlignment: NSRectAlignment { get }
     
     var scrollDirection: UICollectionLayoutSectionOrthogonalScrollingBehavior { get }
@@ -34,6 +34,7 @@ protocol MainSectionLayout {
 }
 
 extension MainSectionLayout {
+    
     var itemSize: NSCollectionLayoutSize {
         return NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
     }
@@ -73,6 +74,7 @@ extension MainSectionLayout {
     var absoluteOffset: CGPoint {
         return .zero
     }
+    
 }
 
 struct UpcomingDateLayout: MainSectionLayout {
@@ -84,7 +86,7 @@ struct UpcomingDateLayout: MainSectionLayout {
 struct HotDateLayout: MainSectionLayout {
     
     var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .absolute(254), heightDimension: .estimated(356))
-        
+    
     var elementKind: String? = MainHeaderView.elementKinds
     
     var supplemetaryItemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(119))
@@ -102,7 +104,7 @@ struct BannerDateLayout: MainSectionLayout {
     var supplementaryAlignment: NSRectAlignment = .bottom
     
     var supplemetaryItemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(20))
- 
+    
     var absoluteOffset: CGPoint = CGPoint(x: -16, y: -55)
     
 }
@@ -110,7 +112,7 @@ struct BannerDateLayout: MainSectionLayout {
 struct NewDateLayout: MainSectionLayout {
     
     var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(140))
-        
+    
     var elementKind: String? = MainHeaderView.elementKinds
     
     var supplemetaryItemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(80))

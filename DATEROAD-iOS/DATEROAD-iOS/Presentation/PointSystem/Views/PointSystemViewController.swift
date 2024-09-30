@@ -30,11 +30,10 @@ final class PointSystemViewController: BaseNavBarViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-   
-   override func viewWillAppear(_ animated: Bool) {
-      pointSystemViewModel.fetchData()
-   }
     
+    override func viewWillAppear(_ animated: Bool) {
+        pointSystemViewModel.fetchData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,6 +98,5 @@ extension PointSystemViewController: UICollectionViewDataSource {
                       subText: self.pointSystemViewModel.pointSystemData[indexPath.item].subTitle)
         return cell
     }
-    
     
 }

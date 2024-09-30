@@ -15,12 +15,14 @@ class PointDetailViewController: BaseNavBarViewController {
     // MARK: - UI Properties
     
     private let pointDetailView = PointDetailView()
-        
+    
     private let errorView: DRErrorViewController = DRErrorViewController()
+    
     
     // MARK: - Properties
     
     private var pointViewModel: PointViewModel
+    
     
     // MARK: - LifeCycle
     
@@ -58,7 +60,7 @@ class PointDetailViewController: BaseNavBarViewController {
     
     override func setHierarchy() {
         super.setHierarchy()
-                
+        
         self.contentView.addSubviews(pointDetailView)
     }
     
@@ -69,25 +71,24 @@ class PointDetailViewController: BaseNavBarViewController {
             $0.edges.equalToSuperview()
         }
     }
-
+    
 }
-
 
 extension PointDetailViewController {
     
     func bindViewModel() {
         self.pointViewModel.onFailNetwork.bind { [weak self] onFailure in
-           guard let onFailure else { return }
-           if onFailure {
-              let errorVC = DRErrorViewController()
-              errorVC.onDismiss = {
-                 self?.pointViewModel.onFailNetwork.value = false
-                  self?.pointViewModel.onLoading.value = false
-              }
-              self?.navigationController?.pushViewController(errorVC, animated: false)
-           }
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                errorVC.onDismiss = {
+                    self?.pointViewModel.onFailNetwork.value = false
+                    self?.pointViewModel.onLoading.value = false
+                }
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
         }
-
+        
         self.pointViewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.pointViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
@@ -110,7 +111,6 @@ extension PointDetailViewController {
         self.pointViewModel.isSuccessGetPointInfo.bind { [weak self] _ in
             self?.pointViewModel.setPointDetailLoading()
         }
-        
     }
     
     func setProfile(userName: String, totalPoint: Int) {
@@ -121,7 +121,9 @@ extension PointDetailViewController {
     private func setAddTarget() {
         pointDetailView.segmentControl.addTarget(self, action: #selector(didChangeValue(segment:)), for: .valueChanged)
     }
+    
 }
+
 
 // MARK: - Private Method
 
@@ -164,35 +166,42 @@ private extension PointDetailViewController {
                 setSegmentViewHidden(pointDetailView.pointCollectionView)
                 pointDetailView.pointCollectionView.reloadData()
             }
-
+            
             pointDetailView.selectedSegmentUnderLineView.snp.updateConstraints {
                 $0.leading.equalToSuperview()
             }
         }
     }
+    
 }
 
 
 // MARK: - CollectionView Methods
 
-extension PointDetailViewController {
-    private func registerCell() {
+private extension PointDetailViewController {
+    
+    func registerCell() {
         pointDetailView.pointCollectionView.register(PointCollectionViewCell.self, forCellWithReuseIdentifier: PointCollectionViewCell.cellIdentifier)
     }
     
-    private func setDelegate() {
+    func setDelegate() {
         pointDetailView.pointCollectionView.delegate = self
         pointDetailView.pointCollectionView.dataSource = self
     }
+    
 }
+
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension PointDetailViewController : UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: ScreenUtils.width, height: 86)
     }
+    
 }
+
 
 // MARK: - UICollectionViewDataSource
 
@@ -201,11 +210,12 @@ extension PointDetailViewController : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return pointViewModel.nowPointData.value?.count ?? 0
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PointCollectionViewCell.cellIdentifier, for: indexPath) as? PointCollectionViewCell else { return UICollectionViewCell() }
         let data = pointViewModel.nowPointData.value?[indexPath.item] ?? PointDetailModel(sign: "", point: 0, description: "", createdAt: "")
         cell.dataBind(data, indexPath.item)
         return cell
     }
+    
 }

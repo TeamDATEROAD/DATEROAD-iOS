@@ -10,7 +10,7 @@ import Foundation
 final class DateScheduleViewModel: Serviceable {
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
-        
+    
     var upcomingDateScheduleData: ObservablePattern<[DateCardModel]> = ObservablePattern(nil)
     
     var pastDateScheduleData: ObservablePattern<[DateCardModel]> = ObservablePattern([])
@@ -26,13 +26,12 @@ final class DateScheduleViewModel: Serviceable {
     }
     
     var onPastScheduleLoading: ObservablePattern<Bool> = ObservablePattern(true)
-
+    
     var onPastScheduleFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
     var onUpcomingScheduleLoading: ObservablePattern<Bool> = ObservablePattern(true)
-
+    
     var onUpcomingScheduleFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
-
     
     init() {
         getUpcomingDateScheduleData()
@@ -50,7 +49,7 @@ final class DateScheduleViewModel: Serviceable {
                     let tagsModel: [TagsModel] = date.tags.map { tag in
                         TagsModel(tag: tag.tag)
                     }
-                    return DateCardModel(dateID: date.dateID, 
+                    return DateCardModel(dateID: date.dateID,
                                          title: date.title,
                                          date: date.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "",
                                          city: date.city,
@@ -73,7 +72,7 @@ final class DateScheduleViewModel: Serviceable {
     func setPastScheduleLoading() {
         guard let isSuccessGetPastDateScheduleData = self.isSuccessGetPastDateScheduleData.value else { return }
         self.onPastScheduleLoading.value = !isSuccessGetPastDateScheduleData
-     }
+    }
     
     func getUpcomingDateScheduleData() {
         self.isSuccessGetUpcomingDateScheduleData.value = false
@@ -111,6 +110,6 @@ final class DateScheduleViewModel: Serviceable {
     func setUpcomingScheduleLoading() {
         guard let isSuccessGetUpcomingDateScheduleData = self.isSuccessGetUpcomingDateScheduleData.value else { return }
         self.onUpcomingScheduleLoading.value = !isSuccessGetUpcomingDateScheduleData
-     }
-
+    }
+    
 }

@@ -26,9 +26,9 @@ final class PointViewModel: Serviceable {
     var isEarnedPointHidden : ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
-
+    
     var onLoading: ObservablePattern<Bool> = ObservablePattern(nil)
-
+    
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(nil)
     
     init (userName: String, totalPoint: Int) {
@@ -42,7 +42,7 @@ final class PointViewModel: Serviceable {
     }
     
     func updateData(nowEarnedPointHidden: Bool) {
-//        nowPointData.value = gainedPointData.value
+        //        nowPointData.value = gainedPointData.value
         if nowEarnedPointHidden {
             nowPointData.value = usedPointData.value
         } else {
@@ -74,7 +74,7 @@ final class PointViewModel: Serviceable {
                 }
             case .serverErr:
                 self.onFailNetwork.value = true
-             default:
+            default:
                 self.onFailNetwork.value = true //TODO: - 확인
                 return
             }
@@ -82,8 +82,8 @@ final class PointViewModel: Serviceable {
     }
     
     func setPointDetailLoading() {
-          guard let isSuccessGetPointInfo = self.isSuccessGetPointInfo.value else { return }
-          self.onLoading.value = !isSuccessGetPointInfo
-      }
-
+        guard let isSuccessGetPointInfo = self.isSuccessGetPointInfo.value else { return }
+        self.onLoading.value = !isSuccessGetPointInfo
+    }
+    
 }

@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 final class UpcomingDateDetailViewController: BaseNavBarViewController {
-
+    
     // MARK: - UI Properties
     
     var upcomingDateDetailContentView = DateDetailContentView()
@@ -76,12 +76,14 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     override func setLayout() {
         super.setLayout()
-
+        
         upcomingDateDetailContentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
+    
 }
+
 
 // MARK: - UI Setting Methods
 
@@ -105,7 +107,7 @@ extension UpcomingDateDetailViewController {
                     }
                 }
             }
-         }
+        }
         
         self.upcomingDateDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess, let dateID = self?.dateID else { return }
@@ -124,15 +126,15 @@ extension UpcomingDateDetailViewController {
         }
         
         self.upcomingDateDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
-           guard let onFailure else { return }
-           if onFailure {
-              let errorVC = DRErrorViewController()
-              errorVC.onDismiss = {
-                 self?.upcomingDateDetailViewModel.onFailNetwork.value = false
-                 self?.upcomingDateDetailViewModel.onDateDetailLoading.value = false
-              }
-              self?.navigationController?.pushViewController(errorVC, animated: false)
-           }
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                errorVC.onDismiss = {
+                    self?.upcomingDateDetailViewModel.onFailNetwork.value = false
+                    self?.upcomingDateDetailViewModel.onDateDetailLoading.value = false
+                }
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
         }
         
         self.upcomingDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
@@ -174,17 +176,19 @@ extension UpcomingDateDetailViewController {
     
 }
 
+
 // MARK: - Alert Methods
 
 extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
+    
     @objc
     private func tapKakaoButton() {
         AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickKakaoShare, properties: [StringLiterals.Amplitude.Property.dateCourseNum : upcomingDateDetailViewModel.dateCourseNum, StringLiterals.Amplitude.Property.dateTotalDuration : upcomingDateDetailViewModel.dateTotalDuration])
         let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.kakaoShare,
-                                                      alertTextType: .noDescription,
-                                                      alertButtonType: .twoButton,
-                                                      titleText: StringLiterals.Alert.kakaoAlert,
-                                                      rightButtonText: "열기")
+                                                        alertTextType: .noDescription,
+                                                        alertButtonType: .twoButton,
+                                                        titleText: StringLiterals.Alert.kakaoAlert,
+                                                        rightButtonText: "열기")
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         self.present(customAlertVC, animated: false)
@@ -197,7 +201,7 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
         customAlertVC.modalPresentationStyle = .overFullScreen
         self.present(customAlertVC, animated: false)
     }
-
+    
     func action(rightButtonAction: RightButtonType) {
         if rightButtonAction == .deleteCourse {
             upcomingDateDetailViewModel.deleteDateSchdeuleData(dateID: upcomingDateDetailViewModel.dateDetailData.value?.dateID ?? 0)
@@ -205,18 +209,19 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
             upcomingDateDetailViewModel.shareToKakao(context: self)
             AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickOpenKakao, properties: [StringLiterals.Amplitude.Property.dateCourseNum : upcomingDateDetailViewModel.dateCourseNum, StringLiterals.Amplitude.Property.dateTotalDuration : upcomingDateDetailViewModel.dateTotalDuration])
         }
-   }
+    }
     
     func leftButtonAction(rightButtonAction: RightButtonType) {
         if rightButtonAction == .kakaoShare {
             AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickCloseKakao, properties: [StringLiterals.Amplitude.Property.dateCourseNum : upcomingDateDetailViewModel.dateCourseNum, StringLiterals.Amplitude.Property.dateTotalDuration : upcomingDateDetailViewModel.dateTotalDuration])
         }
     }
-
+    
 }
 
 
 extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
+    
     @objc
     private func deleteDateCourse() {
         let labelTap = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
@@ -243,6 +248,7 @@ extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
 // MARK: - CollectionView Methods
 
 private extension UpcomingDateDetailViewController {
+    
     func registerCell() {
         upcomingDateDetailContentView.dateTimeLineCollectionView.register(DateTimeLineCollectionViewCell.self, forCellWithReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier)
     }
@@ -251,12 +257,14 @@ private extension UpcomingDateDetailViewController {
         upcomingDateDetailContentView.dateTimeLineCollectionView.delegate = self
         upcomingDateDetailContentView.dateTimeLineCollectionView.dataSource = self
     }
-
+    
 }
+
 
 // MARK: - Delegate
 
 extension UpcomingDateDetailViewController: UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return DateDetailContentView.dateTimeLineCollectionViewLayout.itemSize
     }
@@ -267,9 +275,11 @@ extension UpcomingDateDetailViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
+
 // MARK: - DataSource
 
 extension UpcomingDateDetailViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return upcomingDateDetailViewModel.dateDetailData.value?.places.count ?? 0
     }
@@ -281,5 +291,5 @@ extension UpcomingDateDetailViewController: UICollectionViewDataSource {
         cell.dataBind(data, indexPath.item)
         return cell
     }
-
+    
 }

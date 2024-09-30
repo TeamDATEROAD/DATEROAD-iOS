@@ -39,13 +39,14 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
     
     private let timeLabel = UILabel()
     
+    
     // MARK: - Properties
     
     weak var delegate: CourseListCollectionViewCellDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
- 
+        
         // 탭 제스처 추가
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
         addGestureRecognizer(tapGesture)
@@ -53,12 +54,6 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-
-    @objc private func handleTapGesture(_ sender: UITapGestureRecognizer) {
-        print("눌림?")
-        delegate?.didTapCourseListCell()
     }
     
     override func setHierarchy() {
@@ -175,26 +170,33 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
 extension CourseListCollectionViewCell {
     
     func configure(with course: CourseListModel) {
-            thumnailImgageView.kfSetImage(with: course.thumbnail, placeholder: UIImage(named: "placeholder_image"))
-            
-            if let likeCount = course.like {
-                likeNumLabel.text = "\(likeCount)"
-            } else {
-                likeNumLabel.text = nil
-            }
-            
-            locationLabel.text = course.location
-            titleLabel.text = course.title
-            if let coast = course.cost {
-                coastLabel.text = "\(coast.priceRangeTag())"
-            } else {
-                coastLabel.text = nil
-            }
-            
-            if let time = course.time {
-                timeLabel.text = "\(time.formatFloatTime())시간"
-            } else {
-                timeLabel.text = nil
-            }
+        thumnailImgageView.kfSetImage(with: course.thumbnail, placeholder: UIImage(named: "placeholder_image"))
+        
+        if let likeCount = course.like {
+            likeNumLabel.text = "\(likeCount)"
+        } else {
+            likeNumLabel.text = nil
         }
+        
+        locationLabel.text = course.location
+        titleLabel.text = course.title
+        if let coast = course.cost {
+            coastLabel.text = "\(coast.priceRangeTag())"
+        } else {
+            coastLabel.text = nil
+        }
+        
+        if let time = course.time {
+            timeLabel.text = "\(time.formatFloatTime())시간"
+        } else {
+            timeLabel.text = nil
+        }
+    }
+    
+    @objc
+    private func handleTapGesture(_ sender: UITapGestureRecognizer) {
+        print("눌림?")
+        delegate?.didTapCourseListCell()
+    }
+    
 }

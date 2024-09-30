@@ -27,7 +27,7 @@ struct AppleUserInfo {
     let identifier: String?
     let nickname: String?
     let email: String?
-
+    
     init(identifier: String?, nickname: String?, email: String?) {
         self.identifier = identifier
         self.nickname = nickname

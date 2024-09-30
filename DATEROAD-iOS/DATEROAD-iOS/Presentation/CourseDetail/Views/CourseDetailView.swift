@@ -22,11 +22,13 @@ final class CourseDetailView: BaseView {
     
     private let layoutFactory = DRCompositionalLayoutFactory()
     
+    
     // MARK: - UI Properties
     
     private var courseDetailSection: [CourseDetailSection]
     
     var isAccess: Bool = false
+    
     
     // MARK: - Life Cycle
     
@@ -40,13 +42,11 @@ final class CourseDetailView: BaseView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     override func setHierarchy() {
         self.addSubviews(mainCollectionView, stickyHeaderNavBarView)
     }
     
     override func setLayout() {
-        
         mainCollectionView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
@@ -59,7 +59,6 @@ final class CourseDetailView: BaseView {
     }
     
     override func setStyle() {
-
         mainCollectionView.do {
             $0.contentInsetAdjustmentBehavior = .never
             $0.showsVerticalScrollIndicator = false
@@ -71,7 +70,6 @@ final class CourseDetailView: BaseView {
         stickyHeaderNavBarView.do {
             $0.backgroundColor = .clear
         }
-        
     }
     
 }
@@ -104,7 +102,7 @@ extension CourseDetailView {
         
         return gradient
     }
-
+    
     func makeTimelineHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(60))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: TimelineHeaderView.elementKinds, alignment: .top)

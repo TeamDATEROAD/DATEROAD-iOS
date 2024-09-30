@@ -19,7 +19,7 @@ final class DeleteCourseSettingView: BaseView {
     
     
     // MARK: - Properties
-        
+    
     private let disabledButtonType: DRButtonType = DisabledButton()
     
     
@@ -37,7 +37,6 @@ final class DeleteCourseSettingView: BaseView {
     }
     
     override func setStyle() {
-        
         settingStackView.do {
             $0.axis = .vertical
             $0.alignment = .center
@@ -58,7 +57,7 @@ final class DeleteCourseSettingView: BaseView {
                         textColor: UIColor(resource: .deepPurple),
                         font: UIFont.suit(.body_semi_15))
         }
-        
     }
+    
 }
 

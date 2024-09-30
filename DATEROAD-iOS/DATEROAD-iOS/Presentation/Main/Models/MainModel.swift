@@ -14,7 +14,7 @@ struct UpcomingDateModel {
     let month : Int
     let day : Int
     let startAt : String
-
+    
     static var emptyData: UpcomingDateModel {
         return UpcomingDateModel(dateId: 0, dDay: 0, dateName: "", month: 0, day: 0, startAt: "")
     }

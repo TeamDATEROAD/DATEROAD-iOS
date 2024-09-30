@@ -10,7 +10,7 @@ import UIKit
 final class OnboardingView: BaseView {
     
     // MARK: - UI Properties
-
+    
     let onboardingCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     let bottomControlView: BottomControlView = BottomControlView()
@@ -18,7 +18,6 @@ final class OnboardingView: BaseView {
     
     // MARK: - Properties
     
-
     
     // MARK: - Methods
     
@@ -49,7 +48,6 @@ final class OnboardingView: BaseView {
             $0.isPagingEnabled = true
             $0.isScrollEnabled = true
         }
-
     }
     
 }

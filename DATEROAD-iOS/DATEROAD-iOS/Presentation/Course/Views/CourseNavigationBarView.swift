@@ -22,15 +22,17 @@ final class CourseNavigationBarView: BaseView {
     
     private let addCourseButton = UIButton()
     
+    
     // MARK: - Properties
     
     weak var delegate: CourseNavigationBarViewDelegate?
     
+    
     // MARK: - Life Cycle
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
     }
     
     required init?(coder: NSCoder) {
@@ -73,5 +75,6 @@ final class CourseNavigationBarView: BaseView {
     func didTapAddCourseButton() {
         delegate?.didTapAddCourseButton()
     }
+    
 }
 

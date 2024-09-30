@@ -26,13 +26,14 @@ struct PointSystemModel {
                                  mainTitle: StringLiterals.PointSystem.firstMainSystem,
                                  subTitle: StringLiterals.PointSystem.firstSubSystem),
                 PointSystemModel(illustration: UIImage(resource: .imgPoint2),
-                                         mainTitle: StringLiterals.PointSystem.secondMainSystem,
-                                         subTitle: StringLiterals.PointSystem.secondSubSystem),
+                                 mainTitle: StringLiterals.PointSystem.secondMainSystem,
+                                 subTitle: StringLiterals.PointSystem.secondSubSystem),
                 PointSystemModel(illustration: UIImage(resource: .imgPoint3),
-                                         mainTitle: StringLiterals.PointSystem.thirdMainSystem,
-                                         subTitle: StringLiterals.PointSystem.thirdSubSystem),
+                                 mainTitle: StringLiterals.PointSystem.thirdMainSystem,
+                                 subTitle: StringLiterals.PointSystem.thirdSubSystem),
                 PointSystemModel(illustration: UIImage(resource: .imgPoint4),
-                                         mainTitle: StringLiterals.PointSystem.fourthMainSystem,
-                                         subTitle: StringLiterals.PointSystem.fourthSubSystem)]
+                                 mainTitle: StringLiterals.PointSystem.fourthMainSystem,
+                                 subTitle: StringLiterals.PointSystem.fourthSubSystem)]
     }()
+    
 }

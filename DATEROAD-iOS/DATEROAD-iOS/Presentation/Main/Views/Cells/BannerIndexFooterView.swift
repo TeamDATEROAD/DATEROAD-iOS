@@ -10,14 +10,14 @@ import UIKit
 final class BannerIndexFooterView: UICollectionReusableView {
     
     // MARK: - UI Properties
-            
+    
     let indexLabel: DRPaddingLabel = DRPaddingLabel()
     
     
     // MARK: - Properties
-
+    
     static let elementKinds: String = StringLiterals.Common.footer
-
+    
     static let identifier: String = StringLiterals.Identifier.bannerFooter
     
     
@@ -49,7 +49,7 @@ final class BannerIndexFooterView: UICollectionReusableView {
     
     func setStyle() {
         self.backgroundColor = .clear
-
+        
         indexLabel.do {
             $0.textAlignment = .center
             $0.backgroundColor = UIColor(resource: .gray400)
@@ -59,6 +59,7 @@ final class BannerIndexFooterView: UICollectionReusableView {
             $0.roundCorners(cornerRadius: 9, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
         }
     }
+    
 }
 
 extension BannerIndexFooterView {
@@ -73,4 +74,5 @@ extension BannerIndexFooterView {
             self.indexLabel.text = "\(currentIndex)/\(count)"
         }
     }
+    
 }

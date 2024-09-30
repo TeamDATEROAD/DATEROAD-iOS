@@ -96,6 +96,7 @@ final class UpcomingDateCell: BaseCollectionViewCell {
             $0.contentMode = .scaleAspectFill
         }
     }
+    
 }
 
 extension UpcomingDateCell {
@@ -122,4 +123,5 @@ extension UpcomingDateCell {
         profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
         profileImage.backgroundColor = .clear
     }
+    
 }

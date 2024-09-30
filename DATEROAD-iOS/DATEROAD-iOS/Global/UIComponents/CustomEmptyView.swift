@@ -13,7 +13,7 @@ import Then
 final class CustomEmptyView: BaseView {
     
     // MARK: - UI Properties
-
+    
     let imageView = UIImageView()
     
     let titleLabel = UILabel()

@@ -14,7 +14,6 @@ enum FontName {
     case title_med_18, body_med_17, body_med_15, body_med_13, body_med_10
     case cap_reg_11
     
-    
     var rawValue: String {
         switch self {
         case .title_extra_24, .title_extra_20:
@@ -53,7 +52,9 @@ enum FontName {
 }
 
 extension UIFont {
+    
     static func suit(_ style: FontName) -> UIFont {
         return UIFont(name: style.rawValue, size: style.size) ?? UIFont.systemFont(ofSize: style.size)
     }
+    
 }

@@ -50,6 +50,7 @@ final class DateDetailViewModel: Serviceable {
     var dateCourseNum : Int = 0
     
     var dateTotalDuration : Float = 0
+    
 }
 
 extension DateDetailViewModel {
@@ -94,9 +95,9 @@ extension DateDetailViewModel {
     }
     
     func setDateDetailLoading() {
-         guard let isSuccessGetDateDetailData = self.isSuccessGetDateDetailData.value else { return }
-         self.onDateDetailLoading.value = !isSuccessGetDateDetailData
-     }
+        guard let isSuccessGetDateDetailData = self.isSuccessGetDateDetailData.value else { return }
+        self.onDateDetailLoading.value = !isSuccessGetDateDetailData
+    }
     
     func deleteDateSchdeuleData(dateID: Int) {
         self.onFailNetwork.value = false
@@ -135,9 +136,8 @@ extension DateDetailViewModel {
             }
         }
     }
-
+    
     func shareToKakao(context: UIViewController) {
-
         if !AuthApi.hasToken() {
             // Generate Redirect URI
             let redirectURI = "kakao\(Config.kakaoNativeAppKey)://oauth"
@@ -156,16 +156,16 @@ extension DateDetailViewModel {
             ShareApi.shared.shareCustom(
                 templateId: templateId,
                 templateArgs: kakaoShareInfo) {(sharingResult, error) in
-                if let error = error {
-                    print(error)
-                }
-                else {
-                    print("shareCustom() success.")
-                    if let sharingResult = sharingResult {
-                        UIApplication.shared.open(sharingResult.url, options: [:], completionHandler: nil)
+                    if let error = error {
+                        print(error)
+                    }
+                    else {
+                        print("shareCustom() success.")
+                        if let sharingResult = sharingResult {
+                            UIApplication.shared.open(sharingResult.url, options: [:], completionHandler: nil)
+                        }
                     }
                 }
-            }
         } else {
             if let sharingResult = ShareApi.shared.makeCustomUrl(templateId: templateId, templateArgs: kakaoShareInfo) {
                 print("makeCustomURL success")
@@ -177,4 +177,5 @@ extension DateDetailViewModel {
             }
         }
     }
+    
 }

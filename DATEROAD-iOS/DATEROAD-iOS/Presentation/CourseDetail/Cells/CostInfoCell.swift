@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 import Then
 
-
 final class CostInfoCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
@@ -18,7 +17,7 @@ final class CostInfoCell: BaseCollectionViewCell {
     private let timelineBackgroundView = UIView()
     
     private let costLabel = UILabel()
-
+    
     override func setHierarchy() {
         self.addSubviews(timelineBackgroundView, costLabel)
     }

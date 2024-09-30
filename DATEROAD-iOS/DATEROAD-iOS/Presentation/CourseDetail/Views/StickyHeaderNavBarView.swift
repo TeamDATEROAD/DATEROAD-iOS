@@ -42,7 +42,6 @@ final class StickyHeaderNavBarView: UIView {
     }
     
     func setLayout() {
-        
         previousButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(5)
             $0.leading.equalToSuperview()
@@ -73,6 +72,7 @@ final class StickyHeaderNavBarView: UIView {
             $0.addTarget(self, action: #selector(didTapMoreButton), for: .touchUpInside)
         }
     }
+    
 }
 
 

@@ -11,16 +11,18 @@ import SnapKit
 import Then
 
 final class NavViewedCourseViewController: BaseNavBarViewController {
-
+    
     // MARK: - UI Properties
     
     private var navViewedCourseView = MyCourseListView(type: StringLiterals.NavType.nav)
-        
+    
     private let errorView: DRErrorViewController = DRErrorViewController()
+    
     
     // MARK: - Properties
     
     private var viewedCourseViewModel: MyCourseListViewModel
+    
     
     // MARK: - LifeCycle
     
@@ -38,7 +40,7 @@ final class NavViewedCourseViewController: BaseNavBarViewController {
         self.viewedCourseViewModel.setNavViewedCourseLoading()
         self.viewedCourseViewModel.setNavViewedCourseData()
     }
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,21 +60,24 @@ final class NavViewedCourseViewController: BaseNavBarViewController {
     
     override func setLayout() {
         super.setLayout()
-
+        
         navViewedCourseView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
-
+    
 }
 
 extension NavViewedCourseViewController {
+    
     @objc
     func leftButtonTapped() {
         navigationController?.popViewController(animated: false)
         AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.clickPurchasedBack)
     }
+    
 }
+
 
 // MARK: - EmptyView Methods
 
@@ -84,16 +89,19 @@ extension NavViewedCourseViewController {
         navViewedCourseView.myCourseListCollectionView.isHidden = isEmpty
         if isEmpty {
             navViewedCourseView.emptyView.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
-                                emptyTitle: StringLiterals.EmptyView.emptyNavViewedCourse)
+                                                       emptyTitle: StringLiterals.EmptyView.emptyNavViewedCourse)
         } else {
             self.navViewedCourseView.myCourseListCollectionView.reloadData()
         }
     }
+    
 }
+
 
 // MARK: - DataBind
 
 extension NavViewedCourseViewController {
+    
     func bindViewModel() {
         self.viewedCourseViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
@@ -106,17 +114,17 @@ extension NavViewedCourseViewController {
         }
         
         self.viewedCourseViewModel.onNavViewedCourseFailNetwork.bind { [weak self] onFailure in
-           guard let onFailure else { return }
-           if onFailure {
-              let errorVC = DRErrorViewController()
-              errorVC.onDismiss = {
-                 self?.viewedCourseViewModel.onNavViewedCourseFailNetwork.value = false
-                  self?.viewedCourseViewModel.onNavViewedCourseLoading.value = false
-              }
-              self?.navigationController?.pushViewController(errorVC, animated: false)
-           }
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                errorVC.onDismiss = {
+                    self?.viewedCourseViewModel.onNavViewedCourseFailNetwork.value = false
+                    self?.viewedCourseViewModel.onNavViewedCourseLoading.value = false
+                }
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
         }
-
+        
         self.viewedCourseViewModel.onNavViewedCourseLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.viewedCourseViewModel.onViewedCourseFailNetwork.value else { return }
             if !onFailNetwork {
@@ -138,33 +146,41 @@ extension NavViewedCourseViewController {
             self?.viewedCourseViewModel.setNavViewedCourseLoading()
         }
     }
+    
 }
 
 
 // MARK: - CollectionView Methods
 
-extension NavViewedCourseViewController {
-    private func register() {
+private extension NavViewedCourseViewController {
+    
+    func register() {
         navViewedCourseView.myCourseListCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
     }
     
-    private func setDelegate() {
+    func setDelegate() {
         navViewedCourseView.myCourseListCollectionView.delegate = self
         navViewedCourseView.myCourseListCollectionView.dataSource = self
     }
+    
 }
+
 
 // MARK: - Delegate
 
 extension NavViewedCourseViewController : UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: ScreenUtils.width, height: 140)
     }
+    
 }
+
 
 // MARK: - DataSource
 
 extension NavViewedCourseViewController : UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewedCourseViewModel.viewedCourseData.value?.count ?? 0
     }
@@ -178,24 +194,24 @@ extension NavViewedCourseViewController : UICollectionViewDataSource {
         return cell
     }
     
-    @objc 
+    @objc
     func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: navViewedCourseView.myCourseListCollectionView)
         let indexPath = navViewedCourseView.myCourseListCollectionView.indexPathForItem(at: location)
-       
+        
         if indexPath != nil {
-          guard let courseId = viewedCourseViewModel.viewedCourseData.value?[indexPath?.item ?? 0].courseId else {return}
-          
-          let courseDetailViewModel = CourseDetailViewModel(courseId: courseId)
-          let addScheduleViewModel = AddScheduleViewModel()
-          addScheduleViewModel.viewedDateCourseByMeData = courseDetailViewModel
-          addScheduleViewModel.isBroughtData = true
-          
-          let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel, viewPath: StringLiterals.Amplitude.ViewPath.viewedCourse)
-          // 데이터를 바인딩합니다.
-          vc.pastDateBindViewModel()
-          self.navigationController?.pushViewController(vc, animated: false)
-       }
+            guard let courseId = viewedCourseViewModel.viewedCourseData.value?[indexPath?.item ?? 0].courseId else {return}
+            
+            let courseDetailViewModel = CourseDetailViewModel(courseId: courseId)
+            let addScheduleViewModel = AddScheduleViewModel()
+            addScheduleViewModel.viewedDateCourseByMeData = courseDetailViewModel
+            addScheduleViewModel.isBroughtData = true
+            
+            let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel, viewPath: StringLiterals.Amplitude.ViewPath.viewedCourse)
+            // 데이터를 바인딩합니다.
+            vc.pastDateBindViewModel()
+            self.navigationController?.pushViewController(vc, animated: false)
+        }
     }
     
 }

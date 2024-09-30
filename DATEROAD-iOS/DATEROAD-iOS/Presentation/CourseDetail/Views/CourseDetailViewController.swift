@@ -22,6 +22,7 @@ final class CourseDetailViewController: BaseViewController {
     
     private var deleteCourseSettingView = DeleteCourseSettingView()
     
+    
     // MARK: - Properties
     
     private let courseDetailViewModel: CourseDetailViewModel
@@ -50,10 +51,10 @@ final class CourseDetailViewController: BaseViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     // MARK: - Life Cycle
     
@@ -131,15 +132,15 @@ final class CourseDetailViewController: BaseViewController {
     
     func bindViewModel() {
         self.courseDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
-           guard let onFailure else { return }
-           if onFailure {
-              let errorVC = DRErrorViewController()
-              errorVC.onDismiss = {
-                 self?.courseDetailViewModel.onFailNetwork.value = false
-                  self?.courseDetailViewModel.onLoading.value = false
-              }
-              self?.navigationController?.pushViewController(errorVC, animated: false)
-           }
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                errorVC.onDismiss = {
+                    self?.courseDetailViewModel.onFailNetwork.value = false
+                    self?.courseDetailViewModel.onLoading.value = false
+                }
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
         }
         
         self.courseDetailViewModel.onLoading.bind { [weak self] onLoading in
@@ -194,7 +195,6 @@ final class CourseDetailViewController: BaseViewController {
             guard let self = self else { return }
             self.updateLikeButtonColor(isLiked: isUserLiked ?? false)
         }
-        
     }
     
     func setAddTarget() {
@@ -265,6 +265,7 @@ extension CourseDetailViewController: DRCustomAlertDelegate {
         }
         courseDetailView.mainCollectionView.reloadData()
     }
+    
 }
 
 extension CourseDetailViewController: ContentMaskViewDelegate {
@@ -306,7 +307,8 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     }
     
     // 신고 혹은 삭제 버튼 클릭 시 처리
-    @objc func didTapBottomSheetLabel(sender: UITapGestureRecognizer) {
+    @objc
+    func didTapBottomSheetLabel(sender: UITapGestureRecognizer) {
         print("삭제하기 클릭")
         self.dismiss(animated: true)
         courseDetailViewModel.isCourseMine.value == true ? showDeleteAlert() : showDeclareAlert()
@@ -345,10 +347,9 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         present(alertVC, animated: false)
     }
     
-    
     //포인트 부족 -> 코스 등록하기로 화면 전환
     func didTapAddCourseButton() {
-       let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.exploreCourse)
+        let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.exploreCourse)
         self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
     
@@ -377,8 +378,8 @@ extension CourseDetailViewController: StickyHeaderNavBarViewDelegate, DRBottomSh
     func didTapBottomButton() {
         self.dismiss(animated: true)
     }
+    
 }
-
 
 extension CourseDetailViewController: UIScrollViewDelegate {
     
@@ -393,6 +394,7 @@ extension CourseDetailViewController: UIScrollViewDelegate {
             courseDetailView.stickyHeaderNavBarView.previousButton.tintColor = .drWhite
         }
     }
+    
 }
 
 private extension CourseDetailViewController {
@@ -406,9 +408,9 @@ private extension CourseDetailViewController {
         addScheduleViewModel.viewedDateCourseByMeData = courseDetailViewModel
         addScheduleViewModel.isBroughtData = true
         
-       let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel, viewPath: StringLiterals.Amplitude.ViewPath.courseDetail)
-       // 데이터를 바인딩합니다.
-       vc.pastDateBindViewModel()
+        let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel, viewPath: StringLiterals.Amplitude.ViewPath.courseDetail)
+        // 데이터를 바인딩합니다.
+        vc.pastDateBindViewModel()
         self.navigationController?.pushViewController(vc, animated: false)
     }
     
@@ -461,6 +463,7 @@ extension CourseDetailViewController: ImageCarouselDelegate {
     
 }
 
+
 // MARK: - Compositonal Layout
 
 extension CourseDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -492,7 +495,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return configureTagInfoCell(collectionView, indexPath: indexPath)
         }
     }
-
+    
     private func configureImageCarouselCell(_ collectionView: UICollectionView, indexPath: IndexPath, isAccess: Bool) -> UICollectionViewCell {
         return collectionViewUtils.dequeueAndConfigureCell(collectionView: collectionView, indexPath: indexPath, identifier: ImageCarouselCell.cellIdentifier) { (cell: ImageCarouselCell) in
             let imageData = courseDetailViewModel.imageData.value ?? []
@@ -501,7 +504,6 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             cell.delegate = self
         }
     }
-
     
     private func configureTitleInfoCell(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         return collectionViewUtils.dequeueAndConfigureCell(collectionView: collectionView, indexPath: indexPath, identifier: TitleInfoCell.cellIdentifier) { (cell: TitleInfoCell) in
@@ -563,7 +565,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return UICollectionReusableView()
         }
     }
-
+    
     private func configureGradientView(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionReusableView {
         return collectionViewUtils.dequeueAndConfigureSupplementaryView(collectionView: collectionView, indexPath: indexPath, kind: GradientView.elementKinds, identifier: GradientView.identifier) { (view: GradientView) in
         }
@@ -621,7 +623,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             view.bindSubTitle(subTitle: startAt)
         }
     }
-
+    
 }
 
 

@@ -8,8 +8,10 @@
 import Foundation
 
 struct Constants {
+    
     static let myPageTitleList: [String] = [StringLiterals.MyPage.myCourse,
                                             StringLiterals.MyPage.pointSystem,
                                             StringLiterals.MyPage.inquiry,
                                             StringLiterals.MyPage.logout]
+    
 }

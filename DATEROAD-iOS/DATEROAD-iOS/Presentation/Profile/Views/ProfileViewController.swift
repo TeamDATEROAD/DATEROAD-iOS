@@ -103,7 +103,6 @@ private extension ProfileViewController {
         
         let registerGesture = UITapGestureRecognizer(target: self, action: #selector(registerPhoto))
         self.profileImageSettingView.registerLabel.addGestureRecognizer(registerGesture)
-        
     }
     
     func bindViewModel() {
@@ -194,7 +193,6 @@ private extension ProfileViewController {
             guard let onLoading else { return }
             onLoading ? self?.showLoadingView() : self?.hideLoadingView()
         }
-        
     }
     
     @objc
@@ -265,6 +263,7 @@ private extension ProfileViewController {
     
 }
 
+
 // MARK: - Delegates
 
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
@@ -322,6 +321,7 @@ extension ProfileViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
 }
 
 extension ProfileViewController: DRBottomSheetDelegate {
@@ -337,6 +337,7 @@ extension ProfileViewController: DRBottomSheetDelegate {
     func didTapSecondLabel() {
         self.deletePhoto()
     }
+    
 }
 
 extension ProfileViewController: ImagePickerDelegate {

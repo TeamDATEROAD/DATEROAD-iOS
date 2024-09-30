@@ -15,6 +15,7 @@ final class PointCollectionView: UICollectionView {
     
     static var pointCollectionViewLayout = UICollectionViewFlowLayout()
     
+    
     // MARK: - LifeCycle
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
@@ -33,5 +34,5 @@ final class PointCollectionView: UICollectionView {
             $0.minimumLineSpacing = 0
         }
     }
-
+    
 }

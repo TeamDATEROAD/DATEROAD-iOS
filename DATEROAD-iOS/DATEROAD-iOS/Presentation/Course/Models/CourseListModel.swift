@@ -30,4 +30,5 @@ struct CourseListModel {
 extension CourseListModel {
     
     static let courseContents: [CourseListModel] = []
+    
 }

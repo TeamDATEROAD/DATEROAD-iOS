@@ -35,15 +35,16 @@ final class LocationFilterView: BaseView {
     
     let applyButton = UIButton()
     
+    
     // MARK: - UI Properties
     
     weak var delegate: LocationFilterViewDelegate?
+    
     
     // MARK: - Life Cycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
     }
     
     required init?(coder: NSCoder) {
@@ -108,14 +109,13 @@ final class LocationFilterView: BaseView {
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(54)
         }
-        
     }
     
     override func setStyle() {
-       cityCollectionView.do {
-          $0.showsVerticalScrollIndicator = false
-       }
-       
+        cityCollectionView.do {
+            $0.showsVerticalScrollIndicator = false
+        }
+        
         dimmedView.do {
             $0.alpha = 0.7
             $0.layer.backgroundColor = UIColor(resource: .drBlack).cgColor

@@ -16,6 +16,7 @@ final class VisitDateView: UICollectionReusableView {
     
     private let dateLabel = UILabel()
     
+    
     // MARK: - Properties
     
     static let elementKinds: String = "visitDate"
@@ -53,6 +54,7 @@ final class VisitDateView: UICollectionReusableView {
     }
     
 }
+
 extension VisitDateView {
     
     func bindDate(titleHeaderData: TitleHeaderModel) {
