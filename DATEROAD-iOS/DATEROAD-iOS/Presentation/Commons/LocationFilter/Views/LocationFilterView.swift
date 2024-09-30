@@ -11,8 +11,11 @@ import SnapKit
 import Then
 
 protocol LocationFilterViewDelegate: AnyObject {
+    
     func closeLocationFilterView()
+    
     func didTapApplyButton()
+    
 }
 
 final class LocationFilterView: BaseView {

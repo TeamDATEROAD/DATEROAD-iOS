@@ -8,45 +8,79 @@
 import Foundation
 
 public enum MainRegion: String {
+    
     case SEOUL = "서울"
+    
     case GYEONGGI = "경기"
+    
     case INCHEON = "인천"
+    
 }
 
 public enum SubRegion {
+    
     // 서울 소분류
+    
     case SEOUL_ENTIRE
+    
     case GANGNAM_SEOCHO
+    
     case JAMSIL_SONGPA_GANGDONG
+    
     case KONDAE_SUNGSOO_WANGSIMNI
+    
     case JONGNO_JUNGRO
+    
     case HONGDAE_HAPJEONG_MAPO
+    
     case YEONGDEUNGPO_YEOUIDO
+    
     case YONGSAN_ITAEWON_HANNAM
+    
     case YANGCHEON_GANGSEO
+    
     case SEONGBUK_NOWON_JUNGBANG
+    
     case GURO_GWANAK_DONGJAK
     
     // 경기 소분류
+    
     case GYEONGGI_ENTIRE
+    
     case SEONGNAM
+    
     case SUWON
+    
     case GOYANG_PAJU
+    
     case GIMPO
+    
     case YONGIN_HWASEONG
+    
     case ANYANG_GWACHEON
+    
     case POCHEON_YANGJU
+    
     case NAMYANGJU_UIJEONGBU
+    
     case GWANGJU_ICHEON_YEOJU
+    
     case GAPYEONG_YANGPYEONG
+    
     case GUNPO_UIWANG
+    
     case HANAM_GURI
+    
     case SIHEUNG_GWANGMYEONG
+    
     case BUCHEON_ANSHAN
+    
     case DONGDUCHEON_YEONCHEON
+    
     case PYEONGTAEK_OSAN_ANSEONG
     
     // 인천 소분류
+    
     case INCHEON_ENTIRE
     
     // Initialization with raw string values and main region association

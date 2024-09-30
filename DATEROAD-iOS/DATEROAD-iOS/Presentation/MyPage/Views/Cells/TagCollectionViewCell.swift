@@ -51,7 +51,6 @@ final class TagCollectionViewCell: BaseCollectionViewCell {
             $0.setImage(tendencyTag.tag.tagIcon, for: .normal)
             $0.setTitle(tendencyTag.tag.tagTitle, for: .normal)
         }
-        //        self.tagButton.setTitle(title, for: .normal)
     }
     
 }

@@ -129,12 +129,6 @@ extension PointDetailViewController {
 
 private extension PointDetailViewController {
     
-    @objc
-    func didChangeValue(segment: UISegmentedControl) {
-        pointViewModel.changeSegment(segmentIndex: pointDetailView.segmentControl.selectedSegmentIndex)
-        changeSelectedSegmentLayout(isEarnedPointHidden: pointViewModel.isEarnedPointHidden.value)
-    }
-    
     func setSegmentViewHidden(_ view: UIView) {
         pointDetailView.pointCollectionView.isHidden = true
         pointDetailView.emptyUsedPointView.isHidden = true
@@ -171,6 +165,12 @@ private extension PointDetailViewController {
                 $0.leading.equalToSuperview()
             }
         }
+    }
+    
+    @objc
+    func didChangeValue(segment: UISegmentedControl) {
+        pointViewModel.changeSegment(segmentIndex: pointDetailView.segmentControl.selectedSegmentIndex)
+        changeSelectedSegmentLayout(isEarnedPointHidden: pointViewModel.isEarnedPointHidden.value)
     }
     
 }

@@ -12,11 +12,11 @@ final class PointSystemView: BaseView {
     // MARK: - UI Properties
     
     private let mainLabel: UILabel = UILabel()
-
+    
     private let subLabel: UILabel = UILabel()
-
+    
     let pointSystemCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-
+    
     
     // MARK: - Life Cycle
     

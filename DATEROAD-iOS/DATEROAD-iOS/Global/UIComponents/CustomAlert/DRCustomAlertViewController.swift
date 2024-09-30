@@ -10,15 +10,23 @@ import UIKit
 import SnapKit
 
 protocol DRCustomAlertDelegate {
+    
     func action(rightButtonAction: RightButtonType)
+    
     func exit()
+    
     func leftButtonAction(rightButtonAction: RightButtonType)
+    
 }
 
 extension DRCustomAlertDelegate {
+    
     func action(rightButtonAction: RightButtonType) {}
+    
     func exit() {}
+    
     func leftButtonAction(rightButtonAction: RightButtonType) {}
+    
 }
 
 final class DRCustomAlertViewController: BaseViewController {

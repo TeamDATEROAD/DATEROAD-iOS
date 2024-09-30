@@ -11,8 +11,11 @@ import SnapKit
 import Then
 
 protocol StickyHeaderNavBarViewDelegate: AnyObject {
+    
     func didTapBackButton()
+    
     func didTapMoreButton()
+    
 }
 
 final class StickyHeaderNavBarView: UIView {

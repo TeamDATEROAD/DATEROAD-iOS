@@ -87,6 +87,7 @@ extension PointSystemViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension PointSystemViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.pointSystemViewModel.pointSystemData.count
     }

@@ -81,9 +81,9 @@ extension NavViewedCourseViewController {
 
 // MARK: - EmptyView Methods
 
-extension NavViewedCourseViewController {
+private extension NavViewedCourseViewController {
     
-    private func setEmptyView() {
+    func setEmptyView() {
         let isEmpty = (viewedCourseViewModel.viewedCourseData.value?.count == 0)
         navViewedCourseView.emptyView.isHidden = !isEmpty
         navViewedCourseView.myCourseListCollectionView.isHidden = isEmpty

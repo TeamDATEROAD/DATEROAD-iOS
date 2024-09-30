@@ -8,8 +8,13 @@
 import UIKit
 
 struct PatchEditProfileRequest {
+    
     let name: String
+    
     let tags: [String]
+    
     let image: UIImage?
+    
     let isDefaultImage: Bool
+    
 }

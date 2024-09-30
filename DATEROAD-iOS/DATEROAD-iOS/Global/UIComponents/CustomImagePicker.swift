@@ -10,7 +10,9 @@ import UIKit
 import PhotosUI
 
 protocol ImagePickerDelegate: AnyObject {
+    
     func didPickImages(_ images: [UIImage])
+    
 }
 
 final class CustomImagePicker: NSObject, PHPickerViewControllerDelegate {

@@ -10,13 +10,15 @@ import Foundation
 import Moya
 
 protocol PointDetailServiceProtocol {
+    
     func getPointDetail(completion: @escaping (NetworkResult<GetPointDetailResponse>) -> Void)
+    
 }
 
 final class PointDetailService: BaseService, PointDetailServiceProtocol {
     
     let pointDetailProvider = MoyaProvider<PointDetailTargetType>(plugins: [MoyaLoggingPlugin()])
-        
+    
     func getPointDetail(completion: @escaping (NetworkResult<GetPointDetailResponse>) -> Void) {
         pointDetailProvider.request(.getPointDetail) { result in
             switch result {
@@ -30,4 +32,5 @@ final class PointDetailService: BaseService, PointDetailServiceProtocol {
             }
         }
     }
+    
 }

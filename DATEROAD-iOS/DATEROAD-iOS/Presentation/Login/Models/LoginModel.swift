@@ -10,9 +10,13 @@ import Foundation
 import KakaoSDKUser
 
 struct KakaoUserInfo {
+    
     let nickname: String?
+    
     let email: String?
+    
     let gender: String?
+    
     let ageRange: String?
     
     init(user: KakaoSDKUser.User?) {
@@ -21,11 +25,15 @@ struct KakaoUserInfo {
         self.gender = user?.kakaoAccount?.gender?.rawValue
         self.ageRange = user?.kakaoAccount?.ageRange?.rawValue
     }
+    
 }
 
 struct AppleUserInfo {
+    
     let identifier: String?
+    
     let nickname: String?
+    
     let email: String?
     
     init(identifier: String?, nickname: String?, email: String?) {
@@ -33,4 +41,5 @@ struct AppleUserInfo {
         self.nickname = nickname
         self.email = email
     }
+    
 }

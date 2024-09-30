@@ -83,21 +83,6 @@ final class UpcomingDateScheduleViewController: BaseViewController {
 
 private extension UpcomingDateScheduleViewController {
     
-    @objc
-    func pushToDateRegisterVC() {
-        if (upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0) >= 5 {
-            dateRegisterButtonTapped()
-        } else {
-            print("일정 등록으로 이동")
-        }
-    }
-    
-    @objc
-    func pushToPastDateVC() {
-        let pastDateVC = PastDateViewController(pastDateScheduleViewModel: DateScheduleViewModel())
-        self.navigationController?.pushViewController(pastDateVC, animated: false)
-    }
-    
     func setAddTarget() {
         upcomingDateScheduleView.dateRegisterButton.addTarget(self, action: #selector(dateRegisterButtonTapped), for: .touchUpInside)
         
@@ -147,6 +132,21 @@ private extension UpcomingDateScheduleViewController {
                 self?.navigationController?.pushViewController(errorVC, animated: false)
             }
         }
+    }
+    
+    @objc
+    func pushToDateRegisterVC() {
+        if (upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0) >= 5 {
+            dateRegisterButtonTapped()
+        } else {
+            print("일정 등록으로 이동")
+        }
+    }
+    
+    @objc
+    func pushToPastDateVC() {
+        let pastDateVC = PastDateViewController(pastDateScheduleViewModel: DateScheduleViewModel())
+        self.navigationController?.pushViewController(pastDateVC, animated: false)
     }
     
 }

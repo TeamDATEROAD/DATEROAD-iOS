@@ -11,7 +11,9 @@ import SnapKit
 import Then
 
 protocol ImageCarouselDelegate: AnyObject {
+    
     func didSwipeImage(index: Int, vc: UIPageViewController, vcData: [UIViewController])
+    
 }
 
 final class ImageCarouselCell: BaseCollectionViewCell {

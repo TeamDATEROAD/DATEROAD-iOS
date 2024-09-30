@@ -51,9 +51,11 @@ final class CustomEmptyView: BaseView {
 }
 
 extension CustomEmptyView {
+    
     func setEmptyView(emptyImage: UIImage, emptyTitle: String) {
         imageView.image = emptyImage
         titleLabel.text = emptyTitle
     }
+    
 }
 

@@ -11,7 +11,9 @@ import SnapKit
 import Then
 
 protocol CourseNavigationBarViewDelegate: AnyObject {
+    
     func didTapAddCourseButton()
+    
 }
 
 final class CourseNavigationBarView: BaseView {

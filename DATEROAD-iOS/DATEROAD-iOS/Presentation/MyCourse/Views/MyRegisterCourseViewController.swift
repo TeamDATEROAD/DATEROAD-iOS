@@ -66,9 +66,9 @@ final class MyRegisterCourseViewController: BaseNavBarViewController {
 
 // MARK: - EmptyView Methods
 
-extension MyRegisterCourseViewController {
+private extension MyRegisterCourseViewController {
     
-    private func setEmptyView() {
+    func setEmptyView() {
         let isEmpty = (myRegisterCourseViewModel.myRegisterCourseData.value?.count == 0)
         myRegisterCourseView.emptyView.isHidden = !isEmpty
         if isEmpty {

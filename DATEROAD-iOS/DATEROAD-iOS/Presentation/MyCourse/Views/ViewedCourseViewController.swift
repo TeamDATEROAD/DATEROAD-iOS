@@ -271,16 +271,16 @@ extension ViewedCourseViewController : UICollectionViewDataSource {
 
 extension ViewedCourseViewController {
     
-    @objc
-    func pushToCourseUploadVC(_ gesture: UITapGestureRecognizer) {
-        goToUpcomingDateScheduleVC()
-    }
-    
     ///'데이트 일정' 바텀 탭으로 이동은 성공이나 뷰를 띄워도 그리지 않아서 문제
     func goToUpcomingDateScheduleVC() {
         let tabbarVC = TabBarController()
         tabbarVC.selectedIndex = 2
         navigationController?.pushViewController(tabbarVC, animated: false)
+    }
+    
+    @objc
+    func pushToCourseUploadVC(_ gesture: UITapGestureRecognizer) {
+        goToUpcomingDateScheduleVC()
     }
     
 }

@@ -11,8 +11,11 @@ import SnapKit
 import Then
 
 protocol CourseFilterViewDelegate: AnyObject {
+    
     func didTapLocationFilter()
+    
     func didTapResetButton()
+    
 }
 
 final class CourseFilterView: BaseView {

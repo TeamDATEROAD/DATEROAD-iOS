@@ -10,11 +10,15 @@ import Foundation
 import Moya
 
 enum MyCourseTargetType {
+    
     case viewedCourse
+    
     case myRegisterCourse
+    
 }
 
 extension MyCourseTargetType: BaseTargetType {
+    
     var utilPath: String {
         return "api/v1/courses"
     }
@@ -35,11 +39,11 @@ extension MyCourseTargetType: BaseTargetType {
     var task: Moya.Task {
         return .requestPlain
     }
-
+    
     var headers: [String : String]? {
         let token = UserDefaults.standard.string(forKey: StringLiterals.Network.accessToken) ?? ""
         let headers = HeaderType.headerWithToken(token: "Bearer " + token)
         return headers
     }
-
+    
 }

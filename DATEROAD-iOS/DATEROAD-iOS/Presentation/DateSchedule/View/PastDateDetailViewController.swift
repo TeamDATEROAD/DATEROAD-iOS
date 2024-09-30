@@ -81,6 +81,12 @@ final class PastDateDetailViewController: BaseNavBarViewController {
 
 extension PastDateDetailViewController: DRCustomAlertDelegate {
     
+    func action(rightButtonAction: RightButtonType) {
+        if rightButtonAction == .deleteCourse {
+            pastDateDetailViewModel.deleteDateSchdeuleData(dateID: pastDateDetailViewModel.dateDetailData.value?.dateID ?? 0)
+        }
+    }
+    
     @objc
     func tapDeleteLabel() {
         let customAlertVC = DRCustomAlertViewController(rightActionType: .deleteCourse,
@@ -94,18 +100,16 @@ extension PastDateDetailViewController: DRCustomAlertDelegate {
         self.present(customAlertVC, animated: false)
     }
     
-    func action(rightButtonAction: RightButtonType) {
-        if rightButtonAction == .deleteCourse {
-            pastDateDetailViewModel.deleteDateSchdeuleData(dateID: pastDateDetailViewModel.dateDetailData.value?.dateID ?? 0)
-        }
-    }
-    
 }
 
 
 // MARK: - BottomSheet Methods
 
 extension PastDateDetailViewController: DRBottomSheetDelegate {
+    
+    func didTapBottomButton() {
+        self.dismiss(animated: false)
+    }
     
     @objc
     private func deleteDateCourse() {
@@ -115,10 +119,6 @@ extension PastDateDetailViewController: DRBottomSheetDelegate {
         bottomSheetVC.modalPresentationStyle = .overFullScreen
         bottomSheetVC.delegate = self
         self.present(bottomSheetVC, animated: false)
-    }
-    
-    func didTapBottomButton() {
-        self.dismiss(animated: false)
     }
     
     @objc
@@ -198,19 +198,6 @@ extension PastDateDetailViewController {
         }
     }
     
-    //TODO: - 추후 데이트코스 공유 코스 등록 기능 살아날 시 수정해야함.
-    // isBroughtData 변수 생성하여 AddSchedule과 동일하게 수행하도록 수정
-    @objc
-    private func tapShareCourse() {
-        print("코스 등록해서 공유하기 여기!!!!!!!!!!!!")
-        guard let data = pastDateDetailViewModel.dateDetailData.value
-        else { return }
-        
-        let addCourseViewModel = AddCourseViewModel(pastDateDetailData: data)
-        let vc = AddCourseFirstViewController(viewModel: addCourseViewModel, viewPath: StringLiterals.Amplitude.ViewPath.dateSchedule)
-        self.navigationController?.pushViewController(vc, animated: false)
-    }
-    
     private func setButton() {
         pastDateDetailContentView.kakaoShareButton.isHidden = true
         
@@ -230,6 +217,19 @@ extension PastDateDetailViewController {
             self.setBackgroundColor(color: UIColor(resource: .lime))
         }
         pastDateDetailContentView.setColor(index: index)
+    }
+    
+    //TODO: - 추후 데이트코스 공유 코스 등록 기능 살아날 시 수정해야함.
+    // isBroughtData 변수 생성하여 AddSchedule과 동일하게 수행하도록 수정
+    @objc
+    private func tapShareCourse() {
+        print("코스 등록해서 공유하기 여기!!!!!!!!!!!!")
+        guard let data = pastDateDetailViewModel.dateDetailData.value
+        else { return }
+        
+        let addCourseViewModel = AddCourseViewModel(pastDateDetailData: data)
+        let vc = AddCourseFirstViewController(viewModel: addCourseViewModel, viewPath: StringLiterals.Amplitude.ViewPath.dateSchedule)
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     
 }
@@ -282,4 +282,3 @@ extension PastDateDetailViewController: UICollectionViewDataSource {
     }
     
 }
-

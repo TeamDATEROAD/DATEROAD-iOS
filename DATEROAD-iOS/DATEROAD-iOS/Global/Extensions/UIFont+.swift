@@ -8,10 +8,15 @@
 import UIKit
 
 enum FontName {
+    
     case title_extra_24, title_extra_20
+    
     case title_bold_20, title_bold_18, body_bold_17, body_bold_15, body_bold_13, body_bold_11, cap_bold_11
+    
     case body_semi_17, body_semi_15, body_semi_13, body_semi_11
+    
     case title_med_18, body_med_17, body_med_15, body_med_13, body_med_10
+    
     case cap_reg_11
     
     var rawValue: String {
@@ -49,6 +54,7 @@ enum FontName {
             return 10
         }
     }
+    
 }
 
 extension UIFont {

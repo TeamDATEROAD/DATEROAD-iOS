@@ -11,8 +11,11 @@ import SnapKit
 import Then
 
 protocol LocationFilterDelegate: AnyObject {
+    
     func didSelectCity(_ country: LocationModel.Country,_ city: LocationModel.City)
+    
     func getCourse()
+    
 }
 
 final class LocationFilterViewController: BaseViewController {

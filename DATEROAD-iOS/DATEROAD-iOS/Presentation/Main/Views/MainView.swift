@@ -8,7 +8,9 @@
 import UIKit
 
 protocol BannerIndexDelegate: AnyObject {
+    
     func bindIndex(currentIndex: Int)
+    
 }
 
 final class MainView: BaseView {

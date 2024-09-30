@@ -10,12 +10,19 @@ import Foundation
 enum Config {
     
     enum Keys {
+        
         enum Plist {
+            
             static let kakaoNativeAppKey = "KAKAO_NATIVE_APP_KEY"
+            
             static let baseURL = "BASE_URL"
+            
             static let kakaoAppStore = "KAKAO_APPSTORE"
+            
             static let amplitudeAPIKey = "AMPLITUDE_API_KEY"
+            
         }
+        
     }
     
     private static let infoDictionary: [String: Any] = {
@@ -24,10 +31,12 @@ enum Config {
         }
         return dict
     }()
+    
 }
 
 
 extension Config {
+    
     static let kakaoNativeAppKey: String = {
         guard let key = Config.infoDictionary[Keys.Plist.kakaoNativeAppKey] as? String else {
             fatalError("KAKAO_NATIVE_APP_KEY is not set in plist for this configuration")
@@ -55,4 +64,5 @@ extension Config {
         }
         return key
     }()
+    
 }

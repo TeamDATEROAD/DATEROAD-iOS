@@ -10,9 +10,13 @@ import Foundation
 import Moya
 
 enum DateScheduleTargetType {
+    
     case getDateSchedule(time: String)
+    
     case getDateDetail(dateID: Int)
+    
     case deleteDateSchedule(dateID: Int)
+    
 }
 
 extension DateScheduleTargetType: BaseTargetType {
@@ -51,7 +55,7 @@ extension DateScheduleTargetType: BaseTargetType {
             return ["dateId" : dateID]
         }
     }
-
+    
     var task: Task {
         if let parameter = parameter {
             return .requestParameters(parameters: parameter, encoding: URLEncoding.default)
@@ -65,4 +69,5 @@ extension DateScheduleTargetType: BaseTargetType {
         let headers = HeaderType.headerWithToken(token: "Bearer " + token)
         return headers
     }
+    
 }

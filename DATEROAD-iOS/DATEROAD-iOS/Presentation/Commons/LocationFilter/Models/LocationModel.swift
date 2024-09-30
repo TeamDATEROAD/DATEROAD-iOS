@@ -8,9 +8,13 @@
 import UIKit
 
 enum LocationModel {
+    
     enum Country: String, CaseIterable {
+        
         case seoul = "서울"
+        
         case gyeonggi = "경기"
+        
         case incheon = "인천"
         
         var cities: [City] {
@@ -23,11 +27,15 @@ enum LocationModel {
                 return City.Incheon.allCases.map { City.incheon($0) }
             }
         }
+        
     }
     
     enum City {
+        
         case seoul(Seoul)
+        
         case gyeonggi(Gyeonggi)
+        
         case incheon(Incheon)
         
         var rawValue: String {
@@ -42,83 +50,151 @@ enum LocationModel {
         }
         
         enum Seoul: String, CaseIterable {
+            
             case all = "서울 전체"
+            
             case hongdaeHapjeongMapo = "홍대/합정/마포"
+            
             case kondaeSeongsuSeongdong = "건대/성수/성동"
+            
             case gangnamSeocho = "강남/서초"
+            
             case yongsanItaewonHannam = "용산/이태원/한남"
+            
             case jongnoJunggu = "종로/중구"
+            
             case jamsilSongpaGangdong = "잠실/송파/강동"
+            
             case yeongdeungpoYeouido = "영등포/여의도"
+            
             case dongdaemunSeongbuk = "동대문/성북"
+            
             case gwanakDongjakGeumcheon = "관악/동작/금천"
+            
             case gwangjinJungnang = "광진/중랑"
+            
             case eunpyeongSeodaemun = "은평/서대문"
+            
             case yangcheonGangseoGuro = "양천/강서/구로"
+            
             case nowonDobongGangbuk = "노원/도봉/강북"
+            
         }
         
         enum Gyeonggi: String, CaseIterable {
+            
             case all = "경기 전체"
+            
             case seongnam = "성남"
+            
             case suwon = "수원"
+            
             case goyangPaju = "고양/파주"
+            
             case gimpo = "김포"
+            
             case yonginHwaseong = "용인/화성"
+            
             case anyangGwacheon = "안양/과천"
+            
             case pocheonYangju = "포천/양주"
+            
             case namyangjuUijeongbu = "남양주/의정부"
+            
             case gwangjuIcheonYeoju = "과천/이천/여주"
+            
             case gapyeongYangpyeong = "가평/양평"
+            
             case gunpoUiwang = "군포/의왕"
+            
             case hanamGuri = "하남/구리"
+            
             case siheungGwangmyeong = "시흥/광명"
+            
             case bucheonAnsan = "부천/안산"
+            
             case dongducheonYeoncheon = "동두천/연천"
+            
             case pyeongtaekOsanAnseong = "평택/오산/안성"
+            
         }
         
         enum Incheon: String, CaseIterable {
+            
             case all = "인천 전체"
+            
         }
+        
     }
     
     static func countryData() -> [Country] {
         return Country.allCases
     }
+    
 }
 
 struct LocationModelCityKorToEng {
+    
     enum City: String {
+        
         case SEOUL_ENTIRE
+        
         case GANGNAM_SEOCHO
+        
         case JAMSIL_SONGPA_GANGDONG
+        
         case KONDAE_SUNGSOO_WANGSIMNI
+        
         case JONGNO_JUNGRO
+        
         case HONGDAE_HAPJEONG_MAPO
+        
         case YEONGDEUNGPO_YEOUIDO
+        
         case YONGSAN_ITAEWON_HANNAM
+        
         case YANGCHEON_GANGSEO
+        
         case SEONGBUK_NOWON_JUNGBANG
+        
         case GURO_GWANAK_DONGJAK
+        
         case GYEONGGI_ENTIRE
+        
         case SEONGNAM
+        
         case SUWON
+        
         case GOYANG_PAJU
+        
         case GIMPO
+        
         case YONGIN_HWASEONG
+        
         case ANYANG_GWACHEON
+        
         case POCHEON_YANGJU
+        
         case NAMYANGJU_UIJEONGBU
+        
         case GWANGJU_ICHEON_YEOJU
+        
         case GAPYEONG_YANGPYEONG
+        
         case GUNPO_UIWANG
+        
         case HANAM_GURI
+        
         case SIHEUNG_GWANGMYEONG
+        
         case BUCHEON_ANSHAN
+        
         case DONGDUCHEON_YEONCHEON
+        
         case PYEONGTAEK_OSAN_ANSEONG
+        
         case INCHEON_ENTIRE
+        
         case UNKNOWN
         
         init(rawValue: String) {
@@ -185,10 +261,13 @@ struct LocationModelCityKorToEng {
                 self = .UNKNOWN
             }
         }
+        
     }
+    
 }
 
 extension LocationModel.City: CaseIterable {
+    
     static var allCases: [LocationModel.City] {
         return [
             // 서울 관련 도시
@@ -208,6 +287,7 @@ extension LocationModel.City: CaseIterable {
             .incheon(.all)
         ]
     }
+    
 }
 
 
@@ -234,36 +314,67 @@ struct LocationMapper {
 }
 
 struct LocationModelCityEngToKor {
+    
     enum City: String {
+        
         case SEOUL_ENTIRE = "SEOUL_ENTIRE"
+        
         case GANGNAM_SEOCHO = "GANGNAM_SEOCHO"
+        
         case JAMSIL_SONGPA_GANGDONG = "JAMSIL_SONGPA_GANGDONG"
+        
         case KONDAE_SUNGSOO_WANGSIMNI = "KONDAE_SUNGSOO_WANGSIMNI"
+        
         case JONGNO_JUNGRO = "JONGNO_JUNGRO"
+        
         case HONGDAE_HAPJEONG_MAPO = "HONGDAE_HAPJEONG_MAPO"
+        
         case YEONGDEUNGPO_YEOUIDO = "YEONGDEUNGPO_YEOUIDO"
+        
         case YONGSAN_ITAEWON_HANNAM = "YONGSAN_ITAEWON_HANNAM"
+        
         case YANGCHEON_GANGSEO = "YANGCHEON_GANGSEO"
+        
         case SEONGBUK_NOWON_JUNGBANG = "SEONGBUK_NOWON_JUNGBANG"
+        
         case GURO_GWANAK_DONGJAK = "GURO_GWANAK_DONGJAK"
+        
         case GYEONGGI_ENTIRE = "GYEONGGI_ENTIRE"
+        
         case SEONGNAM = "SEONGNAM"
+        
         case SUWON = "SUWON"
+        
         case GOYANG_PAJU = "GOYANG_PAJU"
+        
         case GIMPO = "GIMPO"
+        
         case YONGIN_HWASEONG = "YONGIN_HWASEONG"
+        
         case ANYANG_GWACHEON = "ANYANG_GWACHEON"
+        
         case POCHEON_YANGJU = "POCHEON_YANGJU"
+        
         case NAMYANGJU_UIJEONGBU = "NAMYANGJU_UIJEONGBU"
+        
         case GWANGJU_ICHEON_YEOJU = "GWANGJU_ICHEON_YEOJU"
+        
         case GAPYEONG_YANGPYEONG = "GAPYEONG_YANGPYEONG"
+        
         case GUNPO_UIWANG = "GUNPO_UIWANG"
+        
         case HANAM_GURI = "HANAM_GURI"
+        
         case SIHEUNG_GWANGMYEONG = "SIHEUNG_GWANGMYEONG"
+        
         case BUCHEON_ANSHAN = "BUCHEON_ANSHAN"
+        
         case DONGDUCHEON_YEONCHEON = "DONGDUCHEON_YEONCHEON"
+        
         case PYEONGTAEK_OSAN_ANSEONG = "PYEONGTAEK_OSAN_ANSEONG"
+        
         case INCHEON_ENTIRE = "INCHEON_ENTIRE"
+        
         case UNKNOWN = "UNKNOWN"
         
         func toKorean() -> String {
@@ -330,5 +441,7 @@ struct LocationModelCityEngToKor {
                 return "알 수 없음"
             }
         }
+        
     }
+    
 }

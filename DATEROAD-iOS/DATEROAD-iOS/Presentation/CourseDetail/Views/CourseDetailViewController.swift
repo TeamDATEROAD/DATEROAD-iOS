@@ -311,15 +311,6 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         )
     }
     
-    // 신고 혹은 삭제 버튼 클릭 시 처리
-    @objc
-    func didTapBottomSheetLabel(sender: UITapGestureRecognizer) {
-        print("삭제하기 클릭")
-        self.dismiss(animated: true)
-        courseDetailViewModel.isCourseMine.value == true ? showDeleteAlert() : showDeclareAlert()
-        
-    }
-    
     //바텀 시트에서 신고하기 클릭시 팝업창
     func showDeclareAlert(){
         presentCustomAlert(
@@ -356,6 +347,15 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     func didTapAddCourseButton() {
         let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.exploreCourse)
         self.navigationController?.pushViewController(addCourseVC, animated: false)
+    }
+    
+    // 신고 혹은 삭제 버튼 클릭 시 처리
+    @objc
+    func didTapBottomSheetLabel(sender: UITapGestureRecognizer) {
+        print("삭제하기 클릭")
+        self.dismiss(animated: true)
+        courseDetailViewModel.isCourseMine.value == true ? showDeleteAlert() : showDeclareAlert()
+        
     }
     
 }
@@ -404,6 +404,23 @@ extension CourseDetailViewController: UIScrollViewDelegate {
 
 private extension CourseDetailViewController {
     
+    func updateLikeButtonColor(isLiked: Bool) {
+        courseInfoTabBarView.likeButtonImageView.tintColor = isLiked ? UIColor(resource: .deepPurple) : UIColor(resource: .gray200)
+    }
+    
+    func setSetctionCount() {
+        courseDetailViewModel.setNumberOfSections(courseDetailViewModel.isAccess.value == true ? 6 : 3)
+        courseDetailView.mainCollectionView.reloadData()
+    }
+    
+    func setNavBarVisibility() {
+        courseDetailView.stickyHeaderNavBarView.moreButton.isHidden = !(courseDetailViewModel.isAccess.value ?? false)
+    }
+    
+    func setTabBarVisibility() {
+        courseInfoTabBarView.isHidden = !(courseDetailViewModel.isAccess.value ?? false) || (courseDetailViewModel.isCourseMine.value == true)
+    }
+    
     @objc
     func didTapMySchedule() {
         let courseId = courseDetailViewModel.courseId
@@ -439,23 +456,6 @@ private extension CourseDetailViewController {
         AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickCourseLikes, properties: [StringLiterals.Amplitude.Property.courseListLike : self.courseListLike])
         
         self.courseDetailView.mainCollectionView.reloadData()
-    }
-    
-    func updateLikeButtonColor(isLiked: Bool) {
-        courseInfoTabBarView.likeButtonImageView.tintColor = isLiked ? UIColor(resource: .deepPurple) : UIColor(resource: .gray200)
-    }
-    
-    func setSetctionCount() {
-        courseDetailViewModel.setNumberOfSections(courseDetailViewModel.isAccess.value == true ? 6 : 3)
-        courseDetailView.mainCollectionView.reloadData()
-    }
-    
-    func setNavBarVisibility() {
-        courseDetailView.stickyHeaderNavBarView.moreButton.isHidden = !(courseDetailViewModel.isAccess.value ?? false)
-    }
-    
-    func setTabBarVisibility() {
-        courseInfoTabBarView.isHidden = !(courseDetailViewModel.isAccess.value ?? false) || (courseDetailViewModel.isCourseMine.value == true)
     }
     
 }

@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 import Then
 
-
 final class CourseViewController: BaseViewController {
     
     // MARK: - UI Properties
