@@ -81,8 +81,6 @@ extension DateDetailViewModel {
                 self.isSuccessGetDateDetailData.value = true
                 self.dateCourseNum = self.dateDetailData.value?.places.count ?? 0
                 self.dateTotalDuration = datePlaceInfo.map { Float($0.duration) ?? 0 }.reduce(0, +)
-            case .serverErr:
-                self.onFailNetwork.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.type.value = NetworkType.getDateDetail
@@ -101,6 +99,7 @@ extension DateDetailViewModel {
     
     func deleteDateSchdeuleData(dateID: Int) {
         self.onFailNetwork.value = false
+        self.setDateDetailLoading()
         
         NetworkService.shared.dateScheduleService.deleteDateSchedule(dateID: dateID) { response in
             switch response {

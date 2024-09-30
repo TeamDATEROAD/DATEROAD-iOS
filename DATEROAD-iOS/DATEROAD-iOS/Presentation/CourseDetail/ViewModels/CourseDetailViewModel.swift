@@ -77,6 +77,8 @@ final class CourseDetailViewModel: Serviceable {
     
     var purchaseSuccess: Bool = false
     
+    var errMessage: ObservablePattern<String> = ObservablePattern(nil)
+    
     init(courseId: Int) {
         self.courseId = courseId
         getCourseDetail()
@@ -167,6 +169,8 @@ extension CourseDetailViewModel {
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
+            case .notFoundErr:
+                self.errMessage.value = StringLiterals.Alert.notFound
             default:
                 self.onFailNetwork.value = true
                 print("Failed to fetch course data")

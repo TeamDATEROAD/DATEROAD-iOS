@@ -15,7 +15,7 @@ protocol CourseListCollectionViewCellDelegate: AnyObject {
     func didTapCourseListCell()
 }
 
-class CourseListCollectionViewCell: BaseCollectionViewCell {
+final class CourseListCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
@@ -56,8 +56,18 @@ class CourseListCollectionViewCell: BaseCollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        // 셀이 재사용될 때 이미지나 데이터를 초기화합니다.
+        thumnailImgageView.image = nil
+        likeNumLabel.text = nil
+        locationLabel.text = nil
+        titleLabel.text = nil
+        coastLabel.text = nil
+        timeLabel.text = nil
+    }
+    
     override func setHierarchy() {
-        
         self.addSubviews(
             thumnailImgageView,
             likeBoxView,
@@ -195,8 +205,6 @@ extension CourseListCollectionViewCell {
     
     @objc
     private func handleTapGesture(_ sender: UITapGestureRecognizer) {
-        print("눌림?")
         delegate?.didTapCourseListCell()
     }
-    
 }

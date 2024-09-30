@@ -177,7 +177,6 @@ extension MainViewController {
         let targetIndexPath = IndexPath(item: currentIndex + 1, section: 2)
         if currentIndex >= 0 && currentIndex <= 5 {
             self.mainView.mainCollectionView.scrollToItem(at: targetIndexPath, at: .centeredHorizontally, animated: true)
-            self.mainViewModel.currentIndex.value?.row = currentIndex + 1
         }
     }
     
@@ -207,9 +206,7 @@ extension MainViewController {
     
     @objc
     func pushToPointDetailVC() {
-        guard let userName = self.userName,
-                let totalPoint = self.point
-        else { return }
+        guard let userName = self.userName, let totalPoint = self.point else { return }
         let pointDetailVC = PointDetailViewController(pointViewModel: PointViewModel(userName: userName, totalPoint: totalPoint))
         self.navigationController?.pushViewController(pointDetailVC, animated: false)
     }
@@ -260,7 +257,9 @@ extension MainViewController: UICollectionViewDataSource {
         case .upcomingDate:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingDateCell.cellIdentifier, for: indexPath) as? UpcomingDateCell
             else { return UICollectionViewCell() }
-            cell.bindData(upcomingData: mainViewModel.upcomingData.value, mainUserData: mainViewModel.mainUserData.value)
+            DispatchQueue.main.async {
+                cell.bindData(upcomingData: self.mainViewModel.upcomingData.value, mainUserData: self.mainViewModel.mainUserData.value)
+            }
             // Set button actions
             let pointLabelTapGesture = UITapGestureRecognizer(target: self, action: #selector(pushToPointDetailVC))
             cell.pointLabel.addGestureRecognizer(pointLabelTapGesture)

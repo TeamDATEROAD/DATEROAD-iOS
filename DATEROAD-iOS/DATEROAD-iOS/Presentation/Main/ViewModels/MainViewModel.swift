@@ -150,6 +150,7 @@ extension MainViewModel {
                                                             startAt: data.startAt)
                 self.totalFetchCount += 1
             case .requestErr:
+                self.upcomingData.value = nil
                 self.totalFetchCount += 1
             case .reIssueJWT:
                 self.patchReissue { isSuccess in

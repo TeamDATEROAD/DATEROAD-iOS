@@ -150,6 +150,8 @@ extension UpcomingDateDetailViewController {
             guard let isSuccess else { return }
             if isSuccess {
                 self?.navigationController?.popViewController(animated: false)
+            } else {
+                self?.presentAlertVC(title: StringLiterals.Alert.failToDeleteSchedule)
             }
         }
     }

@@ -298,8 +298,7 @@ private extension EditProfileViewController {
     func deletePhoto() {
         self.dismiss(animated: true)
         profileView.updateProfileImage(image: UIImage(resource: .emptyProfileImg))
-        profileViewModel.profileImage.value = nil
-        profileViewModel.isDefaultImage = true
+        profileViewModel.profileImage.value = UIImage(resource: .emptyProfileImg)
     }
     
     @objc
@@ -410,8 +409,8 @@ extension EditProfileViewController: ImagePickerDelegate {
     func didPickImages(_ images: [UIImage]) {
         let selectedImage = images[0]
         profileView.updateProfileImage(image: selectedImage)
-        self.profileViewModel.isDefaultImage = false
         self.profileViewModel.profileImage.value = selectedImage
     }
     
 }
+
