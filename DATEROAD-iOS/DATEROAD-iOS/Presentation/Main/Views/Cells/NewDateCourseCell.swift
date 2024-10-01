@@ -10,13 +10,13 @@ import UIKit
 final class NewDateCourseCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
-        
+    
     private let courseImage: UIImageView = UIImageView()
     
     private let likeView: UIView = UIView()
     
     private let likeImage: UIImageView = UIImageView()
-
+    
     private let likeLabel: DRPaddingLabel = DRPaddingLabel()
     
     private let countryLabel: DRPaddingLabel = DRPaddingLabel()
@@ -24,7 +24,7 @@ final class NewDateCourseCell: BaseCollectionViewCell {
     private let dateNameView: UIView = UIView()
     
     private let dateNameLabel: UILabel = UILabel()
-
+    
     private let costView: UIView = UIView()
     
     private let costImage: UIImageView = UIImageView()
@@ -34,9 +34,9 @@ final class NewDateCourseCell: BaseCollectionViewCell {
     private let timeView: UIView = UIView()
     
     private let timeImage: UIImageView = UIImageView()
-
+    
     private var timeLabel: DRPaddingLabel = DRPaddingLabel()
-
+    
     
     // MARK: - Life Cycle
     
@@ -215,6 +215,7 @@ final class NewDateCourseCell: BaseCollectionViewCell {
             $0.setPadding(top: 4, left: 0, bottom: 4, right: 10)
         }
     }
+    
 }
 
 extension NewDateCourseCell {
@@ -232,4 +233,5 @@ extension NewDateCourseCell {
         self.costLabel.text = "\(newDateData.cost.priceRangeTag())"
         self.timeLabel.text = "\(newDateData.duration)시간"
     }
+    
 }

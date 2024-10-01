@@ -12,7 +12,7 @@ final class MainViewController: BaseViewController {
     // MARK: - UI Properties
     
     private var mainView: MainView
-        
+    
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     private var timer: Timer?
@@ -25,7 +25,7 @@ final class MainViewController: BaseViewController {
     private lazy var userName = mainViewModel.mainUserData.value?.name
     
     private lazy var point = mainViewModel.mainUserData.value?.point
-        
+    
     
     // MARK: - Life Cycles
     
@@ -53,7 +53,7 @@ final class MainViewController: BaseViewController {
         self.tabBarController?.tabBar.isHidden = false
         self.mainViewModel.fetchSectionData()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         self.stopBannerAutoScroll()
     }
@@ -72,18 +72,18 @@ final class MainViewController: BaseViewController {
             $0.bottom.equalToSuperview().inset(view.frame.height * 0.1)
         }
     }
-
+    
 }
 
 extension MainViewController {
     
     func bindViewModel() {
         self.mainViewModel.onFailNetwork.bind { [weak self] onFailure in
-           guard let onFailure else { return }
-           if onFailure {
-              let errorVC = DRErrorViewController(type: StringLiterals.Common.main)
-              self?.navigationController?.pushViewController(errorVC, animated: false)
-           }
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController(type: StringLiterals.Common.main)
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
         }
         
         self.mainViewModel.onLoading.bind { [weak self] onLoading in
@@ -130,7 +130,7 @@ extension MainViewController {
         self.mainView.mainCollectionView.register(NewDateCourseCell.self, forCellWithReuseIdentifier: NewDateCourseCell.cellIdentifier)
         self.mainView.mainCollectionView.register(MainHeaderView.self, forSupplementaryViewOfKind: MainHeaderView.elementKinds, withReuseIdentifier: MainHeaderView.identifier)
         self.mainView.mainCollectionView.register(BannerIndexFooterView.self, forSupplementaryViewOfKind: BannerIndexFooterView.elementKinds, withReuseIdentifier: BannerIndexFooterView.identifier)
-
+        
     }
     
     func setDelegate() {
@@ -148,7 +148,7 @@ extension MainViewController {
         else { return }
         bannerIndexView.bindIndexData(currentIndex: index, count: count)
         var targetIndexPath = IndexPath(item: index, section: 2)
-
+        
         switch index {
         case 0:
             targetIndexPath = IndexPath(item: 5, section: 2)
@@ -182,7 +182,7 @@ extension MainViewController {
     
     @objc
     func pushToAddCourseVC() {
-       let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.home)
+        let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.home)
         self.navigationController?.pushViewController(addCourseVC, animated: false)
     }
     
@@ -211,7 +211,7 @@ extension MainViewController {
         self.navigationController?.pushViewController(pointDetailVC, animated: false)
     }
     
-    @objc 
+    @objc
     func handleLongPress(_ gestureRecognizer: UISwipeGestureRecognizer) {
         switch gestureRecognizer.state {
         case .began, .changed, .ended:
@@ -220,6 +220,7 @@ extension MainViewController {
             startAutoScrollTimer()
         }
     }
+    
 }
 
 extension MainViewController: UICollectionViewDelegate {
@@ -228,6 +229,7 @@ extension MainViewController: UICollectionViewDelegate {
         let contentOffsetY = scrollView.contentOffset.y
         mainView.mainCollectionView.backgroundColor = contentOffsetY < 0 ? UIColor(resource: .deepPurple) : UIColor(resource: .drWhite)
     }
+    
 }
 
 extension MainViewController: UICollectionViewDataSource {
@@ -247,13 +249,13 @@ extension MainViewController: UICollectionViewDataSource {
         case .newDateCourse:
             return self.mainViewModel.newCourseData.value?.count ?? 0
         }
-
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch self.mainViewModel.sectionData[indexPath.section] {
         case .upcomingDate:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingDateCell.cellIdentifier, for: indexPath) as? UpcomingDateCell 
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingDateCell.cellIdentifier, for: indexPath) as? UpcomingDateCell
             else { return UICollectionViewCell() }
             DispatchQueue.main.async {
                 cell.bindData(upcomingData: self.mainViewModel.upcomingData.value, mainUserData: self.mainViewModel.mainUserData.value)
@@ -267,13 +269,13 @@ extension MainViewController: UICollectionViewDataSource {
             return cell
             
         case .hotDateCourse:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell 
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell
             else { return UICollectionViewCell() }
             cell.bindData(hotDateData: mainViewModel.hotCourseData.value?[indexPath.row])
             return cell
             
         case .banner:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell 
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell
             else { return UICollectionViewCell() }
             cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
             let longPressGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
@@ -281,7 +283,7 @@ extension MainViewController: UICollectionViewDataSource {
             return cell
             
         case .newDateCourse:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell 
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell
             else { return UICollectionViewCell() }
             cell.bindData(newDateData: mainViewModel.newCourseData.value?[indexPath.row])
             return cell
@@ -347,4 +349,5 @@ extension MainViewController: BannerIndexDelegate {
     func bindIndex(currentIndex: Int) {
         self.mainViewModel.currentIndex.value?.row = currentIndex
     }
+    
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 //TODO: 민서언니 코드랑 같음 !! -> 나중에 병합
-class DateTimeLineCollectionViewCell: BaseCollectionViewCell {
+final class DateTimeLineCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
@@ -24,15 +24,16 @@ class DateTimeLineCollectionViewCell: BaseCollectionViewCell {
     
     private let timeLabel = UILabel()
     
+    
     // MARK: - Properties
     
     var dateDetailItemRow: Int?
+    
     
     // MARK: - LifeCycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
     }
     
     @available(*, unavailable)
@@ -112,15 +113,18 @@ class DateTimeLineCollectionViewCell: BaseCollectionViewCell {
             $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_med_13))
         }
     }
+    
 }
 
 extension DateTimeLineCollectionViewCell {
+    
     func dataBind(_ placeData: DatePlaceModel, _ dateDetailItemRow: Int) {
         indexNumLabel.text = "\(placeData.sequence+1)"
         locationLabel.text = placeData.name
         timeLabel.text = "\(placeData.duration) 시간"
         self.dateDetailItemRow = dateDetailItemRow
     }
+    
 }
 
 

@@ -17,7 +17,7 @@ final class BannerDetailViewController: BaseViewController {
     private let bannerDetailView: BannerDetailView
     
     private let errorView: DRErrorViewController = DRErrorViewController()
-        
+    
     private var deleteCourseSettingView = DeleteCourseSettingView()
     
     
@@ -26,7 +26,7 @@ final class BannerDetailViewController: BaseViewController {
     private let courseDetailViewModel: CourseDetailViewModel
     
     private var advertismentId: Int
-        
+    
     var courseId: Int?
     
     
@@ -44,7 +44,7 @@ final class BannerDetailViewController: BaseViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -97,15 +97,15 @@ final class BannerDetailViewController: BaseViewController {
         }
         
         self.courseDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
-           guard let onFailure else { return }
-           if onFailure {
-              let errorVC = DRErrorViewController()
-              errorVC.onDismiss = {
-                 self?.courseDetailViewModel.onFailNetwork.value = false
-                 self?.courseDetailViewModel.onLoading.value = false
-              }
-              self?.navigationController?.pushViewController(errorVC, animated: false)
-           }
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                errorVC.onDismiss = {
+                    self?.courseDetailViewModel.onFailNetwork.value = false
+                    self?.courseDetailViewModel.onLoading.value = false
+                }
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
         }
         
         self.courseDetailViewModel.onLoading.bind { [weak self] onLoading in
@@ -160,6 +160,7 @@ extension BannerDetailViewController: ImageCarouselDelegate {
     func didSwipeImage(index: Int, vc: UIPageViewController, vcData: [UIViewController]) {
         courseDetailViewModel.didSwipeImage(to: index)
     }
+    
 }
 
 

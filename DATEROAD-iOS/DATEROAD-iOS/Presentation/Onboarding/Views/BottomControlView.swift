@@ -14,7 +14,7 @@ final class BottomControlView: BaseView {
     let pageControl: UIPageControl = UIPageControl()
     
     let nextButton: UIButton = UIButton()
-
+    
     
     // MARK: - Properties
     
@@ -42,7 +42,7 @@ final class BottomControlView: BaseView {
     
     override func setStyle() {
         nextButton.setButtonStatus(buttonType: buttonStyle)
-
+        
         pageControl.do {
             $0.numberOfPages = 3
             $0.currentPage = 0

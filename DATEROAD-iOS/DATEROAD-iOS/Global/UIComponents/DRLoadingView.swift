@@ -15,7 +15,6 @@ final class DRLoadingView: BaseView {
     
     private let loadingMessageLabel: UILabel = UILabel()
     
-
     override func setHierarchy() {
         self.addSubviews(loadingImageView, loadingMessageLabel)
     }
@@ -43,8 +42,9 @@ final class DRLoadingView: BaseView {
         }
         
         loadingMessageLabel.setLabel(text: StringLiterals.Network.loadingMessage,
-                        numberOfLines: 2,
-                        textColor: UIColor(resource: .gray500),
-                        font: UIFont.suit(.title_bold_18) )
+                                     numberOfLines: 2,
+                                     textColor: UIColor(resource: .gray500),
+                                     font: UIFont.suit(.title_bold_18) )
     }
+    
 }

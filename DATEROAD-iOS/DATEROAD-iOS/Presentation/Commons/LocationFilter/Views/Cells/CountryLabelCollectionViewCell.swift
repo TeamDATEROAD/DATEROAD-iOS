@@ -17,11 +17,11 @@ final class CountryLabelCollectionViewCell: BaseCollectionViewCell {
     private let grayBoxView = UIView()
     
     private let countryLabel = UILabel()
-
+    
+    
     // MARK: - Properties
     
     var itemRow: Int?
-    
     
     override func setHierarchy() {
         self.addSubviews(grayBoxView, countryLabel)
@@ -31,6 +31,7 @@ final class CountryLabelCollectionViewCell: BaseCollectionViewCell {
         grayBoxView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
         countryLabel.snp.makeConstraints {
             $0.center.equalTo(grayBoxView)
         }
@@ -59,13 +60,15 @@ final class CountryLabelCollectionViewCell: BaseCollectionViewCell {
             grayBoxView.backgroundColor = UIColor(resource: .gray100)
             countryLabel.textColor = UIColor(resource: .gray400)
         }
-        
     }
+    
 }
 
 extension CountryLabelCollectionViewCell {
+    
     func configure(with country: LocationModel.Country, isSelected: Bool) {
         countryLabel.text = country.rawValue
         updateSelectionState(isSelected)
     }
+    
 }

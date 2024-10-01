@@ -96,6 +96,7 @@ final class UpcomingDateCell: BaseCollectionViewCell {
             $0.contentMode = .scaleAspectFill
         }
     }
+    
 }
 
 extension UpcomingDateCell {
@@ -125,4 +126,5 @@ extension UpcomingDateCell {
             $0.kf.setImage(with: url)
         }
     }
+    
 }

@@ -41,7 +41,7 @@ final class PastDateViewController: BaseNavBarViewController {
         self.tabBarController?.tabBar.isHidden = true
         self.pastDateScheduleViewModel.getPastDateScheduleData()
     }
-
+    
     
     // MARK: - LifeCycle
     
@@ -64,12 +64,14 @@ final class PastDateViewController: BaseNavBarViewController {
     
     override func setLayout() {
         super.setLayout()
-
+        
         pastDateContentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
+    
 }
+
 
 // MARK: - UI Setting Methods
 
@@ -79,16 +81,16 @@ private extension PastDateViewController {
         guard let dataCount = pastDateScheduleViewModel.pastDateScheduleData.value?.count else { return }
         pastDateContentView.emptyView.isHidden = !(dataCount == 0)
     }
-
+    
     func bindViewModel() {
         self.pastDateScheduleViewModel.onPastScheduleFailNetwork.bind { [weak self] onFailure in
-             guard let onFailure else { return }
-             if onFailure {
-                 let errorVC = DRErrorViewController()
-                 self?.navigationController?.pushViewController(errorVC, animated: false)
-             }
-         }
-
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
+        }
+        
         self.pastDateScheduleViewModel.onPastScheduleLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.pastDateScheduleViewModel.onPastScheduleFailNetwork.value else { return }
             if !onFailNetwork {
@@ -108,7 +110,7 @@ private extension PastDateViewController {
                     }
                 }
             }
-         }
+        }
         
         self.pastDateScheduleViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
@@ -123,10 +125,14 @@ private extension PastDateViewController {
             self?.pastDateScheduleViewModel.setPastScheduleLoading()
         }
     }
+    
 }
+
+
 // MARK: - CollectionView Methods
 
 private extension PastDateViewController {
+    
     func registerCell() {
         pastDateContentView.pastDateCollectionView.register(PastDateCollectionViewCell.self, forCellWithReuseIdentifier: PastDateCollectionViewCell.cellIdentifier)
     }
@@ -135,11 +141,14 @@ private extension PastDateViewController {
         pastDateContentView.pastDateCollectionView.delegate = self
         pastDateContentView.pastDateCollectionView.dataSource = self
     }
+    
 }
+
 
 // MARK: - Delegate
 
 extension PastDateViewController: UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return PastDateContentView.pastDateCollectionViewLayout.itemSize
     }
@@ -150,9 +159,11 @@ extension PastDateViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
+
 // MARK: - DataSource
 
 extension PastDateViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return pastDateScheduleViewModel.pastDateScheduleData.value?.count ?? 0
     }
@@ -168,7 +179,8 @@ extension PastDateViewController: UICollectionViewDataSource {
         return cell
     }
     
-    @objc func pushToPastDateDetailVC(_ sender: UITapGestureRecognizer) {
+    @objc
+    func pushToPastDateDetailVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: pastDateContentView.pastDateCollectionView)
         if let indexPath = pastDateContentView.pastDateCollectionView.indexPathForItem(at: location) {
             guard let data = pastDateScheduleViewModel.pastDateScheduleData.value?[indexPath.item] else { return }
@@ -177,4 +189,5 @@ extension PastDateViewController: UICollectionViewDataSource {
             self.navigationController?.pushViewController(pastDateDetailVC, animated: false)
         }
     }
+    
 }

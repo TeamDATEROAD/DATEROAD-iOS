@@ -18,6 +18,7 @@ final class TimelineHeaderView: UICollectionReusableView {
     
     private let subLabel: UILabel = UILabel()
     
+    
     // MARK: - Properties
     
     static let elementKinds: String = "TimelineHeaderView"
@@ -39,10 +40,8 @@ final class TimelineHeaderView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     func setHierarchy() {
         self.addSubviews(titleLabel, subLabel)
-        
     }
     
     func setLayout() {

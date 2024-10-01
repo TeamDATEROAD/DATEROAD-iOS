@@ -8,6 +8,9 @@
 import Foundation
 
 struct GetBannerDetailResponse: Codable {
+    
     let images: [Image]
+    
     let title, createAt, description, adTagType: String
+    
 }

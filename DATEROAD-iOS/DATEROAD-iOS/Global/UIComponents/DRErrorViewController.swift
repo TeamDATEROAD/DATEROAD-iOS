@@ -37,19 +37,19 @@ final class DRErrorViewController: BaseNavBarViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-   // VC 닫힐 때에 호출
-   override func viewDidDisappear(_ animated: Bool) {
-      super.viewDidDisappear(animated)
-      
-      onDismiss?()
-   }
+    // VC 닫힐 때에 호출
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        onDismiss?()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setLeftBackButton()
     }
-
+    
     override func setHierarchy() {
         super.setHierarchy()
         
@@ -77,7 +77,7 @@ final class DRErrorViewController: BaseNavBarViewController {
     
     override func setStyle() {
         super.setStyle()
-                
+        
         errorImageView.do {
             $0.image = UIImage(resource: .error)
             $0.contentMode = .scaleAspectFit
@@ -85,14 +85,14 @@ final class DRErrorViewController: BaseNavBarViewController {
         }
         
         mainErrorMessageLabel.setLabel(text: StringLiterals.Network.mainErrorMessage,
-                        numberOfLines: 1,
-                        textColor: UIColor(resource: .gray300),
-                        font: UIFont.suit(.title_extra_20))
+                                       numberOfLines: 1,
+                                       textColor: UIColor(resource: .gray300),
+                                       font: UIFont.suit(.title_extra_20))
         
         subErrorMessageLabel.setLabel(text: StringLiterals.Network.subErrorMessage,
-                        numberOfLines: 2,
-                        textColor: UIColor(resource: .gray300),
-                        font: UIFont.suit(.body_med_15) )
+                                      numberOfLines: 2,
+                                      textColor: UIColor(resource: .gray300),
+                                      font: UIFont.suit(.body_med_15) )
     }
     
 }

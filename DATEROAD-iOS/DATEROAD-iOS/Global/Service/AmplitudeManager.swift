@@ -8,7 +8,6 @@ import UIKit
 
 import AmplitudeSwift
 
-
 final class AmplitudeManager {
     
     static let shared = AmplitudeManager()
@@ -49,7 +48,7 @@ final class AmplitudeManager {
             callback: { (event: BaseEvent, code: Int, message: String) -> Void in
                 print("eventCallback: \(event.eventType), code: \(code), message: \(message)")
             },
-            eventType: event, 
+            eventType: event,
             eventProperties: properties)
         self.amplitude?.track(event: event)
     }
@@ -62,4 +61,5 @@ final class AmplitudeManager {
     func setUserProperty(userProperties: [String: Any]) {
         amplitude?.identify(userProperties: userProperties)
     }
+    
 }

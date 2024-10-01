@@ -19,9 +19,9 @@ final class BannerDetailView: BaseView {
     private let gradientView = GradientView()
     
     let stickyHeaderNavBarView = StickyHeaderNavBarView()
-
     
-    // MARK: - UI Properties
+    
+    // MARK: - Properties
     
     private var bannerDetailSection: [BannerDetailSection]
     
@@ -46,7 +46,6 @@ final class BannerDetailView: BaseView {
     }
     
     override func setLayout() {
-        
         mainCollectionView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
@@ -140,10 +139,10 @@ extension BannerDetailView {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-
+        
         return section
     }
-
+    
     func makeBottomPageControllView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(22))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: BottomPageControllView.elementKinds, alignment: .bottom, absoluteOffset: CGPoint(x: 0, y: -55))
@@ -164,6 +163,7 @@ extension BannerDetailView {
         footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
         return footer
     }
+    
 }
 
 

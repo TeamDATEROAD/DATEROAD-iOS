@@ -8,6 +8,9 @@
 import Foundation
 
 enum NetworkType: String {
+    
     case getDateDetail
+    
     case deleteDateSchedule
+    
 }

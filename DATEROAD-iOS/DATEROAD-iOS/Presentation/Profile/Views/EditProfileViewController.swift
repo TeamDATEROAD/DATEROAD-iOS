@@ -23,7 +23,7 @@ final class EditProfileViewController: BaseNavBarViewController {
     private var profileViewModel: ProfileViewModel
     
     private var initial: Bool = false
-        
+    
     
     // MARK: - Life Cycle
     
@@ -118,7 +118,6 @@ private extension EditProfileViewController {
         
         let registerGesture = UITapGestureRecognizer(target: self, action: #selector(registerPhoto))
         self.profileImageSettingView.registerLabel.addGestureRecognizer(registerGesture)
-        
     }
     
     func bindViewModel() {
@@ -130,18 +129,18 @@ private extension EditProfileViewController {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
         }
-       
-       self.profileViewModel.onFailNetwork.bind { [weak self] onFailure in
-          guard let onFailure else { return }
-          if onFailure {
-             let errorVC = DRErrorViewController()
-             errorVC.onDismiss = {
-                self?.profileViewModel.onFailNetwork.value = false
-                self?.profileViewModel.onEditProfileLoading.value = false
-             }
-             self?.navigationController?.pushViewController(errorVC, animated: false)
-          }
-       }
+        
+        self.profileViewModel.onFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                errorVC.onDismiss = {
+                    self?.profileViewModel.onFailNetwork.value = false
+                    self?.profileViewModel.onEditProfileLoading.value = false
+                }
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
+        }
         
         self.profileViewModel.profileImage.bind { [weak self] image in
             guard let initial = self?.initial else { return }
@@ -165,7 +164,7 @@ private extension EditProfileViewController {
         // 중복 확인 결과 변수
         self.profileViewModel.isValidNickname.bind { [weak self] isValid in
             guard let isValid,
-                    let initial = self?.initial,
+                  let initial = self?.initial,
                   let isExistedNickname = self?.profileViewModel.isExistedNickname.value,
                   let nicknameCount = self?.profileViewModel.nickname.value?.count
             else { return }
@@ -246,7 +245,6 @@ private extension EditProfileViewController {
             guard let onLoading else { return }
             onLoading ? self?.showLoadingView() : self?.hideLoadingView()
         }
-        
     }
     
     @objc
@@ -317,6 +315,7 @@ private extension EditProfileViewController {
     
 }
 
+
 // MARK: - Delegates
 
 extension EditProfileViewController: UICollectionViewDelegateFlowLayout {
@@ -386,6 +385,7 @@ extension EditProfileViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
 }
 
 extension EditProfileViewController: DRBottomSheetDelegate {
@@ -401,6 +401,7 @@ extension EditProfileViewController: DRBottomSheetDelegate {
     func didTapSecondLabel() {
         self.deletePhoto()
     }
+    
 }
 
 extension EditProfileViewController: ImagePickerDelegate {

@@ -8,14 +8,21 @@
 import Foundation
 
 enum CourseDetailSection {
+    
     case imageCarousel
+    
     case titleInfo
+    
     case mainContents
+    
     case timelineInfo
+    
     case coastInfo
+    
     case tagInfo
     
     static var dataSource: [CourseDetailSection] {
         return [.imageCarousel, .titleInfo, .mainContents, .timelineInfo, .coastInfo, .tagInfo]
     }
+    
 }

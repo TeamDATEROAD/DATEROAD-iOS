@@ -12,7 +12,7 @@ import SnapKit
 import Then
 
 class BaseViewController: UIViewController {
-   
+    
     // MARK: - UI Properties
     
     private let backgroundView: UIView = UIView()
@@ -23,27 +23,27 @@ class BaseViewController: UIViewController {
     // MARK: - UI Properties
     
     var onDismiss: (() -> Void)?
-
     
-   // MARK: - Life Cycle
-   
-   override func viewDidLoad() {
-      super.viewDidLoad()
-      
-      setHierarchy()
-      setLayout()
-      setStyle()
-   }
-   
-   func setHierarchy() {}
-   
-   func setLayout() {}
-   
-   func setStyle() {
-      self.view.backgroundColor = .drWhite
-      self.navigationController?.navigationBar.isHidden = true
-      self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-   }
+    
+    // MARK: - Life Cycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setHierarchy()
+        setLayout()
+        setStyle()
+    }
+    
+    func setHierarchy() {}
+    
+    func setLayout() {}
+    
+    func setStyle() {
+        self.view.backgroundColor = .drWhite
+        self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+    }
     
     func showLoadingView() {
         // 로딩 뷰 설정
@@ -64,14 +64,14 @@ class BaseViewController: UIViewController {
             $0.center.equalToSuperview()
         }
     }
-
+    
     func hideLoadingView() {
         // 로딩 뷰 중지 및 제거
         lottieView.stop()
         backgroundView.removeFromSuperview()
         lottieView.removeFromSuperview()
     }
-   
+    
     func presentAlertVC(title: String) {
         let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
         let alertAction = UIAlertAction(title: StringLiterals.Alert.confirm, style: .cancel) { _ in
@@ -80,4 +80,5 @@ class BaseViewController: UIViewController {
         alert.addAction(alertAction)
         self.present(alert, animated: true)
     }
+    
 }

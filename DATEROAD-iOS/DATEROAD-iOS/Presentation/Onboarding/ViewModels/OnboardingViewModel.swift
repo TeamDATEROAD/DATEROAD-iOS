@@ -27,10 +27,10 @@ extension OnboardingViewModel {
         datasource.append(contentsOf: [
             OnboardingModel(bgIMG: UIImage(resource: .firstOnboardingBG),
                             mainInfo: StringLiterals.Onboarding.firstMainInfoLabel,
-                            subInfo: StringLiterals.Onboarding.firstSubInfoLabel, 
+                            subInfo: StringLiterals.Onboarding.firstSubInfoLabel,
                             hintInfo: StringLiterals.Onboarding.firstHintInfoLabel,
                             pointText: [StringLiterals.Onboarding.dateCourse, StringLiterals.Onboarding.firstMainPoint],
-                           buttonText: StringLiterals.Onboarding.next),
+                            buttonText: StringLiterals.Onboarding.next),
             OnboardingModel(bgIMG: UIImage(resource: .secondOnboardingBG),
                             mainInfo: StringLiterals.Onboarding.secondMainInfoLabel,
                             subInfo: StringLiterals.Onboarding.secondSubInfoLabel,
@@ -45,7 +45,7 @@ extension OnboardingViewModel {
                             buttonText: StringLiterals.Onboarding.createProfile)
         ])
     }
-
+    
     func handleToIndex() {
         if currentPage.value == datasource.count - 1 {
             self.goToNextVC?(true)
@@ -55,5 +55,5 @@ extension OnboardingViewModel {
             self.goToNextVC?(false)
         }
     }
-
+    
 }

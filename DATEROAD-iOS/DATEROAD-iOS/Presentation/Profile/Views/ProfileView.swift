@@ -34,7 +34,7 @@ final class ProfileView: BaseView {
     let tendencyTagCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     let tagErrMessageLabel: UILabel = UILabel()
-
+    
     let registerButton: UIButton = UIButton()
     
     
@@ -131,7 +131,6 @@ final class ProfileView: BaseView {
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(54)
         }
-
     }
     
     override func setStyle() {
@@ -154,9 +153,9 @@ final class ProfileView: BaseView {
                                font: UIFont.suit(.body_bold_15))
         
         nicknameInfoLabel.setLabel(text: StringLiterals.Profile.nicknameInfo,
-                               alignment: .left,
-                               textColor: UIColor(resource: .gray300),
-                               font: UIFont.suit(.body_med_13))
+                                   alignment: .left,
+                                   textColor: UIColor(resource: .gray300),
+                                   font: UIFont.suit(.body_med_13))
         
         nicknameTextfield.do {
             rightViewBox.addSubview(doubleCheckButton)
@@ -193,7 +192,7 @@ final class ProfileView: BaseView {
         }
         
         countLabel.do {
-            $0.setLabel(text: StringLiterals.Profile.countPlaceholder, 
+            $0.setLabel(text: StringLiterals.Profile.countPlaceholder,
                         alignment: .right ,
                         textColor: UIColor(resource: .gray300),
                         font: UIFont.suit(.cap_reg_11))
@@ -205,7 +204,7 @@ final class ProfileView: BaseView {
                         textColor: UIColor(resource: .drBlack),
                         font: UIFont.suit(.body_bold_15))
         }
-     
+        
         registerButton.do {
             $0.setTitle(StringLiterals.Profile.registerProfile, for: .normal)
             $0.setButtonStatus(buttonType: disabledButtonType)
@@ -217,15 +216,15 @@ final class ProfileView: BaseView {
             let layout = CollectionViewLeftAlignFlowLayout()
             layout.cellSpacing = 8
             $0.collectionViewLayout = layout
-
+            
         }
         
         tagErrMessageLabel.do {
             $0.isHidden = true
             $0.setErrorLabel(text: StringLiterals.Profile.selectTag, errorType: warningType)
         }
-        
     }
+    
 }
 
 extension ProfileView {
@@ -253,7 +252,7 @@ extension ProfileView {
     }
     
     func updateDoubleCheckButton(isValid: Bool) {
-       isValid 
+        isValid
         ? doubleCheckButton.setButtonStatus(buttonType: enabledButtonType)
         : doubleCheckButton.setButtonStatus(buttonType: disabledButtonType)
         doubleCheckButton.titleLabel?.font = UIFont.suit(.body_med_13)
@@ -263,21 +262,21 @@ extension ProfileView {
     func updateTagCount(count: Int) {
         datingTendencyLabel.text = "나의 데이트 성향 (\(count)/3)"
     }
-
+    
     func updateTag(button: UIButton, buttonType: DRButtonType) {
         button.setButtonStatus(buttonType: buttonType)
     }
     
     func updateRegisterButton(isValid: Bool) {
-       isValid ? registerButton.setButtonStatus(buttonType: enabledButtonType)
+        isValid ? registerButton.setButtonStatus(buttonType: enabledButtonType)
         : registerButton.setButtonStatus(buttonType: disabledButtonType)
         registerButton.titleLabel?.font = UIFont.suit(.body_bold_15)
     }
-   
-   func updateProfileImage(image: UIImage) {
-      profileImageView.do {
-         $0.image = image
-      }
-   }
+    
+    func updateProfileImage(image: UIImage) {
+        profileImageView.do {
+            $0.image = image
+        }
+    }
     
 }

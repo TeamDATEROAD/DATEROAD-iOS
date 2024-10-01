@@ -28,7 +28,6 @@ extension Int {
         }
     }
     
-    
     func costNum() -> Int {
         switch self {
         case 1:
