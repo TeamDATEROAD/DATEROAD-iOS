@@ -139,7 +139,7 @@ extension DateDetailViewModel {
     func shareToKakao(context: UIViewController) {
         if !AuthApi.hasToken() {
             // Generate Redirect URI
-            let redirectURI = "kakao\(Config.kakaoNativeAppKey)://oauth"
+            let redirectURI = "https://apps.apple.com/app/%EB%8D%B0%EC%9D%B4%ED%8A%B8%EB%A1%9C%EB%93%9C-%EC%BB%A4%ED%94%8C%EB%93%A4%EC%9D%B4-%EC%A7%81%EC%A0%91-%EA%B3%B5%EC%9C%A0%ED%95%98%EB%8A%94-%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EC%BD%94%EC%8A%A4/id6560104262"
             // Redirect to Kakao login page
             let loginUrl = "https://kauth.kakao.com/oauth/authorize?client_id=\(Config.kakaoNativeAppKey)&redirect_uri=\(redirectURI)&response_type=code"
             let webVC = DRWebViewController(urlString: loginUrl)
