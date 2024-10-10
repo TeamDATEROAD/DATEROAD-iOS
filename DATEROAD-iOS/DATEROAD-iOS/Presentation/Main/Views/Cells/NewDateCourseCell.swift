@@ -38,7 +38,20 @@ final class NewDateCourseCell: BaseCollectionViewCell {
     private var timeLabel: DRPaddingLabel = DRPaddingLabel()
     
     
+    // MARK: - Properties
+    
+    weak var delegate: CellImageLoadDelegate?
+
+    
     // MARK: - Life Cycle
+    
+    override func prepareForReuse() {
+        self.courseImage.image = nil
+        self.costLabel.text = nil
+        self.likeLabel.text = nil
+        self.countryLabel.text = nil
+        self.dateNameLabel.text = nil
+    }
     
     override func setHierarchy() {
         self.addSubviews(courseImage,
@@ -224,9 +237,12 @@ extension NewDateCourseCell {
         guard let newDateData else { return }
         self.countryLabel.text = newDateData.city
         if let url = URL(string: newDateData.thumbnail) {
-            self.courseImage.kf.setImage(with: url)
+            self.courseImage.kf.setImage(with: url) { result  in
+                self.delegate?.cellImageLoaded()
+            }
         } else {
             self.courseImage.image = UIImage(resource: .testImage2)
+            self.delegate?.cellImageLoaded()
         }
         self.likeLabel.text = "\(newDateData.like)"
         self.dateNameLabel.text = newDateData.title

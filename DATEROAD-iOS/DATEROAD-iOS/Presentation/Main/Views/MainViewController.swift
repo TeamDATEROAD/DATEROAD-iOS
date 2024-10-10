@@ -26,6 +26,12 @@ final class MainViewController: BaseViewController {
     
     private lazy var point = mainViewModel.mainUserData.value?.point
     
+    private var totalCells: Int = 4 // 셀의 총 개수
+    
+    private var loadedCells: Int = 0 // 로딩이 완료된 셀 개수
+    
+    private var initial: Bool = false
+    
     
     // MARK: - Life Cycles
     
@@ -51,11 +57,13 @@ final class MainViewController: BaseViewController {
     
     override func viewIsAppearing(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
+        self.loadedCells = 0
         self.mainViewModel.fetchSectionData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.stopBannerAutoScroll()
+        self.initial = false
     }
     
     override func setHierarchy() {
@@ -105,6 +113,12 @@ extension MainViewController {
                         self?.hideLoadingView()
                     }
                 }
+            }
+        }
+        
+        self.mainViewModel.isAllLoaded = { [weak self] in
+            DispatchQueue.main.async {
+                self?.mainView.mainCollectionView.reloadData()
             }
         }
         
@@ -257,9 +271,9 @@ extension MainViewController: UICollectionViewDataSource {
         case .upcomingDate:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingDateCell.cellIdentifier, for: indexPath) as? UpcomingDateCell
             else { return UICollectionViewCell() }
-            DispatchQueue.main.async {
-                cell.bindData(upcomingData: self.mainViewModel.upcomingData.value, mainUserData: self.mainViewModel.mainUserData.value)
-            }
+            cell.delegate = self
+            cell.bindData(upcomingData: self.mainViewModel.upcomingData.value, mainUserData: self.mainViewModel.mainUserData.value)
+
             // Set button actions
             let pointLabelTapGesture = UITapGestureRecognizer(target: self, action: #selector(pushToPointDetailVC))
             cell.pointLabel.addGestureRecognizer(pointLabelTapGesture)
@@ -271,12 +285,14 @@ extension MainViewController: UICollectionViewDataSource {
         case .hotDateCourse:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell
             else { return UICollectionViewCell() }
+            cell.delegate = self
             cell.bindData(hotDateData: mainViewModel.hotCourseData.value?[indexPath.row])
             return cell
             
         case .banner:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell
             else { return UICollectionViewCell() }
+            cell.delegate = self
             cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
             let longPressGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
             cell.addGestureRecognizer(longPressGesture)
@@ -285,6 +301,7 @@ extension MainViewController: UICollectionViewDataSource {
         case .newDateCourse:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell
             else { return UICollectionViewCell() }
+            cell.delegate = self
             cell.bindData(newDateData: mainViewModel.newCourseData.value?[indexPath.row])
             return cell
         }
@@ -348,6 +365,23 @@ extension MainViewController: BannerIndexDelegate {
     
     func bindIndex(currentIndex: Int) {
         self.mainViewModel.currentIndex.value?.row = currentIndex
+    }
+    
+}
+
+extension MainViewController: CellImageLoadDelegate {
+    
+    func cellImageLoaded() {
+        if !initial {
+            loadedCells += 1
+            print("Loaded cells: \(loadedCells)") // 디버깅 로그 추가
+
+            if loadedCells == totalCells {
+                self.mainViewModel.onLoading.value = false
+                loadedCells = 0
+                initial.toggle()
+            }
+        }
     }
     
 }
