@@ -35,6 +35,10 @@ final class BannerIndexFooterView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        self.indexLabel.text = nil
+    }
+    
     func setHierarchy() {
         self.addSubview(indexLabel)
     }

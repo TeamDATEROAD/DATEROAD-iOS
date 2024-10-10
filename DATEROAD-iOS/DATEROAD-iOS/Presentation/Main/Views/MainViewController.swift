@@ -302,6 +302,7 @@ extension MainViewController: UICollectionViewDataSource {
         case .newDateCourse:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell
             else { return UICollectionViewCell() }
+            cell.delegate = self
             cell.bindData(newDateData: mainViewModel.newCourseData.value?[indexPath.row])
             return cell
         }

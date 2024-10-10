@@ -33,6 +33,11 @@ final class UpcomingDateCell: BaseCollectionViewCell {
     
     // MARK: - Life Cycle
     
+    override func prepareForReuse() {
+        self.profileImage.image = nil
+        self.pointLabel.text = nil
+    }
+    
     override func setHierarchy() {
         self.addSubviews(logoImage,
                          pointLabel,

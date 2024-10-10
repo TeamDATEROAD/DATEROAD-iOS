@@ -44,6 +44,19 @@ final class ImageCarouselCell: BaseCollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        
+        super.prepareForReuse()
+        
+        // 이미지 리소스 해제 및 다운로드 작업 취소
+        vcData.forEach { vc in
+            if let imageView = vc.view.subviews.first as? UIImageView {
+                imageView.image = nil
+                imageView.kf.cancelDownloadTask()
+            }
+        }
+    }
+    
     func setPageVC(thumbnailModel: [ThumbnailModel]) {
         vcData = thumbnailModel.map { thumbnail in
             let vc = UIViewController()

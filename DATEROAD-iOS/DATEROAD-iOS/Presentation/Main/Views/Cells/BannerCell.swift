@@ -21,6 +21,10 @@ final class BannerCell: BaseCollectionViewCell {
     
     // MARK: - Life Cycle
     
+    override func prepareForReuse() {
+        self.bannerImage.image = nil
+    }
+    
     override func setHierarchy() {
         self.addSubviews(bannerImage)
     }

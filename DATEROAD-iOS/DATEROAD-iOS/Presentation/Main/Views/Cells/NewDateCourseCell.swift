@@ -45,6 +45,14 @@ final class NewDateCourseCell: BaseCollectionViewCell {
     
     // MARK: - Life Cycle
     
+    override func prepareForReuse() {
+        self.courseImage.image = nil
+        self.costLabel.text = nil
+        self.likeLabel.text = nil
+        self.countryLabel.text = nil
+        self.dateNameLabel.text = nil
+    }
+    
     override func setHierarchy() {
         self.addSubviews(courseImage,
                          likeView,
