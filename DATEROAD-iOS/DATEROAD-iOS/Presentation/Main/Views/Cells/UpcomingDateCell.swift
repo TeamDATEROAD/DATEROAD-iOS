@@ -36,6 +36,9 @@ final class UpcomingDateCell: BaseCollectionViewCell {
     override func prepareForReuse() {
         self.profileImage.image = nil
         self.pointLabel.text = nil
+        self.profileImage.backgroundColor = .clear // 배경색 초기화
+        self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2  // cornerRadius 다시 적용
+        self.profileImage.clipsToBounds = true
     }
     
     override func setHierarchy() {
