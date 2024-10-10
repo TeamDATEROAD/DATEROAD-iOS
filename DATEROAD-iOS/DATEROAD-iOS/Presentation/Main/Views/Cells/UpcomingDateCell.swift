@@ -28,6 +28,8 @@ final class UpcomingDateCell: BaseCollectionViewCell {
     
     private var isEmpty: Bool = false
     
+    weak var delegate: CellImageLoadDelegate?
+
     
     // MARK: - Life Cycle
     
@@ -116,14 +118,17 @@ extension UpcomingDateCell {
         
         guard let imageUrl = mainUserData?.imageUrl else {
             self.profileImage.image = UIImage(resource: .emptyProfileImg)
+            self.delegate?.cellImageLoaded()
             return
         }
         let url = URL(string: imageUrl)
+        self.profileImage.kf.setImage(with: url) { result  in
+            self.delegate?.cellImageLoaded()
+        }
         profileImage.do {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = $0.frame.size.width / 2
             $0.backgroundColor = .clear
-            $0.kf.setImage(with: url)
         }
     }
     
