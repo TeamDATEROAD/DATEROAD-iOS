@@ -33,6 +33,9 @@ final class ImageCarouselCell: BaseCollectionViewCell {
     
     weak var delegate: ImageCarouselDelegate?
     
+    
+    // MARK: - Life Cycles
+    
     override init(frame: CGRect) {
         
         super.init(frame: frame)

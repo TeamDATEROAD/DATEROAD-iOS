@@ -124,6 +124,11 @@ extension UpcomingDateCell {
         guard let point = mainUserData?.point else { return }
         pointLabel.text = "\(point) P"
         
+        profileImage.do {
+            $0.clipsToBounds = true
+            $0.layer.cornerRadius = $0.frame.size.width / 2
+            $0.backgroundColor = .clear
+        }
         guard let imageUrl = mainUserData?.imageUrl else {
             self.profileImage.image = UIImage(resource: .emptyProfileImg)
             self.delegate?.cellImageLoaded()
@@ -132,11 +137,6 @@ extension UpcomingDateCell {
         let url = URL(string: imageUrl)
         self.profileImage.kf.setImage(with: url) { result  in
             self.delegate?.cellImageLoaded()
-        }
-        profileImage.do {
-            $0.clipsToBounds = true
-            $0.layer.cornerRadius = $0.frame.size.width / 2
-            $0.backgroundColor = .clear
         }
     }
     
