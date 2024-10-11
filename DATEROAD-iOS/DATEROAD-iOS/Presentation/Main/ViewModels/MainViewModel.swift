@@ -27,6 +27,8 @@ final class MainViewModel: Serviceable {
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
+    var isAllLoaded: (() -> Void)?
+    
     var onLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
@@ -192,8 +194,8 @@ extension MainViewModel {
     
     private func checkLoadingStatus() {
         // 모든 데이터 요청이 성공적으로 완료되었는지 확인
-        if totalFetchCount % 5 == 0 {
-            setLoading(false)
+        if totalFetchCount != 0 && totalFetchCount % 5 == 0 {
+            self.isAllLoaded?()
         }
     }
     

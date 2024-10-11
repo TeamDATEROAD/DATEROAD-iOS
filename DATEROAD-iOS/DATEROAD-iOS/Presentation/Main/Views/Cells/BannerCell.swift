@@ -14,7 +14,16 @@ final class BannerCell: BaseCollectionViewCell {
     private let bannerImage: UIImageView = UIImageView()
     
     
+    // MARK: - Properties
+    
+    weak var delegate: CellImageLoadDelegate?
+
+    
     // MARK: - Life Cycle
+    
+    override func prepareForReuse() {
+        self.bannerImage.image = nil
+    }
     
     override func setHierarchy() {
         self.addSubviews(bannerImage)
@@ -44,10 +53,14 @@ extension BannerCell {
     
     func bindData(bannerData: BannerModel?) {
         guard let bannerData else { return }
+
         if let url = URL(string: bannerData.imageUrl) {
-            self.bannerImage.kf.setImage(with: url)
+            self.bannerImage.kf.setImage(with: url) { result  in
+                self.delegate?.cellImageLoaded()
+            }
         } else {
             self.bannerImage.image = UIImage(resource: .imgBanner1)
+            self.delegate?.cellImageLoaded()
         }
     }
     

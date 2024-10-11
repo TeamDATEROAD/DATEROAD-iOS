@@ -40,7 +40,20 @@ final class HotDateCourseCell: BaseCollectionViewCell {
     private var timeLabel: DRPaddingLabel = DRPaddingLabel()
     
     
+    // MARK: - Properties
+    
+    weak var delegate: CellImageLoadDelegate?
+    
+    
     // MARK: - Life Cycle
+    
+    override func prepareForReuse() {
+        self.courseImage.image = nil
+        self.costLabel.text = nil
+        self.likeLabel.text = nil
+        self.countryLabel.text = nil
+        self.dateNameLabel.text = nil
+    }
     
     override func setHierarchy() {
         self.addSubviews(countryLabel,
@@ -228,9 +241,12 @@ extension HotDateCourseCell {
         guard let hotDateData else { return }
         self.countryLabel.text = hotDateData.city
         if let url = URL(string: hotDateData.thumbnail) {
-            self.courseImage.kf.setImage(with: url)
+            self.courseImage.kf.setImage(with: url) { result  in
+                self.delegate?.cellImageLoaded()
+            }
         } else {
             self.courseImage.image = UIImage(resource: .testImage2)
+            self.delegate?.cellImageLoaded()
         }
         
         self.likeLabel.text = "\(hotDateData.like)"

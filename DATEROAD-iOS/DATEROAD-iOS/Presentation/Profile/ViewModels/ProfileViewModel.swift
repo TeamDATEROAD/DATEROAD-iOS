@@ -9,6 +9,8 @@ import UIKit
 
 final class ProfileViewModel: Serviceable {
     
+    var type: ObservablePattern<NetworkType> = ObservablePattern(nil)
+    
     var tagData: [ProfileTagModel] = []
     
     var selectedTagData: [String]
@@ -48,6 +50,9 @@ final class ProfileViewModel: Serviceable {
     var onEditProfileLoading: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var alertMessage: ObservablePattern<String> = ObservablePattern(nil)
+
     
     
     init(profileData: ProfileModel) {
@@ -135,6 +140,7 @@ extension ProfileViewModel {
                 self.onLoading.value = false
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
+                    self.type.value = NetworkType.postSignUp
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
@@ -154,10 +160,15 @@ extension ProfileViewModel {
                 self.isValidNickname.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
+                    self.type.value = NetworkType.getDoubleCheck
                     self.onReissueSuccess.value = isSuccess
                 }
             case .requestErr:
                 self.isValidNickname.value = false
+            case .serverErr:
+                self.alertMessage.value = StringLiterals.Alert.serverError
+            case .networkFail:
+                self.alertMessage.value = StringLiterals.Alert.networkFail
             default:
                 print("Failed to fetch get double check")
                 self.isValidNickname.value = false
@@ -189,6 +200,7 @@ extension ProfileViewModel {
                 self.onEditProfileLoading.value = false
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
+                    self.type.value = NetworkType.patchEditProfile
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
