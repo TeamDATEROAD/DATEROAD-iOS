@@ -22,9 +22,7 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     // MARK: - Properties
     
     var dateID: Int
-    
-    var networkType: NetworkType?
-    
+        
     var viewPath: String
     
     var upcomingDateDetailViewModel: DateDetailViewModel
@@ -110,9 +108,12 @@ extension UpcomingDateDetailViewController {
         }
         
         self.upcomingDateDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
-            guard let onSuccess, let dateID = self?.dateID else { return }
+            guard let onSuccess, 
+                    let dateID = self?.dateID,
+                  let type = self?.upcomingDateDetailViewModel.type.value
+            else { return }
             if onSuccess {
-                switch self?.networkType {
+                switch type {
                 case .deleteDateSchedule:
                     self?.upcomingDateDetailViewModel.deleteDateSchdeuleData(dateID: dateID)
                 case .getDateDetail:
