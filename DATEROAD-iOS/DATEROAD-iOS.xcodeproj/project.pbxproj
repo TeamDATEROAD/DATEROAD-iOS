@@ -1831,10 +1831,10 @@
 			};
 			buildConfigurationList = CA3D0CD22C29A2F300735097 /* Build configuration list for PBXProject "DATEROAD-iOS" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				ko,
 				Base,
 			);
 			mainGroup = CA3D0CCE2C29A2F300735097;
