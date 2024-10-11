@@ -108,6 +108,11 @@ private extension ProfileViewController {
     }
     
     func bindViewModel() {
+        self.profileViewModel.alertMessage.bind { [weak self] message in
+            guard let message else { return }
+            self?.presentAlertVC(title: message)
+        }
+        
         self.profileViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {

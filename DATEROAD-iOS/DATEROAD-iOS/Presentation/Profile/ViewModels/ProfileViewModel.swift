@@ -51,6 +51,9 @@ final class ProfileViewModel: Serviceable {
     
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
+    var alertMessage: ObservablePattern<String> = ObservablePattern(nil)
+
+    
     
     init(profileData: ProfileModel) {
         self.profileData = ObservablePattern(profileData)
@@ -162,6 +165,10 @@ extension ProfileViewModel {
                 }
             case .requestErr:
                 self.isValidNickname.value = false
+            case .serverErr:
+                self.alertMessage.value = StringLiterals.Alert.serverError
+            case .networkFail:
+                self.alertMessage.value = StringLiterals.Alert.networkFail
             default:
                 print("Failed to fetch get double check")
                 self.isValidNickname.value = false

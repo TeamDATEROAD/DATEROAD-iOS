@@ -419,6 +419,10 @@ enum StringLiterals {
         
         static let notFound = "대상을 찾을 수 없습니다."
         
+        static let networkFail = "네트워크 문제가 발생했습니다."
+
+        static let serverError = "서버에 문제가 발생했습니다."
+        
     }
     
     enum Course {
