@@ -24,8 +24,6 @@ final class EditProfileViewController: BaseNavBarViewController {
     
     private var initial: Bool = false
     
-    var networkType: NetworkType?
-
     
     // MARK: - Life Cycle
     
@@ -124,9 +122,9 @@ private extension EditProfileViewController {
     
     func bindViewModel() {
         self.profileViewModel.onReissueSuccess.bind { [weak self] onSuccess in
-            guard let onSuccess else { return }
+            guard let onSuccess, let type = self?.profileViewModel.type.value else { return }
             if onSuccess {
-                switch self?.networkType {
+                switch type {
                 case .getDoubleCheck:
                     self?.profileViewModel.getDoubleCheck()
                 case .postSignUp:

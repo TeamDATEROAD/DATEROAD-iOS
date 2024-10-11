@@ -22,9 +22,7 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     // MARK: - Properties
     
     var dateID: Int
-    
-    var networkType: NetworkType?
-    
+        
     var pastDateDetailViewModel: DateDetailViewModel
     
     private let dateScheduleDeleteView = DateScheduleDeleteView()
@@ -157,9 +155,12 @@ extension PastDateDetailViewController {
         }
         
         self.pastDateDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
-            guard let onSuccess, let dateID = self?.dateID else { return }
+            guard let onSuccess, 
+                    let dateID = self?.dateID,
+                    let type = self?.pastDateDetailViewModel.type.value
+            else { return }
             if onSuccess {
-                switch self?.networkType {
+                switch type {
                 case .deleteDateSchedule:
                     self?.pastDateDetailViewModel.deleteDateSchdeuleData(dateID: dateID)
                 case .getDateDetail:
