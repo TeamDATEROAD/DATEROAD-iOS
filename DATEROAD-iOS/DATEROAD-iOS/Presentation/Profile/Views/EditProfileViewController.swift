@@ -24,6 +24,8 @@ final class EditProfileViewController: BaseNavBarViewController {
     
     private var initial: Bool = false
     
+    var networkType: NetworkType?
+
     
     // MARK: - Life Cycle
     
@@ -124,7 +126,14 @@ private extension EditProfileViewController {
         self.profileViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                self?.profileViewModel.patchEditProfile()
+                switch self?.networkType {
+                case .getDoubleCheck:
+                    self?.profileViewModel.getDoubleCheck()
+                case .postSignUp:
+                    self?.profileViewModel.patchEditProfile()
+                default:
+                    self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+                }
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }

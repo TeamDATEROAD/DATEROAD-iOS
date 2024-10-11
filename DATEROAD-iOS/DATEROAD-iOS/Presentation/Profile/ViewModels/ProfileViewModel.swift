@@ -9,6 +9,8 @@ import UIKit
 
 final class ProfileViewModel: Serviceable {
     
+    var type: ObservablePattern<NetworkType> = ObservablePattern(nil)
+    
     var tagData: [ProfileTagModel] = []
     
     var selectedTagData: [String]
@@ -135,6 +137,7 @@ extension ProfileViewModel {
                 self.onLoading.value = false
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
+                    self.type.value = NetworkType.postSignUp
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
@@ -154,6 +157,7 @@ extension ProfileViewModel {
                 self.isValidNickname.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
+                    self.type.value = NetworkType.getDoubleCheck
                     self.onReissueSuccess.value = isSuccess
                 }
             case .requestErr:
@@ -189,6 +193,7 @@ extension ProfileViewModel {
                 self.onEditProfileLoading.value = false
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
+                    self.type.value = NetworkType.patchEditProfile
                     self.onReissueSuccess.value = isSuccess
                 }
             default:

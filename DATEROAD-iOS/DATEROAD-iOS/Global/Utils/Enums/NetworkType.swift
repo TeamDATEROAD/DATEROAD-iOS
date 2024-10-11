@@ -13,4 +13,10 @@ enum NetworkType: String {
     
     case deleteDateSchedule
     
+    case postSignUp
+    
+    case getDoubleCheck
+    
+    case patchEditProfile
+    
 }

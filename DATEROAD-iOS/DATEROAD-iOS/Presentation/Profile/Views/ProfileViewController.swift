@@ -23,7 +23,9 @@ final class ProfileViewController: BaseNavBarViewController {
     private var profileViewModel: ProfileViewModel
     
     private var initial: Bool = false
-        
+    
+    var networkType: NetworkType?
+
     
     // MARK: - Life Cycle
     
@@ -109,8 +111,15 @@ private extension ProfileViewController {
         self.profileViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                self?.profileViewModel.profileImage.value = self?.profileView.profileImageView.image
-                self?.profileViewModel.postSignUp()
+                switch self?.networkType {
+                case .getDoubleCheck:
+                    self?.profileViewModel.getDoubleCheck()
+                case .postSignUp:
+                    self?.profileViewModel.profileImage.value = self?.profileView.profileImageView.image
+                    self?.profileViewModel.postSignUp()
+                default:
+                    self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+                }
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
