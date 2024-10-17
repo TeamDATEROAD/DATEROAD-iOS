@@ -262,8 +262,12 @@ extension AddFirstView {
     }
     
     func updatedateStartTime(text: String) {
+        let updatedText = text
+            .replacingOccurrences(of: "오전", with: "AM")
+            .replacingOccurrences(of: "오후", with: "PM")
+        
         dateStartTimeLabel.do {
-            $0.text = text
+            $0.text = updatedText
             $0.textColor = UIColor(resource: .drBlack)
         }
     }
