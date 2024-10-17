@@ -18,6 +18,11 @@ AMPLITUDE_API_KEY = 64978a485f90b6b5fd9bd823c936e1dc
 //테스트서버
 //BASE_URL = http:/$()/43.202.136.114/
 
-//운영서버
-BASE_URL = http:/$()/13.124.191.61/
+//dev-server
+//BASE_URL = https:/$()/api.date-road.p-e.kr/
 
+//운영서버
+//BASE_URL = http:/$()/13.124.191.61/
+
+//main-server
+BASE_URL = http:/$()/api.dateroad-main.p-e.kr/
