@@ -10,8 +10,11 @@ import Foundation
 import Moya
 
 protocol UserServiceProtocol {
+    
     func getUserProfile(completion: @escaping (NetworkResult<GetUserProfileResponse>) -> ())
+    
     func patchEditProfile(requestBody: PatchEditProfileRequest, completion: @escaping (NetworkResult<EmptyResponse>) -> ())
+    
 }
 
 final class UserService: BaseService, UserServiceProtocol {

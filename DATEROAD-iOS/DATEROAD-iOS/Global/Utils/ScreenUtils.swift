@@ -21,4 +21,5 @@ struct ScreenUtils {
     static var height: CGFloat {
         return UIScreen.main.bounds.height
     }
+    
 }

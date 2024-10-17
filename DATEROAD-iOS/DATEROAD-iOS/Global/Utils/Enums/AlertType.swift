@@ -8,21 +8,35 @@
 import Foundation
 
 enum AlertButtonType {
+    
     case oneButton
+    
     case twoButton
+    
 }
 
 enum AlertTextType {
+    
     case hasDecription
+    
     case noDescription
+    
 }
 
 enum RightButtonType {
+    
     case addCourse
+    
     case checkCourse
+    
     case deleteCourse
+    
     case declareCourse
+    
     case kakaoShare
+    
     case logout
+    
     case none
+    
 }

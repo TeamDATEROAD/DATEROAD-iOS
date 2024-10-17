@@ -8,6 +8,9 @@
 import Foundation
 
 enum SocialType: String {
+    
     case APPLE
+    
     case KAKAO
+    
 }

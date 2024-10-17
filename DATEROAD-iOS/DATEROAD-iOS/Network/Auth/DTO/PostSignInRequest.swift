@@ -8,5 +8,7 @@
 import Foundation
 
 struct PostSignInRequest: Codable {
+    
     let platform: String
+    
 }

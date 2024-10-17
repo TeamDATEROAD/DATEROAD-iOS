@@ -8,18 +8,20 @@
 import UIKit
 
 final class MyCourseListView: BaseView {
-
+    
     // MARK: - UI Properties
     
     var myCourseListCollectionView = UICollectionView(frame: .zero, collectionViewLayout:  UICollectionViewFlowLayout())
     
     var emptyView = CustomEmptyView()
     
+    
     // MARK: - Properties
     
     var courseListData : [MyCourseListModel] = []
-        
+    
     private var type: String?
+    
     
     // MARK: - LifeCycle
     
@@ -65,14 +67,14 @@ final class MyCourseListView: BaseView {
             let layout = UICollectionViewFlowLayout()
             layout.minimumLineSpacing = 0
             layout.scrollDirection = .vertical
-            layout.itemSize = CGSize(width: ScreenUtils.width, height: 140)            
+            layout.itemSize = CGSize(width: ScreenUtils.width, height: 140)
             $0.collectionViewLayout = layout
-
+            
         }
         
         emptyView.do {
             $0.isHidden = true
         }
     }
-
+    
 }

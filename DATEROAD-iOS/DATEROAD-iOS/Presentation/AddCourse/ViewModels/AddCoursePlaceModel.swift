@@ -8,14 +8,15 @@
 import Foundation
 
 struct AddCoursePlaceModel {
-   
-   let placeTitle: String
-   let timeRequire: String
-   
-   init(placeTitle: String, timeRequire: String) {
-      self.placeTitle = placeTitle
-      self.timeRequire = timeRequire
-   }
-   
+    
+    let placeTitle: String
+    
+    let timeRequire: String
+    
+    init(placeTitle: String, timeRequire: String) {
+        self.placeTitle = placeTitle
+        self.timeRequire = timeRequire
+    }
+    
 }
 

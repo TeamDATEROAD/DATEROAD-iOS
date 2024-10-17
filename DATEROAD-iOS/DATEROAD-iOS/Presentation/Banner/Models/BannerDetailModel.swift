@@ -8,11 +8,17 @@
 import Foundation
 
 struct BannerDetailModel: Codable {
+    
     let images: [Image]
+    
     let title, createAt, description, adTagType: String
+    
 }
 
 struct BannerHeaderModel {
+    
     var tag: String
+    
     var createAt: String
+    
 }

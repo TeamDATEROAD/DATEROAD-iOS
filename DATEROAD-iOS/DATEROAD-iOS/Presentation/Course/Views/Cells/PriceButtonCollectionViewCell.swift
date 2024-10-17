@@ -11,11 +11,11 @@ final class PriceButtonCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
-     var priceButton:  DRPriceButton
+    var priceButton:  DRPriceButton
     
     
     // MARK: - Life Cycle
-
+    
     override init(frame: CGRect) {
         self.priceButton = DRPriceButton(tendencyType: "")
         
@@ -36,7 +36,7 @@ final class PriceButtonCollectionViewCell: BaseCollectionViewCell {
             $0.horizontalEdges.equalToSuperview()
         }
     }
-
+    
     func updateButtonTitle(title: String) {
         self.priceButton.setTitle(title, for: .normal)
     }

@@ -13,7 +13,7 @@ import Then
 class BaseView: UIView {
     
     // MARK: - Life Cycle
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         

@@ -8,13 +8,21 @@
 import Foundation
 
 protocol DRBottomSheetDelegate: AnyObject {
+    
     func didTapBottomButton()
+    
     func didTapFirstLabel()
+    
     func didTapSecondLabel()
+    
 }
 
 extension DRBottomSheetDelegate {
+    
     func didTapBottomButton() {}
+    
     func didTapFirstLabel() {}
+    
     func didTapSecondLabel() {}
+    
 }

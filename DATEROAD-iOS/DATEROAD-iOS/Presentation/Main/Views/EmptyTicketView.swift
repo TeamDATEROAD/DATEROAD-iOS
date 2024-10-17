@@ -50,7 +50,7 @@ final class EmptyTicketView: BaseView {
             $0.size.equalTo(44)
         }
     }
-
+    
     override func setStyle() {
         ticketImage.do {
             $0.image = UIImage(resource: .ticket)
@@ -69,4 +69,5 @@ final class EmptyTicketView: BaseView {
             $0.setImage(UIImage(resource: .icPlus), for: .normal)
         }
     }
+    
 }

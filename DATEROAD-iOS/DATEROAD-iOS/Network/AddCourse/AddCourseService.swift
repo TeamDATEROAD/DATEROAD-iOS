@@ -10,7 +10,9 @@ import UIKit
 import Moya
 
 protocol AddCourseServiceProtocol {
+    
     func postAddCourse(course: [String: Any], tags: [[String: Any]], places: [[String: Any]], images: [UIImage], completion: @escaping (NetworkResult<PostAddCourseResponse>) -> Void)
+    
 }
 
 final class AddCourseService: BaseService, AddCourseServiceProtocol {
@@ -28,5 +30,5 @@ final class AddCourseService: BaseService, AddCourseServiceProtocol {
             }
         }
     }
-   
+    
 }

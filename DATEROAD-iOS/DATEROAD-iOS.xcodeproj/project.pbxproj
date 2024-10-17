@@ -236,6 +236,7 @@
 		CABDCEB92C4A6C8800631FB3 /* AdTagType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCEB82C4A6C8800631FB3 /* AdTagType.swift */; };
 		CABDCEBB2C4A6CC100631FB3 /* AdModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCEBA2C4A6CC100631FB3 /* AdModel.swift */; };
 		CABDCEBD2C4A70AF00631FB3 /* BannerInfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCEBC2C4A70AF00631FB3 /* BannerInfoHeaderView.swift */; };
+		CAC013D02CB7EA2200FF972F /* CellImageLoaded.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC013CF2CB7EA2200FF972F /* CellImageLoaded.swift */; };
 		CAC80FA02C3B10D100658EA6 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80F9F2C3B10D100658EA6 /* MyPageView.swift */; };
 		CAC80FA22C3B10EA00658EA6 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FA12C3B10EA00658EA6 /* MyPageViewController.swift */; };
 		CAC80FA42C3B34B400658EA6 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FA32C3B34B400658EA6 /* UserInfoView.swift */; };
@@ -498,6 +499,7 @@
 		CABDCEB82C4A6C8800631FB3 /* AdTagType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdTagType.swift; sourceTree = "<group>"; };
 		CABDCEBA2C4A6CC100631FB3 /* AdModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdModel.swift; sourceTree = "<group>"; };
 		CABDCEBC2C4A70AF00631FB3 /* BannerInfoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerInfoHeaderView.swift; sourceTree = "<group>"; };
+		CAC013CF2CB7EA2200FF972F /* CellImageLoaded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellImageLoaded.swift; sourceTree = "<group>"; };
 		CAC80F9F2C3B10D100658EA6 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		CAC80FA12C3B10EA00658EA6 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		CAC80FA32C3B34B400658EA6 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
@@ -1436,6 +1438,7 @@
 				CAC80FE22C3EC06200658EA6 /* MainSectionLayout.swift */,
 				CA80C0D62C4523A2002CAA9B /* DRBottomSheetAction.swift */,
 				CAA76AD62C6664B100821E3E /* Serviceable.swift */,
+				CAC013CF2CB7EA2200FF972F /* CellImageLoaded.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1828,10 +1831,10 @@
 			};
 			buildConfigurationList = CA3D0CD22C29A2F300735097 /* Build configuration list for PBXProject "DATEROAD-iOS" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				ko,
 				Base,
 			);
 			mainGroup = CA3D0CCE2C29A2F300735097;
@@ -2012,6 +2015,7 @@
 				CA4EF3DA2C34791F003B02B6 /* OnboardingCollectionViewCell.swift in Sources */,
 				CABDCE6E2C47D6E600631FB3 /* AuthTargetType.swift in Sources */,
 				9E5098902C403C7500F72CD0 /* AddCourseThirdViewController.swift in Sources */,
+				CAC013D02CB7EA2200FF972F /* CellImageLoaded.swift in Sources */,
 				0DDC2B532C498F9300AC554D /* LikeCourseResponse.swift in Sources */,
 				0D98CBA92C410C7200E3618A /* CourseDetailViewModel.swift in Sources */,
 				CA4EF3E52C3538AA003B02B6 /* OnboardingViewModel.swift in Sources */,
@@ -2282,7 +2286,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 24092701;
+				CURRENT_PROJECT_VERSION = 24101201;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 72B557RJ7S;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2298,7 +2302,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.DateRoad.DateRoad-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2323,7 +2327,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 24092701;
+				CURRENT_PROJECT_VERSION = 24101201;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 72B557RJ7S;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2339,7 +2343,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.DateRoad.DateRoad-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

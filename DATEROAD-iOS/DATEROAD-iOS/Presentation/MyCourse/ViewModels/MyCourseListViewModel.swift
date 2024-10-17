@@ -8,7 +8,7 @@
 import Foundation
 
 final class MyCourseListViewModel: Serviceable {
-            
+    
     var viewedCourseData: ObservablePattern<[MyCourseModel]> = ObservablePattern([])
     
     var myRegisterCourseData: ObservablePattern<[MyCourseModel]> = ObservablePattern([])
@@ -32,7 +32,6 @@ final class MyCourseListViewModel: Serviceable {
     var onNavViewedCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
     var onMyRegisterCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
-    
     
     init() {
         setViewedCourseData()
@@ -67,7 +66,7 @@ final class MyCourseListViewModel: Serviceable {
             }
         }
     }
-        
+    
     func setViewedCourseLoading() {
         guard let isSuccessGetViewedCourseInfo = self.isSuccessGetViewedCourseInfo.value else { return }
         self.onViewedCourseLoading.value = !isSuccessGetViewedCourseInfo
@@ -138,4 +137,5 @@ final class MyCourseListViewModel: Serviceable {
         guard let isSuccessGetMyRegisterCourseInfo = self.isSuccessGetMyRegisterCourseInfo.value else { return }
         self.onMyRegisterCourseLoading.value = !isSuccessGetMyRegisterCourseInfo
     }
+    
 }

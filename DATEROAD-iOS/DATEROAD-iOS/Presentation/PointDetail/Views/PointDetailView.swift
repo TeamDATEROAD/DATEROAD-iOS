@@ -8,7 +8,7 @@
 import UIKit
 
 final class PointDetailView: BaseView {
-
+    
     // MARK: - UI Properties
     
     private let pointView = UIView()
@@ -29,9 +29,11 @@ final class PointDetailView: BaseView {
     
     var emptyUsedPointView = CustomEmptyView()
     
+    
     // MARK: - Properties
     
     private let segmentBackgroundImage = UIImage()
+    
     
     // MARK: - LifeCycle
     
@@ -145,14 +147,14 @@ final class PointDetailView: BaseView {
         emptyGainedPointView.do {
             $0.isHidden = true
             $0.setEmptyView(emptyImage: UIImage(resource: .emptyGainedPoint),
-         emptyTitle: StringLiterals.EmptyView.emptyGainedPoint)
+                            emptyTitle: StringLiterals.EmptyView.emptyGainedPoint)
         }
         
         emptyUsedPointView.do {
             $0.isHidden = true
             $0.setEmptyView(emptyImage: UIImage(resource: .emptyUsedPoint),
-         emptyTitle: StringLiterals.EmptyView.emptyUsedPoint)
+                            emptyTitle: StringLiterals.EmptyView.emptyUsedPoint)
         }
     }
-
+    
 }

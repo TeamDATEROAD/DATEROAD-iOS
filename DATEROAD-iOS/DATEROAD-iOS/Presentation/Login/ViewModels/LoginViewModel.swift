@@ -72,7 +72,7 @@ extension LoginViewModel {
             setToken(token: oauthToken.accessToken)
         }
     }
-        
+    
     func loginWithApple(userInfo: ASAuthorizationAppleIDCredential) {
         guard let userIdentifier = userInfo.identityToken,
               let code = userInfo.authorizationCode,
@@ -100,7 +100,7 @@ extension LoginViewModel {
         let email = userInfo.email
         self.appleUserInfo.value = AppleUserInfo(identifier: userInfo.user, nickname: nickname, email: email)
     }
-
+    
     func postSignIn() {
         self.onAuthLoading.value = true
         let socialType = UserDefaults.standard.bool(forKey: StringLiterals.Network.socialType)
@@ -130,4 +130,5 @@ extension LoginViewModel {
             }
         }
     }
+    
 }

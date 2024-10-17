@@ -8,10 +8,13 @@
 import Foundation
 
 protocol Serviceable: AnyObject {
+    
     func patchReissue(completion: @escaping (Bool) -> Void)
+    
 }
 
 extension Serviceable {
+    
     func patchReissue(completion: @escaping (Bool) -> Void) {
         NetworkService.shared.authService.patchReissue() { response in
             switch response {
@@ -20,7 +23,7 @@ extension Serviceable {
                 UserDefaults.standard.setValue(data.refreshToken, forKey: StringLiterals.Network.refreshToken)
                 UserDefaults.standard.setValue(data.userID, forKey: StringLiterals.Network.userID)
                 completion(true)
-
+                
             default:
                 print("Failed to fetch patch reissue")
                 for key in UserDefaults.standard.dictionaryRepresentation().keys {
@@ -30,4 +33,5 @@ extension Serviceable {
             }
         }
     }
+    
 }

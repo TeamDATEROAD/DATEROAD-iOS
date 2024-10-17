@@ -8,5 +8,7 @@
 import Foundation
 
 struct AdModel {
+    
     let title, english: String
+    
 }

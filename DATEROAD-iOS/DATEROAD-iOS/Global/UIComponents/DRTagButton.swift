@@ -10,7 +10,7 @@ import UIKit
 final class DRTagButton: UIButton {
     
     // MARK: - Properties
-        
+    
     private let selectedType: DRButtonType = SelectedButton()
     
     private let unselectedType: DRButtonType = UnselectedButton()
@@ -49,4 +49,5 @@ extension DRTagButton {
             self.setButtonStatus(buttonType: unselectedType)
         }
     }
+    
 }

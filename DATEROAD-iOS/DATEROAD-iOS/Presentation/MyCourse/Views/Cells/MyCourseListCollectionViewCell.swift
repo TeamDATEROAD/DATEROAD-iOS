@@ -12,11 +12,11 @@ import Then
 import Kingfisher
 
 final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
-
+    
     // MARK: - UI Properties
     
     private var thumbnailImageView = UIImageView()
-
+    
     private var heartButton = UIButton()
     
     private var infoView = UIView()
@@ -29,17 +29,18 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
     
     private var timeButton = UIButton()
     
+    
     // MARK: - Properties
     
     var viewedCourseItemRow: Int?
     
     var courseID: Int?
     
+    
     // MARK: - LifeCycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
     }
     
     @available(*, unavailable)
@@ -51,7 +52,7 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
         self.addSubviews(thumbnailImageView, heartButton, infoView)
         infoView.addSubviews(locationLabel,
                              titleLabel,
-                             expenseButton, 
+                             expenseButton,
                              timeButton)
     }
     
@@ -155,9 +156,8 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
             $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 2.5, bottom: 0, right: -2.5)
             $0.setImage(UIImage(resource: .timeIcon), for: .normal)
         }
-        
     }
-
+    
 }
 
 extension MyCourseListCollectionViewCell {

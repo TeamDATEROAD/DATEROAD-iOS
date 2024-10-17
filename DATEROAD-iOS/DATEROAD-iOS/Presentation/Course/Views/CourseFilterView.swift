@@ -11,8 +11,11 @@ import SnapKit
 import Then
 
 protocol CourseFilterViewDelegate: AnyObject {
+    
     func didTapLocationFilter()
+    
     func didTapResetButton()
+    
 }
 
 final class CourseFilterView: BaseView {
@@ -25,6 +28,7 @@ final class CourseFilterView: BaseView {
     
     let priceCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
+    
     // MARK: - Properties
     
     private let enabledButtonType: DRButtonType = EnabledButton()
@@ -35,6 +39,7 @@ final class CourseFilterView: BaseView {
     
     private var priceButtons: [UIButton] = []
     
+    
     // MARK: - Life Cycle
     
     override init(frame: CGRect) {
@@ -44,7 +49,6 @@ final class CourseFilterView: BaseView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
     
     override func setHierarchy() {
         self.addSubviews(
@@ -99,25 +103,13 @@ final class CourseFilterView: BaseView {
         }
     }
     
-    @objc
-    private func locationFilterButtonTapped() {
-        delegate?.didTapLocationFilter()
-    }
-    
-    @objc
-    private func didTapResetButton() {
-        delegate?.didTapResetButton()
-        resetPriceButtons()
-    }
-    
-    
 }
 
 extension CourseFilterView {
     
     func updatePrice(button: UIButton, buttonType: DRButtonType, isSelected: Bool) {
         button.setButtonStatus(buttonType: buttonType)
-    
+        
         if isSelected {
             priceButtons.append(button)
         } else {
@@ -143,4 +135,16 @@ extension CourseFilterView {
             $0.tintColor = UIColor(resource: .gray400)
         }
     }
+    
+    @objc
+    private func locationFilterButtonTapped() {
+        delegate?.didTapLocationFilter()
+    }
+    
+    @objc
+    private func didTapResetButton() {
+        delegate?.didTapResetButton()
+        resetPriceButtons()
+    }
+    
 }

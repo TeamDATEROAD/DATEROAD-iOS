@@ -13,7 +13,7 @@ import Then
 final class CustomEmptyView: BaseView {
     
     // MARK: - UI Properties
-
+    
     let imageView = UIImageView()
     
     let titleLabel = UILabel()
@@ -51,9 +51,11 @@ final class CustomEmptyView: BaseView {
 }
 
 extension CustomEmptyView {
+    
     func setEmptyView(emptyImage: UIImage, emptyTitle: String) {
         imageView.image = emptyImage
         titleLabel.text = emptyTitle
     }
+    
 }
 

@@ -10,7 +10,9 @@ import Foundation
 import Moya
 
 enum PointDetailTargetType {
+    
     case getPointDetail
+    
 }
 
 extension PointDetailTargetType: BaseTargetType {
@@ -45,4 +47,5 @@ extension PointDetailTargetType: BaseTargetType {
         let headers = HeaderType.headerWithToken(token: "Bearer " + token)
         return headers
     }
+    
 }

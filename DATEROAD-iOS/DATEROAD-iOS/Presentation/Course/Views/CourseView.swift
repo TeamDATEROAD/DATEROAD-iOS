@@ -13,19 +13,18 @@ import Then
 final class CourseView: BaseView {
     
     // MARK: - UI Properties
-   
+    
     let courseNavigationBarView = CourseNavigationBarView()
     
     let courseFilterView = CourseFilterView()
     
     let courseListView = CourseListView()
     
-   
+    
     // MARK: - Life Cycle
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-
     }
     
     required init?(coder: NSCoder) {
@@ -59,7 +58,7 @@ final class CourseView: BaseView {
             $0.bottom.equalToSuperview()
         }
     }
-
+    
 }
 
 

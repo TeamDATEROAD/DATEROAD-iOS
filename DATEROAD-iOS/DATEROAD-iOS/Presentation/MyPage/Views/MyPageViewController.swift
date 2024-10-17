@@ -40,6 +40,7 @@ final class MyPageViewController: BaseNavBarViewController {
     }
     
     override func viewIsAppearing(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
         self.myPageViewModel.getUserProfile()
         self.myPageViewModel.checkSocialLogin()
     }
@@ -115,27 +116,27 @@ private extension MyPageViewController {
         }
         
         self.myPageViewModel.onFailNetwork.bind { [weak self] onFailure in
-           guard let onFailure else { return }
-           if onFailure {
-              let errorVC = DRErrorViewController()
-              errorVC.onDismiss = {
-                 self?.myPageViewModel.onFailNetwork.value = false
-                 self?.myPageViewModel.onLoading.value = false
-              }
-              self?.navigationController?.pushViewController(errorVC, animated: false)
-           }
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                errorVC.onDismiss = {
+                    self?.myPageViewModel.onFailNetwork.value = false
+                    self?.myPageViewModel.onLoading.value = false
+                }
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
         }
-       
-       self.myPageViewModel.onSuccessGetUserProfile.bind { [weak self] onSuccess in
-          guard let onSuccess, let data = self?.myPageViewModel.userInfoData.value else { return }
-          if onSuccess {
-             DispatchQueue.main.async {
-                self?.myPageView.userInfoView.bindData(userInfo: data)
-                self?.myPageView.userInfoView.tagCollectionView.reloadData()
-             }
-          }
-          self?.myPageViewModel.setLoading()
-       }
+        
+        self.myPageViewModel.onSuccessGetUserProfile.bind { [weak self] onSuccess in
+            guard let onSuccess, let data = self?.myPageViewModel.userInfoData.value else { return }
+            if onSuccess {
+                DispatchQueue.main.async {
+                    self?.myPageView.userInfoView.bindData(userInfo: data)
+                    self?.myPageView.userInfoView.tagCollectionView.reloadData()
+                }
+            }
+            self?.myPageViewModel.setLoading()
+        }
         
         self.myPageViewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.myPageViewModel.onFailNetwork.value else { return }
@@ -145,15 +146,13 @@ private extension MyPageViewController {
                     self?.myPageView.isHidden = onLoading
                     self?.topInsetView.isHidden = onLoading
                     self?.navigationBarView.isHidden = onLoading
-                    self?.tabBarController?.tabBar.isHidden = onLoading
                 } else {
-                   DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                      self?.myPageView.isHidden = onLoading
-                      self?.topInsetView.isHidden = onLoading
-                      self?.navigationBarView.isHidden = onLoading
-                      self?.tabBarController?.tabBar.isHidden = onLoading
-                      self?.hideLoadingView()
-                   }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self?.myPageView.isHidden = onLoading
+                        self?.topInsetView.isHidden = onLoading
+                        self?.navigationBarView.isHidden = onLoading
+                        self?.hideLoadingView()
+                    }
                 }
             }
         }
@@ -270,6 +269,7 @@ extension MyPageViewController {
         selectedAlertFlag = 1
         self.present(customAlertVC, animated: false)
     }
+    
 }
 
 

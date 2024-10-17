@@ -38,6 +38,7 @@ final class TabBarController: UITabBarController {
         self.tabBar.frame.size.height = view.frame.height * 0.11
         self.tabBar.frame.origin.y = view.frame.height - self.tabBar.frame.size.height
     }
+    
 }
 
 // MARK: - Private Methods
@@ -45,7 +46,6 @@ final class TabBarController: UITabBarController {
 private extension TabBarController {
     
     func setStyle() {
-        
         let iconOffset = -(view.frame.height * 0.008)
         
         let font = UIFont.suit(.cap_reg_11)
@@ -137,5 +137,5 @@ private extension TabBarController {
             }
         }
     }
-
+    
 }

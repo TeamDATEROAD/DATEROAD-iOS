@@ -22,7 +22,6 @@ final class PointSystemCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func setLayout() {
-
         illustrationView.snp.makeConstraints {
             $0.verticalEdges.equalToSuperview().inset(14)
             $0.leading.equalToSuperview().inset(12)
@@ -77,4 +76,5 @@ extension PointSystemCollectionViewCell {
         self.mainLabel.text = mainText
         self.subLabel.text = subText
     }
+    
 }

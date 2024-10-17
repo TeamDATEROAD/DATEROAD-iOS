@@ -8,9 +8,13 @@
 import Foundation
 
 struct PostUsePointRequest: Codable {
+    
     var point: Int
+    
     var type: String
+    
     var description: String
+    
 }
 
 struct PostUsePointResponse: Codable {}

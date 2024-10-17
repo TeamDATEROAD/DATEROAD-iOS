@@ -10,11 +10,10 @@ import UIKit
 final class DRPriceButton: UIButton {
     
     // MARK: - Properties
-        
+    
     private let selectedType: DRButtonType = SelectedButton()
     
     private var unselectedType: DRButtonType = UnselectedButton()
-    
     
     
     // MARK: - Life Cycle
@@ -43,4 +42,5 @@ extension DRPriceButton {
             $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
         }
     }
+    
 }

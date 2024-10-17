@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 final class BannerInfoHeaderView: UICollectionReusableView {
-
+    
     // MARK: - UI Properties
     
     private let tagLabel: DRPaddingLabel = DRPaddingLabel()
@@ -24,7 +24,7 @@ final class BannerInfoHeaderView: UICollectionReusableView {
     static let elementKinds: String = StringLiterals.Elementkinds.bannerInfoHeaderView
     
     static let identifier: String = String(describing: BannerInfoHeaderView.self)
-
+    
     
     // MARK: - Life Cycles
     

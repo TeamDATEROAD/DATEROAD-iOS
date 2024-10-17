@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 extension Double {
     
     func formatTime() -> String {

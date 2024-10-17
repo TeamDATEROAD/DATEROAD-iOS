@@ -10,15 +10,23 @@ import UIKit
 import SnapKit
 
 protocol DRCustomAlertDelegate {
+    
     func action(rightButtonAction: RightButtonType)
+    
     func exit()
+    
     func leftButtonAction(rightButtonAction: RightButtonType)
+    
 }
 
 extension DRCustomAlertDelegate {
+    
     func action(rightButtonAction: RightButtonType) {}
+    
     func exit() {}
+    
     func leftButtonAction(rightButtonAction: RightButtonType) {}
+    
 }
 
 final class DRCustomAlertViewController: BaseViewController {
@@ -35,7 +43,7 @@ final class DRCustomAlertViewController: BaseViewController {
     private var alertTextType: AlertTextType
     
     private var alertButtonType: AlertButtonType
-
+    
     private var titleText: String
     
     private var descriptionText: String?
@@ -45,7 +53,7 @@ final class DRCustomAlertViewController: BaseViewController {
     private var leftButtonText: String?
     
     private var rightButtonText: String?
-
+    
     var delegate: DRCustomAlertDelegate?
     
     
@@ -71,7 +79,7 @@ final class DRCustomAlertViewController: BaseViewController {
         
         super.init(nibName: nil, bundle: nil)
     }
-        
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -95,10 +103,11 @@ final class DRCustomAlertViewController: BaseViewController {
     override func setStyle() {
         self.view.backgroundColor = .clear
     }
-
+    
 }
 
 extension DRCustomAlertViewController {
+    
     func setUI() {
         customAlertView.titleLabel.text = titleText
         
@@ -123,6 +132,7 @@ extension DRCustomAlertViewController {
             setRightButton(text: rightButtonText)
         }
     }
+    
 }
 
 private extension DRCustomAlertViewController {
@@ -166,4 +176,5 @@ private extension DRCustomAlertViewController {
             self.delegate?.action(rightButtonAction: self.rightActionType)
         }
     }
+    
 }

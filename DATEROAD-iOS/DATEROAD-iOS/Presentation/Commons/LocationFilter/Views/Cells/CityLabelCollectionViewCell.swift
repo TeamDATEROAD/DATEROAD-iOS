@@ -18,6 +18,7 @@ final class CityLabelCollectionViewCell: BaseCollectionViewCell {
     
     private let cityLabel = UILabel()
     
+    
     // MARK: - Properties
     
     var itemRow: Int?
@@ -49,14 +50,15 @@ final class CityLabelCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    
 }
 
 extension CityLabelCollectionViewCell {
+    
     func configure(with city: LocationModel.City, isSelected: Bool) {
         cityLabel.text = city.rawValue
         updateSelectionState(isSelected)
     }
+    
     // 선택했을 때 버튼 색 속성 변경
     func updateSelectionState(_ isSelected: Bool) {
         if isSelected {

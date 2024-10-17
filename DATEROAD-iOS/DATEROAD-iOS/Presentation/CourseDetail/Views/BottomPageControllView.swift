@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 import Then
 
-
 final class BottomPageControllView: UICollectionReusableView {
     
     // MARK: - UI Properties
@@ -24,6 +23,7 @@ final class BottomPageControllView: UICollectionReusableView {
     private var likeStackView = UIStackView()
     
     private let indexBoxButton = UIButton()
+    
     
     // MARK: - Properties
     
@@ -43,6 +43,7 @@ final class BottomPageControllView: UICollectionReusableView {
         }
     }
     
+    
     // MARK: - Life Cycles
     
     override init(frame: CGRect) {
@@ -59,7 +60,7 @@ final class BottomPageControllView: UICollectionReusableView {
 }
 
 private extension BottomPageControllView {
-
+    
     func updatePageLabel() {
         indexBoxButton.setTitle("\(pageIndex + 1)/\(pageIndexSum)", for: .normal)
     }
@@ -137,4 +138,5 @@ extension BottomPageControllView {
         self.likeNumLabel.isHidden = true
         self.likeButton.isHidden = true
     }
+    
 }

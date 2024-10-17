@@ -18,11 +18,13 @@ final class GradientView: UICollectionReusableView {
     
     private let gradient = CAGradientLayer()
     
+    
     // MARK: - Properties
     
     static let elementKinds: String = "gradient"
     
     static let identifier: String = "GradientView"
+    
     
     // MARK: - Life Cycle
     
@@ -64,4 +66,5 @@ final class GradientView: UICollectionReusableView {
             $0.colors = [UIColor(resource: .drBlack).withAlphaComponent(0.8).cgColor, UIColor.clear.cgColor]
         }
     }
+    
 }

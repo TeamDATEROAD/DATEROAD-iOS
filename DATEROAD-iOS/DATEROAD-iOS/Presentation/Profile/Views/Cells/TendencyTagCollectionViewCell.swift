@@ -59,7 +59,6 @@ final class TendencyTagCollectionViewCell: BaseCollectionViewCell {
             $0.setTitle(" \(tendencyTag.tag.tagTitle)", for: .normal)
             $0.backgroundColor = UIColor(resource: .drWhite)
         }
-        
     }
     
 }

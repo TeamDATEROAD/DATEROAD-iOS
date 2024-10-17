@@ -10,14 +10,19 @@ import Foundation
 import Moya
 
 protocol DateScheduleServiceProtocol {
+    
     func getDateSchdeule(time: String, completion: @escaping (NetworkResult<GetDateScheduleResponse>) -> Void)
+    
     func getDateDetail(dateID: Int, completion: @escaping (NetworkResult<GetDateDetailResponse>) -> Void)
+    
     func deleteDateSchedule(dateID: Int, completion: @escaping (NetworkResult<EmptyResponse>) -> Void)
+    
 }
 
 final class DateScheduleService: BaseService, DateScheduleServiceProtocol {
+    
     let dateScheduleProvider = MoyaProvider<DateScheduleTargetType>(plugins: [MoyaLoggingPlugin()])
-
+    
     func getDateSchdeule(time: String, completion: @escaping (NetworkResult<GetDateScheduleResponse>) -> Void) {
         dateScheduleProvider.request(.getDateSchedule(time: time)) { result in
             switch result {

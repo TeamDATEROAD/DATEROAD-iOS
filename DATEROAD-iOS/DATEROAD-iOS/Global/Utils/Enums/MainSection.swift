@@ -8,9 +8,13 @@
 import Foundation
 
 enum MainSection {
+    
     case upcomingDate
+    
     case hotDateCourse
+    
     case banner
+    
     case newDateCourse
     
     static let dataSource: [MainSection] = [
@@ -19,4 +23,5 @@ enum MainSection {
         MainSection.banner,
         MainSection.newDateCourse
     ]
+    
 }

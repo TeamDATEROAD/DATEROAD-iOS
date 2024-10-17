@@ -8,6 +8,9 @@
 import Foundation
 
 enum EditType: String {
+    
     case add
+    
     case edit
+    
 }

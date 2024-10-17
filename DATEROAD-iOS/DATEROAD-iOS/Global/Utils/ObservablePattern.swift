@@ -8,7 +8,7 @@
 import Foundation
 
 final class ObservablePattern<T> {
-
+    
     var value: T? {
         didSet {
             self.listener?(value)
@@ -18,11 +18,12 @@ final class ObservablePattern<T> {
     init(_ value: T?) {
         self.value = value
     }
-       
+    
     private var listener: ((T?) -> Void)?
     
     func bind(_ listener: @escaping (T?) -> Void) {
         listener(value)
         self.listener = listener
     }
+    
 }

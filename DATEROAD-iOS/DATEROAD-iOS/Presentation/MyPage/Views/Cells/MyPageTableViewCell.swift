@@ -17,7 +17,7 @@ final class MyPageTableViewCell: BaseTableViewCell {
     
     
     // MARK: - Life Cycle
-
+    
     override func setHierarchy() {
         self.addSubviews(titleLabel, rightArrowButton)
     }
@@ -43,6 +43,7 @@ final class MyPageTableViewCell: BaseTableViewCell {
             $0.setImage(UIImage(resource: .arrowRightLarge), for: .normal)
         }
     }
+    
 }
 
 extension MyPageTableViewCell {
@@ -50,4 +51,5 @@ extension MyPageTableViewCell {
     func bindTitle(title: String) {
         self.titleLabel.text = title
     }
+    
 }
