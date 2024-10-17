@@ -40,6 +40,7 @@ final class MyPageViewController: BaseNavBarViewController {
     }
     
     override func viewIsAppearing(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
         self.myPageViewModel.getUserProfile()
         self.myPageViewModel.checkSocialLogin()
     }
@@ -145,13 +146,11 @@ private extension MyPageViewController {
                     self?.myPageView.isHidden = onLoading
                     self?.topInsetView.isHidden = onLoading
                     self?.navigationBarView.isHidden = onLoading
-                    self?.tabBarController?.tabBar.isHidden = onLoading
                 } else {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.myPageView.isHidden = onLoading
                         self?.topInsetView.isHidden = onLoading
                         self?.navigationBarView.isHidden = onLoading
-                        self?.tabBarController?.tabBar.isHidden = onLoading
                         self?.hideLoadingView()
                     }
                 }

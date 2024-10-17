@@ -100,7 +100,6 @@ extension MainViewController {
                 if onLoading {
                     self?.showLoadingView()
                     self?.mainView.isHidden = onLoading
-                    self?.tabBarController?.tabBar.isHidden = onLoading
                 } else {
                     self?.mainView.mainCollectionView.reloadData()
                     let initialIndexPath = IndexPath(item: 1, section: 2)
@@ -109,7 +108,6 @@ extension MainViewController {
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.mainView.isHidden = onLoading
-                        self?.tabBarController?.tabBar.isHidden = onLoading
                         self?.hideLoadingView()
                     }
                 }
