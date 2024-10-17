@@ -234,7 +234,10 @@ extension AddScheduleViewModel {
             visitDate.value = formattedDate
             self.isVisitDateVaild.value = true
         } else {
-            let formattedDate = DateFormatterManager.shared.timeFormatter.string(from: date)
+            var formattedDate = DateFormatterManager.shared.timeFormatter.string(from: date)
+            formattedDate = formattedDate
+                .replacingOccurrences(of: "오전", with: "AM")
+                .replacingOccurrences(of: "오후", with: "PM")
             dateStartAt.value = formattedDate
             self.isDateStartAtVaild.value = !(dateStartAt.value?.isEmpty ?? true)
         }
