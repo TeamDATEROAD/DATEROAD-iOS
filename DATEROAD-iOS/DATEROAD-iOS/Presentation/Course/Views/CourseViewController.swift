@@ -103,12 +103,10 @@ final class CourseViewController: BaseViewController {
                     if onLoading {
                         self?.showLoadingView()
                         self?.courseView.isHidden = true
-                        self?.tabBarController?.tabBar.isHidden = true
                     } else {
                         self?.courseView.courseListView.courseListCollectionView.reloadData()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                             self?.courseView.isHidden = false
-                            self?.tabBarController?.tabBar.isHidden = false
                             self?.hideLoadingView()
                         }
                     }

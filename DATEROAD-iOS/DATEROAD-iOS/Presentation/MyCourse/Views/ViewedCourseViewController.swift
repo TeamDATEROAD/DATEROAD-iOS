@@ -204,12 +204,10 @@ extension ViewedCourseViewController {
                 if onLoading {
                     self?.showLoadingView()
                     self?.contentView.isHidden = true
-                    self?.tabBarController?.tabBar.isHidden = true
                 } else {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.setEmptyView()
                         self?.contentView.isHidden = false
-                        self?.tabBarController?.tabBar.isHidden = false
                         self?.hideLoadingView()
                     }
                 }

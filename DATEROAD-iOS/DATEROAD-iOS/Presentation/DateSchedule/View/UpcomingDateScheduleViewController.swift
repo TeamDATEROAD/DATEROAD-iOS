@@ -96,12 +96,10 @@ private extension UpcomingDateScheduleViewController {
                 if onLoading {
                     self?.showLoadingView()
                     self?.upcomingDateScheduleView.isHidden = true
-                    self?.tabBarController?.tabBar.isHidden = true
                 } else {
                     self?.drawDateCardView()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.upcomingDateScheduleView.isHidden = false
-                        self?.tabBarController?.tabBar.isHidden = false
                         self?.hideLoadingView()
                     }
                 }
