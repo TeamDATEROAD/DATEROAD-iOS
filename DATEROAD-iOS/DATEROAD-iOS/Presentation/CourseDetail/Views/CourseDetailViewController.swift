@@ -427,8 +427,8 @@ private extension CourseDetailViewController {
         let courseDetailViewModel = CourseDetailViewModel(courseId: courseId)
         let addScheduleViewModel = AddScheduleViewModel()
         
-        addScheduleViewModel.viewedDateCourseByMeData = courseDetailViewModel
-        addScheduleViewModel.isBroughtData = true
+        addScheduleViewModel.addScheduleFirstViewModel.viewedDateCourseByMeData = courseDetailViewModel
+        addScheduleViewModel.addScheduleFirstViewModel.isBroughtData = true
         
         let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel, viewPath: StringLiterals.Amplitude.ViewPath.courseDetail)
         // 데이터를 바인딩합니다.
