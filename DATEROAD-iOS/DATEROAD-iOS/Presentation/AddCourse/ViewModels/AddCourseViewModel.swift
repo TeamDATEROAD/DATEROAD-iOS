@@ -262,11 +262,15 @@ extension AddCourseViewModel {
             let flag = DateFormatterManager.shared.isFutureDay(selecDateStr: formattedDate)
             self.isVisitDateVaild.value = flag
         } else {
-            let formattedDate = DateFormatterManager.shared.timeFormatter.string(from: date)
+            var formattedDate = DateFormatterManager.shared.timeFormatter.string(from: date)
+            formattedDate = formattedDate
+                .replacingOccurrences(of: "오전", with: "AM")
+                .replacingOccurrences(of: "오후", with: "PM")
             dateStartAt.value = formattedDate
             self.isDateStartAtVaild.value = !(dateStartAt.value?.isEmpty ?? true)
         }
     }
+    
     
     func fetchTagData() {
         tagData = TendencyTag.allCases.map { $0.tag }
