@@ -10,8 +10,9 @@ import Foundation
 import Moya
 
 final class MoyaLoggingPlugin: PluginType {
-
+    
     // MARK: - Request 보낼 시 호출
+    
     func willSend(_ request: RequestType, target: TargetType) {
         guard let httpRequest = request.request else {
             print("--> 유효하지 않은 요청")
@@ -30,8 +31,10 @@ final class MoyaLoggingPlugin: PluginType {
         log.append("------------------- END \(method) -------------------")
         print(log)
     }
-
+    
+    
     // MARK: - Response 받을 시 호출
+    
     func didReceive(_ result: Result<Response, MoyaError>, target: TargetType) {
         switch result {
         case let .success(response):
@@ -40,7 +43,7 @@ final class MoyaLoggingPlugin: PluginType {
             self.onFail(error, target: target)
         }
     }
-
+    
     func onSucceed(_ response: Response, target: TargetType) {
         let request = response.request
         let url = request?.url?.absoluteString ?? "nil"
@@ -57,7 +60,7 @@ final class MoyaLoggingPlugin: PluginType {
         log.append("------------------- END HTTP -------------------")
         print(log)
     }
-
+    
     func onFail(_ error: MoyaError, target: TargetType) {
         if let response = error.response {
             onSucceed(response, target: target)
@@ -69,6 +72,7 @@ final class MoyaLoggingPlugin: PluginType {
         log.append("<-- END HTTP")
         print(log)
     }
+    
 }
 
 

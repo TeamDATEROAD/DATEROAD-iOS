@@ -95,7 +95,6 @@ final class UserInfoView: BaseView {
             $0.height.equalTo(20)
             $0.centerY.equalTo(pointLabel)
         }
-
     }
     
     override func setStyle() {
@@ -180,4 +179,5 @@ extension UserInfoView {
         let url = URL(string: imageURL)
         self.profileImageView.kf.setImage(with: url)
     }
+    
 }

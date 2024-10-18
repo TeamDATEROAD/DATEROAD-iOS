@@ -10,14 +10,14 @@ import UIKit
 import SnapKit
 import Then
 
-
 final class CourseViewController: BaseViewController {
     
     // MARK: - UI Properties
-        
+    
     private let errorView: DRErrorViewController = DRErrorViewController()
-
+    
     private let courseView = CourseView()
+    
     
     // MARK: - Properties
     
@@ -32,6 +32,7 @@ final class CourseViewController: BaseViewController {
     
     init(courseViewModel: CourseViewModel) {
         self.courseViewModel = courseViewModel
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -83,17 +84,16 @@ final class CourseViewController: BaseViewController {
     }
     
     func bindViewModel() {
-        
         self.courseViewModel.onFailNetwork.bind { [weak self] onFailure in
-           guard let onFailure else { return }
-           if onFailure {
-              let errorVC = DRErrorViewController()
-              errorVC.onDismiss = {
-                 self?.courseViewModel.onFailNetwork.value = false
-                 self?.courseViewModel.onLoading.value = false
-              }
-              self?.navigationController?.pushViewController(errorVC, animated: false)
-           }
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                errorVC.onDismiss = {
+                    self?.courseViewModel.onFailNetwork.value = false
+                    self?.courseViewModel.onLoading.value = false
+                }
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
         }
         
         self.courseViewModel.onLoading.bind { [weak self] onLoading in
@@ -103,12 +103,10 @@ final class CourseViewController: BaseViewController {
                     if onLoading {
                         self?.showLoadingView()
                         self?.courseView.isHidden = true
-                        self?.tabBarController?.tabBar.isHidden = true
                     } else {
                         self?.courseView.courseListView.courseListCollectionView.reloadData()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                             self?.courseView.isHidden = false
-                            self?.tabBarController?.tabBar.isHidden = false
                             self?.hideLoadingView()
                         }
                     }
@@ -147,6 +145,7 @@ final class CourseViewController: BaseViewController {
     }
     
 }
+
 
 // MARK: - Extensions
 
@@ -235,14 +234,14 @@ extension CourseViewController: LocationFilterDelegate {
 extension CourseViewController: CourseNavigationBarViewDelegate {
     
     func didTapAddCourseButton() {
-       let addCourseFirstVC = AddCourseFirstViewController(viewModel: AddCourseViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.exploreCourse)
+        let addCourseFirstVC = AddCourseFirstViewController(viewModel: AddCourseViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.exploreCourse)
         self.navigationController?.pushViewController(addCourseFirstVC, animated: false)
     }
     
 }
 
 extension CourseViewController: UICollectionViewDelegate {
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedCourse = courseViewModel.courseListModel[indexPath.row]
         
@@ -252,6 +251,7 @@ extension CourseViewController: UICollectionViewDelegate {
             navigationController?.pushViewController(detailViewController, animated: false)
         }
     }
+    
 }
 
 
@@ -263,8 +263,6 @@ extension CourseViewController: UICollectionViewDataSource {
         
         return collectionView == courseView.courseFilterView.priceCollectionView ? self.courseViewModel.priceData.count : self.courseViewModel.courseListModel.count
     }
-    
-
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
@@ -297,6 +295,7 @@ extension CourseViewController: UICollectionViewDataSource {
             }
         }
     }
+    
 }
 
 extension CourseViewController: UICollectionViewDelegateFlowLayout {
@@ -311,7 +310,6 @@ extension CourseViewController: UICollectionViewDelegateFlowLayout {
             let screenWidth = ScreenUtils.width
             return CGSize(width: ((screenWidth - 32) - 15) / 2, height: 246)
         }
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

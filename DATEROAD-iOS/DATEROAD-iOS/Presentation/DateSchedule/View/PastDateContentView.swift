@@ -18,9 +18,11 @@ final class PastDateContentView: BaseView {
     
     var emptyView = CustomEmptyView()
     
+    
     // MARK: - Properties
     
     static var pastDateCollectionViewLayout = UICollectionViewFlowLayout()
+    
     
     // MARK: - LifeCycle
     
@@ -60,4 +62,5 @@ final class PastDateContentView: BaseView {
             $0.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule), emptyTitle: StringLiterals.EmptyView.emptyPastSchedule)
         }
     }
+    
 }

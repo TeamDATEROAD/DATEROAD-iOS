@@ -8,9 +8,13 @@
 import Foundation
 
 enum MyPageSection {
+    
     case myCourse
+    
     case pointSystem
+    
     case inquiry
+    
     case logout
     
     var title: String {
@@ -32,4 +36,5 @@ enum MyPageSection {
         MyPageSection.inquiry,
         MyPageSection.logout
     ]
+    
 }

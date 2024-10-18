@@ -24,7 +24,6 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     private var upcomingDateScheduleViewModel: DateScheduleViewModel
     
     
-    
     // MARK: - LifeCycle
     
     init(upcomingDateScheduleViewModel: DateScheduleViewModel) {
@@ -79,24 +78,10 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     
 }
 
+
 // MARK: - UI Setting Methods
 
 private extension UpcomingDateScheduleViewController {
-    
-    @objc
-    func pushToDateRegisterVC() {
-        if (upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0) >= 5 {
-            dateRegisterButtonTapped()
-        } else {
-            print("일정 등록으로 이동")
-        }
-    }
-    
-    @objc
-    func pushToPastDateVC() {
-        let pastDateVC = PastDateViewController(pastDateScheduleViewModel: DateScheduleViewModel())
-        self.navigationController?.pushViewController(pastDateVC, animated: false)
-    }
     
     func setAddTarget() {
         upcomingDateScheduleView.dateRegisterButton.addTarget(self, action: #selector(dateRegisterButtonTapped), for: .touchUpInside)
@@ -106,22 +91,20 @@ private extension UpcomingDateScheduleViewController {
     
     func bindViewModel() {
         self.upcomingDateScheduleViewModel.onUpcomingScheduleLoading.bind { [weak self] onLoading in
-             guard let onLoading, let onFailNetwork = self?.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.value else { return }
+            guard let onLoading, let onFailNetwork = self?.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
                     self?.showLoadingView()
                     self?.upcomingDateScheduleView.isHidden = true
-                    self?.tabBarController?.tabBar.isHidden = true
                 } else {
                     self?.drawDateCardView()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self?.upcomingDateScheduleView.isHidden = false
-                        self?.tabBarController?.tabBar.isHidden = false
                         self?.hideLoadingView()
                     }
                 }
             }
-         }
+        }
         
         self.upcomingDateScheduleViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
@@ -149,11 +132,28 @@ private extension UpcomingDateScheduleViewController {
         }
     }
     
+    @objc
+    func pushToDateRegisterVC() {
+        if (upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0) >= 5 {
+            dateRegisterButtonTapped()
+        } else {
+            print("일정 등록으로 이동")
+        }
+    }
+    
+    @objc
+    func pushToPastDateVC() {
+        let pastDateVC = PastDateViewController(pastDateScheduleViewModel: DateScheduleViewModel())
+        self.navigationController?.pushViewController(pastDateVC, animated: false)
+    }
+    
 }
+
 
 // MARK: - Alert Delegate
 
 extension UpcomingDateScheduleViewController: DRCustomAlertDelegate {
+    
     @objc
     private func dateRegisterButtonTapped() {
         if upcomingDateScheduleViewModel.isMoreThanFiveSchedule {
@@ -163,12 +163,14 @@ extension UpcomingDateScheduleViewController: DRCustomAlertDelegate {
             self.present(customAlertVC, animated: false)
         } else {
             print("push to 일정등록하기")
-           let vc = AddScheduleFirstViewController(viewModel: AddScheduleViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.dateSchedule)
-           self.navigationController?.pushViewController(vc, animated: false)
+            let vc = AddScheduleFirstViewController(viewModel: AddScheduleViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.dateSchedule)
+            self.navigationController?.pushViewController(vc, animated: false)
         }
         AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.clickAddSchedule)
     }
+    
 }
+
 
 // MARK: - CollectionView Methods
 
@@ -182,7 +184,9 @@ private extension UpcomingDateScheduleViewController {
         upcomingDateScheduleView.cardCollectionView.delegate = self
         upcomingDateScheduleView.cardCollectionView.dataSource = self
     }
+    
 }
+
 
 // MARK: - Delegate
 
@@ -198,7 +202,6 @@ extension UpcomingDateScheduleViewController: UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return ScreenUtils.width * 0.0693
-    
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -213,7 +216,9 @@ extension UpcomingDateScheduleViewController: UICollectionViewDelegateFlowLayout
         self.upcomingDateScheduleViewModel.currentIndex.value = Int(roundedIndex)
         upcomingDateScheduleView.cardPageControl.currentPage = Int(roundedIndex)
     }
+    
 }
+
 
 // MARK: - DataSource
 
@@ -234,7 +239,7 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
         return cell
     }
     
-    @objc 
+    @objc
     func pushToUpcomingDateDetailVC(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: upcomingDateScheduleView.cardCollectionView)
         if let indexPath = upcomingDateScheduleView.cardCollectionView.indexPathForItem(at: location) {

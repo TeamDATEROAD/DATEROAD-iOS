@@ -10,7 +10,7 @@ import UIKit
 final class DRBottomSheetViewController: BaseViewController {
     
     // MARK: - UI Properties
-        
+    
     private let bottomSheetView: UIView = UIView()
     
     var contentView: UIView
@@ -107,11 +107,11 @@ final class DRBottomSheetViewController: BaseViewController {
         }
     }
     
-   @objc
-   func didTapBottomButton() {
-       print("Bottom button tapped")
-       self.delegate?.didTapBottomButton()
-   }
+    @objc
+    func didTapBottomButton() {
+        print("Bottom button tapped")
+        self.delegate?.didTapBottomButton()
+    }
     
     @objc
     func didTapTopLabel() {

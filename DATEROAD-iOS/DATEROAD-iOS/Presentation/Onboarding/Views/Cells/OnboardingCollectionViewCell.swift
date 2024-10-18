@@ -10,13 +10,13 @@ import UIKit
 final class OnboardingCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
-
+    
     private let backgroundImage: UIImageView = UIImageView()
-        
+    
     private let mainInfoLabel: UILabel = UILabel()
     
     private let subInfoLabel: UILabel = UILabel()
-
+    
     private let hintInfoLabel: UILabel = UILabel()
     
     
@@ -46,12 +46,11 @@ final class OnboardingCollectionViewCell: BaseCollectionViewCell {
             $0.top.equalTo(mainInfoLabel.snp.bottom).offset(ScreenUtils.height / 812  * 10)
             $0.centerX.equalToSuperview()
         }
-
+        
         hintInfoLabel.snp.makeConstraints {
             $0.top.equalTo(subInfoLabel.snp.bottom).offset(ScreenUtils.height / 812 * 6)
             $0.centerX.equalToSuperview()
         }
-
     }
     
     override func setStyle() {

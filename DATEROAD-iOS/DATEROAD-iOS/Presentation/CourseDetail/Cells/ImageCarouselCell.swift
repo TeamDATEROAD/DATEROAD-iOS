@@ -11,7 +11,9 @@ import SnapKit
 import Then
 
 protocol ImageCarouselDelegate: AnyObject {
+    
     func didSwipeImage(index: Int, vc: UIPageViewController, vcData: [UIViewController])
+    
 }
 
 final class ImageCarouselCell: BaseCollectionViewCell {
@@ -20,6 +22,7 @@ final class ImageCarouselCell: BaseCollectionViewCell {
     
     let pageControllView = BottomPageControllView()
     
+    
     // MARK: - Properties
     
     var vcData: [UIViewController] = []
@@ -27,8 +30,11 @@ final class ImageCarouselCell: BaseCollectionViewCell {
     var thumbnailModel: ThumbnailModel?
     
     let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-        
+    
     weak var delegate: ImageCarouselDelegate?
+    
+    
+    // MARK: - Life Cycles
     
     override init(frame: CGRect) {
         
@@ -39,6 +45,19 @@ final class ImageCarouselCell: BaseCollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        
+        super.prepareForReuse()
+        
+        // 이미지 리소스 해제 및 다운로드 작업 취소
+        vcData.forEach { vc in
+            if let imageView = vc.view.subviews.first as? UIImageView {
+                imageView.image = nil
+                imageView.kf.cancelDownloadTask()
+            }
+        }
     }
     
     func setPageVC(thumbnailModel: [ThumbnailModel]) {
@@ -89,15 +108,17 @@ final class ImageCarouselCell: BaseCollectionViewCell {
             pageViewController.dataSource = nil
         }
     }
+    
 }
 
-
 extension ImageCarouselCell: UIPageViewControllerDelegate {
+    
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         guard let currentVC = pageViewController.viewControllers?.first,
               let currentIndex = vcData.firstIndex(of: currentVC) else { return }
         self.delegate?.didSwipeImage(index: currentIndex, vc: pageViewController, vcData: vcData)
     }
+    
 }
 
 extension ImageCarouselCell: UIPageViewControllerDataSource {
@@ -115,4 +136,5 @@ extension ImageCarouselCell: UIPageViewControllerDataSource {
         
         return nextIndex == vcData.count ? nil : vcData[nextIndex]
     }
+    
 }

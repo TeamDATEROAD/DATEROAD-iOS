@@ -8,5 +8,7 @@
 import Foundation
 
 struct DeleteWithdrawalRequest: Codable {
+    
     let authCode: String?
+    
 }

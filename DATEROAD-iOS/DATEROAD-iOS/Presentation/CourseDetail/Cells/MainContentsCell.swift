@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 import Then
 
-
 final class MainContentsCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
@@ -34,7 +33,7 @@ final class MainContentsCell: BaseCollectionViewCell {
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineHeightMultiple = 1.2
             $0.attributedText = NSMutableAttributedString(string: "본문", attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
-
+            
             $0.font = UIFont.suit(.body_med_13)
             $0.textColor = UIColor(resource: .drBlack)
             $0.numberOfLines = 3
@@ -48,4 +47,5 @@ extension MainContentsCell {
     func setCell(mainContentsData: MainContentsModel) {
         mainTextLabel.text = mainContentsData.description
     }
+    
 }

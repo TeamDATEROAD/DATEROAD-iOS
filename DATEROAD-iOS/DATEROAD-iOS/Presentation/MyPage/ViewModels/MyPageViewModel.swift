@@ -12,15 +12,15 @@ final class MyPageViewModel: Serviceable {
     var isAppleLogin: Bool = false
     
     var userInfoData: ObservablePattern<MyPageUserInfoModel> = ObservablePattern(nil)
-   
-   var tagData: [String] = []
-        
+    
+    var tagData: [String] = []
+    
     var onSuccessLogout: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onSuccessWithdrawal: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onSuccessGetUserProfile: ObservablePattern<Bool> = ObservablePattern(false)
-
+    
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onLoading: ObservablePattern<Bool> = ObservablePattern(true)
@@ -28,7 +28,7 @@ final class MyPageViewModel: Serviceable {
     var onAuthLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
-
+    
 }
 
 extension MyPageViewModel {
@@ -37,7 +37,7 @@ extension MyPageViewModel {
         let socialType = UserDefaults.standard.bool(forKey: StringLiterals.Network.socialType)
         isAppleLogin = !socialType
     }
-
+    
     func deleteLogout() {
         self.onAuthLoading.value = true
         self.onFailNetwork.value = false
@@ -106,8 +106,8 @@ extension MyPageViewModel {
                                                               tagList: data.tags,
                                                               point: data.point,
                                                               imageURL: data.imageURL)
-               self.tagData = data.tags
-               self.onSuccessGetUserProfile.value = true
+                self.tagData = data.tags
+                self.onSuccessGetUserProfile.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
@@ -126,4 +126,5 @@ extension MyPageViewModel {
         guard let isSuccessGetUserInfo = self.onSuccessGetUserProfile.value else { return }
         self.onLoading.value = !isSuccessGetUserInfo
     }
+    
 }

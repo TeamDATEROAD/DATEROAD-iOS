@@ -13,16 +13,16 @@ import Then
 final class CourseListView: BaseView {
     
     // MARK: - UI Properties
-
+    
     var emptyView = CustomEmptyView()
-
+    
     let courseListCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
+    
     // MARK: - Life Cycle
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-
     }
     
     required init?(coder: NSCoder) {
@@ -37,7 +37,6 @@ final class CourseListView: BaseView {
     }
     
     override func setLayout() {
-        
         emptyView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(24)
             $0.horizontalEdges.equalToSuperview()
@@ -49,7 +48,6 @@ final class CourseListView: BaseView {
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.11)
         }
-        
     }
     
     override func setStyle() {
@@ -58,7 +56,7 @@ final class CourseListView: BaseView {
         
         emptyView.do {
             $0.isHidden = true
-            $0.setEmptyView(emptyImage: UIImage(resource: .imgCourseEmpty), 
+            $0.setEmptyView(emptyImage: UIImage(resource: .imgCourseEmpty),
                             emptyTitle: StringLiterals.Course.isCourseEmpty)
         }
     }

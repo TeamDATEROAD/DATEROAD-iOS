@@ -10,12 +10,15 @@ import Foundation
 import Moya
 
 protocol MyCourseServiceProtocol {
+    
     func getViewedCourse(completion: (@escaping (NetworkResult<MyCourseListDTO>) -> Void))
-
+    
     func getMyRegisterCourse(completion: (@escaping (NetworkResult<MyCourseListDTO>) -> Void))
+    
 }
 
 final class MyCourseService: BaseService, MyCourseServiceProtocol {
+    
     private var myCourseProvider = MoyaProvider<MyCourseTargetType>(plugins: [MoyaLoggingPlugin()])
     
     func getViewedCourse(completion: (@escaping (NetworkResult<MyCourseListDTO>) -> Void)) {

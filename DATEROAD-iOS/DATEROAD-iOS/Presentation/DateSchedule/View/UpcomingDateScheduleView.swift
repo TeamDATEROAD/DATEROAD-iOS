@@ -39,7 +39,6 @@ final class UpcomingDateScheduleView: BaseView {
     }
     
     override func setLayout() {
-        
         titleLabel.snp.makeConstraints {
             $0.centerY.equalTo(dateRegisterButton)
             $0.leading.equalToSuperview().inset(16)
@@ -123,16 +122,19 @@ final class UpcomingDateScheduleView: BaseView {
             $0.setTitleColor(UIColor(resource: .drBlack), for: .normal)
             $0.roundedButton(cornerRadius: 13, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
         }
-        
     }
+    
 }
+
 
 // MARK: - Data Binding Methods
 
 extension UpcomingDateScheduleView {
+    
     func updatePageControlSelectedIndex(index: Int) {
         cardPageControl.currentPage = index
     }
+    
 }
 
 

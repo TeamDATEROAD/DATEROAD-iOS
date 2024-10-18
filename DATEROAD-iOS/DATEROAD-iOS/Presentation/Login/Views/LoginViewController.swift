@@ -14,13 +14,13 @@ final class LoginViewController: BaseViewController {
     // MARK: - UI Properties
     
     private let loginView = LoginView()
-
+    
     
     // MARK: - Properties
     
     private let loginViewModel = LoginViewModel()
     
-
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -47,7 +47,7 @@ final class LoginViewController: BaseViewController {
     override func setStyle() {
         self.view.backgroundColor = UIColor(resource: .deepPurple)
     }
-
+    
 }
 
 extension LoginViewController {
@@ -85,7 +85,7 @@ extension LoginViewController {
         self.loginView.appleLoginButton.addTarget(self, action: #selector(didTapAppleLoginButton), for: .touchUpInside)
         self.loginView.privacyPolicyButton.addTarget(self, action: #selector(didTapPrivacyPolicyButton), for: .touchUpInside)
     }
-        
+    
     func pushToNextVC(isSignIn: Bool) {
         if isSignIn {
             guard let userId = UserDefaults.standard.string(forKey: StringLiterals.Network.userID) else { return }
@@ -130,7 +130,7 @@ extension LoginViewController {
         let privacyPolicyVC = DRWebViewController(urlString: StringLiterals.WebView.privacyPolicyLink)
         self.present(privacyPolicyVC, animated: true)
     }
-   
+    
 }
 
 extension LoginViewController: ASAuthorizationControllerDelegate {

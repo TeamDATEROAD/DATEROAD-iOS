@@ -10,8 +10,11 @@ import Foundation
 import Moya
 
 protocol BaseTargetType: TargetType {
+    
     var utilPath: String { get }
+    
     var method: Moya.Method { get }
+    
 }
 
 extension BaseTargetType {

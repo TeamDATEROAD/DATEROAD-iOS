@@ -31,6 +31,7 @@ final class ContentMaskView: UICollectionReusableView {
     
     private let gradient = CAGradientLayer()
     
+    
     // MARK: - Properties
     
     weak var delegate: ContentMaskViewDelegate?
@@ -38,6 +39,7 @@ final class ContentMaskView: UICollectionReusableView {
     static let elementKinds: String = StringLiterals.Elementkinds.contentMaskView
     
     static let identifier: String = StringLiterals.Elementkinds.contentMaskView
+    
     
     // MARK: - Life Cycle
     
@@ -64,7 +66,6 @@ final class ContentMaskView: UICollectionReusableView {
     }
     
     func setLayout() {
-        
         gradientView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -147,4 +148,5 @@ extension ContentMaskView {
             readCourseButton.setTitle(StringLiterals.CourseDetail.viewCoursewithPoint, for: .normal)
         }
     }
+    
 }

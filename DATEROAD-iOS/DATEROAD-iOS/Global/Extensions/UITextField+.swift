@@ -25,4 +25,5 @@ extension UITextField {
     func setPlaceholder(placeholder: String, fontColor: UIColor?, font: UIFont) {
         self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [.foregroundColor: fontColor!, .font: font])
     }
+    
 }

@@ -20,13 +20,13 @@ final class HotDateCourseCell: BaseCollectionViewCell {
     private let likeView: UIView = UIView()
     
     private let likeImage: UIImageView = UIImageView()
-
+    
     private let likeLabel: DRPaddingLabel = DRPaddingLabel()
     
     private let dateNameView: UIView = UIView()
     
     private let dateNameLabel: UILabel = UILabel()
-
+    
     private let costView: UIView = UIView()
     
     private let costImage: UIImageView = UIImageView()
@@ -36,11 +36,24 @@ final class HotDateCourseCell: BaseCollectionViewCell {
     private let timeView: UIView = UIView()
     
     private let timeImage: UIImageView = UIImageView()
-
+    
     private var timeLabel: DRPaddingLabel = DRPaddingLabel()
-
+    
+    
+    // MARK: - Properties
+    
+    weak var delegate: CellImageLoadDelegate?
+    
     
     // MARK: - Life Cycle
+    
+    override func prepareForReuse() {
+        self.courseImage.image = nil
+        self.costLabel.text = nil
+        self.likeLabel.text = nil
+        self.countryLabel.text = nil
+        self.dateNameLabel.text = nil
+    }
     
     override func setHierarchy() {
         self.addSubviews(countryLabel,
@@ -219,6 +232,7 @@ final class HotDateCourseCell: BaseCollectionViewCell {
             $0.setPadding(top: 4, left: 0, bottom: 4, right: 10)
         }
     }
+    
 }
 
 extension HotDateCourseCell {
@@ -227,14 +241,18 @@ extension HotDateCourseCell {
         guard let hotDateData else { return }
         self.countryLabel.text = hotDateData.city
         if let url = URL(string: hotDateData.thumbnail) {
-            self.courseImage.kf.setImage(with: url)
+            self.courseImage.kf.setImage(with: url) { result  in
+                self.delegate?.cellImageLoaded()
+            }
         } else {
             self.courseImage.image = UIImage(resource: .testImage2)
+            self.delegate?.cellImageLoaded()
         }
-
+        
         self.likeLabel.text = "\(hotDateData.like)"
         self.dateNameLabel.text = hotDateData.title
         self.costLabel.text =  "\(hotDateData.cost.priceRangeTag())"
         self.timeLabel.text = "\(hotDateData.duration)시간"
     }
+    
 }

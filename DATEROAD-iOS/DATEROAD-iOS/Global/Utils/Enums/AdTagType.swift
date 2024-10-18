@@ -8,9 +8,13 @@
 import Foundation
 
 enum AdTagType: Int, CaseIterable {
+    
     case editor
+    
     case ad
+    
     case about
+    
     case hot
     
     var tag: AdModel {
@@ -29,4 +33,5 @@ enum AdTagType: Int, CaseIterable {
     static func getAdTag(byEnglish english: String) -> AdTagType? {
         return AdTagType.allCases.first { $0.tag.english == english }
     }
+    
 }

@@ -21,7 +21,7 @@ final class ProfileImageSettingView: BaseView {
     
     
     // MARK: - Properties
-        
+    
     let disabledButtonType: DRButtonType = DisabledButton()
     
     
@@ -67,6 +67,6 @@ final class ProfileImageSettingView: BaseView {
                         textColor: UIColor(resource: .deepPurple),
                         font: UIFont.suit(.body_semi_15))
         }
-        
     }
+    
 }

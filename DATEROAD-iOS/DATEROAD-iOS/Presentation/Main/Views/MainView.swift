@@ -8,14 +8,16 @@
 import UIKit
 
 protocol BannerIndexDelegate: AnyObject {
+    
     func bindIndex(currentIndex: Int)
+    
 }
 
 final class MainView: BaseView {
     
     // MARK: - UI Properties
     
-   lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeCompositionalLayout())
+    lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeCompositionalLayout())
     
     let floatingButton: UIButton = UIButton()
     
@@ -25,7 +27,7 @@ final class MainView: BaseView {
     private var mainSectionData: [MainSection]
     
     weak var delegate: BannerIndexDelegate?
-
+    
     
     // MARK: - Life Cycles
     
@@ -73,7 +75,7 @@ final class MainView: BaseView {
             $0.roundedButton(cornerRadius: 25, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
         }
     }
-
+    
 }
 
 extension MainView {
@@ -129,4 +131,5 @@ extension MainView {
                                                                            absoluteOffset: layout.absoluteOffset)
         return supplemetaryItem
     }
+    
 }

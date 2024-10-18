@@ -8,8 +8,11 @@
 import Foundation
 
 enum BannerDetailSection {
+    
     case imageCarousel
+    
     case titleInfo
+    
     case mainContents
     
     static let dataSource: [BannerDetailSection] = [
@@ -17,5 +20,6 @@ enum BannerDetailSection {
         BannerDetailSection.titleInfo,
         BannerDetailSection.mainContents
     ]
+    
 }
 

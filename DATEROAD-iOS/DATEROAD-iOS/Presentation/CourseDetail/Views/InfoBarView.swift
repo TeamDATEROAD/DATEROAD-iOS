@@ -26,6 +26,7 @@ final class InfoBarView: UICollectionReusableView {
     
     private let locationLabel = UILabel()
     
+    
     // MARK: - Properties
     
     static let elementKinds: String = "infoBarView"
@@ -56,7 +57,6 @@ final class InfoBarView: UICollectionReusableView {
     }
     
     func setLayout() {
-        
         coastIconImageView.snp.makeConstraints {
             $0.top.leading.equalToSuperview()
             $0.size.equalTo(14)
@@ -92,7 +92,6 @@ final class InfoBarView: UICollectionReusableView {
     }
     
     func setStyle() {
-      
         coastLabel.do {
             $0.text = "10만원 이하"
             $0.font = UIFont.suit(.body_semi_15)
@@ -110,13 +109,12 @@ final class InfoBarView: UICollectionReusableView {
             $0.font = UIFont.suit(.body_semi_15)
             $0.textColor = UIColor(resource: .gray400)
         }
-        
     }
     
 }
 
 extension InfoBarView {
-     
+    
     func bindTitleHeader(titleHeaderData: TitleHeaderModel) {
         print("가격 여기여기",titleHeaderData.cost)
         coastLabel.text = "\(titleHeaderData.cost.priceRangeTag())"
@@ -134,4 +132,5 @@ extension InfoBarView {
             $0.isHidden =  true
         }
     }
+    
 }

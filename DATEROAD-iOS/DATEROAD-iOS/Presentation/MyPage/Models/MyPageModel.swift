@@ -8,9 +8,13 @@
 import Foundation
 
 struct MyPageUserInfoModel {
+    
     let nickname: String
+    
     let tagList: [String]
+    
     let point: Int
+    
     let imageURL: String?
     
     init(nickname: String, tagList: [String], point: Int, imageURL: String?) {
@@ -23,5 +27,5 @@ struct MyPageUserInfoModel {
     static var emptyModel: MyPageUserInfoModel {
         return MyPageUserInfoModel(nickname: "", tagList: [], point: 0, imageURL: "")
     }
-
+    
 }

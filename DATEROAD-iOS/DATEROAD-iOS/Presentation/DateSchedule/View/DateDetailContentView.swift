@@ -8,7 +8,7 @@
 import UIKit
 
 final class DateDetailContentView: BaseView {
-
+    
     // MARK: - UI Properties
     
     private var ribbonImageView = UIImageView()
@@ -43,6 +43,7 @@ final class DateDetailContentView: BaseView {
     
     static var dateTimeLineCollectionViewLayout = UICollectionViewFlowLayout()
     
+    
     // MARK: - LifeCycle
     
     override init(frame: CGRect) {
@@ -68,7 +69,7 @@ final class DateDetailContentView: BaseView {
         
         dateDetailView.addSubviews(dateStartTimeLabel, dateTimeLineCollectionView)
     }
-
+    
     override func setLayout() {
         ribbonImageView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(8)
@@ -147,12 +148,11 @@ final class DateDetailContentView: BaseView {
             $0.height.equalTo(ScreenUtils.width*0.1386667)
             $0.bottom.equalToSuperview().inset(ScreenUtils.height*0.04802956)
         }
-
     }
     
     override func setStyle() {
         self.backgroundColor = UIColor(resource: .lilac)
-
+        
         ribbonImageView.do {
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
@@ -208,7 +208,7 @@ final class DateDetailContentView: BaseView {
             $0.isEnabled = false
             $0.adjustsImageWhenDisabled = false
         }
-
+        
         locationLabel.do {
             $0.setLabel(textColor: UIColor(resource: .gray500), font: UIFont.suit(.body_med_15))
         }
@@ -264,10 +264,10 @@ final class DateDetailContentView: BaseView {
             $0.minimumLineSpacing = 12
             $0.itemSize = CGSize(width: ScreenUtils.width * 343/375, height: 54)
         }
-        
     }
-
+    
 }
+
 
 // MARK: - Data Binding Methods
 
@@ -279,7 +279,7 @@ extension DateDetailContentView {
             self.dDayButton.setTitle("D-Day", for: .normal)
         } else {
             self.dDayButton.setTitle("D-\(dateDetailData.dDay)", for: .normal)
-
+            
         }
         self.dateStartTimeLabel.text = "\(dateDetailData.startAt) " + StringLiterals.DateSchedule.startTime
         updateTagButton(title: "\(dateDetailData.tags[0].tag)", button: self.firstTagButton)
@@ -315,12 +315,13 @@ extension DateDetailContentView {
     }
     
     func updateTagButton(title: String, button: UIButton) {
-       guard let tendencyTag = TendencyTag.getTag(byEnglish: title) else { return }
+        guard let tendencyTag = TendencyTag.getTag(byEnglish: title) else { return }
         button.do {
-           $0.setImage(tendencyTag.tag.tagIcon, for: .normal)
-           $0.setTitle(" \(tendencyTag.tag.tagTitle)", for: .normal)
-       }
+            $0.setImage(tendencyTag.tag.tagIcon, for: .normal)
+            $0.setTitle(" \(tendencyTag.tag.tagTitle)", for: .normal)
+        }
     }
+    
 }
 
 

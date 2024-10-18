@@ -5,18 +5,14 @@
 //  Created by 김민서 on 7/18/24.
 //
 
-//  UsePointService.swift
-//  DATEROAD-iOS
-//
-//  Created by 김민서 on 7/18/24.
-//
-
 import Foundation
 
 import Moya
 
 protocol UsePointServiceProtocol {
+    
     func postUsePoint(courseId: Int, request: PostUsePointRequest, completion: @escaping (NetworkResult<EmptyResponse>) -> Void)
+    
 }
 
 final class UsePointService: BaseService, UsePointServiceProtocol {
@@ -35,4 +31,5 @@ final class UsePointService: BaseService, UsePointServiceProtocol {
             }
         }
     }
+    
 }

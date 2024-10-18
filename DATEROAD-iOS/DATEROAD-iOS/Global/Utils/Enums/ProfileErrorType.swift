@@ -8,7 +8,11 @@
 import Foundation
 
 enum ProfileErrorType {
+    
     case isNotValidCount
+    
     case isValid
+    
     case isNotValid
+    
 }

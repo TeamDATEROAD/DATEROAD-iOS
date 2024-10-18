@@ -10,9 +10,10 @@ import Foundation
 import Moya
 
 enum UsePointTargetType {
+    
     case postUsePoint(courseId: Int, request: PostUsePointRequest)
+    
 }
-
 
 extension UsePointTargetType: BaseTargetType {
     
@@ -46,4 +47,5 @@ extension UsePointTargetType: BaseTargetType {
         let headers = HeaderType.headerWithAcceptToken(token: token)
         return headers
     }
+    
 }

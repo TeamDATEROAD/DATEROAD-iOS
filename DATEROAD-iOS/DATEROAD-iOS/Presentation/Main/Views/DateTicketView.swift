@@ -72,7 +72,7 @@ final class DateTicketView: BaseView {
             $0.size.equalTo(44)
         }
     }
-
+    
     override func setStyle() {
         ticketImage.do {
             $0.image = UIImage(resource: .ticket)
@@ -105,6 +105,7 @@ final class DateTicketView: BaseView {
             $0.setImage(UIImage(resource: .icRightarrowPurple), for: .normal)
         }
     }
+    
 }
 
 extension DateTicketView {
@@ -115,4 +116,5 @@ extension DateTicketView {
         self.dateLabel.text = "\(data.month)월 \(data.day)일"
         self.startTimeLabel.text = "\(data.startAt) 시작"
     }
+    
 }

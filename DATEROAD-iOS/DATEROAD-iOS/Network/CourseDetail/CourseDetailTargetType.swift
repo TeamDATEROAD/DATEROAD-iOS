@@ -10,9 +10,13 @@ import Foundation
 import Moya
 
 enum CourseDetailTargetType {
+    
     case getCourseDetailInfo(courseId: Int)
+    
     case deleteCourse(courseId: Int)
+    
     case getBannerDetail(advertismentId: Int)
+    
 }
 
 extension CourseDetailTargetType: BaseTargetType {

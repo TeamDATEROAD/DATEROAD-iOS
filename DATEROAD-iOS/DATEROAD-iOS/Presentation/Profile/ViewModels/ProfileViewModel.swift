@@ -9,6 +9,8 @@ import UIKit
 
 final class ProfileViewModel: Serviceable {
     
+    var type: ObservablePattern<NetworkType> = ObservablePattern(nil)
+    
     var tagData: [ProfileTagModel] = []
     
     var selectedTagData: [String]
@@ -18,7 +20,7 @@ final class ProfileViewModel: Serviceable {
     var isDefaultImage: Bool = false
     
     var profileImage: ObservablePattern<UIImage>
-
+    
     var existingNickname: ObservablePattern<String>
     
     var isExistedNickname: ObservablePattern<Bool> = ObservablePattern(nil)
@@ -30,15 +32,15 @@ final class ProfileViewModel: Serviceable {
     var isValidNicknameCount: ObservablePattern<Bool> = ObservablePattern(false)
     
     var isValidNickname: ObservablePattern<Bool> = ObservablePattern(false)
-        
+    
     var isValidTag: ObservablePattern<Bool> = ObservablePattern(false)
     
     var isValidRegistration: ObservablePattern<Bool> = ObservablePattern(false)
-   
-   var is5orLess: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var is5orLess: ObservablePattern<Bool> = ObservablePattern(false)
     
     var onLoading: ObservablePattern<Bool> = ObservablePattern(nil)
-            
+    
     var onSuccessRegister: ((Bool) -> Void)?
     
     var onSuccessEdit: ((Bool) -> Void)?
@@ -48,8 +50,11 @@ final class ProfileViewModel: Serviceable {
     var onEditProfileLoading: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var alertMessage: ObservablePattern<String> = ObservablePattern(nil)
 
- 
+    
+    
     init(profileData: ProfileModel) {
         self.profileData = ObservablePattern(profileData)
         self.profileImage = ObservablePattern(profileData.profileImage)
@@ -74,34 +79,32 @@ extension ProfileViewModel {
         guard let nickname = self.nickname.value else { return }
         if nickname.count >= 2 && nickname.count <= 5 {
             self.isValidNicknameCount.value = true
-           self.is5orLess.value = true
+            self.is5orLess.value = true
         } else {
-           self.is5orLess.value = false
-           if nickname.count < 2 {
+            self.is5orLess.value = false
+            if nickname.count < 2 {
                 self.isValidNicknameCount.value = false
             }
         }
     }
     
     func countSelectedTag(isSelected: Bool, tag: String) {
-          if isSelected {
-             if !selectedTagData.contains(tag) {
-                 selectedTagData.append(tag)
-             }
-          } else {
-             if let index = selectedTagData.firstIndex(of: tag) {
-                 selectedTagData.remove(at: index)
-             }
-          }
-        
+        if isSelected {
+            if !selectedTagData.contains(tag) {
+                selectedTagData.append(tag)
+            }
+        } else {
+            if let index = selectedTagData.firstIndex(of: tag) {
+                selectedTagData.remove(at: index)
+            }
+        }
         checkTagCount()
-       }
-    
+    }
     
     func checkTagCount() {
         let count = selectedTagData.count
         self.tagCount.value = count
-
+        
         if count >= 1 && count <= 3 {
             self.isValidTag.value = true
         } else {
@@ -113,7 +116,7 @@ extension ProfileViewModel {
         guard let isValidNickname = isValidNickname.value,
               let isValidTag = isValidTag.value,
               let is5CntVaild = is5orLess.value else { return }
-
+        
         self.isValidRegistration.value = (isValidNickname && isValidTag && is5CntVaild)
     }
     
@@ -137,6 +140,7 @@ extension ProfileViewModel {
                 self.onLoading.value = false
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
+                    self.type.value = NetworkType.postSignUp
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
@@ -144,7 +148,6 @@ extension ProfileViewModel {
                 self.onSuccessRegister?(false)
                 return
             }
-            
         }
     }
     
@@ -157,10 +160,15 @@ extension ProfileViewModel {
                 self.isValidNickname.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
+                    self.type.value = NetworkType.getDoubleCheck
                     self.onReissueSuccess.value = isSuccess
                 }
             case .requestErr:
                 self.isValidNickname.value = false
+            case .serverErr:
+                self.alertMessage.value = StringLiterals.Alert.serverError
+            case .networkFail:
+                self.alertMessage.value = StringLiterals.Alert.networkFail
             default:
                 print("Failed to fetch get double check")
                 self.isValidNickname.value = false
@@ -192,6 +200,7 @@ extension ProfileViewModel {
                 self.onEditProfileLoading.value = false
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
+                    self.type.value = NetworkType.patchEditProfile
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
@@ -205,7 +214,7 @@ extension ProfileViewModel {
     func compareExistingNickname() {
         isExistedNickname.value = existingNickname.value == nickname.value
     }
-
+    
     func checkDefaultImage() {
         if self.profileImage.value == UIImage(resource: .emptyProfileImg) {
             self.profileImage.value = nil
@@ -214,5 +223,6 @@ extension ProfileViewModel {
             self.isDefaultImage = false
         }
     }
+    
 }
 

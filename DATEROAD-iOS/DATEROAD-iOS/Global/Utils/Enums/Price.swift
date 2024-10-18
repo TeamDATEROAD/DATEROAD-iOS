@@ -8,9 +8,13 @@
 import Foundation
 
 enum Price: Int, CaseIterable {
+    
     case under300K
+    
     case under500K
+    
     case under100K
+    
     case over100K
     
     var priceTitle: String {
@@ -26,4 +30,5 @@ enum Price: Int, CaseIterable {
             
         }
     }
+    
 }

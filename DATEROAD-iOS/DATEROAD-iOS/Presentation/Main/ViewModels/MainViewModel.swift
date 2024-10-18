@@ -27,6 +27,8 @@ final class MainViewModel: Serviceable {
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
+    var isAllLoaded: (() -> Void)?
+    
     var onLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
@@ -38,11 +40,11 @@ final class MainViewModel: Serviceable {
     var courseListLocation: String = ""
     
     var courseListCost: String = ""
-
+    
     var count: Int = 0
     
     var totalFetchCount: Int = 0
-
+    
 }
 
 extension MainViewModel {
@@ -93,27 +95,27 @@ extension MainViewModel {
             switch response {
             case .success(let data):
                 dateData = data.courses.map { DateCourseModel(courseId: $0.courseID,
-                                                                              thumbnail: $0.thumbnail,
-                                                                              title: $0.title,
-                                                                              city: $0.city,
-                                                                              like: $0.like,
-                                                                              cost: $0.cost,
-                                                                              duration: $0.duration.formatFloatTime()) }
+                                                              thumbnail: $0.thumbnail,
+                                                              title: $0.title,
+                                                              city: $0.city,
+                                                              like: $0.like,
+                                                              cost: $0.cost,
+                                                              duration: $0.duration.formatFloatTime()) }
                 
                 self.courseListId += sortBy == StringLiterals.Main.popular ? StringLiterals.Main.hot : StringLiterals.Main.new
                 self.courseListTitle += sortBy == StringLiterals.Main.popular ? StringLiterals.Main.hot : StringLiterals.Main.new
                 self.courseListLocation += sortBy == StringLiterals.Main.popular ? StringLiterals.Main.hot : StringLiterals.Main.new
                 self.courseListCost += sortBy == StringLiterals.Main.popular ? StringLiterals.Main.hot : StringLiterals.Main.new
-
+                
                 self.sortCourseType(type: sortBy, dateData: dateData)
-
+                
                 dateData.forEach {
                     self.courseListId += "\($0.courseId) "
                     self.courseListTitle += "\($0.title) "
                     self.courseListLocation += "\($0.city) "
                     self.courseListCost += "\($0.cost) "
                 }
-
+                
                 self.count += 1
                 if self.count == 2 {
                     AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewMain,
@@ -192,8 +194,8 @@ extension MainViewModel {
     
     private func checkLoadingStatus() {
         // 모든 데이터 요청이 성공적으로 완료되었는지 확인
-        if totalFetchCount % 5 == 0 {
-            setLoading(false)
+        if totalFetchCount != 0 && totalFetchCount % 5 == 0 {
+            self.isAllLoaded?()
         }
     }
     
@@ -216,5 +218,5 @@ extension MainViewModel {
             self.newCourseData.value = dateData
         }
     }
-
+    
 }

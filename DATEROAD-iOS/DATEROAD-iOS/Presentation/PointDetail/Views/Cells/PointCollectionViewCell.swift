@@ -22,22 +22,22 @@ final class PointCollectionViewCell: BaseCollectionViewCell {
     
     private let cellDivider = UIView()
     
+    
     // MARK: - Properties
     
     var pointItemRow: Int?
+    
     
     // MARK: - LifeCycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
     }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     override func setHierarchy() {
         self.addSubviews(pointAmountLabel,
@@ -97,11 +97,13 @@ final class PointCollectionViewCell: BaseCollectionViewCell {
 }
 
 extension PointCollectionViewCell {
+    
     func dataBind(_ pointData : PointDetailModel, _ pointItemRow: Int) {
         self.pointAmountLabel.text = "\(pointData.sign) \(pointData.point ) P"
         self.pointDescriptionLabel.text = pointData.description
         self.pointDateLabel.text = pointData.createdAt
         self.pointItemRow = pointItemRow
     }
+    
 }
 

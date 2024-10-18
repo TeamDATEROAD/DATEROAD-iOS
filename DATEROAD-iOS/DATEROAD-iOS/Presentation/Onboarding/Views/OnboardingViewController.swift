@@ -20,7 +20,7 @@ final class OnboardingViewController: BaseViewController {
     
     
     // MARK: - Life Cycle
-   
+    
     init(onboardingViewModel: OnboardingViewModel) {
         self.onboardingViewModel = onboardingViewModel
         
@@ -49,7 +49,7 @@ final class OnboardingViewController: BaseViewController {
             $0.edges.equalToSuperview()
         }
     }
-
+    
 }
 
 
@@ -93,6 +93,7 @@ private extension OnboardingViewController {
     func pushToNextView(_ sender: UIButton) {
         self.onboardingViewModel.handleToIndex()
     }
+    
 }
 
 
@@ -139,5 +140,5 @@ extension OnboardingViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return .zero
     }
-
+    
 }
