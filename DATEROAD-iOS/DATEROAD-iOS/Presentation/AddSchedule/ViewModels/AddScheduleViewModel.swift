@@ -520,29 +520,30 @@ extension AddScheduleViewModel {
         self.onLoading.value = isLoading
     }
     
-    func postAddScheduel() {
-        self.setLoading(isLoading: true)
-        
+    /// Post 이전 prepare DatePlaceList
+    private func preparePlacesForPost() -> [PostAddSchedulePlace] {
         var places: [PostAddSchedulePlace] = []
         
         for (index, model) in addScheduleSecondViewModel.addPlaceCollectionViewDataSource.enumerated() {
-            // Extract the numeric part from the timeRequire string
-            let timeComponents = model.timeRequire.split(separator: " ")
-            
-            if let timeString = timeComponents.first {
-                if let duration = Float(timeString) {
-                    let place = PostAddSchedulePlace(title: model.placeTitle, duration: duration, sequence: index)
-                    places.append(place)
-                    print("👍👍👍👍 : place added - \(place)")
-                } else {
-                    print("❌❌❌ Step 1: Failed to convert timeString \(timeString) to Float")
-                }
+            if let timeString = model.timeRequire.split(separator: " ").first,
+               let duration = Float(timeString) {
+                let place = PostAddSchedulePlace(title: model.placeTitle, duration: duration, sequence: index)
+                places.append(place)
             } else {
-                print("❌❌❌ Step 2: Failed to extract timeString from \(model.timeRequire)")
+                print("❌ Failed to convert time")
             }
         }
+        
         print(addScheduleSecondViewModel.addPlaceCollectionViewDataSource, "addPlaceCollectionViewDataSource : \(addScheduleSecondViewModel.addPlaceCollectionViewDataSource)")
         print(places, "places : \(places)")
+        
+        return places
+    }
+    
+    func postAddScheduel() {
+        self.setLoading(isLoading: true)
+        
+        let datePlaces = preparePlacesForPost()
         
         guard let dateName = addScheduleFirstViewModel.dateName.value else {return}
         guard let visitDate = addScheduleFirstViewModel.visitDate.value else {return}
@@ -558,7 +559,7 @@ extension AddScheduleViewModel {
             tags: postAddScheduleTags,
             country: country,
             city: city,
-            places: places)) { result in
+            places: datePlaces)) { result in
                 switch result {
                 case .success(let response):
                     print("Success: \(response)")
