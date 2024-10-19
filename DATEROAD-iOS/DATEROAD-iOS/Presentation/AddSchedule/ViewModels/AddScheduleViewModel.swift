@@ -487,6 +487,17 @@ class AmplitudeModel {
 
 final class AddScheduleViewModel: Serviceable {
     
+    
+    // MARK: - Initializer
+    
+    init() {
+        amplitudeModel.initAmplitudeVar()
+        addScheduleFirstViewModel.fetchTagData()
+    }
+    
+    /// Todo: 로직개선
+    /// - First에 amplitude를 init하지 않는 이유는 VC에서 amplitude 관련 로직을 처리하기 때문
+    /// - 따라서 First or Second 방식 중 통일되도록 개선하는 것이 좋아 보임
     lazy var addScheduleFirstViewModel: AddScheduleFirstViewModelInterface = AddScheduleFirstViewModel(setLoading: self.setLoading)
     
     lazy var addScheduleSecondViewModel: AddScheduleSecondViewModelInterface = AddScheduleSecondViewModel(amplitudeModel: amplitudeModel)
@@ -502,14 +513,6 @@ final class AddScheduleViewModel: Serviceable {
     let onLoading: ObservablePattern<Bool> = ObservablePattern(false)
     
     let onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
-    
-    
-    // MARK: - Initializer
-    
-    init() {
-        amplitudeModel.initAmplitudeVar()
-        addScheduleFirstViewModel.fetchTagData()
-    }
     
 }
 
@@ -545,9 +548,15 @@ extension AddScheduleViewModel {
         
         let datePlaces = preparePlacesForPost()
         
-        guard let dateName = addScheduleFirstViewModel.dateName.value else {return}
-        guard let visitDate = addScheduleFirstViewModel.visitDate.value else {return}
-        guard let dateStartAt = addScheduleFirstViewModel.dateStartAt.value else {return}
+        guard let dateName = addScheduleFirstViewModel.dateName.value,
+              let visitDate = addScheduleFirstViewModel.visitDate.value,
+              let dateStartAt = addScheduleFirstViewModel.dateStartAt.value
+        else {
+            print("failed to guard let")
+            self.onFailNetwork.value = true // 네트워크 실패 상태 전달
+            return
+        }
+        
         let country = addScheduleFirstViewModel.country
         let city = addScheduleFirstViewModel.city
         let postAddScheduleTags = addScheduleFirstViewModel.selectedTagData.map { PostAddScheduleTag(tag: $0) }
@@ -559,7 +568,9 @@ extension AddScheduleViewModel {
             tags: postAddScheduleTags,
             country: country,
             city: city,
-            places: datePlaces)) { result in
+            places: datePlaces)) { [weak self] result in
+                guard let self = self else { return }
+                
                 switch result {
                 case .success(let response):
                     print("Success: \(response)")
