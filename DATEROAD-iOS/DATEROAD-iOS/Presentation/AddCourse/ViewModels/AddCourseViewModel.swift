@@ -335,11 +335,13 @@ extension AddCourseViewModel {
     }
     
     func updateTimeRequireTextField(text: String) {
-        var formattedText = text
-        if let doubleValue = Double(text) {
-            formattedText = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(doubleValue)) : String(doubleValue)
-        }
-        timeRequire.value = "\(formattedText) 시간"
+        timeRequire.value = formatTimeRequireText(text: text)
+    }
+    
+    /// 소요시간 표기전환 코드
+    private func formatTimeRequireText(text: String) -> String {
+        guard let doubleValue = Double(text) else { return text }
+        return doubleValue.truncatingRemainder(dividingBy: 1) == 0 ? "\(Int(doubleValue)) 시간" : "\(doubleValue) 시간"
     }
     
     func isAbleAddBtn() -> Bool {
