@@ -45,15 +45,17 @@ final class DRWebViewController: UIViewController {
             print("Invalid URL string.")
         }
     }
-
+    
 }
 
 extension DRWebViewController: WKNavigationDelegate {
+    
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         print("Failed to load URL: \(error.localizedDescription)")
     }
-        
+    
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         print("Navigation error: \(error.localizedDescription)")
     }
+    
 }

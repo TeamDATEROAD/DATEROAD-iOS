@@ -10,9 +10,9 @@ import UIKit
 final class LoginView: BaseView {
     
     // MARK: - UI Properties
-        
+    
     private let logoImageView: UIImageView = UIImageView()
-        
+    
     let kakaoLoginButton: UIButton = UIButton()
     
     let appleLoginButton: UIButton = UIButton()
@@ -23,7 +23,7 @@ final class LoginView: BaseView {
     // MARK: - Methods
     
     override func setHierarchy() {
-        self.addSubviews(logoImageView, 
+        self.addSubviews(logoImageView,
                          kakaoLoginButton,
                          appleLoginButton,
                          privacyPolicyButton)
@@ -34,7 +34,7 @@ final class LoginView: BaseView {
             $0.top.equalTo(self.safeAreaLayoutGuide).inset(ScreenUtils.height / 812 * 210)
             $0.centerX.equalToSuperview()
         }
-
+        
         kakaoLoginButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(appleLoginButton.snp.top).offset(-16)
@@ -59,7 +59,7 @@ final class LoginView: BaseView {
         self.backgroundColor = UIColor(resource: .deepPurple)
         
         logoImageView.do {
-           $0.image = UIImage(resource: .splashLogo)
+            $0.image = UIImage(resource: .splashLogo)
             $0.contentMode = .scaleAspectFit
         }
         
@@ -69,7 +69,7 @@ final class LoginView: BaseView {
             $0.setTitle(StringLiterals.Login.kakaoLoginLabel, for: .normal)
             $0.setTitleColor(UIColor(resource: .drBlack).withAlphaComponent(0.85), for: .highlighted)
             $0.contentHorizontalAlignment = .leading
-
+            
             var config = UIButton.Configuration.plain()
             config.imagePadding = ScreenUtils.width / 375 * 86
             config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 14, bottom: 0, trailing: 0)
@@ -88,5 +88,5 @@ final class LoginView: BaseView {
             $0.setUnderline()
         }
     }
-
+    
 }

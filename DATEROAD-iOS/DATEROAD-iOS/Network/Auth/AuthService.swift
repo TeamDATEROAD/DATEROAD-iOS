@@ -10,18 +10,25 @@ import Foundation
 import Moya
 
 protocol AuthServiceProtocol {
+    
     func postSignUp(requestBody: PostSignUpRequest, completion: @escaping (NetworkResult<PostSignUpResponse>) -> ())
+    
     func getDoubleCheck(name: String, completion: @escaping (NetworkResult<EmptyResponse>) -> ())
+    
     func deleteLogout(completion: @escaping (NetworkResult<EmptyResponse>) -> ())
+    
     func postSignIn(requestBody: PostSignInRequest, completion: @escaping (NetworkResult<PostSignUpResponse>) -> ())
+    
     func deleteWithdrawal(requestBody: DeleteWithdrawalRequest, completion: @escaping (NetworkResult<EmptyResponse>) -> ())
+    
     func patchReissue(completion: @escaping (NetworkResult<PatchReissueResponse>) -> ())
+    
 }
 
 final class AuthService: BaseService, AuthServiceProtocol {
     
     let provider = MoyaProvider<AuthTargetType>(plugins: [MoyaLoggingPlugin()])
-
+    
     func postSignUp(requestBody : PostSignUpRequest, completion: @escaping (NetworkResult<PostSignUpResponse>) -> ()) {
         provider.request(.postSignUp(requestBody: requestBody)) { result in
             switch result {
@@ -93,4 +100,5 @@ final class AuthService: BaseService, AuthServiceProtocol {
             }
         }
     }
+    
 }

@@ -8,20 +8,29 @@
 import Foundation
 
 struct MyCourseListModel {
+    
     let courses: [MyCourseModel]
     
     init(courses: [MyCourseModel]) {
         self.courses = courses
     }
+    
 }
 
 struct MyCourseModel {
+    
     let courseId: Int
+    
     let thumbnail: String
+    
     let title: String
+    
     let city: String
+    
     let cost: String
+    
     let duration: String
+    
     let like: Int
     
     init(courseId: Int, thumbnail: String, title: String, city: String, cost: String, duration: String, like: Int) {
@@ -33,4 +42,5 @@ struct MyCourseModel {
         self.duration = duration
         self.like = like
     }
+    
 }

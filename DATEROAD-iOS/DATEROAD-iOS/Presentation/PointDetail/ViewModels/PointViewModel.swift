@@ -26,9 +26,9 @@ final class PointViewModel: Serviceable {
     var isEarnedPointHidden : ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
-
+    
     var onLoading: ObservablePattern<Bool> = ObservablePattern(nil)
-
+    
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(nil)
     
     init (userName: String, totalPoint: Int) {
@@ -79,8 +79,8 @@ final class PointViewModel: Serviceable {
     }
     
     func setPointDetailLoading() {
-          guard let isSuccessGetPointInfo = self.isSuccessGetPointInfo.value else { return }
-          self.onLoading.value = !isSuccessGetPointInfo
-      }
-
+        guard let isSuccessGetPointInfo = self.isSuccessGetPointInfo.value else { return }
+        self.onLoading.value = !isSuccessGetPointInfo
+    }
+    
 }

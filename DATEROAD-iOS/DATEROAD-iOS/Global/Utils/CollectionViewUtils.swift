@@ -24,6 +24,7 @@ class CollectionViewUtils {
         configure(view)
         return view
     }
+    
 }
 
 

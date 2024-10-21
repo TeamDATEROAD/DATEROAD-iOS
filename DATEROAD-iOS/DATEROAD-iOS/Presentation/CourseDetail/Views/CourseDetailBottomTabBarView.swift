@@ -18,11 +18,11 @@ final class CourseDetailBottomTabBarView: BaseView {
     
     let bringCourseButton = UIButton()
     
+    
     // MARK: - Properties
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
     }
     
     required init?(coder: NSCoder) {
@@ -38,7 +38,6 @@ final class CourseDetailBottomTabBarView: BaseView {
     }
     
     override func setLayout() {
-        
         self.backgroundColor = UIColor(resource: .drWhite)
         
         likeButtonView.snp.makeConstraints {

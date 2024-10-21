@@ -49,11 +49,11 @@ final class SplashViewController: BaseViewController {
             self.checkIsLoginned()
         }
     }
-
+    
     override func setHierarchy() {
         self.view.addSubview(splashView)
     }
-
+    
     override func setLayout() {
         splashView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(ScreenUtils.height / 812 * 210)

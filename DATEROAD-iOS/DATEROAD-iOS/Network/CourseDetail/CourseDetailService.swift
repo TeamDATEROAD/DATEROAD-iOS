@@ -10,16 +10,19 @@ import Foundation
 import Moya
 
 protocol CourseDetailServiceProtocol {
+    
     func getCourseDetailInfo(courseId: Int, completion: @escaping (NetworkResult<GetCourseDetailResponse>) -> ())
+    
     func deleteCourse(courseId: Int, completion: @escaping (Bool) -> Void)
+    
     func getBannerDetailInfo(advertismentId: Int, completion: @escaping (NetworkResult<GetBannerDetailResponse>) -> ())
-
+    
 }
 
 final class CourseDetailService: BaseService, CourseDetailServiceProtocol {
     
     let provider = MoyaProvider<CourseDetailTargetType>(plugins: [MoyaLoggingPlugin()])
-
+    
     func getCourseDetailInfo(courseId: Int, completion: @escaping (NetworkResult<GetCourseDetailResponse>) -> ()) {
         provider.request(.getCourseDetailInfo(courseId: courseId)) { result in
             switch result {
@@ -59,4 +62,5 @@ final class CourseDetailService: BaseService, CourseDetailServiceProtocol {
             }
         }
     }
+    
 }

@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 import Then
 
-
 final class TitleInfoCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
@@ -21,17 +20,14 @@ final class TitleInfoCell: BaseCollectionViewCell {
     // MARK: - Life Cycles
     
     override func setHierarchy() {
-        
         self.addSubview(titleLabel)
     }
     
     override func setLayout() {
-        
         titleLabel.snp.makeConstraints {
             $0.verticalEdges.equalToSuperview()
             $0.horizontalEdges.equalToSuperview()
         }
-        
     }
     
     override func setStyle() {
@@ -41,9 +37,8 @@ final class TitleInfoCell: BaseCollectionViewCell {
             $0.textColor = UIColor(resource: .drBlack)
             $0.numberOfLines = 2
         }
-
     }
-
+    
 }
 
 extension TitleInfoCell {
@@ -55,4 +50,5 @@ extension TitleInfoCell {
     func bindBannerTitle(title: String) {
         titleLabel.text = title
     }
+    
 }

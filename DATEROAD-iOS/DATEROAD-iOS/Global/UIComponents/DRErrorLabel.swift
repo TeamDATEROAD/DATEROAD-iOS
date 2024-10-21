@@ -10,7 +10,7 @@ import UIKit
 final class DRErrorLabel: UILabel {
     
     // MARK: - Properties
-        
+    
     private let warningType: DRErrorType = Warning()
     
     private let correctType: DRErrorType = Correct()
@@ -43,7 +43,7 @@ extension DRErrorLabel {
         isValid ? self.setErrorLabel(text: title, errorType: warningType)
         : self.setErrorLabel(text: title, errorType: warningType)
     }
-
+    
 }
 
 

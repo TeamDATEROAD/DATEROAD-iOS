@@ -8,6 +8,15 @@
 import Foundation
 
 enum NetworkType: String {
+    
     case getDateDetail
+    
     case deleteDateSchedule
+    
+    case postSignUp
+    
+    case getDoubleCheck
+    
+    case patchEditProfile
+    
 }

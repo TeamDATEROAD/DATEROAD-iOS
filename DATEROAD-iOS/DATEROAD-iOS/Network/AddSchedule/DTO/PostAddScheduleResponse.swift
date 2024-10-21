@@ -8,4 +8,5 @@
 import Foundation
 
 // MARK: - PostAddScheduleResponse
+
 struct PostAddScheduleResponse: Codable {}

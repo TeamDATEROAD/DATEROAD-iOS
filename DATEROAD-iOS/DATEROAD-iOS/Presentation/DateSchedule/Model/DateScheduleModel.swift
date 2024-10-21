@@ -8,11 +8,17 @@
 import Foundation
 
 struct DateCardModel {
+    
     let dateID: Int
+    
     let title: String
+    
     let date: String
+    
     let city: String
+    
     let tags: [TagsModel]
+    
     let dDay: Int
     
     init(dateID: Int, title: String, date: String, city: String, tags: [TagsModel], dDay: Int) {
@@ -27,32 +33,45 @@ struct DateCardModel {
     static var emptyModel: DateCardModel {
         return DateCardModel(dateID: 0, title: "", date: "", city: "", tags: [], dDay: 0)
     }
+    
 }
 
 struct TagsModel {
+    
     let tag: String
     
     init(tag: String) {
         self.tag = tag
     }
+    
 }
 
 struct DateScheduleModel {
+    
     let dateCards: [DateCardModel]
     
     init(dateCards: [DateCardModel]) {
         self.dateCards = dateCards
     }
+    
 }
 
 struct DateDetailModel {
+    
     let dateID: Int
+    
     let title: String
+    
     let startAt: String
+    
     let city: String
+    
     let tags: [TagsModel]
+    
     let date: String
+    
     let places: [DatePlaceModel]
+    
     let dDay: Int
     
     init(dateID: Int, title: String, startAt: String, city: String, tags: [TagsModel], date: String, places: [DatePlaceModel], dDay: Int) {
@@ -65,11 +84,15 @@ struct DateDetailModel {
         self.places = places
         self.dDay = dDay
     }
+    
 }
 
 struct DatePlaceModel {
+    
     let name: String
+    
     let duration: String
+    
     let sequence: Int
     
     init(name: String, duration: String, sequence: Int) {
@@ -77,15 +100,18 @@ struct DatePlaceModel {
         self.duration = duration
         self.sequence = sequence
     }
+    
 }
 
-
 struct KakaoPlaceModel {
+    
     let name: String?
+    
     let duration: Float?
     
     init(name: String?, duration: Float?) {
         self.name = name
         self.duration = duration
     }
+    
 }

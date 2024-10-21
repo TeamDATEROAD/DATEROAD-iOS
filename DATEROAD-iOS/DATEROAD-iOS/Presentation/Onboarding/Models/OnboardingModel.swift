@@ -14,13 +14,13 @@ struct OnboardingModel {
     let mainInfo: String
     
     let subInfo: String
-
+    
     let hintInfo: String?
-
+    
     let pointText: [String]
     
     let buttonText: String
-        
+    
     init(bgIMG: UIImage, mainInfo: String, subInfo: String, hintInfo: String?, pointText: [String], buttonText: String) {
         self.bgIMG = bgIMG
         self.mainInfo = mainInfo

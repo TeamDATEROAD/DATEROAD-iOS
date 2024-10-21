@@ -23,7 +23,7 @@ final class ProfileViewController: BaseNavBarViewController {
     private var profileViewModel: ProfileViewModel
     
     private var initial: Bool = false
-        
+    
     
     // MARK: - Life Cycle
     
@@ -103,15 +103,26 @@ private extension ProfileViewController {
         
         let registerGesture = UITapGestureRecognizer(target: self, action: #selector(registerPhoto))
         self.profileImageSettingView.registerLabel.addGestureRecognizer(registerGesture)
-        
     }
     
     func bindViewModel() {
+        self.profileViewModel.alertMessage.bind { [weak self] message in
+            guard let message else { return }
+            self?.presentAlertVC(title: message)
+        }
+        
         self.profileViewModel.onReissueSuccess.bind { [weak self] onSuccess in
-            guard let onSuccess else { return }
+            guard let onSuccess, let type = self?.profileViewModel.type.value else { return }
             if onSuccess {
-                self?.profileViewModel.profileImage.value = self?.profileView.profileImageView.image
-                self?.profileViewModel.postSignUp()
+                switch type {
+                case .getDoubleCheck:
+                    self?.profileViewModel.getDoubleCheck()
+                case .postSignUp:
+                    self?.profileViewModel.profileImage.value = self?.profileView.profileImageView.image
+                    self?.profileViewModel.postSignUp()
+                default:
+                    self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
+                }
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
@@ -195,7 +206,6 @@ private extension ProfileViewController {
             guard let onLoading else { return }
             onLoading ? self?.showLoadingView() : self?.hideLoadingView()
         }
-        
     }
     
     @objc
@@ -266,6 +276,7 @@ private extension ProfileViewController {
     
 }
 
+
 // MARK: - Delegates
 
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
@@ -323,6 +334,7 @@ extension ProfileViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
 }
 
 extension ProfileViewController: DRBottomSheetDelegate {
@@ -338,6 +350,7 @@ extension ProfileViewController: DRBottomSheetDelegate {
     func didTapSecondLabel() {
         self.deletePhoto()
     }
+    
 }
 
 extension ProfileViewController: ImagePickerDelegate {

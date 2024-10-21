@@ -22,6 +22,7 @@ final class CourseDetailViewController: BaseViewController {
     
     private var deleteCourseSettingView = DeleteCourseSettingView()
     
+    
     // MARK: - Properties
     
     private let courseDetailViewModel: CourseDetailViewModel
@@ -50,10 +51,10 @@ final class CourseDetailViewController: BaseViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     // MARK: - Life Cycle
     
@@ -131,15 +132,15 @@ final class CourseDetailViewController: BaseViewController {
     
     func bindViewModel() {
         self.courseDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
-           guard let onFailure else { return }
-           if onFailure {
-              let errorVC = DRErrorViewController()
-              errorVC.onDismiss = {
-                 self?.courseDetailViewModel.onFailNetwork.value = false
-                  self?.courseDetailViewModel.onLoading.value = false
-              }
-              self?.navigationController?.pushViewController(errorVC, animated: false)
-           }
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                errorVC.onDismiss = {
+                    self?.courseDetailViewModel.onFailNetwork.value = false
+                    self?.courseDetailViewModel.onLoading.value = false
+                }
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
         }
         
         self.courseDetailViewModel.onLoading.bind { [weak self] onLoading in
@@ -269,6 +270,7 @@ extension CourseDetailViewController: DRCustomAlertDelegate {
         }
         courseDetailView.mainCollectionView.reloadData()
     }
+    
 }
 
 extension CourseDetailViewController: ContentMaskViewDelegate {
@@ -309,14 +311,6 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         )
     }
     
-    // 신고 혹은 삭제 버튼 클릭 시 처리
-    @objc func didTapBottomSheetLabel(sender: UITapGestureRecognizer) {
-        print("삭제하기 클릭")
-        self.dismiss(animated: true)
-        courseDetailViewModel.isCourseMine.value == true ? showDeleteAlert() : showDeclareAlert()
-        
-    }
-    
     //바텀 시트에서 신고하기 클릭시 팝업창
     func showDeclareAlert(){
         presentCustomAlert(
@@ -349,11 +343,19 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
         present(alertVC, animated: false)
     }
     
-    
     //포인트 부족 -> 코스 등록하기로 화면 전환
     func didTapAddCourseButton() {
-       let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.exploreCourse)
+        let addCourseVC = AddCourseFirstViewController(viewModel: AddCourseViewModel(), viewPath: StringLiterals.Amplitude.ViewPath.exploreCourse)
         self.navigationController?.pushViewController(addCourseVC, animated: false)
+    }
+    
+    // 신고 혹은 삭제 버튼 클릭 시 처리
+    @objc
+    func didTapBottomSheetLabel(sender: UITapGestureRecognizer) {
+        print("삭제하기 클릭")
+        self.dismiss(animated: true)
+        courseDetailViewModel.isCourseMine.value == true ? showDeleteAlert() : showDeclareAlert()
+        
     }
     
 }
@@ -381,8 +383,8 @@ extension CourseDetailViewController: StickyHeaderNavBarViewDelegate, DRBottomSh
     func didTapBottomButton() {
         self.dismiss(animated: true)
     }
+    
 }
-
 
 extension CourseDetailViewController: UIScrollViewDelegate {
     
@@ -397,9 +399,27 @@ extension CourseDetailViewController: UIScrollViewDelegate {
             courseDetailView.stickyHeaderNavBarView.previousButton.tintColor = .drWhite
         }
     }
+    
 }
 
 private extension CourseDetailViewController {
+    
+    func updateLikeButtonColor(isLiked: Bool) {
+        courseInfoTabBarView.likeButtonImageView.tintColor = isLiked ? UIColor(resource: .deepPurple) : UIColor(resource: .gray200)
+    }
+    
+    func setSetctionCount() {
+        courseDetailViewModel.setNumberOfSections(courseDetailViewModel.isAccess.value == true ? 6 : 3)
+        courseDetailView.mainCollectionView.reloadData()
+    }
+    
+    func setNavBarVisibility() {
+        courseDetailView.stickyHeaderNavBarView.moreButton.isHidden = !(courseDetailViewModel.isAccess.value ?? false)
+    }
+    
+    func setTabBarVisibility() {
+        courseInfoTabBarView.isHidden = !(courseDetailViewModel.isAccess.value ?? false) || (courseDetailViewModel.isCourseMine.value == true)
+    }
     
     @objc
     func didTapMySchedule() {
@@ -410,9 +430,9 @@ private extension CourseDetailViewController {
         addScheduleViewModel.viewedDateCourseByMeData = courseDetailViewModel
         addScheduleViewModel.isBroughtData = true
         
-       let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel, viewPath: StringLiterals.Amplitude.ViewPath.courseDetail)
-       // 데이터를 바인딩합니다.
-       vc.pastDateBindViewModel()
+        let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel, viewPath: StringLiterals.Amplitude.ViewPath.courseDetail)
+        // 데이터를 바인딩합니다.
+        vc.pastDateBindViewModel()
         self.navigationController?.pushViewController(vc, animated: false)
     }
     
@@ -438,23 +458,6 @@ private extension CourseDetailViewController {
         self.courseDetailView.mainCollectionView.reloadData()
     }
     
-    func updateLikeButtonColor(isLiked: Bool) {
-        courseInfoTabBarView.likeButtonImageView.tintColor = isLiked ? UIColor(resource: .deepPurple) : UIColor(resource: .gray200)
-    }
-    
-    func setSetctionCount() {
-        courseDetailViewModel.setNumberOfSections(courseDetailViewModel.isAccess.value == true ? 6 : 3)
-        courseDetailView.mainCollectionView.reloadData()
-    }
-    
-    func setNavBarVisibility() {
-        courseDetailView.stickyHeaderNavBarView.moreButton.isHidden = !(courseDetailViewModel.isAccess.value ?? false)
-    }
-    
-    func setTabBarVisibility() {
-        courseInfoTabBarView.isHidden = !(courseDetailViewModel.isAccess.value ?? false) || (courseDetailViewModel.isCourseMine.value == true)
-    }
-    
 }
 
 extension CourseDetailViewController: ImageCarouselDelegate {
@@ -464,6 +467,7 @@ extension CourseDetailViewController: ImageCarouselDelegate {
     }
     
 }
+
 
 // MARK: - Compositonal Layout
 
@@ -496,7 +500,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return configureTagInfoCell(collectionView, indexPath: indexPath)
         }
     }
-
+    
     private func configureImageCarouselCell(_ collectionView: UICollectionView, indexPath: IndexPath, isAccess: Bool) -> UICollectionViewCell {
         return collectionViewUtils.dequeueAndConfigureCell(collectionView: collectionView, indexPath: indexPath, identifier: ImageCarouselCell.cellIdentifier) { (cell: ImageCarouselCell) in
             let imageData = courseDetailViewModel.imageData.value ?? []
@@ -505,7 +509,6 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             cell.delegate = self
         }
     }
-
     
     private func configureTitleInfoCell(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         return collectionViewUtils.dequeueAndConfigureCell(collectionView: collectionView, indexPath: indexPath, identifier: TitleInfoCell.cellIdentifier) { (cell: TitleInfoCell) in
@@ -567,7 +570,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             return UICollectionReusableView()
         }
     }
-
+    
     private func configureGradientView(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionReusableView {
         return collectionViewUtils.dequeueAndConfigureSupplementaryView(collectionView: collectionView, indexPath: indexPath, kind: GradientView.elementKinds, identifier: GradientView.identifier) { (view: GradientView) in
         }
@@ -625,7 +628,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             view.bindSubTitle(subTitle: startAt)
         }
     }
-
+    
 }
 
 

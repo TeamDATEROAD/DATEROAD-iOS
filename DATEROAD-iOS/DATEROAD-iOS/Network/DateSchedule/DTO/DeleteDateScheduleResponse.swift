@@ -8,4 +8,3 @@
 import Foundation
 
 struct DeleteDateScheduleResponse: Codable {}
-

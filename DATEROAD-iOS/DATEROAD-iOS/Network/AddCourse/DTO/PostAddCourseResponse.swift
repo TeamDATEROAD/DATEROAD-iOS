@@ -8,10 +8,15 @@
 import Foundation
 
 // MARK: - PostAddCourseResponse
-struct PostAddCourseResponse: Codable {
-    let courseID: Int
 
+struct PostAddCourseResponse: Codable {
+    
+    let courseID: Int
+    
     enum CodingKeys: String, CodingKey {
+        
         case courseID = "courseId"
+        
     }
+    
 }

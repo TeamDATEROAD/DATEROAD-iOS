@@ -10,9 +10,9 @@ import Foundation
 final class SplashViewModel: Serviceable {
     
     var isLoginned: ObservablePattern<Bool> = ObservablePattern(nil)
-
+    
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
-
+    
 }
 
 extension SplashViewModel {
@@ -25,4 +25,5 @@ extension SplashViewModel {
         }
         isLoginned.value = !token.isEmpty
     }
+    
 }

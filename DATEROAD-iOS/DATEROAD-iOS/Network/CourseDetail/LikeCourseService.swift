@@ -10,12 +10,15 @@ import Foundation
 import Moya
 
 protocol LikeCourseServiceProtocol {
+    
     func likeCourse(courseId: Int, completion: @escaping (Bool) -> Void)
+    
     func deleteLikeCourse(courseId: Int, completion: @escaping (Bool) -> Void)
+    
 }
 
 final class LikeCourseService: BaseService, LikeCourseServiceProtocol {
-   
+    
     let provider = MoyaProvider<LikeCourseTargetType>(plugins: [MoyaLoggingPlugin()])
     
     func likeCourse(courseId: Int, completion: @escaping (Bool) -> Void) {
@@ -50,5 +53,4 @@ final class LikeCourseService: BaseService, LikeCourseServiceProtocol {
         }
     }
     
- 
 }

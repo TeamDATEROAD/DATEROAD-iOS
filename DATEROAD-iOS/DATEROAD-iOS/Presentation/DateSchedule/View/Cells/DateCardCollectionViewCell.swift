@@ -10,8 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-
-class DateCardCollectionViewCell: BaseCollectionViewCell {
+final class DateCardCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
@@ -40,9 +39,12 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
     private var titleLabel = UILabel()
     
     private let tagButtonType : DRButtonType = DateScheduleTagButton()
+    
+    
     // MARK: - Properties
     
     var dateCardItemRow: Int?
+    
     
     // MARK: - LifeCycle
     
@@ -55,7 +57,6 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     override func setHierarchy() {
         self.addSubviews(topImageView,
@@ -73,7 +74,6 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func setLayout() {
-        
         topImageView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(44)
             $0.width.equalToSuperview()
@@ -140,12 +140,11 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.top.equalTo(locationLabel.snp.bottom).offset(5)
         }
-        
-        
     }
     
     override func setStyle() {
         self.backgroundColor = .systemRed
+        
         self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
         
         topImageView.do {
@@ -229,9 +228,11 @@ class DateCardCollectionViewCell: BaseCollectionViewCell {
             $0.lineBreakMode = .byWordWrapping
         }
     }
+    
 }
 
 extension DateCardCollectionViewCell {
+    
     func dataBind(_ dateCardData : DateCardModel, _ dateCardItemRow: Int) {
         self.dateLabel.text = dateCardData.date
         if dateCardData.dDay == 0 {
@@ -273,10 +274,11 @@ extension DateCardCollectionViewCell {
     }
     
     func updateTagButton(title: String, button: UIButton) {
-       guard let tendencyTag = TendencyTag.getTag(byEnglish: title) else { return }
+        guard let tendencyTag = TendencyTag.getTag(byEnglish: title) else { return }
         button.do {
-           $0.setImage(tendencyTag.tag.tagIcon, for: .normal)
-           $0.setTitle(" \(tendencyTag.tag.tagTitle)", for: .normal)
-       }
+            $0.setImage(tendencyTag.tag.tagIcon, for: .normal)
+            $0.setTitle(" \(tendencyTag.tag.tagTitle)", for: .normal)
+        }
     }
+    
 }

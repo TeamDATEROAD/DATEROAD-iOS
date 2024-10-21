@@ -23,6 +23,7 @@ final class DRCustomAlertView: BaseView {
     
     var rightButton = UIButton()
     
+    
     // MARK: - Life Cycle
     
     override func setHierarchy() {
@@ -35,7 +36,6 @@ final class DRCustomAlertView: BaseView {
     }
     
     override func setLayout() {
-        
         alertView.snp.makeConstraints {
             $0.width.equalTo(ScreenUtils.width * 343/375)
             $0.height.equalTo(ScreenUtils.height * 162/812)
@@ -73,7 +73,7 @@ final class DRCustomAlertView: BaseView {
     
     override func setStyle() {
         self.backgroundColor = UIColor(resource: .drBlack).withAlphaComponent(0.5)
-    
+        
         alertView.do {
             $0.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
             $0.backgroundColor = UIColor(resource: .drWhite)
@@ -103,6 +103,5 @@ final class DRCustomAlertView: BaseView {
             $0.isHidden = true
         }
     }
-        
     
 }

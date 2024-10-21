@@ -8,7 +8,7 @@
 import UIKit
 
 final class TimelineInfoCell: BaseCollectionViewCell {
-
+    
     // MARK: - UI Properties
     
     private let timelineBackgroundView = UIView()
@@ -101,6 +101,7 @@ final class TimelineInfoCell: BaseCollectionViewCell {
             $0.textColor = UIColor(resource: .drBlack)
         }
     }
+    
 }
 
 extension TimelineInfoCell {
@@ -111,5 +112,6 @@ extension TimelineInfoCell {
         locationLabel.text = timelineData.title
         timeLabel.text = "\(timelineData.duration.formatFloatTime())시간"
     }
+    
 }
 

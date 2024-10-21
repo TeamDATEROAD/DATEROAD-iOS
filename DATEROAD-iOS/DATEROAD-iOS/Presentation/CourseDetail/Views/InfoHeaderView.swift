@@ -16,6 +16,7 @@ final class InfoHeaderView: UICollectionReusableView {
     
     private let titleLabel: UILabel = UILabel()
     
+    
     // MARK: - Properties
     
     static let elementKinds: String = "infoHeaderView"
@@ -39,7 +40,6 @@ final class InfoHeaderView: UICollectionReusableView {
     
     func setHierarchy() {
         self.addSubview(titleLabel)
-        
     }
     
     func setLayout() {

@@ -8,16 +8,27 @@
 import UIKit
 
 enum TendencyTag: Int, CaseIterable {
+    
     case drive
+    
     case shopping
+    
     case inside
+    
     case healing
+    
     case alcohol
+    
     case epicurism
+    
     case atelier
+    
     case nature
+    
     case activity
+    
     case show
+    
     case popUp
     
     var tag: ProfileTagModel {
@@ -50,4 +61,5 @@ enum TendencyTag: Int, CaseIterable {
     static func getTag(byEnglish english: String) -> TendencyTag? {
         return TendencyTag.allCases.first { $0.tag.english == english }
     }
+    
 }

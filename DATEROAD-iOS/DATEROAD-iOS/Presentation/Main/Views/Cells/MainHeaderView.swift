@@ -26,7 +26,7 @@ final class MainHeaderView: UICollectionReusableView {
     // MARK: - Properties
     
     static let elementKinds: String = StringLiterals.Common.header
-
+    
     static let identifier: String = String(describing: MainHeaderView.self)
     
     
@@ -42,6 +42,11 @@ final class MainHeaderView: UICollectionReusableView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        self.titleLabel.text = nil
+        self.subLabel.text = nil
     }
     
     func setHierarchy() {
@@ -68,7 +73,6 @@ final class MainHeaderView: UICollectionReusableView {
             $0.centerY.equalTo(subLabel)
             $0.trailing.equalToSuperview().inset(20)
         }
-        
     }
     
     func setStyle() {
@@ -88,6 +92,7 @@ final class MainHeaderView: UICollectionReusableView {
             $0.setTitleColor(UIColor(resource: .mediumPurple), for: .normal)
         }
     }
+    
 }
 
 
@@ -100,7 +105,7 @@ extension MainHeaderView {
         
         if section == .hotDateCourse {
             titleLabel.do {
-                $0.setAttributedText(fullText: nickname + StringLiterals.Main.hotDateTitle, 
+                $0.setAttributedText(fullText: nickname + StringLiterals.Main.hotDateTitle,
                                      pointText: nickname+"님,",
                                      pointColor: UIColor(resource: .deepPurple), lineHeight: 1.04)
                 $0.font = UIFont.suit(.title_extra_24)
@@ -114,9 +119,9 @@ extension MainHeaderView {
             self.backgroundView.clipsToBounds = false
             self.backgroundView.roundCorners(cornerRadius: 0, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMinYCorner])
             titleLabel.do {
-                $0.setLabel(text: StringLiterals.Main.newDateTitle, 
+                $0.setLabel(text: StringLiterals.Main.newDateTitle,
                             alignment: .left,
-                            textColor: UIColor(resource: .drBlack), 
+                            textColor: UIColor(resource: .drBlack),
                             font: UIFont.suit(.title_extra_20))
                 $0.textAlignment = .left
                 $0.numberOfLines = 0
@@ -124,4 +129,5 @@ extension MainHeaderView {
             subLabel.text = StringLiterals.Main.newDateSub
         }
     }
+    
 }

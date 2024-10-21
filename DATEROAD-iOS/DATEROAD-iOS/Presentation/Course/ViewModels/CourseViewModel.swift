@@ -57,7 +57,6 @@ final class CourseViewModel: Serviceable {
         selectedPriceIndex.value = nil
         updateCityData()
     }
-
     
     func updateCityData() {
         guard let selectedCountryIndex = selectedCountryIndex.value else {
@@ -73,7 +72,6 @@ final class CourseViewModel: Serviceable {
     func updateApplyButtonState() {
         isApplyButtonEnabled.value = selectedCityIndex.value != nil
     }
- 
     
 }
 
@@ -82,8 +80,8 @@ extension CourseViewModel {
     func fetchPriceData() {
         priceData = Price.allCases.map { $0.priceTitle }
     }
-
-    func getCourse(city: String?, cost: Int?) {  
+    
+    func getCourse(city: String?, cost: Int?) {
         self.isSuccessGetData.value = false
         self.setLoading()
         NetworkService.shared.courseService.getCourseInfo(city: city ?? "", cost: cost) { response in
@@ -100,11 +98,11 @@ extension CourseViewModel {
                         like: filterList.like
                     )
                 }
-
+                
                 self.courseListModel = courseModels
                 self.didUpdateCourseList?()
                 self.isSuccessGetData.value = true
-
+                
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
@@ -120,5 +118,5 @@ extension CourseViewModel {
         guard let isSuccessGetData = self.isSuccessGetData.value else { return }
         self.onLoading.value = !isSuccessGetData
     }
-
+    
 }

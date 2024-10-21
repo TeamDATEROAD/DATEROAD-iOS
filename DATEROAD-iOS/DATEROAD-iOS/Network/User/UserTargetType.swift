@@ -10,12 +10,15 @@ import Foundation
 import Moya
 
 enum UserTargetType {
+    
     case getUserProfile
+    
     case patchEditProfile(requestBody: PatchEditProfileRequest)
+    
 }
 
 extension UserTargetType: BaseTargetType {
-
+    
     var utilPath: String {
         return "api/v1/"
     }
@@ -35,14 +38,14 @@ extension UserTargetType: BaseTargetType {
             return utilPath + "users"
         }
     }
-
+    
     var task: Task {
         switch self {
         case .getUserProfile:
             return .requestPlain
         case .patchEditProfile(let requestBody):
             var multipartData = [MultipartFormData]()
-
+            
             let namePart = MultipartFormData(provider: .data(requestBody.name.data(using: .utf8)!), name: "name")
             multipartData.append(namePart)
             
@@ -56,10 +59,10 @@ extension UserTargetType: BaseTargetType {
             }
             
             let boolString = requestBody.isDefaultImage ? "true" : "false"
-
+            
             // 문자열을 Data로 변환
             let boolData = boolString.data(using: .utf8)!
-
+            
             // MultipartFormData 생성
             let boolPart = MultipartFormData(provider: .data(boolData), name: "isDefaultImage")
             multipartData.append(boolPart)
@@ -70,7 +73,7 @@ extension UserTargetType: BaseTargetType {
     
     var headers: [String : String]? {
         let token = UserDefaults.standard.string(forKey: StringLiterals.Network.accessToken) ?? ""
-
+        
         switch self {
         case .getUserProfile:
             let headers = HeaderType.headerWithToken(token: "Bearer " + token)
@@ -80,4 +83,5 @@ extension UserTargetType: BaseTargetType {
             return headers
         }
     }
+    
 }

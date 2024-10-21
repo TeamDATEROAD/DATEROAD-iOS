@@ -10,10 +10,15 @@ import Foundation
 import Moya
 
 enum MainTargetType {
+    
     case getMainUserProfile
+    
     case getFilteredDateCourse(sortBy: String)
+    
     case getBanner
+    
     case getUpcomingDate
+    
 }
 
 extension MainTargetType: BaseTargetType {
@@ -64,4 +69,5 @@ extension MainTargetType: BaseTargetType {
         let headers = HeaderType.headerWithToken(token: "Bearer " + token)
         return headers
     }
+    
 }

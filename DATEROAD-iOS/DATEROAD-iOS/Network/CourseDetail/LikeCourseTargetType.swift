@@ -10,8 +10,11 @@ import Foundation
 import Moya
 
 enum LikeCourseTargetType {
+    
     case postLikeCourse(courseId: Int)
+    
     case deleteLikeCourse(courseId: Int)
+    
 }
 
 
@@ -53,4 +56,5 @@ extension LikeCourseTargetType: BaseTargetType {
         let headers = HeaderType.headerWithAcceptToken(token: token)
         return headers
     }
+    
 }

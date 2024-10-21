@@ -12,7 +12,9 @@ import Then
 import Kingfisher
 
 protocol CourseListCollectionViewCellDelegate: AnyObject {
+    
     func didTapCourseListCell()
+    
 }
 
 final class CourseListCollectionViewCell: BaseCollectionViewCell {
@@ -39,6 +41,7 @@ final class CourseListCollectionViewCell: BaseCollectionViewCell {
     
     private let timeLabel = UILabel()
     
+    
     // MARK: - Properties
     
     weak var delegate: CourseListCollectionViewCellDelegate?
@@ -57,6 +60,7 @@ final class CourseListCollectionViewCell: BaseCollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
         // 셀이 재사용될 때 이미지나 데이터를 초기화합니다.
         thumnailImgageView.image = nil
         likeNumLabel.text = nil
@@ -140,7 +144,6 @@ final class CourseListCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func setStyle() {
-        
         thumnailImgageView.do {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 14
@@ -206,4 +209,5 @@ extension CourseListCollectionViewCell {
     private func handleTapGesture(_ sender: UITapGestureRecognizer) {
         delegate?.didTapCourseListCell()
     }
+    
 }

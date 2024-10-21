@@ -11,26 +11,30 @@ import Moya
 
 
 // MARK: - API Service Definition
+
 enum AddCourseTargetType {
+    
     case postAddCourse(course: [String: Any], tags: [[String: Any]], places: [[String: Any]], images: [UIImage])
+    
 }
 
 extension AddCourseTargetType: BaseTargetType {
-   var utilPath: String {
-       return "api/v1/"
-   }
-   
-   var method: Moya.Method {
-       switch self {
-       case .postAddCourse:
-           return .post
-       }
-   }
+    
+    var utilPath: String {
+        return "api/v1/"
+    }
+    
+    var method: Moya.Method {
+        switch self {
+        case .postAddCourse:
+            return .post
+        }
+    }
     
     var path: String {
         switch self {
         case .postAddCourse:
-           return utilPath + "courses"
+            return utilPath + "courses"
         }
     }
     
@@ -66,9 +70,10 @@ extension AddCourseTargetType: BaseTargetType {
     }
     
     var headers: [String : String]? {
-       let token = UserDefaults.standard.string(forKey: StringLiterals.Network.accessToken) ?? ""
+        let token = UserDefaults.standard.string(forKey: StringLiterals.Network.accessToken) ?? ""
         let headers = HeaderType.headerWithAcceptToken(token: token)
         return headers
     }
+    
 }
 

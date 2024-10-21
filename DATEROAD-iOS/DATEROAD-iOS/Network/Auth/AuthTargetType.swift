@@ -10,12 +10,19 @@ import Foundation
 import Moya
 
 enum AuthTargetType {
+    
     case postSignUp(requestBody: PostSignUpRequest)
+    
     case getDoubleCheck(name: String)
+    
     case deleteLogout
+    
     case postSignIn(requestBody: PostSignInRequest)
+    
     case deleteWithdrawal(requestBody: DeleteWithdrawalRequest)
+    
     case patchReissue
+    
 }
 
 extension AuthTargetType: BaseTargetType {
@@ -53,7 +60,7 @@ extension AuthTargetType: BaseTargetType {
             return utilPath + "/reissue"
         }
     }
-
+    
     var task: Task {
         switch self {
         case .postSignUp(let requestBody):
