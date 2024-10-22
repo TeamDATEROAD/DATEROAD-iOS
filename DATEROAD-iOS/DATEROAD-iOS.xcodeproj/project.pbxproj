@@ -114,6 +114,11 @@
 		9E443A4C2C37ACEF00C1F92C /* AddCourseFirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E443A4B2C37ACEF00C1F92C /* AddCourseFirstView.swift */; };
 		9E443A4E2C3819DB00C1F92C /* AddFirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E443A4D2C3819DB00C1F92C /* AddFirstView.swift */; };
 		9E443A502C39158100C1F92C /* AddSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E443A4F2C39158100C1F92C /* AddSheetViewController.swift */; };
+		9E4F305A2CC7A00C009C59A4 /* AddScheduleFirstViewModelInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4F30592CC7A00C009C59A4 /* AddScheduleFirstViewModelInterface.swift */; };
+		9E4F305C2CC7A03C009C59A4 /* AddScheduleSecondViewModelInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4F305B2CC7A03C009C59A4 /* AddScheduleSecondViewModelInterface.swift */; };
+		9E4F305E2CC7A061009C59A4 /* AddScheduleFirstViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4F305D2CC7A061009C59A4 /* AddScheduleFirstViewModel.swift */; };
+		9E4F30602CC7A087009C59A4 /* AddScheduleSecondViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4F305F2CC7A087009C59A4 /* AddScheduleSecondViewModel.swift */; };
+		9E4F30622CC7A0B1009C59A4 /* AddScheduleAmplitude.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4F30612CC7A0B1009C59A4 /* AddScheduleAmplitude.swift */; };
 		9E50988C2C403C4B00F72CD0 /* AddThirdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E50988B2C403C4B00F72CD0 /* AddThirdView.swift */; };
 		9E50988E2C403C5800F72CD0 /* AddCourseThirdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E50988D2C403C5800F72CD0 /* AddCourseThirdView.swift */; };
 		9E5098902C403C7500F72CD0 /* AddCourseThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E50988F2C403C7500F72CD0 /* AddCourseThirdViewController.swift */; };
@@ -388,6 +393,11 @@
 		9E443A4B2C37ACEF00C1F92C /* AddCourseFirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseFirstView.swift; sourceTree = "<group>"; };
 		9E443A4D2C3819DB00C1F92C /* AddFirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFirstView.swift; sourceTree = "<group>"; };
 		9E443A4F2C39158100C1F92C /* AddSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSheetViewController.swift; sourceTree = "<group>"; };
+		9E4F30592CC7A00C009C59A4 /* AddScheduleFirstViewModelInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleFirstViewModelInterface.swift; sourceTree = "<group>"; };
+		9E4F305B2CC7A03C009C59A4 /* AddScheduleSecondViewModelInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleSecondViewModelInterface.swift; sourceTree = "<group>"; };
+		9E4F305D2CC7A061009C59A4 /* AddScheduleFirstViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleFirstViewModel.swift; sourceTree = "<group>"; };
+		9E4F305F2CC7A087009C59A4 /* AddScheduleSecondViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleSecondViewModel.swift; sourceTree = "<group>"; };
+		9E4F30612CC7A0B1009C59A4 /* AddScheduleAmplitude.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleAmplitude.swift; sourceTree = "<group>"; };
 		9E50988B2C403C4B00F72CD0 /* AddThirdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddThirdView.swift; sourceTree = "<group>"; };
 		9E50988D2C403C5800F72CD0 /* AddCourseThirdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseThirdView.swift; sourceTree = "<group>"; };
 		9E50988F2C403C7500F72CD0 /* AddCourseThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseThirdViewController.swift; sourceTree = "<group>"; };
@@ -983,6 +993,16 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		9E4F30582CC79FDF009C59A4 /* ViewModelInterfaces */ = {
+			isa = PBXGroup;
+			children = (
+				9E4F30592CC7A00C009C59A4 /* AddScheduleFirstViewModelInterface.swift */,
+				9E4F305B2CC7A03C009C59A4 /* AddScheduleSecondViewModelInterface.swift */,
+				9E4F30612CC7A0B1009C59A4 /* AddScheduleAmplitude.swift */,
+			);
+			path = ViewModelInterfaces;
+			sourceTree = "<group>";
+		};
 		9E50988A2C403C0000F72CD0 /* AddCourseThird */ = {
 			isa = PBXGroup;
 			children = (
@@ -1087,7 +1107,10 @@
 		9E754CE02C48366700E2CA91 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				9E4F30582CC79FDF009C59A4 /* ViewModelInterfaces */,
 				9E754CE12C48367B00E2CA91 /* AddScheduleViewModel.swift */,
+				9E4F305D2CC7A061009C59A4 /* AddScheduleFirstViewModel.swift */,
+				9E4F305F2CC7A087009C59A4 /* AddScheduleSecondViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1904,6 +1927,7 @@
 				CA78FE492C3866FD001B1403 /* DRErrorType.swift in Sources */,
 				CAC80FF72C3FCAE500658EA6 /* BannerIndexFooterView.swift in Sources */,
 				CA80C0D12C44611E002CAA9B /* BaseService.swift in Sources */,
+				9E4F305C2CC7A03C009C59A4 /* AddScheduleSecondViewModelInterface.swift in Sources */,
 				CA5B97A02C9C7B4300F90A4C /* Header.swift in Sources */,
 				CAC80FA42C3B34B400658EA6 /* UserInfoView.swift in Sources */,
 				CAC80FE92C3EC6E100658EA6 /* BannerCell.swift in Sources */,
@@ -1913,6 +1937,7 @@
 				745547712C3D12CD00B526F3 /* PastDateDetailViewController.swift in Sources */,
 				CA4EF3E22C3537F3003B02B6 /* OnboardingModel.swift in Sources */,
 				CA4EF3D52C34763B003B02B6 /* OnboardingViewController.swift in Sources */,
+				9E4F305A2CC7A00C009C59A4 /* AddScheduleFirstViewModelInterface.swift in Sources */,
 				CAE890A32C86C94C00834A9E /* EditProfileViewController.swift in Sources */,
 				CABDCE732C47FA5C00631FB3 /* AuthService.swift in Sources */,
 				9E590B4C2C3D276600039690 /* AddSecondView.swift in Sources */,
@@ -2042,6 +2067,7 @@
 				7455476F2C3D0A6300B526F3 /* PastDateContentView.swift in Sources */,
 				0DA138F52C3E8E1900682653 /* PriceButtonCollectionViewCell.swift in Sources */,
 				0D05FF0F2C3EFB3E00E9BDDC /* CourseListView.swift in Sources */,
+				9E4F30602CC7A087009C59A4 /* AddScheduleSecondViewModel.swift in Sources */,
 				CA80C0C92C440F3C002CAA9B /* ProfileErrorType.swift in Sources */,
 				0D05FF0B2C3EFACB00E9BDDC /* CourseNavigationBarView.swift in Sources */,
 				7455476F2C3D0A6300B526F3 /* PastDateContentView.swift in Sources */,
@@ -2099,6 +2125,7 @@
 				7428400E2C3EC58700B21AA7 /* DRCustomAlertViewController.swift in Sources */,
 				741AE2E22C3728D80031849F /* ViewedCourseViewController.swift in Sources */,
 				CABDCE9A2C49034100631FB3 /* GetFilteredDateCourseResponse.swift in Sources */,
+				9E4F305E2CC7A061009C59A4 /* AddScheduleFirstViewModel.swift in Sources */,
 				CABDCEA02C49042800631FB3 /* MainTargetType.swift in Sources */,
 				CAC80FC52C3C759B00658EA6 /* PointSystemModel.swift in Sources */,
 				CAA30AE52C37BCB200835DE3 /* DRTagButton.swift in Sources */,
@@ -2107,6 +2134,7 @@
 				0DA8535C2C45CA9700DF7F99 /* CourseTargetType.swift in Sources */,
 				9E754CED2C483E5B00E2CA91 /* AddScheduleBottomSheetViewController.swift in Sources */,
 				CAC80FC52C3C759B00658EA6 /* PointSystemModel.swift in Sources */,
+				9E4F30622CC7A0B1009C59A4 /* AddScheduleAmplitude.swift in Sources */,
 				9E754CE92C48398D00E2CA91 /* AddScheduleSecondView.swift in Sources */,
 				CA80C0CF2C445D38002CAA9B /* MoyaLoggingPluggin.swift in Sources */,
 				9E754CF32C4841BE00E2CA91 /* AddScheduleService.swift in Sources */,
