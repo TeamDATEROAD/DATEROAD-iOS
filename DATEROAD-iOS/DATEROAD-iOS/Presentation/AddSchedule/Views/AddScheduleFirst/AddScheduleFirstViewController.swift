@@ -172,31 +172,31 @@ private extension AddScheduleFirstViewController {
         viewModel.addScheduleFirstViewModel.dateName.bind { date in
             guard let text = date else {return}
             self.addScheduleFirstView.inAddScheduleFirstView.updateDateName(text: text)
-            self.viewModel.amplitudeModel.dateTitle = true
+            self.viewModel.addScheduleAmplitude.dateTitle = true
         }
         
         viewModel.addScheduleFirstViewModel.visitDate.bind { date in
             guard let text = date else {return}
             self.addScheduleFirstView.inAddScheduleFirstView.updateVisitDate(text: text)
-            self.viewModel.amplitudeModel.dateDate = true
+            self.viewModel.addScheduleAmplitude.dateDate = true
         }
         
         viewModel.addScheduleFirstViewModel.dateStartAt.bind { date in
             guard let text = date else {return}
             self.addScheduleFirstView.inAddScheduleFirstView.updatedateStartTime(text: text)
-            self.viewModel.amplitudeModel.dateTime = true
+            self.viewModel.addScheduleAmplitude.dateTime = true
         }
         
         viewModel.addScheduleFirstViewModel.tagCount.bind { count in
             guard let count else {return}
             self.addScheduleFirstView.inAddScheduleFirstView.updateTagCount(count: count)
-            self.viewModel.amplitudeModel.dateTagNum = count
+            self.viewModel.addScheduleAmplitude.dateTagNum = count
         }
         
         viewModel.addScheduleFirstViewModel.dateLocation.bind { date in
             guard let date else {return}
             self.addScheduleFirstView.inAddScheduleFirstView.updateDateLocation(text: date)
-            self.viewModel.amplitudeModel.dateArea = true
+            self.viewModel.addScheduleAmplitude.dateArea = true
         }
     }
     
@@ -267,7 +267,7 @@ private extension AddScheduleFirstViewController {
         guard let text = textField.text else {return}
         viewModel.addScheduleFirstViewModel.dateName.value = text
         viewModel.addScheduleFirstViewModel.satisfyDateName(str: text)
-        self.viewModel.amplitudeModel.dateTitle = !text.isEmpty ? true : false
+        self.viewModel.addScheduleAmplitude.dateTitle = !text.isEmpty ? true : false
     }
     
     @objc
@@ -328,7 +328,7 @@ extension AddScheduleFirstViewController {
     /// BaseNavBarViewController에서 backButtonTapped() 오버라이드
     @objc
     override func backButtonTapped() {
-        viewModel.amplitudeModel.schedule1BackAmplitude()
+        viewModel.addScheduleAmplitude.schedule1BackAmplitude()
         super.backButtonTapped()
     }
     

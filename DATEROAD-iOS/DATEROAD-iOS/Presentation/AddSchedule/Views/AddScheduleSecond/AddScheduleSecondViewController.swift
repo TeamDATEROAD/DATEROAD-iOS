@@ -183,7 +183,7 @@ private extension AddScheduleSecondViewController {
         viewModel.addScheduleSecondViewModel.datePlace.bind { [weak self] date in
             guard let text = date else {return}
             self?.addScheduleSecondView.inAddScheduleSecondView.updateDatePlace(text: text)
-            self?.viewModel.amplitudeModel.dateDetailLocation = true
+            self?.viewModel.addScheduleAmplitude.dateDetailLocation = true
             if let flag = self?.viewModel.addScheduleSecondViewModel.isAbleAddBtn() {
                 self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
             }
@@ -192,7 +192,7 @@ private extension AddScheduleSecondViewController {
         viewModel.addScheduleSecondViewModel.timeRequire.bind { [weak self] date in
             guard let date else {return}
             self?.addScheduleSecondView.inAddScheduleSecondView.updatetimeRequire(text: date)
-            self?.viewModel.amplitudeModel.dateDetailTime = true
+            self?.viewModel.addScheduleAmplitude.dateDetailTime = true
             if let flag = self?.viewModel.addScheduleSecondViewModel.isAbleAddBtn() {
                 self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
             }
@@ -329,7 +329,7 @@ extension AddScheduleSecondViewController {
     
     @objc
     override func backButtonTapped() {
-        viewModel.amplitudeModel.schedule2BackAmplitude()
+        viewModel.addScheduleAmplitude.schedule2BackAmplitude()
         super.backButtonTapped()
     }
     
