@@ -20,6 +20,8 @@ final class BannerDetailViewController: BaseViewController {
     
     private var deleteCourseSettingView = DeleteCourseSettingView()
     
+    private let bannerDetailSkeletonView: BannerDetailSkeletonView = BannerDetailSkeletonView()
+    
     
     // MARK: - Properties
     
@@ -56,19 +58,25 @@ final class BannerDetailViewController: BaseViewController {
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
         
+        self.bannerDetailSkeletonView.isHidden = false
+        self.bannerDetailView.isHidden = true
         self.courseDetailViewModel.getBannerDetail(advertismentId: advertismentId)
     }
     
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubview(bannerDetailView)
+        self.view.addSubviews(bannerDetailView, bannerDetailSkeletonView)
     }
     
     override func setLayout() {
         super.setLayout()
         
         bannerDetailView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        bannerDetailSkeletonView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
@@ -112,15 +120,13 @@ final class BannerDetailViewController: BaseViewController {
             guard let onLoading, let onFailNetwork = self?.courseDetailViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
+                    self?.bannerDetailSkeletonView.isHidden = false
                     self?.bannerDetailView.isHidden = true
                 } else {
+                    self?.bannerDetailSkeletonView.isHidden = true
                     self?.setNavBar()
                     self?.bannerDetailView.mainCollectionView.reloadData()
                     self?.bannerDetailView.isHidden = false
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self?.hideLoadingView()
-                    }
                 }
             }
         }
