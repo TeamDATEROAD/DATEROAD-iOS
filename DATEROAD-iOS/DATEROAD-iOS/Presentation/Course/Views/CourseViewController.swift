@@ -101,14 +101,12 @@ final class CourseViewController: BaseViewController {
             if !onFailNetwork {
                 if !onFailNetwork {
                     if onLoading {
-                        self?.showLoadingView()
-                        self?.courseView.isHidden = true
+                        self?.showLoadingView(type: StringLiterals.Course.course)
+                        self?.courseView.courseListView.isHidden = true
                     } else {
                         self?.courseView.courseListView.courseListCollectionView.reloadData()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                            self?.courseView.isHidden = false
-                            self?.hideLoadingView()
-                        }
+                        self?.courseView.courseListView.isHidden = false
+                        self?.hideLoadingView()
                     }
                 }
             }
