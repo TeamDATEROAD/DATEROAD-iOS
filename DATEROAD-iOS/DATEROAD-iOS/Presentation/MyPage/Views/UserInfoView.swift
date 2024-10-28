@@ -169,15 +169,15 @@ final class UserInfoView: BaseView {
 extension UserInfoView {
     
     func bindData(userInfo: MyPageUserInfoModel) {
+        if let imageURL = userInfo.imageURL  {
+            let url = URL(string: imageURL)
+            self.profileImageView.kf.setImage(with: url, placeholder: UIImage(resource: .placeholder))
+        } else {
+            self.profileImageView.image = UIImage(resource: .emptyProfileImg)
+        }
         self.nicknameLabel.text = userInfo.nickname
         self.userPointLabel.text = userInfo.nickname + "님의 포인트"
         self.pointLabel.text = String(userInfo.point) + " P"
-        guard let imageURL = userInfo.imageURL else {
-            self.profileImageView.image = UIImage(resource: .emptyProfileImg)
-            return
-        }
-        let url = URL(string: imageURL)
-        self.profileImageView.kf.setImage(with: url)
     }
     
 }

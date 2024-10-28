@@ -166,7 +166,7 @@ extension MyCourseListCollectionViewCell {
         guard let viewedCourseData else { return }
         self.courseID = viewedCourseData.courseId
         self.heartButton.setTitle("\(viewedCourseData.like)", for: .normal)
-        self.thumbnailImageView.kf.setImage(with: URL(string: viewedCourseData.thumbnail))
+        self.thumbnailImageView.kf.setImage(with: URL(string: viewedCourseData.thumbnail), placeholder: UIImage(resource: .placeholder))
         self.locationLabel.text = viewedCourseData.city
         self.titleLabel.text = viewedCourseData.title
         self.expenseButton.setTitle(viewedCourseData.cost, for: .normal)
