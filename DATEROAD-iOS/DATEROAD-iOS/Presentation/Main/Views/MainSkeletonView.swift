@@ -97,7 +97,7 @@ final class MainSkeletonView: BaseView {
         }
         
         whiteBackgroundView.snp.makeConstraints {
-            $0.top.equalTo(ticketImage.snp.bottom).offset(16)
+            $0.top.equalTo(ticketImage.snp.bottom).offset(21)
             $0.horizontalEdges.bottom.equalToSuperview()
         }
         
@@ -215,70 +215,44 @@ final class MainSkeletonView: BaseView {
             $0.contentMode = .scaleAspectFill
         }
         
-        setSkeletonLabel(view: pointLabel, bgColor: UIColor(resource: .mediumPurple), radius: 18)
+        pointLabel.setSkeletonLabel(bgColor: UIColor(resource: .mediumPurple), radius: 18)
         
         ticketImage.do {
             $0.image = UIImage(resource: .ticket)
             $0.contentMode = .scaleAspectFill
         }
         
-        setSkeletonLabel(view: whiteBackgroundView, bgColor: UIColor(resource: .drWhite), radius: 20, corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
+        whiteBackgroundView.setSkeletonLabel(bgColor: UIColor(resource: .drWhite), radius: 20, corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
 
-        setSkeletonLabel(view: firstHotCourseLabel)
+        firstHotCourseLabel.setSkeletonLabel()
         
-        setSkeletonLabel(view: secondHotCourseLabel, radius: 6)
+        secondHotCourseLabel.setSkeletonLabel(radius: 6)
         
-        setSkeletonLabel(view: thirdHotCourseLabel, radius: 6)
+        thirdHotCourseLabel.setSkeletonLabel(radius: 6)
         
-        setSkeletonLabel(view: firstLocationLabel,
-                    bgColor: UIColor(resource: .gray200),
-                    radius: 14,
-                    corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
+        firstLocationLabel.setSkeletonLabel(bgColor: UIColor(resource: .gray200), radius: 14, corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
 
-        setSkeletonImage(view: firstImageView, radius: 13, corners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+        firstImageView.setSkeletonImage(radius: 13, corners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
         
-        setSkeletonLabel(view: firstPrimaryLabel)
+        firstPrimaryLabel.setSkeletonLabel()
         
-        setSkeletonLabel(view: firstSecondaryLabel)
+        firstSecondaryLabel.setSkeletonLabel()
         
-        setSkeletonLabel(view: firstCostLabel, radius: 14)
+        firstCostLabel.setSkeletonLabel(radius: 14)
         
-        setSkeletonLabel(view: firstTimeLabel, radius: 14)
+        firstTimeLabel.setSkeletonLabel(radius: 14)
         
-        setSkeletonLabel(view: secondLocationLabel,
-                    bgColor: UIColor(resource: .gray200),
-                    radius: 14,
-                    corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
+        secondLocationLabel.setSkeletonLabel(bgColor: UIColor(resource: .gray200), radius: 14, corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
 
-        setSkeletonImage(view: secondImageView, radius: 13, corners: [.layerMinXMaxYCorner])
+        secondImageView.setSkeletonImage(radius: 13, corners: [.layerMinXMaxYCorner])
         
-        setSkeletonLabel(view: secondPrimaryLabel, corners: [.layerMinXMinYCorner, .layerMinXMaxYCorner])
+        secondPrimaryLabel.setSkeletonLabel(corners: [.layerMinXMinYCorner, .layerMinXMaxYCorner])
         
-        setSkeletonLabel(view: secondSecondaryLabel, corners: [.layerMinXMinYCorner, .layerMinXMaxYCorner])
+        secondSecondaryLabel.setSkeletonLabel(corners: [.layerMinXMinYCorner, .layerMinXMaxYCorner])
         
-        setSkeletonLabel(view: secondCostLabel, radius: 14, corners: [.layerMinXMinYCorner, .layerMinXMaxYCorner])
+        secondCostLabel.setSkeletonLabel(radius: 14, corners: [.layerMinXMinYCorner, .layerMinXMaxYCorner])
         
-        setSkeletonImage(view: bannerImageView)
-    }
-    
-}
-
-private extension MainSkeletonView {
-    
-    func setSkeletonLabel(view: UIView, bgColor: UIColor = UIColor(resource: .gray100), radius: CGFloat = 8,  corners: CACornerMask = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMaxXMinYCorner]) {
-        view.do {
-            $0.backgroundColor = bgColor
-            $0.roundCorners(cornerRadius: radius, maskedCorners: corners)
-        }
-    }
-    
-    func setSkeletonImage(view: UIView, bgColor: UIColor = UIColor(resource: .gray100), radius: CGFloat = 14, corners: CACornerMask = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMaxXMinYCorner]) {
-        view.do {
-            $0.backgroundColor = bgColor
-            $0.clipsToBounds = true
-            $0.contentMode = .scaleAspectFill
-            $0.roundCorners(cornerRadius: radius, maskedCorners: corners)
-        }
+        bannerImageView.setSkeletonImage()
     }
     
 }
