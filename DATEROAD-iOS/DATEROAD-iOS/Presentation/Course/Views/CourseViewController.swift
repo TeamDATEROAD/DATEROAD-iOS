@@ -50,6 +50,8 @@ final class CourseViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
+        courseView.courseListView.isHidden = true
+        courseView.courseSkeletonView.isHidden = false
         getCourse()
         courseViewModel.fetchPriceData()
     }
@@ -101,12 +103,12 @@ final class CourseViewController: BaseViewController {
             if !onFailNetwork {
                 if !onFailNetwork {
                     if onLoading {
-                        self?.showLoadingView(type: StringLiterals.Course.course)
+                        self?.courseView.courseSkeletonView.isHidden = false
                         self?.courseView.courseListView.isHidden = true
                     } else {
                         self?.courseView.courseListView.courseListCollectionView.reloadData()
                         self?.courseView.courseListView.isHidden = false
-                        self?.hideLoadingView()
+                        self?.courseView.courseSkeletonView.isHidden = true
                     }
                 }
             }
