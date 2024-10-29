@@ -7,7 +7,6 @@
 
 import UIKit
 
-import SkeletonView
 
 final class BannerDetailSkeletonView: BaseView {
     
