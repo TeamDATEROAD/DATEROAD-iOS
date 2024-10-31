@@ -7,6 +7,27 @@
 
 import UIKit
 
+enum AddScheduleAmplitudeProperty {
+    
+    case dateTitle(Bool)
+    
+    case dateDate(Bool)
+    
+    case dateTime(Bool)
+    
+    case dateTagNum(Int)
+    
+    case dateArea(Bool)
+    
+    case dateDetailLocation(Bool)
+    
+    case dateDetailTime(Bool)
+    
+    case dateCourseNum(Int)
+    
+}
+
+
 // MARK: - AddSchedule Amplitude
 
 class AddScheduleAmplitude {
@@ -46,6 +67,28 @@ class AddScheduleAmplitude {
         dateTime = false
         dateTagNum = 0
         dateArea = false
+    }
+    
+    /// Amplitude 변수 값 변경 함수
+    func updateAmplitudeProperty(_ property: AddScheduleAmplitudeProperty) {
+        switch property {
+        case .dateTitle(let value):
+            self.dateTitle = value
+        case .dateDate(let value):
+            self.dateDate = value
+        case .dateTime(let value):
+            self.dateTime = value
+        case .dateTagNum(let value):
+            self.dateTagNum = value
+        case .dateArea(let value):
+            self.dateArea = value
+        case .dateDetailLocation(let value):
+            self.dateDetailLocation = value
+        case .dateDetailTime(let value):
+            self.dateDetailTime = value
+        case .dateCourseNum(let value):
+            self.dateCourseNum = value
+        }
     }
     
     /// 일정등록 화면1 뒤로가기 버튼 클릭

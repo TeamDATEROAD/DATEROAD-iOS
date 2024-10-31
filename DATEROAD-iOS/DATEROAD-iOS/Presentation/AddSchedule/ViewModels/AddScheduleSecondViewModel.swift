@@ -12,9 +12,11 @@ import UIKit
 /// 일정등록 화면2 관련 ViewModel
 class AddScheduleSecondViewModel: AddScheduleSecondViewModelInterface {
     
-    init(amplitudeModel: AddScheduleAmplitude) {
-        self.amplitudeModel = amplitudeModel
+    init(addScheduleAmplitude: AddScheduleAmplitude) {
+        self.addScheduleAmplitude = addScheduleAmplitude
     }
+    
+    var addScheduleAmplitude: AddScheduleAmplitude
     
     var addPlaceCollectionViewDataSource: [AddCoursePlaceModel] = []
     
@@ -27,8 +29,6 @@ class AddScheduleSecondViewModel: AddScheduleSecondViewModelInterface {
     let editBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
     
     var isChange: (() -> Void)?
-    
-    var amplitudeModel: AddScheduleAmplitude
     
     
     //MARK: - AddSecondView 전용 func
@@ -59,8 +59,8 @@ class AddScheduleSecondViewModel: AddScheduleSecondViewModelInterface {
         self.datePlace.value = ""
         self.timeRequire.value = ""
         
-        self.amplitudeModel.dateDetailLocation = false
-        self.amplitudeModel.dateDetailTime = false
+        self.addScheduleAmplitude.dateDetailLocation = false
+        self.addScheduleAmplitude.dateDetailTime = false
         self.isChange?()
     }
     
@@ -71,7 +71,7 @@ class AddScheduleSecondViewModel: AddScheduleSecondViewModelInterface {
     
     func isSourceMoreThanOne() {
         let cnt = addPlaceCollectionViewDataSource.count
-        self.amplitudeModel.dateCourseNum = cnt
+        self.addScheduleAmplitude.dateCourseNum = cnt
         let flag = (cnt >= 2)
         print("지금 데이터소스 개수 : \(addPlaceCollectionViewDataSource.count)\nflag: \(flag)")
         isValidOfSecondNextBtn.value = flag

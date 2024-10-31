@@ -21,9 +21,9 @@ final class AddScheduleViewModel: Serviceable {
     /// Todo: 로직개선
     /// - First에 amplitude를 init하지 않는 이유는 VC에서 amplitude 관련 로직을 처리하기 때문
     /// - 따라서 First or Second 방식 중 통일되도록 개선하는 것이 좋아 보임
-    lazy var addScheduleFirstViewModel: AddScheduleFirstViewModelInterface = AddScheduleFirstViewModel(setLoading: self.setLoading)
+    lazy var addScheduleFirstViewModel: AddScheduleFirstViewModelInterface = AddScheduleFirstViewModel(addScheduleAmplitude: addScheduleAmplitude, setLoading: self.setLoading)
     
-    lazy var addScheduleSecondViewModel: AddScheduleSecondViewModelInterface = AddScheduleSecondViewModel(amplitudeModel: addScheduleAmplitude)
+    lazy var addScheduleSecondViewModel: AddScheduleSecondViewModelInterface = AddScheduleSecondViewModel(addScheduleAmplitude: addScheduleAmplitude)
     
     let addScheduleAmplitude: AddScheduleAmplitude = AddScheduleAmplitude()
     

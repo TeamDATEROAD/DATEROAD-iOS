@@ -12,9 +12,12 @@ import UIKit
 /// 일정등록 화면1 관련 ViewModel
 class AddScheduleFirstViewModel: AddScheduleFirstViewModelInterface {
     
-    init(setLoading: @escaping (Bool) -> ()) {
+    init(addScheduleAmplitude: AddScheduleAmplitude, setLoading: @escaping (Bool) -> ()) {
+        self.addScheduleAmplitude = addScheduleAmplitude
         self.setLoading = setLoading
     }
+    
+    var addScheduleAmplitude: AddScheduleAmplitude
     
     let setLoading: (_ isLoading: Bool) -> ()
     
