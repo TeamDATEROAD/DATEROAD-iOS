@@ -101,6 +101,7 @@ final class UserInfoView: BaseView {
         self.isUserInteractionEnabled = true
         
         profileImageView.do {
+            $0.image = UIImage(resource: .emptyProfileImg)
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 22
             $0.contentMode = .scaleAspectFill
@@ -131,7 +132,8 @@ final class UserInfoView: BaseView {
         }
         
         userPointLabel.do {
-            $0.setLabel(alignment: .left,
+            $0.setLabel(text: "님의 포인트",
+                        alignment: .left,
                         textColor: UIColor(resource: .gray400),
                         font: UIFont.suit(.body_med_13))
             $0.numberOfLines = 1
@@ -146,7 +148,7 @@ final class UserInfoView: BaseView {
         }
         
         pointLabel.do {
-            $0.setLabel(text: StringLiterals.MyPage.goToPointHistory,
+            $0.setLabel(text: "0 P",
                         alignment: .left,
                         textColor: UIColor(resource: .drBlack),
                         font: UIFont.suit(.title_extra_24))
