@@ -119,7 +119,6 @@ extension CourseDetailViewModel {
     
     func getCourseDetail() {
         self.isSuccessGetData.value = false
-        setLoading()
         self.onFailNetwork.value = false
         
         NetworkService.shared.courseDetailService.getCourseDetailInfo(courseId: courseId){ response in
