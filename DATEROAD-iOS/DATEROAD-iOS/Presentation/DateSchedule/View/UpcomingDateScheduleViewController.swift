@@ -18,6 +18,8 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
+    private let skeletonView: UpcomingDateScheduleSkeletonView = UpcomingDateScheduleSkeletonView()
+    
     
     // MARK: - Properties
     
@@ -38,6 +40,8 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
+        self.skeletonView.isHidden = false
+        self.upcomingDateScheduleView.isHidden = true
         self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
     }
     
@@ -54,13 +58,17 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubview(upcomingDateScheduleView)
+        self.view.addSubviews(upcomingDateScheduleView, skeletonView)
     }
     
     override func setLayout() {
         super.setLayout()
         
         upcomingDateScheduleView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        skeletonView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
@@ -94,14 +102,12 @@ private extension UpcomingDateScheduleViewController {
             guard let onLoading, let onFailNetwork = self?.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
+                    self?.skeletonView.isHidden = false
                     self?.upcomingDateScheduleView.isHidden = true
                 } else {
                     self?.drawDateCardView()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self?.upcomingDateScheduleView.isHidden = false
-                        self?.hideLoadingView()
-                    }
+                    self?.upcomingDateScheduleView.isHidden = false
+                    self?.skeletonView.isHidden = true
                 }
             }
         }
