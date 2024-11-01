@@ -112,16 +112,13 @@ extension MyRegisterCourseViewController {
             guard let onLoading, let onFailNetwork = self?.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
+                    self?.showLoadingView(type: StringLiterals.MyRegisterCourse.title)
                     self?.contentView.isHidden = onLoading
                 } else {
                     self?.setEmptyView()
                     self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self?.contentView.isHidden = onLoading
-                        self?.hideLoadingView()
-                    }
+                    self?.contentView.isHidden = onLoading
+                    self?.hideLoadingView()
                 }
             }
         }

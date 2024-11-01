@@ -37,7 +37,6 @@ final class NavViewedCourseViewController: BaseNavBarViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.viewedCourseViewModel.setNavViewedCourseLoading()
         self.viewedCourseViewModel.setNavViewedCourseData()
     }
     
@@ -129,15 +128,13 @@ extension NavViewedCourseViewController {
             guard let onLoading, let onFailNetwork = self?.viewedCourseViewModel.onViewedCourseFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
+                    self?.showLoadingView(type: StringLiterals.ViewedCourse.title)
                     self?.navViewedCourseView.isHidden = onLoading
                 } else {
                     self?.setEmptyView()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self?.navViewedCourseView.isHidden = onLoading
-                        self?.tabBarController?.tabBar.isHidden = false
-                        self?.hideLoadingView()
-                    }
+                    self?.navViewedCourseView.isHidden = onLoading
+                    self?.tabBarController?.tabBar.isHidden = false
+                    self?.hideLoadingView()
                 }
             }
         }

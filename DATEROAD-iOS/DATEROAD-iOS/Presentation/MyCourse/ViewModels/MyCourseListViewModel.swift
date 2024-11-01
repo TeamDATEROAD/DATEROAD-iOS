@@ -17,7 +17,7 @@ final class MyCourseListViewModel: Serviceable {
     
     var isSuccessGetNavViewedCourseInfo: ObservablePattern<Bool> = ObservablePattern(false)
     
-    var isSuccessGetMyRegisterCourseInfo: ObservablePattern<Bool> = ObservablePattern(false)
+    var isSuccessGetMyRegisterCourseInfo: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
@@ -25,7 +25,7 @@ final class MyCourseListViewModel: Serviceable {
     
     var onNavViewedCourseLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
-    var onMyRegisterCourseLoading: ObservablePattern<Bool> = ObservablePattern(true)
+    var onMyRegisterCourseLoading: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onViewedCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
@@ -105,7 +105,6 @@ final class MyCourseListViewModel: Serviceable {
     
     func setMyRegisterCourseData() {
         self.isSuccessGetMyRegisterCourseInfo.value = false
-        self.setMyRegisterCourseLoading()
         self.onMyRegisterCourseFailNetwork.value = false
         
         NetworkService.shared.myCourseService.getMyRegisterCourse() { response in

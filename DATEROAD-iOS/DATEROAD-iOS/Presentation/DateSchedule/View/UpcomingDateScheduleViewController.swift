@@ -17,9 +17,7 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     private var upcomingDateScheduleView = UpcomingDateScheduleView()
     
     private let errorView: DRErrorViewController = DRErrorViewController()
-    
-    private let skeletonView: UpcomingDateScheduleSkeletonView = UpcomingDateScheduleSkeletonView()
-    
+        
     
     // MARK: - Properties
     
@@ -40,8 +38,6 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
-        self.skeletonView.isHidden = false
-        self.upcomingDateScheduleView.isHidden = true
         self.upcomingDateScheduleViewModel.getUpcomingDateScheduleData()
     }
     
@@ -58,17 +54,13 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(upcomingDateScheduleView, skeletonView)
+        self.view.addSubviews(upcomingDateScheduleView)
     }
     
     override func setLayout() {
         super.setLayout()
         
         upcomingDateScheduleView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        skeletonView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
@@ -102,12 +94,15 @@ private extension UpcomingDateScheduleViewController {
             guard let onLoading, let onFailNetwork = self?.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.skeletonView.isHidden = false
-                    self?.upcomingDateScheduleView.isHidden = true
+                    self?.showLoadingView(type: StringLiterals.DateSchedule.upcomingDate)
+                    self?.upcomingDateScheduleView.cardCollectionView.isHidden = true
+                    self?.upcomingDateScheduleView.cardPageControl.isHidden = true
+                    self?.upcomingDateScheduleView.emptyView.isHidden = true
+                    self?.upcomingDateScheduleView.pastDateButton.isHidden = true
                 } else {
                     self?.drawDateCardView()
-                    self?.upcomingDateScheduleView.isHidden = false
-                    self?.skeletonView.isHidden = true
+                    self?.upcomingDateScheduleView.pastDateButton.isHidden = false
+                    self?.hideLoadingView()
                 }
             }
         }
@@ -250,7 +245,7 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
         let location = sender.location(in: upcomingDateScheduleView.cardCollectionView)
         if let indexPath = upcomingDateScheduleView.cardCollectionView.indexPathForItem(at: location) {
             let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel.emptyModel
-            let upcomingDateDetailVC = UpcomingDateDetailViewController(dateID: data.dateID, viewPath: StringLiterals.TabBar.date, upcomingDateDetailViewModel: DateDetailViewModel()
+            let upcomingDateDetailVC = UpcomingDateDetailViewController(index: indexPath.item, dateID: data.dateID, viewPath: StringLiterals.TabBar.date, upcomingDateDetailViewModel: DateDetailViewModel()
             )
             upcomingDateDetailVC.setColor(index: indexPath.item)
             self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
