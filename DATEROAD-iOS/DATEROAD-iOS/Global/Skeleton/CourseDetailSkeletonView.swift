@@ -15,20 +15,31 @@ final class CourseDetailSkeletonView: BaseView {
     
     private let visitDateLabel: UILabel = UILabel()
     
+    private let primaryTitleLabel: UILabel = UILabel()
+    
+    private let secondaryTitleLabel: UILabel = UILabel()
+    
     private let costLabel: UILabel = UILabel()
     
     private let timeLabel: UILabel = UILabel()
     
     private let locationLabel: UILabel = UILabel()
     
-
+    private let firstDetailContentView: DetailContentView = DetailContentView()
+    
+    private let secondDetailContentView: DetailContentView = DetailContentView()
 
     
     override func setHierarchy() {
         self.addSubviews(carouselImageView,
                          visitDateLabel,
                          primaryTitleLabel,
-                         secondaryTitleLabel)
+                         secondaryTitleLabel,
+                         costLabel,
+                         timeLabel,
+                         locationLabel,
+                         firstDetailContentView,
+                         secondDetailContentView)
     }
     
     override func setLayout() {
@@ -39,22 +50,54 @@ final class CourseDetailSkeletonView: BaseView {
         
         visitDateLabel.snp.makeConstraints {
             $0.top.equalTo(carouselImageView.snp.bottom).offset(23)
-            $0.width.equalTo(70)
-            $0.leading.equalToSuperview().inset(16)
-        }
-        
-        dateLabel.snp.makeConstraints {
-            $0.top.equalTo(visitDateLabel.snp.bottom).offset(14)
+            $0.width.equalTo(144)
+            $0.height.equalTo(21)
             $0.leading.equalToSuperview().inset(16)
         }
         
         primaryTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(dateLabel.snp.bottom).offset(14)
+            $0.top.equalTo(visitDateLabel.snp.bottom).offset(14)
+            $0.width.equalTo(312)
+            $0.height.equalTo(27)
+            $0.leading.equalToSuperview().inset(16)
+        }
+        
+        secondaryTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(primaryTitleLabel.snp.bottom).offset(8)
+            $0.width.equalTo(278)
+            $0.height.equalTo(27)
+            $0.leading.equalToSuperview().inset(16)
+        }
+        
+        costLabel.snp.makeConstraints {
+            $0.top.equalTo(secondaryTitleLabel.snp.bottom).offset(20)
+            $0.width.equalTo(102)
+            $0.height.equalTo(21)
+            $0.leading.equalToSuperview().inset(16)
+        }
+        
+        timeLabel.snp.makeConstraints {
+            $0.top.equalTo(secondaryTitleLabel.snp.bottom).offset(20)
+            $0.width.equalTo(64)
+            $0.height.equalTo(21)
+            $0.leading.equalTo(costLabel.snp.trailing).offset(16)
+        }
+        
+        locationLabel.snp.makeConstraints {
+            $0.top.equalTo(secondaryTitleLabel.snp.bottom).offset(20)
+            $0.width.equalTo(127)
+            $0.height.equalTo(21)
+            $0.leading.equalTo(timeLabel.snp.trailing).offset(24)
+        }
+        
+        firstDetailContentView.snp.makeConstraints {
+            $0.top.equalTo(locationLabel.snp.bottom).offset(20)
+            $0.height.equalTo(240)
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
-        contentLabel.snp.makeConstraints {
-            $0.top.equalTo(primaryTitleLabel.snp.bottom).offset(20)
+        secondDetailContentView.snp.makeConstraints {
+            $0.top.equalTo(firstDetailContentView.snp.bottom).offset(25)
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
     }
@@ -64,32 +107,8 @@ final class CourseDetailSkeletonView: BaseView {
         
         carouselImageView.image = UIImage(resource: .placeholder)
         
-        [visitDateLabel, dateLabel, titleLabel, contentLabel].forEach {
-            $0.roundedLabel(cornerRadius: 10, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
-            $0.backgroundColor = UIColor(resource: .gray100).withAlphaComponent(0.5)
-            $0.textColor = UIColor.clear
-            $0.numberOfLines = 0
-        }
-        
-        visitDateLabel.do {
-            $0.roundedLabel(cornerRadius: 6, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
-            $0.text = SKELETON.BANNERDETAIL.TAG
-            $0.font = UIFont.suit(.body_semi_13)
-        }
-        
-        dateLabel.do {
-            $0.text = SKELETON.BANNERDETAIL.DATE
-            $0.font = UIFont.suit(.body_bold_15)
-        }
-        
-        primaryTitleLabel.do {
-            $0.text = SKELETON.BANNERDETAIL.TITLE
-            $0.font = UIFont.suit(.title_extra_24)
-        }
-        
-        contentLabel.do {
-            $0.text = SKELETON.BANNERDETAIL.CONTENT
-            $0.font = UIFont.suit(.body_med_13)
+        [visitDateLabel, primaryTitleLabel, secondaryTitleLabel, costLabel, timeLabel, locationLabel].forEach {
+            $0.setSkeletonLabel()
         }
     }
     
