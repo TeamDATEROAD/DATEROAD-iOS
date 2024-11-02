@@ -25,7 +25,7 @@ final class DateDetailViewModel: Serviceable {
     
     var dateDetailData: ObservablePattern<DateDetailModel> = ObservablePattern(nil)
     
-    var isSuccessGetDateDetailData: ObservablePattern<Bool> = ObservablePattern(nil)
+    var isSuccessGetDateDetailData: ObservablePattern<Bool> = ObservablePattern(false)
     
     var isSuccessDeleteDateScheduleData: ObservablePattern<Bool> = ObservablePattern(nil)
     

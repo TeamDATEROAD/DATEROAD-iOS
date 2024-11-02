@@ -22,6 +22,8 @@ final class CourseDetailViewController: BaseViewController {
     
     private var deleteCourseSettingView = DeleteCourseSettingView()
     
+    private let skeletonView: CourseDetailSkeletonView = CourseDetailSkeletonView()
+    
     
     // MARK: - Properties
     
@@ -75,7 +77,7 @@ final class CourseDetailViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(courseDetailView, courseInfoTabBarView)
+        self.view.addSubviews(courseDetailView, courseInfoTabBarView, skeletonView)
     }
     
     override func setLayout() {
@@ -91,6 +93,10 @@ final class CourseDetailViewController: BaseViewController {
         courseInfoTabBarView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(108)
+        }
+        
+        skeletonView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
     
@@ -147,7 +153,7 @@ final class CourseDetailViewController: BaseViewController {
             guard let onLoading, let onFailNetwork = self?.courseDetailViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
+                    self?.skeletonView.isHidden = !onLoading
                     self?.courseDetailView.isHidden = onLoading
                 } else {
                     self?.localLikeNum = self?.courseDetailViewModel.likeSum.value ?? 0
@@ -155,11 +161,8 @@ final class CourseDetailViewController: BaseViewController {
                     self?.setTabBarVisibility()
                     self?.setNavBarVisibility()
                     self?.courseDetailView.mainCollectionView.reloadData()
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self?.courseDetailView.isHidden = onLoading
-                        self?.hideLoadingView()
-                    }
+                    self?.courseDetailView.isHidden = onLoading
+                    self?.skeletonView.isHidden = !onLoading
                 }
             }
         }
@@ -181,7 +184,7 @@ final class CourseDetailViewController: BaseViewController {
         }
         
         courseDetailViewModel.isSuccessGetData.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
+            guard isSuccess != nil else { return }
             self?.courseDetailViewModel.setLoading()
         }
         

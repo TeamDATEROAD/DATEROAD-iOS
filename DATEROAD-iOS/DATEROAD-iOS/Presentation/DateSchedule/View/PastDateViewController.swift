@@ -95,19 +95,13 @@ private extension PastDateViewController {
             guard let onLoading, let onFailNetwork = self?.pastDateScheduleViewModel.onPastScheduleFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
+                    self?.showLoadingView(type: StringLiterals.DateSchedule.pastDate)
                     self?.pastDateContentView.isHidden = onLoading
-                    self?.topInsetView.isHidden = onLoading
-                    self?.navigationBarView.isHidden = onLoading
                 } else {
                     self?.pastDateContentView.pastDateCollectionView.reloadData()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self?.setEmptyView()
-                        self?.pastDateContentView.isHidden = onLoading
-                        self?.topInsetView.isHidden = onLoading
-                        self?.navigationBarView.isHidden = onLoading
-                        self?.hideLoadingView()
-                    }
+                    self?.setEmptyView()
+                    self?.pastDateContentView.isHidden = onLoading
+                    self?.hideLoadingView()
                 }
             }
         }
@@ -184,7 +178,7 @@ extension PastDateViewController: UICollectionViewDataSource {
         let location = sender.location(in: pastDateContentView.pastDateCollectionView)
         if let indexPath = pastDateContentView.pastDateCollectionView.indexPathForItem(at: location) {
             guard let data = pastDateScheduleViewModel.pastDateScheduleData.value?[indexPath.item] else { return }
-            let pastDateDetailVC = PastDateDetailViewController(dateID: data.dateID, pastDateDetailViewModel: DateDetailViewModel())
+            let pastDateDetailVC = PastDateDetailViewController(index: indexPath.item, dateID: data.dateID, pastDateDetailViewModel: DateDetailViewModel())
             pastDateDetailVC.setColor(index: indexPath.item)
             self.navigationController?.pushViewController(pastDateDetailVC, animated: false)
         }

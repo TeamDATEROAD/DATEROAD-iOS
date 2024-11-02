@@ -20,6 +20,8 @@ final class CourseView: BaseView {
     
     let courseListView = CourseListView()
     
+    let courseSkeletonView: CourseSkeletonView = CourseSkeletonView()
+
     
     // MARK: - Life Cycle
     
@@ -35,7 +37,8 @@ final class CourseView: BaseView {
         self.addSubviews(
             courseNavigationBarView,
             courseFilterView,
-            courseListView
+            courseListView,
+            courseSkeletonView
         )
     }
     
@@ -53,6 +56,12 @@ final class CourseView: BaseView {
         }
         
         courseListView.snp.makeConstraints {
+            $0.top.equalTo(courseFilterView.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+        
+        courseSkeletonView.snp.makeConstraints {
             $0.top.equalTo(courseFilterView.snp.bottom)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()

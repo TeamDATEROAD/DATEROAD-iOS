@@ -65,7 +65,7 @@ final class ImageCarouselCell: BaseCollectionViewCell {
             let vc = UIViewController()
             let imageView = UIImageView()
             
-            imageView.kfSetImage(with: thumbnail.imageUrl)
+            imageView.kfSetImage(with: thumbnail.imageUrl, placeholder: UIImage(resource: .placeholder))
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
             vc.view.addSubview(imageView)

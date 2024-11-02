@@ -86,7 +86,12 @@ final class DateScheduleViewModel: Serviceable {
                     let tagsModel: [TagsModel] = date.tags.map { tag in
                         TagsModel(tag: tag.tag)
                     }
-                    return DateCardModel(dateID: date.dateID, title: date.title, date: (date.date).toReadableDate() ?? "", city: date.city , tags: tagsModel, dDay: date.dDay)
+                    return DateCardModel(dateID: date.dateID, 
+                                         title: date.title,
+                                         date: (date.date).toReadableDate() ?? "",
+                                         city: date.city ,
+                                         tags: tagsModel,
+                                         dDay: date.dDay)
                 }
                 let dateScheduleNum = data.dates.count
                 AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.dateScheduleNum : dateScheduleInfo.count])

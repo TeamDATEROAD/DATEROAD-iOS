@@ -17,7 +17,7 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     private var upcomingDateScheduleView = UpcomingDateScheduleView()
     
     private let errorView: DRErrorViewController = DRErrorViewController()
-    
+        
     
     // MARK: - Properties
     
@@ -54,7 +54,7 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubview(upcomingDateScheduleView)
+        self.view.addSubviews(upcomingDateScheduleView)
     }
     
     override func setLayout() {
@@ -94,14 +94,15 @@ private extension UpcomingDateScheduleViewController {
             guard let onLoading, let onFailNetwork = self?.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
-                    self?.upcomingDateScheduleView.isHidden = true
+                    self?.showLoadingView(type: StringLiterals.DateSchedule.upcomingDate)
+                    self?.upcomingDateScheduleView.cardCollectionView.isHidden = true
+                    self?.upcomingDateScheduleView.cardPageControl.isHidden = true
+                    self?.upcomingDateScheduleView.emptyView.isHidden = true
+                    self?.upcomingDateScheduleView.pastDateButton.isHidden = true
                 } else {
                     self?.drawDateCardView()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self?.upcomingDateScheduleView.isHidden = false
-                        self?.hideLoadingView()
-                    }
+                    self?.upcomingDateScheduleView.pastDateButton.isHidden = false
+                    self?.hideLoadingView()
                 }
             }
         }
@@ -244,7 +245,7 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
         let location = sender.location(in: upcomingDateScheduleView.cardCollectionView)
         if let indexPath = upcomingDateScheduleView.cardCollectionView.indexPathForItem(at: location) {
             let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel.emptyModel
-            let upcomingDateDetailVC = UpcomingDateDetailViewController(dateID: data.dateID, viewPath: StringLiterals.TabBar.date, upcomingDateDetailViewModel: DateDetailViewModel()
+            let upcomingDateDetailVC = UpcomingDateDetailViewController(index: indexPath.item, dateID: data.dateID, viewPath: StringLiterals.TabBar.date, upcomingDateDetailViewModel: DateDetailViewModel()
             )
             upcomingDateDetailVC.setColor(index: indexPath.item)
             self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)

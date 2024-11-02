@@ -93,17 +93,14 @@ extension PointDetailViewController {
             guard let onLoading, let onFailNetwork = self?.pointViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
+                    self?.showLoadingView(type: StringLiterals.PointDetail.title)
                     self?.pointDetailView.isHidden = onLoading
                 } else {
                     self?.pointDetailView.pointCollectionView.reloadData()
                     self?.pointViewModel.updateData(nowEarnedPointHidden: false)
                     self?.changeSelectedSegmentLayout(isEarnedPointHidden: false)
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self?.pointDetailView.isHidden = onLoading
-                        self?.hideLoadingView()
-                    }
+                    self?.pointDetailView.isHidden = onLoading
+                    self?.hideLoadingView()
                 }
             }
         }
