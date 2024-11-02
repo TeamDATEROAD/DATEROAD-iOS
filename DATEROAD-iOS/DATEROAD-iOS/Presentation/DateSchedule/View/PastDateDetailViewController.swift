@@ -21,6 +21,8 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - Properties
     
+    var index: Int
+    
     var dateID: Int
         
     var pastDateDetailViewModel: DateDetailViewModel
@@ -30,7 +32,8 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - LifeCycle
     
-    init(dateID: Int, pastDateDetailViewModel: DateDetailViewModel) {
+    init(index: Int, dateID: Int, pastDateDetailViewModel: DateDetailViewModel) {
+        self.index = index
         self.dateID = dateID
         self.pastDateDetailViewModel = pastDateDetailViewModel
         
@@ -136,20 +139,17 @@ extension PastDateDetailViewController {
         self.pastDateDetailViewModel.onDateDetailLoading.bind { [weak self] onLoading in
             guard let onLoading,
                   let onFailNetwork = self?.pastDateDetailViewModel.onFailNetwork.value,
-                  let data = self?.pastDateDetailViewModel.dateDetailData.value
+                  let index = self?.index
             else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
+                    self?.setBackgroundColor(color: .drWhite)
+                    self?.showLoadingView(type: StringLiterals.DateSchedule.pastDate)
                     self?.pastDateDetailContentView.isHidden = true
                 } else {
-                    self?.pastDateDetailContentView.dataBind(data)
-                    self?.pastDateDetailContentView.dateTimeLineCollectionView.reloadData()
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self?.pastDateDetailContentView.isHidden = false
-                        self?.hideLoadingView()
-                    }
+                    self?.setColor(index: index)
+                    self?.pastDateDetailContentView.isHidden = false
+                    self?.hideLoadingView()
                 }
             }
         }
@@ -174,6 +174,9 @@ extension PastDateDetailViewController {
         }
         
         self.pastDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] _ in
+            guard let data = self?.pastDateDetailViewModel.dateDetailData.value else { return }
+            self?.pastDateDetailContentView.dataBind(data)
+            self?.pastDateDetailContentView.dateTimeLineCollectionView.reloadData()
             self?.pastDateDetailViewModel.setDateDetailLoading()
         }
         

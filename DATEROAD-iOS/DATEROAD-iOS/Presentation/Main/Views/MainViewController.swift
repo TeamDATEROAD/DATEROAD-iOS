@@ -11,6 +11,8 @@ final class MainViewController: BaseViewController {
     
     // MARK: - UI Properties
     
+    private let mainSkeletonView: MainSkeletonView = MainSkeletonView()
+    
     private var mainView: MainView
     
     private let errorView: DRErrorViewController = DRErrorViewController()
@@ -58,6 +60,8 @@ final class MainViewController: BaseViewController {
     override func viewIsAppearing(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
         self.loadedCells = 0
+        self.mainSkeletonView.isHidden = false
+        self.mainView.isHidden = true
         self.mainViewModel.fetchSectionData()
     }
     
@@ -69,13 +73,18 @@ final class MainViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubview(mainView)
+        self.view.addSubviews(mainView, mainSkeletonView)
     }
     
     override func setLayout() {
         super.setLayout()
         
         mainView.snp.makeConstraints {
+            $0.top.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(view.frame.height * 0.1)
+        }
+        
+        mainSkeletonView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview().inset(view.frame.height * 0.1)
         }
@@ -98,18 +107,15 @@ extension MainViewController {
             guard let onLoading, let onFailNetwork = self?.mainViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
+                    self?.mainSkeletonView.isHidden = false
                     self?.mainView.isHidden = onLoading
                 } else {
                     self?.mainView.mainCollectionView.reloadData()
                     let initialIndexPath = IndexPath(item: 1, section: 2)
                     self?.mainView.mainCollectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
                     self?.startAutoScrollTimer()
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self?.mainView.isHidden = onLoading
-                        self?.hideLoadingView()
-                    }
+                    self?.mainView.isHidden = onLoading
+                    self?.mainSkeletonView.isHidden = true
                 }
             }
         }
@@ -206,7 +212,7 @@ extension MainViewController {
     @objc
     func pushToDateDetailVC(_ sender: UIButton) {
         let dateID = sender.tag
-        let upcomingDateDetailVC = UpcomingDateDetailViewController(dateID: dateID, viewPath: StringLiterals.TabBar.home, upcomingDateDetailViewModel: DateDetailViewModel())
+        let upcomingDateDetailVC = UpcomingDateDetailViewController(index: dateID, dateID: dateID, viewPath: StringLiterals.TabBar.home, upcomingDateDetailViewModel: DateDetailViewModel())
         upcomingDateDetailVC.setColor(index: dateID)
         self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
     }

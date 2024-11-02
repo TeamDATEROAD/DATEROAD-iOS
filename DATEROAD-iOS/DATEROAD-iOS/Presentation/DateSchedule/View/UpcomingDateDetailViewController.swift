@@ -21,8 +21,10 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - Properties
     
+    var index: Int
+    
     var dateID: Int
-        
+    
     var viewPath: String
     
     var upcomingDateDetailViewModel: DateDetailViewModel
@@ -32,7 +34,8 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - LifeCycle
     
-    init(dateID: Int, viewPath: String, upcomingDateDetailViewModel: DateDetailViewModel) {
+    init(index: Int, dateID: Int, viewPath: String, upcomingDateDetailViewModel: DateDetailViewModel) {
+        self.index = index
         self.dateID = dateID
         self.viewPath = viewPath
         self.upcomingDateDetailViewModel = upcomingDateDetailViewModel
@@ -60,7 +63,6 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.tabBarController?.tabBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = true
-        self.upcomingDateDetailViewModel.setDateDetailLoading()
         self.upcomingDateDetailViewModel.getDateDetailData(dateID: self.dateID)
         
         AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewScheduleDetails, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
@@ -89,27 +91,26 @@ extension UpcomingDateDetailViewController {
     
     func bindViewModel() {
         self.upcomingDateDetailViewModel.onDateDetailLoading.bind { [weak self] onLoading in
-            guard let onLoading,  let onFailNetwork = self?.upcomingDateDetailViewModel.onFailNetwork.value else { return }
+            guard let onLoading,
+                  let onFailNetwork = self?.upcomingDateDetailViewModel.onFailNetwork.value,
+                  let index = self?.index 
+            else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
+                    self?.setBackgroundColor(color: .drWhite)
+                    self?.showLoadingView(type: StringLiterals.DateSchedule.upcomingDate)
                     self?.upcomingDateDetailContentView.isHidden = true
-                    self?.topInsetView.isHidden = onLoading
-                    self?.navigationBarView.isHidden = onLoading
                 } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self?.upcomingDateDetailContentView.isHidden = false
-                        self?.topInsetView.isHidden = onLoading
-                        self?.navigationBarView.isHidden = onLoading
-                        self?.hideLoadingView()
-                    }
+                    self?.setColor(index: index)
+                    self?.upcomingDateDetailContentView.isHidden = false
+                    self?.hideLoadingView()
                 }
             }
         }
         
         self.upcomingDateDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
-            guard let onSuccess, 
-                    let dateID = self?.dateID,
+            guard let onSuccess,
+                  let dateID = self?.dateID,
                   let type = self?.upcomingDateDetailViewModel.type.value
             else { return }
             if onSuccess {
@@ -138,13 +139,11 @@ extension UpcomingDateDetailViewController {
             }
         }
         
-        self.upcomingDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] isSuccess in
-            guard let isSuccess,  let data = self?.upcomingDateDetailViewModel.dateDetailData.value else { return }
-            if isSuccess {
-                self?.upcomingDateDetailContentView.dataBind(data)
-                self?.upcomingDateDetailContentView.dateTimeLineCollectionView.reloadData()
-                self?.upcomingDateDetailViewModel.setDateDetailLoading()
-            }
+        self.upcomingDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] _ in
+            guard let data = self?.upcomingDateDetailViewModel.dateDetailData.value else { return }
+            self?.upcomingDateDetailContentView.dataBind(data)
+            self?.upcomingDateDetailContentView.dateTimeLineCollectionView.reloadData()
+            self?.upcomingDateDetailViewModel.setDateDetailLoading()
         }
         
         self.upcomingDateDetailViewModel.isSuccessDeleteDateScheduleData.bind { [weak self] isSuccess in

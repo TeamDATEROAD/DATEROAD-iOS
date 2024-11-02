@@ -44,4 +44,19 @@ extension UIView {
         }
     }
     
+    func setSkeletonLabel(bgColor: UIColor = UIColor(resource: .gray100), radius: CGFloat = 8,  corners: CACornerMask = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMaxXMinYCorner]) {
+        self.do {
+            $0.backgroundColor = bgColor
+            $0.roundCorners(cornerRadius: radius, maskedCorners: corners)
+        }
+    }
+    
+    func setSkeletonImage(bgColor: UIColor = UIColor(resource: .gray100), radius: CGFloat = 14, corners: CACornerMask = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMaxXMinYCorner]) {
+        self.do {
+            $0.backgroundColor = bgColor
+            $0.clipsToBounds = true
+            $0.contentMode = .scaleAspectFill
+            $0.roundCorners(cornerRadius: radius, maskedCorners: corners)
+        }
+    }
 }

@@ -27,7 +27,7 @@ final class ViewedCourseViewController: BaseViewController {
     private var viewedCourseView = MyCourseListView(type: "tab")
     
     private let errorView: DRErrorViewController = DRErrorViewController()
-    
+        
     
     // MARK: - Properties
     
@@ -205,11 +205,9 @@ extension ViewedCourseViewController {
                     self?.showLoadingView()
                     self?.contentView.isHidden = true
                 } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self?.setEmptyView()
-                        self?.contentView.isHidden = false
-                        self?.hideLoadingView()
-                    }
+                    self?.setEmptyView()
+                    self?.contentView.isHidden = false
+                    self?.hideLoadingView()
                 }
             }
         }
