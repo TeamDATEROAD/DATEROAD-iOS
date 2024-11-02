@@ -219,6 +219,7 @@
 		CAA76AD32C65FE0100821E3E /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA76AD22C65FE0100821E3E /* SplashViewModel.swift */; };
 		CAA76AD52C665E8B00821E3E /* PatchReissueResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA76AD42C665E8B00821E3E /* PatchReissueResponse.swift */; };
 		CAA76AD72C6664B100821E3E /* Serviceable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA76AD62C6664B100821E3E /* Serviceable.swift */; };
+		CAB4FAE72CD61A1A00B0C8DD /* Development.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CAB4FAE62CD61A1A00B0C8DD /* Development.xcconfig */; };
 		CABDCE6E2C47D6E600631FB3 /* AuthTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE6D2C47D6E600631FB3 /* AuthTargetType.swift */; };
 		CABDCE712C47D8F400631FB3 /* PostSignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE702C47D8F400631FB3 /* PostSignUpRequest.swift */; };
 		CABDCE732C47FA5C00631FB3 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABDCE722C47FA5C00631FB3 /* AuthService.swift */; };
@@ -452,7 +453,6 @@
 		CA4EF3C22C3285F8003B02B6 /* StringLiterals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringLiterals.swift; sourceTree = "<group>"; };
 		CA4EF3C42C328698003B02B6 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		CA4EF3C62C3286C5003B02B6 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
-		CA4EF3C92C32875F003B02B6 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
 		CA4EF3CA2C3287DA003B02B6 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		CA4EF3D42C34763B003B02B6 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		CA4EF3D62C347766003B02B6 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -496,6 +496,7 @@
 		CAA76AD22C65FE0100821E3E /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
 		CAA76AD42C665E8B00821E3E /* PatchReissueResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchReissueResponse.swift; sourceTree = "<group>"; };
 		CAA76AD62C6664B100821E3E /* Serviceable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Serviceable.swift; sourceTree = "<group>"; };
+		CAB4FAE62CD61A1A00B0C8DD /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
 		CABDCE6D2C47D6E600631FB3 /* AuthTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTargetType.swift; sourceTree = "<group>"; };
 		CABDCE702C47D8F400631FB3 /* PostSignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSignUpRequest.swift; sourceTree = "<group>"; };
 		CABDCE722C47FA5C00631FB3 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -1398,8 +1399,8 @@
 		CA4EF3C82C32874E003B02B6 /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
-				CA4EF3C92C32875F003B02B6 /* Development.xcconfig */,
 				CA4EF3CA2C3287DA003B02B6 /* Config.swift */,
+				CAB4FAE62CD61A1A00B0C8DD /* Development.xcconfig */,
 			);
 			path = Configurations;
 			sourceTree = "<group>";
@@ -1899,6 +1900,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAB4FAE72CD61A1A00B0C8DD /* Development.xcconfig in Resources */,
 				CA78FE442C383D53001B1403 /* SUIT-Medium.otf in Resources */,
 				74A70C012C329AB000855E61 /* SUIT-ExtraBold.otf in Resources */,
 				CAE890A82C8ADF0A00834A9E /* loading.json in Resources */,
@@ -2205,7 +2207,7 @@
 /* Begin XCBuildConfiguration section */
 		CA3D0CE92C29A2F500735097 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA4EF3C92C32875F003B02B6 /* Development.xcconfig */;
+			baseConfigurationReference = CAB4FAE62CD61A1A00B0C8DD /* Development.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -2269,7 +2271,7 @@
 		};
 		CA3D0CEA2C29A2F500735097 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA4EF3C92C32875F003B02B6 /* Development.xcconfig */;
+			baseConfigurationReference = CAB4FAE62CD61A1A00B0C8DD /* Development.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -2326,7 +2328,7 @@
 		};
 		CA3D0CEC2C29A2F500735097 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA4EF3C92C32875F003B02B6 /* Development.xcconfig */;
+			baseConfigurationReference = CAB4FAE62CD61A1A00B0C8DD /* Development.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2367,7 +2369,7 @@
 		};
 		CA3D0CED2C29A2F500735097 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA4EF3C92C32875F003B02B6 /* Development.xcconfig */;
+			baseConfigurationReference = CAB4FAE62CD61A1A00B0C8DD /* Development.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
