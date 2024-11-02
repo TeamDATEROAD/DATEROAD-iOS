@@ -27,9 +27,7 @@ final class ViewedCourseViewController: BaseViewController {
     private var viewedCourseView = MyCourseListView(type: "tab")
     
     private let errorView: DRErrorViewController = DRErrorViewController()
-    
-    private let skeletonView: ViewedCourseSkeletonView = ViewedCourseSkeletonView()
-    
+        
     
     // MARK: - Properties
     
@@ -67,7 +65,7 @@ final class ViewedCourseViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(contentView, skeletonView)
+        self.view.addSubview(contentView)
         
         self.contentView.addSubviews(topLabel,
                                      createCourseView,
@@ -81,11 +79,6 @@ final class ViewedCourseViewController: BaseViewController {
         
         contentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-        }
-        
-        skeletonView.snp.makeConstraints {
-            $0.top.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.11)
         }
         
         topLabel.snp.makeConstraints {
@@ -209,12 +202,12 @@ extension ViewedCourseViewController {
             guard let onLoading, let onFailNetwork = self?.viewedCourseViewModel.onViewedCourseFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.skeletonView.isHidden = false
+                    self?.showLoadingView()
                     self?.contentView.isHidden = true
                 } else {
                     self?.setEmptyView()
                     self?.contentView.isHidden = false
-                    self?.skeletonView.isHidden = true
+                    self?.hideLoadingView()
                 }
             }
         }
