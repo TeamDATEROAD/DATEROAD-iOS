@@ -61,9 +61,11 @@ final class UpcomingDateScheduleSkeletonView: BaseView {
     override func setStyle() {
         self.backgroundColor = UIColor(resource: .drWhite)
         
-        titleLabel.do {
-            $0.setLabel(text: StringLiterals.DateSchedule.upcomingDate, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_bold_20))
-        }
+        titleLabel.setLabel(
+            text: StringLiterals.DateSchedule.upcomingDate,
+            textColor: UIColor(resource: .drBlack),
+            font: UIFont.suit(.title_bold_20)
+        )
         
         cardImageView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
@@ -73,12 +75,22 @@ final class UpcomingDateScheduleSkeletonView: BaseView {
         dateRegisterButton.do {
             $0.backgroundColor = UIColor(resource: .deepPurple)
             $0.setImage(UIImage(resource: .plusSchedule), for: .normal)
-            $0.roundedButton(cornerRadius: 15, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundedButton(cornerRadius: 15, maskedCorners: [
+                .layerMaxXMaxYCorner,
+                .layerMaxXMinYCorner,
+                .layerMinXMaxYCorner,
+                .layerMinXMinYCorner
+            ])
         }
         
         pastDateButton.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.roundCorners(cornerRadius: 13, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 13, maskedCorners: [
+                .layerMaxXMaxYCorner,
+                .layerMaxXMinYCorner,
+                .layerMinXMaxYCorner,
+                .layerMinXMinYCorner
+            ])
         }
     }
 

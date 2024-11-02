@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class BannerDetailSkeletonView: BaseView {
     
     // MARK: - UI Properties
@@ -23,7 +22,7 @@ final class BannerDetailSkeletonView: BaseView {
     private let firstDetailContentView: DetailContentView = DetailContentView()
     
     private let secondDetailContentView: DetailContentView = DetailContentView()
-
+    
     
     override func setHierarchy() {
         self.addSubviews(carouselImageView,
@@ -76,7 +75,10 @@ final class BannerDetailSkeletonView: BaseView {
         
         carouselImageView.image = UIImage(resource: .placeholder)
         
-        [bannerTagLabel, dateLabel, titleLabel].forEach {
+        [bannerTagLabel,
+         dateLabel,
+         titleLabel
+        ].forEach {
             $0.setSkeletonLabel()
         }
     }

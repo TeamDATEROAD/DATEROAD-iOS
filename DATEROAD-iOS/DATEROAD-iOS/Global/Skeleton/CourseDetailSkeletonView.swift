@@ -107,7 +107,13 @@ final class CourseDetailSkeletonView: BaseView {
         
         carouselImageView.image = UIImage(resource: .placeholder)
         
-        [visitDateLabel, primaryTitleLabel, secondaryTitleLabel, costLabel, timeLabel, locationLabel].forEach {
+        [visitDateLabel,
+         primaryTitleLabel,
+         secondaryTitleLabel,
+         costLabel,
+         timeLabel,
+         locationLabel
+        ].forEach {
             $0.setSkeletonLabel()
         }
     }

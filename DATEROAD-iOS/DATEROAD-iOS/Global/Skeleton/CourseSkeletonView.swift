@@ -14,7 +14,7 @@ final class CourseSkeletonView: BaseView {
     private let firstStackView: UIStackView = UIStackView()
     
     private let firstCourse: CourseItemSkeletonView = CourseItemSkeletonView()
-        
+    
     private let secondCourse: CourseItemSkeletonView = CourseItemSkeletonView()
     
     private let secondStackView: UIStackView = UIStackView()
@@ -54,7 +54,13 @@ final class CourseSkeletonView: BaseView {
             $0.bottom.equalToSuperview()
         }
         
-        for course in [firstCourse, secondCourse, thirdCourse, fourthCourse, fifthCourse, sixthCourse] {
+        [firstCourse,
+         secondCourse,
+         thirdCourse,
+         fourthCourse,
+         fifthCourse,
+         sixthCourse
+        ].forEach { course in
             course.snp.makeConstraints {
                 $0.width.equalTo((ScreenUtils.width - 48) / 2)
                 $0.height.equalTo(226)
@@ -63,13 +69,16 @@ final class CourseSkeletonView: BaseView {
     }
     
     override func setStyle() {
-        [firstStackView, secondStackView, thirdStackView].forEach {
+        [firstStackView,
+         secondStackView,
+         thirdStackView
+        ].forEach {
             $0.axis = .horizontal
             $0.distribution = .equalSpacing
         }
         
-        fifthCourse.setSkeletonImage()
-        
-        sixthCourse.setSkeletonImage()
+        [fifthCourse, sixthCourse].forEach {
+            $0.setSkeletonImage()
+        }
     }
 }

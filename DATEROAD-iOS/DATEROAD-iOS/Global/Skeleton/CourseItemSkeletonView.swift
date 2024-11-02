@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class CourseItemSkeletonView: BaseView {
     
     // MARK: - UI Properties
@@ -78,15 +77,15 @@ final class CourseItemSkeletonView: BaseView {
     override func setStyle() {
         thumnailImgageView.setSkeletonImage()
         
-        locationLabel.setSkeletonLabel(radius: 6)
+        [locationLabel,
+         primaryTitleLabel,
+        secondaryTitleLabel].forEach {
+            $0.setSkeletonLabel(radius: 6)
+        }
         
-        primaryTitleLabel.setSkeletonLabel(radius: 6)
-        
-        secondaryTitleLabel.setSkeletonLabel(radius: 6)
-        
-        costLabel.setSkeletonLabel()
-        
-        timeLabel.setSkeletonLabel()
+        [costLabel, timeLabel].forEach {
+            $0.setSkeletonLabel()
+        }
     }
     
 }

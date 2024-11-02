@@ -110,7 +110,16 @@ final class DetailContentView: BaseView {
     }
     
     override func setStyle() {
-        [lineOne, lineTwo, lineThree, lineFour, lineFive, lineSix, lineSeven, lineEight, lineNine, lineTen].forEach {
+        [lineOne, 
+         lineTwo,
+         lineThree,
+         lineFour,
+         lineFive,
+         lineSix,
+         lineSeven,
+         lineEight,
+         lineNine,
+         lineTen].forEach {
             $0.setSkeletonLabel(radius: 6)
         }
     }

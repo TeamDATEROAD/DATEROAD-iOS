@@ -53,7 +53,7 @@ final class MyCourseItemSkeletonView: BaseView {
             $0.width.equalTo(186)
             $0.height.equalTo(18)
         }
-
+        
         secondaryTitleLabel.snp.makeConstraints {
             $0.leading.equalTo(thumbnailImageView.snp.trailing).offset(15)
             $0.top.equalTo(primaryTitleLabel.snp.bottom).offset(5)
@@ -81,15 +81,13 @@ final class MyCourseItemSkeletonView: BaseView {
         
         thumbnailImageView.setSkeletonImage(radius: 12)
         
-        locationLabel.setSkeletonLabel()
+        [locationLabel, primaryTitleLabel, secondaryTitleLabel].forEach {
+            $0.setSkeletonLabel()
+        }
         
-        primaryTitleLabel.setSkeletonLabel()
-        
-        secondaryTitleLabel.setSkeletonLabel()
-        
-        costLabel.setSkeletonLabel(radius: 12)
-        
-        timeLabel.setSkeletonLabel(radius: 12)
+        [costLabel, timeLabel].forEach {
+            $0.setSkeletonLabel(radius: 12)
+        }
     }
     
 }

@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class MainSkeletonView: BaseView {
     
     // MARK: - UI Properties
@@ -222,33 +221,42 @@ final class MainSkeletonView: BaseView {
             $0.contentMode = .scaleAspectFill
         }
         
-        whiteBackgroundView.setSkeletonLabel(bgColor: UIColor(resource: .drWhite), radius: 20, corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
-
-        firstHotCourseLabel.setSkeletonLabel()
+        whiteBackgroundView.setSkeletonLabel(
+            bgColor: UIColor(resource: .drWhite),
+            radius: 20,
+            corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        )
         
-        secondHotCourseLabel.setSkeletonLabel(radius: 6)
+        [firstHotCourseLabel, firstPrimaryLabel, firstSecondaryLabel].forEach {
+            $0.setSkeletonLabel()
+        }
         
-        thirdHotCourseLabel.setSkeletonLabel(radius: 6)
+        [secondHotCourseLabel, thirdHotCourseLabel].forEach {
+            $0.setSkeletonLabel(radius: 6)
+        }
         
-        firstLocationLabel.setSkeletonLabel(bgColor: UIColor(resource: .gray200), radius: 14, corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
-
-        firstImageView.setSkeletonImage(radius: 13, corners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+        firstImageView.setSkeletonImage(radius: 13, corners: [
+            .layerMaxXMinYCorner,
+            .layerMinXMaxYCorner,
+            .layerMaxXMaxYCorner
+        ])
         
-        firstPrimaryLabel.setSkeletonLabel()
+        [firstCostLabel, firstTimeLabel].forEach {
+            $0.setSkeletonLabel(radius: 14)
+        }
         
-        firstSecondaryLabel.setSkeletonLabel()
+        [firstLocationLabel, secondLocationLabel].forEach {
+            $0.setSkeletonLabel(
+                bgColor: UIColor(resource: .gray200),
+                radius: 14,
+                corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
+        }
         
-        firstCostLabel.setSkeletonLabel(radius: 14)
-        
-        firstTimeLabel.setSkeletonLabel(radius: 14)
-        
-        secondLocationLabel.setSkeletonLabel(bgColor: UIColor(resource: .gray200), radius: 14, corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
-
         secondImageView.setSkeletonImage(radius: 13, corners: [.layerMinXMaxYCorner])
         
-        secondPrimaryLabel.setSkeletonLabel(corners: [.layerMinXMinYCorner, .layerMinXMaxYCorner])
-        
-        secondSecondaryLabel.setSkeletonLabel(corners: [.layerMinXMinYCorner, .layerMinXMaxYCorner])
+        [secondPrimaryLabel, secondSecondaryLabel].forEach {
+            $0.setSkeletonLabel(corners: [.layerMinXMinYCorner, .layerMinXMaxYCorner])
+        }
         
         secondCostLabel.setSkeletonLabel(radius: 14, corners: [.layerMinXMinYCorner, .layerMinXMaxYCorner])
         

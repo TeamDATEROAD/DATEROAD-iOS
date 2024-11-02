@@ -49,14 +49,14 @@ final class ViewedCourseSkeletonView: BaseView {
             $0.height.equalTo(24)
             $0.width.equalTo(185)
         }
-
+        
         secondaryTitleLabel.snp.makeConstraints {
             $0.top.equalTo(primaryTitleLabel.snp.bottom).offset(7)
             $0.leading.equalToSuperview().inset(16)
             $0.height.equalTo(24)
             $0.width.equalTo(185)
         }
-
+        
         countLabel.snp.makeConstraints {
             $0.top.equalTo(secondaryTitleLabel.snp.bottom).offset(7)
             $0.leading.equalToSuperview().inset(16)
@@ -105,13 +105,13 @@ final class ViewedCourseSkeletonView: BaseView {
     override func setStyle() {
         self.backgroundColor = UIColor(resource: .drWhite)
         
-        primaryTitleLabel.setSkeletonLabel()
+        [primaryTitleLabel, secondaryTitleLabel].forEach {
+            $0.setSkeletonLabel()
+        }
         
-        secondaryTitleLabel.setSkeletonLabel()
-        
-        countLabel.setSkeletonLabel()
-        
-        createCourseLabel.setSkeletonLabel()
+        [countLabel, createCourseLabel].forEach {
+            $0.setSkeletonLabel()
+        }
     }
     
 }
