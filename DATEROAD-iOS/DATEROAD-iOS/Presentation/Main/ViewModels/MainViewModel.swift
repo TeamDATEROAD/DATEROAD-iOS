@@ -25,6 +25,8 @@ final class MainViewModel: Serviceable {
     
     let sectionData: [MainSection] = MainSection.dataSource
     
+    var updateSectionIndex: ObservablePattern<Int> = ObservablePattern(nil)
+    
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var isAllLoaded: (() -> Void)?
@@ -65,8 +67,11 @@ extension MainViewModel {
         NetworkService.shared.mainService.getMainUserProfile() { response in
             switch response {
             case .success(let data):
-                self.mainUserData.value = MainUserModel(name: data.name, point: data.point, imageUrl: data.image)
-                self.nickname.value = data.name
+                if self.mainUserData.value != MainUserModel(name: data.name, point: data.point, imageUrl: data.image) {
+                    self.mainUserData.value = MainUserModel(name: data.name, point: data.point, imageUrl: data.image)
+                    self.nickname.value = data.name
+                    self.updateSectionIndex.value = 0
+                }
                 UserDefaults.standard.setValue(data.name, forKey: StringLiterals.Network.userName)
                 UserDefaults.standard.setValue(data.point, forKey: StringLiterals.Network.userPoint)
                 AmplitudeManager.shared.setUserProperty(userProperties: [
@@ -140,16 +145,21 @@ extension MainViewModel {
     
     func getUpcomingDateCourse() {
         self.onFailNetwork.value = false
+        var newData: UpcomingDateModel = UpcomingDateModel.emptyData
         
         NetworkService.shared.mainService.getUpcomingDate() { response in
             switch response {
             case .success(let data):
-                self.upcomingData.value = UpcomingDateModel(dateId: data.dateID,
+                newData = UpcomingDateModel(dateId: data.dateID,
                                                             dDay: data.dDay,
                                                             dateName: data.dateName,
                                                             month: data.month,
                                                             day: data.day,
                                                             startAt: data.startAt)
+                if self.upcomingData.value != newData {
+                    self.upcomingData.value = newData
+                    self.updateSectionIndex.value = 0
+                }
                 self.totalFetchCount += 1
             case .requestErr:
                 self.upcomingData.value = nil
@@ -168,16 +178,21 @@ extension MainViewModel {
     }
     
     func getBanner() {
+        var newData: [BannerModel] = []
         self.onFailNetwork.value = false
         
         NetworkService.shared.mainService.getBanner() { response in
             switch response {
             case .success(let data):
-                self.bannerData.value = data.advertisementDtoResList.map { BannerModel(advertisementId: $0.advertisementID, imageUrl: $0.thumbnail) }
+                newData = data.advertisementDtoResList.map { BannerModel(advertisementId: $0.advertisementID, imageUrl: $0.thumbnail) }
+                guard let last = newData.last, let first = newData.first else { return }
+                newData.insert(last, at: 0)
+                newData.append(first)
                 
-                guard let last = self.bannerData.value?.last, let first = self.bannerData.value?.first else { return }
-                self.bannerData.value?.insert(last, at: 0)
-                self.bannerData.value?.append(first)
+                if newData != self.bannerData.value {
+                    self.bannerData.value = newData
+                    self.updateSectionIndex.value = 2
+                }
                 self.totalFetchCount += 1
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
@@ -213,9 +228,15 @@ extension MainViewModel {
     
     func sortCourseType(type: String, dateData: [DateCourseModel]) {
         if type == StringLiterals.Main.popular {
-            self.hotCourseData.value = dateData
+            if self.hotCourseData.value != dateData {
+                self.hotCourseData.value = dateData
+                self.updateSectionIndex.value = 1
+            }
         } else {
-            self.newCourseData.value = dateData
+            if self.newCourseData.value != dateData {
+                self.newCourseData.value = dateData
+                self.updateSectionIndex.value = 3
+            }
         }
     }
     
