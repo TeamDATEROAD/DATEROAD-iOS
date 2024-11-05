@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DateCardModel {
+struct DateCardModel: Equatable {
     
     let dateID: Int
     
@@ -36,7 +36,7 @@ struct DateCardModel {
     
 }
 
-struct TagsModel {
+struct TagsModel: Equatable {
     
     let tag: String
     
@@ -56,7 +56,7 @@ struct DateScheduleModel {
     
 }
 
-struct DateDetailModel {
+struct DateDetailModel: Equatable {
     
     let dateID: Int
     
@@ -87,7 +87,7 @@ struct DateDetailModel {
     
 }
 
-struct DatePlaceModel {
+struct DatePlaceModel: Equatable {
     
     let name: String
     

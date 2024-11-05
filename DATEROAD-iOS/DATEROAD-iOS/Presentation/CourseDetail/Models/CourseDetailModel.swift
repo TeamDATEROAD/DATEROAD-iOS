@@ -5,7 +5,7 @@
 //  Created by 김민서 on 7/13/24.
 //
 
-struct ConditionalModel {
+struct ConditionalModel: Equatable {
     
     var courseId: Int
     
@@ -30,7 +30,7 @@ struct ConditionalModel {
     
 }
 
-struct ThumbnailModel {
+struct ThumbnailModel: Equatable {
     
     let imageUrl: String
     
@@ -38,7 +38,7 @@ struct ThumbnailModel {
     
 }
 
-struct TitleHeaderModel {
+struct TitleHeaderModel: Equatable {
     
     var date: String
     
@@ -52,13 +52,13 @@ struct TitleHeaderModel {
     
 }
 
-struct MainContentsModel {
+struct MainContentsModel: Equatable {
     
     var description: String
     
 }
 
-struct TimelineModel {
+struct TimelineModel: Equatable {
     
     let sequence: Int
     
@@ -74,13 +74,13 @@ struct TimelineModel {
     
 }
 
-struct CoastModel {
+struct CoastModel: Equatable {
     
     let totalCoast: Int
     
 }
 
-struct TagModel {
+struct TagModel: Equatable {
     
     let tag: String
     

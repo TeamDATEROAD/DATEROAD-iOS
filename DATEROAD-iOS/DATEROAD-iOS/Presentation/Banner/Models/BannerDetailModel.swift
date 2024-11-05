@@ -15,7 +15,7 @@ struct BannerDetailModel: Codable {
     
 }
 
-struct BannerHeaderModel {
+struct BannerHeaderModel: Equatable {
     
     var tag: String
     
