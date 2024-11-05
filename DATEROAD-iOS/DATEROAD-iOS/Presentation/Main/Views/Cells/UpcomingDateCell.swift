@@ -18,18 +18,16 @@ final class UpcomingDateCell: BaseCollectionViewCell {
     let pointLabel: DRPaddingLabel = DRPaddingLabel()
     
     private let profileImage: UIImageView = UIImageView()
-
+    
     var dateTicketView: DateTicketView = DateTicketView()
-
+    
     var emptyTicketView: EmptyTicketView = EmptyTicketView()
-
+    
     
     // MARK: - Properties
     
     private var isEmpty: Bool = false
-    
-    weak var delegate: CellImageLoadDelegate?
-
+        
     
     // MARK: - Life Cycle
     
@@ -131,13 +129,12 @@ extension UpcomingDateCell {
         }
         guard let imageUrl = mainUserData?.imageUrl else {
             self.profileImage.image = UIImage(resource: .emptyProfileImg)
-            self.delegate?.cellImageLoaded()
             return
         }
         let url = URL(string: imageUrl)
-        self.profileImage.kf.setImage(with: url) { result  in
-            self.delegate?.cellImageLoaded()
-        }
+        self.profileImage.kf.setImage(with: url, options: [.transition(.none),
+                                                           .cacheOriginalImage,
+                                                           .keepCurrentImageWhileLoading])
     }
     
 }
