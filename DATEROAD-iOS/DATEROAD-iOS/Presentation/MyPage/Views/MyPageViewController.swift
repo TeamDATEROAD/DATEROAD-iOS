@@ -41,6 +41,7 @@ final class MyPageViewController: BaseNavBarViewController {
     
     override func viewIsAppearing(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
+        self.showLoadingView(type: StringLiterals.TabBar.myPage)
         self.myPageViewModel.getUserProfile()
         self.myPageViewModel.checkSocialLogin()
     }
@@ -124,11 +125,17 @@ private extension MyPageViewController {
             }
         }
         
-        self.myPageViewModel.onSuccessGetUserProfile.bind { [weak self] _ in
-            guard let data = self?.myPageViewModel.userInfoData.value else { return }
-            DispatchQueue.main.async {
-                self?.myPageView.userInfoView.bindData(userInfo: data)
-                self?.myPageView.userInfoView.tagCollectionView.reloadData()
+        self.myPageViewModel.onSuccessGetUserProfile.bind { [weak self] onSuccess in
+            guard let onSuccess, let data = self?.myPageViewModel.userInfoData.value else { return }
+            
+            if onSuccess {
+                self?.hideLoadingView()
+                DispatchQueue.main.async {
+                    self?.myPageView.userInfoView.bindData(userInfo: data)
+                    self?.myPageView.userInfoView.tagCollectionView.reloadData()
+                }
+            } else {
+                self?.showLoadingView(type: StringLiterals.TabBar.myPage)
             }
         }
         

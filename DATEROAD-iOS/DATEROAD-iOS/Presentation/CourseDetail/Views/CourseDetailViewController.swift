@@ -155,6 +155,7 @@ final class CourseDetailViewController: BaseViewController {
                 if onLoading {
                     self?.skeletonView.isHidden = !onLoading
                     self?.courseDetailView.isHidden = onLoading
+                    self?.showLoadingView(type: StringLiterals.Amplitude.ViewPath.courseDetail)
                 } else {
                     self?.localLikeNum = self?.courseDetailViewModel.likeSum.value ?? 0
                     self?.setSetctionCount()
@@ -163,6 +164,7 @@ final class CourseDetailViewController: BaseViewController {
                     self?.courseDetailView.mainCollectionView.reloadData()
                     self?.courseDetailView.isHidden = onLoading
                     self?.skeletonView.isHidden = !onLoading
+                    self?.hideLoadingView()
                 }
             }
         }

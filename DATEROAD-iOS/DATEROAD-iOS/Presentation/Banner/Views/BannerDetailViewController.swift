@@ -61,6 +61,7 @@ final class BannerDetailViewController: BaseViewController {
         self.bannerDetailSkeletonView.isHidden = false
         self.bannerDetailView.isHidden = true
         self.courseDetailViewModel.getBannerDetail(advertismentId: advertismentId)
+        self.showLoadingView(type: StringLiterals.Amplitude.ViewPath.courseDetail)
     }
     
     override func setHierarchy() {
@@ -122,11 +123,13 @@ final class BannerDetailViewController: BaseViewController {
                 if onLoading {
                     self?.bannerDetailSkeletonView.isHidden = false
                     self?.bannerDetailView.isHidden = true
+                    self?.showLoadingView(type: StringLiterals.Amplitude.ViewPath.courseDetail)
                 } else {
                     self?.bannerDetailSkeletonView.isHidden = true
                     self?.setNavBar()
                     self?.bannerDetailView.mainCollectionView.reloadData()
                     self?.bannerDetailView.isHidden = false
+                    self?.hideLoadingView()
                 }
             }
         }

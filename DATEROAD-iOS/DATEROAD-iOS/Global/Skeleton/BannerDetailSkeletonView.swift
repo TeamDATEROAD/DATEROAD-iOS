@@ -67,6 +67,7 @@ final class BannerDetailSkeletonView: BaseView {
         secondDetailContentView.snp.makeConstraints {
             $0.top.equalTo(firstDetailContentView.snp.bottom).offset(25)
             $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview()
         }
     }
     

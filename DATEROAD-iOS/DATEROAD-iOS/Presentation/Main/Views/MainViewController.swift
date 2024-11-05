@@ -104,18 +104,24 @@ extension MainViewController {
         }
         
         self.mainViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.mainViewModel.onFailNetwork.value else { return }
+            guard let onLoading,
+                  let loaded = self?.loaded,
+                  let onFailNetwork = self?.mainViewModel.onFailNetwork.value
+            else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.mainSkeletonView.isHidden = false
-                    self?.mainView.isHidden = onLoading
+                    self?.showLoadingView(type: StringLiterals.TabBar.home)
                 } else {
                     self?.mainView.mainCollectionView.reloadData()
-                    let initialIndexPath = IndexPath(item: 1, section: 2)
-                    self?.mainView.mainCollectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
+                    if !loaded {
+                        let initialIndexPath = IndexPath(item: 1, section: 2)
+                        self?.mainView.mainCollectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
+                    }
                     self?.startAutoScrollTimer()
                     self?.mainView.isHidden = onLoading
                     self?.mainSkeletonView.isHidden = true
+                    self?.hideLoadingView()
+                    self?.loaded = true
                 }
             }
         }

@@ -202,7 +202,7 @@ extension ViewedCourseViewController {
             guard let onLoading, let onFailNetwork = self?.viewedCourseViewModel.onViewedCourseFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
+                    self?.showLoadingView(type: StringLiterals.ViewedCourse.title)
                     self?.contentView.isHidden = true
                 } else {
                     self?.setEmptyView()
