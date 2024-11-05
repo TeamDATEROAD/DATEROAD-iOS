@@ -43,24 +43,12 @@ final class CourseDetailViewModel: Serviceable {
     
     var havePoint: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    let bannerSectionData: [BannerDetailSection] = BannerDetailSection.dataSource
-    
-    var isSuccessGetBannerData: ObservablePattern<Bool> = ObservablePattern(nil)
-    
-    var bannerDetailData: ObservablePattern<BannerDetailModel> = ObservablePattern(nil)
-    
-    var bannerHeaderData: ObservablePattern<BannerHeaderModel> = ObservablePattern(nil)
-    
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
-    
-    var advertisementId: Int = 0
-    
-    var bannerDetailTitle: String = ""
-    
+            
     var numberOfSections: Int = 6
     
     var isChange: (() -> Void)?
@@ -212,36 +200,7 @@ extension CourseDetailViewModel {
             completion(success)
         }
     }
-    
-    func getBannerDetail(advertismentId: Int) {
-        self.isSuccessGetBannerData.value = false
-        self.setBannerDetailLoading()
-        self.onFailNetwork.value = false
-        
-        NetworkService.shared.courseDetailService.getBannerDetailInfo(advertismentId: advertismentId){ response in
-            switch response {
-            case .success(let data):
-                self.imageData.value = data.images.map { ThumbnailModel(imageUrl: $0.imageURL, sequence: $0.sequence)}
-                self.bannerHeaderData.value = BannerHeaderModel(tag: AdTagType.getAdTag(byEnglish: data.adTagType)?.tag.title ?? "", createAt: data.createAt)
-                self.bannerDetailTitle = data.title
-                self.mainContentsData.value = MainContentsModel(description: data.description)
-                self.isSuccessGetBannerData.value = true
-            case .reIssueJWT:
-                self.patchReissue { isSuccess in
-                    self.onReissueSuccess.value = isSuccess
-                }
-            default:
-                self.onFailNetwork.value = true
-                print("Failed to fetch banner detail data")
-            }
-        }
-    }
-    
-    func setBannerDetailLoading() {
-        guard let isSuccessGetBannerData = self.isSuccessGetBannerData.value else { return }
-        self.onLoading.value = !isSuccessGetBannerData
-    }
-    
+
     func setLoading() {
         guard let isSuccessGetData = self.isSuccessGetData.value else { return }
         self.onLoading.value = !isSuccessGetData
