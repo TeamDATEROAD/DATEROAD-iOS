@@ -16,7 +16,13 @@ extension UIImageView {
             self.image = placeholder
             return
         }
-        self.kf.setImage(with: url, placeholder: placeholder)
+        self.kf.setImage(
+            with: url,
+            placeholder: placeholder,
+            options: [.transition(.none),
+                      .cacheOriginalImage,
+                      .keepCurrentImageWhileLoading]
+        )
     }
     
 }

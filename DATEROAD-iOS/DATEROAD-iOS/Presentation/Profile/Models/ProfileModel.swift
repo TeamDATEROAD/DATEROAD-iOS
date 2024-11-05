@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct ProfileModel {
+struct ProfileModel: Equatable {
     
     let profileImage: UIImage?
     
@@ -17,7 +17,7 @@ struct ProfileModel {
     
 }
 
-struct ProfileTagModel {
+struct ProfileTagModel: Equatable {
     
     let tagIcon: UIImage
     

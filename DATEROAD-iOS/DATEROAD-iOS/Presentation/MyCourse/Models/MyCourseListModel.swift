@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MyCourseListModel {
+struct MyCourseListModel: Equatable  {
     
     let courses: [MyCourseModel]
     
@@ -17,7 +17,7 @@ struct MyCourseListModel {
     
 }
 
-struct MyCourseModel {
+struct MyCourseModel: Equatable  {
     
     let courseId: Int
     

@@ -52,6 +52,7 @@ final class CourseViewController: BaseViewController {
         self.tabBarController?.tabBar.isHidden = false
         courseView.courseListView.isHidden = true
         courseView.courseSkeletonView.isHidden = false
+        self.showLoadingView(type: StringLiterals.Course.course)
         getCourse()
         courseViewModel.fetchPriceData()
     }
@@ -105,10 +106,12 @@ final class CourseViewController: BaseViewController {
                     if onLoading {
                         self?.courseView.courseSkeletonView.isHidden = false
                         self?.courseView.courseListView.isHidden = true
+                        self?.showLoadingView(type: StringLiterals.Course.course)
                     } else {
                         self?.courseView.courseListView.courseListCollectionView.reloadData()
                         self?.courseView.courseListView.isHidden = false
                         self?.courseView.courseSkeletonView.isHidden = true
+                        self?.hideLoadingView()
                     }
                 }
             }

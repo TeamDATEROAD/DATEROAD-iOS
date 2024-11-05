@@ -51,7 +51,11 @@ final class MainHeaderView: UICollectionReusableView {
     
     func setHierarchy() {
         self.addSubview(backgroundView)
-        backgroundView.addSubviews(titleLabel, subLabel, viewMoreButton)
+        backgroundView.addSubviews(
+            titleLabel,
+            subLabel,
+            viewMoreButton
+        )
     }
     
     func setLayout() {
