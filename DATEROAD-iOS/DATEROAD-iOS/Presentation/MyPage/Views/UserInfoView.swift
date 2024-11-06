@@ -173,10 +173,18 @@ extension UserInfoView {
     func bindData(userInfo: MyPageUserInfoModel) {
         if let imageURL = userInfo.imageURL  {
             let url = URL(string: imageURL)
-            self.profileImageView.kf.setImage(with: url, placeholder: UIImage(resource: .placeholder))
+            self.profileImageView.kf.setImage(
+                with: url,
+                placeholder: UIImage(resource: .placeholder),
+                options: [
+                    .transition(.none),
+                    .cacheOriginalImage
+                ]
+            )
         } else {
             self.profileImageView.image = UIImage(resource: .emptyProfileImg)
         }
+        
         self.nicknameLabel.text = userInfo.nickname
         self.userPointLabel.text = userInfo.nickname + "님의 포인트"
         self.pointLabel.text = String(userInfo.point) + " P"
