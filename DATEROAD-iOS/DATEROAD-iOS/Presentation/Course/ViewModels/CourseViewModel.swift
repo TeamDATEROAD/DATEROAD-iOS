@@ -99,8 +99,11 @@ extension CourseViewModel {
                     )
                 }
                 
-                self.courseListModel = courseModels
-                self.didUpdateCourseList?()
+                if self.courseListModel != courseModels {
+                    self.courseListModel = courseModels
+                    self.didUpdateCourseList?()
+                }
+                
                 self.isSuccessGetData.value = true
                 
             case .reIssueJWT:
