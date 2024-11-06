@@ -86,6 +86,18 @@ final class BannerDetailViewController: BaseViewController {
     }
     
     func bindViewModel() {
+        self.bannerViewModel.updateBannerDetailData.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                DispatchQueue.main.async {
+                    self?.bannerDetailView.mainCollectionView.performBatchUpdates({
+                        self?.bannerDetailView.mainCollectionView.reloadData()
+                    })
+                }
+                self?.bannerViewModel.updateBannerDetailData.value = false
+            }
+        }
+        
         self.bannerViewModel.isSuccessGetBannerData.bind { [weak self] onSuccess in
             guard let onSuccess  else { return }
             self?.bannerViewModel.onLoading.value = !onSuccess
