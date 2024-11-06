@@ -53,8 +53,8 @@ final class DRBottomSheetViewController: BaseViewController {
     }
     
     override func setHierarchy() {
-        self.view.addSubview(backgroundView)
-        self.view.addSubview(bottomSheetView)
+        self.view.addSubviews(backgroundView, bottomSheetView)
+        
         bottomSheetView.addSubviews(contentView, bottomButton)
     }
     
@@ -146,8 +146,8 @@ extension DRBottomSheetViewController {
         if animated {
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: {
                 self.bottomSheetView.transform = CGAffineTransform(translationX: 0, y: self.height)
-            }, completion: { _ in
                 self.backgroundView.alpha = 0
+            }, completion: { _ in
                 self.dismiss(animated: false, completion: completion)
             })
         } else {
@@ -159,6 +159,7 @@ extension DRBottomSheetViewController {
     private func animateBottomSheetPresentation(animated: Bool, completion: (() -> Void)? = nil) {
         if animated {
             self.bottomSheetView.transform = CGAffineTransform(translationX: 0, y: self.height)
+            self.backgroundView.alpha = 0
             
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
                 self.backgroundView.alpha = 1
