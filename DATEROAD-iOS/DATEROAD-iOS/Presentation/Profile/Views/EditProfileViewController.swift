@@ -305,14 +305,14 @@ private extension EditProfileViewController {
     
     @objc
     func deletePhoto() {
-        self.dismiss(animated: true)
+        alertVC.dismissBottomSheet()
         profileView.updateProfileImage(image: UIImage(resource: .emptyProfileImg))
         profileViewModel.profileImage.value = UIImage(resource: .emptyProfileImg)
     }
     
     @objc
     func registerPhoto() {
-        self.dismiss(animated: true)
+        alertVC.dismissBottomSheet()
         imagePickerViewController.presentPicker(from: self)
     }
     
