@@ -12,7 +12,7 @@ import Then
 
 protocol LocationFilterViewDelegate: AnyObject {
     
-    func closeLocationFilterView()
+    func closeLocationFilterViewToDelegate()
     
     func didTapApplyButton()
     
@@ -21,8 +21,6 @@ protocol LocationFilterViewDelegate: AnyObject {
 final class LocationFilterView: BaseView {
     
     // MARK: - UI Properties
-    
-    private let dimmedView = UIView()
     
     private let bottomSheetView = UIView()
     
@@ -55,7 +53,7 @@ final class LocationFilterView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(dimmedView, bottomSheetView)
+        self.addSubview(bottomSheetView)
         
         bottomSheetView.addSubviews(
             titleLabel,
@@ -68,14 +66,9 @@ final class LocationFilterView: BaseView {
     }
     
     override func setLayout() {
-        dimmedView.snp.makeConstraints {
-            $0.top.horizontalEdges.equalToSuperview()
-            $0.bottom.equalTo(bottomSheetView)
-        }
-        
         bottomSheetView.snp.makeConstraints {
+            $0.horizontalEdges.bottom.equalToSuperview()
             $0.height.equalTo(469)
-            $0.leading.trailing.bottom.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints {
@@ -119,14 +112,6 @@ final class LocationFilterView: BaseView {
             $0.showsVerticalScrollIndicator = false
         }
         
-        dimmedView.do {
-            $0.alpha = 0.7
-            $0.layer.backgroundColor = UIColor(resource: .drBlack).cgColor
-            let gesture = UITapGestureRecognizer(target: self, action: #selector(closeLocationFilterView))
-            $0.isUserInteractionEnabled = true
-            $0.addGestureRecognizer(gesture)
-        }
-        
         bottomSheetView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.roundCorners(cornerRadius: 16, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
@@ -157,7 +142,7 @@ final class LocationFilterView: BaseView {
     
     @objc
     func closeLocationFilterView() {
-        delegate?.closeLocationFilterView()
+        delegate?.closeLocationFilterViewToDelegate()
     }
     
     @objc
