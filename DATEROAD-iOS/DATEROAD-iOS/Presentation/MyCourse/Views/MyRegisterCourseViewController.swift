@@ -116,9 +116,18 @@ extension MyRegisterCourseViewController {
                     self?.contentView.isHidden = onLoading
                 } else {
                     self?.setEmptyView()
-                    self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
-                    self?.contentView.isHidden = onLoading
-                    self?.hideLoadingView()
+                    
+                    if self?.myRegisterCourseViewModel.myRegisterCoursesModelIsUpdate.value == true {
+                        DispatchQueue.main.async {
+                            self?.myRegisterCourseView.myCourseListCollectionView.performBatchUpdates({
+                                self?.myRegisterCourseView.myCourseListCollectionView.reloadSections(IndexSet(integer: 0))
+                            })
+                            self?.contentView.isHidden = onLoading
+                            self?.hideLoadingView()
+                        }
+                        self?.myRegisterCourseViewModel.myRegisterCoursesModelIsUpdate.value = false
+                    }
+                    
                 }
             }
         }

@@ -87,10 +87,21 @@ private extension NavViewedCourseViewController {
         navViewedCourseView.emptyView.isHidden = !isEmpty
         navViewedCourseView.myCourseListCollectionView.isHidden = isEmpty
         if isEmpty {
-            navViewedCourseView.emptyView.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
-                                                       emptyTitle: StringLiterals.EmptyView.emptyNavViewedCourse)
+            DispatchQueue.main.async {
+                self.navViewedCourseView.emptyView.setEmptyView(
+                    emptyImage: UIImage(resource: .emptyPastSchedule),
+                    emptyTitle: StringLiterals.EmptyView.emptyNavViewedCourse
+                )
+            }
         } else {
-            self.navViewedCourseView.myCourseListCollectionView.reloadData()
+            if self.viewedCourseViewModel.broughtViewedCoursesModelIsUpdate.value == true {
+                DispatchQueue.main.async {
+                    self.navViewedCourseView.myCourseListCollectionView.performBatchUpdates({
+                        self.navViewedCourseView.myCourseListCollectionView.reloadSections(IndexSet(integer: 0))
+                    })
+                }
+                self.viewedCourseViewModel.broughtViewedCoursesModelIsUpdate.value = false
+            }
         }
     }
     
@@ -131,10 +142,15 @@ extension NavViewedCourseViewController {
                     self?.showLoadingView(type: StringLiterals.ViewedCourse.title)
                     self?.navViewedCourseView.isHidden = onLoading
                 } else {
-                    self?.setEmptyView()
-                    self?.navViewedCourseView.isHidden = onLoading
-                    self?.tabBarController?.tabBar.isHidden = false
-                    self?.hideLoadingView()
+                    if self?.viewedCourseViewModel.broughtViewedCoursesModelIsUpdate.value == true {
+                        DispatchQueue.main.async {
+                            print("🔥🔥🔥🔥🔥🔥🔥🔥🔥")
+                            self?.setEmptyView()
+                            self?.navViewedCourseView.isHidden = onLoading
+                            self?.tabBarController?.tabBar.isHidden = false
+                            self?.hideLoadingView()
+                        }
+                    }
                 }
             }
         }
