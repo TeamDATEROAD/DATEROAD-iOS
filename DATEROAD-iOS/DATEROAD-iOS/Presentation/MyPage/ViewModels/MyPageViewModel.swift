@@ -27,7 +27,7 @@ final class MyPageViewModel: Serviceable {
     
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
-    var updateData: ObservablePattern<Bool> = ObservablePattern(false)
+    var updateData: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var currentTags: [String] = []
     

@@ -129,11 +129,14 @@ private extension MyPageViewController {
             guard let onSuccess, let data = self?.myPageViewModel.userInfoData.value else { return }
             guard let updateData = self?.myPageViewModel.updateData.value else { return }
             
-            if onSuccess && updateData {
+            if onSuccess {
                 self?.hideLoadingView()
-                DispatchQueue.main.async {
-                    self?.myPageView.userInfoView.bindData(userInfo: data)
-                    self?.myPageView.userInfoView.tagCollectionView.reloadData()
+                if updateData {
+                    DispatchQueue.main.async {
+                        self?.myPageView.userInfoView.bindData(userInfo: data)
+                        self?.myPageView.userInfoView.tagCollectionView.reloadData()
+                    }
+                    self?.myPageViewModel.updateData.value = false
                 }
             } else {
                 self?.showLoadingView(type: StringLiterals.TabBar.myPage)
