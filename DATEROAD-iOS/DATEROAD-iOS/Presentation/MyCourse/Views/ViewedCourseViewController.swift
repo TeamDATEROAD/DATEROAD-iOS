@@ -169,22 +169,15 @@ private extension ViewedCourseViewController {
                 self.viewedCourseView.emptyView.setEmptyView(emptyImage: UIImage(resource: .emptyViewedCourse), emptyTitle: StringLiterals.EmptyView.emptyViewedCourse)
             }
         } else {
-            if self.viewedCourseViewModel.viewedCoursesModelIsUpdate.value == true {
-                DispatchQueue.main.async {
-                    self.viewedCourseView.myCourseListCollectionView.performBatchUpdates({
-                        self.viewedCourseView.myCourseListCollectionView.reloadSections(IndexSet(integer: 0))
-                    }, completion: { _ in
-                        self.topLabel.setAttributedText(
-                            fullText: "\(name)님이 지금까지\n열람한 데이트 코스\n\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개",
-                            pointText: "\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
-                            pointColor: UIColor(resource: .mediumPurple),
-                            lineHeight: 1
-                        )
-                    })
-                }
-                self.viewedCourseViewModel.viewedCoursesModelIsUpdate.value = false
+            DispatchQueue.main.async {
+                self.viewedCourseView.myCourseListCollectionView.reloadData()
+                self.topLabel.setAttributedText(
+                    fullText: "\(name)님이 지금까지\n열람한 데이트 코스\n\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개",
+                    pointText: "\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
+                    pointColor: UIColor(resource: .mediumPurple),
+                    lineHeight: 1
+                )
             }
-            
         }
     }
     
@@ -196,6 +189,18 @@ private extension ViewedCourseViewController {
 extension ViewedCourseViewController {
     
     func bindViewModel() {
+        self.viewedCourseViewModel.viewedCoursesModelIsUpdate.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                DispatchQueue.main.async {
+                    self?.viewedCourseView.myCourseListCollectionView.performBatchUpdates({
+                        self?.viewedCourseView.myCourseListCollectionView.reloadSections(IndexSet(integer: 0))
+                    })
+                }
+                self?.viewedCourseViewModel.viewedCoursesModelIsUpdate.value = false
+            }
+        }
+        
         self.viewedCourseViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {

@@ -15,9 +15,9 @@ final class MyCourseListViewModel: Serviceable {
     
     var myRegisterCoursesModel = MyRegisterCoursesManager.shared.myRegisterCoursesModel
     
-    var broughtViewedCoursesModelIsUpdate: ObservablePattern<Bool> = ObservablePattern(nil)
-    
     var viewedCoursesModelIsUpdate: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var broughtViewedCoursesModelIsUpdate: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var myRegisterCoursesModelIsUpdate: ObservablePattern<Bool> = ObservablePattern(nil)
     
@@ -70,9 +70,9 @@ final class MyCourseListViewModel: Serviceable {
                 AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.userPurchaseCount: viewedCourseInfo.count])
                 
                 if self.viewedCoursesModel != viewedCourseInfo {
-                    self.viewedCoursesModelIsUpdate.value = true
                     self.viewedCourseData.value = viewedCourseInfo
                     self.viewedCoursesModel = viewedCourseInfo
+                    self.viewedCoursesModelIsUpdate.value = true
                 }
                 
                 self.isSuccessGetViewedCourseInfo.value = true
@@ -111,9 +111,9 @@ final class MyCourseListViewModel: Serviceable {
                 ) }
                 
                 if self.broughtViewedCoursesModel != viewedCourseInfo {
-                    self.broughtViewedCoursesModelIsUpdate.value = true
                     self.viewedCourseData.value = viewedCourseInfo
                     self.broughtViewedCoursesModel = viewedCourseInfo
+                    self.broughtViewedCoursesModelIsUpdate.value = true
                 }
                 
                 self.isSuccessGetNavViewedCourseInfo.value = true
@@ -153,10 +153,11 @@ final class MyCourseListViewModel: Serviceable {
                 AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.userCourseCount: myRegisterCourseInfo.count])
                 
                 if self.myRegisterCoursesModel != myRegisterCourseInfo {
-                    self.myRegisterCoursesModelIsUpdate.value = true
                     self.myRegisterCourseData.value = myRegisterCourseInfo
                     self.myRegisterCoursesModel = myRegisterCourseInfo
+                    self.myRegisterCoursesModelIsUpdate.value = true
                 }
+                
                 self.isSuccessGetMyRegisterCourseInfo.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in

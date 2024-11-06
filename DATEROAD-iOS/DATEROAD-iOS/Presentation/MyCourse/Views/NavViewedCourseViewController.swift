@@ -94,13 +94,8 @@ private extension NavViewedCourseViewController {
                 )
             }
         } else {
-            if self.viewedCourseViewModel.broughtViewedCoursesModelIsUpdate.value == true {
-                DispatchQueue.main.async {
-                    self.navViewedCourseView.myCourseListCollectionView.performBatchUpdates({
-                        self.navViewedCourseView.myCourseListCollectionView.reloadSections(IndexSet(integer: 0))
-                    })
-                }
-                self.viewedCourseViewModel.broughtViewedCoursesModelIsUpdate.value = false
+            DispatchQueue.main.async {
+                self.navViewedCourseView.myCourseListCollectionView.reloadData()
             }
         }
     }
@@ -113,6 +108,22 @@ private extension NavViewedCourseViewController {
 extension NavViewedCourseViewController {
     
     func bindViewModel() {
+        self.viewedCourseViewModel.broughtViewedCoursesModelIsUpdate.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                DispatchQueue.main.async {
+                    self?.navViewedCourseView.myCourseListCollectionView.reloadData()
+                }
+                self?.viewedCourseViewModel.broughtViewedCoursesModelIsUpdate.value = false
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.navViewedCourseView.myCourseListCollectionView.performBatchUpdates({
+                self.navViewedCourseView.myCourseListCollectionView.reloadSections(IndexSet(integer: 0))
+            })
+        }
+        
         self.viewedCourseViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
@@ -142,13 +153,11 @@ extension NavViewedCourseViewController {
                     self?.showLoadingView(type: StringLiterals.ViewedCourse.title)
                     self?.navViewedCourseView.isHidden = onLoading
                 } else {
-                    if self?.viewedCourseViewModel.broughtViewedCoursesModelIsUpdate.value == true {
-                        DispatchQueue.main.async {
-                            self?.setEmptyView()
-                            self?.navViewedCourseView.isHidden = onLoading
-                            self?.tabBarController?.tabBar.isHidden = false
-                            self?.hideLoadingView()
-                        }
+                    DispatchQueue.main.async {
+                        self?.setEmptyView()
+                        self?.navViewedCourseView.isHidden = onLoading
+                        self?.tabBarController?.tabBar.isHidden = false
+                        self?.hideLoadingView()
                     }
                 }
             }

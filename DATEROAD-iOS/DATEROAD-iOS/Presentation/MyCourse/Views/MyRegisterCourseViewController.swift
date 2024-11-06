@@ -87,6 +87,19 @@ private extension MyRegisterCourseViewController {
 extension MyRegisterCourseViewController {
     
     func bindViewModel() {
+        self.myRegisterCourseViewModel.myRegisterCoursesModelIsUpdate.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                DispatchQueue.main.async {
+//                    self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
+                    self?.myRegisterCourseView.myCourseListCollectionView.performBatchUpdates({
+                        self?.myRegisterCourseView.myCourseListCollectionView.reloadSections(IndexSet(integer: 0))
+                    })
+                }
+                self?.myRegisterCourseViewModel.myRegisterCoursesModelIsUpdate.value = false
+            }
+        }
+        
         self.myRegisterCourseViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
@@ -115,18 +128,12 @@ extension MyRegisterCourseViewController {
                     self?.showLoadingView(type: StringLiterals.MyRegisterCourse.title)
                     self?.contentView.isHidden = onLoading
                 } else {
-                    self?.setEmptyView()
-                    
-                    if self?.myRegisterCourseViewModel.myRegisterCoursesModelIsUpdate.value == true {
-                        DispatchQueue.main.async {
-                            self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
-                            // performBatchUpdates 적용시 반짝여서 reloadData 적용
-                            self?.contentView.isHidden = onLoading
-                            self?.hideLoadingView()
-                        }
-                        self?.myRegisterCourseViewModel.myRegisterCoursesModelIsUpdate.value = false
+                    DispatchQueue.main.async {
+                        self?.setEmptyView()
+                        self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
+                        self?.contentView.isHidden = onLoading
+                        self?.hideLoadingView()
                     }
-                    
                 }
             }
         }
