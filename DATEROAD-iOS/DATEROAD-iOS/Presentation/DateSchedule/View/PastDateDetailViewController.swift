@@ -139,6 +139,20 @@ extension PastDateDetailViewController: DRBottomSheetDelegate {
 extension PastDateDetailViewController {
     
     func bindViewModel() {
+        self.pastDateDetailViewModel.updateDateDetailData.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                guard let data = self?.pastDateDetailViewModel.dateDetailData.value else { return }
+                DispatchQueue.main.async {
+                    self?.pastDateDetailContentView.dataBind(data)
+                    self?.pastDateDetailViewModel.setDateDetailLoading()
+                    
+                    self?.pastDateDetailContentView.dateTimeLineCollectionView.reloadData()
+                }
+                self?.pastDateDetailViewModel.updateDateDetailData.value = false
+            }
+        }
+        
         self.pastDateDetailViewModel.onDateDetailLoading.bind { [weak self] onLoading in
             guard let onLoading,
                   let onFailNetwork = self?.pastDateDetailViewModel.onFailNetwork.value,

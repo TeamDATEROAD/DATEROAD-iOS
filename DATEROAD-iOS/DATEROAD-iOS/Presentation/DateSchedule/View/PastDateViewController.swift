@@ -83,6 +83,18 @@ private extension PastDateViewController {
     }
     
     func bindViewModel() {
+        self.pastDateScheduleViewModel.updatePastDateScheduleData.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                DispatchQueue.main.async {
+                    self?.pastDateContentView.pastDateCollectionView.performBatchUpdates({
+                        self?.pastDateContentView.pastDateCollectionView.reloadData()
+                    })
+                }
+                self?.pastDateScheduleViewModel.updatePastDateScheduleData.value = false
+            }
+        }
+        
         self.pastDateScheduleViewModel.onPastScheduleFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {

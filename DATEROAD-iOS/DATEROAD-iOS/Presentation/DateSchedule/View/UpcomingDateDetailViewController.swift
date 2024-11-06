@@ -92,6 +92,20 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
 extension UpcomingDateDetailViewController {
     
     func bindViewModel() {
+        self.upcomingDateDetailViewModel.updateDateDetailData.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                guard let data = self?.upcomingDateDetailViewModel.dateDetailData.value else { return }
+                DispatchQueue.main.async {
+                    self?.upcomingDateDetailContentView.dataBind(data)
+                    self?.upcomingDateDetailViewModel.setDateDetailLoading()
+                    
+                    self?.upcomingDateDetailContentView.dateTimeLineCollectionView.reloadData()
+                }
+                self?.upcomingDateDetailViewModel.updateDateDetailData.value = false
+            }
+        }
+        
         self.upcomingDateDetailViewModel.onDateDetailLoading.bind { [weak self] onLoading in
             guard let onLoading,
                   let onFailNetwork = self?.upcomingDateDetailViewModel.onFailNetwork.value,

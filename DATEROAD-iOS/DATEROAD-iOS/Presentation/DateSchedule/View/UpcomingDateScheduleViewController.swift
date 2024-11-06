@@ -90,6 +90,18 @@ private extension UpcomingDateScheduleViewController {
     }
     
     func bindViewModel() {
+        self.upcomingDateScheduleViewModel.updateUpcomingDateScheduleData.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                DispatchQueue.main.async {
+                    self?.upcomingDateScheduleView.cardCollectionView.performBatchUpdates({
+                        self?.upcomingDateScheduleView.cardCollectionView.reloadSections(IndexSet(integer: 0))
+                    })
+                }
+                self?.upcomingDateScheduleViewModel.updateUpcomingDateScheduleData.value = false
+            }
+        }
+        
         self.upcomingDateScheduleViewModel.onUpcomingScheduleLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.value else { return }
             if !onFailNetwork {
