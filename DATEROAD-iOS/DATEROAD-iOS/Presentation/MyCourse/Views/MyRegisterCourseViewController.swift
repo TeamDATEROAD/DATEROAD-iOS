@@ -119,9 +119,8 @@ extension MyRegisterCourseViewController {
                     
                     if self?.myRegisterCourseViewModel.myRegisterCoursesModelIsUpdate.value == true {
                         DispatchQueue.main.async {
-                            self?.myRegisterCourseView.myCourseListCollectionView.performBatchUpdates({
-                                self?.myRegisterCourseView.myCourseListCollectionView.reloadSections(IndexSet(integer: 0))
-                            })
+                            self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
+                            // performBatchUpdates 적용시 반짝여서 reloadData 적용
                             self?.contentView.isHidden = onLoading
                             self?.hideLoadingView()
                         }

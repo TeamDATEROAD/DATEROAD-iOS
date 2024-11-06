@@ -144,7 +144,6 @@ extension NavViewedCourseViewController {
                 } else {
                     if self?.viewedCourseViewModel.broughtViewedCoursesModelIsUpdate.value == true {
                         DispatchQueue.main.async {
-                            print("🔥🔥🔥🔥🔥🔥🔥🔥🔥")
                             self?.setEmptyView()
                             self?.navViewedCourseView.isHidden = onLoading
                             self?.tabBarController?.tabBar.isHidden = false
