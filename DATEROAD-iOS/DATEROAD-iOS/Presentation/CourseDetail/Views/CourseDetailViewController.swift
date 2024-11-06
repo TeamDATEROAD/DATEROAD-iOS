@@ -144,6 +144,18 @@ final class CourseDetailViewController: BaseViewController {
     }
     
     func bindViewModel() {
+        self.courseDetailViewModel.updateConditionalData.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                DispatchQueue.main.async {
+                    self?.courseDetailView.mainCollectionView.performBatchUpdates({
+                        self?.courseDetailView.mainCollectionView.reloadData()
+                    })
+                }
+                self?.courseDetailViewModel.updateConditionalData.value = false
+            }
+        }
+        
         self.courseDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {

@@ -9,6 +9,22 @@ import UIKit
 
 final class CourseDetailViewModel: Serviceable {
     
+    let updateConditionalData: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    private var currentConditionalData: ConditionalModel?
+    
+    private var currentImageData: [ThumbnailModel]?
+    
+    private var currentLikeSum: Int?
+    
+    private var currentTitleHeaderData: TitleHeaderModel?
+    
+    private var currentMainContentsData: MainContentsModel?
+    
+    private var currentTimelineData: [TimelineModel]?
+    
+    private var currentTagData: [TagModel]?
+    
     var courseId: Int
     
     var currentPage: ObservablePattern<Int> = ObservablePattern(0)
@@ -113,7 +129,8 @@ extension CourseDetailViewModel {
             switch response {
             case .success(let data):
                 dump(data)
-                self.conditionalData.value = ConditionalModel(
+                
+                let newConditionalData = ConditionalModel(
                     courseId: self.courseId,
                     isCourseMine: data.isCourseMine,
                     isAccess: data.isAccess,
@@ -121,24 +138,66 @@ extension CourseDetailViewModel {
                     totalPoint: data.totalPoint,
                     isUserLiked: data.isUserLiked
                 )
-                self.isChange?()
+                
+                if self.currentConditionalData != newConditionalData {
+                    self.currentConditionalData = newConditionalData
+                    self.conditionalData.value = newConditionalData
+                    self.isChange?()
+                    self.updateConditionalData.value = true
+                }
+                
                 self.purchaseSuccess = data.isAccess
                 self.startAt = data.startAt
                 self.havePoint.value = data.totalPoint >= 50
                 self.haveFreeCount.value = data.free > 0 && data.free <= 3
                 self.isAccess.value = data.isAccess
                 self.isCourseMine.value = data.isCourseMine
-                self.imageData.value = data.images.map {ThumbnailModel(imageUrl: $0.imageURL, sequence: $0.sequence)}
-                self.likeSum.value = data.like
-                self.titleHeaderData.value = TitleHeaderModel(date: data.date, title: data.title, cost: data.totalCost, totalTime: data.totalTime, city: data.city)
-                self.mainContentsData.value = MainContentsModel(description: data.description)
-                self.timelineData.value = data.places.map { place in
+                
+                let newImageData = data.images.map {ThumbnailModel(imageUrl: $0.imageURL, sequence: $0.sequence)}
+                if self.currentImageData != newImageData {
+                    self.currentImageData = newImageData
+                    self.imageData.value = newImageData
+                    self.updateConditionalData.value = true
+                }
+                
+                if self.currentLikeSum != data.like {
+                    self.currentLikeSum = data.like
+                    self.likeSum.value = data.like
+                    self.updateConditionalData.value = true
+                }
+                
+                let newTitleHeaderData = TitleHeaderModel(date: data.date, title: data.title, cost: data.totalCost, totalTime: data.totalTime, city: data.city)
+                if self.currentTitleHeaderData != newTitleHeaderData {
+                    self.currentTitleHeaderData = newTitleHeaderData
+                    self.titleHeaderData.value = newTitleHeaderData
+                    self.updateConditionalData.value = true
+                }
+                
+                let newMainContentsData = MainContentsModel(description: data.description)
+                if self.currentMainContentsData != newMainContentsData {
+                    self.currentMainContentsData = newMainContentsData
+                    self.mainContentsData.value = newMainContentsData
+                    self.updateConditionalData.value = true
+                }
+                
+                let newTimelineData = data.places.map { place in
                     TimelineModel(sequence: place.sequence, title: place.title, duration: Float(place.duration))
                 }
+                if self.currentTimelineData != newTimelineData {
+                    self.currentTimelineData = newTimelineData
+                    self.timelineData.value = newTimelineData
+                    self.updateConditionalData.value = true
+                }
+                
                 self.tagArr = data.tags
                 
-                self.tagData.value = data.tags.map { tag in
+                let newTagData = data.tags.map { tag in
                     TagModel(tag: tag.tag)
+                }
+                if self.currentTagData != newTagData {
+                    self.currentTagData = newTagData
+                    self.tagData.value = newTagData
+                    self.updateConditionalData.value = true
                 }
                 
                 self.isUserLiked.value = data.isUserLiked
@@ -148,9 +207,13 @@ extension CourseDetailViewModel {
                 self.courseListTitle = "\(data.title)"
                 
                 AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.userFreeRemained : data.free])
-                AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewCourseDetails,
-                                                                 properties: [StringLiterals.Amplitude.Property.courseListId: self.courseListId,
-                                                                              StringLiterals.Amplitude.Property.courseListTitle: self.courseListTitle])
+                AmplitudeManager.shared.trackEventWithProperties(
+                    StringLiterals.Amplitude.EventName.viewCourseDetails,
+                    properties: [
+                        StringLiterals.Amplitude.Property.courseListId: self.courseListId,
+                        StringLiterals.Amplitude.Property.courseListTitle: self.courseListTitle
+                    ]
+                )
                 
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
