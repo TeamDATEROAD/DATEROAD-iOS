@@ -21,7 +21,7 @@ extension UIImageView {
             placeholder: placeholder,
             options: [.transition(.none),
                       .cacheOriginalImage,
-                      .keepCurrentImageWhileLoading]
+                      ]
         )
     }
     
