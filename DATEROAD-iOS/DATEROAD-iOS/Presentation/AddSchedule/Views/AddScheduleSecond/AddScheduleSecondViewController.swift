@@ -226,6 +226,7 @@ private extension AddScheduleSecondViewController {
         addScheduleSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
     }
     
+    // 등록 완료 alertVC도 blurView 페이드인 적용 미정
     func successDone() {
         let customAlertVC = DRCustomAlertViewController(
             rightActionType: .none,
@@ -257,8 +258,7 @@ private extension AddScheduleSecondViewController {
         addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField.resignFirstResponder()
         
         DispatchQueue.main.async {
-            alertVC.modalPresentationStyle = .overFullScreen
-            self.present(alertVC, animated: true, completion: nil)
+            alertVC.presentBottomSheet(in: self)
         }
     }
     

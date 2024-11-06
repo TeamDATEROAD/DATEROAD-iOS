@@ -18,6 +18,8 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
+    lazy var bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView, height: 222, buttonType: DisabledButton(), buttonTitle: StringLiterals.DateSchedule.quit)
+    
     
     // MARK: - Properties
     
@@ -225,17 +227,18 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
 extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
-        self.dismiss(animated: false)
+        self.bottomSheetVC.dismissBottomSheet()
     }
     
     @objc
     private func deleteDateCourse() {
         let labelTap = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
         dateScheduleDeleteView.deleteLabel.addGestureRecognizer(labelTap)
-        let bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView, height: 222, buttonType: DisabledButton(), buttonTitle: StringLiterals.DateSchedule.quit)
-        bottomSheetVC.modalPresentationStyle = .overFullScreen
         bottomSheetVC.delegate = self
-        self.present(bottomSheetVC, animated: false)
+        
+        DispatchQueue.main.async {
+            self.bottomSheetVC.presentBottomSheet(in: self)
+        }
     }
     
     @objc

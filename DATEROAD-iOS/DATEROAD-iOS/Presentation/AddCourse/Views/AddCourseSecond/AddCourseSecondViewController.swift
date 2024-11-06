@@ -190,8 +190,7 @@ private extension AddCourseSecondViewController {
         addCourseSecondView.addSecondView.datePlaceTextField.resignFirstResponder()
         
         DispatchQueue.main.async {
-            alertVC.modalPresentationStyle = .overFullScreen
-            self.present(alertVC, animated: true, completion: nil)
+            alertVC.presentBottomSheet(in: self)
         }
     }
     

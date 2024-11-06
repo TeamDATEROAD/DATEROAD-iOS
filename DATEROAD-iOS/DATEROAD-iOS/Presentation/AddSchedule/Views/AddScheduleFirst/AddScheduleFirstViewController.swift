@@ -17,6 +17,8 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
     
     lazy var alertVC = DRBottomSheetViewController(contentView: addSheetView, height: 304, buttonType: EnabledButton(), buttonTitle: StringLiterals.AddCourseOrSchedule.AddBottomSheetView.datePickerBtnTitle)
     
+    let locationFilterVC = LocationFilterViewController()
+    
     private let loadingView: DRLoadingView = DRLoadingView()
     
     private let errorView: DRErrorViewController = DRErrorViewController()
@@ -245,8 +247,7 @@ private extension AddScheduleFirstViewController {
         alertVC.delegate = self
         addScheduleFirstView.inAddScheduleFirstView.dateNameTextField.resignFirstResponder()
         DispatchQueue.main.async {
-            self.alertVC.modalPresentationStyle = .overFullScreen
-            self.present(self.alertVC, animated: true, completion: nil)
+            self.alertVC.presentBottomSheet(in: self)
         }
     }
     
@@ -257,8 +258,7 @@ private extension AddScheduleFirstViewController {
         alertVC.delegate = self
         addScheduleFirstView.inAddScheduleFirstView.dateNameTextField.resignFirstResponder()
         DispatchQueue.main.async {
-            self.alertVC.modalPresentationStyle = .overFullScreen
-            self.present(self.alertVC, animated: true, completion: nil)
+            self.alertVC.presentBottomSheet(in: self)
         }
     }
     
@@ -304,13 +304,11 @@ private extension AddScheduleFirstViewController {
     
     @objc
     func datePlaceContainerTapped() {
-        // datePlaceContainer가 탭되었을 때 수행할 동작을 여기에 구현합니다.
-        print("datePlaceContainer tapped!")
-        let locationFilterVC = LocationFilterViewController()
-        locationFilterVC.modalPresentationStyle = .overFullScreen
         locationFilterVC.isAddType = true
         locationFilterVC.delegate = self
-        self.present(locationFilterVC, animated: false)
+        DispatchQueue.main.async {
+            self.locationFilterVC.presentBottomSheet(in: self)
+        }
     }
     
 }
@@ -407,7 +405,7 @@ extension AddScheduleFirstViewController: UITextFieldDelegate {
 extension AddScheduleFirstViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
-        self.dismiss(animated: true)
+        alertVC.dismissBottomSheet()
         updateTextField()
     }
     
@@ -417,7 +415,6 @@ extension AddScheduleFirstViewController: DRBottomSheetDelegate {
         if !isTimePickerFlag {
             let selectedDate = addSheetView.datePicker.date
             viewModel.isFutureDate(date: selectedDate, dateType: "date")
-            dismiss(animated: true)
         } else {
             let formattedDate = addSheetView.datePicker.date
             viewModel.isFutureDate(date: formattedDate, dateType: "time")

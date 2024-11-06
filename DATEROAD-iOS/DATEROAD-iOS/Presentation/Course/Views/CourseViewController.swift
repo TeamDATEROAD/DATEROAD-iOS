@@ -18,6 +18,8 @@ final class CourseViewController: BaseViewController {
     
     private let courseView = CourseView()
     
+    let locationFilterVC = LocationFilterViewController()
+    
     
     // MARK: - Properties
     
@@ -165,10 +167,10 @@ extension CourseViewController {
 extension CourseViewController: CourseFilterViewDelegate {
     
     func didTapLocationFilter() {
-        let locationFilterVC = LocationFilterViewController()
-        locationFilterVC.modalPresentationStyle = .overFullScreen
         locationFilterVC.delegate = self
-        self.present(locationFilterVC, animated: true)
+        DispatchQueue.main.async {
+            self.locationFilterVC.presentBottomSheet(in: self)
+        }
     }
     
     @objc

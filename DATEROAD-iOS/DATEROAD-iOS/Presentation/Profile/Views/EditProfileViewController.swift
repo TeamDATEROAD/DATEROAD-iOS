@@ -17,6 +17,11 @@ final class EditProfileViewController: BaseNavBarViewController {
     
     private let imagePickerViewController = CustomImagePicker(isProfilePicker: true)
     
+    lazy var alertVC = DRBottomSheetViewController(contentView: profileImageSettingView,
+                                              height: 288,
+                                              buttonType: DisabledButton(),
+                                              buttonTitle: StringLiterals.Common.cancel)
+    
     
     // MARK: - Properties
     
@@ -256,13 +261,10 @@ private extension EditProfileViewController {
     
     @objc
     func presentEditBottomSheet() {
-        let alertVC = DRBottomSheetViewController(contentView: profileImageSettingView,
-                                                  height: 288,
-                                                  buttonType: DisabledButton(),
-                                                  buttonTitle: StringLiterals.Common.cancel)
         alertVC.delegate = self
-        alertVC.modalPresentationStyle = .overFullScreen
-        self.present(alertVC, animated: true)
+        DispatchQueue.main.async {
+            self.alertVC.presentBottomSheet(in: self)
+        }
     }
     
     @objc
@@ -398,7 +400,7 @@ extension EditProfileViewController: UITextFieldDelegate {
 extension EditProfileViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
-        self.dismiss(animated: true)
+        alertVC.dismissBottomSheet()
     }
     
     func didTapFirstLabel() {

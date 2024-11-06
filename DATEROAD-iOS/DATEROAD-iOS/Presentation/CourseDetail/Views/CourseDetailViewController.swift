@@ -24,6 +24,13 @@ final class CourseDetailViewController: BaseViewController {
     
     private let skeletonView: CourseDetailSkeletonView = CourseDetailSkeletonView()
     
+    lazy var bottomSheetVC = DRBottomSheetViewController(
+        contentView: deleteCourseSettingView,
+        height: 210,
+        buttonType: DisabledButton(),
+        buttonTitle: StringLiterals.Common.close
+    )
+    
     
     // MARK: - Properties
     
@@ -373,20 +380,16 @@ extension CourseDetailViewController: StickyHeaderNavBarViewDelegate, DRBottomSh
     }
     
     func didTapMoreButton() {
-        let bottomSheetVC = DRBottomSheetViewController(
-            contentView: deleteCourseSettingView,
-            height: 210,
-            buttonType: DisabledButton(),
-            buttonTitle: StringLiterals.Common.close
-        )
         bottomSheetVC.delegate = self
         deleteCourseSettingView.deleteLabel.text = courseDetailViewModel.isCourseMine.value == true ? StringLiterals.CourseDetail.deleteCourse : StringLiterals.CourseDetail.delclareCourse
-        bottomSheetVC.modalPresentationStyle = .overFullScreen
-        present(bottomSheetVC, animated: true)
+        
+        DispatchQueue.main.async {
+        self.bottomSheetVC.presentBottomSheet(in: self)
+        }
     }
     
     func didTapBottomButton() {
-        self.dismiss(animated: true)
+        self.bottomSheetVC.dismissBottomSheet()
     }
     
 }
