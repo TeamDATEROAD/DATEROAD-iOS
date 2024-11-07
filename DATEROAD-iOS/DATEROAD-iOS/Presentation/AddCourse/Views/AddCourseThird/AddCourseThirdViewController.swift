@@ -154,9 +154,7 @@ private extension AddCourseThirdViewController {
             guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
             
             if !onFailNetwork {
-                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.addCourseThirdView.isHidden = onLoading
-                self?.tabBarController?.tabBar.isHidden = onLoading
+                onLoading ? self?.showLoadingView(type: StringLiterals.TabBar.myPage) : self?.hideLoadingView()
             }
         }
         
