@@ -190,11 +190,7 @@ extension ViewedCourseViewController {
         self.viewedCourseViewModel.viewedCoursesModelIsUpdate.bind { [weak self] flag in
             guard let flag else { return }
             if flag {
-                DispatchQueue.main.async {
-                    self?.viewedCourseView.myCourseListCollectionView.performBatchUpdates({
-                        self?.viewedCourseView.myCourseListCollectionView.reloadSections(IndexSet(integer: 0))
-                    })
-                }
+                self?.viewedCourseView.myCourseListCollectionView.reloadSections(IndexSet(integer: 0))
                 self?.viewedCourseViewModel.viewedCoursesModelIsUpdate.value = false
             }
         }
