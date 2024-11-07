@@ -101,7 +101,7 @@ final class DateTimeLineCollectionViewCell: BaseCollectionViewCell {
         }
         
         locationLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_bold_15))
+            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.systemFont(ofSize: 15, weight: .bold))
         }
         
         timeBoxView.do {

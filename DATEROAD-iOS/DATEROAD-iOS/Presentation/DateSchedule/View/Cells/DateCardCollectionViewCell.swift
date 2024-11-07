@@ -224,7 +224,10 @@ final class DateCardCollectionViewCell: BaseCollectionViewCell {
         }
         
         titleLabel.do {
-            $0.setLabel(alignment: .left, numberOfLines: 2, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_extra_24))
+            $0.setLabel(alignment: .left,
+                numberOfLines: 2,
+                textColor: UIColor(resource: .drBlack),
+                font: UIFont.systemFont(ofSize: 24, weight: .black))
             $0.lineBreakMode = .byWordWrapping
         }
     }

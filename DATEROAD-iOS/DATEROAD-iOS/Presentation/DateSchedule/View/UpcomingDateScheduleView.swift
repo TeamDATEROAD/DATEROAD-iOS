@@ -82,8 +82,9 @@ final class UpcomingDateScheduleView: BaseView {
         self.backgroundColor = UIColor(resource: .drWhite)
         
         titleLabel.do {
-            $0.setLabel(text: StringLiterals.DateSchedule.upcomingDate, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_bold_20))
-        }
+            $0.setLabel(text: StringLiterals.DateSchedule.upcomingDate,
+                textColor: UIColor(resource: .drBlack),
+                font: UIFont.suit(.title_bold_20))}
         
         cardCollectionView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
