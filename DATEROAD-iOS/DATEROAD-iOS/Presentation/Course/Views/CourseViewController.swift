@@ -112,8 +112,6 @@ final class CourseViewController: BaseViewController {
             if !onFailNetwork {
                 if !onFailNetwork {
                     if onLoading {
-                        self?.courseView.courseSkeletonView.isHidden = false
-                        self?.courseView.courseListView.isHidden = true
                         self?.showLoadingView(type: StringLiterals.Course.course)
                     } else {
                         if !loaded {
