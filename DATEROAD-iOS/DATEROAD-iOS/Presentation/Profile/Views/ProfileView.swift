@@ -178,6 +178,11 @@ final class ProfileView: BaseView {
             $0.layer.cornerRadius = 14
             $0.placeholder = StringLiterals.Profile.nicknamePlaceholder
             $0.setPlaceholder(placeholder: StringLiterals.Profile.nicknamePlaceholder, fontColor: UIColor(resource: .gray300), font: UIFont.suit(.body_semi_15))
+            let attributes: [NSAttributedString.Key: Any] = [
+                .font: UIFont.systemFont(ofSize: 15, weight: .semibold),
+                .foregroundColor: UIColor(resource: .drBlack)
+            ]
+            $0.defaultTextAttributes = attributes
         }
         
         doubleCheckButton.do {
