@@ -55,13 +55,14 @@ final class NewDateCourseCell: BaseCollectionViewCell {
                          likeLabel,
                          countryLabel,
                          dateNameView,
-                         dateNameLabel,
+                         
                          costView,
                          costImage,
                          costLabel,
                          timeView,
                          timeImage,
                          timeLabel)
+        dateNameView.addSubview(dateNameLabel)
     }
     
     override func setLayout() {
@@ -102,9 +103,7 @@ final class NewDateCourseCell: BaseCollectionViewCell {
         }
         
         dateNameLabel.snp.makeConstraints {
-            $0.top.equalTo(countryLabel.snp.bottom).offset(5)
-            $0.leading.equalTo(dateNameView)
-            $0.trailing.equalToSuperview().inset(16)
+            $0.edges.equalToSuperview()
         }
         
         costView.snp.makeConstraints {
