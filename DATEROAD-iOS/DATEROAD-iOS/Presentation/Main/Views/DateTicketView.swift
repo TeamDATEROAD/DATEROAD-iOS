@@ -87,7 +87,7 @@ final class DateTicketView: BaseView {
         }
         
         dateNameLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.title_bold_20))
+            $0.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.systemFont(ofSize: 20,weight: .bold))
             $0.lineBreakMode = .byTruncatingTail
             $0.numberOfLines = 1
             $0.textAlignment = .left
