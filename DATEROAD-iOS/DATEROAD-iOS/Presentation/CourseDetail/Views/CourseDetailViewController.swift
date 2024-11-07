@@ -396,7 +396,7 @@ extension CourseDetailViewController: StickyHeaderNavBarViewDelegate, DRBottomSh
         deleteCourseSettingView.deleteLabel.text = courseDetailViewModel.isCourseMine.value == true ? StringLiterals.CourseDetail.deleteCourse : StringLiterals.CourseDetail.delclareCourse
         
         DispatchQueue.main.async {
-        self.bottomSheetVC.presentBottomSheet(in: self)
+            self.bottomSheetVC.presentBottomSheet(in: self)
         }
     }
     

@@ -166,7 +166,13 @@ extension CourseDetailViewModel {
                     self.updateConditionalData.value = true
                 }
                 
-                let newTitleHeaderData = TitleHeaderModel(date: data.date, title: data.title, cost: data.totalCost, totalTime: data.totalTime, city: data.city)
+                let newTitleHeaderData = TitleHeaderModel(
+                    date: data.date,
+                    title: data.title,
+                    cost: data.totalCost,
+                    totalTime: data.totalTime,
+                    city: data.city
+                )
                 if self.currentTitleHeaderData != newTitleHeaderData {
                     self.currentTitleHeaderData = newTitleHeaderData
                     self.titleHeaderData.value = newTitleHeaderData
@@ -181,7 +187,11 @@ extension CourseDetailViewModel {
                 }
                 
                 let newTimelineData = data.places.map { place in
-                    TimelineModel(sequence: place.sequence, title: place.title, duration: Float(place.duration))
+                    TimelineModel(
+                        sequence: place.sequence,
+                        title: place.title,
+                        duration: Float(place.duration)
+                    )
                 }
                 if self.currentTimelineData != newTimelineData {
                     self.currentTimelineData = newTimelineData

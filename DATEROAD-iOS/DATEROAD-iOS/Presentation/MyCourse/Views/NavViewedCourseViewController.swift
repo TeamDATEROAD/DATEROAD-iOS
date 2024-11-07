@@ -88,10 +88,7 @@ private extension NavViewedCourseViewController {
         navViewedCourseView.myCourseListCollectionView.isHidden = isEmpty
         if isEmpty {
             DispatchQueue.main.async {
-                self.navViewedCourseView.emptyView.setEmptyView(
-                    emptyImage: UIImage(resource: .emptyPastSchedule),
-                    emptyTitle: StringLiterals.EmptyView.emptyNavViewedCourse
-                )
+                self.navViewedCourseView.emptyView.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule), emptyTitle: StringLiterals.EmptyView.emptyNavViewedCourse)
             }
         } else {
             DispatchQueue.main.async {
@@ -116,12 +113,6 @@ extension NavViewedCourseViewController {
                 }
                 self?.viewedCourseViewModel.broughtViewedCoursesModelIsUpdate.value = false
             }
-        }
-        
-        DispatchQueue.main.async {
-            self.navViewedCourseView.myCourseListCollectionView.performBatchUpdates({
-                self.navViewedCourseView.myCourseListCollectionView.reloadSections(IndexSet(integer: 0))
-            })
         }
         
         self.viewedCourseViewModel.onReissueSuccess.bind { [weak self] onSuccess in

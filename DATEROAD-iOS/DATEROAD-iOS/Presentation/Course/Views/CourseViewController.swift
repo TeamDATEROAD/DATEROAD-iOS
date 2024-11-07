@@ -104,9 +104,9 @@ final class CourseViewController: BaseViewController {
         }
         
         self.courseViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading,
-                  let loaded = self?.loaded,
+            guard let onLoading, let loaded = self?.loaded,
                   let onFailNetwork = self?.courseViewModel.onFailNetwork.value else { return }
+            
             if !onFailNetwork {
                 if !onFailNetwork {
                     if onLoading {

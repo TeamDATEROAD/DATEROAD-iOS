@@ -15,7 +15,12 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
     
     let addSheetView = AddSheetView(isCustomPicker: false)
     
-    lazy var alertVC = DRBottomSheetViewController(contentView: addSheetView, height: 304, buttonType: EnabledButton(), buttonTitle: StringLiterals.AddCourseOrSchedule.AddBottomSheetView.datePickerBtnTitle)
+    lazy var alertVC = DRBottomSheetViewController(
+        contentView: addSheetView,
+        height: 304,
+        buttonType: EnabledButton(),
+        buttonTitle: StringLiterals.AddCourseOrSchedule.AddBottomSheetView.datePickerBtnTitle
+    )
     
     let locationFilterVC = LocationFilterViewController()
     

@@ -102,9 +102,6 @@ extension UpcomingDateDetailViewController {
             if flag {
                 guard let data = self?.upcomingDateDetailViewModel.dateDetailData.value else { return }
                 DispatchQueue.main.async {
-                    self?.upcomingDateDetailContentView.dataBind(data)
-                    self?.upcomingDateDetailViewModel.setDateDetailLoading()
-                    
                     self?.upcomingDateDetailContentView.dateTimeLineCollectionView.reloadData()
                 }
                 self?.upcomingDateDetailViewModel.updateDateDetailData.value = false

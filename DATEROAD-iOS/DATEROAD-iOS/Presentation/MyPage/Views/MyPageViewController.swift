@@ -126,8 +126,8 @@ private extension MyPageViewController {
         }
         
         self.myPageViewModel.onSuccessGetUserProfile.bind { [weak self] onSuccess in
-            guard let onSuccess, let data = self?.myPageViewModel.userInfoData.value else { return }
-            guard let updateData = self?.myPageViewModel.updateData.value else { return }
+            guard let onSuccess, let data = self?.myPageViewModel.userInfoData.value,
+                  let updateData = self?.myPageViewModel.updateData.value else { return }
             
             if onSuccess {
                 self?.hideLoadingView()

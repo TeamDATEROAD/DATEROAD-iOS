@@ -69,7 +69,10 @@ final class PointViewModel: Serviceable {
                     PointDetailModel(sign: "+", point: $0.point, description: $0.description, createdAt: $0.createdAt)
                 }
                 let newUsedPointInfo = data.used.points.map {
-                    PointDetailModel(sign: "-", point: $0.point, description: $0.description, createdAt: $0.createdAt)
+                    PointDetailModel(sign: "-",
+                                     point: $0.point,
+                                     description: $0.description,
+                                     createdAt: $0.createdAt)
                 }
                 
                 // 포인트 획득내역 기존 데이터와 비교

@@ -58,15 +58,13 @@ final class MyCourseListViewModel: Serviceable {
         NetworkService.shared.myCourseService.getViewedCourse() { response in
             switch response {
             case .success(let data):
-                let viewedCourseInfo = data.courses.map { MyCourseModel(
-                    courseId: $0.courseID,
-                    thumbnail: $0.thumbnail,
-                    title: $0.title,
-                    city: $0.city,
-                    cost: $0.cost.priceRangeTag(),
-                    duration: ($0.duration).formatFloatTime(),
-                    like: $0.like
-                ) }
+                let viewedCourseInfo = data.courses.map { MyCourseModel(courseId: $0.courseID,
+                                                                        thumbnail: $0.thumbnail,
+                                                                        title: $0.title,
+                                                                        city: $0.city,
+                                                                        cost: $0.cost.priceRangeTag(),
+                                                                        duration: ($0.duration).formatFloatTime(),
+                                                                        like: $0.like) }
                 AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.userPurchaseCount: viewedCourseInfo.count])
                 
                 if self.viewedCoursesModel != viewedCourseInfo {
@@ -100,15 +98,13 @@ final class MyCourseListViewModel: Serviceable {
         NetworkService.shared.myCourseService.getViewedCourse() { response in
             switch response {
             case .success(let data):
-                let viewedCourseInfo = data.courses.map { MyCourseModel(
-                    courseId: $0.courseID,
-                    thumbnail: $0.thumbnail,
-                    title: $0.title,
-                    city: $0.city,
-                    cost: $0.cost.priceRangeTag(),
-                    duration: ($0.duration).formatFloatTime(),
-                    like: $0.like
-                ) }
+                let viewedCourseInfo = data.courses.map { MyCourseModel(courseId: $0.courseID,
+                                                                        thumbnail: $0.thumbnail,
+                                                                        title: $0.title,
+                                                                        city: $0.city,
+                                                                        cost: $0.cost.priceRangeTag(),
+                                                                        duration: ($0.duration).formatFloatTime(),
+                                                                        like: $0.like) }
                 
                 if self.broughtViewedCoursesModel != viewedCourseInfo {
                     self.viewedCourseData.value = viewedCourseInfo
@@ -141,15 +137,13 @@ final class MyCourseListViewModel: Serviceable {
         NetworkService.shared.myCourseService.getMyRegisterCourse() { response in
             switch response {
             case .success(let data):
-                let myRegisterCourseInfo = data.courses.map { MyCourseModel(
-                    courseId: $0.courseID,
-                    thumbnail: $0.thumbnail,
-                    title: $0.title,
-                    city: $0.city,
-                    cost: ($0.cost).priceRangeTag(),
-                    duration: ($0.duration).formatFloatTime(),
-                    like: $0.like
-                ) }
+                let myRegisterCourseInfo = data.courses.map { MyCourseModel(courseId: $0.courseID,
+                                                                            thumbnail: $0.thumbnail,
+                                                                            title: $0.title,
+                                                                            city: $0.city,
+                                                                            cost: ($0.cost).priceRangeTag(),
+                                                                            duration: ($0.duration).formatFloatTime(),
+                                                                            like: $0.like) }
                 AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.userCourseCount: myRegisterCourseInfo.count])
                 
                 if self.myRegisterCoursesModel != myRegisterCourseInfo {

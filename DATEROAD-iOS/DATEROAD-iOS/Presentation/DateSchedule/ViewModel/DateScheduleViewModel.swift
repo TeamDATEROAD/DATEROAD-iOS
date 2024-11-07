@@ -54,14 +54,12 @@ final class DateScheduleViewModel: Serviceable {
                     let tagsModel: [TagsModel] = date.tags.map { tag in
                         TagsModel(tag: tag.tag)
                     }
-                    return DateCardModel(
-                        dateID: date.dateID,
-                        title: date.title,
-                        date: date.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "",
-                        city: date.city,
-                        tags: tagsModel,
-                        dDay: date.dDay
-                    )
+                    return DateCardModel(dateID: date.dateID,
+                                         title: date.title,
+                                         date: date.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "",
+                                         city: date.city,
+                                         tags: tagsModel,
+                                         dDay: date.dDay)
                 }
                 
                 if self.pastDateScheduleData.value != dateScheduleInfo {
