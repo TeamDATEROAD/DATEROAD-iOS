@@ -255,7 +255,7 @@ private extension EditProfileViewController {
         
         self.profileViewModel.onEditProfileLoading.bind { [weak self] onLoading in
             guard let onLoading else { return }
-            onLoading ? self?.showLoadingView() : self?.hideLoadingView()
+            onLoading ? self?.showLoadingView(type: StringLiterals.TabBar.myPage) : self?.hideLoadingView()
         }
     }
     
