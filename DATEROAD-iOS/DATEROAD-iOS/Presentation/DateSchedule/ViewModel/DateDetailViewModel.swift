@@ -103,8 +103,6 @@ extension DateDetailViewModel {
             default:
                 self.onFailNetwork.value = true
             }
-            
-            self.setDateDetailLoading()
         }
     }
     
