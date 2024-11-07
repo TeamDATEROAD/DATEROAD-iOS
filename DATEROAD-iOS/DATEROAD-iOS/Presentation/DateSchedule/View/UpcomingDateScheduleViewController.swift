@@ -94,9 +94,11 @@ private extension UpcomingDateScheduleViewController {
             guard let flag else { return }
             if flag {
                 DispatchQueue.main.async {
-                    self?.upcomingDateScheduleView.cardCollectionView.performBatchUpdates({
-                        self?.upcomingDateScheduleView.cardCollectionView.reloadSections(IndexSet(integer: 0))
-                    })
+                    UIView.performWithoutAnimation {
+                        self?.upcomingDateScheduleView.cardCollectionView.performBatchUpdates({
+                            self?.upcomingDateScheduleView.cardCollectionView.reloadSections(IndexSet(integer: 0))
+                        })
+                    }
                 }
                 self?.upcomingDateScheduleViewModel.updateUpcomingDateScheduleData.value = false
             }

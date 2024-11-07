@@ -100,9 +100,11 @@ extension MainViewController {
         self.mainViewModel.updateSectionIndex.bind { [weak self] index in
             guard let index, let loaded = self?.loaded else { return }
             if loaded {
-                self?.mainView.mainCollectionView.performBatchUpdates({
-                    self?.mainView.mainCollectionView.reloadSections(IndexSet(integer: index))
-                })
+                UIView.performWithoutAnimation {
+                    self?.mainView.mainCollectionView.performBatchUpdates({
+                        self?.mainView.mainCollectionView.reloadSections(IndexSet(integer: index))
+                    })
+                }
             }
         }
         
