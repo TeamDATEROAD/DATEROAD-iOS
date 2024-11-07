@@ -603,9 +603,6 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
     
     private func configureBottomPageControlView(_ collectionView: UICollectionView, indexPath: IndexPath, imageData: [ThumbnailModel], isAccess: Bool) -> UICollectionReusableView {
         return collectionViewUtils.dequeueAndConfigureSupplementaryView(collectionView: collectionView, indexPath: indexPath, kind: BottomPageControllView.elementKinds, identifier: BottomPageControllView.identifier) { (view: BottomPageControllView) in
-//            if !isFirstLike {
-//                localLikeNum += courseDetailViewModel.isUserLiked.value == true ? 1 : -1
-//            }
             view.pageIndexSum = imageData.count
             view.bindData(like: localLikeNum)
         }
