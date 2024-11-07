@@ -9,10 +9,6 @@ import Foundation
 
 final class PointViewModel: Serviceable {
     
-    private var currentGainedPointData: [PointDetailModel] = []
-    
-    private var currentUsedPointData: [PointDetailModel] = []
-    
     let updateGainedPointData: ObservablePattern<Bool> = ObservablePattern(false)
     
     let updateUsedPointData: ObservablePattern<Bool> = ObservablePattern(false)
@@ -76,15 +72,13 @@ final class PointViewModel: Serviceable {
                 }
                 
                 // 포인트 획득내역 기존 데이터와 비교
-                if self.currentGainedPointData != newGainedPointInfo {
-                    self.currentGainedPointData = newGainedPointInfo
+                if self.gainedPointData.value != newGainedPointInfo {
                     self.gainedPointData.value = newGainedPointInfo
                     self.updateGainedPointData.value = true
                 }
                 
                 // 포인트 사용내역 기존 데이터와 비교
-                if self.currentUsedPointData != newUsedPointInfo {
-                    self.currentUsedPointData = newUsedPointInfo
+                if self.usedPointData.value != newUsedPointInfo {
                     self.usedPointData.value = newUsedPointInfo
                     self.updateUsedPointData.value = true
                 }

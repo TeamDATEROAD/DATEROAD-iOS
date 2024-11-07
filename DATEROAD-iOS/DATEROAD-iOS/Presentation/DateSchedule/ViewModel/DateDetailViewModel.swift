@@ -89,12 +89,12 @@ extension DateDetailViewModel {
                 if self.currentDateDetailData != newDateDetailData {
                     self.currentDateDetailData = newDateDetailData
                     self.dateDetailData.value = newDateDetailData
-                    self.isSuccessGetDateDetailData.value = true
                     self.dateCourseNum = newDateDetailData.places.count
                     self.dateTotalDuration = datePlaceInfo.map { Float($0.duration) ?? 0 }.reduce(0, +)
                     self.updateDateDetailData.value = true
                 }
                 
+                self.isSuccessGetDateDetailData.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.type.value = NetworkType.getDateDetail
