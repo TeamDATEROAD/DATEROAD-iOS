@@ -29,8 +29,6 @@ final class CourseViewController: BaseViewController {
     
     private var selectedButton: UIButton?
     
-    private var loaded: Bool = false
-    
     
     // MARK: - Life Cycle
     
@@ -104,8 +102,7 @@ final class CourseViewController: BaseViewController {
         }
         
         self.courseViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading, let loaded = self?.loaded,
-                  let onFailNetwork = self?.courseViewModel.onFailNetwork.value else { return }
+            guard let onLoading, let onFailNetwork = self?.courseViewModel.onFailNetwork.value else { return }
             
             if !onFailNetwork {
                 if !onFailNetwork {
@@ -115,14 +112,9 @@ final class CourseViewController: BaseViewController {
                         self?.showLoadingView(type: StringLiterals.Course.course)
                     } else {
                         self?.courseView.courseListView.courseListCollectionView.reloadData()
-                        if !loaded {
-                            let initialIndexPath = IndexPath(item: 0, section: 0)
-                            self?.courseView.courseListView.courseListCollectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
-                        }
                         self?.courseView.courseListView.isHidden = false
                         self?.courseView.courseSkeletonView.isHidden = true
                         self?.hideLoadingView()
-                        self?.loaded = true
                     }
                 }
             }
