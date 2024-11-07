@@ -170,7 +170,12 @@ extension UpcomingDateScheduleViewController: DRCustomAlertDelegate {
     @objc
     private func dateRegisterButtonTapped() {
         if upcomingDateScheduleViewModel.isMoreThanFiveSchedule {
-            let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none, alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.Alert.noMoreSchedule, descriptionText: StringLiterals.Alert.noMoreThanFive, longButtonText: StringLiterals.Alert.iChecked)
+            let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none,
+                                                            alertTextType: .hasDecription, 
+                                                            alertButtonType: .oneButton,
+                                                            titleText: StringLiterals.Alert.noMoreSchedule,
+                                                            descriptionText: StringLiterals.Alert.noMoreThanFive,
+                                                            longButtonText: StringLiterals.Alert.iChecked)
             customAlertVC.delegate = self
             customAlertVC.modalPresentationStyle = .overFullScreen
             self.present(customAlertVC, animated: false)
@@ -243,9 +248,7 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel.emptyModel
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateCardCollectionViewCell.cellIdentifier, for: indexPath) as? DateCardCollectionViewCell else {
-            return UICollectionViewCell()
-        }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateCardCollectionViewCell.cellIdentifier, for: indexPath) as? DateCardCollectionViewCell else { return UICollectionViewCell() }
         cell.dataBind(data, indexPath.item)
         cell.setColor(index: indexPath.item)
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToUpcomingDateDetailVC(_:))))
