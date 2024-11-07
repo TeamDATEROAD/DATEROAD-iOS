@@ -30,10 +30,7 @@ final class CourseListView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(
-            emptyView,
-            courseListCollectionView
-        )
+        self.addSubviews(emptyView, courseListCollectionView)
     }
     
     override func setLayout() {
