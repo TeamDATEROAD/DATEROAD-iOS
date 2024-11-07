@@ -273,15 +273,17 @@ extension AddCourseThirdViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-//        textView.setFontAndLineLetterSpacing(textView.text, font: UIFont.suit(.body_med_13))
         textView.setFontAndLineLetterSpacing(textView.text,
-            font:UIFont.systemFont(ofSize: 13, weight: .semibold))
+                                             font:UIFont.systemFont(ofSize: 13, weight: .semibold))
         
         viewModel.contentText = textView.text
         viewModel.contentTextCount.value = textView.text.count
         viewModel.courseContentNum = textView.text.count
         print("🎉\(textView.text.count)🎉")
         viewModel.courseContentBool = textView.text.count > 0 ? true : false
+        
+        let selectedRange = textView.selectedRange
+        textView.scrollRangeToVisible(selectedRange)
     }
     
 }
