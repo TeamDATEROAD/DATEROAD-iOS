@@ -64,7 +64,7 @@ final class CourseDetailViewModel: Serviceable {
     var onLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
-            
+    
     var numberOfSections: Int = 6
     
     var isChange: (() -> Void)?
@@ -130,15 +130,12 @@ extension CourseDetailViewModel {
             case .success(let data):
                 dump(data)
                 
-                let newConditionalData = ConditionalModel(
-                    courseId: self.courseId,
-                    isCourseMine: data.isCourseMine,
-                    isAccess: data.isAccess,
-                    free: data.free,
-                    totalPoint: data.totalPoint,
-                    isUserLiked: data.isUserLiked
-                )
-                
+                let newConditionalData = ConditionalModel(courseId: self.courseId,
+                                                          isCourseMine: data.isCourseMine,
+                                                          isAccess: data.isAccess,
+                                                          free: data.free,
+                                                          totalPoint: data.totalPoint,
+                                                          isUserLiked: data.isUserLiked)
                 if self.currentConditionalData != newConditionalData {
                     self.currentConditionalData = newConditionalData
                     self.conditionalData.value = newConditionalData
@@ -166,13 +163,11 @@ extension CourseDetailViewModel {
                     self.updateConditionalData.value = true
                 }
                 
-                let newTitleHeaderData = TitleHeaderModel(
-                    date: data.date,
-                    title: data.title,
-                    cost: data.totalCost,
-                    totalTime: data.totalTime,
-                    city: data.city
-                )
+                let newTitleHeaderData = TitleHeaderModel(date: data.date,
+                                                          title: data.title,
+                                                          cost: data.totalCost,
+                                                          totalTime: data.totalTime,
+                                                          city: data.city)
                 if self.currentTitleHeaderData != newTitleHeaderData {
                     self.currentTitleHeaderData = newTitleHeaderData
                     self.titleHeaderData.value = newTitleHeaderData
@@ -187,12 +182,9 @@ extension CourseDetailViewModel {
                 }
                 
                 let newTimelineData = data.places.map { place in
-                    TimelineModel(
-                        sequence: place.sequence,
-                        title: place.title,
-                        duration: Float(place.duration)
-                    )
-                }
+                    TimelineModel(sequence: place.sequence,
+                                  title: place.title,
+                                  duration: Float(place.duration)) }
                 if self.currentTimelineData != newTimelineData {
                     self.currentTimelineData = newTimelineData
                     self.timelineData.value = newTimelineData
@@ -224,7 +216,6 @@ extension CourseDetailViewModel {
                         StringLiterals.Amplitude.Property.courseListTitle: self.courseListTitle
                     ]
                 )
-                
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
@@ -273,7 +264,7 @@ extension CourseDetailViewModel {
             completion(success)
         }
     }
-
+    
     func setLoading() {
         guard let isSuccessGetData = self.isSuccessGetData.value else { return }
         self.onLoading.value = !isSuccessGetData

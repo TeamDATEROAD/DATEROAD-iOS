@@ -67,11 +67,9 @@ final class ViewedCourseViewController: BaseViewController {
         
         self.view.addSubview(contentView)
         
-        self.contentView.addSubviews(
-            topLabel,
-            createCourseView,
-            viewedCourseView
-        )
+        self.contentView.addSubviews(topLabel,
+                                     createCourseView,
+                                     viewedCourseView)
         
         self.createCourseView.addSubviews(createCourseLabel, arrowButton)
     }

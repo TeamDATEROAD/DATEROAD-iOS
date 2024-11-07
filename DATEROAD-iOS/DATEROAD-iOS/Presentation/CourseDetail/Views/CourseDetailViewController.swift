@@ -24,12 +24,10 @@ final class CourseDetailViewController: BaseViewController {
     
     private let skeletonView: CourseDetailSkeletonView = CourseDetailSkeletonView()
     
-    lazy var bottomSheetVC = DRBottomSheetViewController(
-        contentView: deleteCourseSettingView,
-        height: 210,
-        buttonType: DisabledButton(),
-        buttonTitle: StringLiterals.Common.close
-    )
+    lazy var bottomSheetVC = DRBottomSheetViewController(contentView: deleteCourseSettingView,
+                                                         height: 210,
+                                                         buttonType: DisabledButton(),
+                                                         buttonTitle: StringLiterals.Common.close)
     
     
     // MARK: - Properties
@@ -84,7 +82,9 @@ final class CourseDetailViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(courseDetailView, courseInfoTabBarView, skeletonView)
+        self.view.addSubviews(courseDetailView,
+                              courseInfoTabBarView,
+                              skeletonView)
     }
     
     override func setLayout() {

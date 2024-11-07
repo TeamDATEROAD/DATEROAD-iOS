@@ -191,7 +191,7 @@ private extension EditProfileViewController {
         
         self.profileViewModel.isValidNicknameCount.bind { [weak self] isValidCount in
             guard let isValidCount,
-                    let initial = self?.initial,
+                  let initial = self?.initial,
                   let isValidNickname = self?.profileViewModel.isValidNickname.value
             else { return }
             if initial {

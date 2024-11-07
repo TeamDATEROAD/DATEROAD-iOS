@@ -10,21 +10,21 @@ import UIKit
 final class BannerViewModel: Serviceable {
     
     let updateBannerDetailData: ObservablePattern<Bool> = ObservablePattern(false)
-        
+    
     var currentPage: ObservablePattern<Int> = ObservablePattern(0)
     
     var bannerDetailData: ObservablePattern<BannerDetailModel?> = ObservablePattern(nil)
     
     var isUpdate: ObservablePattern<Bool> = ObservablePattern(nil)
-        
+    
     var imageData: ObservablePattern<[ThumbnailModel]> = ObservablePattern(nil)
-                    
+    
     var mainContentsData: ObservablePattern<MainContentsModel> = ObservablePattern(nil)
-        
+    
     let bannerSectionData: [BannerDetailSection] = BannerDetailSection.dataSource
     
     var isSuccessGetBannerData: ObservablePattern<Bool> = ObservablePattern(nil)
-        
+    
     var bannerHeaderData: ObservablePattern<BannerHeaderModel> = ObservablePattern(nil)
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
@@ -36,12 +36,12 @@ final class BannerViewModel: Serviceable {
     var advertisementId: Int = 0
     
     var bannerDetailTitle: String = ""
-                
+    
     
     init(advertisementId: Int) {
         self.advertisementId = advertisementId
     }
-
+    
     func didSwipeImage(to index: Int) {
         currentPage.value = index
     }
@@ -49,7 +49,7 @@ final class BannerViewModel: Serviceable {
 }
 
 extension BannerViewModel {
-
+    
     func getBannerDetail() {
         self.isSuccessGetBannerData.value = false
         self.setBannerDetailLoading()

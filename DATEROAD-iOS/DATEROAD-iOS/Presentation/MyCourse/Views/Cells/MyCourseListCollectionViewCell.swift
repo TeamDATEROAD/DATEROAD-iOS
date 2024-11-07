@@ -61,7 +61,10 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func setHierarchy() {
-        self.addSubviews(thumbnailImageView, heartButton, infoView)
+        self.addSubviews(thumbnailImageView,
+                         heartButton,
+                         infoView)
+        
         infoView.addSubviews(locationLabel,
                              titleLabel,
                              expenseButton,

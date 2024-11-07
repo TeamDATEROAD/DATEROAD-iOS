@@ -18,12 +18,10 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
-    lazy var bottomSheetVC = DRBottomSheetViewController(
-        contentView: dateScheduleDeleteView,
-        height: 222,
-        buttonType: DisabledButton(),
-        buttonTitle: StringLiterals.DateSchedule.quit
-    )
+    lazy var bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView,
+                                                         height: 222,
+                                                         buttonType: DisabledButton(),
+                                                         buttonTitle: StringLiterals.DateSchedule.quit)
     
     
     // MARK: - Properties
@@ -31,7 +29,7 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     var index: Int
     
     var dateID: Int
-        
+    
     var pastDateDetailViewModel: DateDetailViewModel
     
     private let dateScheduleDeleteView = DateScheduleDeleteView()
@@ -74,7 +72,7 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        contentView.addSubviews(pastDateDetailContentView)
+        contentView.addSubview(pastDateDetailContentView)
     }
     
     override func setLayout() {
@@ -174,9 +172,9 @@ extension PastDateDetailViewController {
         }
         
         self.pastDateDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
-            guard let onSuccess, 
+            guard let onSuccess,
                     let dateID = self?.dateID,
-                    let type = self?.pastDateDetailViewModel.type.value
+                  let type = self?.pastDateDetailViewModel.type.value
             else { return }
             if onSuccess {
                 switch type {

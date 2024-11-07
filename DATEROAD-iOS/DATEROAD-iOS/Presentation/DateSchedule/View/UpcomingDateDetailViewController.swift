@@ -18,12 +18,10 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
-    lazy var bottomSheetVC = DRBottomSheetViewController(
-        contentView: dateScheduleDeleteView,
-        height: 222,
-        buttonType: DisabledButton(),
-        buttonTitle: StringLiterals.DateSchedule.quit
-    )
+    lazy var bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView,
+                                                         height: 222,
+                                                         buttonType: DisabledButton(),
+                                                         buttonTitle: StringLiterals.DateSchedule.quit)
     
     
     // MARK: - Properties
@@ -111,7 +109,7 @@ extension UpcomingDateDetailViewController {
         self.upcomingDateDetailViewModel.onDateDetailLoading.bind { [weak self] onLoading in
             guard let onLoading,
                   let onFailNetwork = self?.upcomingDateDetailViewModel.onFailNetwork.value,
-                  let index = self?.index 
+                  let index = self?.index
             else { return }
             if !onFailNetwork {
                 if onLoading {

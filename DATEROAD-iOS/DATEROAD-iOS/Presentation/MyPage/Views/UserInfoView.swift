@@ -173,14 +173,9 @@ extension UserInfoView {
     func bindData(userInfo: MyPageUserInfoModel) {
         if let imageURL = userInfo.imageURL  {
             let url = URL(string: imageURL)
-            self.profileImageView.kf.setImage(
-                with: url,
-                placeholder: UIImage(resource: .placeholder),
-                options: [
-                    .transition(.none),
-                    .cacheOriginalImage
-                ]
-            )
+            self.profileImageView.kf.setImage(with: url,
+                                              placeholder: UIImage(resource: .placeholder),
+                                              options: [.transition(.none), .cacheOriginalImage])
         } else {
             self.profileImageView.image = UIImage(resource: .emptyProfileImg)
         }

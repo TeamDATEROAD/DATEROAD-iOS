@@ -142,10 +142,8 @@ private extension ProfileViewController {
         
         // 중복 확인 결과 변수
         self.profileViewModel.isValidNickname.bind { [weak self] isValid in
-            guard let isValid,
-                    let initial = self?.initial,
-                    let nicknameCount = self?.profileViewModel.nickname.value?.count
-            else { return }
+            guard let isValid, let initial = self?.initial,
+                  let nicknameCount = self?.profileViewModel.nickname.value?.count else { return }
             
             if initial {
                 self?.profileView.nicknameErrMessageLabel.isHidden = nicknameCount > 5
@@ -193,7 +191,7 @@ private extension ProfileViewController {
             guard let isValid else { return }
             self?.profileView.updateRegisterButton(isValid: isValid)
         }
-
+        
         self.profileViewModel.onSuccessRegister = { [weak self] isSuccess in
             if isSuccess {
                 guard let userId = UserDefaults.standard.string(forKey: StringLiterals.Network.userID) else { return }
@@ -313,7 +311,7 @@ extension ProfileViewController: UICollectionViewDataSource {
         cell.tendencyTagButton.tag = indexPath.item
         cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
         cell.updateButtonTitle(tag: self.profileViewModel.tagData[indexPath.item])
-
+        
         return cell
     }
     

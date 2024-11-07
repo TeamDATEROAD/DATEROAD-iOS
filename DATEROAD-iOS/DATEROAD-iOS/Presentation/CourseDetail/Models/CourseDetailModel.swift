@@ -30,11 +30,11 @@ struct ConditionalModel: Equatable {
     
     static func == (lhs: ConditionalModel, rhs: ConditionalModel) -> Bool {
         return lhs.courseId == rhs.courseId &&
-               lhs.isCourseMine == rhs.isCourseMine &&
-               lhs.isAccess == rhs.isAccess &&
-               lhs.free == rhs.free &&
-               lhs.totalPoint == rhs.totalPoint &&
-               lhs.isUserLiked == rhs.isUserLiked
+        lhs.isCourseMine == rhs.isCourseMine &&
+        lhs.isAccess == rhs.isAccess &&
+        lhs.free == rhs.free &&
+        lhs.totalPoint == rhs.totalPoint &&
+        lhs.isUserLiked == rhs.isUserLiked
     }
     
 }

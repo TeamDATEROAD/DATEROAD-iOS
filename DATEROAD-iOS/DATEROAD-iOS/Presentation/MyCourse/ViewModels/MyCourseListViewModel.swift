@@ -10,7 +10,7 @@ import Foundation
 final class MyCourseListViewModel: Serviceable {
     
     var viewedCoursesModel = ViewedCoursesManager.shared.viewedCoursesModel
-
+    
     var broughtViewedCoursesModel = BroughtViewedCoursesManager.shared.broughtViewedCoursesModel
     
     var myRegisterCoursesModel = MyRegisterCoursesManager.shared.myRegisterCoursesModel

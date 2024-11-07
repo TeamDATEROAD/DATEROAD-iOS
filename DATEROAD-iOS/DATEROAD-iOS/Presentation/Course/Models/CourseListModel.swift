@@ -35,12 +35,12 @@ struct CourseListModel: Equatable {
     
     static func == (lhs: CourseListModel, rhs: CourseListModel) -> Bool {
         return lhs.courseId == rhs.courseId &&
-               lhs.thumbnail == rhs.thumbnail &&
-               lhs.location == rhs.location &&
-               lhs.title == rhs.title &&
-               lhs.cost == rhs.cost &&
-               lhs.time == rhs.time &&
-               lhs.like == rhs.like
+        lhs.thumbnail == rhs.thumbnail &&
+        lhs.location == rhs.location &&
+        lhs.title == rhs.title &&
+        lhs.cost == rhs.cost &&
+        lhs.time == rhs.time &&
+        lhs.like == rhs.like
     }
     
 }

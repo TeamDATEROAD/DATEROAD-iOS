@@ -33,11 +33,9 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
     override func setHierarchy() {
         self.addSubview(contentView)
         
-        contentView.addSubviews(
-            placeTitleLabel,
-            timeRequireContainer,
-            moveAbleButton
-        )
+        contentView.addSubviews(placeTitleLabel,
+                                timeRequireContainer,
+                                moveAbleButton)
         
         timeRequireContainer.addSubview(timeRequireLabel)
     }

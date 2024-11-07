@@ -54,7 +54,7 @@ final class NavViewedCourseViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.contentView.addSubviews(navViewedCourseView)
+        self.contentView.addSubview(navViewedCourseView)
     }
     
     override func setLayout() {

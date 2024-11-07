@@ -22,7 +22,7 @@ final class MyPageViewModel: Serviceable {
     var onSuccessGetUserProfile: ObservablePattern<Bool> = ObservablePattern(false)
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
-        
+    
     var onAuthLoading: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)

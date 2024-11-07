@@ -61,7 +61,7 @@ class PointDetailViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.contentView.addSubviews(pointDetailView)
+        self.contentView.addSubview(pointDetailView)
     }
     
     override func setLayout() {

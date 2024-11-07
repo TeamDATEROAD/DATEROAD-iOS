@@ -91,7 +91,6 @@ extension MyRegisterCourseViewController {
             guard let flag else { return }
             if flag {
                 DispatchQueue.main.async {
-//                    self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
                     self?.myRegisterCourseView.myCourseListCollectionView.performBatchUpdates({
                         self?.myRegisterCourseView.myCourseListCollectionView.reloadSections(IndexSet(integer: 0))
                     })

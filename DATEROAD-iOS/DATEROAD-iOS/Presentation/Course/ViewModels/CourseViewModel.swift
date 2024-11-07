@@ -105,7 +105,6 @@ extension CourseViewModel {
                 }
                 
                 self.isSuccessGetData.value = true
-                
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess

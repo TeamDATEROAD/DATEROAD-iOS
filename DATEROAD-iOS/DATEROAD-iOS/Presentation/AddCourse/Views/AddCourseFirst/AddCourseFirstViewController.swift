@@ -260,6 +260,7 @@ private extension AddCourseFirstViewController {
         viewModel.pickedImageArr.remove(at: indexPath.item)
         
         let dataSourceCnt = viewModel.pickedImageArr.count
+        
         if dataSourceCnt < 1 {
             cell.updateImageCellUI(isImageEmpty: true, vcCnt: 1)
             viewModel.isPickedImageVaild.value = false
