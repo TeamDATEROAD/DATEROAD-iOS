@@ -272,27 +272,15 @@ extension AddCourseThirdViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        textView.setFontAndLineLetterSpacing(textView.text, font: UIFont.suit(.body_med_13))
-    }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let currentText = textView.text ?? ""
-        guard let stringRange = Range(range, in: currentText) else { return false }
+//        textView.setFontAndLineLetterSpacing(textView.text, font: UIFont.suit(.body_med_13))
+        textView.setFontAndLineLetterSpacing(textView.text,
+            font:UIFont.systemFont(ofSize: 13, weight: .semibold))
         
-        let changedText = currentText.replacingCharacters(in: stringRange, with: text)
-        viewModel.contentText = changedText
-        let filteredTextCount = changedText.filter { $0 != "\n" }.count
-        viewModel.contentTextCount.value = filteredTextCount
-        viewModel.courseContentNum = filteredTextCount
-        print("🎉🎉🎉🎉\(changedText)🎉🎉🎉🎉")
-        viewModel.courseContentBool = filteredTextCount > 0 ? true : false
-        
-        // 리턴 키 입력을 처리합니다.
-        if text == "\n" {
-            textView.resignFirstResponder()
-            return false
-        }
-        return true
+        viewModel.contentText = textView.text
+        viewModel.contentTextCount.value = textView.text.count
+        viewModel.courseContentNum = textView.text.count
+        print("🎉\(textView.text.count)🎉")
+        viewModel.courseContentBool = textView.text.count > 0 ? true : false
     }
     
 }
