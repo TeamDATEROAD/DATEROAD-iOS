@@ -103,7 +103,8 @@ final class NewDateCourseCell: BaseCollectionViewCell {
         }
         
         dateNameLabel.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.leading.equalToSuperview()
+            $0.trailing.bottom.lessThanOrEqualToSuperview()
         }
         
         costView.snp.makeConstraints {
