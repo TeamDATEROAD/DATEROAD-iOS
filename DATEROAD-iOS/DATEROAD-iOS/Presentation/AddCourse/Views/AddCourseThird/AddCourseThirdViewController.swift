@@ -66,6 +66,7 @@ final class AddCourseThirdViewController: BaseNavBarViewController {
         setupKeyboardDismissRecognizer()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        addCourseThirdView.addThirdView.contentTextView.addDoneButton()
     }
     
     
@@ -212,7 +213,7 @@ private extension AddCourseThirdViewController {
     }
     
     func adjustScrollViewForKeyboard(showKeyboard: Bool) {
-        let maxKeyboardHeight: CGFloat = 45
+        let maxKeyboardHeight: CGFloat = 90
         
         let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: showKeyboard ? min(keyboardHeight, maxKeyboardHeight) : 0, right: 0)
         addCourseThirdView.scrollView.contentInset = contentInsets
