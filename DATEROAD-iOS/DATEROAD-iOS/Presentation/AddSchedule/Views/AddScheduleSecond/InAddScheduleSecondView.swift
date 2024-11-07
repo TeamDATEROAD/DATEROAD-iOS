@@ -129,6 +129,11 @@ final class InAddScheduleSecondView: BaseView {
             $0.layer.cornerRadius = 14
             $0.autocorrectionType = .no
             $0.spellCheckingType = .no
+            let attributes: [NSAttributedString.Key: Any] = [
+                .font: UIFont.suit(.body_semi_13),
+                .foregroundColor: UIColor(resource: .drBlack)
+            ]
+            $0.defaultTextAttributes = attributes
         }
         
         timeRequireTextField.do {

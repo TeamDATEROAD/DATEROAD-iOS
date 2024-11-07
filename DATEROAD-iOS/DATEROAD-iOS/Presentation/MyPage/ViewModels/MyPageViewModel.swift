@@ -22,10 +22,14 @@ final class MyPageViewModel: Serviceable {
     var onSuccessGetUserProfile: ObservablePattern<Bool> = ObservablePattern(false)
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
-        
+    
     var onAuthLoading: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var updateData: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var currentTags: [String] = []
     
 }
 
@@ -99,11 +103,22 @@ extension MyPageViewModel {
         NetworkService.shared.userService.getUserProfile( ) { response in
             switch response {
             case .success(let data):
-                self.userInfoData.value = MyPageUserInfoModel(nickname: data.name,
-                                                              tagList: data.tags,
-                                                              point: data.point,
-                                                              imageURL: data.imageURL)
-                self.tagData = data.tags
+                if self.userInfoData.value != MyPageUserInfoModel(
+                    nickname: data.name,
+                    tagList: data.tags,
+                    point: data.point,
+                    imageURL: data.imageURL
+                ) {
+                    self.currentTags = self.userInfoData.value?.tagList ?? []
+                    self.userInfoData.value = MyPageUserInfoModel(
+                        nickname: data.name,
+                        tagList: data.tags,
+                        point: data.point,
+                        imageURL: data.imageURL
+                    )
+                    self.tagData = data.tags
+                    self.updateData.value = true
+                }
                 self.onSuccessGetUserProfile.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in

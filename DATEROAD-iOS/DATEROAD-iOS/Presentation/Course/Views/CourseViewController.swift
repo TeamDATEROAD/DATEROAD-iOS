@@ -18,6 +18,8 @@ final class CourseViewController: BaseViewController {
     
     private let courseView = CourseView()
     
+    let locationFilterVC = LocationFilterViewController()
+    
     
     // MARK: - Properties
     
@@ -101,6 +103,7 @@ final class CourseViewController: BaseViewController {
         
         self.courseViewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.courseViewModel.onFailNetwork.value else { return }
+            
             if !onFailNetwork {
                 if !onFailNetwork {
                     if onLoading {
@@ -141,8 +144,12 @@ final class CourseViewController: BaseViewController {
         self.courseViewModel.didUpdateCourseList = { [weak self] in
             self?.courseListModel = self?.courseViewModel.courseListModel ?? []
             
+            // 새로운 데이터 추가됐을 때 스크롤 최상단으로 올리고자 한다면
+            // 아래에 scrollToItem 코드 추가
             DispatchQueue.main.async {
-                self?.courseView.courseListView.courseListCollectionView.reloadData()
+                self?.courseView.courseListView.courseListCollectionView.performBatchUpdates({
+                    self?.courseView.courseListView.courseListCollectionView.reloadSections(IndexSet(integer: 0))
+                })
             }
         }
     }
@@ -165,10 +172,10 @@ extension CourseViewController {
 extension CourseViewController: CourseFilterViewDelegate {
     
     func didTapLocationFilter() {
-        let locationFilterVC = LocationFilterViewController()
-        locationFilterVC.modalPresentationStyle = .overFullScreen
         locationFilterVC.delegate = self
-        self.present(locationFilterVC, animated: true)
+        DispatchQueue.main.async {
+            self.locationFilterVC.presentBottomSheet(in: self)
+        }
     }
     
     @objc

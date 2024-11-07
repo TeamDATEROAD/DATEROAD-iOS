@@ -33,11 +33,9 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
     override func setHierarchy() {
         self.addSubview(contentView)
         
-        contentView.addSubviews(
-            placeTitleLabel,
-            timeRequireContainer,
-            moveAbleButton
-        )
+        contentView.addSubviews(placeTitleLabel,
+                                timeRequireContainer,
+                                moveAbleButton)
         
         timeRequireContainer.addSubview(timeRequireLabel)
     }
@@ -46,7 +44,9 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
         placeTitleLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().offset(17)
+            $0.trailing.equalTo(timeRequireContainer.snp.leading).offset(-20)
             $0.width.equalTo(198)
+            $0.height.equalToSuperview()
         }
         
         timeRequireContainer.snp.makeConstraints {

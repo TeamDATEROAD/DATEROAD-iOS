@@ -44,3 +44,36 @@ struct MyCourseModel: Equatable  {
     }
     
 }
+
+// ViewedCoursesModel 싱글톤
+class ViewedCoursesManager {
+    
+    static let shared = ViewedCoursesManager()
+    
+    var viewedCoursesModel: [MyCourseModel] = []
+    
+    private init() {}
+    
+}
+
+// BroughtViewedCoursesModel 싱글톤
+class BroughtViewedCoursesManager {
+    
+    static let shared = BroughtViewedCoursesManager()
+    
+    var broughtViewedCoursesModel: [MyCourseModel] = []
+    
+    private init() {}
+    
+}
+
+// MyRegisterCoursesManager 싱글톤
+class MyRegisterCoursesManager {
+    
+    static let shared = MyRegisterCoursesManager()
+    
+    var myRegisterCoursesModel: [MyCourseModel] = []
+    
+    private init() {}
+    
+}

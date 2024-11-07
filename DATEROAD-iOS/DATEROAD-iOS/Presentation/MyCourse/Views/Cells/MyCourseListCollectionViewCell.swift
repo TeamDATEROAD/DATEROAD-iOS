@@ -61,7 +61,10 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func setHierarchy() {
-        self.addSubviews(thumbnailImageView, heartButton, infoView)
+        self.addSubviews(thumbnailImageView,
+                         heartButton,
+                         infoView)
+        
         infoView.addSubviews(locationLabel,
                              titleLabel,
                              expenseButton,
@@ -176,9 +179,8 @@ extension MyCourseListCollectionViewCell {
     
     func dataBind(_ viewedCourseData: MyCourseModel?, _ viewedCourseItemRow: Int?) {
         guard let viewedCourseData else { return }
-        self.thumbnailImageView.kf.setImage(with: URL(string: viewedCourseData.thumbnail), options: [.transition(.none),
-                                                                 .cacheOriginalImage,
-                                                                 .keepCurrentImageWhileLoading])
+        self.thumbnailImageView.kf.setImage(with: URL(string: viewedCourseData.thumbnail),
+                                            options: [.transition(.none),.cacheOriginalImage])
         self.courseID = viewedCourseData.courseId
         self.heartButton.setTitle("\(viewedCourseData.like)", for: .normal)
         self.locationLabel.text = viewedCourseData.city

@@ -18,13 +18,18 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
+    lazy var bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView,
+                                                         height: 222,
+                                                         buttonType: DisabledButton(),
+                                                         buttonTitle: StringLiterals.DateSchedule.quit)
+    
     
     // MARK: - Properties
     
     var index: Int
     
     var dateID: Int
-        
+    
     var pastDateDetailViewModel: DateDetailViewModel
     
     private let dateScheduleDeleteView = DateScheduleDeleteView()
@@ -67,7 +72,7 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        contentView.addSubviews(pastDateDetailContentView)
+        contentView.addSubview(pastDateDetailContentView)
     }
     
     override func setLayout() {
@@ -109,17 +114,18 @@ extension PastDateDetailViewController: DRCustomAlertDelegate {
 extension PastDateDetailViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
-        self.dismiss(animated: false)
+        self.bottomSheetVC.dismissBottomSheet()
     }
     
     @objc
     private func deleteDateCourse() {
         let labelTap = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
         dateScheduleDeleteView.deleteLabel.addGestureRecognizer(labelTap)
-        let bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView, height: 222, buttonType: DisabledButton(), buttonTitle: StringLiterals.DateSchedule.quit)
-        bottomSheetVC.modalPresentationStyle = .overFullScreen
         bottomSheetVC.delegate = self
-        self.present(bottomSheetVC, animated: false)
+        
+        DispatchQueue.main.async {
+            self.bottomSheetVC.presentBottomSheet(in: self)
+        }
     }
     
     @objc
@@ -136,6 +142,17 @@ extension PastDateDetailViewController: DRBottomSheetDelegate {
 extension PastDateDetailViewController {
     
     func bindViewModel() {
+        self.pastDateDetailViewModel.updateDateDetailData.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                guard let data = self?.pastDateDetailViewModel.dateDetailData.value else { return }
+                DispatchQueue.main.async {
+                    self?.pastDateDetailContentView.dateTimeLineCollectionView.reloadData()
+                }
+                self?.pastDateDetailViewModel.updateDateDetailData.value = false
+            }
+        }
+        
         self.pastDateDetailViewModel.onDateDetailLoading.bind { [weak self] onLoading in
             guard let onLoading,
                   let onFailNetwork = self?.pastDateDetailViewModel.onFailNetwork.value,
@@ -155,9 +172,9 @@ extension PastDateDetailViewController {
         }
         
         self.pastDateDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
-            guard let onSuccess, 
+            guard let onSuccess,
                     let dateID = self?.dateID,
-                    let type = self?.pastDateDetailViewModel.type.value
+                  let type = self?.pastDateDetailViewModel.type.value
             else { return }
             if onSuccess {
                 switch type {

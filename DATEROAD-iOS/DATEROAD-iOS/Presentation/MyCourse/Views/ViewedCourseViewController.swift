@@ -27,7 +27,7 @@ final class ViewedCourseViewController: BaseViewController {
     private var viewedCourseView = MyCourseListView(type: "tab")
     
     private let errorView: DRErrorViewController = DRErrorViewController()
-        
+    
     
     // MARK: - Properties
     
@@ -119,10 +119,12 @@ final class ViewedCourseViewController: BaseViewController {
         
         topLabel.do {
             $0.font = UIFont.suit(.title_extra_24)
-            $0.setAttributedText(fullText: "\(self.userName)님이 지금까지\n열람한 데이트 코스\n\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개",
-                                 pointText: "\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
-                                 pointColor: UIColor(resource: .mediumPurple),
-                                 lineHeight: 1)
+            $0.setAttributedText(
+                fullText: "\(self.userName)님이 지금까지\n열람한 데이트 코스\n\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개",
+                pointText: "\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
+                pointColor: UIColor(resource: .mediumPurple),
+                lineHeight: 1
+            )
             $0.numberOfLines = 3
         }
         
@@ -132,9 +134,11 @@ final class ViewedCourseViewController: BaseViewController {
             $0.isUserInteractionEnabled = true
         }
         
-        createCourseLabel.setLabel(text: StringLiterals.ViewedCourse.registerSchedule,
-                                   textColor: UIColor(resource: .drBlack),
-                                   font: UIFont.suit(.title_bold_18))
+        createCourseLabel.setLabel(
+            text: StringLiterals.ViewedCourse.registerSchedule,
+            textColor: UIColor(resource: .drBlack),
+            font: UIFont.suit(.title_bold_18)
+        )
         
         arrowButton.do {
             $0.setButtonStatus(buttonType: EnabledButton())
@@ -158,14 +162,20 @@ private extension ViewedCourseViewController {
         createCourseView.isHidden = isEmpty
         
         if isEmpty {
-            topLabel.text = "\(name)님,\n아직 열람한\n데이트코스가 없어요"
-            viewedCourseView.emptyView.setEmptyView(emptyImage: UIImage(resource: .emptyViewedCourse), emptyTitle: StringLiterals.EmptyView.emptyViewedCourse)
+            DispatchQueue.main.async {
+                self.topLabel.text = "\(name)님,\n아직 열람한\n데이트코스가 없어요"
+                self.viewedCourseView.emptyView.setEmptyView(emptyImage: UIImage(resource: .emptyViewedCourse), emptyTitle: StringLiterals.EmptyView.emptyViewedCourse)
+            }
         } else {
-            self.viewedCourseView.myCourseListCollectionView.reloadData()
-            self.topLabel.setAttributedText(fullText: "\(name)님이 지금까지\n열람한 데이트 코스\n\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개",
-                                            pointText: "\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
-                                            pointColor: UIColor(resource: .mediumPurple),
-                                            lineHeight: 1)
+            DispatchQueue.main.async {
+                self.viewedCourseView.myCourseListCollectionView.reloadData()
+                self.topLabel.setAttributedText(
+                    fullText: "\(name)님이 지금까지\n열람한 데이트 코스\n\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개",
+                    pointText: "\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
+                    pointColor: UIColor(resource: .mediumPurple),
+                    lineHeight: 1
+                )
+            }
         }
     }
     
@@ -177,6 +187,18 @@ private extension ViewedCourseViewController {
 extension ViewedCourseViewController {
     
     func bindViewModel() {
+        self.viewedCourseViewModel.viewedCoursesModelIsUpdate.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                DispatchQueue.main.async {
+                    self?.viewedCourseView.myCourseListCollectionView.performBatchUpdates({
+                        self?.viewedCourseView.myCourseListCollectionView.reloadSections(IndexSet(integer: 0))
+                    })
+                }
+                self?.viewedCourseViewModel.viewedCoursesModelIsUpdate.value = false
+            }
+        }
+        
         self.viewedCourseViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {

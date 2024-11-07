@@ -190,8 +190,7 @@ private extension AddCourseSecondViewController {
         addCourseSecondView.addSecondView.datePlaceTextField.resignFirstResponder()
         
         DispatchQueue.main.async {
-            alertVC.modalPresentationStyle = .overFullScreen
-            self.present(alertVC, animated: true, completion: nil)
+            alertVC.presentBottomSheet(in: self)
         }
     }
     
@@ -292,8 +291,15 @@ extension AddCourseSecondViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        viewModel.datePlace.value = textField.text
-        print(textField.text ?? "")
+        let trimmedText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if let text = trimmedText, !text.isEmpty {
+            viewModel.datePlace.value = text
+            print(text)
+        } else {
+            viewModel.datePlace.value = ""
+            print("공란")
+        }
     }
     
 }

@@ -61,7 +61,7 @@ class PointDetailViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.contentView.addSubviews(pointDetailView)
+        self.contentView.addSubview(pointDetailView)
     }
     
     override func setLayout() {
@@ -77,6 +77,26 @@ class PointDetailViewController: BaseNavBarViewController {
 extension PointDetailViewController {
     
     func bindViewModel() {
+        self.pointViewModel.updateGainedPointData.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                self?.pointDetailView.pointCollectionView.performBatchUpdates({
+                    self?.pointDetailView.pointCollectionView.reloadSections(IndexSet(integer: 0))
+                })
+                self?.pointViewModel.updateGainedPointData.value = false
+            }
+        }
+        
+        self.pointViewModel.updateUsedPointData.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                self?.pointDetailView.pointCollectionView.performBatchUpdates({
+                    self?.pointDetailView.pointCollectionView.reloadSections(IndexSet(integer: 0))
+                })
+                self?.pointViewModel.updateUsedPointData.value = false
+            }
+        }
+        
         self.pointViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {

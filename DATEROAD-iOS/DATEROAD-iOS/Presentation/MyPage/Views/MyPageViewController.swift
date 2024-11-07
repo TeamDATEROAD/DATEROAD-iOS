@@ -126,13 +126,17 @@ private extension MyPageViewController {
         }
         
         self.myPageViewModel.onSuccessGetUserProfile.bind { [weak self] onSuccess in
-            guard let onSuccess, let data = self?.myPageViewModel.userInfoData.value else { return }
+            guard let onSuccess, let data = self?.myPageViewModel.userInfoData.value,
+                  let updateData = self?.myPageViewModel.updateData.value else { return }
             
             if onSuccess {
                 self?.hideLoadingView()
-                DispatchQueue.main.async {
-                    self?.myPageView.userInfoView.bindData(userInfo: data)
-                    self?.myPageView.userInfoView.tagCollectionView.reloadData()
+                if updateData {
+                    DispatchQueue.main.async {
+                        self?.myPageView.userInfoView.bindData(userInfo: data)
+                        self?.myPageView.userInfoView.tagCollectionView.reloadData()
+                    }
+                    self?.myPageViewModel.updateData.value = false
                 }
             } else {
                 self?.showLoadingView(type: StringLiterals.TabBar.myPage)
@@ -225,12 +229,14 @@ extension MyPageViewController {
     
     @objc
     func logOutSectionTapped() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.logout,
-                                                        alertTextType: .noDescription,
-                                                        alertButtonType: .twoButton,
-                                                        titleText: StringLiterals.Alert.wouldYouLogOut,
-                                                        leftButtonText: StringLiterals.Common.cancel,
-                                                        rightButtonText: StringLiterals.MyPage.logout)
+        let customAlertVC = DRCustomAlertViewController(
+            rightActionType: RightButtonType.logout,
+            alertTextType: .noDescription,
+            alertButtonType: .twoButton,
+            titleText: StringLiterals.Alert.wouldYouLogOut,
+            leftButtonText: StringLiterals.Common.cancel,
+            rightButtonText: StringLiterals.MyPage.logout
+        )
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         selectedAlertFlag = 0
@@ -239,13 +245,15 @@ extension MyPageViewController {
     
     @objc
     func withDrawalButtonTapped() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none,
-                                                        alertTextType: .noDescription,
-                                                        alertButtonType: .twoButton,
-                                                        titleText: StringLiterals.Alert.realWithdrawal,
-                                                        descriptionText: StringLiterals.Alert.lastWarning,
-                                                        leftButtonText: StringLiterals.MyPage.alertWithdrawal,
-                                                        rightButtonText: StringLiterals.Common.cancel)
+        let customAlertVC = DRCustomAlertViewController(
+            rightActionType: RightButtonType.none,
+            alertTextType: .noDescription,
+            alertButtonType: .twoButton,
+            titleText: StringLiterals.Alert.realWithdrawal,
+            descriptionText: StringLiterals.Alert.lastWarning,
+            leftButtonText: StringLiterals.MyPage.alertWithdrawal,
+            rightButtonText: StringLiterals.Common.cancel
+        )
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         selectedAlertFlag = 1
@@ -276,6 +284,7 @@ extension MyPageViewController: DRCustomAlertDelegate {
     }
     
 }
+
 
 // MARK: - UICollectionView Delegates
 
@@ -314,6 +323,7 @@ extension MyPageViewController: UICollectionViewDataSource {
     }
     
 }
+
 
 // MARK: - UITableView Delegates
 
