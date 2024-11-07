@@ -143,7 +143,7 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
         }
         
         titleLabel.do {
-            $0.font = UIFont.suit(.body_bold_15)
+            $0.font = UIFont.systemFont(ofSize: 15, weight: .bold)
             $0.textColor = UIColor(resource: .drBlack)
             $0.textAlignment = .left
             $0.numberOfLines = 2
