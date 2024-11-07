@@ -18,7 +18,12 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
-    lazy var bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView, height: 222, buttonType: DisabledButton(), buttonTitle: StringLiterals.DateSchedule.quit)
+    lazy var bottomSheetVC = DRBottomSheetViewController(
+        contentView: dateScheduleDeleteView,
+        height: 222,
+        buttonType: DisabledButton(),
+        buttonTitle: StringLiterals.DateSchedule.quit
+    )
     
     
     // MARK: - Properties
