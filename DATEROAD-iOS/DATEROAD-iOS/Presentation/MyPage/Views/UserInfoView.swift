@@ -108,7 +108,7 @@ final class UserInfoView: BaseView {
         }
         
         nicknameLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_extra_24))
+            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.systemFont(ofSize: 24, weight: .black))
         }
         
         editProfileButton.do {
@@ -135,7 +135,7 @@ final class UserInfoView: BaseView {
             $0.setLabel(text: "님의 포인트",
                         alignment: .left,
                         textColor: UIColor(resource: .gray400),
-                        font: UIFont.suit(.body_med_13))
+                        font: UIFont.systemFont(ofSize: 13, weight: .medium))
             $0.numberOfLines = 1
             $0.textAlignment = .left
         }
