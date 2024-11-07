@@ -165,7 +165,10 @@ final class CourseListCollectionViewCell: BaseCollectionViewCell {
         }
         
         titleLabel.do {
-            $0.setLabel(alignment: .left, numberOfLines: 2, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_bold_15))
+            $0.setLabel(alignment: .left,
+                        numberOfLines: 2,
+                        textColor: UIColor(resource: .drBlack),
+                        font: UIFont.systemFont(ofSize: 15, weight: .bold))
         }
         
         coastLabel.do {
