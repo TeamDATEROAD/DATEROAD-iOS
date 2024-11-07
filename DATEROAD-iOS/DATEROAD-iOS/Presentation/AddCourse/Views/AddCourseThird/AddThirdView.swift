@@ -105,7 +105,8 @@ final class AddThirdView: BaseView {
         
         contentTextView.do {
             $0.text = textViewPlaceHolder
-            $0.font = .suit(.body_med_13)
+//            $0.font = .suit(.body_med_13)
+            $0.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
             $0.textColor = UIColor(resource: .gray300)
             $0.textContainerInset = UIEdgeInsets(top: 14, left: 16, bottom: 14, right: 16)
             $0.isScrollEnabled = true
@@ -168,7 +169,8 @@ extension AddThirdView {
         let textColor = isTextEmpty ? UIColor(resource: .gray300) : UIColor(resource: .drBlack)
         
         textView.text = textToDisplay
-        textView.setFontAndLineLetterSpacing(textView.text, font: UIFont.suit(.body_med_13))
+//        textView.setFontAndLineLetterSpacing(textView.text, font: UIFont.suit(.body_med_13))
+        textView.setFontAndLineLetterSpacing(textView.text, font:UIFont.systemFont(ofSize: 13, weight: .semibold))
         textView.textColor = textColor
     }
     
