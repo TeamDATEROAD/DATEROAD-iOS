@@ -53,6 +53,7 @@ final class TimelineInfoCell: BaseCollectionViewCell {
         locationLabel.snp.makeConstraints {
             $0.leading.equalTo(circleView.snp.trailing).offset(13)
             $0.centerY.equalTo(timelineBackgroundView)
+            $0.trailing.equalTo(timeBoxView.snp.leading).offset(-13)
         }
         
         timeBoxView.snp.makeConstraints {
