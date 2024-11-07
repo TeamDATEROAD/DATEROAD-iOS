@@ -71,6 +71,8 @@ final class DateTimeLineCollectionViewCell: BaseCollectionViewCell {
         locationLabel.snp.makeConstraints {
             $0.leading.equalTo(circleView.snp.trailing).offset(13)
             $0.centerY.equalTo(timelineBackgroundView)
+            $0.trailing.equalTo(timeBoxView.snp.leading).offset(-13)
+            $0.verticalEdges.equalTo(5)
         }
         
         timeBoxView.snp.makeConstraints {
