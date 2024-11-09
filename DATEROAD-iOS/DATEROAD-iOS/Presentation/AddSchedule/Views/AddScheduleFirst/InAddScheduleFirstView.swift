@@ -173,10 +173,12 @@ final class InAddScheduleFirstView: BaseView {
         
         dateNameTextField.do {
             $0.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNmaePlaceHolder,
-                              fontColor: .gray300,
+                              fontColor: UIColor(resource: .gray300),
                               font: .suit(.body_semi_13))
             $0.setLeftPadding(amount: 16)
             $0.setRightPadding(amount: 6)
+            $0.defaultTextAttributes = [.font: UIFont.systemFont(ofSize: 13, weight: .semibold),
+                                        .foregroundColor: UIColor(resource: .drBlack)]
         }
         
         visitDateLabel.do {
@@ -233,14 +235,12 @@ extension InAddScheduleFirstView {
     
     func updateDateName(text: String) {
         dateNameTextField.text = text
-        dateNameTextField.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
     }
     
     func updateVisitDate(text: String) {
-        visitDateLabel.do {
-            $0.text = text
-            $0.textColor = UIColor(resource: .drBlack)
-        }
+        visitDateLabel.setLabel(text: text,
+                                textColor: UIColor(resource: .drBlack),
+                                font: UIFont.suit(.body_semi_13))
     }
     
     func updatedateStartTime(text: String) {

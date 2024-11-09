@@ -114,28 +114,27 @@ final class InAddScheduleSecondView: BaseView {
                               font: .suit(.body_semi_13))
             $0.setLeftPadding(amount: 14)
             $0.setRightPadding(amount: 4)
-            $0.textAlignment = .left
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.layer.borderWidth = 0
             $0.layer.cornerRadius = 14
             $0.autocorrectionType = .no
             $0.spellCheckingType = .no
-            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 13, weight: .semibold), .foregroundColor: UIColor(resource: .drBlack)]
-            $0.defaultTextAttributes = attributes
+            $0.defaultTextAttributes = [.font: UIFont.systemFont(ofSize: 13, weight: .semibold),
+                                        .foregroundColor: UIColor(resource: .drBlack)]
+            $0.textAlignment = .left
         }
         
         timeRequireTextField.do {
-            $0.setPlaceholder(
-                placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder,
-                fontColor: UIColor(resource: .gray300),
-                font: .suit(.body_semi_13)
-            )
-            $0.textAlignment = .center
+            $0.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder,
+                              fontColor: UIColor(resource: .gray300),
+                              font: .suit(.body_semi_13))
             $0.backgroundColor = UIColor(resource: .gray100)
             $0.layer.borderWidth = 0
             $0.layer.cornerRadius = 14
             $0.autocorrectionType = .no
             $0.spellCheckingType = .no
+            $0.defaultTextAttributes = [.font: UIFont.systemFont(ofSize: 13, weight: .semibold),
+                                        .foregroundColor: UIColor(resource: .drBlack)]
+            $0.textAlignment = .center
         }
         
         addPlaceButton.do {
@@ -161,12 +160,10 @@ extension InAddScheduleSecondView {
     
     func updateDatePlace(text: String) {
         datePlaceTextField.text = text
-        datePlaceTextField.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
     }
     
     func updatetimeRequire(text: String) {
         timeRequireTextField.text = text
-        timeRequireTextField.font = UIFont.suit(.body_semi_13)
     }
     
     func changeAddPlaceButtonState(flag: Bool) {
