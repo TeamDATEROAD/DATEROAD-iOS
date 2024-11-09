@@ -23,7 +23,7 @@ final class PastDateViewController: BaseNavBarViewController {
     
     var pastDateScheduleViewModel: DateScheduleViewModel
     
-    var loaded: Bool = false
+    private var loaded: Bool = false
     
     
     // MARK: - Life Cycles
