@@ -145,7 +145,6 @@ extension PastDateDetailViewController {
         self.pastDateDetailViewModel.updateDateDetailData.bind { [weak self] flag in
             guard let flag else { return }
             if flag {
-                guard let data = self?.pastDateDetailViewModel.dateDetailData.value else { return }
                 DispatchQueue.main.async {
                     self?.pastDateDetailContentView.dateTimeLineCollectionView.reloadData()
                 }
