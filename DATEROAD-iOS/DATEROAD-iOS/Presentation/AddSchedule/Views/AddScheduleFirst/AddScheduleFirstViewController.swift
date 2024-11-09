@@ -22,8 +22,6 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
     
     let locationFilterVC = LocationFilterViewController()
     
-    private let loadingView: DRLoadingView = DRLoadingView()
-    
     private let errorView: DRErrorViewController = DRErrorViewController()
     
     
@@ -128,63 +126,56 @@ private extension AddScheduleFirstViewController {
             guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
             // getData 중이거나, 에러 발생 X라면
             if onFailNetwork == false || onLoading == false {
-//                self?.loadingView.isHidden = !onLoading
                 self?.hideLoadingView()
                 self?.addScheduleFirstView.isHidden = onLoading
                 self?.tabBarController?.tabBar.isHidden = onLoading
             }
         }
         
-        viewModel.addScheduleFirstViewModel.ispastDateVaild.bind { [weak self] isValid in
-            guard let self = self else { return }
-            self.viewModel.addScheduleFirstViewModel.fetchPastDate()
-            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
-        }
-        
-        viewModel.addScheduleFirstViewModel.isDateNameVaild.bind { date in
-            guard let date else {return}
-            self.addScheduleFirstView.updateDateNameTextField(isPassValid: date)
+        viewModel.addScheduleFirstViewModel.isDateNameVaild.bind { data in
+            guard let data else {return}
+            self.addScheduleFirstView.updateDateNameTextField(isPassValid: data)
             let flag = self.viewModel.addScheduleFirstViewModel.isOkSixBtn()
             self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
         }
         
-        viewModel.addScheduleFirstViewModel.isVisitDateVaild.bind { date in
-            guard let date else {return}
-            self.addScheduleFirstView.updateVisitDateTextField(isPassValid: date)
+        viewModel.addScheduleFirstViewModel.isVisitDateVaild.bind { data in
+            guard let data else {return}
+            self.addScheduleFirstView.updateVisitDateTextField(isPassValid: data)
             let flag = self.viewModel.addScheduleFirstViewModel.isOkSixBtn()
             self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
         }
         
-        viewModel.addScheduleFirstViewModel.isDateStartAtVaild.bind { date in
+        viewModel.addScheduleFirstViewModel.isDateStartAtVaild.bind { _ in
             let flag = self.viewModel.addScheduleFirstViewModel.isOkSixBtn()
             self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
         }
         
-        viewModel.addScheduleFirstViewModel.isValidTag.bind { date in
+        viewModel.addScheduleFirstViewModel.isValidTag.bind { _ in
             let flag = self.viewModel.addScheduleFirstViewModel.isOkSixBtn()
             self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
         }
         
-        viewModel.addScheduleFirstViewModel.isDateLocationVaild.bind { date in
+        viewModel.addScheduleFirstViewModel.isDateLocationVaild.bind { _ in
             let flag = self.viewModel.addScheduleFirstViewModel.isOkSixBtn()
             self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
         }
         
-        viewModel.addScheduleFirstViewModel.dateName.bind { date in
-            guard let text = date else {return}
-            self.addScheduleFirstView.inAddScheduleFirstView.updateDateName(text: text)
+        viewModel.addScheduleFirstViewModel.dateName.bind { data in
+            guard let data else {return}
+            self.addScheduleFirstView.inAddScheduleFirstView.updateDateName(text: data)
             self.viewModel.addScheduleAmplitude.dateTitle = true
         }
         
-        viewModel.addScheduleFirstViewModel.visitDate.bind { date in
-            guard let text = date else {return}
-            self.addScheduleFirstView.inAddScheduleFirstView.updateVisitDate(text: text)
+        viewModel.addScheduleFirstViewModel.visitDate.bind { data in
+            guard let data else {return}
+            self.addScheduleFirstView.inAddScheduleFirstView.updateVisitDate(text: data)
             self.viewModel.addScheduleAmplitude.dateDate = true
         }
         
-        viewModel.addScheduleFirstViewModel.dateStartAt.bind { date in
-            guard let text = date else {return}
-            self.addScheduleFirstView.inAddScheduleFirstView.updatedateStartTime(text: text)
+        viewModel.addScheduleFirstViewModel.dateStartAt.bind { data in
+            guard let data else {return}
+            self.addScheduleFirstView.inAddScheduleFirstView.updatedateStartTime(text: data)
             self.viewModel.addScheduleAmplitude.dateTime = true
         }
         
@@ -194,9 +185,9 @@ private extension AddScheduleFirstViewController {
             self.viewModel.addScheduleAmplitude.dateTagNum = count
         }
         
-        viewModel.addScheduleFirstViewModel.dateLocation.bind { date in
-            guard let date else {return}
-            self.addScheduleFirstView.inAddScheduleFirstView.updateDateLocation(text: date)
+        viewModel.addScheduleFirstViewModel.dateLocation.bind { data in
+            guard let data else {return}
+            self.addScheduleFirstView.inAddScheduleFirstView.updateDateLocation(text: data)
             self.viewModel.addScheduleAmplitude.dateArea = true
         }
     }
@@ -225,7 +216,6 @@ private extension AddScheduleFirstViewController {
         let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(dateStartAt))
         addScheduleFirstView.inAddScheduleFirstView.dateStartAtContainer.addGestureRecognizer(tapGesture2)
         addScheduleFirstView.inAddScheduleFirstView.dateStartAtContainer.isUserInteractionEnabled = true
-        
         
         let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(datePlaceContainerTapped))
         addScheduleFirstView.inAddScheduleFirstView.datePlaceContainer.addGestureRecognizer(tapGesture3)
@@ -320,7 +310,7 @@ extension AddScheduleFirstViewController {
             setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
         } else {
             self.showLoadingView(type: StringLiterals.AddCourseOrSchedule.addScheduleTitle)
-            self.viewModel.fetchPastDate()
+            self.viewModel.addScheduleFirstViewModel.fetchPastDate()
             AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
         }
     }
@@ -416,10 +406,11 @@ extension AddScheduleFirstViewController: DRBottomSheetDelegate {
         
         if !isTimePickerFlag {
             let selectedDate = addSheetView.datePicker.date
-            viewModel.isFutureDate(date: selectedDate, dateType: "date")
+            viewModel.addScheduleFirstViewModel.isFutureDate(date: selectedDate, dateType: "date")
         } else {
             let formattedDate = addSheetView.datePicker.date
-                }
+            viewModel.addScheduleFirstViewModel.isFutureDate(date: formattedDate, dateType: "time")
+        }
     }
     
 }

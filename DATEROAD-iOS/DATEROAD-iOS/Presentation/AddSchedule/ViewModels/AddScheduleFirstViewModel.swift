@@ -68,8 +68,6 @@ class AddScheduleFirstViewModel: AddScheduleFirstViewModelInterface {
     
     var viewedDateCourseByMeData: CourseDetailViewModel?
     
-    let ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
-    
     let isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(false)
     
     var pastDatePlaces = [TimelineModel]()

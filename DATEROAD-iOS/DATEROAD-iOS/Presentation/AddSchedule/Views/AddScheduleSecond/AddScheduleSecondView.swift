@@ -45,8 +45,7 @@ final class AddScheduleSecondView: BaseView {
                          editButton,
                          guideLabel,
                          addPlaceCollectionView,
-                         nextBtn
-        )
+                         nextBtn)
     }
     
     override func setLayout() {

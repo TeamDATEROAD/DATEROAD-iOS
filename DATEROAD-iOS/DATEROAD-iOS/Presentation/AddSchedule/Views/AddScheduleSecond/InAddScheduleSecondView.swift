@@ -41,18 +41,14 @@ final class InAddScheduleSecondView: BaseView {
     // MARK: - Methods
     
     override func setHierarchy() {
-        self.addSubviews (
-            contentTitleLabel,
-            contentSubTitleLabel,
-            placeRegistrationContainer,
-            separatorLine
-        )
+        self.addSubviews(contentTitleLabel,
+                          contentSubTitleLabel,
+                          placeRegistrationContainer,
+                          separatorLine)
         
-        placeRegistrationContainer.addSubviews(
-            datePlaceTextField,
-            timeRequireTextField,
-            addPlaceButton
-        )
+        placeRegistrationContainer.addSubviews(datePlaceTextField,
+                                               timeRequireTextField,
+                                               addPlaceButton)
     }
     
     override func setLayout() {
@@ -99,29 +95,23 @@ final class InAddScheduleSecondView: BaseView {
     
     override func setStyle() {
         contentTitleLabel.do {
-            $0.setLabel(
-                text: StringLiterals.AddCourseOrSchedule.AddSecondView.contentTitleLabelOfCourse,
-                alignment: .left,
-                textColor: UIColor(resource: .drBlack),
-                font: .suit(.body_bold_17)
-            )
+            $0.setLabel(text: StringLiterals.AddCourseOrSchedule.AddSecondView.contentTitleLabelOfCourse,
+                        alignment: .left,
+                        textColor: UIColor(resource: .drBlack),
+                        font: .suit(.body_bold_17))
         }
         
         contentSubTitleLabel.do {
-            $0.setLabel(
-                text: StringLiterals.AddCourseOrSchedule.AddSecondView.subTitleLabel,
-                alignment: .left,
-                textColor: UIColor(resource: .gray400),
-                font: .suit(.body_med_13)
-            )
+            $0.setLabel(text: StringLiterals.AddCourseOrSchedule.AddSecondView.subTitleLabel,
+                        alignment: .left,
+                        textColor: UIColor(resource: .gray400),
+                        font: .suit(.body_med_13))
         }
         
         datePlaceTextField.do {
-            $0.setPlaceholder(
-                placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.datePlacePlaceHolder,
-                fontColor: UIColor(resource: .gray300),
-                font: .suit(.body_semi_13)
-            )
+            $0.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.datePlacePlaceHolder,
+                              fontColor: UIColor(resource: .gray300),
+                              font: .suit(.body_semi_13))
             $0.setLeftPadding(amount: 14)
             $0.setRightPadding(amount: 4)
             $0.textAlignment = .left

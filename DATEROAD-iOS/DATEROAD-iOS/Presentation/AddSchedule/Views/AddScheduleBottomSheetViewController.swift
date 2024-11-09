@@ -137,7 +137,7 @@ private extension AddScheduleBottomSheetViewController {
     func didTapDoneBtn() {
         let selectedRow = addSheetView.customPickerView.selectedRow(inComponent: 0)
         let selectedValue = customPickerValues[selectedRow]
-        viewModel?.updateTimeRequireTextField(text: String(selectedValue))
+        viewModel?.addScheduleSecondViewModel.updateTimeRequireTextField(text: String(selectedValue))
         self.dismissBottomSheet()
     }
     

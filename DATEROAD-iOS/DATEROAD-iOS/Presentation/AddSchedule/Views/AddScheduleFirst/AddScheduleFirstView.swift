@@ -26,11 +26,9 @@ final class AddScheduleFirstView: BaseView {
     private let warningType: DRErrorType = Warning()
     
     override func setHierarchy() {
-        self.addSubviews(
-            inAddScheduleFirstView,
-            dateNameErrorLabel,
-            visitDateErrorLabel
-        )
+        self.addSubviews(inAddScheduleFirstView,
+                         dateNameErrorLabel,
+                         visitDateErrorLabel)
     }
     
     override func setLayout() {

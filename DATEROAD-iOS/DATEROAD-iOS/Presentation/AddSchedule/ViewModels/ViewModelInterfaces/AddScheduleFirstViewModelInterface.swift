@@ -44,8 +44,6 @@ protocol AddScheduleFirstViewModelInterface {
     
     var selectedTagData: [String] { get }
     
-    var ispastDateVaild: ObservablePattern<Bool> { get }
-    
     var isSuccessGetData: ObservablePattern<Bool> { get }
     
     var tagData: [ProfileTagModel] { get }

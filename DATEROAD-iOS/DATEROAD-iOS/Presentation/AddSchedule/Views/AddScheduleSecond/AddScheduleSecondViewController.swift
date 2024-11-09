@@ -171,23 +171,23 @@ private extension AddScheduleSecondViewController {
         
         viewModel.addScheduleSecondViewModel.isDataSourceNotEmpty()
         
-        viewModel.addScheduleSecondViewModel.editBtnEnableState.bind { [weak self] date in
-            guard let date else {return}
-            self?.addScheduleSecondView.editBtnState(isAble: date)
+        viewModel.addScheduleSecondViewModel.editBtnEnableState.bind { [weak self] data in
+            guard let data else {return}
+            self?.addScheduleSecondView.editBtnState(isAble: data)
         }
         
-        viewModel.addScheduleSecondViewModel.datePlace.bind { [weak self] date in
-            guard let text = date else {return}
-            self?.addScheduleSecondView.inAddScheduleSecondView.updateDatePlace(text: text)
+        viewModel.addScheduleSecondViewModel.datePlace.bind { [weak self] data in
+            guard let data else {return}
+            self?.addScheduleSecondView.inAddScheduleSecondView.updateDatePlace(text: data)
             self?.viewModel.addScheduleAmplitude.dateDetailLocation = true
             if let flag = self?.viewModel.addScheduleSecondViewModel.isAbleAddBtn() {
                 self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
             }
         }
         
-        viewModel.addScheduleSecondViewModel.timeRequire.bind { [weak self] date in
-            guard let date else {return}
-            self?.addScheduleSecondView.inAddScheduleSecondView.updatetimeRequire(text: date)
+        viewModel.addScheduleSecondViewModel.timeRequire.bind { [weak self] data in
+            guard let data else {return}
+            self?.addScheduleSecondView.inAddScheduleSecondView.updatetimeRequire(text: data)
             self?.viewModel.addScheduleAmplitude.dateDetailTime = true
             if let flag = self?.viewModel.addScheduleSecondViewModel.isAbleAddBtn() {
                 self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
@@ -211,8 +211,8 @@ private extension AddScheduleSecondViewController {
             self?.addScheduleSecondView.addPlaceCollectionView.reloadData()
         }
         
-        self.viewModel.addScheduleSecondViewModel.isValidOfSecondNextBtn.bind { [weak self] date in
-            self?.addScheduleSecondView.changeNextBtnState(flag: date ?? false)
+        self.viewModel.addScheduleSecondViewModel.isValidOfSecondNextBtn.bind { [weak self] data in
+            self?.addScheduleSecondView.changeNextBtnState(flag: data ?? false)
         }
     }
     
