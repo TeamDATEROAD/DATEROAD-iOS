@@ -13,8 +13,13 @@ extension UITextView {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
         
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(doneButtonTapped))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                        target: nil,
+                                        action: nil)
+        let doneButton = UIBarButtonItem(title: "완료",
+                                         style: .done,
+                                         target: self,
+                                         action: #selector(doneButtonTapped))
         
         toolbar.items = [flexSpace, doneButton]
         

@@ -242,7 +242,6 @@ extension InAddScheduleFirstView {
     
     func updateDateName(text: String) {
         dateNameTextField.text = text
-//        dateNameTextField.font = UIFont.suit(.body_semi_13)
         dateNameTextField.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
     }
     

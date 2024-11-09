@@ -73,8 +73,10 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
         }
         
         placeTitleLabel.do {
-//            $0.setLabel(alignment: .left, textColor: UIColor(resource: .drBlack), font: .suit(.body_bold_15))
-            $0.setLabel(alignment: .left, numberOfLines: 2,textColor: UIColor(resource: .drBlack), font: UIFont.systemFont(ofSize: 15, weight: .bold))
+            $0.setLabel(alignment: .left,
+                        numberOfLines: 2,
+                        textColor: UIColor(resource: .drBlack),
+                        font: UIFont.systemFont(ofSize: 15, weight: .bold))
             $0.text = "test"
         }
         

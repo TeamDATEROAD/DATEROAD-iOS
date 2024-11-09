@@ -141,10 +141,7 @@ final class AddSecondView: BaseView {
             $0.layer.cornerRadius = 14
             $0.autocorrectionType = .no
             $0.spellCheckingType = .no
-            let attributes: [NSAttributedString.Key: Any] = [
-                .font: UIFont.systemFont(ofSize: 13, weight: .semibold),
-                .foregroundColor: UIColor(resource: .drBlack)
-            ]
+            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 13, weight: .semibold), .foregroundColor: UIColor(resource: .drBlack)]
             $0.defaultTextAttributes = attributes
         }
         
@@ -190,7 +187,6 @@ extension AddSecondView {
     
     func updateDatePlace(text: String) {
         datePlaceTextField.text = text
-//        datePlaceTextField.font = UIFont.suit(.body_semi_13)
         datePlaceTextField.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
     }
     
