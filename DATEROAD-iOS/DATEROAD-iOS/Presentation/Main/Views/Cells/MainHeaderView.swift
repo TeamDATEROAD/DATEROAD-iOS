@@ -111,8 +111,9 @@ extension MainHeaderView {
             titleLabel.do {
                 $0.setAttributedText(fullText: nickname + StringLiterals.Main.hotDateTitle,
                                      pointText: nickname+"님,",
-                                     pointColor: UIColor(resource: .deepPurple), lineHeight: 1.04)
-                $0.font = UIFont.suit(.title_extra_24)
+                                     pointColor: UIColor(resource: .deepPurple), 
+                                     lineHeight: 1.04)
+                $0.font = UIFont.systemFont(ofSize: 24, weight: .black)
                 $0.textAlignment = .left
                 $0.numberOfLines = 2
             }

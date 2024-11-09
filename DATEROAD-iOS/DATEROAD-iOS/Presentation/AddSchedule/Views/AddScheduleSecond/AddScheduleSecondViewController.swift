@@ -90,9 +90,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
 private extension AddScheduleSecondViewController {
     
     func registerCell() {
-        addScheduleSecondView.addPlaceCollectionView.do {
-            $0.register(AddSecondViewCollectionViewCell.self, forCellWithReuseIdentifier: AddSecondViewCollectionViewCell.cellIdentifier)
-        }
+        addScheduleSecondView.addPlaceCollectionView.register(AddSecondViewCollectionViewCell.self, forCellWithReuseIdentifier: AddSecondViewCollectionViewCell.cellIdentifier)
     }
     
     func setDelegate() {
@@ -103,9 +101,8 @@ private extension AddScheduleSecondViewController {
             $0.dataSource = self
         }
         
-        [addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField,
-         addScheduleSecondView.inAddScheduleSecondView.timeRequireTextField].forEach { i in
-            i.delegate = self
+        [addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField, addScheduleSecondView.inAddScheduleSecondView.timeRequireTextField].forEach {
+            $0.delegate = self
         }
     }
     
@@ -158,9 +155,7 @@ private extension AddScheduleSecondViewController {
             guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
             
             if !onFailNetwork {
-                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.addScheduleSecondView.isHidden = onLoading
-                self?.tabBarController?.tabBar.isHidden = onLoading
+                onLoading ? self?.showLoadingView(type: StringLiterals.TabBar.myPage) : self?.hideLoadingView()
             }
         }
         
@@ -222,19 +217,19 @@ private extension AddScheduleSecondViewController {
     
     func setAddTarget() {
         addScheduleSecondView.editButton.addTarget(self, action: #selector(toggleEditMode), for: .touchUpInside)
+        
         addScheduleSecondView.inAddScheduleSecondView.addPlaceButton.addTarget(self, action: #selector(tapAddPlaceBtn), for: .touchUpInside)
+        
         addScheduleSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
     }
     
     // 등록 완료 alertVC도 blurView 페이드인 적용 미정
     func successDone() {
-        let customAlertVC = DRCustomAlertViewController(
-            rightActionType: .none,
-            alertTextType: .hasDecription,
-            alertButtonType: .oneButton,
-            titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertScheduelTitleLabel,
-            longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton
-        )
+        let customAlertVC = DRCustomAlertViewController(rightActionType: .none,
+                                                        alertTextType: .hasDecription,
+                                                        alertButtonType: .oneButton,
+                                                        titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertScheduelTitleLabel,
+                                                        longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton)
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         self.present(customAlertVC, animated: false)
