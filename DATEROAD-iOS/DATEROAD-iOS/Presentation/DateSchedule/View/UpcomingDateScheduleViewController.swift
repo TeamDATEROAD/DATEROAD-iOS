@@ -23,6 +23,8 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     
     private var upcomingDateScheduleViewModel: DateScheduleViewModel
     
+    private var loaded: Bool = false
+    
     
     // MARK: - LifeCycle
     
@@ -72,7 +74,10 @@ final class UpcomingDateScheduleViewController: BaseViewController {
         upcomingDateScheduleView.cardPageControl.isHidden = isEmpty
         if !isEmpty {
             upcomingDateScheduleView.cardPageControl.numberOfPages = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0
-            self.upcomingDateScheduleView.cardCollectionView.reloadData()
+            if !loaded {
+                self.upcomingDateScheduleView.cardCollectionView.reloadData()
+                loaded = true
+            }
         }
     }
     
