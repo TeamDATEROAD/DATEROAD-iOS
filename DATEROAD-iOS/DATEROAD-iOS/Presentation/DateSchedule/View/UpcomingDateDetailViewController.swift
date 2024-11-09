@@ -36,6 +36,8 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     private let dateScheduleDeleteView = DateScheduleDeleteView()
     
+    private var loaded: Bool = false
+    
     
     // MARK: - LifeCycle
     
@@ -98,7 +100,6 @@ extension UpcomingDateDetailViewController {
         self.upcomingDateDetailViewModel.updateDateDetailData.bind { [weak self] flag in
             guard let flag else { return }
             if flag {
-                guard let data = self?.upcomingDateDetailViewModel.dateDetailData.value else { return }
                 DispatchQueue.main.async {
                     self?.upcomingDateDetailContentView.dateTimeLineCollectionView.reloadData()
                 }
@@ -156,9 +157,12 @@ extension UpcomingDateDetailViewController {
         }
         
         self.upcomingDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] _ in
-            guard let data = self?.upcomingDateDetailViewModel.dateDetailData.value else { return }
+            guard let loaded = self?.loaded, let data = self?.upcomingDateDetailViewModel.dateDetailData.value else { return }
             self?.upcomingDateDetailContentView.dataBind(data)
-            self?.upcomingDateDetailContentView.dateTimeLineCollectionView.reloadData()
+            if !loaded {
+                self?.upcomingDateDetailContentView.dateTimeLineCollectionView.reloadData()
+                self?.loaded = true
+            }
             self?.upcomingDateDetailViewModel.setDateDetailLoading()
         }
         
