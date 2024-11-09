@@ -213,13 +213,10 @@ final class DateDetailContentView: BaseView {
             $0.setLabel(textColor: UIColor(resource: .gray500), font: UIFont.suit(.body_med_15))
         }
         
-        titleLabel.do {
-            $0.setLabel(alignment: .left,
-                numberOfLines: 2,
-                textColor: UIColor(resource: .drBlack),
-                font:  UIFont.systemFont(ofSize: 24, weight: .black))
-            $0.lineBreakMode = .byWordWrapping
-        }
+        titleLabel.setLabel(alignment: .left,
+                               numberOfLines: 2,
+                               textColor: UIColor(resource: .drBlack),
+                               font:  UIFont.systemFont(ofSize: 24, weight: .black))
         
         dateDetailView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
