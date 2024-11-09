@@ -157,8 +157,13 @@ final class ViewedCourseViewController: BaseViewController {
 private extension ViewedCourseViewController {
     
     func setEmptyView() {
-        let name =  UserDefaults.standard.string(forKey: StringLiterals.Network.userName) ?? ""
-        let isEmpty = (self.viewedCourseViewModel.viewedCourseData.value?.count == 0)
+        guard let name = UserDefaults.standard.string(forKey: StringLiterals.Network.userName),
+              let viewedCourseCount = self.viewedCourseViewModel.viewedCourseData.value?.count,
+              let updateData = viewedCourseViewModel.viewedCoursesModelIsUpdate.value
+        else { return }
+
+        let isEmpty = (viewedCourseCount == 0)
+        
         viewedCourseView.emptyView.isHidden = !isEmpty
         createCourseView.isHidden = isEmpty
         
@@ -168,13 +173,17 @@ private extension ViewedCourseViewController {
                 self.viewedCourseView.emptyView.setEmptyView(emptyImage: UIImage(resource: .emptyViewedCourse), emptyTitle: StringLiterals.EmptyView.emptyViewedCourse)
             }
         } else {
-            DispatchQueue.main.async {
-                self.viewedCourseView.myCourseListCollectionView.reloadData()
-                self.topLabel.setAttributedText(fullText: "\(name)님이 지금까지\n열람한 데이트 코스\n\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개",
-                                                pointText: "\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
-                                                pointColor: UIColor(resource: .mediumPurple),
-                                                lineHeight: 1)
+            if updateData {
+                DispatchQueue.main.async {
+                    self.viewedCourseView.myCourseListCollectionView.reloadData()
+                    self.topLabel.setAttributedText(fullText: "\(name)님이 지금까지\n열람한 데이트 코스\n\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개",
+                                                    pointText: "\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
+                                                    pointColor: UIColor(resource: .mediumPurple),
+                                                    lineHeight: 1)
+                }
+                self.viewedCourseViewModel.viewedCoursesModelIsUpdate.value = false
             }
+            
         }
     }
     
@@ -186,16 +195,6 @@ private extension ViewedCourseViewController {
 extension ViewedCourseViewController {
     
     func bindViewModel() {
-        self.viewedCourseViewModel.viewedCoursesModelIsUpdate.bind { [weak self] flag in
-            guard let flag else { return }
-            if flag {
-                UIView.performWithoutAnimation {
-                    self?.viewedCourseView.myCourseListCollectionView.reloadSections(IndexSet(integer: 0))
-                }
-                self?.viewedCourseViewModel.viewedCoursesModelIsUpdate.value = false
-            }
-        }
-        
         self.viewedCourseViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
