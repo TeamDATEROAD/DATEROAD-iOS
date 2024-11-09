@@ -162,8 +162,9 @@ final class CourseDetailViewController: BaseViewController {
                 let errorVC = DRErrorViewController()
                 errorVC.onDismiss = {
                     self?.courseDetailViewModel.onFailNetwork.value = false
-                    self?.courseDetailViewModel.onLoading.value = false
+                    self?.navigationController?.popViewController(animated: false)
                 }
+                
                 self?.navigationController?.pushViewController(errorVC, animated: false)
             }
         }
