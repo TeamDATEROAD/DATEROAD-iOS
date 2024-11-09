@@ -42,10 +42,9 @@ final class CustomEmptyView: BaseView {
             $0.contentMode = .scaleAspectFit
         }
         
-        titleLabel.do {
-            $0.setLabel(alignment: .center, textColor: UIColor(resource: .gray300), font: UIFont.suit(.title_bold_18))
-            $0.lineBreakMode = .byWordWrapping
-        }
+        titleLabel.setLabel(alignment: .center,
+                            textColor: UIColor(resource: .gray300),
+                            font: UIFont.suit(.title_bold_18))
     }
     
 }

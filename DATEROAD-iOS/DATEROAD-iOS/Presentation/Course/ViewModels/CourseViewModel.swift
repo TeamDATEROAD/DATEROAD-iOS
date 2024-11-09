@@ -98,11 +98,9 @@ extension CourseViewModel {
                         like: filterList.like
                     )
                 }
-                
                 self.courseListModel = courseModels
                 self.didUpdateCourseList?()
                 self.isSuccessGetData.value = true
-                
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess

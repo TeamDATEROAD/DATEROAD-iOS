@@ -38,11 +38,6 @@ final class NewDateCourseCell: BaseCollectionViewCell {
     private var timeLabel: DRPaddingLabel = DRPaddingLabel()
     
     
-    // MARK: - Properties
-    
-    weak var delegate: CellImageLoadDelegate?
-
-    
     // MARK: - Life Cycle
     
     override func prepareForReuse() {
@@ -60,13 +55,14 @@ final class NewDateCourseCell: BaseCollectionViewCell {
                          likeLabel,
                          countryLabel,
                          dateNameView,
-                         dateNameLabel,
+                         
                          costView,
                          costImage,
                          costLabel,
                          timeView,
                          timeImage,
                          timeLabel)
+        dateNameView.addSubview(dateNameLabel)
     }
     
     override func setLayout() {
@@ -107,9 +103,8 @@ final class NewDateCourseCell: BaseCollectionViewCell {
         }
         
         dateNameLabel.snp.makeConstraints {
-            $0.top.equalTo(countryLabel.snp.bottom).offset(5)
-            $0.leading.equalTo(dateNameView)
-            $0.trailing.equalToSuperview().inset(16)
+            $0.top.leading.equalToSuperview()
+            $0.trailing.bottom.lessThanOrEqualToSuperview()
         }
         
         costView.snp.makeConstraints {
@@ -159,7 +154,7 @@ final class NewDateCourseCell: BaseCollectionViewCell {
         
         courseImage.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
-            $0.image = UIImage(resource: .testImage2)
+            $0.image = UIImage(resource: .placeholder)
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFill
             $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
@@ -170,9 +165,7 @@ final class NewDateCourseCell: BaseCollectionViewCell {
             $0.roundCorners(cornerRadius: 12, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
         }
         
-        likeImage.do {
-            $0.image = UIImage(resource: .heartIcon)
-        }
+        likeImage.image = UIImage(resource: .heartIcon)
         
         likeLabel.do {
             $0.backgroundColor = UIColor(resource: .deepPurple)
@@ -182,16 +175,16 @@ final class NewDateCourseCell: BaseCollectionViewCell {
             $0.setPadding(top: 0, left: 0, bottom: 0, right: 10)
         }
         
-        dateNameView.do {
-            $0.backgroundColor = UIColor(resource: .drWhite)
-        }
+        dateNameView.backgroundColor = UIColor(resource: .drWhite)
         
         dateNameLabel.do {
             $0.textAlignment = .left
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.numberOfLines = 2
             $0.lineBreakMode = .byWordWrapping
-            $0.setLabel(alignment: .left, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_bold_17))
+            $0.setLabel(alignment: .left,
+                textColor: UIColor(resource: .drBlack),
+                font: UIFont.systemFont(ofSize: 17, weight: .bold))
         }
         
         costView.do {
@@ -199,9 +192,7 @@ final class NewDateCourseCell: BaseCollectionViewCell {
             $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
         }
         
-        costImage.do {
-            $0.image = UIImage(resource: .coastIcon)
-        }
+        costImage.image = UIImage(resource: .coastIcon)
         
         costLabel.do {
             $0.backgroundColor = UIColor(resource: .gray100)
@@ -237,12 +228,11 @@ extension NewDateCourseCell {
         guard let newDateData else { return }
         self.countryLabel.text = newDateData.city
         if let url = URL(string: newDateData.thumbnail) {
-            self.courseImage.kf.setImage(with: url) { result  in
-                self.delegate?.cellImageLoaded()
-            }
+            self.courseImage.kf.setImage(with: url,options: [.transition(.none),
+                                                             .cacheOriginalImage,
+                                                             .keepCurrentImageWhileLoading])
         } else {
-            self.courseImage.image = UIImage(resource: .testImage2)
-            self.delegate?.cellImageLoaded()
+            self.courseImage.image = UIImage(resource: .placeholder)
         }
         self.likeLabel.text = "\(newDateData.like)"
         self.dateNameLabel.text = newDateData.title

@@ -191,10 +191,10 @@ final class PastDateCollectionViewCell: BaseCollectionViewCell {
             $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_13))
         }
         
-        titleLabel.do {
-            $0.setLabel(alignment: .left, numberOfLines: 2, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_extra_20))
-            $0.lineBreakMode = .byWordWrapping
-        }
+        titleLabel.setLabel(alignment: .left,
+                            numberOfLines: 2,
+                            textColor: UIColor(resource: .drBlack),
+                            font: UIFont.systemFont(ofSize: 20, weight: .black))
     }
     
 }

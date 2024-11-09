@@ -30,10 +30,7 @@ final class CourseListView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(
-            emptyView,
-            courseListCollectionView
-        )
+        self.addSubviews(emptyView, courseListCollectionView)
     }
     
     override func setLayout() {
@@ -56,8 +53,7 @@ final class CourseListView: BaseView {
         
         emptyView.do {
             $0.isHidden = true
-            $0.setEmptyView(emptyImage: UIImage(resource: .imgCourseEmpty),
-                            emptyTitle: StringLiterals.Course.isCourseEmpty)
+            $0.setEmptyView(emptyImage: UIImage(resource: .imgCourseEmpty), emptyTitle: StringLiterals.Course.isCourseEmpty)
         }
     }
     

@@ -23,6 +23,8 @@ final class MyRegisterCourseViewController: BaseNavBarViewController {
     
     private let myRegisterCourseViewModel = MyCourseListViewModel()
     
+    private var loaded: Bool = false
+    
     
     // MARK: - LifeCycle
     
@@ -87,6 +89,20 @@ private extension MyRegisterCourseViewController {
 extension MyRegisterCourseViewController {
     
     func bindViewModel() {
+        self.myRegisterCourseViewModel.myRegisterCoursesModelIsUpdate.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                DispatchQueue.main.async {
+                    UIView.performWithoutAnimation {
+                        self?.myRegisterCourseView.myCourseListCollectionView.performBatchUpdates({
+                            self?.myRegisterCourseView.myCourseListCollectionView.reloadSections(IndexSet(integer: 0))
+                        })
+                    }
+                }
+                self?.myRegisterCourseViewModel.myRegisterCoursesModelIsUpdate.value = false
+            }
+        }
+        
         self.myRegisterCourseViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
@@ -109,16 +125,18 @@ extension MyRegisterCourseViewController {
         }
         
         self.myRegisterCourseViewModel.onMyRegisterCourseLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.value else { return }
+            guard let onLoading, let loaded = self?.loaded, let onFailNetwork = self?.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
+                    self?.showLoadingView(type: StringLiterals.MyRegisterCourse.title)
                     self?.contentView.isHidden = onLoading
                 } else {
-                    self?.setEmptyView()
-                    self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    DispatchQueue.main.async {
+                        self?.setEmptyView()
+                        if !loaded {
+                            self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
+                            self?.loaded = true
+                        }
                         self?.contentView.isHidden = onLoading
                         self?.hideLoadingView()
                     }

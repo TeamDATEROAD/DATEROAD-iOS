@@ -23,6 +23,8 @@ final class PastDateViewController: BaseNavBarViewController {
     
     var pastDateScheduleViewModel: DateScheduleViewModel
     
+    private var loaded: Bool = false
+    
     
     // MARK: - Life Cycles
     
@@ -83,6 +85,20 @@ private extension PastDateViewController {
     }
     
     func bindViewModel() {
+        self.pastDateScheduleViewModel.updatePastDateScheduleData.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                DispatchQueue.main.async {
+                    UIView.performWithoutAnimation {
+                        self?.pastDateContentView.pastDateCollectionView.performBatchUpdates({
+                            self?.pastDateContentView.pastDateCollectionView.reloadSections(IndexSet(integer: 0))
+                        })
+                    }
+                }
+                self?.pastDateScheduleViewModel.updatePastDateScheduleData.value = false
+            }
+        }
+        
         self.pastDateScheduleViewModel.onPastScheduleFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
@@ -92,22 +108,19 @@ private extension PastDateViewController {
         }
         
         self.pastDateScheduleViewModel.onPastScheduleLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.pastDateScheduleViewModel.onPastScheduleFailNetwork.value else { return }
+            guard let onLoading,let loaded = self?.loaded, let onFailNetwork = self?.pastDateScheduleViewModel.onPastScheduleFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
+                    self?.showLoadingView(type: StringLiterals.DateSchedule.pastDate)
                     self?.pastDateContentView.isHidden = onLoading
-                    self?.topInsetView.isHidden = onLoading
-                    self?.navigationBarView.isHidden = onLoading
                 } else {
-                    self?.pastDateContentView.pastDateCollectionView.reloadData()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self?.setEmptyView()
-                        self?.pastDateContentView.isHidden = onLoading
-                        self?.topInsetView.isHidden = onLoading
-                        self?.navigationBarView.isHidden = onLoading
-                        self?.hideLoadingView()
-                    }
+                    if !loaded {
+                         self?.pastDateContentView.pastDateCollectionView.reloadData()
+                     }
+                    self?.setEmptyView()
+                    self?.pastDateContentView.isHidden = onLoading
+                    self?.hideLoadingView()
+                    self?.loaded = true
                 }
             }
         }
@@ -184,7 +197,7 @@ extension PastDateViewController: UICollectionViewDataSource {
         let location = sender.location(in: pastDateContentView.pastDateCollectionView)
         if let indexPath = pastDateContentView.pastDateCollectionView.indexPathForItem(at: location) {
             guard let data = pastDateScheduleViewModel.pastDateScheduleData.value?[indexPath.item] else { return }
-            let pastDateDetailVC = PastDateDetailViewController(dateID: data.dateID, pastDateDetailViewModel: DateDetailViewModel())
+            let pastDateDetailVC = PastDateDetailViewController(index: indexPath.item, dateID: data.dateID, pastDateDetailViewModel: DateDetailViewModel())
             pastDateDetailVC.setColor(index: indexPath.item)
             self.navigationController?.pushViewController(pastDateDetailVC, animated: false)
         }

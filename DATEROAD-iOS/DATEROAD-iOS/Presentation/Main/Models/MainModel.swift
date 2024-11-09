@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct UpcomingDateModel {
+struct UpcomingDateModel: Equatable {
     
     let dateId : Int
     
@@ -27,7 +27,7 @@ struct UpcomingDateModel {
     
 }
 
-struct MainUserModel {
+struct MainUserModel: Equatable {
     
     let name: String
     
@@ -37,7 +37,7 @@ struct MainUserModel {
     
 }
 
-struct DateCourseModel {
+struct DateCourseModel: Equatable {
     
     let courseId: Int
     
@@ -55,7 +55,7 @@ struct DateCourseModel {
     
 }
 
-struct BannerModel {
+struct BannerModel: Equatable {
     
     let advertisementId: Int
     

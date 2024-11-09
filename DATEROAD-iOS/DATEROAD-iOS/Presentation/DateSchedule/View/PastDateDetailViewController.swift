@@ -18,11 +18,18 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
+    lazy var bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView,
+                                                         height: 222,
+                                                         buttonType: DisabledButton(),
+                                                         buttonTitle: StringLiterals.DateSchedule.quit)
+    
     
     // MARK: - Properties
     
+    var index: Int
+    
     var dateID: Int
-        
+    
     var pastDateDetailViewModel: DateDetailViewModel
     
     private let dateScheduleDeleteView = DateScheduleDeleteView()
@@ -30,7 +37,8 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - LifeCycle
     
-    init(dateID: Int, pastDateDetailViewModel: DateDetailViewModel) {
+    init(index: Int, dateID: Int, pastDateDetailViewModel: DateDetailViewModel) {
+        self.index = index
         self.dateID = dateID
         self.pastDateDetailViewModel = pastDateDetailViewModel
         
@@ -64,7 +72,7 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        contentView.addSubviews(pastDateDetailContentView)
+        contentView.addSubview(pastDateDetailContentView)
     }
     
     override func setLayout() {
@@ -106,17 +114,18 @@ extension PastDateDetailViewController: DRCustomAlertDelegate {
 extension PastDateDetailViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
-        self.dismiss(animated: false)
+        self.bottomSheetVC.dismissBottomSheet()
     }
     
     @objc
     private func deleteDateCourse() {
         let labelTap = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
         dateScheduleDeleteView.deleteLabel.addGestureRecognizer(labelTap)
-        let bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView, height: 222, buttonType: DisabledButton(), buttonTitle: StringLiterals.DateSchedule.quit)
-        bottomSheetVC.modalPresentationStyle = .overFullScreen
         bottomSheetVC.delegate = self
-        self.present(bottomSheetVC, animated: false)
+        
+        DispatchQueue.main.async {
+            self.bottomSheetVC.presentBottomSheet(in: self)
+        }
     }
     
     @objc
@@ -133,31 +142,38 @@ extension PastDateDetailViewController: DRBottomSheetDelegate {
 extension PastDateDetailViewController {
     
     func bindViewModel() {
+        self.pastDateDetailViewModel.updateDateDetailData.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                DispatchQueue.main.async {
+                    self?.pastDateDetailContentView.dateTimeLineCollectionView.reloadData()
+                }
+                self?.pastDateDetailViewModel.updateDateDetailData.value = false
+            }
+        }
+        
         self.pastDateDetailViewModel.onDateDetailLoading.bind { [weak self] onLoading in
             guard let onLoading,
                   let onFailNetwork = self?.pastDateDetailViewModel.onFailNetwork.value,
-                  let data = self?.pastDateDetailViewModel.dateDetailData.value
+                  let index = self?.index
             else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
+                    self?.setBackgroundColor(color: .drWhite)
+                    self?.showLoadingView(type: StringLiterals.DateSchedule.pastDate)
                     self?.pastDateDetailContentView.isHidden = true
                 } else {
-                    self?.pastDateDetailContentView.dataBind(data)
-                    self?.pastDateDetailContentView.dateTimeLineCollectionView.reloadData()
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self?.pastDateDetailContentView.isHidden = false
-                        self?.hideLoadingView()
-                    }
+                    self?.setColor(index: index)
+                    self?.pastDateDetailContentView.isHidden = false
+                    self?.hideLoadingView()
                 }
             }
         }
         
         self.pastDateDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
-            guard let onSuccess, 
+            guard let onSuccess,
                     let dateID = self?.dateID,
-                    let type = self?.pastDateDetailViewModel.type.value
+                  let type = self?.pastDateDetailViewModel.type.value
             else { return }
             if onSuccess {
                 switch type {
@@ -174,6 +190,9 @@ extension PastDateDetailViewController {
         }
         
         self.pastDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] _ in
+            guard let data = self?.pastDateDetailViewModel.dateDetailData.value else { return }
+            self?.pastDateDetailContentView.dataBind(data)
+            self?.pastDateDetailContentView.dateTimeLineCollectionView.reloadData()
             self?.pastDateDetailViewModel.setDateDetailLoading()
         }
         

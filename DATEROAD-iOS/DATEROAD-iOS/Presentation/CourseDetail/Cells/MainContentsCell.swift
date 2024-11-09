@@ -33,8 +33,7 @@ final class MainContentsCell: BaseCollectionViewCell {
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineHeightMultiple = 1.2
             $0.attributedText = NSMutableAttributedString(string: "본문", attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
-            
-            $0.font = UIFont.suit(.body_med_13)
+            $0.font = UIFont.systemFont(ofSize: 13, weight: .medium)
             $0.textColor = UIColor(resource: .drBlack)
             $0.numberOfLines = 3
         }

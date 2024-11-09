@@ -14,6 +14,8 @@ final class AddScheduleBottomSheetViewController: BaseViewController {
     
     // MARK: - UI Properties
     
+    private let backgroundView: UIView = UIView()
+    
     var addSheetView = AddScheduleBottomSheetView(isCustomPicker: true)
     
     
@@ -49,24 +51,77 @@ final class AddScheduleBottomSheetViewController: BaseViewController {
     // MARK: - Methods
     
     override func setHierarchy() {
-        view.addSubview(addSheetView)
+        view.addSubviews(backgroundView, addSheetView)
     }
     
     override func setLayout() {
-        addSheetView.snp.makeConstraints {
+        backgroundView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        addSheetView.snp.makeConstraints {
+            $0.left.right.bottom.equalToSuperview()
+            $0.height.equalTo(304)
         }
     }
     
     override func setStyle() {
-        view.do {
-            $0.backgroundColor = UIColor.drBlack.withAlphaComponent(0.65)
+        backgroundView.do {
+            $0.backgroundColor = UIColor.drBlack.withAlphaComponent(0.4)
+            $0.alpha = 0
+        }
+        
+        addSheetView.do {
+            $0.backgroundColor = .white
+            $0.layer.cornerRadius = 20
+            $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         }
     }
     
 }
 
 // MARK: - Extension Methods
+
+extension AddScheduleBottomSheetViewController {
+    
+    func presentBottomSheet(in viewController: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil) {
+        self.modalPresentationStyle = .overFullScreen
+        viewController.present(self, animated: false) {
+            self.animateBottomSheetPresentation(animated: animated, completion: completion)
+        }
+    }
+    
+    func dismissBottomSheet(animated: Bool = true, completion: (() -> Void)? = nil) {
+        if animated {
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: {
+                self.addSheetView.transform = CGAffineTransform(translationX: 0, y: self.addSheetView.frame.height)
+                self.backgroundView.alpha = 0
+            }, completion: { _ in
+                self.dismiss(animated: false, completion: completion)
+            })
+        } else {
+            self.backgroundView.alpha = 0
+            self.dismiss(animated: false, completion: completion)
+        }
+    }
+    
+    private func animateBottomSheetPresentation(animated: Bool, completion: (() -> Void)? = nil) {
+        if animated {
+            self.addSheetView.transform = CGAffineTransform(translationX: 0, y: self.addSheetView.frame.height)
+            
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                self.backgroundView.alpha = 1
+                self.addSheetView.transform = .identity
+            }, completion: { _ in
+                completion?()
+            })
+        } else {
+            self.backgroundView.alpha = 1
+            completion?()
+        }
+    }
+    
+}
 
 private extension AddScheduleBottomSheetViewController {
     
@@ -82,8 +137,8 @@ private extension AddScheduleBottomSheetViewController {
     func didTapDoneBtn() {
         let selectedRow = addSheetView.customPickerView.selectedRow(inComponent: 0)
         let selectedValue = customPickerValues[selectedRow]
-        viewModel?.addScheduleSecondViewModel.updateTimeRequireTextField(text: String(selectedValue))
-        dismiss(animated: true)
+        viewModel?.updateTimeRequireTextField(text: String(selectedValue))
+        self.dismissBottomSheet()
     }
     
 }

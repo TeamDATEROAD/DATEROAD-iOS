@@ -48,8 +48,23 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        // 셀이 재사용될 때 이미지나 데이터를 초기화합니다.
+        thumbnailImageView.image = nil
+        locationLabel.text = nil
+        titleLabel.text = nil
+        heartButton.titleLabel?.text = nil
+        expenseButton.titleLabel?.text = nil
+        timeButton.titleLabel?.text = nil
+    }
+    
     override func setHierarchy() {
-        self.addSubviews(thumbnailImageView, heartButton, infoView)
+        self.addSubviews(thumbnailImageView,
+                         heartButton,
+                         infoView)
+        
         infoView.addSubviews(locationLabel,
                              titleLabel,
                              expenseButton,
@@ -128,7 +143,7 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
         }
         
         titleLabel.do {
-            $0.font = UIFont.suit(.body_bold_15)
+            $0.font = UIFont.systemFont(ofSize: 15, weight: .bold)
             $0.textColor = UIColor(resource: .drBlack)
             $0.textAlignment = .left
             $0.numberOfLines = 2
@@ -164,9 +179,9 @@ extension MyCourseListCollectionViewCell {
     
     func dataBind(_ viewedCourseData: MyCourseModel?, _ viewedCourseItemRow: Int?) {
         guard let viewedCourseData else { return }
+        self.thumbnailImageView.kf.setImage(with: URL(string: viewedCourseData.thumbnail), options: [.transition(.none),.cacheOriginalImage])
         self.courseID = viewedCourseData.courseId
         self.heartButton.setTitle("\(viewedCourseData.like)", for: .normal)
-        self.thumbnailImageView.kf.setImage(with: URL(string: viewedCourseData.thumbnail))
         self.locationLabel.text = viewedCourseData.city
         self.titleLabel.text = viewedCourseData.title
         self.expenseButton.setTitle(viewedCourseData.cost, for: .normal)

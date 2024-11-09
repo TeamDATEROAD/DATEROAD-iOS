@@ -17,6 +17,11 @@ final class EditProfileViewController: BaseNavBarViewController {
     
     private let imagePickerViewController = CustomImagePicker(isProfilePicker: true)
     
+    lazy var alertVC = DRBottomSheetViewController(contentView: profileImageSettingView,
+                                                   height: 288,
+                                                   buttonType: DisabledButton(),
+                                                   buttonTitle: StringLiterals.Common.cancel)
+    
     
     // MARK: - Properties
     
@@ -186,7 +191,7 @@ private extension EditProfileViewController {
         
         self.profileViewModel.isValidNicknameCount.bind { [weak self] isValidCount in
             guard let isValidCount,
-                    let initial = self?.initial,
+                  let initial = self?.initial,
                   let isValidNickname = self?.profileViewModel.isValidNickname.value
             else { return }
             if initial {
@@ -250,19 +255,16 @@ private extension EditProfileViewController {
         
         self.profileViewModel.onEditProfileLoading.bind { [weak self] onLoading in
             guard let onLoading else { return }
-            onLoading ? self?.showLoadingView() : self?.hideLoadingView()
+            onLoading ? self?.showLoadingView(type: StringLiterals.TabBar.myPage) : self?.hideLoadingView()
         }
     }
     
     @objc
     func presentEditBottomSheet() {
-        let alertVC = DRBottomSheetViewController(contentView: profileImageSettingView,
-                                                  height: 288,
-                                                  buttonType: DisabledButton(),
-                                                  buttonTitle: StringLiterals.Common.cancel)
         alertVC.delegate = self
-        alertVC.modalPresentationStyle = .overFullScreen
-        self.present(alertVC, animated: true)
+        DispatchQueue.main.async {
+            self.alertVC.presentBottomSheet(in: self)
+        }
     }
     
     @objc
@@ -303,14 +305,14 @@ private extension EditProfileViewController {
     
     @objc
     func deletePhoto() {
-        self.dismiss(animated: true)
+        alertVC.dismissBottomSheet()
         profileView.updateProfileImage(image: UIImage(resource: .emptyProfileImg))
         profileViewModel.profileImage.value = UIImage(resource: .emptyProfileImg)
     }
     
     @objc
     func registerPhoto() {
-        self.dismiss(animated: true)
+        alertVC.dismissBottomSheet()
         imagePickerViewController.presentPicker(from: self)
     }
     
@@ -398,7 +400,7 @@ extension EditProfileViewController: UITextFieldDelegate {
 extension EditProfileViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
-        self.dismiss(animated: true)
+        alertVC.dismissBottomSheet()
     }
     
     func didTapFirstLabel() {

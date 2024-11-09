@@ -22,6 +22,13 @@ final class CourseDetailViewController: BaseViewController {
     
     private var deleteCourseSettingView = DeleteCourseSettingView()
     
+    private let skeletonView: CourseDetailSkeletonView = CourseDetailSkeletonView()
+    
+    lazy var bottomSheetVC = DRBottomSheetViewController(contentView: deleteCourseSettingView,
+                                                         height: 210,
+                                                         buttonType: DisabledButton(),
+                                                         buttonTitle: StringLiterals.Common.close)
+    
     
     // MARK: - Properties
     
@@ -75,7 +82,9 @@ final class CourseDetailViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(courseDetailView, courseInfoTabBarView)
+        self.view.addSubviews(courseDetailView,
+                              courseInfoTabBarView,
+                              skeletonView)
     }
     
     override func setLayout() {
@@ -91,6 +100,10 @@ final class CourseDetailViewController: BaseViewController {
         courseInfoTabBarView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(108)
+        }
+        
+        skeletonView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
     
@@ -131,14 +144,27 @@ final class CourseDetailViewController: BaseViewController {
     }
     
     func bindViewModel() {
+        self.courseDetailViewModel.updateConditionalData.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                DispatchQueue.main.async {
+                    self?.courseDetailView.mainCollectionView.performBatchUpdates({
+                        self?.courseDetailView.mainCollectionView.reloadData()
+                    })
+                }
+                self?.courseDetailViewModel.updateConditionalData.value = false
+            }
+        }
+        
         self.courseDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
                 let errorVC = DRErrorViewController()
                 errorVC.onDismiss = {
                     self?.courseDetailViewModel.onFailNetwork.value = false
-                    self?.courseDetailViewModel.onLoading.value = false
+                    self?.navigationController?.popViewController(animated: false)
                 }
+                
                 self?.navigationController?.pushViewController(errorVC, animated: false)
             }
         }
@@ -147,19 +173,18 @@ final class CourseDetailViewController: BaseViewController {
             guard let onLoading, let onFailNetwork = self?.courseDetailViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
+                    self?.skeletonView.isHidden = !onLoading
                     self?.courseDetailView.isHidden = onLoading
+                    self?.showLoadingView(type: StringLiterals.Amplitude.ViewPath.courseDetail)
                 } else {
                     self?.localLikeNum = self?.courseDetailViewModel.likeSum.value ?? 0
                     self?.setSetctionCount()
                     self?.setTabBarVisibility()
                     self?.setNavBarVisibility()
                     self?.courseDetailView.mainCollectionView.reloadData()
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self?.courseDetailView.isHidden = onLoading
-                        self?.hideLoadingView()
-                    }
+                    self?.courseDetailView.isHidden = onLoading
+                    self?.skeletonView.isHidden = !onLoading
+                    self?.hideLoadingView()
                 }
             }
         }
@@ -181,7 +206,7 @@ final class CourseDetailViewController: BaseViewController {
         }
         
         courseDetailViewModel.isSuccessGetData.bind { [weak self] isSuccess in
-            guard let isSuccess else { return }
+            guard isSuccess != nil else { return }
             self?.courseDetailViewModel.setLoading()
         }
         
@@ -283,61 +308,49 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     
     // 무료 사용 기회를 다 쓴 경우의 알림
     func showReadCourseAlert() {
-        presentCustomAlert(
-            title: StringLiterals.Alert.buyCourse,
-            description: StringLiterals.Alert.canNotRefund,
-            action: .checkCourse,
-            buttonText: StringLiterals.CourseDetail.check
-        )
+        presentCustomAlert(title: StringLiterals.Alert.buyCourse,
+                           description: StringLiterals.Alert.canNotRefund,
+                           action: .checkCourse,
+                           buttonText: StringLiterals.CourseDetail.check)
     }
     
     // 무료 사용 기회가 남은 경우의 알림
     func showFreeViewAlert() {
-        presentCustomAlert(
-            title: StringLiterals.CourseDetail.freeViewTitle,
-            description: StringLiterals.CourseDetail.freeViewDescription,
-            action: .checkCourse,
-            buttonText: StringLiterals.CourseDetail.check
-        )
+        presentCustomAlert(title: StringLiterals.CourseDetail.freeViewTitle,
+                           description: StringLiterals.CourseDetail.freeViewDescription,
+                           action: .checkCourse,
+                           buttonText: StringLiterals.CourseDetail.check)
     }
     
     //포인트가 부족할 때
     func showPointAlert(){
-        presentCustomAlert(
-            title: StringLiterals.CourseDetail.insufficientPointsTitle,
-            description: StringLiterals.CourseDetail.insufficientPointsDescription,
-            action: .addCourse,
-            buttonText: StringLiterals.CourseDetail.addCourse
-        )
+        presentCustomAlert(title: StringLiterals.CourseDetail.insufficientPointsTitle,
+                           description: StringLiterals.CourseDetail.insufficientPointsDescription,
+                           action: .addCourse,
+                           buttonText: StringLiterals.CourseDetail.addCourse)
     }
     
     //바텀 시트에서 신고하기 클릭시 팝업창
     func showDeclareAlert(){
-        presentCustomAlert(
-            title: StringLiterals.CourseDetail.declareTitle,
-            description: StringLiterals.CourseDetail.declareDescription,
-            action: .declareCourse
-        )
+        presentCustomAlert(title: StringLiterals.CourseDetail.declareTitle,
+                           description: StringLiterals.CourseDetail.declareDescription,
+                           action: .declareCourse)
     }
     
     //바텀 시트에서 삭제하기 클릭시 팝업창
     func showDeleteAlert(){
-        presentCustomAlert(
-            title: StringLiterals.CourseDetail.deleteTitle,
-            description: StringLiterals.CourseDetail.deleteDescription,
-            action: .deleteCourse
-        )
+        presentCustomAlert(title: StringLiterals.CourseDetail.deleteTitle,
+                           description: StringLiterals.CourseDetail.deleteDescription,
+                           action: .deleteCourse)
     }
     
     func presentCustomAlert(title: String, description: String, action: RightButtonType, buttonText: String = StringLiterals.Alert.confirm) {
-        let alertVC = DRCustomAlertViewController(
-            rightActionType: action,
-            alertTextType: .hasDecription,
-            alertButtonType: .twoButton,
-            titleText: title,
-            descriptionText: description,
-            rightButtonText: buttonText
-        )
+        let alertVC = DRCustomAlertViewController(rightActionType: action,
+                                                  alertTextType: .hasDecription,
+                                                  alertButtonType: .twoButton,
+                                                  titleText: title,
+                                                  descriptionText: description,
+                                                  rightButtonText: buttonText)
         alertVC.delegate = self
         alertVC.modalPresentationStyle = .overFullScreen
         present(alertVC, animated: false)
@@ -368,20 +381,16 @@ extension CourseDetailViewController: StickyHeaderNavBarViewDelegate, DRBottomSh
     }
     
     func didTapMoreButton() {
-        let bottomSheetVC = DRBottomSheetViewController(
-            contentView: deleteCourseSettingView,
-            height: 210,
-            buttonType: DisabledButton(),
-            buttonTitle: StringLiterals.Common.close
-        )
         bottomSheetVC.delegate = self
         deleteCourseSettingView.deleteLabel.text = courseDetailViewModel.isCourseMine.value == true ? StringLiterals.CourseDetail.deleteCourse : StringLiterals.CourseDetail.delclareCourse
-        bottomSheetVC.modalPresentationStyle = .overFullScreen
-        present(bottomSheetVC, animated: true)
+        
+        DispatchQueue.main.async {
+            self.bottomSheetVC.presentBottomSheet(in: self)
+        }
     }
     
     func didTapBottomButton() {
-        self.dismiss(animated: true)
+        self.bottomSheetVC.dismissBottomSheet()
     }
     
 }
@@ -444,6 +453,8 @@ private extension CourseDetailViewController {
         guard let isLiked = courseDetailViewModel.isUserLiked.value else { return }
         courseDetailViewModel.isUserLiked.value?.toggle()
         
+        self.localLikeNum += isLiked ? -1 : 1
+        
         let likeAction = isLiked ? courseDetailViewModel.deleteLikeCourse : courseDetailViewModel.likeCourse
         likeAction(courseId ?? 0) { [weak self] isSuccess in
             DispatchQueue.main.async {
@@ -453,9 +464,12 @@ private extension CourseDetailViewController {
             }
         }
         
-        AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickCourseLikes, properties: [StringLiterals.Amplitude.Property.courseListLike : self.courseListLike])
+        // 해당 섹션의 헤더 뷰 가져오기
+        if let header = courseDetailView.mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
+            header.bindData(like: self.localLikeNum)
+        }
         
-        self.courseDetailView.mainCollectionView.reloadData()
+        AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickCourseLikes, properties: [StringLiterals.Amplitude.Property.courseListLike : self.courseListLike])
     }
     
 }
@@ -590,9 +604,6 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
     
     private func configureBottomPageControlView(_ collectionView: UICollectionView, indexPath: IndexPath, imageData: [ThumbnailModel], isAccess: Bool) -> UICollectionReusableView {
         return collectionViewUtils.dequeueAndConfigureSupplementaryView(collectionView: collectionView, indexPath: indexPath, kind: BottomPageControllView.elementKinds, identifier: BottomPageControllView.identifier) { (view: BottomPageControllView) in
-            if !isFirstLike {
-                localLikeNum += courseDetailViewModel.isUserLiked.value == true ? 1 : -1
-            }
             view.pageIndexSum = imageData.count
             view.bindData(like: localLikeNum)
         }

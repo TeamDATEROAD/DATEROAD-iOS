@@ -9,6 +9,18 @@ import Foundation
 
 final class MyCourseListViewModel: Serviceable {
     
+    var viewedCoursesModel = ViewedCoursesManager.shared.viewedCoursesModel
+    
+    var broughtViewedCoursesModel = BroughtViewedCoursesManager.shared.broughtViewedCoursesModel
+    
+    var myRegisterCoursesModel = MyRegisterCoursesManager.shared.myRegisterCoursesModel
+    
+    var viewedCoursesModelIsUpdate: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var broughtViewedCoursesModelIsUpdate: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var myRegisterCoursesModelIsUpdate: ObservablePattern<Bool> = ObservablePattern(nil)
+    
     var viewedCourseData: ObservablePattern<[MyCourseModel]> = ObservablePattern([])
     
     var myRegisterCourseData: ObservablePattern<[MyCourseModel]> = ObservablePattern([])
@@ -17,7 +29,7 @@ final class MyCourseListViewModel: Serviceable {
     
     var isSuccessGetNavViewedCourseInfo: ObservablePattern<Bool> = ObservablePattern(false)
     
-    var isSuccessGetMyRegisterCourseInfo: ObservablePattern<Bool> = ObservablePattern(false)
+    var isSuccessGetMyRegisterCourseInfo: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
@@ -25,7 +37,7 @@ final class MyCourseListViewModel: Serviceable {
     
     var onNavViewedCourseLoading: ObservablePattern<Bool> = ObservablePattern(true)
     
-    var onMyRegisterCourseLoading: ObservablePattern<Bool> = ObservablePattern(true)
+    var onMyRegisterCourseLoading: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onViewedCourseFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
@@ -38,9 +50,9 @@ final class MyCourseListViewModel: Serviceable {
         setMyRegisterCourseData()
     }
     
+    // '열람한 코스'(탭바) _ viewedCoursesModel
     func setViewedCourseData() {
         self.isSuccessGetViewedCourseInfo.value = false
-        self.setViewedCourseLoading()
         self.onViewedCourseFailNetwork.value = false
         
         NetworkService.shared.myCourseService.getViewedCourse() { response in
@@ -54,7 +66,13 @@ final class MyCourseListViewModel: Serviceable {
                                                                         duration: ($0.duration).formatFloatTime(),
                                                                         like: $0.like) }
                 AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.userPurchaseCount: viewedCourseInfo.count])
-                self.viewedCourseData.value = viewedCourseInfo
+                
+                if self.viewedCoursesModel != viewedCourseInfo {
+                    self.viewedCourseData.value = viewedCourseInfo
+                    self.viewedCoursesModel = viewedCourseInfo
+                    self.viewedCoursesModelIsUpdate.value = true
+                }
+                
                 self.isSuccessGetViewedCourseInfo.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
@@ -72,6 +90,7 @@ final class MyCourseListViewModel: Serviceable {
         self.onViewedCourseLoading.value = !isSuccessGetViewedCourseInfo
     }
     
+    // 일정등록(불러오기 '내가 열람한 코스') _ broughtViewedCoursesModel
     func setNavViewedCourseData() {
         self.isSuccessGetNavViewedCourseInfo.value = false
         self.onNavViewedCourseFailNetwork.value = false
@@ -86,7 +105,13 @@ final class MyCourseListViewModel: Serviceable {
                                                                         cost: $0.cost.priceRangeTag(),
                                                                         duration: ($0.duration).formatFloatTime(),
                                                                         like: $0.like) }
-                self.viewedCourseData.value = viewedCourseInfo
+                
+                if self.broughtViewedCoursesModel != viewedCourseInfo {
+                    self.viewedCourseData.value = viewedCourseInfo
+                    self.broughtViewedCoursesModel = viewedCourseInfo
+                    self.broughtViewedCoursesModelIsUpdate.value = true
+                }
+                
                 self.isSuccessGetNavViewedCourseInfo.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
@@ -104,9 +129,9 @@ final class MyCourseListViewModel: Serviceable {
         self.onNavViewedCourseLoading.value = !isSuccessGetNavViewedCourseInfo
     }
     
+    // 내가 등록한 코스
     func setMyRegisterCourseData() {
         self.isSuccessGetMyRegisterCourseInfo.value = false
-        self.setMyRegisterCourseLoading()
         self.onMyRegisterCourseFailNetwork.value = false
         
         NetworkService.shared.myCourseService.getMyRegisterCourse() { response in
@@ -120,7 +145,13 @@ final class MyCourseListViewModel: Serviceable {
                                                                             duration: ($0.duration).formatFloatTime(),
                                                                             like: $0.like) }
                 AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.userCourseCount: myRegisterCourseInfo.count])
-                self.myRegisterCourseData.value = myRegisterCourseInfo
+                
+                if self.myRegisterCoursesModel != myRegisterCourseInfo {
+                    self.myRegisterCourseData.value = myRegisterCourseInfo
+                    self.myRegisterCoursesModel = myRegisterCourseInfo
+                    self.myRegisterCoursesModelIsUpdate.value = true
+                }
+                
                 self.isSuccessGetMyRegisterCourseInfo.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in

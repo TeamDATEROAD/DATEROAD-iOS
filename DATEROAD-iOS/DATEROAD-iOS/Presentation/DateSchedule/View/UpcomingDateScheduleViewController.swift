@@ -23,6 +23,8 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     
     private var upcomingDateScheduleViewModel: DateScheduleViewModel
     
+    private var loaded: Bool = false
+    
     
     // MARK: - LifeCycle
     
@@ -54,7 +56,7 @@ final class UpcomingDateScheduleViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubview(upcomingDateScheduleView)
+        self.view.addSubviews(upcomingDateScheduleView)
     }
     
     override func setLayout() {
@@ -72,7 +74,10 @@ final class UpcomingDateScheduleViewController: BaseViewController {
         upcomingDateScheduleView.cardPageControl.isHidden = isEmpty
         if !isEmpty {
             upcomingDateScheduleView.cardPageControl.numberOfPages = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0
-            self.upcomingDateScheduleView.cardCollectionView.reloadData()
+            if !loaded {
+                self.upcomingDateScheduleView.cardCollectionView.reloadData()
+                loaded = true
+            }
         }
     }
     
@@ -90,18 +95,33 @@ private extension UpcomingDateScheduleViewController {
     }
     
     func bindViewModel() {
+        self.upcomingDateScheduleViewModel.updateUpcomingDateScheduleData.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                DispatchQueue.main.async {
+                    UIView.performWithoutAnimation {
+                        self?.upcomingDateScheduleView.cardCollectionView.performBatchUpdates({
+                            self?.upcomingDateScheduleView.cardCollectionView.reloadSections(IndexSet(integer: 0))
+                        })
+                    }
+                }
+                self?.upcomingDateScheduleViewModel.updateUpcomingDateScheduleData.value = false
+            }
+        }
+        
         self.upcomingDateScheduleViewModel.onUpcomingScheduleLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.upcomingDateScheduleViewModel.onUpcomingScheduleFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
-                    self?.upcomingDateScheduleView.isHidden = true
+                    self?.showLoadingView(type: StringLiterals.DateSchedule.upcomingDate)
+                    self?.upcomingDateScheduleView.cardCollectionView.isHidden = true
+                    self?.upcomingDateScheduleView.cardPageControl.isHidden = true
+                    self?.upcomingDateScheduleView.emptyView.isHidden = true
+                    self?.upcomingDateScheduleView.pastDateButton.isHidden = true
                 } else {
                     self?.drawDateCardView()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self?.upcomingDateScheduleView.isHidden = false
-                        self?.hideLoadingView()
-                    }
+                    self?.upcomingDateScheduleView.pastDateButton.isHidden = false
+                    self?.hideLoadingView()
                 }
             }
         }
@@ -157,7 +177,12 @@ extension UpcomingDateScheduleViewController: DRCustomAlertDelegate {
     @objc
     private func dateRegisterButtonTapped() {
         if upcomingDateScheduleViewModel.isMoreThanFiveSchedule {
-            let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none, alertTextType: .hasDecription, alertButtonType: .oneButton, titleText: StringLiterals.Alert.noMoreSchedule, descriptionText: StringLiterals.Alert.noMoreThanFive, longButtonText: StringLiterals.Alert.iChecked)
+            let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none,
+                                                            alertTextType: .hasDecription, 
+                                                            alertButtonType: .oneButton,
+                                                            titleText: StringLiterals.Alert.noMoreSchedule,
+                                                            descriptionText: StringLiterals.Alert.noMoreThanFive,
+                                                            longButtonText: StringLiterals.Alert.iChecked)
             customAlertVC.delegate = self
             customAlertVC.modalPresentationStyle = .overFullScreen
             self.present(customAlertVC, animated: false)
@@ -230,9 +255,7 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel.emptyModel
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateCardCollectionViewCell.cellIdentifier, for: indexPath) as? DateCardCollectionViewCell else {
-            return UICollectionViewCell()
-        }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateCardCollectionViewCell.cellIdentifier, for: indexPath) as? DateCardCollectionViewCell else { return UICollectionViewCell() }
         cell.dataBind(data, indexPath.item)
         cell.setColor(index: indexPath.item)
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToUpcomingDateDetailVC(_:))))
@@ -244,7 +267,7 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
         let location = sender.location(in: upcomingDateScheduleView.cardCollectionView)
         if let indexPath = upcomingDateScheduleView.cardCollectionView.indexPathForItem(at: location) {
             let data = upcomingDateScheduleViewModel.upcomingDateScheduleData.value?[indexPath.item] ?? DateCardModel.emptyModel
-            let upcomingDateDetailVC = UpcomingDateDetailViewController(dateID: data.dateID, viewPath: StringLiterals.TabBar.date, upcomingDateDetailViewModel: DateDetailViewModel()
+            let upcomingDateDetailVC = UpcomingDateDetailViewController(index: indexPath.item, dateID: data.dateID, viewPath: StringLiterals.TabBar.date, upcomingDateDetailViewModel: DateDetailViewModel()
             )
             upcomingDateDetailVC.setColor(index: indexPath.item)
             self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)

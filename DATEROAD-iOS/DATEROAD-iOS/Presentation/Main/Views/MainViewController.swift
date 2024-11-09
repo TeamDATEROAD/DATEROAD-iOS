@@ -11,6 +11,8 @@ final class MainViewController: BaseViewController {
     
     // MARK: - UI Properties
     
+    private let mainSkeletonView: MainSkeletonView = MainSkeletonView()
+    
     private var mainView: MainView
     
     private let errorView: DRErrorViewController = DRErrorViewController()
@@ -32,6 +34,8 @@ final class MainViewController: BaseViewController {
     
     private var initial: Bool = false
     
+    private var loaded: Bool = false
+    
     
     // MARK: - Life Cycles
     
@@ -49,6 +53,8 @@ final class MainViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.mainSkeletonView.isHidden = false
+        self.mainView.isHidden = true
         registerCell()
         setDelegate()
         setAddTarget()
@@ -69,13 +75,18 @@ final class MainViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubview(mainView)
+        self.view.addSubviews(mainView, mainSkeletonView)
     }
     
     override func setLayout() {
         super.setLayout()
         
         mainView.snp.makeConstraints {
+            $0.top.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(view.frame.height * 0.1)
+        }
+        
+        mainSkeletonView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview().inset(view.frame.height * 0.1)
         }
@@ -86,6 +97,17 @@ final class MainViewController: BaseViewController {
 extension MainViewController {
     
     func bindViewModel() {
+        self.mainViewModel.updateSectionIndex.bind { [weak self] index in
+            guard let index, let loaded = self?.loaded else { return }
+            if loaded {
+                UIView.performWithoutAnimation {
+                    self?.mainView.mainCollectionView.performBatchUpdates({
+                        self?.mainView.mainCollectionView.reloadSections(IndexSet(integer: index))
+                    })
+                }
+            }
+        }
+        
         self.mainViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
@@ -95,29 +117,30 @@ extension MainViewController {
         }
         
         self.mainViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.mainViewModel.onFailNetwork.value else { return }
+            guard let onLoading,
+                  let loaded = self?.loaded,
+                  let onFailNetwork = self?.mainViewModel.onFailNetwork.value
+            else { return }
             if !onFailNetwork {
                 if onLoading {
-                    self?.showLoadingView()
-                    self?.mainView.isHidden = onLoading
+                    self?.showLoadingView(type: StringLiterals.TabBar.home)
                 } else {
-                    self?.mainView.mainCollectionView.reloadData()
-                    let initialIndexPath = IndexPath(item: 1, section: 2)
-                    self?.mainView.mainCollectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
-                    self?.startAutoScrollTimer()
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self?.mainView.isHidden = onLoading
-                        self?.hideLoadingView()
+                    if !loaded {
+                        self?.mainView.mainCollectionView.reloadData()
+                        let initialIndexPath = IndexPath(item: 1, section: 2)
+                        self?.mainView.mainCollectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
                     }
+                    self?.startAutoScrollTimer()
+                    self?.mainView.isHidden = onLoading
+                    self?.mainSkeletonView.isHidden = true
+                    self?.hideLoadingView()
+                    self?.loaded = true
                 }
             }
         }
         
         self.mainViewModel.isAllLoaded = { [weak self] in
-            DispatchQueue.main.async {
-                self?.mainView.mainCollectionView.reloadData()
-            }
+            self?.mainViewModel.onLoading.value = false
         }
         
         self.mainViewModel.onReissueSuccess.bind { [weak self] onSuccess in
@@ -206,7 +229,7 @@ extension MainViewController {
     @objc
     func pushToDateDetailVC(_ sender: UIButton) {
         let dateID = sender.tag
-        let upcomingDateDetailVC = UpcomingDateDetailViewController(dateID: dateID, viewPath: StringLiterals.TabBar.home, upcomingDateDetailViewModel: DateDetailViewModel())
+        let upcomingDateDetailVC = UpcomingDateDetailViewController(index: dateID, dateID: dateID, viewPath: StringLiterals.TabBar.home, upcomingDateDetailViewModel: DateDetailViewModel())
         upcomingDateDetailVC.setColor(index: dateID)
         self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
     }
@@ -269,9 +292,8 @@ extension MainViewController: UICollectionViewDataSource {
         case .upcomingDate:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingDateCell.cellIdentifier, for: indexPath) as? UpcomingDateCell
             else { return UICollectionViewCell() }
-            cell.delegate = self
             cell.bindData(upcomingData: self.mainViewModel.upcomingData.value, mainUserData: self.mainViewModel.mainUserData.value)
-
+            
             // Set button actions
             let pointLabelTapGesture = UITapGestureRecognizer(target: self, action: #selector(pushToPointDetailVC))
             cell.pointLabel.addGestureRecognizer(pointLabelTapGesture)
@@ -283,14 +305,12 @@ extension MainViewController: UICollectionViewDataSource {
         case .hotDateCourse:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotDateCourseCell.cellIdentifier, for: indexPath) as? HotDateCourseCell
             else { return UICollectionViewCell() }
-            cell.delegate = self
             cell.bindData(hotDateData: mainViewModel.hotCourseData.value?[indexPath.row])
             return cell
             
         case .banner:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell
             else { return UICollectionViewCell() }
-            cell.delegate = self
             cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
             let longPressGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
             cell.addGestureRecognizer(longPressGesture)
@@ -299,7 +319,6 @@ extension MainViewController: UICollectionViewDataSource {
         case .newDateCourse:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewDateCourseCell.cellIdentifier, for: indexPath) as? NewDateCourseCell
             else { return UICollectionViewCell() }
-            cell.delegate = self
             cell.bindData(newDateData: mainViewModel.newCourseData.value?[indexPath.row])
             return cell
         }
@@ -348,7 +367,7 @@ extension MainViewController: UICollectionViewDataSource {
             
         case .banner:
             let id = mainViewModel.bannerData.value?[indexPath.item].advertisementId ?? 1
-            let bannerDtailVC = BannerDetailViewController(viewModel: CourseDetailViewModel(courseId: 7), advertismentId: id)
+            let bannerDtailVC = BannerDetailViewController(viewModel: BannerViewModel(advertisementId: id))
             bannerDtailVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(bannerDtailVC, animated: false)
             
@@ -363,23 +382,6 @@ extension MainViewController: BannerIndexDelegate {
     
     func bindIndex(currentIndex: Int) {
         self.mainViewModel.currentIndex.value?.row = currentIndex
-    }
-    
-}
-
-extension MainViewController: CellImageLoadDelegate {
-    
-    func cellImageLoaded() {
-        if !initial {
-            loadedCells += 1
-            print("Loaded cells: \(loadedCells)") // 디버깅 로그 추가
-
-            if loadedCells == totalCells {
-                self.mainViewModel.onLoading.value = false
-                loadedCells = 0
-                initial.toggle()
-            }
-        }
     }
     
 }

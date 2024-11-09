@@ -35,13 +35,11 @@ final class MyPageTableViewCell: BaseTableViewCell {
     }
     
     override func setStyle() {
-        titleLabel.do {
-            $0.setLabel(alignment: .left, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
-        }
+        titleLabel.setLabel(alignment: .left,
+                        textColor: UIColor(resource: .drBlack),
+                        font: UIFont.suit(.body_semi_15))
         
-        rightArrowButton.do {
-            $0.setImage(UIImage(resource: .arrowRightLarge), for: .normal)
-        }
+        rightArrowButton.setImage(UIImage(resource: .arrowRightLarge), for: .normal)
     }
     
 }

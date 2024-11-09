@@ -55,7 +55,7 @@ extension LoginViewController {
     func bindViewModel() {
         self.loginViewModel.onAuthLoading.bind { [weak self] onAuthLoading in
             guard let onAuthLoading else { return }
-            onAuthLoading ? self?.showLoadingView() : self?.hideLoadingView()
+            onAuthLoading ? self?.showLoadingView(type: StringLiterals.Login.splash) : self?.hideLoadingView()
         }
         
         self.loginViewModel.onLoginSuccess.bind { [weak self] onLoginSuccess in
@@ -110,7 +110,7 @@ extension LoginViewController {
             } else {
                 self?.loginViewModel.loginWithKakaoWeb()
             }
-            self?.showLoadingView()
+            self?.showLoadingView(type: StringLiterals.Login.splash)
         }
     }
     
@@ -139,7 +139,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential
         else { return }
         
-        self.showLoadingView()
+        self.showLoadingView(type: StringLiterals.Login.splash)
         self.loginViewModel.loginWithApple(userInfo: credential)
     }
     

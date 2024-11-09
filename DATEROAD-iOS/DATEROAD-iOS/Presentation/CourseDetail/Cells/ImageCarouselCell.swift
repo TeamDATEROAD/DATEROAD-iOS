@@ -37,7 +37,6 @@ final class ImageCarouselCell: BaseCollectionViewCell {
     // MARK: - Life Cycles
     
     override init(frame: CGRect) {
-        
         super.init(frame: frame)
         
         setDelegate()
@@ -48,7 +47,6 @@ final class ImageCarouselCell: BaseCollectionViewCell {
     }
     
     override func prepareForReuse() {
-        
         super.prepareForReuse()
         
         // 이미지 리소스 해제 및 다운로드 작업 취소
@@ -65,7 +63,7 @@ final class ImageCarouselCell: BaseCollectionViewCell {
             let vc = UIViewController()
             let imageView = UIImageView()
             
-            imageView.kfSetImage(with: thumbnail.imageUrl)
+            imageView.kfSetImage(with: thumbnail.imageUrl, placeholder: UIImage(resource: .placeholder))
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
             vc.view.addSubview(imageView)

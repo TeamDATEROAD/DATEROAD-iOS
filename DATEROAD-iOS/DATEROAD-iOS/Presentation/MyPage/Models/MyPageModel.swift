@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MyPageUserInfoModel {
+struct MyPageUserInfoModel: Equatable {
     
     let nickname: String
     

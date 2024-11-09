@@ -112,7 +112,7 @@ final class PointDetailView: BaseView {
         }
         
         userNameLabel.do {
-            $0.font = UIFont.suit(.body_med_13)
+            $0.font = UIFont.systemFont(ofSize: 13, weight: .medium)
             $0.textColor = UIColor(resource: .drWhite)
             $0.textAlignment = .left
         }

@@ -29,7 +29,7 @@ class BaseNavBarViewController: UIViewController {
     
     private let backgroundView: UIView = UIView()
     
-    let lottieView = LottieAnimationView(name: "loading")
+    let lottieView = LottieAnimationView(name: "clearLoading")
     
     
     // MARK: - Life Cycles
@@ -43,8 +43,16 @@ class BaseNavBarViewController: UIViewController {
     }
     
     func setHierarchy() {
-        self.view.addSubviews(topInsetView, navigationBarView, contentView)
-        self.navigationBarView.addSubviews(leftButton, titleLabel, rightButton)
+        self.view.addSubviews(
+            topInsetView,
+            navigationBarView,
+            contentView
+        )
+        self.navigationBarView.addSubviews(
+            leftButton,
+            titleLabel,
+            rightButton
+        )
     }
     
     func setLayout() {
@@ -82,20 +90,16 @@ class BaseNavBarViewController: UIViewController {
     
     func setStyle() {
         self.view.backgroundColor = UIColor(resource: .drWhite)
+        
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
-        leftButton.do {
-            $0.isHidden = true
-        }
+        leftButton.isHidden = true
         
-        rightButton.do {
-            $0.isHidden = true
-        }
+        rightButton.isHidden = true
         
-        titleLabel.do {
-            $0.isHidden = true
-        }
+        titleLabel.isHidden = true
     }
     
 }
@@ -106,12 +110,9 @@ class BaseNavBarViewController: UIViewController {
 extension BaseNavBarViewController {
     
     func setBackgroundColor(color: UIColor) {
-        topInsetView.do {
-            $0.backgroundColor = color
-        }
-        navigationBarView.do {
-            $0.backgroundColor = color
-        }
+        topInsetView.backgroundColor = color
+        
+        navigationBarView.backgroundColor = color
     }
     
     func setLeftButtonStyle(image: UIImage?) {
@@ -179,23 +180,43 @@ extension BaseNavBarViewController {
         view.addGestureRecognizer(tapRecognizer)
     }
     
-    func showLoadingView() {
+    func showLoadingView(type: String? = nil, topInset: Int = 104) {
         // 로딩 뷰 설정
         lottieView.contentMode = .scaleAspectFit
         lottieView.loopMode = .loop
         lottieView.play()
         
-        backgroundView.backgroundColor = UIColor(resource: .drWhite)
+        if type == StringLiterals.TabBar.myPage
+            || type == StringLiterals.AddCourseOrSchedule.addScheduleTitle {
+            backgroundView.backgroundColor = UIColor.clear
+            lottieView.backgroundColor = UIColor.clear
+        } else {
+            backgroundView.backgroundColor = UIColor(resource: .drWhite)
+            lottieView.backgroundColor = UIColor(resource: .drWhite)
+        }
         
         // 로딩 뷰를 화면에 추가
         self.view.addSubviews(backgroundView, lottieView)
         
-        backgroundView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        lottieView.snp.makeConstraints {
-            $0.center.equalToSuperview()
+        if type == nil {
+            backgroundView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+            
+            lottieView.snp.makeConstraints {
+                $0.center.equalToSuperview()
+            }
+        } else {
+            backgroundView.snp.makeConstraints {
+                $0.top.equalToSuperview().inset(topInset)
+                $0.bottom.equalToSuperview().inset(view.frame.height * 0.11)
+                $0.horizontalEdges.equalToSuperview()
+            }
+            
+            lottieView.snp.makeConstraints {
+                $0.verticalEdges.equalTo(backgroundView)
+                $0.horizontalEdges.equalToSuperview()
+            }
         }
     }
     

@@ -180,6 +180,7 @@ final class InAddScheduleFirstView: BaseView {
                 font: .suit(.body_semi_13)
             )
             $0.setLeftPadding(amount: 16)
+            $0.setRightPadding(amount: 6)
         }
         
         visitDateLabel.do {
@@ -241,7 +242,7 @@ extension InAddScheduleFirstView {
     
     func updateDateName(text: String) {
         dateNameTextField.text = text
-        dateNameTextField.font = UIFont.suit(.body_semi_13)
+        dateNameTextField.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
     }
     
     func updateVisitDate(text: String) {

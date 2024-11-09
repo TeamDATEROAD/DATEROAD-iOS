@@ -15,6 +15,10 @@ import KakaoSDKUser
 
 final class DateDetailViewModel: Serviceable {
     
+    private var currentDateDetailData: DateDetailModel?
+    
+    let updateDateDetailData: ObservablePattern<Bool> = ObservablePattern(false)
+    
     var type: ObservablePattern<NetworkType> = ObservablePattern(nil)
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
@@ -25,7 +29,7 @@ final class DateDetailViewModel: Serviceable {
     
     var dateDetailData: ObservablePattern<DateDetailModel> = ObservablePattern(nil)
     
-    var isSuccessGetDateDetailData: ObservablePattern<Bool> = ObservablePattern(nil)
+    var isSuccessGetDateDetailData: ObservablePattern<Bool> = ObservablePattern(false)
     
     var isSuccessDeleteDateScheduleData: ObservablePattern<Bool> = ObservablePattern(nil)
     
@@ -55,6 +59,7 @@ final class DateDetailViewModel: Serviceable {
 
 extension DateDetailViewModel {
     
+    // '지난 데이트 상세보기' or '다가올 데이트 상세보기' 데이터 .get
     func getDateDetailData(dateID: Int) {
         self.isSuccessGetDateDetailData.value = false
         self.setDateDetailLoading()
@@ -66,21 +71,30 @@ extension DateDetailViewModel {
                 let tagsInfo: [TagsModel] = data.tags.map { tag in
                     TagsModel(tag: tag.tag)
                 }
+                
                 let datePlaceInfo: [DatePlaceModel] = data.places.map { place in
                     DatePlaceModel(name: place.title, duration: (place.duration).formatFloatTime(), sequence: place.sequence)
                 }
-                self.dateDetailData.value = DateDetailModel(dateID: data.dateID,
-                                                            title: data.title,
-                                                            startAt: data.startAt,
-                                                            city: data.city,
-                                                            tags: tagsInfo,
-                                                            date: data.date.formatDateFromString(inputFormat: "yyyy.MM.dd",
-                                                                                                 outputFormat: "yyyy년 M월 d일") ?? "",
-                                                            places: datePlaceInfo,
-                                                            dDay: data.dDay)
+                
+                let newDateDetailData = DateDetailModel(dateID: data.dateID,
+                                                        title: data.title,
+                                                        startAt: data.startAt,
+                                                        city: data.city,
+                                                        tags: tagsInfo,
+                                                        date: data.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "",
+                                                        places: datePlaceInfo,
+                                                        dDay: data.dDay)
+                
+                // 기존 데이터와 비교 이후 동작
+                if self.currentDateDetailData != newDateDetailData {
+                    self.currentDateDetailData = newDateDetailData
+                    self.dateDetailData.value = newDateDetailData
+                    self.dateCourseNum = newDateDetailData.places.count
+                    self.dateTotalDuration = datePlaceInfo.map { Float($0.duration) ?? 0 }.reduce(0, +)
+                    self.updateDateDetailData.value = true
+                }
+                
                 self.isSuccessGetDateDetailData.value = true
-                self.dateCourseNum = self.dateDetailData.value?.places.count ?? 0
-                self.dateTotalDuration = datePlaceInfo.map { Float($0.duration) ?? 0 }.reduce(0, +)
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.type.value = NetworkType.getDateDetail
