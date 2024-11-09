@@ -141,6 +141,15 @@ final class LocationFilterViewController: BaseViewController {
 
 extension LocationFilterViewController {
     
+    func resetSelections() {
+        courseViewModel.selectedCityName.value = ""
+        courseViewModel.selectedPriceIndex.value = nil
+        courseViewModel.selectedCountryIndex.value = 0
+        courseViewModel.selectedCityIndex.value = nil
+        locationFilterView.countryCollectionView.reloadData()
+        locationFilterView.cityCollectionView.reloadData()
+    }
+    
     func presentBottomSheet(in viewController: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil) {
         self.modalPresentationStyle = .overFullScreen
         viewController.present(self, animated: false) {

@@ -177,6 +177,11 @@ extension CourseViewController {
         self.courseView.courseListView.emptyView.isHidden = !isEmpty
     }
     
+    func scrollToTop() {
+        let initialIndexPath = IndexPath(item: 0, section: 0)
+        self.courseView.courseListView.courseListCollectionView.scrollToItem(at: initialIndexPath, at: .top, animated: false)
+    }
+    
 }
 
 extension CourseViewController: CourseFilterViewDelegate {
@@ -219,8 +224,7 @@ extension CourseViewController: CourseFilterViewDelegate {
         courseViewModel.resetSelections()
         courseView.courseFilterView.resetPriceButtons()
         courseView.courseFilterView.resetLocationFilterButton()
-        courseViewModel.selectedCityName.value = ""
-        courseViewModel.selectedPriceIndex.value = nil
+        locationFilterVC.resetSelections()
         getCourse()
     }
     
@@ -232,6 +236,9 @@ extension CourseViewController: LocationFilterDelegate {
         let city = courseViewModel.selectedCityName.value ?? ""
         let cost = courseViewModel.selectedPriceIndex.value?.costNum()
         courseViewModel.getCourse(city: city, cost: cost)
+        if !courseListModel.isEmpty {
+            scrollToTop()
+        }
     }
     
     func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {

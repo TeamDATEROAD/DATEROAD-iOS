@@ -71,15 +71,11 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
         super.setHierarchy()
         
         self.view.addSubview(contentView)
-        contentView.addSubviews(loadingView, addScheduleFirstView)
+        contentView.addSubview(addScheduleFirstView)
     }
     
     override func setLayout() {
         super.setLayout()
-        
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
         
         addScheduleFirstView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(4)
@@ -130,20 +126,20 @@ private extension AddScheduleFirstViewController {
         
         self.viewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
-            
             // getData 중이거나, 에러 발생 X라면
             if onFailNetwork == false || onLoading == false {
-                self?.loadingView.isHidden = !onLoading
+//                self?.loadingView.isHidden = !onLoading
+                self?.hideLoadingView()
                 self?.addScheduleFirstView.isHidden = onLoading
                 self?.tabBarController?.tabBar.isHidden = onLoading
             }
         }
         
-        viewModel.ispastDateVaild.bind { [weak self] isValid in
-            guard let self = self else { return }
-            self.viewModel.fetchPastDate()
-            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
-        }
+//        viewModel.ispastDateVaild.bind { [weak self] isValid in
+//            guard let self = self else { return }
+//            self.viewModel.fetchPastDate()
+//            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
+//        }
         
         viewModel.isDateNameVaild.bind { date in
             guard let date else {return}
@@ -322,8 +318,11 @@ extension AddScheduleFirstViewController {
         if !viewModel.isBroughtData {
             setRightBtnStyle()
             setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
+        } else {
+            self.showLoadingView(type: StringLiterals.AddCourseOrSchedule.addScheduleTitle)
+            self.viewModel.fetchPastDate()
+            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
         }
-        viewModel.ispastDateVaild.value = true
     }
     
     /// BaseNavBarViewController에서 backButtonTapped() 오버라이드

@@ -125,8 +125,8 @@ extension MainViewController {
                 if onLoading {
                     self?.showLoadingView(type: StringLiterals.TabBar.home)
                 } else {
-                    self?.mainView.mainCollectionView.reloadData()
                     if !loaded {
+                        self?.mainView.mainCollectionView.reloadData()
                         let initialIndexPath = IndexPath(item: 1, section: 2)
                         self?.mainView.mainCollectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
                     }

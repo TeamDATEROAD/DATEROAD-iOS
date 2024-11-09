@@ -55,13 +55,14 @@ final class NewDateCourseCell: BaseCollectionViewCell {
                          likeLabel,
                          countryLabel,
                          dateNameView,
-                         dateNameLabel,
+                         
                          costView,
                          costImage,
                          costLabel,
                          timeView,
                          timeImage,
                          timeLabel)
+        dateNameView.addSubview(dateNameLabel)
     }
     
     override func setLayout() {
@@ -102,9 +103,8 @@ final class NewDateCourseCell: BaseCollectionViewCell {
         }
         
         dateNameLabel.snp.makeConstraints {
-            $0.top.equalTo(countryLabel.snp.bottom).offset(5)
-            $0.leading.equalTo(dateNameView)
-            $0.trailing.equalToSuperview().inset(16)
+            $0.top.leading.equalToSuperview()
+            $0.trailing.bottom.lessThanOrEqualToSuperview()
         }
         
         costView.snp.makeConstraints {
@@ -182,7 +182,9 @@ final class NewDateCourseCell: BaseCollectionViewCell {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.numberOfLines = 2
             $0.lineBreakMode = .byWordWrapping
-            $0.setLabel(alignment: .left, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_bold_17))
+            $0.setLabel(alignment: .left,
+                textColor: UIColor(resource: .drBlack),
+                font: UIFont.systemFont(ofSize: 17, weight: .bold))
         }
         
         costView.do {

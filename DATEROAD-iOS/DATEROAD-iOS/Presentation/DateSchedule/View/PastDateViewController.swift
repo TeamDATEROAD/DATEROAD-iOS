@@ -23,6 +23,8 @@ final class PastDateViewController: BaseNavBarViewController {
     
     var pastDateScheduleViewModel: DateScheduleViewModel
     
+    private var loaded: Bool = false
+    
     
     // MARK: - Life Cycles
     
@@ -87,9 +89,11 @@ private extension PastDateViewController {
             guard let flag else { return }
             if flag {
                 DispatchQueue.main.async {
-                    self?.pastDateContentView.pastDateCollectionView.performBatchUpdates({
-                        self?.pastDateContentView.pastDateCollectionView.reloadData()
-                    })
+                    UIView.performWithoutAnimation {
+                        self?.pastDateContentView.pastDateCollectionView.performBatchUpdates({
+                            self?.pastDateContentView.pastDateCollectionView.reloadSections(IndexSet(integer: 0))
+                        })
+                    }
                 }
                 self?.pastDateScheduleViewModel.updatePastDateScheduleData.value = false
             }
@@ -104,16 +108,19 @@ private extension PastDateViewController {
         }
         
         self.pastDateScheduleViewModel.onPastScheduleLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.pastDateScheduleViewModel.onPastScheduleFailNetwork.value else { return }
+            guard let onLoading,let loaded = self?.loaded, let onFailNetwork = self?.pastDateScheduleViewModel.onPastScheduleFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
                     self?.showLoadingView(type: StringLiterals.DateSchedule.pastDate)
                     self?.pastDateContentView.isHidden = onLoading
                 } else {
-                    self?.pastDateContentView.pastDateCollectionView.reloadData()
+                    if !loaded {
+                         self?.pastDateContentView.pastDateCollectionView.reloadData()
+                     }
                     self?.setEmptyView()
                     self?.pastDateContentView.isHidden = onLoading
                     self?.hideLoadingView()
+                    self?.loaded = true
                 }
             }
         }

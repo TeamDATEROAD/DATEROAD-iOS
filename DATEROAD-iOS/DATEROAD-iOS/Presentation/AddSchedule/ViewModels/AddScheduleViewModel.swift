@@ -13,7 +13,7 @@ final class AddScheduleViewModel: Serviceable {
     
     var viewedDateCourseByMeData: CourseDetailViewModel?
     
-    let ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
+    let ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
     
     let isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(false)
     

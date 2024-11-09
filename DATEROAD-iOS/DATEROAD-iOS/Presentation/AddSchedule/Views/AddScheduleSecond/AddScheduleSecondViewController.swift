@@ -145,6 +145,7 @@ private extension AddScheduleSecondViewController {
                     // 일정 등록 2 로딩뷰, 에러뷰 false 설정
                     self?.viewModel.onFailNetwork.value = false
                     self?.viewModel.onLoading.value = false
+                    self?.addScheduleSecondView.nextBtn.isUserInteractionEnabled = true
                 }
                 
                 self?.navigationController?.pushViewController(errorVC, animated: false)
@@ -264,6 +265,7 @@ private extension AddScheduleSecondViewController {
     
     @objc
     func didTapNextBtn() {
+        addScheduleSecondView.nextBtn.isUserInteractionEnabled = false
         viewModel.postAddScheduel()
     }
     
@@ -477,6 +479,7 @@ extension AddScheduleSecondViewController: UICollectionViewDragDelegate {
 extension AddScheduleSecondViewController: DRCustomAlertDelegate {
     
     func exit() {
+        addScheduleSecondView.nextBtn.isUserInteractionEnabled = true
         goBackOriginVCForAddSchedule()
     }
     
