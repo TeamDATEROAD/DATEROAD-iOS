@@ -186,8 +186,14 @@ extension BaseNavBarViewController {
         lottieView.loopMode = .loop
         lottieView.play()
         
-        backgroundView.backgroundColor = type == StringLiterals.TabBar.myPage ? UIColor.clear : UIColor(resource: .drWhite)
-        lottieView.backgroundColor = type == StringLiterals.TabBar.myPage ? UIColor.clear : UIColor(resource: .drWhite)
+        if type == StringLiterals.TabBar.myPage
+            || type == StringLiterals.AddCourseOrSchedule.addScheduleTitle {
+            backgroundView.backgroundColor = UIColor.clear
+            lottieView.backgroundColor = UIColor.clear
+        } else {
+            backgroundView.backgroundColor = UIColor(resource: .drWhite)
+            lottieView.backgroundColor = UIColor(resource: .drWhite)
+        }
         
         // 로딩 뷰를 화면에 추가
         self.view.addSubviews(backgroundView, lottieView)
