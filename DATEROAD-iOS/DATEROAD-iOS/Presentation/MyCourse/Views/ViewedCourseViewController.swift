@@ -35,6 +35,11 @@ final class ViewedCourseViewController: BaseViewController {
     
     private let userName: String = UserDefaults.standard.string(forKey: StringLiterals.Network.userName) ?? ""
     
+    private var loaded: Bool = false
+    
+    
+    // MARK: - LifeCycle
+    
     init(viewedCourseViewModel: MyCourseListViewModel) {
         self.viewedCourseViewModel = viewedCourseViewModel
         
@@ -44,9 +49,6 @@ final class ViewedCourseViewController: BaseViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    // MARK: - LifeCycle
     
     override func viewWillAppear(_ animated: Bool) {
         self.viewedCourseViewModel.setViewedCourseData()
@@ -118,13 +120,11 @@ final class ViewedCourseViewController: BaseViewController {
         super.setStyle()
         
         topLabel.do {
-            $0.font = UIFont.suit(.title_extra_24)
-            $0.setAttributedText(
-                fullText: "\(self.userName)님이 지금까지\n열람한 데이트 코스\n\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개",
-                pointText: "\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
-                pointColor: UIColor(resource: .mediumPurple),
-                lineHeight: 1
-            )
+            $0.font = UIFont.systemFont(ofSize: 24, weight: .black)
+            $0.setAttributedText(fullText: "\(self.userName)님이 지금까지\n열람한 데이트 코스\n\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개",
+                                 pointText: "\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
+                                 pointColor: UIColor(resource: .mediumPurple),
+                                 lineHeight: 1)
             $0.numberOfLines = 3
         }
         
@@ -134,16 +134,17 @@ final class ViewedCourseViewController: BaseViewController {
             $0.isUserInteractionEnabled = true
         }
         
-        createCourseLabel.setLabel(
-            text: StringLiterals.ViewedCourse.registerSchedule,
-            textColor: UIColor(resource: .drBlack),
-            font: UIFont.suit(.title_bold_18)
-        )
+        createCourseLabel.setLabel(text: StringLiterals.ViewedCourse.registerSchedule,
+                                   textColor: UIColor(resource: .drBlack),
+                                   font: UIFont.suit(.title_bold_18))
         
         arrowButton.do {
             $0.setButtonStatus(buttonType: EnabledButton())
             $0.setImage(UIImage(resource: .createCourseArrow), for: .normal)
-            $0.roundedButton(cornerRadius: 13, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+            $0.roundedButton(cornerRadius: 13, maskedCorners: [.layerMinXMinYCorner,
+                                                               .layerMaxXMinYCorner,
+                                                               .layerMinXMaxYCorner,
+                                                               .layerMaxXMaxYCorner])
             $0.isUserInteractionEnabled = false
         }
     }
@@ -169,12 +170,10 @@ private extension ViewedCourseViewController {
         } else {
             DispatchQueue.main.async {
                 self.viewedCourseView.myCourseListCollectionView.reloadData()
-                self.topLabel.setAttributedText(
-                    fullText: "\(name)님이 지금까지\n열람한 데이트 코스\n\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개",
-                    pointText: "\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
-                    pointColor: UIColor(resource: .mediumPurple),
-                    lineHeight: 1
-                )
+                self.topLabel.setAttributedText(fullText: "\(name)님이 지금까지\n열람한 데이트 코스\n\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개",
+                                                pointText: "\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
+                                                pointColor: UIColor(resource: .mediumPurple),
+                                                lineHeight: 1)
             }
         }
     }
@@ -190,10 +189,8 @@ extension ViewedCourseViewController {
         self.viewedCourseViewModel.viewedCoursesModelIsUpdate.bind { [weak self] flag in
             guard let flag else { return }
             if flag {
-                DispatchQueue.main.async {
-                    self?.viewedCourseView.myCourseListCollectionView.performBatchUpdates({
-                        self?.viewedCourseView.myCourseListCollectionView.reloadSections(IndexSet(integer: 0))
-                    })
+                UIView.performWithoutAnimation {
+                    self?.viewedCourseView.myCourseListCollectionView.reloadSections(IndexSet(integer: 0))
                 }
                 self?.viewedCourseViewModel.viewedCoursesModelIsUpdate.value = false
             }
@@ -221,11 +218,17 @@ extension ViewedCourseViewController {
         }
         
         self.viewedCourseViewModel.onViewedCourseLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.viewedCourseViewModel.onViewedCourseFailNetwork.value else { return }
+            guard let onLoading,
+                  let loaded = self?.loaded,
+                  let onFailNetwork = self?.viewedCourseViewModel.onViewedCourseFailNetwork.value
+            else { return }
             if !onFailNetwork {
                 if onLoading {
                     self?.showLoadingView(type: StringLiterals.ViewedCourse.title)
-                    self?.contentView.isHidden = true
+                    if !loaded {
+                        self?.contentView.isHidden = true
+                        self?.loaded = true
+                    }
                 } else {
                     self?.setEmptyView()
                     self?.contentView.isHidden = false

@@ -54,7 +54,8 @@ class BaseViewController: UIViewController {
         if type == StringLiterals.TabBar.home
             || type == StringLiterals.TabBar.myPage
             || type == StringLiterals.Course.course
-            || type == StringLiterals.Amplitude.ViewPath.courseDetail {
+            || type == StringLiterals.Amplitude.ViewPath.courseDetail
+            || type == StringLiterals.ViewedCourse.title {
             backgroundView.backgroundColor = UIColor.clear
             lottieView.backgroundColor = UIColor.clear
         } else {

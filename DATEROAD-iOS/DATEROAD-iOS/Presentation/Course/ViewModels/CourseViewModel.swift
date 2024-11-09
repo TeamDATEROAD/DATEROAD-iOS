@@ -98,12 +98,8 @@ extension CourseViewModel {
                         like: filterList.like
                     )
                 }
-                
-                if self.courseListModel != courseModels {
-                    self.courseListModel = courseModels
-                    self.didUpdateCourseList?()
-                }
-                
+                self.courseListModel = courseModels
+                self.didUpdateCourseList?()
                 self.isSuccessGetData.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in

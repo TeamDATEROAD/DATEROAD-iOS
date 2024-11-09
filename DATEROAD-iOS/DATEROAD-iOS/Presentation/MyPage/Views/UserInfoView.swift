@@ -107,9 +107,7 @@ final class UserInfoView: BaseView {
             $0.contentMode = .scaleAspectFill
         }
         
-        nicknameLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.systemFont(ofSize: 24, weight: .black))
-        }
+        nicknameLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.systemFont(ofSize: 24, weight: .black))
         
         editProfileButton.do {
             $0.image = UIImage(resource: .icPencil)
@@ -147,23 +145,17 @@ final class UserInfoView: BaseView {
             $0.isUserInteractionEnabled = true
         }
         
-        pointLabel.do {
-            $0.setLabel(text: "0 P",
-                        alignment: .left,
-                        textColor: UIColor(resource: .drBlack),
-                        font: UIFont.suit(.title_extra_24))
-        }
+        pointLabel.setLabel(text: "0 P",
+                            alignment: .left,
+                            textColor: UIColor(resource: .drBlack),
+                            font: UIFont.suit(.title_extra_24))
         
-        goToPointHistoryLabel.do {
-            $0.setLabel(text: StringLiterals.MyPage.goToPointHistory,
-                        alignment: .left,
-                        textColor: UIColor(resource: .gray400),
-                        font: UIFont.suit(.body_med_13))
-        }
+        goToPointHistoryLabel.setLabel(text: StringLiterals.MyPage.goToPointHistory,
+                                       alignment: .left,
+                                       textColor: UIColor(resource: .gray400),
+                                       font: UIFont.suit(.body_med_13))
         
-        rightArrowButton.do {
-            $0.image = UIImage(resource: .arrowRightMini)
-        }
+        rightArrowButton.image = UIImage(resource: .arrowRightMini)
     }
     
 }
