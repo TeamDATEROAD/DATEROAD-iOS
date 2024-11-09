@@ -23,6 +23,8 @@ final class MyRegisterCourseViewController: BaseNavBarViewController {
     
     private let myRegisterCourseViewModel = MyCourseListViewModel()
     
+    private var loaded: Bool = false
+    
     
     // MARK: - LifeCycle
     
@@ -123,7 +125,7 @@ extension MyRegisterCourseViewController {
         }
         
         self.myRegisterCourseViewModel.onMyRegisterCourseLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.value else { return }
+            guard let onLoading, let loaded = self?.loaded, let onFailNetwork = self?.myRegisterCourseViewModel.onMyRegisterCourseFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
                     self?.showLoadingView(type: StringLiterals.MyRegisterCourse.title)
@@ -131,7 +133,10 @@ extension MyRegisterCourseViewController {
                 } else {
                     DispatchQueue.main.async {
                         self?.setEmptyView()
-                        self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
+                        if !loaded {
+                            self?.myRegisterCourseView.myCourseListCollectionView.reloadData()
+                            self?.loaded = true
+                        }
                         self?.contentView.isHidden = onLoading
                         self?.hideLoadingView()
                     }
