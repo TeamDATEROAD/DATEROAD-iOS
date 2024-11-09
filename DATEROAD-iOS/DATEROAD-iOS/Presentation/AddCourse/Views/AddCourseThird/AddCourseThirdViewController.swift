@@ -145,6 +145,7 @@ private extension AddCourseThirdViewController {
                     // 코스 등록 3 로딩뷰, 에러뷰 false 설정
                     self?.viewModel.onFailNetwork.value = false
                     self?.viewModel.onLoading.value = false
+                    self?.addCourseThirdView.addThirdDoneBtn.isUserInteractionEnabled = true
                 }
                 
                 self?.navigationController?.pushViewController(errorVC, animated: false)
@@ -358,11 +359,13 @@ extension AddCourseThirdViewController: UICollectionViewDataSource {
 extension AddCourseThirdViewController: DRCustomAlertDelegate {
     
     func exit() {
+        addCourseThirdView.addThirdDoneBtn.isEnabled = true
         goBackOriginVCForAddCourse()
     }
     
     @objc
     private func didTapAddCourseBtn() {
+        addCourseThirdView.addThirdDoneBtn.isEnabled = false
         viewModel.postAddCourse()
     }
     
