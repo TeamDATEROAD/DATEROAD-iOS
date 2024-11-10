@@ -261,7 +261,6 @@ private extension EditProfileViewController {
     
     @objc
     func presentEditBottomSheet() {
-        print("1️⃣1️⃣1️⃣")
         alertVC.delegate = self
         DispatchQueue.main.async {
             self.alertVC.presentBottomSheet(in: self)
