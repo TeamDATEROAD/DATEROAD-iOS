@@ -183,25 +183,21 @@ final class InAddScheduleFirstView: BaseView {
             $0.setRightPadding(amount: 6)
         }
         
-        visitDateLabel.do {
-            $0.setLabel(
-                text: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateLabel,
-                alignment: .left,
-                textColor: UIColor(resource: .gray300),
-                font: UIFont.suit(.body_semi_13))
-        }
+        visitDateLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateLabel,
+                                alignment: .left,
+                                textColor: UIColor(resource: .gray300),
+                                font: UIFont.suit(.body_semi_13))
         
-        dateStartTimeLabel.do {
-            $0.setLabel(
-                text: StringLiterals.AddCourseOrSchedule.AddFirstView.dateStartTimeLabel,
-                alignment: .left,
-                textColor: UIColor(resource: .gray300),
-                font: UIFont.suit(.body_semi_13))
-        }
+        dateStartTimeLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.dateStartTimeLabel,
+                                    alignment: .left,
+                                    textColor: UIColor(resource: .gray300),
+                                    font: UIFont.suit(.body_semi_13))
         
         tagTitleLabel.do {
-            $0.setLabel(alignment: .left, textColor: UIColor(resource: .drBlack), font: .suit(.body_semi_15))
             $0.text = StringLiterals.AddCourseOrSchedule.AddFirstView.tagTitle
+            $0.setLabel(alignment: .left,
+                        textColor: UIColor(resource: .drBlack),
+                        font: .suit(.body_semi_15))
         }
         
         datePlaceContainer.do {
@@ -209,14 +205,10 @@ final class InAddScheduleFirstView: BaseView {
             $0.layer.cornerRadius = 14
         }
         
-        datePlaceLabel.do {
-            $0.setLabel(
-                text: StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel,
-                alignment: .left,
-                textColor: UIColor(resource: .gray300),
-                font: .suit(.body_semi_13)
-            )
-        }
+        datePlaceLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel,
+                                alignment: .left,
+                                textColor: UIColor(resource: .gray300),
+                                font: .suit(.body_semi_13))
         
         datePlaceImage.do {
             $0.image = UIImage(resource: .downArrow)
@@ -224,10 +216,7 @@ final class InAddScheduleFirstView: BaseView {
         }
         
         sixCheckNextButton.do {
-            $0.setTitle(
-                StringLiterals.AddCourseOrSchedule.AddFirstView.addFirstNextBtnOfSchedule,
-                for: .normal
-            )
+            $0.setTitle(StringLiterals.AddCourseOrSchedule.AddFirstView.addFirstNextBtnOfSchedule, for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_med_13)
             $0.setButtonStatus(buttonType: disabledButtonType)
         }
@@ -290,14 +279,10 @@ extension InAddScheduleFirstView {
                 $0.text = text
             }
         } else {
-            datePlaceLabel.do {
-                $0.setLabel(
-                    text: StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel,
-                    alignment: .left,
-                    textColor: UIColor(resource: .gray300),
-                    font: .suit(.body_semi_13)
-                )
-            }
+            datePlaceLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel,
+                            alignment: .left,
+                            textColor: UIColor(resource: .gray300),
+                            font: .suit(.body_semi_13))
         }
     }
     

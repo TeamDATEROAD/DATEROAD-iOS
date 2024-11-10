@@ -53,7 +53,9 @@ final class DRErrorViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.contentView.addSubviews(errorImageView, mainErrorMessageLabel, subErrorMessageLabel)
+        self.contentView.addSubviews(errorImageView,
+                                     mainErrorMessageLabel,
+                                     subErrorMessageLabel)
     }
     
     override func setLayout() {

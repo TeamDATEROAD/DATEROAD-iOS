@@ -78,9 +78,7 @@ private extension BannerInfoHeaderView {
             $0.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_semi_13))
         }
         
-        visitDateLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .gray400), font: UIFont.suit(.body_semi_15))
-        }
+        visitDateLabel.setLabel(textColor: UIColor(resource: .gray400), font: UIFont.suit(.body_semi_15))
     }
     
 }

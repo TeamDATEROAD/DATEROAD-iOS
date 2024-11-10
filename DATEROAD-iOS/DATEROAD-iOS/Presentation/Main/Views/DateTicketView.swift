@@ -80,7 +80,10 @@ final class DateTicketView: BaseView {
         }
         
         dDayLabel.do {
-            $0.roundedLabel(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+            $0.roundedLabel(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner,
+                                                              .layerMaxXMinYCorner,
+                                                              .layerMinXMaxYCorner,
+                                                              .layerMaxXMaxYCorner])
             $0.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_bold_13))
             $0.setPadding(top: 0, left: 10, bottom: 0, right: 10)
             $0.backgroundColor = UIColor(resource: .deepPurple)
@@ -91,17 +94,11 @@ final class DateTicketView: BaseView {
                                textColor: UIColor(resource: .drWhite),
                                font: UIFont.systemFont(ofSize: 20,weight: .bold))
         
-        dateLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .lightPurple), font: UIFont.suit(.body_med_15))
-        }
+        dateLabel.setLabel(textColor: UIColor(resource: .lightPurple), font: UIFont.suit(.body_med_15))
         
-        startTimeLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .lightPurple), font: UIFont.suit(.body_med_15))
-        }
+        startTimeLabel.setLabel(textColor: UIColor(resource: .lightPurple), font: UIFont.suit(.body_med_15))
         
-        moveButton.do {
-            $0.setImage(UIImage(resource: .icRightarrowPurple), for: .normal)
-        }
+        moveButton.setImage(UIImage(resource: .icRightarrowPurple), for: .normal)
     }
     
 }

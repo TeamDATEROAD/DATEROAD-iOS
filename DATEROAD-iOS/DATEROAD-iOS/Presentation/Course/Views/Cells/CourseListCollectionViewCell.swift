@@ -156,28 +156,20 @@ final class CourseListCollectionViewCell: BaseCollectionViewCell {
             $0.backgroundColor = UIColor(resource: .deepPurple)
         }
         
-        likeNumLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_bold_13))
-        }
+        likeNumLabel.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_bold_13))
         
-        locationLabel.do {
-            $0.setLabel(numberOfLines: 1, textColor: UIColor(resource: .gray400), font: UIFont.suit(.body_med_13))
-        }
+        locationLabel.setLabel(numberOfLines: 1,
+                               textColor: UIColor(resource: .gray400),
+                               font: UIFont.suit(.body_med_13))
         
-        titleLabel.do {
-            $0.setLabel(alignment: .left,
-                        numberOfLines: 2,
-                        textColor: UIColor(resource: .drBlack),
-                        font: UIFont.systemFont(ofSize: 15, weight: .bold))
-        }
+        titleLabel.setLabel(alignment: .left,
+                            numberOfLines: 2,
+                            textColor: UIColor(resource: .drBlack),
+                            font: UIFont.systemFont(ofSize: 15, weight: .bold))
         
-        coastLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .gray400), font: UIFont.suit(.cap_reg_11))
-        }
+        coastLabel.setLabel(textColor: UIColor(resource: .gray400), font: UIFont.suit(.cap_reg_11))
         
-        timeLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .gray400), font: UIFont.suit(.cap_reg_11))
-        }
+        timeLabel.setLabel(textColor: UIColor(resource: .gray400), font: UIFont.suit(.cap_reg_11))
     }
     
 }

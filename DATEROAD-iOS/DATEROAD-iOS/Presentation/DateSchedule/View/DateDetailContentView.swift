@@ -158,9 +158,7 @@ final class DateDetailContentView: BaseView {
             $0.clipsToBounds = true
         }
         
-        dateLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
-        }
+        dateLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
         
         dDayButton.do {
             $0.isHidden = true
@@ -168,7 +166,10 @@ final class DateDetailContentView: BaseView {
             $0.titleLabel?.textColor = UIColor(resource: .drWhite)
             $0.backgroundColor = UIColor(resource: .deepPurple)
             $0.contentEdgeInsets = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
-            $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMaxXMaxYCorner,
+                                                               .layerMaxXMinYCorner,
+                                                               .layerMinXMaxYCorner,
+                                                               .layerMinXMinYCorner])
         }
         
         firstTagButton.do {
@@ -209,9 +210,7 @@ final class DateDetailContentView: BaseView {
             $0.adjustsImageWhenDisabled = false
         }
         
-        locationLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .gray500), font: UIFont.suit(.body_med_15))
-        }
+        locationLabel.setLabel(textColor: UIColor(resource: .gray500), font: UIFont.suit(.body_med_15))
         
         titleLabel.setLabel(alignment: .left,
                                numberOfLines: 2,
@@ -223,9 +222,7 @@ final class DateDetailContentView: BaseView {
             $0.roundCorners(cornerRadius: 20, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
         }
         
-        dateStartTimeLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
-        }
+        dateStartTimeLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
         
         dateTimeLineCollectionView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
@@ -306,11 +303,17 @@ extension DateDetailContentView {
     func setColor(index: Int) {
         let colorIndex = index % 3
         if colorIndex == 0 {
-            setColorToLabel(bgColor: UIColor(resource: .pink200), ribbonImage: UIImage(resource: .lilacRibbon), buttonColor: UIColor(resource: .pink100))
+            setColorToLabel(bgColor: UIColor(resource: .pink200),
+                            ribbonImage: UIImage(resource: .lilacRibbon),
+                            buttonColor: UIColor(resource: .pink100))
         } else if colorIndex == 1 {
-            setColorToLabel(bgColor: UIColor(resource: .purple200), ribbonImage: UIImage(resource: .deepPurpleRibbon), buttonColor: UIColor(resource: .purple100))
+            setColorToLabel(bgColor: UIColor(resource: .purple200),
+                            ribbonImage: UIImage(resource: .deepPurpleRibbon),
+                            buttonColor: UIColor(resource: .purple100))
         } else {
-            setColorToLabel(bgColor: UIColor(resource: .lime), ribbonImage: UIImage(resource: .limeRibbon), buttonColor: UIColor(resource: .lime100))
+            setColorToLabel(bgColor: UIColor(resource: .lime),
+                            ribbonImage: UIImage(resource: .limeRibbon),
+                            buttonColor: UIColor(resource: .lime100))
         }
     }
     

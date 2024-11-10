@@ -58,21 +58,15 @@ final class TimelineHeaderView: UICollectionReusableView {
     
     func setStyle() {
         titleLabel.do {
-            $0.setLabel(text: StringLiterals.CourseDetail.timelineInfoLabel, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_bold_18))
+            $0.setLabel(text: StringLiterals.CourseDetail.timelineInfoLabel,
+                        textColor: UIColor(resource: .drBlack),
+                        font: UIFont.suit(.title_bold_18))
             $0.numberOfLines = 1
         }
         
-        subLabel.do {
-            $0.setLabel(
-                text:"12:00 PM 시작",
-                textColor: UIColor(
-                    resource: .gray400
-                ),
-                font: UIFont.suit(
-                    .body_semi_15
-                )
-            )
-        }
+        subLabel.setLabel(text:"12:00 PM 시작",
+                          textColor: UIColor(resource: .gray400),
+                          font: UIFont.suit(.body_semi_15))
     }
     
 }
