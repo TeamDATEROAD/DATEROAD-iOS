@@ -161,12 +161,17 @@ final class HotDateCourseCell: BaseCollectionViewCell {
             $0.image = UIImage(resource: .placeholder)
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFill
-            $0.roundCorners(cornerRadius: 13, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+            $0.roundCorners(cornerRadius: 13, maskedCorners: [.layerMaxXMinYCorner,
+                                                              .layerMinXMaxYCorner,
+                                                              .layerMaxXMaxYCorner])
         }
         
         likeView.do {
             $0.backgroundColor = UIColor(resource: .deepPurple)
-            $0.roundCorners(cornerRadius: 12, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 12, maskedCorners: [.layerMaxXMinYCorner,
+                                                              .layerMinXMaxYCorner,
+                                                              .layerMaxXMaxYCorner,
+                                                              .layerMinXMinYCorner])
         }
         
         likeImage.image = UIImage(resource: .heartIcon)
@@ -185,15 +190,17 @@ final class HotDateCourseCell: BaseCollectionViewCell {
             $0.textAlignment = .left
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.numberOfLines = 2
-            $0.lineBreakMode = .byWordWrapping
             $0.setLabel(alignment: .left,
-                textColor: UIColor(resource: .drBlack),
-                font: UIFont.systemFont(ofSize: 17, weight: .bold))
+                        textColor: UIColor(resource: .drBlack),
+                        font: UIFont.systemFont(ofSize: 17, weight: .bold))
         }
         
         costView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner,
+                                                              .layerMinXMaxYCorner,
+                                                              .layerMaxXMaxYCorner,
+                                                              .layerMinXMinYCorner])
         }
         
         costImage.image = UIImage(resource: .coastIcon)
@@ -203,24 +210,31 @@ final class HotDateCourseCell: BaseCollectionViewCell {
             $0.textColor = UIColor(resource: .gray400)
             $0.font = UIFont.suit(.body_med_13)
             $0.setPadding(top: 4, left: 0, bottom: 4, right: 10)
-            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner,
+                                                              .layerMinXMaxYCorner,
+                                                              .layerMaxXMaxYCorner,
+                                                              .layerMinXMinYCorner])
         }
         
         timeView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner,
+                                                              .layerMinXMaxYCorner,
+                                                              .layerMaxXMaxYCorner,
+                                                              .layerMinXMinYCorner])
         }
         
-        timeImage.do {
-            $0.image = UIImage(resource: .timeIcon)
-        }
+        timeImage.image = UIImage(resource: .timeIcon)
         
         timeLabel.do {
             $0.backgroundColor = UIColor(resource: .gray100)
             $0.textColor = UIColor(resource: .gray400)
             $0.font = UIFont.suit(.body_med_13)
-            $0.roundedLabel(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
             $0.setPadding(top: 4, left: 0, bottom: 4, right: 10)
+            $0.roundedLabel(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner,
+                                                              .layerMinXMaxYCorner,
+                                                              .layerMaxXMaxYCorner,
+                                                              .layerMinXMinYCorner])
         }
     }
     

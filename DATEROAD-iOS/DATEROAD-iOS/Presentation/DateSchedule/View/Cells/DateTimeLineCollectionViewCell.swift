@@ -97,9 +97,7 @@ final class DateTimeLineCollectionViewCell: BaseCollectionViewCell {
             $0.layer.cornerRadius = 12
         }
         
-        indexNumLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_bold_13))
-        }
+        indexNumLabel.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_bold_13))
         
         locationLabel.setLabel(alignment: .left,
                               numberOfLines: 1,
@@ -111,9 +109,7 @@ final class DateTimeLineCollectionViewCell: BaseCollectionViewCell {
             $0.layer.cornerRadius = 10
         }
         
-        timeLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_med_13))
-        }
+        timeLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_med_13))
     }
     
 }

@@ -57,17 +57,17 @@ final class EmptyTicketView: BaseView {
             $0.contentMode = .scaleAspectFill
         }
         
-        emptyDateLabel.do {
-            $0.setLabel(text: StringLiterals.Main.emptyDateTitle, alignment: .left, textColor: UIColor(resource: .drWhite), font: UIFont.suit(.title_bold_18))
-        }
+        emptyDateLabel.setLabel(text: StringLiterals.Main.emptyDateTitle,
+                                alignment: .left,
+                                textColor: UIColor(resource: .drWhite),
+                                font: UIFont.suit(.title_bold_18))
         
-        goToRegisterLabel.do {
-            $0.setLabel(text: StringLiterals.Main.emptyDateSub, alignment: .left, textColor: UIColor(resource: .lightPurple), font: UIFont.suit(.body_med_15))
-        }
+        goToRegisterLabel.setLabel(text: StringLiterals.Main.emptyDateSub,
+                                   alignment: .left,
+                                   textColor: UIColor(resource: .lightPurple),
+                                   font: UIFont.suit(.body_med_15))
         
-        moveButton.do {
-            $0.setImage(UIImage(resource: .icPlus), for: .normal)
-        }
+        moveButton.setImage(UIImage(resource: .icPlus), for: .normal)
     }
     
 }

@@ -35,12 +35,10 @@ final class DateScheduleDeleteView: BaseView {
     }
     
     override func setStyle() {
-        titleLabel.do {
-            $0.setLabel(text: StringLiterals.DateSchedule.dateSetting,
-                        alignment: .center,
-                        textColor: UIColor(resource: .drBlack),
-                        font: UIFont.suit(.title_bold_18))
-        }
+        titleLabel.setLabel(text: StringLiterals.DateSchedule.dateSetting,
+                            alignment: .center,
+                            textColor: UIColor(resource: .drBlack),
+                            font: UIFont.suit(.title_bold_18))
         
         deleteLabel.do {
             $0.setLabel(text: StringLiterals.DateSchedule.deleteDate,

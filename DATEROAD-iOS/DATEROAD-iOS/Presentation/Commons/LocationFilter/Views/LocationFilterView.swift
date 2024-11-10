@@ -108,30 +108,29 @@ final class LocationFilterView: BaseView {
     }
     
     override func setStyle() {
-        cityCollectionView.do {
-            $0.showsVerticalScrollIndicator = false
-        }
+        cityCollectionView.showsVerticalScrollIndicator = false
         
         bottomSheetView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.roundCorners(cornerRadius: 16, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
         }
         
-        titleLabel.do {
-            $0.setLabel(text:StringLiterals.LocationFilter.title,textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_bold_18))
-        }
+        titleLabel.setLabel(text:StringLiterals.LocationFilter.title,
+                            textColor: UIColor(resource: .drBlack),
+                            font: UIFont.suit(.title_bold_18))
         
         closeButton.do {
             $0.setImage(UIImage(resource: .btnClose), for: .normal)
             $0.addTarget(self, action: #selector(closeLocationFilterView), for: .touchUpInside)
         }
         
-        lineView.do {
-            $0.backgroundColor = UIColor(resource: .gray200)
-        }
+        lineView.backgroundColor = UIColor(resource: .gray200)
         
         applyButton.do {
-            $0.roundedButton(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+            $0.roundedButton(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner,
+                                                               .layerMaxXMinYCorner,
+                                                               .layerMinXMaxYCorner,
+                                                               .layerMaxXMaxYCorner])
             $0.backgroundColor = UIColor(resource: .gray200)
             $0.setTitle(StringLiterals.LocationFilter.apply, for: .normal)
             $0.setTitleColor(UIColor(resource: .gray400), for: .normal)

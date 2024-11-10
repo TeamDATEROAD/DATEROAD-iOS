@@ -90,9 +90,7 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
             $0.setLabel(textColor: UIColor(resource: .drBlack), font: .suit(.body_med_13))
         }
         
-        moveAbleButton.do {
-            $0.setImage(UIImage(resource: .icMovecourse), for: .normal)
-        }
+        moveAbleButton.setImage(UIImage(resource: .icMovecourse), for: .normal)
     }
     
 }

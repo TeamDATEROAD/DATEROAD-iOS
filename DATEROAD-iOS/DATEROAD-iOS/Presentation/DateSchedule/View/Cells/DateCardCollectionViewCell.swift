@@ -168,7 +168,10 @@ final class DateCardCollectionViewCell: BaseCollectionViewCell {
             $0.titleLabel?.textColor = UIColor(resource: .drWhite)
             $0.backgroundColor = UIColor(resource: .deepPurple)
             $0.contentEdgeInsets = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
-            $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMaxXMaxYCorner,
+                                                               .layerMaxXMinYCorner,
+                                                               .layerMinXMaxYCorner,
+                                                               .layerMinXMinYCorner])
         }
         
         firstTagButton.do {
@@ -261,11 +264,20 @@ extension DateCardCollectionViewCell {
     func setColor(index: Int) {
         let colorIndex = index % 3
         if colorIndex == 0 {
-            setColorToLabel(bgColor: UIColor(resource: .pink200), topImage: UIImage(resource: .lilacTop), bottomImage: UIImage(resource: .lilacBottom), buttonColor: UIColor(resource: .pink100))
+            setColorToLabel(bgColor: UIColor(resource: .pink200),
+                            topImage: UIImage(resource: .lilacTop),
+                            bottomImage: UIImage(resource: .lilacBottom),
+                            buttonColor: UIColor(resource: .pink100))
         } else if colorIndex == 1 {
-            setColorToLabel(bgColor: UIColor(resource: .purple200), topImage: UIImage(resource: .deepPurpleTop), bottomImage: UIImage(resource: .deepPurpleBottom), buttonColor: UIColor(resource: .purple100))
+            setColorToLabel(bgColor: UIColor(resource: .purple200),
+                            topImage: UIImage(resource: .deepPurpleTop),
+                            bottomImage: UIImage(resource: .deepPurpleBottom),
+                            buttonColor: UIColor(resource: .purple100))
         } else {
-            setColorToLabel(bgColor: UIColor(resource: .lime), topImage: UIImage(resource: .limeTop), bottomImage: UIImage(resource: .limeBottom), buttonColor: UIColor(resource: .lime100))
+            setColorToLabel(bgColor: UIColor(resource: .lime),
+                            topImage: UIImage(resource: .limeTop),
+                            bottomImage: UIImage(resource: .limeBottom),
+                            buttonColor: UIColor(resource: .lime100))
         }
     }
     

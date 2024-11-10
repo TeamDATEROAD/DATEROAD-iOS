@@ -60,16 +60,18 @@ final class CourseNavigationBarView: BaseView {
     }
     
     override func setStyle() {
-        
-        courseLabel.do {
-            $0.setLabel(text: StringLiterals.Course.course, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_bold_20))
-        }
+        courseLabel.setLabel(text: StringLiterals.Course.course,
+                             textColor: UIColor(resource: .drBlack),
+                             font: UIFont.suit(.title_bold_20))
         
         addCourseButton.do {
-            $0.roundedButton(cornerRadius: 15, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
             $0.backgroundColor = UIColor(resource: .deepPurple)
             $0.setImage(.plusSchedule, for: .normal)
             $0.addTarget(self, action: #selector(didTapAddCourseButton), for: .touchUpInside)
+            $0.roundedButton(cornerRadius: 15, maskedCorners: [.layerMinXMinYCorner,
+                                                               .layerMaxXMinYCorner,
+                                                               .layerMinXMaxYCorner,
+                                                               .layerMaxXMaxYCorner])
         }
     }
     

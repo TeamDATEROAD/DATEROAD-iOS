@@ -94,19 +94,15 @@ final class InAddScheduleSecondView: BaseView {
     }
     
     override func setStyle() {
-        contentTitleLabel.do {
-            $0.setLabel(text: StringLiterals.AddCourseOrSchedule.AddSecondView.contentTitleLabelOfCourse,
-                        alignment: .left,
-                        textColor: UIColor(resource: .drBlack),
-                        font: .suit(.body_bold_17))
-        }
+        contentTitleLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddSecondView.contentTitleLabelOfCourse,
+                                   alignment: .left,
+                                   textColor: UIColor(resource: .drBlack),
+                                   font: .suit(.body_bold_17))
         
-        contentSubTitleLabel.do {
-            $0.setLabel(text: StringLiterals.AddCourseOrSchedule.AddSecondView.subTitleLabel,
-                        alignment: .left,
-                        textColor: UIColor(resource: .gray400),
-                        font: .suit(.body_med_13))
-        }
+        contentSubTitleLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddSecondView.subTitleLabel,
+                                      alignment: .left,
+                                      textColor: UIColor(resource: .gray400),
+                                      font: .suit(.body_med_13))
         
         datePlaceTextField.do {
             $0.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.datePlacePlaceHolder,
@@ -146,9 +142,7 @@ final class InAddScheduleSecondView: BaseView {
             }
         }
         
-        separatorLine.do {
-            $0.backgroundColor = UIColor(resource: .gray200)
-        }
+        separatorLine.backgroundColor = UIColor(resource: .gray200)
     }
     
 }

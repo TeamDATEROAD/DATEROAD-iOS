@@ -82,13 +82,11 @@ final class MainHeaderView: UICollectionReusableView {
     func setStyle() {
         self.backgroundColor = UIColor(resource: .deepPurple)
         
-        backgroundView.do {
-            $0.backgroundColor = UIColor(resource: .drWhite)
-        }
+        backgroundView.backgroundColor = UIColor(resource: .drWhite)
         
-        subLabel.do {
-            $0.setLabel(alignment: .left, textColor: UIColor(resource: .gray400), font: UIFont.suit(.body_med_13))
-        }
+        subLabel.setLabel(alignment: .left,
+                          textColor: UIColor(resource: .gray400),
+                          font: UIFont.suit(.body_med_13))
         
         viewMoreButton.do {
             $0.setTitle(StringLiterals.Main.viewMore, for: .normal)

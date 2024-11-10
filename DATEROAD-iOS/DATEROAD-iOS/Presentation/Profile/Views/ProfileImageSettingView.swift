@@ -29,7 +29,9 @@ final class ProfileImageSettingView: BaseView {
     
     override func setHierarchy() {
         self.addSubview(settingStackView)
-        settingStackView.addArrangedSubviews(titleLabel, registerLabel, deleteLabel)
+        settingStackView.addArrangedSubviews(titleLabel,
+                                             registerLabel,
+                                             deleteLabel)
     }
     
     override func setLayout() {
@@ -45,13 +47,11 @@ final class ProfileImageSettingView: BaseView {
             $0.distribution = .fillEqually
         }
         
-        titleLabel.do {
-            $0.setLabel(text: StringLiterals.Profile.settingImage,
-                        alignment: .center,
-                        textColor: UIColor(resource: .drBlack),
-                        font: UIFont.suit(.title_bold_18))
-        }
-        
+        titleLabel.setLabel(text: StringLiterals.Profile.settingImage,
+                            alignment: .center,
+                            textColor: UIColor(resource: .drBlack),
+                            font: UIFont.suit(.title_bold_18))
+
         registerLabel.do {
             $0.isUserInteractionEnabled = true
             $0.setLabel(text: StringLiterals.Profile.registerImage,

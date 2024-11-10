@@ -27,6 +27,7 @@ final class DeleteCourseSettingView: BaseView {
     
     override func setHierarchy() {
         self.addSubview(settingStackView)
+        
         settingStackView.addArrangedSubviews(titleLabel, deleteLabel)
     }
     
@@ -43,12 +44,10 @@ final class DeleteCourseSettingView: BaseView {
             $0.distribution = .fillEqually
         }
         
-        titleLabel.do {
-            $0.setLabel(text: StringLiterals.CourseDetail.settingDateCourse,
-                        alignment: .center,
-                        textColor: UIColor(resource: .drBlack),
-                        font: UIFont.suit(.title_bold_18))
-        }
+        titleLabel.setLabel(text: StringLiterals.CourseDetail.settingDateCourse,
+                            alignment: .center,
+                            textColor: UIColor(resource: .drBlack),
+                            font: UIFont.suit(.title_bold_18))
         
         deleteLabel.do {
             $0.isUserInteractionEnabled = true
