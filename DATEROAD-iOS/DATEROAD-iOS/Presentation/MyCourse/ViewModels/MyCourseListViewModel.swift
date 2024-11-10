@@ -15,7 +15,7 @@ final class MyCourseListViewModel: Serviceable {
     
     var myRegisterCoursesModel = MyRegisterCoursesManager.shared.myRegisterCoursesModel
     
-    var viewedCoursesModelIsUpdate: ObservablePattern<Bool> = ObservablePattern(nil)
+    var viewedCoursesModelIsUpdate: ObservablePattern<Bool> = ObservablePattern(false)
     
     var broughtViewedCoursesModelIsUpdate: ObservablePattern<Bool> = ObservablePattern(nil)
     
