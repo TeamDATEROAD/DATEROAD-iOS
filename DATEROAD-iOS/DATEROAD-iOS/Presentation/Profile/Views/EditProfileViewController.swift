@@ -261,6 +261,7 @@ private extension EditProfileViewController {
     
     @objc
     func presentEditBottomSheet() {
+        print("1️⃣1️⃣1️⃣")
         alertVC.delegate = self
         DispatchQueue.main.async {
             self.alertVC.presentBottomSheet(in: self)
@@ -312,8 +313,10 @@ private extension EditProfileViewController {
     
     @objc
     func registerPhoto() {
-        alertVC.dismissBottomSheet()
-        imagePickerViewController.presentPicker(from: self)
+        alertVC.dismissBottomSheet() { [weak self] in
+            guard let self else { return }
+            self.imagePickerViewController.presentPicker(from: self)
+        }
     }
     
     @objc

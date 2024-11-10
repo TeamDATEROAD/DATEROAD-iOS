@@ -264,8 +264,10 @@ private extension ProfileViewController {
     
     @objc
     func registerPhoto() {
-        alertVC.dismissBottomSheet()
-        imagePickerViewController.presentPicker(from: self)
+        alertVC.dismissBottomSheet() { [weak self] in
+            guard let self else { return }
+            self.imagePickerViewController.presentPicker(from: self)
+        }
     }
     
     @objc
