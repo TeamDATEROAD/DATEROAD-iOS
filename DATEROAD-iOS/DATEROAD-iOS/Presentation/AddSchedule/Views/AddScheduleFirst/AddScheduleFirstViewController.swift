@@ -15,7 +15,12 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
     
     let addSheetView = AddSheetView(isCustomPicker: false)
     
-    lazy var alertVC = DRBottomSheetViewController(contentView: addSheetView, height: 304, buttonType: EnabledButton(), buttonTitle: StringLiterals.AddCourseOrSchedule.AddBottomSheetView.datePickerBtnTitle)
+    lazy var alertVC = DRBottomSheetViewController(contentView: addSheetView,
+                                                   height: 304,
+                                                   buttonType: EnabledButton(),
+                                                   buttonTitle: StringLiterals.AddCourseOrSchedule.AddBottomSheetView.datePickerBtnTitle)
+    
+    let locationFilterVC = LocationFilterViewController()
     
     private let loadingView: DRLoadingView = DRLoadingView()
     
@@ -66,15 +71,11 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
         super.setHierarchy()
         
         self.view.addSubview(contentView)
-        contentView.addSubviews(loadingView, addScheduleFirstView)
+        contentView.addSubview(addScheduleFirstView)
     }
     
     override func setLayout() {
         super.setLayout()
-        
-        loadingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
         
         addScheduleFirstView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(4)
@@ -125,20 +126,20 @@ private extension AddScheduleFirstViewController {
         
         self.viewModel.onLoading.bind { [weak self] onLoading in
             guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
-            
             // getData 중이거나, 에러 발생 X라면
             if onFailNetwork == false || onLoading == false {
-                self?.loadingView.isHidden = !onLoading
+//                self?.loadingView.isHidden = !onLoading
+                self?.hideLoadingView()
                 self?.addScheduleFirstView.isHidden = onLoading
                 self?.tabBarController?.tabBar.isHidden = onLoading
             }
         }
         
-        viewModel.ispastDateVaild.bind { [weak self] isValid in
-            guard let self = self else { return }
-            self.viewModel.fetchPastDate()
-            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
-        }
+//        viewModel.ispastDateVaild.bind { [weak self] isValid in
+//            guard let self = self else { return }
+//            self.viewModel.fetchPastDate()
+//            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
+//        }
         
         viewModel.isDateNameVaild.bind { date in
             guard let date else {return}
@@ -245,8 +246,7 @@ private extension AddScheduleFirstViewController {
         alertVC.delegate = self
         addScheduleFirstView.inAddScheduleFirstView.dateNameTextField.resignFirstResponder()
         DispatchQueue.main.async {
-            self.alertVC.modalPresentationStyle = .overFullScreen
-            self.present(self.alertVC, animated: true, completion: nil)
+            self.alertVC.presentBottomSheet(in: self)
         }
     }
     
@@ -257,8 +257,7 @@ private extension AddScheduleFirstViewController {
         alertVC.delegate = self
         addScheduleFirstView.inAddScheduleFirstView.dateNameTextField.resignFirstResponder()
         DispatchQueue.main.async {
-            self.alertVC.modalPresentationStyle = .overFullScreen
-            self.present(self.alertVC, animated: true, completion: nil)
+            self.alertVC.presentBottomSheet(in: self)
         }
     }
     
@@ -304,13 +303,11 @@ private extension AddScheduleFirstViewController {
     
     @objc
     func datePlaceContainerTapped() {
-        // datePlaceContainer가 탭되었을 때 수행할 동작을 여기에 구현합니다.
-        print("datePlaceContainer tapped!")
-        let locationFilterVC = LocationFilterViewController()
-        locationFilterVC.modalPresentationStyle = .overFullScreen
         locationFilterVC.isAddType = true
         locationFilterVC.delegate = self
-        self.present(locationFilterVC, animated: false)
+        DispatchQueue.main.async {
+            self.locationFilterVC.presentBottomSheet(in: self)
+        }
     }
     
 }
@@ -321,8 +318,11 @@ extension AddScheduleFirstViewController {
         if !viewModel.isBroughtData {
             setRightBtnStyle()
             setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
+        } else {
+            self.showLoadingView(type: StringLiterals.AddCourseOrSchedule.addScheduleTitle)
+            self.viewModel.fetchPastDate()
+            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
         }
-        viewModel.ispastDateVaild.value = true
     }
     
     /// BaseNavBarViewController에서 backButtonTapped() 오버라이드
@@ -407,7 +407,7 @@ extension AddScheduleFirstViewController: UITextFieldDelegate {
 extension AddScheduleFirstViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
-        self.dismiss(animated: true)
+        alertVC.dismissBottomSheet()
         updateTextField()
     }
     
@@ -417,7 +417,6 @@ extension AddScheduleFirstViewController: DRBottomSheetDelegate {
         if !isTimePickerFlag {
             let selectedDate = addSheetView.datePicker.date
             viewModel.isFutureDate(date: selectedDate, dateType: "date")
-            dismiss(animated: true)
         } else {
             let formattedDate = addSheetView.datePicker.date
             viewModel.isFutureDate(date: formattedDate, dateType: "time")

@@ -17,6 +17,11 @@ final class ProfileViewController: BaseNavBarViewController {
     
     private let imagePickerViewController = CustomImagePicker(isProfilePicker: true)
     
+    lazy var alertVC = DRBottomSheetViewController(contentView: profileImageSettingView,
+                                                   height: 288,
+                                                   buttonType: DisabledButton(),
+                                                   buttonTitle: StringLiterals.Common.cancel)
+    
     
     // MARK: - Properties
     
@@ -137,10 +142,8 @@ private extension ProfileViewController {
         
         // 중복 확인 결과 변수
         self.profileViewModel.isValidNickname.bind { [weak self] isValid in
-            guard let isValid,
-                    let initial = self?.initial,
-                    let nicknameCount = self?.profileViewModel.nickname.value?.count
-            else { return }
+            guard let isValid, let initial = self?.initial,
+                  let nicknameCount = self?.profileViewModel.nickname.value?.count else { return }
             
             if initial {
                 self?.profileView.nicknameErrMessageLabel.isHidden = nicknameCount > 5
@@ -188,7 +191,7 @@ private extension ProfileViewController {
             guard let isValid else { return }
             self?.profileView.updateRegisterButton(isValid: isValid)
         }
-
+        
         self.profileViewModel.onSuccessRegister = { [weak self] isSuccess in
             if isSuccess {
                 guard let userId = UserDefaults.standard.string(forKey: StringLiterals.Network.userID) else { return }
@@ -210,13 +213,10 @@ private extension ProfileViewController {
     
     @objc
     func presentEditBottomSheet() {
-        let alertVC = DRBottomSheetViewController(contentView: profileImageSettingView,
-                                                  height: 288,
-                                                  buttonType: DisabledButton(),
-                                                  buttonTitle: StringLiterals.Common.cancel)
         alertVC.delegate = self
-        alertVC.modalPresentationStyle = .overFullScreen
-        self.present(alertVC, animated: true)
+        DispatchQueue.main.async {
+            self.alertVC.presentBottomSheet(in: self)
+        }
     }
     
     @objc
@@ -257,15 +257,17 @@ private extension ProfileViewController {
     
     @objc
     func deletePhoto() {
-        self.dismiss(animated: true)
+        alertVC.dismissBottomSheet()
         profileView.updateProfileImage(image: UIImage(resource: .emptyProfileImg))
         profileViewModel.profileImage.value = UIImage(resource: .emptyProfileImg)
     }
     
     @objc
     func registerPhoto() {
-        self.dismiss(animated: true)
-        imagePickerViewController.presentPicker(from: self)
+        alertVC.dismissBottomSheet() { [weak self] in
+            guard let self else { return }
+            self.imagePickerViewController.presentPicker(from: self)
+        }
     }
     
     @objc
@@ -311,7 +313,7 @@ extension ProfileViewController: UICollectionViewDataSource {
         cell.tendencyTagButton.tag = indexPath.item
         cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
         cell.updateButtonTitle(tag: self.profileViewModel.tagData[indexPath.item])
-
+        
         return cell
     }
     
@@ -340,7 +342,7 @@ extension ProfileViewController: UITextFieldDelegate {
 extension ProfileViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
-        self.dismiss(animated: true)
+        alertVC.dismissBottomSheet()
     }
     
     func didTapFirstLabel() {

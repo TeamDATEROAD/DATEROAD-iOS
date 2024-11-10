@@ -30,6 +30,7 @@ final class CustomEmptyView: BaseView {
             $0.top.horizontalEdges.equalToSuperview()
             $0.height.equalTo(ScreenUtils.height * 394 / 812)
         }
+        
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(imageView.snp.bottom)
             $0.horizontalEdges.equalToSuperview()
@@ -42,10 +43,9 @@ final class CustomEmptyView: BaseView {
             $0.contentMode = .scaleAspectFit
         }
         
-        titleLabel.do {
-            $0.setLabel(alignment: .center, textColor: UIColor(resource: .gray300), font: UIFont.suit(.title_bold_18))
-            $0.lineBreakMode = .byWordWrapping
-        }
+        titleLabel.setLabel(alignment: .center,
+                            textColor: UIColor(resource: .gray300),
+                            font: UIFont.suit(.title_bold_18))
     }
     
 }

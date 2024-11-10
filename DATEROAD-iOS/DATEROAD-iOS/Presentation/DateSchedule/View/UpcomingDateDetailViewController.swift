@@ -18,6 +18,11 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
+    lazy var bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView,
+                                                         height: 222,
+                                                         buttonType: DisabledButton(),
+                                                         buttonTitle: StringLiterals.DateSchedule.quit)
+    
     
     // MARK: - Properties
     
@@ -30,6 +35,8 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     var upcomingDateDetailViewModel: DateDetailViewModel
     
     private let dateScheduleDeleteView = DateScheduleDeleteView()
+    
+    private var loaded: Bool = false
     
     
     // MARK: - LifeCycle
@@ -90,10 +97,20 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
 extension UpcomingDateDetailViewController {
     
     func bindViewModel() {
+        self.upcomingDateDetailViewModel.updateDateDetailData.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                DispatchQueue.main.async {
+                    self?.upcomingDateDetailContentView.dateTimeLineCollectionView.reloadData()
+                }
+                self?.upcomingDateDetailViewModel.updateDateDetailData.value = false
+            }
+        }
+        
         self.upcomingDateDetailViewModel.onDateDetailLoading.bind { [weak self] onLoading in
             guard let onLoading,
                   let onFailNetwork = self?.upcomingDateDetailViewModel.onFailNetwork.value,
-                  let index = self?.index 
+                  let index = self?.index
             else { return }
             if !onFailNetwork {
                 if onLoading {
@@ -140,9 +157,12 @@ extension UpcomingDateDetailViewController {
         }
         
         self.upcomingDateDetailViewModel.isSuccessGetDateDetailData.bind { [weak self] _ in
-            guard let data = self?.upcomingDateDetailViewModel.dateDetailData.value else { return }
+            guard let loaded = self?.loaded, let data = self?.upcomingDateDetailViewModel.dateDetailData.value else { return }
             self?.upcomingDateDetailContentView.dataBind(data)
-            self?.upcomingDateDetailContentView.dateTimeLineCollectionView.reloadData()
+            if !loaded {
+                self?.upcomingDateDetailContentView.dateTimeLineCollectionView.reloadData()
+                self?.loaded = true
+            }
             self?.upcomingDateDetailViewModel.setDateDetailLoading()
         }
         
@@ -225,17 +245,18 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
 extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
-        self.dismiss(animated: false)
+        self.bottomSheetVC.dismissBottomSheet()
     }
     
     @objc
     private func deleteDateCourse() {
         let labelTap = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
         dateScheduleDeleteView.deleteLabel.addGestureRecognizer(labelTap)
-        let bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView, height: 222, buttonType: DisabledButton(), buttonTitle: StringLiterals.DateSchedule.quit)
-        bottomSheetVC.modalPresentationStyle = .overFullScreen
         bottomSheetVC.delegate = self
-        self.present(bottomSheetVC, animated: false)
+        
+        DispatchQueue.main.async {
+            self.bottomSheetVC.presentBottomSheet(in: self)
+        }
     }
     
     @objc

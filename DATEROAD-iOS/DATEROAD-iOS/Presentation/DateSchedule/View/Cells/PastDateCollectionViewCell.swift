@@ -127,15 +127,14 @@ final class PastDateCollectionViewCell: BaseCollectionViewCell {
     override func setStyle() {
         self.backgroundColor = UIColor(resource: .lilac)
         
-        self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+        self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner,
+                                                            .layerMaxXMinYCorner,
+                                                            .layerMinXMaxYCorner,
+                                                            .layerMinXMinYCorner])
         
-        ribbonImageView.do {
-            $0.contentMode = .scaleAspectFill
-        }
+        ribbonImageView.contentMode = .scaleAspectFill
         
-        dateLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_13))
-        }
+        dateLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_13))
         
         firstTagButton.do {
             $0.setButtonStatus(buttonType: tagButtonType)
@@ -175,26 +174,18 @@ final class PastDateCollectionViewCell: BaseCollectionViewCell {
             $0.adjustsImageWhenDisabled = false
         }
         
-        dotDividerView.do {
-            $0.image = UIImage(resource: .dottedLine)
-        }
+        dotDividerView.image = UIImage(resource: .dottedLine)
         
-        leftCircleInsetImageView.do {
-            $0.image = UIImage(resource: .leftCardInset)
-        }
+        leftCircleInsetImageView.image = UIImage(resource: .leftCardInset)
         
-        rightCircleInsetImageView.do {
-            $0.image = UIImage(resource: .rightCardInset)
-        }
+        rightCircleInsetImageView.image = UIImage(resource: .rightCardInset)
         
-        locationLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_13))
-        }
+        locationLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_13))
         
-        titleLabel.do {
-            $0.setLabel(alignment: .left, numberOfLines: 2, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_extra_20))
-            $0.lineBreakMode = .byWordWrapping
-        }
+        titleLabel.setLabel(alignment: .left,
+                            numberOfLines: 2,
+                            textColor: UIColor(resource: .drBlack),
+                            font: UIFont.systemFont(ofSize: 20, weight: .black))
     }
     
 }
@@ -227,11 +218,17 @@ extension PastDateCollectionViewCell {
     func setColor(index: Int) {
         let colorIndex = index % 3
         if colorIndex == 0 {
-            setColorToLabel(bgColor: UIColor(resource: .pink200), ribbonImage: UIImage(resource: .lilacRibbon), buttonColor: UIColor(resource: .pink100))
+            setColorToLabel(bgColor: UIColor(resource: .pink200),
+                            ribbonImage: UIImage(resource: .lilacRibbon),
+                            buttonColor: UIColor(resource: .pink100))
         } else if colorIndex == 1 {
-            setColorToLabel(bgColor: UIColor(resource: .purple200), ribbonImage: UIImage(resource: .deepPurpleRibbon), buttonColor: UIColor(resource: .purple100))
+            setColorToLabel(bgColor: UIColor(resource: .purple200),
+                            ribbonImage: UIImage(resource: .deepPurpleRibbon),
+                            buttonColor: UIColor(resource: .purple100))
         } else {
-            setColorToLabel(bgColor: UIColor(resource: .lime), ribbonImage: UIImage(resource: .limeRibbon), buttonColor: UIColor(resource: .lime100))
+            setColorToLabel(bgColor: UIColor(resource: .lime),
+                            ribbonImage: UIImage(resource: .limeRibbon),
+                            buttonColor: UIColor(resource: .lime100))
         }
     }
     

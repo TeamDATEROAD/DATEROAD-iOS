@@ -9,6 +9,10 @@ import Foundation
 
 final class PointViewModel: Serviceable {
     
+    let updateGainedPointData: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    let updateUsedPointData: ObservablePattern<Bool> = ObservablePattern(false)
+    
     var userName: String
     
     var totalPoint: Int
@@ -57,22 +61,36 @@ final class PointViewModel: Serviceable {
         NetworkService.shared.pointDetailService.getPointDetail() { response in
             switch response {
             case .success(let data):
-                let pointGainedInfo = data.gained.points.map {
+                let newGainedPointInfo = data.gained.points.map {
                     PointDetailModel(sign: "+", point: $0.point, description: $0.description, createdAt: $0.createdAt)
                 }
-                let pointUsedInfo = data.used.points.map {
-                    PointDetailModel(sign: "-", point: $0.point, description: $0.description, createdAt: $0.createdAt)
+                let newUsedPointInfo = data.used.points.map {
+                    PointDetailModel(sign: "-",
+                                     point: $0.point,
+                                     description: $0.description,
+                                     createdAt: $0.createdAt)
                 }
-                self.gainedPointData.value = pointGainedInfo
-                self.usedPointData.value = pointUsedInfo
+                
+                // 포인트 획득내역 기존 데이터와 비교
+                if self.gainedPointData.value != newGainedPointInfo {
+                    self.gainedPointData.value = newGainedPointInfo
+                    self.updateGainedPointData.value = true
+                }
+                
+                // 포인트 사용내역 기존 데이터와 비교
+                if self.usedPointData.value != newUsedPointInfo {
+                    self.usedPointData.value = newUsedPointInfo
+                    self.updateUsedPointData.value = true
+                }
+                
                 self.updateData(nowEarnedPointHidden: nowEarnedPointHidden)
                 self.isSuccessGetPointInfo.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
-             default:
-                self.onFailNetwork.value = true //TODO: - 확인
+            default:
+                self.onFailNetwork.value = true
                 return
             }
         }

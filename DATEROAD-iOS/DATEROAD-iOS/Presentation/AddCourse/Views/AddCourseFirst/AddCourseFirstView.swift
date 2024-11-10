@@ -41,6 +41,7 @@ final class AddCourseFirstView: BaseView {
     
     override func setHierarchy() {
         self.addSubview(scrollView)
+        
         scrollView.addSubview(scrollContentView)
         
         scrollContentView.addSubviews(
@@ -48,10 +49,10 @@ final class AddCourseFirstView: BaseView {
             imageAccessoryView,
             addFirstView,
             dateNameErrorLabel,
-            visitDateErrorLabel
-        )
+            visitDateErrorLabel)
         
         imageAccessoryView.addSubviews(cameraBtn, imageCountLabelContainer)
+        
         imageCountLabelContainer.addSubview(imageCountLabel)
     }
     
@@ -167,16 +168,12 @@ extension AddCourseFirstView {
     
     func updateDateNameTextField(isPassValid: Bool) {
         dateNameErrorLabel.isHidden = isPassValid
-        addFirstView.dateNameTextField.do {
-            $0.layer.borderWidth = isPassValid ? 0 : 1
-        }
+        addFirstView.dateNameTextField.layer.borderWidth = isPassValid ? 0 : 1
     }
     
     func updateVisitDateTextField(isPassValid: Bool) {
         visitDateErrorLabel.isHidden = isPassValid
-        addFirstView.visitDateContainer.do {
-            $0.layer.borderWidth = isPassValid ? 0 : 1
-        }
+        addFirstView.visitDateContainer.layer.borderWidth = isPassValid ? 0 : 1
     }
     
     func updateImageCellUI(isEmpty: Bool, ImageDataCount: Int) {

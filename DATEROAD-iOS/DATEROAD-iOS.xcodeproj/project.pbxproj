@@ -144,6 +144,7 @@
 		9EB91E782C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */; };
 		9EBD5C712C7C557900EDE081 /* DRDateFormatterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD5C702C7C557900EDE081 /* DRDateFormatterManager.swift */; };
 		9EBD5C732C7C850400EDE081 /* UINavigationController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD5C722C7C850400EDE081 /* UINavigationController+.swift */; };
+		9EDD6B102CDD37B5001B4D02 /* UITextView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDD6B0F2CDD37B5001B4D02 /* UITextView+.swift */; };
 		CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A963D2C2B131300F39EBE /* BaseViewController.swift */; };
 		CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96422C2C60E800F39EBE /* LoginModel.swift */; };
 		CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96442C2C610900F39EBE /* LoginViewModel.swift */; };
@@ -182,6 +183,8 @@
 		CA4EF3DF2C347B4E003B02B6 /* DRButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3DE2C347B4E003B02B6 /* DRButtonType.swift */; };
 		CA4EF3E22C3537F3003B02B6 /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3E12C3537F3003B02B6 /* OnboardingModel.swift */; };
 		CA4EF3E52C3538AA003B02B6 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */; };
+		CA524C922CDA0CDC001792C9 /* clearLoading.json in Resources */ = {isa = PBXBuildFile; fileRef = CA524C912CDA0CDC001792C9 /* clearLoading.json */; };
+		CA524C9E2CDA8CE0001792C9 /* BannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA524C9D2CDA8CE0001792C9 /* BannerViewModel.swift */; };
 		CA5B979B2C91848F00F90A4C /* AmplitudeSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CA5B979A2C91848F00F90A4C /* AmplitudeSwift */; };
 		CA5B979E2C91889C00F90A4C /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5B979D2C91889C00F90A4C /* AmplitudeManager.swift */; };
 		CA5B97A02C9C7B4300F90A4C /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5B979F2C9C7B4200F90A4C /* Header.swift */; };
@@ -429,6 +432,7 @@
 		9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		9EBD5C702C7C557900EDE081 /* DRDateFormatterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRDateFormatterManager.swift; sourceTree = "<group>"; };
 		9EBD5C722C7C850400EDE081 /* UINavigationController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+.swift"; sourceTree = "<group>"; };
+		9EDD6B0F2CDD37B5001B4D02 /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
 		CA0A963D2C2B131300F39EBE /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CA0A96422C2C60E800F39EBE /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		CA0A96442C2C610900F39EBE /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -461,6 +465,8 @@
 		CA4EF3DE2C347B4E003B02B6 /* DRButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRButtonType.swift; sourceTree = "<group>"; };
 		CA4EF3E12C3537F3003B02B6 /* OnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
 		CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		CA524C912CDA0CDC001792C9 /* clearLoading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = clearLoading.json; sourceTree = "<group>"; };
+		CA524C9D2CDA8CE0001792C9 /* BannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerViewModel.swift; sourceTree = "<group>"; };
 		CA5B979D2C91889C00F90A4C /* AmplitudeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplitudeManager.swift; sourceTree = "<group>"; };
 		CA5B979F2C9C7B4200F90A4C /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		CA5B97A12CA2FCD700F90A4C /* NetworkType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkType.swift; sourceTree = "<group>"; };
@@ -1229,6 +1235,7 @@
 		CA3D0D072C29A69500735097 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CA524C912CDA0CDC001792C9 /* clearLoading.json */,
 				CAE890A72C8ADF0A00834A9E /* loading.json */,
 				74BC165B2C3299E10084E832 /* Fonts */,
 				CA3D0CE32C29A2F500735097 /* Assets.xcassets */,
@@ -1351,6 +1358,7 @@
 				0DC9BF0D2C4813FD00A817A8 /* Float+.swift */,
 				0DF9B3062C69D73800F80B99 /* UIImageView+.swift */,
 				9EBD5C722C7C850400EDE081 /* UINavigationController+.swift */,
+				9EDD6B0F2CDD37B5001B4D02 /* UITextView+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1477,6 +1485,14 @@
 			isa = PBXGroup;
 			children = (
 				CA4EF3E42C3538AA003B02B6 /* OnboardingViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CA524C9C2CDA8CD2001792C9 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CA524C9D2CDA8CE0001792C9 /* BannerViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1625,6 +1641,7 @@
 		CABDCEA52C4A60FD00631FB3 /* Banner */ = {
 			isa = PBXGroup;
 			children = (
+				CA524C9C2CDA8CD2001792C9 /* ViewModels */,
 				CABDCEB52C4A695100631FB3 /* Models */,
 				CABDCEA62C4A610400631FB3 /* Views */,
 			);
@@ -1906,6 +1923,7 @@
 				CAE890A82C8ADF0A00834A9E /* loading.json in Resources */,
 				74A70C022C329AB200855E61 /* SUIT-Bold.otf in Resources */,
 				74A70BFC2C329A9C00855E61 /* SUIT-Regular.otf in Resources */,
+				CA524C922CDA0CDC001792C9 /* clearLoading.json in Resources */,
 				74A70BFA2C329A9600855E61 /* SUIT-SemiBold.otf in Resources */,
 				CA3D0CE42C29A2F500735097 /* Assets.xcassets in Resources */,
 				CA3D0CE72C29A2F500735097 /* Base in Resources */,
@@ -1921,6 +1939,7 @@
 			files = (
 				0D0DA3E02C3AF396004210EE /* PointModel.swift in Sources */,
 				0D9497BF2C3292D60004B442 /* CostInfoCell.swift in Sources */,
+				CA524C9E2CDA8CE0001792C9 /* BannerViewModel.swift in Sources */,
 				9E754CDD2C482F6000E2CA91 /* InAddScheduleFirstView.swift in Sources */,
 				CAC80FBD2C3C61BC00658EA6 /* PointSystemViewController.swift in Sources */,
 				9EBD5C712C7C557900EDE081 /* DRDateFormatterManager.swift in Sources */,
@@ -2036,6 +2055,7 @@
 				0D98CB9B2C405E4100E3618A /* VisitDateView.swift in Sources */,
 				0D9497BD2C3292C20004B442 /* TitleInfoCell.swift in Sources */,
 				CAC80FAF2C3B56A800658EA6 /* MyPageModel.swift in Sources */,
+				9EDD6B102CDD37B5001B4D02 /* UITextView+.swift in Sources */,
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
 				7455476D2C3D03E100B526F3 /* PastDateCollectionViewCell.swift in Sources */,
 				7455475D2C3C2A9A00B526F3 /* UpcomingDateDetailViewController.swift in Sources */,
@@ -2352,7 +2372,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.DateRoad.DateRoad-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2393,7 +2413,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.DateRoad.DateRoad-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

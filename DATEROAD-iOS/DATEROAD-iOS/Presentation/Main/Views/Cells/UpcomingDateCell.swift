@@ -18,18 +18,16 @@ final class UpcomingDateCell: BaseCollectionViewCell {
     let pointLabel: DRPaddingLabel = DRPaddingLabel()
     
     private let profileImage: UIImageView = UIImageView()
-
+    
     var dateTicketView: DateTicketView = DateTicketView()
-
+    
     var emptyTicketView: EmptyTicketView = EmptyTicketView()
-
+    
     
     // MARK: - Properties
     
     private var isEmpty: Bool = false
-    
-    weak var delegate: CellImageLoadDelegate?
-
+        
     
     // MARK: - Life Cycle
     
@@ -37,7 +35,6 @@ final class UpcomingDateCell: BaseCollectionViewCell {
         self.profileImage.image = nil
         self.pointLabel.text = nil
         self.profileImage.backgroundColor = .clear // 배경색 초기화
-        self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2  // cornerRadius 다시 적용
         self.profileImage.clipsToBounds = true
     }
     
@@ -124,19 +121,19 @@ extension UpcomingDateCell {
         guard let point = mainUserData?.point else { return }
         pointLabel.text = "\(point) P"
         
+        guard let imageUrl = mainUserData?.imageUrl else {
+            self.profileImage.image = UIImage(resource: .emptyProfileImg)
+            return
+        }
+        
+        let url = URL(string: imageUrl)
+        self.profileImage.kf.setImage(with: url, options: [.transition(.none),
+                                                           .cacheOriginalImage,
+                                                           .keepCurrentImageWhileLoading])
         profileImage.do {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = $0.frame.size.width / 2
             $0.backgroundColor = .clear
-        }
-        guard let imageUrl = mainUserData?.imageUrl else {
-            self.profileImage.image = UIImage(resource: .emptyProfileImg)
-            self.delegate?.cellImageLoaded()
-            return
-        }
-        let url = URL(string: imageUrl)
-        self.profileImage.kf.setImage(with: url) { result  in
-            self.delegate?.cellImageLoaded()
         }
     }
     

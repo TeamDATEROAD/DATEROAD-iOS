@@ -71,6 +71,7 @@ final class DateTimeLineCollectionViewCell: BaseCollectionViewCell {
         locationLabel.snp.makeConstraints {
             $0.leading.equalTo(circleView.snp.trailing).offset(13)
             $0.centerY.equalTo(timelineBackgroundView)
+            $0.trailing.equalTo(timeBoxView.snp.leading).offset(-13)
         }
         
         timeBoxView.snp.makeConstraints {
@@ -96,22 +97,19 @@ final class DateTimeLineCollectionViewCell: BaseCollectionViewCell {
             $0.layer.cornerRadius = 12
         }
         
-        indexNumLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_bold_13))
-        }
+        indexNumLabel.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_bold_13))
         
-        locationLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_bold_15))
-        }
+        locationLabel.setLabel(alignment: .left,
+                              numberOfLines: 1,
+                              textColor: UIColor(resource: .drBlack) ,
+                              font: UIFont.systemFont(ofSize: 15, weight: .bold))
         
         timeBoxView.do {
             $0.backgroundColor = UIColor(resource: .gray200)
             $0.layer.cornerRadius = 10
         }
         
-        timeLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_med_13))
-        }
+        timeLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_med_13))
     }
     
 }

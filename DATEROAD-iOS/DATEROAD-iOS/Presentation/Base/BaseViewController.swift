@@ -17,7 +17,7 @@ class BaseViewController: UIViewController {
     
     private let backgroundView: UIView = UIView()
     
-    let lottieView = LottieAnimationView(name: "loading")
+    let lottieView = LottieAnimationView(name: "clearLoading")
     
     
     // MARK: - UI Properties
@@ -45,36 +45,54 @@ class BaseViewController: UIViewController {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
-    func showLoadingView(type: String? = nil) {
+    func showLoadingView(type: String) {
         // 로딩 뷰 설정
         lottieView.contentMode = .scaleAspectFit
         lottieView.loopMode = .loop
         lottieView.play()
+
+        if type == StringLiterals.TabBar.home
+            || type == StringLiterals.TabBar.myPage
+            || type == StringLiterals.Course.course
+            || type == StringLiterals.Amplitude.ViewPath.courseDetail
+            || type == StringLiterals.ViewedCourse.title {
+            backgroundView.backgroundColor = UIColor.clear
+            lottieView.backgroundColor = UIColor.clear
+        } else {
+            backgroundView.backgroundColor = UIColor(resource: .drWhite)
+            lottieView.backgroundColor = UIColor(resource: .drWhite)
+        }
         
-        backgroundView.backgroundColor = UIColor(resource: .drWhite)
         
         // 로딩 뷰를 화면에 추가
         self.view.addSubviews(backgroundView, lottieView)
         
-        if type == nil {
+        if type == StringLiterals.DateSchedule.upcomingDate {
             backgroundView.snp.makeConstraints {
-                $0.edges.equalToSuperview()
+                $0.top.equalToSuperview().inset(104)
+                $0.bottom.equalToSuperview().inset(view.frame.height * 0.11)
+                $0.horizontalEdges.equalToSuperview()
             }
-            
-            lottieView.snp.makeConstraints {
-                $0.center.equalToSuperview()
-            }
-        } else {
+        } else if type == StringLiterals.Course.course {
             backgroundView.snp.makeConstraints {
                 $0.top.equalToSuperview().inset(188)
                 $0.bottom.equalToSuperview().inset(view.frame.height * 0.11)
                 $0.horizontalEdges.equalToSuperview()
             }
-            
-            lottieView.snp.makeConstraints {
-                $0.verticalEdges.equalTo(backgroundView)
+        } else if type == StringLiterals.ViewedCourse.title {
+            backgroundView.snp.makeConstraints {
+                $0.top.equalToSuperview()
+                $0.bottom.equalToSuperview().inset(view.frame.height * 0.11)
                 $0.horizontalEdges.equalToSuperview()
             }
+        } else {
+            backgroundView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+        }
+        
+        lottieView.snp.makeConstraints {
+            $0.center.equalToSuperview()
         }
     }
     

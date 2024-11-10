@@ -9,7 +9,7 @@ import Foundation
 
 import KakaoSDKUser
 
-struct KakaoUserInfo {
+struct KakaoUserInfo: Equatable {
     
     let nickname: String?
     
@@ -28,7 +28,7 @@ struct KakaoUserInfo {
     
 }
 
-struct AppleUserInfo {
+struct AppleUserInfo: Equatable {
     
     let identifier: String?
     

@@ -9,6 +9,10 @@ import Foundation
 
 final class DateScheduleViewModel: Serviceable {
     
+    let updatePastDateScheduleData: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    let updateUpcomingDateScheduleData: ObservablePattern<Bool> = ObservablePattern(false)
+    
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var upcomingDateScheduleData: ObservablePattern<[DateCardModel]> = ObservablePattern(nil)
@@ -37,6 +41,7 @@ final class DateScheduleViewModel: Serviceable {
         getUpcomingDateScheduleData()
     }
     
+    // 지난 데이트 일정 (상세보기X)
     func getPastDateScheduleData() {
         self.isSuccessGetPastDateScheduleData.value = false
         self.setPastScheduleLoading()
@@ -57,7 +62,11 @@ final class DateScheduleViewModel: Serviceable {
                                          dDay: date.dDay)
                 }
                 
-                self.pastDateScheduleData.value = dateScheduleInfo
+                if self.pastDateScheduleData.value != dateScheduleInfo {
+                    self.pastDateScheduleData.value = dateScheduleInfo
+                    self.updatePastDateScheduleData.value = true
+                }
+                
                 self.isSuccessGetPastDateScheduleData.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
@@ -74,6 +83,7 @@ final class DateScheduleViewModel: Serviceable {
         self.onPastScheduleLoading.value = !isSuccessGetPastDateScheduleData
     }
     
+    // 다가올 데이트 일정 (상세보기X)
     func getUpcomingDateScheduleData() {
         self.isSuccessGetUpcomingDateScheduleData.value = false
         self.setUpcomingScheduleLoading()
@@ -86,7 +96,7 @@ final class DateScheduleViewModel: Serviceable {
                     let tagsModel: [TagsModel] = date.tags.map { tag in
                         TagsModel(tag: tag.tag)
                     }
-                    return DateCardModel(dateID: date.dateID, 
+                    return DateCardModel(dateID: date.dateID,
                                          title: date.title,
                                          date: (date.date).toReadableDate() ?? "",
                                          city: date.city ,
@@ -97,7 +107,12 @@ final class DateScheduleViewModel: Serviceable {
                 AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.dateScheduleNum : dateScheduleInfo.count])
                 AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewDateSchedule)
                 AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.countDateSchedule, properties: [StringLiterals.Amplitude.Property.dateScheduleNum : dateScheduleNum])
-                self.upcomingDateScheduleData.value = dateScheduleInfo
+                
+                if self.upcomingDateScheduleData.value != dateScheduleInfo {
+                    self.upcomingDateScheduleData.value = dateScheduleInfo
+                    self.updateUpcomingDateScheduleData.value = true
+                }
+                
                 self.isSuccessGetUpcomingDateScheduleData.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in

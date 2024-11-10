@@ -51,7 +51,11 @@ final class MainHeaderView: UICollectionReusableView {
     
     func setHierarchy() {
         self.addSubview(backgroundView)
-        backgroundView.addSubviews(titleLabel, subLabel, viewMoreButton)
+        backgroundView.addSubviews(
+            titleLabel,
+            subLabel,
+            viewMoreButton
+        )
     }
     
     func setLayout() {
@@ -78,13 +82,11 @@ final class MainHeaderView: UICollectionReusableView {
     func setStyle() {
         self.backgroundColor = UIColor(resource: .deepPurple)
         
-        backgroundView.do {
-            $0.backgroundColor = UIColor(resource: .drWhite)
-        }
+        backgroundView.backgroundColor = UIColor(resource: .drWhite)
         
-        subLabel.do {
-            $0.setLabel(alignment: .left, textColor: UIColor(resource: .gray400), font: UIFont.suit(.body_med_13))
-        }
+        subLabel.setLabel(alignment: .left,
+                          textColor: UIColor(resource: .gray400),
+                          font: UIFont.suit(.body_med_13))
         
         viewMoreButton.do {
             $0.setTitle(StringLiterals.Main.viewMore, for: .normal)
@@ -107,8 +109,9 @@ extension MainHeaderView {
             titleLabel.do {
                 $0.setAttributedText(fullText: nickname + StringLiterals.Main.hotDateTitle,
                                      pointText: nickname+"님,",
-                                     pointColor: UIColor(resource: .deepPurple), lineHeight: 1.04)
-                $0.font = UIFont.suit(.title_extra_24)
+                                     pointColor: UIColor(resource: .deepPurple), 
+                                     lineHeight: 1.04)
+                $0.font = UIFont.systemFont(ofSize: 24, weight: .black)
                 $0.textAlignment = .left
                 $0.numberOfLines = 2
             }

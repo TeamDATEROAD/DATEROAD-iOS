@@ -35,7 +35,7 @@ struct PointModel {
     
 }
 
-struct PointDetailModel {
+struct PointDetailModel: Equatable {
     
     let sign: String
     

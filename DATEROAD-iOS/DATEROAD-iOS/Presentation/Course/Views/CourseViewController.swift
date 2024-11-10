@@ -18,6 +18,8 @@ final class CourseViewController: BaseViewController {
     
     private let courseView = CourseView()
     
+    let locationFilterVC = LocationFilterViewController()
+    
     
     // MARK: - Properties
     
@@ -26,6 +28,8 @@ final class CourseViewController: BaseViewController {
     private var courseListModel = CourseListModel.courseContents
     
     private var selectedButton: UIButton?
+    
+    private var loaded: Bool = false
     
     
     // MARK: - Life Cycle
@@ -52,6 +56,7 @@ final class CourseViewController: BaseViewController {
         self.tabBarController?.tabBar.isHidden = false
         courseView.courseListView.isHidden = true
         courseView.courseSkeletonView.isHidden = false
+        self.showLoadingView(type: StringLiterals.Course.course)
         getCourse()
         courseViewModel.fetchPriceData()
     }
@@ -99,16 +104,27 @@ final class CourseViewController: BaseViewController {
         }
         
         self.courseViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.courseViewModel.onFailNetwork.value else { return }
+            guard let onLoading,
+                  let loaded = self?.loaded,
+                  let onFailNetwork = self?.courseViewModel.onFailNetwork.value
+            else { return }
+            
             if !onFailNetwork {
                 if !onFailNetwork {
                     if onLoading {
-                        self?.courseView.courseSkeletonView.isHidden = false
-                        self?.courseView.courseListView.isHidden = true
+                        self?.showLoadingView(type: StringLiterals.Course.course)
                     } else {
-                        self?.courseView.courseListView.courseListCollectionView.reloadData()
+                        if !loaded {
+                            UIView.performWithoutAnimation {
+                                self?.courseView.courseListView.courseListCollectionView.performBatchUpdates({
+                                    self?.courseView.courseListView.courseListCollectionView.reloadSections(IndexSet(integer: 0))
+                                })
+                            }
+                            self?.loaded = true
+                        }
                         self?.courseView.courseListView.isHidden = false
                         self?.courseView.courseSkeletonView.isHidden = true
+                        self?.hideLoadingView()
                     }
                 }
             }
@@ -138,8 +154,12 @@ final class CourseViewController: BaseViewController {
         self.courseViewModel.didUpdateCourseList = { [weak self] in
             self?.courseListModel = self?.courseViewModel.courseListModel ?? []
             
-            DispatchQueue.main.async {
-                self?.courseView.courseListView.courseListCollectionView.reloadData()
+            // 새로운 데이터 추가됐을 때 스크롤 최상단으로 올리고자 한다면
+            // 아래에 scrollToItem 코드 추가
+            UIView.performWithoutAnimation {
+                self?.courseView.courseListView.courseListCollectionView.performBatchUpdates({
+                    self?.courseView.courseListView.courseListCollectionView.reloadSections(IndexSet(integer: 0))
+                })
             }
         }
     }
@@ -157,15 +177,20 @@ extension CourseViewController {
         self.courseView.courseListView.emptyView.isHidden = !isEmpty
     }
     
+    func scrollToTop() {
+        let initialIndexPath = IndexPath(item: 0, section: 0)
+        self.courseView.courseListView.courseListCollectionView.scrollToItem(at: initialIndexPath, at: .top, animated: false)
+    }
+    
 }
 
 extension CourseViewController: CourseFilterViewDelegate {
     
     func didTapLocationFilter() {
-        let locationFilterVC = LocationFilterViewController()
-        locationFilterVC.modalPresentationStyle = .overFullScreen
         locationFilterVC.delegate = self
-        self.present(locationFilterVC, animated: true)
+        DispatchQueue.main.async {
+            self.locationFilterVC.presentBottomSheet(in: self)
+        }
     }
     
     @objc
@@ -199,8 +224,7 @@ extension CourseViewController: CourseFilterViewDelegate {
         courseViewModel.resetSelections()
         courseView.courseFilterView.resetPriceButtons()
         courseView.courseFilterView.resetLocationFilterButton()
-        courseViewModel.selectedCityName.value = ""
-        courseViewModel.selectedPriceIndex.value = nil
+        locationFilterVC.resetSelections()
         getCourse()
     }
     
@@ -212,6 +236,9 @@ extension CourseViewController: LocationFilterDelegate {
         let city = courseViewModel.selectedCityName.value ?? ""
         let cost = courseViewModel.selectedPriceIndex.value?.costNum()
         courseViewModel.getCourse(city: city, cost: cost)
+        if !courseListModel.isEmpty {
+            scrollToTop()
+        }
     }
     
     func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {

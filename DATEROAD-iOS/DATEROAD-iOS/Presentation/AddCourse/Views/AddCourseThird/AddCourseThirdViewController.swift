@@ -66,6 +66,7 @@ final class AddCourseThirdViewController: BaseNavBarViewController {
         setupKeyboardDismissRecognizer()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        addCourseThirdView.addThirdView.contentTextView.addDoneButton()
     }
     
     
@@ -144,6 +145,7 @@ private extension AddCourseThirdViewController {
                     // 코스 등록 3 로딩뷰, 에러뷰 false 설정
                     self?.viewModel.onFailNetwork.value = false
                     self?.viewModel.onLoading.value = false
+                    self?.addCourseThirdView.addThirdDoneBtn.isUserInteractionEnabled = true
                 }
                 
                 self?.navigationController?.pushViewController(errorVC, animated: false)
@@ -154,9 +156,7 @@ private extension AddCourseThirdViewController {
             guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
             
             if !onFailNetwork {
-                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.addCourseThirdView.isHidden = onLoading
-                self?.tabBarController?.tabBar.isHidden = onLoading
+                onLoading ? self?.showLoadingView(type: StringLiterals.TabBar.myPage) : self?.hideLoadingView()
             }
         }
         
@@ -212,7 +212,7 @@ private extension AddCourseThirdViewController {
     }
     
     func adjustScrollViewForKeyboard(showKeyboard: Bool) {
-        let maxKeyboardHeight: CGFloat = 45
+        let maxKeyboardHeight: CGFloat = 90
         
         let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: showKeyboard ? min(keyboardHeight, maxKeyboardHeight) : 0, right: 0)
         addCourseThirdView.scrollView.contentInset = contentInsets
@@ -272,27 +272,17 @@ extension AddCourseThirdViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        textView.setFontAndLineLetterSpacing(textView.text, font: UIFont.suit(.body_med_13))
-    }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let currentText = textView.text ?? ""
-        guard let stringRange = Range(range, in: currentText) else { return false }
+        textView.setFontAndLineLetterSpacing(textView.text,
+                                             font:UIFont.systemFont(ofSize: 13, weight: .semibold))
         
-        let changedText = currentText.replacingCharacters(in: stringRange, with: text)
-        viewModel.contentText = changedText
-        let filteredTextCount = changedText.filter { $0 != "\n" }.count
-        viewModel.contentTextCount.value = filteredTextCount
-        viewModel.courseContentNum = filteredTextCount
-        print("🎉🎉🎉🎉\(changedText)🎉🎉🎉🎉")
-        viewModel.courseContentBool = filteredTextCount > 0 ? true : false
+        viewModel.contentText = textView.text
+        viewModel.contentTextCount.value = textView.text.count
+        viewModel.courseContentNum = textView.text.count
+        print("🎉\(textView.text.count)🎉")
+        viewModel.courseContentBool = textView.text.count > 0 ? true : false
         
-        // 리턴 키 입력을 처리합니다.
-        if text == "\n" {
-            textView.resignFirstResponder()
-            return false
-        }
-        return true
+        let selectedRange = textView.selectedRange
+        textView.scrollRangeToVisible(selectedRange)
     }
     
 }
@@ -369,11 +359,13 @@ extension AddCourseThirdViewController: UICollectionViewDataSource {
 extension AddCourseThirdViewController: DRCustomAlertDelegate {
     
     func exit() {
+        addCourseThirdView.addThirdDoneBtn.isEnabled = true
         goBackOriginVCForAddCourse()
     }
     
     @objc
     private func didTapAddCourseBtn() {
+        addCourseThirdView.addThirdDoneBtn.isEnabled = false
         viewModel.postAddCourse()
     }
     

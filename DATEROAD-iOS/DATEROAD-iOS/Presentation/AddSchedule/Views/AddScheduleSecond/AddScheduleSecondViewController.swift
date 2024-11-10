@@ -90,9 +90,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
 private extension AddScheduleSecondViewController {
     
     func registerCell() {
-        addScheduleSecondView.addPlaceCollectionView.do {
-            $0.register(AddSecondViewCollectionViewCell.self, forCellWithReuseIdentifier: AddSecondViewCollectionViewCell.cellIdentifier)
-        }
+        addScheduleSecondView.addPlaceCollectionView.register(AddSecondViewCollectionViewCell.self, forCellWithReuseIdentifier: AddSecondViewCollectionViewCell.cellIdentifier)
     }
     
     func setDelegate() {
@@ -103,9 +101,8 @@ private extension AddScheduleSecondViewController {
             $0.dataSource = self
         }
         
-        [addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField,
-         addScheduleSecondView.inAddScheduleSecondView.timeRequireTextField].forEach { i in
-            i.delegate = self
+        [addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField, addScheduleSecondView.inAddScheduleSecondView.timeRequireTextField].forEach {
+            $0.delegate = self
         }
     }
     
@@ -148,6 +145,7 @@ private extension AddScheduleSecondViewController {
                     // 일정 등록 2 로딩뷰, 에러뷰 false 설정
                     self?.viewModel.onFailNetwork.value = false
                     self?.viewModel.onLoading.value = false
+                    self?.addScheduleSecondView.nextBtn.isUserInteractionEnabled = true
                 }
                 
                 self?.navigationController?.pushViewController(errorVC, animated: false)
@@ -158,9 +156,7 @@ private extension AddScheduleSecondViewController {
             guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
             
             if !onFailNetwork {
-                onLoading ? self?.showLoadingView() : self?.hideLoadingView()
-                self?.addScheduleSecondView.isHidden = onLoading
-                self?.tabBarController?.tabBar.isHidden = onLoading
+                onLoading ? self?.showLoadingView(type: StringLiterals.TabBar.myPage) : self?.hideLoadingView()
             }
         }
         
@@ -222,18 +218,19 @@ private extension AddScheduleSecondViewController {
     
     func setAddTarget() {
         addScheduleSecondView.editButton.addTarget(self, action: #selector(toggleEditMode), for: .touchUpInside)
+        
         addScheduleSecondView.inAddScheduleSecondView.addPlaceButton.addTarget(self, action: #selector(tapAddPlaceBtn), for: .touchUpInside)
+        
         addScheduleSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
     }
     
+    // 등록 완료 alertVC도 blurView 페이드인 적용 미정
     func successDone() {
-        let customAlertVC = DRCustomAlertViewController(
-            rightActionType: .none,
-            alertTextType: .hasDecription,
-            alertButtonType: .oneButton,
-            titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertScheduelTitleLabel,
-            longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton
-        )
+        let customAlertVC = DRCustomAlertViewController(rightActionType: .none,
+                                                        alertTextType: .hasDecription,
+                                                        alertButtonType: .oneButton,
+                                                        titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertScheduelTitleLabel,
+                                                        longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton)
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         self.present(customAlertVC, animated: false)
@@ -257,8 +254,7 @@ private extension AddScheduleSecondViewController {
         addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField.resignFirstResponder()
         
         DispatchQueue.main.async {
-            alertVC.modalPresentationStyle = .overFullScreen
-            self.present(alertVC, animated: true, completion: nil)
+            alertVC.presentBottomSheet(in: self)
         }
     }
     
@@ -269,6 +265,7 @@ private extension AddScheduleSecondViewController {
     
     @objc
     func didTapNextBtn() {
+        addScheduleSecondView.nextBtn.isUserInteractionEnabled = false
         viewModel.postAddScheduel()
     }
     
@@ -355,8 +352,15 @@ extension AddScheduleSecondViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        viewModel.datePlace.value = textField.text
-        print(textField.text ?? "")
+        let trimmedText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if let text = trimmedText, !text.isEmpty {
+            viewModel.datePlace.value = text
+            print(text)
+        } else {
+            viewModel.datePlace.value = ""
+            print("공란")
+        }
     }
     
 }
@@ -475,6 +479,7 @@ extension AddScheduleSecondViewController: UICollectionViewDragDelegate {
 extension AddScheduleSecondViewController: DRCustomAlertDelegate {
     
     func exit() {
+        addScheduleSecondView.nextBtn.isUserInteractionEnabled = true
         goBackOriginVCForAddSchedule()
     }
     

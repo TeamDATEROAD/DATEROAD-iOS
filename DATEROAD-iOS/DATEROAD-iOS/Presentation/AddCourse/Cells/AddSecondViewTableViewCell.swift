@@ -33,11 +33,9 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
     override func setHierarchy() {
         self.addSubview(contentView)
         
-        contentView.addSubviews(
-            placeTitleLabel,
-            timeRequireContainer,
-            moveAbleButton
-        )
+        contentView.addSubviews(placeTitleLabel,
+                                timeRequireContainer,
+                                moveAbleButton)
         
         timeRequireContainer.addSubview(timeRequireLabel)
     }
@@ -46,7 +44,9 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
         placeTitleLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().offset(17)
+            $0.trailing.equalTo(timeRequireContainer.snp.leading).offset(-20)
             $0.width.equalTo(198)
+            $0.height.equalToSuperview()
         }
         
         timeRequireContainer.snp.makeConstraints {
@@ -73,7 +73,10 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
         }
         
         placeTitleLabel.do {
-            $0.setLabel(alignment: .left, textColor: UIColor(resource: .drBlack), font: .suit(.body_bold_15))
+            $0.setLabel(alignment: .left,
+                        numberOfLines: 2,
+                        textColor: UIColor(resource: .drBlack),
+                        font: UIFont.systemFont(ofSize: 15, weight: .bold))
             $0.text = "test"
         }
         
@@ -87,9 +90,7 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
             $0.setLabel(textColor: UIColor(resource: .drBlack), font: .suit(.body_med_13))
         }
         
-        moveAbleButton.do {
-            $0.setImage(UIImage(resource: .icMovecourse), for: .normal)
-        }
+        moveAbleButton.setImage(UIImage(resource: .icMovecourse), for: .normal)
     }
     
 }

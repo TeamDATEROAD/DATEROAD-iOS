@@ -61,17 +61,11 @@ final class OnboardingCollectionViewCell: BaseCollectionViewCell {
             $0.clipsToBounds = true
         }
         
-        mainInfoLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_extra_24))
-        }
+        mainInfoLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_extra_24))
         
-        subInfoLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .gray500), font: UIFont.suit(.body_med_15))
-        }
+        subInfoLabel.setLabel(textColor: UIColor(resource: .gray500), font: UIFont.suit(.body_med_15))
         
-        hintInfoLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .gray400), font: UIFont.suit(.cap_reg_11))
-        }
+        hintInfoLabel.setLabel(textColor: UIColor(resource: .gray400), font: UIFont.suit(.cap_reg_11))
     }
     
     // 각 온보딩 페이지에 맞는 데이터를 세팅해주는 메소드

@@ -54,7 +54,7 @@ final class NavViewedCourseViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.contentView.addSubviews(navViewedCourseView)
+        self.contentView.addSubview(navViewedCourseView)
     }
     
     override func setLayout() {
@@ -87,10 +87,13 @@ private extension NavViewedCourseViewController {
         navViewedCourseView.emptyView.isHidden = !isEmpty
         navViewedCourseView.myCourseListCollectionView.isHidden = isEmpty
         if isEmpty {
-            navViewedCourseView.emptyView.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule),
-                                                       emptyTitle: StringLiterals.EmptyView.emptyNavViewedCourse)
+            DispatchQueue.main.async {
+                self.navViewedCourseView.emptyView.setEmptyView(emptyImage: UIImage(resource: .emptyPastSchedule), emptyTitle: StringLiterals.EmptyView.emptyNavViewedCourse)
+            }
         } else {
-            self.navViewedCourseView.myCourseListCollectionView.reloadData()
+            DispatchQueue.main.async {
+                self.navViewedCourseView.myCourseListCollectionView.reloadData()
+            }
         }
     }
     
@@ -102,6 +105,16 @@ private extension NavViewedCourseViewController {
 extension NavViewedCourseViewController {
     
     func bindViewModel() {
+        self.viewedCourseViewModel.broughtViewedCoursesModelIsUpdate.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                DispatchQueue.main.async {
+                    self?.navViewedCourseView.myCourseListCollectionView.reloadData()
+                }
+                self?.viewedCourseViewModel.broughtViewedCoursesModelIsUpdate.value = false
+            }
+        }
+        
         self.viewedCourseViewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
@@ -131,10 +144,12 @@ extension NavViewedCourseViewController {
                     self?.showLoadingView(type: StringLiterals.ViewedCourse.title)
                     self?.navViewedCourseView.isHidden = onLoading
                 } else {
-                    self?.setEmptyView()
-                    self?.navViewedCourseView.isHidden = onLoading
-                    self?.tabBarController?.tabBar.isHidden = false
-                    self?.hideLoadingView()
+                    DispatchQueue.main.async {
+                        self?.setEmptyView()
+                        self?.navViewedCourseView.isHidden = onLoading
+                        self?.tabBarController?.tabBar.isHidden = false
+                        self?.hideLoadingView()
+                    }
                 }
             }
         }

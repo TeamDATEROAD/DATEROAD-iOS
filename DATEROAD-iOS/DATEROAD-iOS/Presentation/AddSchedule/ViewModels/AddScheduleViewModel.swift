@@ -13,7 +13,7 @@ final class AddScheduleViewModel: Serviceable {
     
     var viewedDateCourseByMeData: CourseDetailViewModel?
     
-    let ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
+    let ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
     
     let isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(false)
     
@@ -373,22 +373,22 @@ extension AddScheduleViewModel {
         print(addPlaceCollectionViewDataSource, "addPlaceCollectionViewDataSource : \(addPlaceCollectionViewDataSource)")
         print(places, "places : \(places)")
         
-        guard let dateName = dateName.value else {return}
-        guard let visitDate = visitDate.value else {return}
-        guard let dateStartAt = dateStartAt.value else {return}
+        guard let dateName = dateName.value,
+              let visitDate = visitDate.value,
+              let dateStartAt = dateStartAt.value
+        else {return}
         let country = country
         let city = city
         let postAddScheduleTags = selectedTagData.map { PostAddScheduleTag(tag: $0) }
         
-        NetworkService.shared.addScheduleService.postAddSchedule(course: PostAddScheduleRequest(
-            title: dateName,
-            date: visitDate,
-            startAt: dateStartAt,
-            tags: postAddScheduleTags,
-            country: country,
-            city: city,
-            places: places)) { result in
-                switch result {
+        NetworkService.shared.addScheduleService.postAddSchedule(course: PostAddScheduleRequest(title: dateName,
+                                                                                                date: visitDate,
+                                                                                                startAt: dateStartAt,
+                                                                                                tags: postAddScheduleTags,
+                                                                                                country: country,
+                                                                                                city: city,
+                                                                                                places: places)) { result in
+            switch result {
                 case .success(let response):
                     print("Success: \(response)")
                     self.setLoading(isLoading: false)

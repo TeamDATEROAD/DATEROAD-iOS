@@ -25,19 +25,14 @@ final class BannerDetailViewController: BaseViewController {
     
     // MARK: - Properties
     
-    private let courseDetailViewModel: CourseDetailViewModel
-    
-    private var advertismentId: Int
-    
-    var courseId: Int?
+    private let bannerViewModel: BannerViewModel
     
     
     // MARK: - Life Cycle
     
-    init(viewModel: CourseDetailViewModel, advertismentId: Int) {
-        self.courseDetailViewModel = viewModel
-        self.advertismentId = advertismentId
-        self.bannerDetailView = BannerDetailView(bannerDetailSection: self.courseDetailViewModel.bannerSectionData)
+    init(viewModel: BannerViewModel) {
+        self.bannerViewModel = viewModel
+        self.bannerDetailView = BannerDetailView(bannerDetailSection: self.bannerViewModel.bannerSectionData)
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -60,7 +55,8 @@ final class BannerDetailViewController: BaseViewController {
         
         self.bannerDetailSkeletonView.isHidden = false
         self.bannerDetailView.isHidden = true
-        self.courseDetailViewModel.getBannerDetail(advertismentId: advertismentId)
+        self.showLoadingView(type: StringLiterals.Amplitude.ViewPath.courseDetail)
+        self.bannerViewModel.getBannerDetail()
     }
     
     override func setHierarchy() {
@@ -90,48 +86,62 @@ final class BannerDetailViewController: BaseViewController {
     }
     
     func bindViewModel() {
-        self.courseDetailViewModel.isSuccessGetBannerData.bind { [weak self] onSuccess in
-            guard let onSuccess  else { return }
-            self?.courseDetailViewModel.onLoading.value = !onSuccess
+        self.bannerViewModel.updateBannerDetailData.bind { [weak self] flag in
+            guard let flag else { return }
+            if flag {
+                DispatchQueue.main.async {
+                    self?.bannerDetailView.mainCollectionView.performBatchUpdates({
+                        self?.bannerDetailView.mainCollectionView.reloadData()
+                    })
+                }
+                self?.bannerViewModel.updateBannerDetailData.value = false
+            }
         }
         
-        self.courseDetailViewModel.onReissueSuccess.bind { [weak self] onSuccess in
-            guard let onSuccess, let advertisementId = self?.courseDetailViewModel.advertisementId else { return }
+        self.bannerViewModel.isSuccessGetBannerData.bind { [weak self] onSuccess in
+            guard let onSuccess  else { return }
+            self?.bannerViewModel.onLoading.value = !onSuccess
+        }
+        
+        self.bannerViewModel.onReissueSuccess.bind { [weak self] onSuccess in
+            guard let onSuccess else { return }
             if onSuccess {
-                self?.courseDetailViewModel.getBannerDetail(advertismentId: advertisementId)
+                self?.bannerViewModel.getBannerDetail()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
         }
         
-        self.courseDetailViewModel.onFailNetwork.bind { [weak self] onFailure in
+        self.bannerViewModel.onFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
                 let errorVC = DRErrorViewController()
                 errorVC.onDismiss = {
-                    self?.courseDetailViewModel.onFailNetwork.value = false
-                    self?.courseDetailViewModel.onLoading.value = false
+                    self?.bannerViewModel.onFailNetwork.value = false
+                    self?.bannerViewModel.onLoading.value = false
                 }
                 self?.navigationController?.pushViewController(errorVC, animated: false)
             }
         }
         
-        self.courseDetailViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.courseDetailViewModel.onFailNetwork.value else { return }
+        self.bannerViewModel.onLoading.bind { [weak self] onLoading in
+            guard let onLoading, let onFailNetwork = self?.bannerViewModel.onFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
                     self?.bannerDetailSkeletonView.isHidden = false
                     self?.bannerDetailView.isHidden = true
+                    self?.showLoadingView(type: StringLiterals.Amplitude.ViewPath.courseDetail)
                 } else {
                     self?.bannerDetailSkeletonView.isHidden = true
                     self?.setNavBar()
                     self?.bannerDetailView.mainCollectionView.reloadData()
                     self?.bannerDetailView.isHidden = false
+                    self?.hideLoadingView()
                 }
             }
         }
         
-        courseDetailViewModel.currentPage.bind { [weak self] currentPage in
+        bannerViewModel.currentPage.bind { [weak self] currentPage in
             guard let currentPage else { return }
             if let bottomPageControllView = self?.bannerDetailView.mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
                 bottomPageControllView.pageIndex = currentPage
@@ -164,7 +174,7 @@ private extension BannerDetailViewController {
 extension BannerDetailViewController: ImageCarouselDelegate {
     
     func didSwipeImage(index: Int, vc: UIPageViewController, vcData: [UIViewController]) {
-        courseDetailViewModel.didSwipeImage(to: index)
+        bannerViewModel.didSwipeImage(to: index)
     }
     
 }
@@ -173,7 +183,7 @@ extension BannerDetailViewController: ImageCarouselDelegate {
 extension BannerDetailViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return courseDetailViewModel.bannerSectionData.count
+        return bannerViewModel.bannerSectionData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -182,12 +192,12 @@ extension BannerDetailViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        switch courseDetailViewModel.bannerSectionData[indexPath.section] {
+        switch bannerViewModel.bannerSectionData[indexPath.section] {
         case .imageCarousel:
             guard let imageCarouselCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCarouselCell.cellIdentifier, for: indexPath) as? ImageCarouselCell else {
                 return UICollectionViewCell()
             }
-            let imageData = courseDetailViewModel.imageData.value ?? []
+            let imageData = bannerViewModel.imageData.value ?? []
             imageCarouselCell.setPageVC(thumbnailModel: imageData)
             imageCarouselCell.setAccess(isAccess: true)
             imageCarouselCell.delegate = self
@@ -196,12 +206,12 @@ extension BannerDetailViewController: UICollectionViewDataSource {
         case .titleInfo:
             guard let titleInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleInfoCell.cellIdentifier, for: indexPath) as? TitleInfoCell
             else { return UICollectionViewCell() }
-            titleInfoCell.bindBannerTitle(title: courseDetailViewModel.bannerDetailTitle)
+            titleInfoCell.bindBannerTitle(title: bannerViewModel.bannerDetailTitle)
             return titleInfoCell
             
         case .mainContents:
             guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.cellIdentifier, for: indexPath) as? MainContentsCell else { return UICollectionViewCell() }
-            let mainData = courseDetailViewModel.mainContentsData.value ?? MainContentsModel(description: "")
+            let mainData = bannerViewModel.mainContentsData.value ?? MainContentsModel(description: "")
             mainContentsCell.setCell(mainContentsData: mainData)
             mainContentsCell.mainTextLabel.numberOfLines = 0
             
@@ -212,9 +222,9 @@ extension BannerDetailViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        let imageData = self.courseDetailViewModel.imageData.value ?? []
-        let tagLabel = courseDetailViewModel.bannerHeaderData.value?.tag ?? ""
-        let createDate = courseDetailViewModel.bannerHeaderData.value?.createAt ?? ""
+        let imageData = self.bannerViewModel.imageData.value ?? []
+        let tagLabel = bannerViewModel.bannerHeaderData.value?.tag ?? ""
+        let createDate = bannerViewModel.bannerHeaderData.value?.createAt ?? ""
         
         switch kind {
         case BannerInfoHeaderView.elementKinds:
@@ -229,9 +239,7 @@ extension BannerDetailViewController: UICollectionViewDataSource {
             
         case BottomPageControllView.elementKinds:
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else { return UICollectionReusableView() }
-            let likeNum = self.courseDetailViewModel.likeSum.value ?? 0
             footer.pageIndexSum = imageData.count
-            footer.bindData(like: likeNum)
             footer.hiddenLikeStackView()
             return footer
             

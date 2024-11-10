@@ -12,7 +12,7 @@ import Then
 
 protocol LocationFilterViewDelegate: AnyObject {
     
-    func closeLocationFilterView()
+    func closeLocationFilterViewToDelegate()
     
     func didTapApplyButton()
     
@@ -21,8 +21,6 @@ protocol LocationFilterViewDelegate: AnyObject {
 final class LocationFilterView: BaseView {
     
     // MARK: - UI Properties
-    
-    private let dimmedView = UIView()
     
     private let bottomSheetView = UIView()
     
@@ -55,7 +53,7 @@ final class LocationFilterView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(dimmedView, bottomSheetView)
+        self.addSubview(bottomSheetView)
         
         bottomSheetView.addSubviews(
             titleLabel,
@@ -68,14 +66,9 @@ final class LocationFilterView: BaseView {
     }
     
     override func setLayout() {
-        dimmedView.snp.makeConstraints {
-            $0.top.horizontalEdges.equalToSuperview()
-            $0.bottom.equalTo(bottomSheetView)
-        }
-        
         bottomSheetView.snp.makeConstraints {
+            $0.horizontalEdges.bottom.equalToSuperview()
             $0.height.equalTo(469)
-            $0.leading.trailing.bottom.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints {
@@ -115,38 +108,29 @@ final class LocationFilterView: BaseView {
     }
     
     override func setStyle() {
-        cityCollectionView.do {
-            $0.showsVerticalScrollIndicator = false
-        }
-        
-        dimmedView.do {
-            $0.alpha = 0.7
-            $0.layer.backgroundColor = UIColor(resource: .drBlack).cgColor
-            let gesture = UITapGestureRecognizer(target: self, action: #selector(closeLocationFilterView))
-            $0.isUserInteractionEnabled = true
-            $0.addGestureRecognizer(gesture)
-        }
+        cityCollectionView.showsVerticalScrollIndicator = false
         
         bottomSheetView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.roundCorners(cornerRadius: 16, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
         }
         
-        titleLabel.do {
-            $0.setLabel(text:StringLiterals.LocationFilter.title,textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_bold_18))
-        }
+        titleLabel.setLabel(text:StringLiterals.LocationFilter.title,
+                            textColor: UIColor(resource: .drBlack),
+                            font: UIFont.suit(.title_bold_18))
         
         closeButton.do {
             $0.setImage(UIImage(resource: .btnClose), for: .normal)
             $0.addTarget(self, action: #selector(closeLocationFilterView), for: .touchUpInside)
         }
         
-        lineView.do {
-            $0.backgroundColor = UIColor(resource: .gray200)
-        }
+        lineView.backgroundColor = UIColor(resource: .gray200)
         
         applyButton.do {
-            $0.roundedButton(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+            $0.roundedButton(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner,
+                                                               .layerMaxXMinYCorner,
+                                                               .layerMinXMaxYCorner,
+                                                               .layerMaxXMaxYCorner])
             $0.backgroundColor = UIColor(resource: .gray200)
             $0.setTitle(StringLiterals.LocationFilter.apply, for: .normal)
             $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
@@ -157,7 +141,7 @@ final class LocationFilterView: BaseView {
     
     @objc
     func closeLocationFilterView() {
-        delegate?.closeLocationFilterView()
+        delegate?.closeLocationFilterViewToDelegate()
     }
     
     @objc

@@ -33,7 +33,7 @@ final class TitleInfoCell: BaseCollectionViewCell {
     override func setStyle() {
         titleLabel.do {
             $0.text = "나랑 스껄 할래?"
-            $0.font = UIFont.suit(.title_extra_24)
+            $0.font = UIFont.systemFont(ofSize: 24, weight: .black)
             $0.textColor = UIColor(resource: .drBlack)
             $0.numberOfLines = 2
         }

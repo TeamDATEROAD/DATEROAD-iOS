@@ -22,6 +22,8 @@ final class LocationFilterViewController: BaseViewController {
     
     // MARK: - UI Properties
     
+    private let backgroundView = UIView() // 배경 뷰 추가
+    
     private let locationFilterView = LocationFilterView()
     
     
@@ -48,17 +50,33 @@ final class LocationFilterViewController: BaseViewController {
     }
     
     override func setHierarchy() {
-        self.view.addSubview(locationFilterView)
+        self.view.addSubviews(backgroundView, locationFilterView)
     }
     
     override func setLayout() {
-        locationFilterView.snp.makeConstraints {
+        backgroundView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        locationFilterView.snp.makeConstraints {
+            $0.height.equalTo(469)
+            $0.horizontalEdges.bottom.equalToSuperview()
         }
     }
     
     override func setStyle() {
-        self.view.backgroundColor = .clear
+        self.backgroundView.do {
+            $0.backgroundColor = UIColor(resource: .drBlack).withAlphaComponent(0.4)
+            $0.alpha = 0
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(closeLocationFilterView))
+            $0.isUserInteractionEnabled = true
+            $0.addGestureRecognizer(gesture)
+        }
+        
+        self.locationFilterView.do {
+            $0.backgroundColor = UIColor(resource: .drWhite)
+            $0.roundCorners(cornerRadius: 16, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
+        }
     }
     
     func registerCell() {
@@ -114,7 +132,64 @@ final class LocationFilterViewController: BaseViewController {
         }
     }
     
+    @objc
+    func closeLocationFilterView() {
+        self.dismissBottomSheet()
+    }
+    
 }
+
+extension LocationFilterViewController {
+    
+    func resetSelections() {
+        courseViewModel.selectedCityName.value = ""
+        courseViewModel.selectedPriceIndex.value = nil
+        courseViewModel.selectedCountryIndex.value = 0
+        courseViewModel.selectedCityIndex.value = nil
+        locationFilterView.countryCollectionView.reloadData()
+        locationFilterView.cityCollectionView.reloadData()
+    }
+    
+    func presentBottomSheet(in viewController: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil) {
+        self.modalPresentationStyle = .overFullScreen
+        viewController.present(self, animated: false) {
+            self.animateBottomSheetPresentation(animated: animated, completion: completion)
+        }
+    }
+    
+    func dismissBottomSheet(animated: Bool = true, completion: (() -> Void)? = nil) {
+        if animated {
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: {
+                self.locationFilterView.transform = CGAffineTransform(translationX: 0, y: 469)
+                self.backgroundView.alpha = 0  // 배경을 페이드아웃
+            }, completion: { _ in
+                self.dismiss(animated: false, completion: completion)
+            })
+        } else {
+            self.backgroundView.alpha = 0
+            self.dismiss(animated: false, completion: completion)
+        }
+    }
+    
+    private func animateBottomSheetPresentation(animated: Bool, completion: (() -> Void)? = nil) {
+        if animated {
+            self.locationFilterView.transform = CGAffineTransform(translationX: 0, y: 469)
+            self.backgroundView.alpha = 0
+            
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                self.backgroundView.alpha = 1
+                self.locationFilterView.transform = .identity
+            }, completion: { _ in
+                completion?()
+            })
+        } else {
+            self.backgroundView.alpha = 1
+            completion?()
+        }
+    }
+    
+}
+
 
 // MARK: - Private Methods
 
@@ -132,12 +207,8 @@ private extension LocationFilterViewController {
 
 extension LocationFilterViewController: LocationFilterViewDelegate {
     
-    func closeLocationFilterView() {
-        if self.navigationController == nil {
-            self.dismiss(animated: false)
-        } else {
-            self.navigationController?.popViewController(animated: false)
-        }
+    func closeLocationFilterViewToDelegate() {
+        self.dismissBottomSheet()
     }
     
     func didTapApplyButton() {

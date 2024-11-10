@@ -58,6 +58,11 @@ final class DateCardCollectionViewCell: BaseCollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        self.secondTagButton.isHidden = true
+        self.thirdTagButton.isHidden = true
+    }
+    
     override func setHierarchy() {
         self.addSubviews(topImageView,
                          bottomImageView,
@@ -89,7 +94,6 @@ final class DateCardCollectionViewCell: BaseCollectionViewCell {
         dateLabel.snp.makeConstraints {
             $0.top.leading.equalToSuperview().inset(20)
             $0.height.equalTo(62)
-            // $0.trailing.equalTo(dDayButton.snp.leading).offset(10)
         }
         
         dDayButton.snp.makeConstraints {
@@ -145,26 +149,29 @@ final class DateCardCollectionViewCell: BaseCollectionViewCell {
     override func setStyle() {
         self.backgroundColor = .systemRed
         
-        self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+        self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner,
+                                                            .layerMaxXMinYCorner,
+                                                            .layerMinXMaxYCorner,
+                                                            .layerMinXMinYCorner])
         
-        topImageView.do {
-            $0.contentMode = .scaleAspectFill
-        }
+        topImageView.contentMode = .scaleAspectFill
         
-        bottomImageView.do {
-            $0.contentMode = .scaleAspectFill
-        }
+        bottomImageView.contentMode = .scaleAspectFill
         
-        dateLabel.do {
-            $0.setLabel(alignment: .left, numberOfLines: 2, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_extra_24))
-        }
+        dateLabel.setLabel(alignment: .left,
+                           numberOfLines: 2,
+                           textColor: UIColor(resource: .drBlack),
+                           font: UIFont.suit(.title_extra_24))
         
         dDayButton.do {
             $0.titleLabel?.font = UIFont.suit(.cap_bold_11)
             $0.titleLabel?.textColor = UIColor(resource: .drWhite)
             $0.backgroundColor = UIColor(resource: .deepPurple)
             $0.contentEdgeInsets = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
-            $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMaxXMaxYCorner,
+                                                               .layerMaxXMinYCorner,
+                                                               .layerMinXMaxYCorner,
+                                                               .layerMinXMinYCorner])
         }
         
         firstTagButton.do {
@@ -207,26 +214,18 @@ final class DateCardCollectionViewCell: BaseCollectionViewCell {
             $0.adjustsImageWhenDisabled = false
         }
         
-        dotDividerView.do {
-            $0.image = UIImage(resource: .dottedLine)
-        }
+        dotDividerView.image = UIImage(resource: .dottedLine)
         
-        leftCircleInsetImageView.do {
-            $0.image = UIImage(resource: .leftCardInset)
-        }
+        leftCircleInsetImageView.image = UIImage(resource: .leftCardInset)
         
-        rightCircleInsetImageView.do {
-            $0.image = UIImage(resource: .rightCardInset)
-        }
+        rightCircleInsetImageView.image = UIImage(resource: .rightCardInset)
         
-        locationLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .gray500), font: UIFont.suit(.body_med_15))
-        }
+        locationLabel.setLabel(textColor: UIColor(resource: .gray500), font: UIFont.suit(.body_med_15))
         
-        titleLabel.do {
-            $0.setLabel(alignment: .left, numberOfLines: 2, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_extra_24))
-            $0.lineBreakMode = .byWordWrapping
-        }
+        titleLabel.setLabel(alignment: .left,
+                            numberOfLines: 2,
+                            textColor: UIColor(resource: .drBlack),
+                            font: UIFont.systemFont(ofSize: 24, weight: .black))
     }
     
 }
@@ -265,11 +264,20 @@ extension DateCardCollectionViewCell {
     func setColor(index: Int) {
         let colorIndex = index % 3
         if colorIndex == 0 {
-            setColorToLabel(bgColor: UIColor(resource: .pink200), topImage: UIImage(resource: .lilacTop), bottomImage: UIImage(resource: .lilacBottom), buttonColor: UIColor(resource: .pink100))
+            setColorToLabel(bgColor: UIColor(resource: .pink200),
+                            topImage: UIImage(resource: .lilacTop),
+                            bottomImage: UIImage(resource: .lilacBottom),
+                            buttonColor: UIColor(resource: .pink100))
         } else if colorIndex == 1 {
-            setColorToLabel(bgColor: UIColor(resource: .purple200), topImage: UIImage(resource: .deepPurpleTop), bottomImage: UIImage(resource: .deepPurpleBottom), buttonColor: UIColor(resource: .purple100))
+            setColorToLabel(bgColor: UIColor(resource: .purple200),
+                            topImage: UIImage(resource: .deepPurpleTop),
+                            bottomImage: UIImage(resource: .deepPurpleBottom),
+                            buttonColor: UIColor(resource: .purple100))
         } else {
-            setColorToLabel(bgColor: UIColor(resource: .lime), topImage: UIImage(resource: .limeTop), bottomImage: UIImage(resource: .limeBottom), buttonColor: UIColor(resource: .lime100))
+            setColorToLabel(bgColor: UIColor(resource: .lime),
+                            topImage: UIImage(resource: .limeTop),
+                            bottomImage: UIImage(resource: .limeBottom),
+                            buttonColor: UIColor(resource: .lime100))
         }
     }
     

@@ -56,13 +56,17 @@ final class PointSystemCollectionViewCell: BaseCollectionViewCell {
         
         mainLabel.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.setLabel(alignment: .left, textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_bold_15))
+            $0.setLabel(alignment: .left,
+                        textColor: UIColor(resource: .drBlack),
+                        font: UIFont.suit(.body_bold_15))
             $0.numberOfLines = 2
         }
         
         subLabel.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.setLabel(alignment: .left, textColor: UIColor(resource: .gray500), font: UIFont.suit(.body_med_13))
+            $0.setLabel(alignment: .left,
+                        textColor: UIColor(resource: .gray500),
+                        font: UIFont.suit(.body_med_13))
             $0.numberOfLines = 1
         }
     }
