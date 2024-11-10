@@ -38,11 +38,10 @@ final class AddCourseSecondView: BaseView {
     
     override func setHierarchy() {
         self.addSubviews (collectionView, addSecondView)
-        addSecondView.addSubviews(
-            editButton,
-            guideLabel,
-            addPlaceCollectionView
-        )
+        
+        addSecondView.addSubviews(editButton,
+                                  guideLabel,
+                                  addPlaceCollectionView)
     }
     
     override func setLayout() {
@@ -107,7 +106,9 @@ final class AddCourseSecondView: BaseView {
         }
         
         guideLabel.do {
-            $0.setLabel(alignment: .left, textColor: UIColor(resource: .gray400), font: .suit(.body_med_13))
+            $0.setLabel(alignment: .left,
+                        textColor: UIColor(resource: .gray400),
+                        font: .suit(.body_med_13))
             $0.text = StringLiterals.AddCourseOrSchedule.AddSecondView.guideLabel
         }
     }
@@ -127,9 +128,7 @@ extension AddCourseSecondView {
     
     func editBtnState(isAble: Bool) {
         let state = isAble ? enabledButtonType : disabledButtonType
-        editButton.do {
-            $0.setButtonStatus(buttonType: state)
-        }
+        editButton.setButtonStatus(buttonType: state)
     }
     
 }

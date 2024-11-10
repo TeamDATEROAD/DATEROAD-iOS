@@ -177,11 +177,10 @@ final class ProfileView: BaseView {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 14
             $0.placeholder = StringLiterals.Profile.nicknamePlaceholder
-            $0.setPlaceholder(placeholder: StringLiterals.Profile.nicknamePlaceholder, fontColor: UIColor(resource: .gray300), font: UIFont.suit(.body_semi_15))
-            let attributes: [NSAttributedString.Key: Any] = [
-                .font: UIFont.systemFont(ofSize: 15, weight: .semibold),
-                .foregroundColor: UIColor(resource: .drBlack)
-            ]
+            $0.setPlaceholder(placeholder: StringLiterals.Profile.nicknamePlaceholder,
+                              fontColor: UIColor(resource: .gray300),
+                              font: UIFont.suit(.body_semi_15))
+            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 15, weight: .semibold), .foregroundColor: UIColor(resource: .drBlack)]
             $0.defaultTextAttributes = attributes
         }
         
@@ -196,20 +195,16 @@ final class ProfileView: BaseView {
             $0.setErrorLabel(text: StringLiterals.Profile.disabledNickname, errorType: warningType)
         }
         
-        countLabel.do {
-            $0.setLabel(text: StringLiterals.Profile.countPlaceholder,
-                        alignment: .right ,
-                        textColor: UIColor(resource: .gray300),
-                        font: UIFont.suit(.cap_reg_11))
-        }
+        countLabel.setLabel(text: StringLiterals.Profile.countPlaceholder,
+                            alignment: .right ,
+                            textColor: UIColor(resource: .gray300),
+                            font: UIFont.suit(.cap_reg_11))
         
-        datingTendencyLabel.do {
-            $0.setLabel(text: StringLiterals.Profile.dateTendency,
-                        alignment: .left,
-                        textColor: UIColor(resource: .drBlack),
-                        font: UIFont.suit(.body_bold_15))
-        }
-        
+        datingTendencyLabel.setLabel(text: StringLiterals.Profile.dateTendency,
+                                     alignment: .left,
+                                     textColor: UIColor(resource: .drBlack),
+                                     font: UIFont.suit(.body_bold_15))
+
         registerButton.do {
             $0.setTitle(StringLiterals.Profile.registerProfile, for: .normal)
             $0.setButtonStatus(buttonType: disabledButtonType)
@@ -246,7 +241,7 @@ extension ProfileView {
     }
     
     func updateTagErrLabel(isValid: Bool) {
-        tagErrMessageLabel.isHidden =  isValid ? true : false
+        tagErrMessageLabel.isHidden =  isValid
     }
     
     func updateNicknameCount(count: Int) {
@@ -273,15 +268,14 @@ extension ProfileView {
     }
     
     func updateRegisterButton(isValid: Bool) {
-        isValid ? registerButton.setButtonStatus(buttonType: enabledButtonType)
+        isValid 
+        ? registerButton.setButtonStatus(buttonType: enabledButtonType)
         : registerButton.setButtonStatus(buttonType: disabledButtonType)
         registerButton.titleLabel?.font = UIFont.suit(.body_bold_15)
     }
     
     func updateProfileImage(image: UIImage) {
-        profileImageView.do {
-            $0.image = image
-        }
+        profileImageView.image = image
     }
     
 }

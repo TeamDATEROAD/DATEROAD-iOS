@@ -45,20 +45,16 @@ final class AddSecondView: BaseView {
     // MARK: - Methods
     
     override func setHierarchy() {
-        addSubviews (
-            container,
-            contentTitleLabel,
-            contentSubTitleLabel,
-            placeRegistrationContainer,
-            separatorLine,
-            nextBtn
-        )
+        addSubviews(container,
+                    contentTitleLabel,
+                    contentSubTitleLabel,
+                    placeRegistrationContainer,
+                    separatorLine,
+                    nextBtn)
         
-        placeRegistrationContainer.addSubviews(
-            datePlaceTextField,
-            timeRequireTextField,
-            addPlaceButton
-        )
+        placeRegistrationContainer.addSubviews(datePlaceTextField,
+                                               timeRequireTextField,
+                                               addPlaceButton)
     }
     
     override func setLayout() {
@@ -109,30 +105,20 @@ final class AddSecondView: BaseView {
     }
     
     override func setStyle() {
-        contentTitleLabel.do {
-            $0.setLabel(
-                text: StringLiterals.AddCourseOrSchedule.AddSecondView.contentTitleLabelOfCourse,
-                alignment: .left,
-                textColor: UIColor(resource: .drBlack),
-                font: .suit(.body_bold_17)
-            )
-        }
+        contentTitleLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddSecondView.contentTitleLabelOfCourse,
+                                   alignment: .left,
+                                   textColor: UIColor(resource: .drBlack),
+                                   font: .suit(.body_bold_17))
         
-        contentSubTitleLabel.do {
-            $0.setLabel(
-                text: StringLiterals.AddCourseOrSchedule.AddSecondView.subTitleLabel,
-                alignment: .left,
-                textColor: UIColor(resource: .gray400),
-                font: .suit(.body_med_13)
-            )
-        }
+        contentSubTitleLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddSecondView.subTitleLabel,
+                                      alignment: .left,
+                                      textColor: UIColor(resource: .gray400),
+                                      font: .suit(.body_med_13))
         
         datePlaceTextField.do {
-            $0.setPlaceholder(
-                placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.datePlacePlaceHolder,
-                fontColor: UIColor(resource: .gray300),
-                font: UIFont.suit(.body_semi_13)
-            )
+            $0.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.datePlacePlaceHolder,
+                              fontColor: UIColor(resource: .gray300),
+                              font: UIFont.suit(.body_semi_13))
             $0.setLeftPadding(amount: 14)
             $0.setRightPadding(amount: 4)
             $0.textAlignment = .left
@@ -146,11 +132,9 @@ final class AddSecondView: BaseView {
         }
         
         timeRequireTextField.do {
-            $0.setPlaceholder(
-                placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder,
-                fontColor: UIColor(resource: .gray300),
-                font: UIFont.suit(.body_semi_13)
-            )
+            $0.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder,
+                              fontColor: UIColor(resource: .gray300),
+                              font: UIFont.suit(.body_semi_13))
             $0.textAlignment = .center
             $0.backgroundColor = UIColor(resource: .gray100)
             $0.layer.borderWidth = 0
@@ -168,9 +152,7 @@ final class AddSecondView: BaseView {
             }
         }
         
-        separatorLine.do {
-            $0.backgroundColor = UIColor(resource: .gray200)
-        }
+        separatorLine.backgroundColor = UIColor(resource: .gray200)
         
         nextBtn.do {
             $0.setButtonStatus(buttonType: disabledButtonType)
