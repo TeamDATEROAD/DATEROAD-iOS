@@ -220,6 +220,7 @@ private extension EditProfileViewController {
         
         self.profileViewModel.nickname.bind { [weak self] nickname in
             guard let nickname else { return }
+            self?.profileViewModel.startFromNickNameChange = true
             self?.profileViewModel.isValidNickname.value = false
             self?.profileViewModel.compareExistingNickname()
             self?.profileView.updateNicknameCount(count: nickname.count)

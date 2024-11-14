@@ -23,6 +23,8 @@ final class ProfileViewModel: Serviceable {
     
     var startFromProfileChange: Bool = false
     
+    var startFromNickNameChange: Bool = false
+    
     var profileImage: ObservablePattern<UIImage>
     
     var existingNickname: ObservablePattern<String>
@@ -123,7 +125,8 @@ extension ProfileViewModel {
         
         isTagChangeValid = isTagChange()
         
-        if count >= 1 && count <= 3 && isTagChangeValid || startFromProfileChange {
+        if count >= 1 && count <= 3 && isTagChangeValid
+            || startFromProfileChange || startFromNickNameChange {
             self.isValidTag.value = true
         } else {
             self.isValidTag.value = false
