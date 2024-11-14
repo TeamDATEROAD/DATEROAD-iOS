@@ -51,7 +51,7 @@ final class AddScheduleViewModel: Serviceable {
     
     let isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    let tagCount: ObservablePattern<Int> = ObservablePattern(nil)
+    let tagCount: ObservablePattern<Int> = ObservablePattern(0)
     
     private let minTagCnt = 1
     
