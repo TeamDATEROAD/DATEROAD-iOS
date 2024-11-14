@@ -19,6 +19,10 @@ final class ProfileViewModel: Serviceable {
     
     var isDefaultImage: Bool = false
     
+    var isTagChangeValid: Bool = false
+    
+    var startFromProfileChange: Bool = false
+    
     var profileImage: ObservablePattern<UIImage>
     
     var existingNickname: ObservablePattern<String>
@@ -74,6 +78,18 @@ extension ProfileViewModel {
         tagData = TendencyTag.allCases.map { $0.tag }
     }
     
+    /// TODO: 기존 프사와 같은 이미지를 골랐음에도 flag 값이 false로 반환됨
+    /// 추후 Image 비교 로직 구현해야함
+    func isProfileImageChange(selectedImage: UIImage) -> Bool {
+        if let profileImage = profileImage.value {
+            print("기존 값과 같은지 비교 : \(profileImage.isEqual(selectedImage))")
+            let flag = profileImage.isEqual(selectedImage)
+            return !flag
+        } else {
+            return false
+        }
+    }
+    
     // 닉네임 글자 수 확인 => 유효카운트 여부 & 5자초과 여부 업데이트
     func checkValidNicknameCount() {
         guard let nickname = self.nickname.value else { return }
@@ -105,11 +121,19 @@ extension ProfileViewModel {
         let count = selectedTagData.count
         self.tagCount.value = count
         
-        if count >= 1 && count <= 3 {
+        isTagChangeValid = isTagChange()
+        
+        if count >= 1 && count <= 3 && isTagChangeValid || startFromProfileChange {
             self.isValidTag.value = true
         } else {
             self.isValidTag.value = false
         }
+    }
+    
+    func isTagChange() -> Bool {
+        let beforeData = profileData.value?.tags
+        let currentData = selectedTagData
+        return beforeData == currentData ? false : true
     }
     
     func checkValidRegistration() {

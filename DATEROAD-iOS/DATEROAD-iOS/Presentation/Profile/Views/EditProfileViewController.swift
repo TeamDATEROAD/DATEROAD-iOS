@@ -157,7 +157,9 @@ private extension EditProfileViewController {
         self.profileViewModel.profileImage.bind { [weak self] image in
             guard let initial = self?.initial else { return }
             if initial {
+                self?.profileViewModel.startFromProfileChange = true
                 self?.profileViewModel.checkValidNicknameCount()
+                self?.profileViewModel.checkTagCount()
             }
         }
         
@@ -205,9 +207,13 @@ private extension EditProfileViewController {
         }
         
         self.profileViewModel.isValidTag.bind { [weak self] isValid in
-            guard let isValid, let initial = self?.initial else { return }
+            guard let isValid, let initial = self?.initial,
+                  let isTagChangeValid = self?.profileViewModel.isTagChangeValid else { return }
+            
             if initial {
-                self?.profileView.updateTagErrLabel(isValid: isValid)
+                if isTagChangeValid {
+                    self?.profileView.updateTagErrLabel(isValid: isValid)
+                }
                 self?.profileViewModel.checkValidRegistration()
             }
         }
@@ -419,8 +425,12 @@ extension EditProfileViewController: ImagePickerDelegate {
     
     func didPickImages(_ images: [UIImage]) {
         let selectedImage = images[0]
-        profileView.updateProfileImage(image: selectedImage)
-        self.profileViewModel.profileImage.value = selectedImage
+        let falg = profileViewModel.isProfileImageChange(selectedImage: selectedImage)
+        
+        if falg {
+            profileView.updateProfileImage(image: selectedImage)
+            self.profileViewModel.profileImage.value = selectedImage
+        }
     }
     
 }
