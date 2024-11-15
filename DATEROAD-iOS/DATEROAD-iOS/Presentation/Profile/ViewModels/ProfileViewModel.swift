@@ -19,11 +19,7 @@ final class ProfileViewModel: Serviceable {
     
     var isDefaultImage: Bool = false
     
-    var isTagChangeValid: Bool = false
-    
-    var startFromProfileChange: Bool = false
-    
-    var startFromNickNameChange: Bool = false
+    private var isTagChangeValid: Bool = false
     
     var profileImage: ObservablePattern<UIImage>
     
@@ -62,7 +58,6 @@ final class ProfileViewModel: Serviceable {
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
     var alertMessage: ObservablePattern<String> = ObservablePattern(nil)
-
     
     
     init(profileData: ProfileModel) {
@@ -88,7 +83,6 @@ extension ProfileViewModel {
     /// 추후 Image 비교 로직 구현해야함
     func isProfileImageChange(selectedImage: UIImage) -> Bool {
         if let profileImage = profileImage.value {
-            print("기존 값과 같은지 비교 : \(profileImage.isEqual(selectedImage))")
             let flag = profileImage.isEqual(selectedImage)
             return !flag
         } else {
@@ -130,7 +124,6 @@ extension ProfileViewModel {
         
         let isValidCount = (1...3).contains(count)
         self.isNotTagError.value = isValidCount
-        print("isValidCount && isTagChangeValid : \(isValidCount && isTagChangeValid)")
         self.isValidTag.value = isValidCount && isTagChangeValid
     }
     
@@ -144,7 +137,6 @@ extension ProfileViewModel {
     
     // Tag 외(프사, 닉네임) 변경 시 isValidTag.value 컨트롤하기 위해 함수 활용
     func outOfTagData() {
-        print("~~~")
         let count = selectedTagData.count
         let isValidCount = (1...3).contains(count)
         if isValidCount {
