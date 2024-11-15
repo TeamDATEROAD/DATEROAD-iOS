@@ -25,7 +25,72 @@ final class AddScheduleViewModel: Serviceable {
     
     lazy var addScheduleSecondViewModel: AddScheduleSecondViewModelInterface = AddScheduleSecondViewModel(addScheduleAmplitude: addScheduleAmplitude)
     
-    let addScheduleAmplitude: AddScheduleAmplitude = AddScheduleAmplitude()
+    var pastDatePlaces = [TimelineModel]()
+    
+    var selectedTagData: [String] = []
+    
+    var pastDateTagIndex = [Int]()
+    
+    
+    //MARK: - AddFirstCourse 사용되는 ViewModel
+    
+    // 데이트 이름 유효성 판별 (true는 통과)
+    let dateName: ObservablePattern<String> = ObservablePattern(nil)
+    
+    let isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    private let minimumDateNameLength = 5
+    
+    // 방문 일자 유효성 판별 (true는 통과)
+    let visitDate: ObservablePattern<String> = ObservablePattern(nil)
+    
+    let isVisitDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    // 데이트 시작시간 유효성 판별 (self.count > 0 인지)
+    let dateStartAt: ObservablePattern<String> = ObservablePattern(nil)
+    
+    let isDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    // 코스 등록 태그 생성
+    var tagData: [ProfileTagModel] = []
+    
+    // 선택된 태그
+    let isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    let isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    let tagCount: ObservablePattern<Int> = ObservablePattern(0)
+    
+    private let minTagCnt = 1
+    
+    private let maxTagCnt = 3
+    
+    // 코스 지역 유효성 판별
+    let dateLocation: ObservablePattern<String> = ObservablePattern(nil)
+    
+    let isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    // 기타
+    var isTimePicker: Bool?
+    
+    var country = ""
+    
+    var city = ""
+    
+    
+    //MARK: - AddSecondView 전용 Viewmodel 변수
+    
+    var addPlaceCollectionViewDataSource: [AddCoursePlaceModel] = []
+    
+    let datePlace: ObservablePattern<String> = ObservablePattern(nil)
+    
+    let timeRequire: ObservablePattern<String> = ObservablePattern(nil)
+    
+    let isValidOfSecondNextBtn: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    let editBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var isChange: (() -> Void)?
     
     var isEditMode: Bool = false
     
