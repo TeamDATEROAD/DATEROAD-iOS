@@ -154,12 +154,11 @@ private extension EditProfileViewController {
             }
         }
         
-        self.profileViewModel.profileImage.bind { [weak self] image in
+        self.profileViewModel.isUpdateProfileImage.bind { [weak self] image in
             guard let initial = self?.initial else { return }
             if initial {
-                self?.profileViewModel.startFromProfileChange = true
                 self?.profileViewModel.checkValidNicknameCount()
-                self?.profileViewModel.checkTagCount()
+                self?.profileViewModel.outOfTagData()
             }
         }
         
@@ -208,7 +207,6 @@ private extension EditProfileViewController {
         
         self.profileViewModel.isValidTag.bind { [weak self] _ in
             guard let initial = self?.initial else { return }
-            
             if initial {
                 self?.profileViewModel.checkValidRegistration()
             }
@@ -224,7 +222,7 @@ private extension EditProfileViewController {
         
         self.profileViewModel.nickname.bind { [weak self] nickname in
             guard let nickname else { return }
-            self?.profileViewModel.startFromNickNameChange = true
+            self?.profileViewModel.outOfTagData()
             self?.profileViewModel.isValidNickname.value = false
             self?.profileViewModel.compareExistingNickname()
             self?.profileView.updateNicknameCount(count: nickname.count)
@@ -319,6 +317,7 @@ private extension EditProfileViewController {
         alertVC.dismissBottomSheet()
         profileView.updateProfileImage(image: UIImage(resource: .emptyProfileImg))
         profileViewModel.profileImage.value = UIImage(resource: .emptyProfileImg)
+        self.profileViewModel.isUpdateProfileImage.value = true
     }
     
     @objc
@@ -435,6 +434,7 @@ extension EditProfileViewController: ImagePickerDelegate {
         if falg {
             profileView.updateProfileImage(image: selectedImage)
             self.profileViewModel.profileImage.value = selectedImage
+            self.profileViewModel.isUpdateProfileImage.value = true
         }
     }
     

@@ -27,6 +27,8 @@ final class ProfileViewModel: Serviceable {
     
     var profileImage: ObservablePattern<UIImage>
     
+    var isUpdateProfileImage: ObservablePattern<Bool> = ObservablePattern(false)
+    
     var existingNickname: ObservablePattern<String>
     
     var isExistedNickname: ObservablePattern<Bool> = ObservablePattern(nil)
@@ -128,14 +130,26 @@ extension ProfileViewModel {
         
         let isValidCount = (1...3).contains(count)
         self.isNotTagError.value = isValidCount
+        print("isValidCount && isTagChangeValid : \(isValidCount && isTagChangeValid)")
         self.isValidTag.value = isValidCount && isTagChangeValid
     }
     
+    // 이전, 현재 tag 데이터 배열 순서 상관없이 비교
     func isEqualTagData() -> Bool {
         guard let beforeData = profileData.value?.tags else { return true }
         let currentDataSet = Set(selectedTagData)
         let beforeDataSet = Set(beforeData)
         return currentDataSet == beforeDataSet
+    }
+    
+    // Tag 외(프사, 닉네임) 변경 시 isValidTag.value 컨트롤하기 위해 함수 활용
+    func outOfTagData() {
+        print("~~~")
+        let count = selectedTagData.count
+        let isValidCount = (1...3).contains(count)
+        if isValidCount {
+            self.isValidTag.value = true
+        }
     }
     
     func checkValidRegistration() {
