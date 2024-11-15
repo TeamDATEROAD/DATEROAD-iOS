@@ -93,11 +93,14 @@ extension ProfileViewModel {
     }
     
     // 닉네임 글자 수 확인 => 유효카운트 여부 & 5자초과 여부 업데이트
-    func checkValidNicknameCount() {
+    func checkValidNicknameCount(fromTagButton: Bool? = nil) {
         guard let nickname = self.nickname.value else { return }
         if nickname.count >= 2 && nickname.count <= 5 {
             self.isValidNicknameCount.value = true
             self.is5orLess.value = true
+            if fromTagButton == true {
+                return
+            }
             self.isUpdateNickName = true
         } else {
             self.is5orLess.value = false
@@ -139,22 +142,15 @@ extension ProfileViewModel {
     }
     
     // Tag 외(프사, 닉네임) 변경 시 isValidTag.value 컨트롤하기 위해 함수 활용
-    func outOfTagData() {
+    func outOfTagData(isRegistering: Bool? = nil) -> Bool {
         let count = selectedTagData.count
         let isValidCount = (1...3).contains(count)
-        if isValidCount {
-            self.isValidTag.value = true
+        if isRegistering == true {
+            return isValidCount
         }
-    }
-    
-    func outOfTagDataReutnType() -> Bool {
-        let count = selectedTagData.count
-        let isValidCount = (1...3).contains(count)
-        if isValidCount {
-            return true
-        } else {
-            return false
-        }
+        isNotTagError.value = isValidCount
+        isValidTag.value = isValidCount
+        return false
     }
     
     func checkValidRegistration() {
@@ -164,7 +160,7 @@ extension ProfileViewModel {
               let isUpdateProfileImage = isUpdateProfileImage.value else { return }
         
         if isUpdateProfileImage || isUpdateNickName {
-            isValidTag = outOfTagDataReutnType()
+            isValidTag = outOfTagData(isRegistering: true)
         }
         
         self.isValidRegistration.value = (isValidNickname && isValidTag && is5CntVaild)

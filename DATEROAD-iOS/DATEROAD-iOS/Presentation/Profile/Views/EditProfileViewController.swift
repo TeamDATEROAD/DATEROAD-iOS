@@ -158,7 +158,7 @@ private extension EditProfileViewController {
             guard let initial = self?.initial else { return }
             if initial {
                 self?.profileViewModel.checkValidNicknameCount()
-                self?.profileViewModel.outOfTagData()
+                _ = self?.profileViewModel.outOfTagData()
             }
         }
         
@@ -222,7 +222,7 @@ private extension EditProfileViewController {
         
         self.profileViewModel.nickname.bind { [weak self] nickname in
             guard let nickname else { return }
-            self?.profileViewModel.outOfTagData()
+            _ = self?.profileViewModel.outOfTagData()
             self?.profileViewModel.isValidNickname.value = false
             self?.profileViewModel.compareExistingNickname()
             self?.profileView.updateNicknameCount(count: nickname.count)
@@ -303,7 +303,7 @@ private extension EditProfileViewController {
                 self.profileViewModel.countSelectedTag(isSelected: sender.isSelected, tag: tag)
             }
         }
-        self.profileViewModel.checkValidNicknameCount()
+        self.profileViewModel.checkValidNicknameCount(fromTagButton: true)
     }
     
     @objc
