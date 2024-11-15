@@ -19,6 +19,12 @@ final class ProfileViewModel: Serviceable {
     
     var isDefaultImage: Bool = false
     
+    private var isUpdateTag: Bool = false
+    
+    private var isUpdateNickName: Bool = false
+    
+    var isUpdateProfileImage: ObservablePattern<Bool> = ObservablePattern(false)
+    
     var profileImage: ObservablePattern<UIImage>
     
     var existingNickname: ObservablePattern<String>
@@ -34,6 +40,8 @@ final class ProfileViewModel: Serviceable {
     var isValidNickname: ObservablePattern<Bool> = ObservablePattern(false)
     
     var isValidTag: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var isNotTagError: ObservablePattern<Bool> = ObservablePattern(true)
     
     var isValidRegistration: ObservablePattern<Bool> = ObservablePattern(false)
     
@@ -52,7 +60,6 @@ final class ProfileViewModel: Serviceable {
     var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(false)
     
     var alertMessage: ObservablePattern<String> = ObservablePattern(nil)
-
     
     
     init(profileData: ProfileModel) {
@@ -74,12 +81,27 @@ extension ProfileViewModel {
         tagData = TendencyTag.allCases.map { $0.tag }
     }
     
+    /// TODO: 기존 프사와 같은 이미지를 골랐음에도 flag 값이 false로 반환됨
+    /// 추후 Image 비교 로직 구현해야함
+    func isProfileImageChange(selectedImage: UIImage) -> Bool {
+        if let profileImage = profileImage.value {
+            let flag = profileImage.isEqual(selectedImage)
+            return !flag
+        } else {
+            return false
+        }
+    }
+    
     // 닉네임 글자 수 확인 => 유효카운트 여부 & 5자초과 여부 업데이트
-    func checkValidNicknameCount() {
+    func checkValidNicknameCount(fromTagButton: Bool? = nil) {
         guard let nickname = self.nickname.value else { return }
         if nickname.count >= 2 && nickname.count <= 5 {
             self.isValidNicknameCount.value = true
             self.is5orLess.value = true
+            if fromTagButton == true {
+                return
+            }
+            self.isUpdateNickName = true
         } else {
             self.is5orLess.value = false
             if nickname.count < 2 {
@@ -104,18 +126,42 @@ extension ProfileViewModel {
     func checkTagCount() {
         let count = selectedTagData.count
         self.tagCount.value = count
+        self.isUpdateTag = !isEqualTagData()
         
-        if count >= 1 && count <= 3 {
-            self.isValidTag.value = true
-        } else {
-            self.isValidTag.value = false
+        let isValidCount = (1...3).contains(count)
+        self.isNotTagError.value = isValidCount
+        self.isValidTag.value = isValidCount && isUpdateTag
+    }
+    
+    // 이전, 현재 tag 데이터 배열 순서 상관없이 비교
+    func isEqualTagData() -> Bool {
+        guard let beforeData = profileData.value?.tags else { return true }
+        let currentDataSet = Set(selectedTagData)
+        let beforeDataSet = Set(beforeData)
+        return currentDataSet == beforeDataSet
+    }
+    
+    // Tag 외(프사, 닉네임) 변경 시 isValidTag.value 컨트롤하기 위해 함수 활용
+    func outOfTagData(isRegistering: Bool? = nil) -> Bool {
+        let count = selectedTagData.count
+        let isValidCount = (1...3).contains(count)
+        if isRegistering == true {
+            return isValidCount
         }
+        isNotTagError.value = isValidCount
+        isValidTag.value = isValidCount
+        return false
     }
     
     func checkValidRegistration() {
         guard let isValidNickname = isValidNickname.value,
-              let isValidTag = isValidTag.value,
-              let is5CntVaild = is5orLess.value else { return }
+              var isValidTag = isValidTag.value,
+              let is5CntVaild = is5orLess.value,
+              let isUpdateProfileImage = isUpdateProfileImage.value else { return }
+        
+        if isUpdateProfileImage || isUpdateNickName {
+            isValidTag = outOfTagData(isRegistering: true)
+        }
         
         self.isValidRegistration.value = (isValidNickname && isValidTag && is5CntVaild)
     }
