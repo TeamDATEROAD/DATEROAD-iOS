@@ -206,15 +206,19 @@ private extension EditProfileViewController {
             }
         }
         
-        self.profileViewModel.isValidTag.bind { [weak self] isValid in
-            guard let isValid, let initial = self?.initial,
-                  let isTagChangeValid = self?.profileViewModel.isTagChangeValid else { return }
+        self.profileViewModel.isValidTag.bind { [weak self] _ in
+            guard let initial = self?.initial else { return }
             
             if initial {
-                if isTagChangeValid {
-                    self?.profileView.updateTagErrLabel(isValid: isValid)
-                }
                 self?.profileViewModel.checkValidRegistration()
+            }
+        }
+        
+        self.profileViewModel.isNotTagError.bind { [weak self] isNotError in
+            guard let isNotError, let initial = self?.initial else { return }
+            
+            if initial {
+                self?.profileView.updateTagErrLabel(isValid: isNotError)
             }
         }
         

@@ -41,6 +41,8 @@ final class ProfileViewModel: Serviceable {
     
     var isValidTag: ObservablePattern<Bool> = ObservablePattern(false)
     
+    var isNotTagError: ObservablePattern<Bool> = ObservablePattern(true)
+    
     var isValidRegistration: ObservablePattern<Bool> = ObservablePattern(false)
     
     var is5orLess: ObservablePattern<Bool> = ObservablePattern(false)
@@ -122,22 +124,18 @@ extension ProfileViewModel {
     func checkTagCount() {
         let count = selectedTagData.count
         self.tagCount.value = count
+        self.isTagChangeValid = !isEqualTagData()
         
-        isTagChangeValid = isTagChange()
-        
-        if count >= 1 && count <= 3 && isTagChangeValid
-            || startFromProfileChange || startFromNickNameChange {
-            self.isValidTag.value = true
-        } else {
-            self.isValidTag.value = false
-        }
+        let isValidCount = (1...3).contains(count)
+        self.isNotTagError.value = isValidCount
+        self.isValidTag.value = isValidCount && isTagChangeValid
     }
     
-    func isTagChange() -> Bool {
+    func isEqualTagData() -> Bool {
         guard let beforeData = profileData.value?.tags else { return true }
         let currentDataSet = Set(selectedTagData)
         let beforeDataSet = Set(beforeData)
-        return currentDataSet != beforeDataSet
+        return currentDataSet == beforeDataSet
     }
     
     func checkValidRegistration() {
