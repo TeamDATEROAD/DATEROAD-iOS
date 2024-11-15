@@ -134,9 +134,10 @@ extension ProfileViewModel {
     }
     
     func isTagChange() -> Bool {
-        let beforeData = profileData.value?.tags
-        let currentData = selectedTagData
-        return beforeData == currentData ? false : true
+        guard let beforeData = profileData.value?.tags else { return true }
+        let currentDataSet = Set(selectedTagData)
+        let beforeDataSet = Set(beforeData)
+        return currentDataSet != beforeDataSet
     }
     
     func checkValidRegistration() {
