@@ -19,11 +19,13 @@ final class ProfileViewModel: Serviceable {
     
     var isDefaultImage: Bool = false
     
-    private var isTagChangeValid: Bool = false
+    private var isUpdateTag: Bool = false
     
-    var profileImage: ObservablePattern<UIImage>
+    private var isUpdateNickName: Bool = false
     
     var isUpdateProfileImage: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var profileImage: ObservablePattern<UIImage>
     
     var existingNickname: ObservablePattern<String>
     
@@ -96,6 +98,7 @@ extension ProfileViewModel {
         if nickname.count >= 2 && nickname.count <= 5 {
             self.isValidNicknameCount.value = true
             self.is5orLess.value = true
+            self.isUpdateNickName = true
         } else {
             self.is5orLess.value = false
             if nickname.count < 2 {
@@ -120,11 +123,11 @@ extension ProfileViewModel {
     func checkTagCount() {
         let count = selectedTagData.count
         self.tagCount.value = count
-        self.isTagChangeValid = !isEqualTagData()
+        self.isUpdateTag = !isEqualTagData()
         
         let isValidCount = (1...3).contains(count)
         self.isNotTagError.value = isValidCount
-        self.isValidTag.value = isValidCount && isTagChangeValid
+        self.isValidTag.value = isValidCount && isUpdateTag
     }
     
     // 이전, 현재 tag 데이터 배열 순서 상관없이 비교
@@ -144,10 +147,25 @@ extension ProfileViewModel {
         }
     }
     
+    func outOfTagDataReutnType() -> Bool {
+        let count = selectedTagData.count
+        let isValidCount = (1...3).contains(count)
+        if isValidCount {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     func checkValidRegistration() {
         guard let isValidNickname = isValidNickname.value,
-              let isValidTag = isValidTag.value,
-              let is5CntVaild = is5orLess.value else { return }
+              var isValidTag = isValidTag.value,
+              let is5CntVaild = is5orLess.value,
+              let isUpdateProfileImage = isUpdateProfileImage.value else { return }
+        
+        if isUpdateProfileImage || isUpdateNickName {
+            isValidTag = outOfTagDataReutnType()
+        }
         
         self.isValidRegistration.value = (isValidNickname && isValidTag && is5CntVaild)
     }
