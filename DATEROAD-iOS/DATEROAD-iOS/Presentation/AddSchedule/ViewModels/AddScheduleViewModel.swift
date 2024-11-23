@@ -25,6 +25,8 @@ final class AddScheduleViewModel: Serviceable {
     
     lazy var addScheduleSecondViewModel: AddScheduleSecondViewModelInterface = AddScheduleSecondViewModel(addScheduleAmplitude: addScheduleAmplitude)
     
+    let addScheduleAmplitude: AddScheduleAmplitude = AddScheduleAmplitude()
+    
     var pastDatePlaces = [TimelineModel]()
     
     var selectedTagData: [String] = []
