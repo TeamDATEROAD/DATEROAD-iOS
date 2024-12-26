@@ -31,14 +31,11 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
     
     let viewModel: AddScheduleViewModel
     
-    var viewPath: String
-    
     
     // MARK: - Initializer
     
-    init(viewModel: AddScheduleViewModel, viewPath: String) {
+    init(viewModel: AddScheduleViewModel) {
         self.viewModel = viewModel
-        self.viewPath = viewPath
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -61,7 +58,7 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
         bindViewModel()
         setupKeyboardDismissRecognizer()
         pastDateBindViewModel()
-        AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddSchedule, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
+        AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddSchedule, properties: [StringLiterals.Amplitude.Property.viewPath: viewModel.viewPath])
     }
     
     
@@ -321,7 +318,7 @@ extension AddScheduleFirstViewController {
         } else {
             self.showLoadingView(type: StringLiterals.AddCourseOrSchedule.addScheduleTitle)
             self.viewModel.fetchPastDate()
-            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
+            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewModel.viewPath])
         }
     }
     

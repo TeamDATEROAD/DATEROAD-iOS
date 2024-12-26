@@ -9,6 +9,8 @@ import UIKit
 
 final class AddScheduleViewModel: Serviceable {
     
+    var viewPath: String
+    
     var isBroughtData = false
     
     var viewedDateCourseByMeData: CourseDetailViewModel?
@@ -116,7 +118,8 @@ final class AddScheduleViewModel: Serviceable {
     
     // MARK: - Initializer
     
-    init() {
+    init(viewPath: String) {
+        self.viewPath = viewPath
         initAmplitudeVar()
         fetchTagData()
     }
@@ -382,27 +385,27 @@ extension AddScheduleViewModel {
         let postAddScheduleTags = selectedTagData.map { PostAddScheduleTag(tag: $0) }
         
         NetworkService.shared.addScheduleService.postAddSchedule(course: PostAddScheduleRequest(title: dateName,
-                                                                                                date: visitDate,
-                                                                                                startAt: dateStartAt,
-                                                                                                tags: postAddScheduleTags,
-                                                                                                country: country,
-                                                                                                city: city,
-                                                                                                places: places)) { result in
+                                                                                                    date: visitDate,
+                                                                                                    startAt: dateStartAt,
+                                                                                                    tags: postAddScheduleTags,
+                                                                                                    country: country,
+                                                                                                    city: city,
+                                                                                                    places: places)) { result in
             switch result {
-                case .success(let response):
-                    print("Success: \(response)")
-                    self.setLoading(isLoading: false)
-                    self.isSuccessPostData.value = true
-                case .reIssueJWT:
-                    self.patchReissue { isSuccess in
-                        self.onReissueSuccess.value = isSuccess
-                    }
-                default:
-                    self.onFailNetwork.value = true
-                    print("Failed to another reason")
-                    return
+            case .success(let response):
+                print("Success: \(response)")
+                self.setLoading(isLoading: false)
+                self.isSuccessPostData.value = true
+            case .reIssueJWT:
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
                 }
+            default:
+                self.onFailNetwork.value = true
+                print("Failed to another reason")
+                return
             }
+        }
     }
     
 }
