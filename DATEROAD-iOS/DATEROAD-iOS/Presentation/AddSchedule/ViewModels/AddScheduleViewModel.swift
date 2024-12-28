@@ -64,9 +64,6 @@ final class AddScheduleViewModel: Serviceable {
     
     let isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    // 기타
-    var isTimePicker: Bool?
-    
     var country = ""
     
     var city = ""
@@ -124,7 +121,15 @@ final class AddScheduleViewModel: Serviceable {
         fetchTagData()
     }
     
+    // tag 세팅 함수
+    func fetchTagData() {
+        tagData = TendencyTag.allCases.map { $0.tag }
+    }
+    
 }
+
+
+//MARK: - AddScheduleViewModel: Amplitude
 
 extension AddScheduleViewModel {
     
@@ -172,12 +177,14 @@ extension AddScheduleViewModel {
         )
     }
     
-    func getTagIndices(from tags: [String]) -> [Int] {
-        return tags.compactMap { tag in
-            TendencyTag.allCases.firstIndex { $0.tag.english == tag }
-        }
-    }
+}
+
+
+//MARK: - AddScheduleViewModel: PastDateSetting
+
+extension AddScheduleViewModel {
     
+    // 일정등록(불러오기) 시 데이터 세팅 함수
     func fetchPastDate() {
         viewedDateCourseByMeData?.isSuccessGetData.bind { [weak self] isSuccess in
             guard let self = self else { return }
@@ -224,30 +231,22 @@ extension AddScheduleViewModel {
         }
     }
     
-    
-    //MARK: - AddSchedule First 함수
-    
-    func satisfyDateName(str: String) {
-        isDateNameVaild.value = str.count >= minimumDateNameLength
-    }
-    
-    func isFutureDate(date: Date, dateType: String) {
-        if dateType == "date" {
-            let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: date)
-            visitDate.value = formattedDate
-            self.isVisitDateVaild.value = true
-        } else {
-            var formattedDate = DateFormatterManager.shared.timeFormatter.string(from: date)
-            formattedDate = formattedDate
-                .replacingOccurrences(of: "오전", with: "AM")
-                .replacingOccurrences(of: "오후", with: "PM")
-            dateStartAt.value = formattedDate
-            self.isDateStartAtVaild.value = !(dateStartAt.value?.isEmpty ?? true)
+    //불러온 데이터에 선택된 tag index 값 넣어주는 함수
+    func getTagIndices(from tags: [String]) -> [Int] {
+        return tags.compactMap { tag in
+            TendencyTag.allCases.firstIndex { $0.tag.english == tag }
         }
     }
     
-    func fetchTagData() {
-        tagData = TendencyTag.allCases.map { $0.tag }
+}
+
+
+//MARK: - viewModel: AddScheduleFirstVC 함수
+
+extension AddScheduleViewModel {
+    
+    func satisfyDateName(str: String) {
+        isDateNameVaild.value = str.count >= minimumDateNameLength
     }
     
     func countSelectedTag(isSelected: Bool, tag: String) {
@@ -261,6 +260,21 @@ extension AddScheduleViewModel {
             }
         }
         checkTagCount(min: minTagCnt, max: maxTagCnt)
+    }
+    
+    func setVisitDate(_ date: Date) {
+        let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: date)
+        visitDate.value = formattedDate
+        isVisitDateVaild.value = !(visitDate.value?.isEmpty ?? true)
+    }
+    
+    func setDateStartAt(_ time: Date) {
+        var formattedTime = DateFormatterManager.shared.timeFormatter.string(from: time)
+        formattedTime = formattedTime
+            .replacingOccurrences(of: "오전", with: "AM")
+            .replacingOccurrences(of: "오후", with: "PM")
+        dateStartAt.value = formattedTime
+        isDateStartAtVaild.value = !(dateStartAt.value?.isEmpty ?? true)
     }
     
     func checkTagCount(min: Int, max: Int) {
@@ -300,8 +314,12 @@ extension AddScheduleViewModel {
         return true
     }
     
-    
-    //MARK: - AddSecondView 전용 func
+}
+
+
+//MARK: - viewModel: AddScheduleSecondVC 함수
+
+extension AddScheduleViewModel {
     
     func updatePlaceCollectionView() {
         print(addPlaceCollectionViewDataSource)
@@ -332,7 +350,7 @@ extension AddScheduleViewModel {
         self.isChange?()
     }
     
-    /// dataSource 개수 >= 2 라면 (다음 2/3) 버튼 활성화
+    /// dataSource 개수 >= 2 라면 '확인' 버튼 활성화
     func isSourceMoreThanOne() {
         let cnt = addPlaceCollectionViewDataSource.count
         self.dateCourseNum = cnt
@@ -385,12 +403,12 @@ extension AddScheduleViewModel {
         let postAddScheduleTags = selectedTagData.map { PostAddScheduleTag(tag: $0) }
         
         NetworkService.shared.addScheduleService.postAddSchedule(course: PostAddScheduleRequest(title: dateName,
-                                                                                                    date: visitDate,
-                                                                                                    startAt: dateStartAt,
-                                                                                                    tags: postAddScheduleTags,
-                                                                                                    country: country,
-                                                                                                    city: city,
-                                                                                                    places: places)) { result in
+                                                                                                date: visitDate,
+                                                                                                startAt: dateStartAt,
+                                                                                                tags: postAddScheduleTags,
+                                                                                                country: country,
+                                                                                                city: city,
+                                                                                                places: places)) { result in
             switch result {
             case .success(let response):
                 print("Success: \(response)")

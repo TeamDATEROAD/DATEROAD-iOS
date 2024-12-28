@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+enum DatePickerMode {
+    
+    case date
+    case time
+    
+}

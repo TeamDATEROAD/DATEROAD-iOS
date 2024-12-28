@@ -125,18 +125,11 @@ private extension AddScheduleFirstViewController {
             guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
             // getData 중이거나, 에러 발생 X라면
             if onFailNetwork == false || onLoading == false {
-//                self?.loadingView.isHidden = !onLoading
                 self?.hideLoadingView()
                 self?.addScheduleFirstView.isHidden = onLoading
                 self?.tabBarController?.tabBar.isHidden = onLoading
             }
         }
-        
-//        viewModel.ispastDateVaild.bind { [weak self] isValid in
-//            guard let self = self else { return }
-//            self.viewModel.fetchPastDate()
-//            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
-//        }
         
         viewModel.isDateNameVaild.bind { date in
             guard let date else {return}
@@ -229,6 +222,19 @@ private extension AddScheduleFirstViewController {
         addScheduleFirstView.inAddScheduleFirstView.datePlaceContainer.isUserInteractionEnabled = true
     }
     
+    /// 일정등록 시 '불러오기' 여부 분기처리
+    func pastDateBindViewModel() {
+        if !viewModel.isBroughtData {
+            setRightBtnStyle()
+            setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
+        } else {
+            self.showLoadingView(type: StringLiterals.AddCourseOrSchedule.addScheduleTitle)
+            self.viewModel.fetchPastDate()
+            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewModel.viewPath])
+        }
+    }
+    
+    /// 우측 상단 '불러오기' 버튼 함수
     @objc
     func didTapNavRightBtn() {
         let vc = NavViewedCourseViewController(viewedCourseViewModel: MyCourseListViewModel())
@@ -236,28 +242,35 @@ private extension AddScheduleFirstViewController {
         self.navigationController?.pushViewController(vc, animated: false)
     }
     
+}
+
+
+//MARK: - AddScheduleFirstViewController: BaseNavBarViewController
+
+extension AddScheduleFirstViewController {
+    
+    /// BaseNavBarViewController에서 backButtonTapped() 오버라이드
     @objc
-    func visitDate() {
-        addSheetView.datePickerMode(isDatePicker: true)
-        viewModel.isTimePicker = false
-        alertVC.delegate = self
-        addScheduleFirstView.inAddScheduleFirstView.dateNameTextField.resignFirstResponder()
-        DispatchQueue.main.async {
-            self.alertVC.presentBottomSheet(in: self)
-        }
+    override func backButtonTapped() {
+        viewModel.schedule1BackAmplitude()
+        super.backButtonTapped()
     }
     
-    @objc
-    func dateStartAt() {
-        addSheetView.datePickerMode(isDatePicker: false)
-        viewModel.isTimePicker = true
+}
+
+//MARK: - AddScheduleFirstViewController: '일정등록 뷰1 프로퍼티' 관련 함수
+
+private extension AddScheduleFirstViewController {
+    
+    /// DatePicker 관련
+    func presentDatePicker(mode: DatePickerMode) {
+        addSheetView.datePickerMode(isDatePicker: mode == .date)
         alertVC.delegate = self
         addScheduleFirstView.inAddScheduleFirstView.dateNameTextField.resignFirstResponder()
-        DispatchQueue.main.async {
-            self.alertVC.presentBottomSheet(in: self)
-        }
+        alertVC.presentBottomSheet(in: self)
     }
     
+    /// '데이트 이름' 관련
     @objc
     func textFieldDidChanacge(_ textField: UITextField) {
         guard let text = textField.text else {return}
@@ -266,6 +279,19 @@ private extension AddScheduleFirstViewController {
         self.viewModel.dateTitle = !text.isEmpty ? true : false
     }
     
+    /// '방문일자' 관련
+    @objc
+    func visitDate() {
+        presentDatePicker(mode: .date)
+    }
+    
+    /// '데이트 시작 시간' 관련
+    @objc
+    func dateStartAt() {
+        presentDatePicker(mode: .time)
+    }
+    
+    /// dateTag 관련
     @objc
     func didTapTagButton(_ sender: UIButton) {
         guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
@@ -286,18 +312,7 @@ private extension AddScheduleFirstViewController {
         }
     }
     
-    @objc
-    func broughtTagBtn(_ sender: UIButton) {
-        self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: SelectedButton())
-        self.viewModel.isValidTag.value = true
-    }
-    
-    @objc
-    func sixCheckBtnTapped() {
-        let secondVC = AddScheduleSecondViewController(viewModel: self.viewModel)
-        navigationController?.pushViewController(secondVC, animated: false)
-    }
-    
+    /// datePlace 관련
     @objc
     func datePlaceContainerTapped() {
         locationFilterVC.isAddType = true
@@ -307,26 +322,11 @@ private extension AddScheduleFirstViewController {
         }
     }
     
-}
-
-extension AddScheduleFirstViewController {
-    
-    func pastDateBindViewModel() {
-        if !viewModel.isBroughtData {
-            setRightBtnStyle()
-            setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
-        } else {
-            self.showLoadingView(type: StringLiterals.AddCourseOrSchedule.addScheduleTitle)
-            self.viewModel.fetchPastDate()
-            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewModel.viewPath])
-        }
-    }
-    
-    /// BaseNavBarViewController에서 backButtonTapped() 오버라이드
+    /// 일정등록 뷰1 '다음' 버튼 관련
     @objc
-    override func backButtonTapped() {
-        viewModel.schedule1BackAmplitude()
-        super.backButtonTapped()
+    func sixCheckBtnTapped() {
+        let secondVC = AddScheduleSecondViewController(viewModel: self.viewModel)
+        navigationController?.pushViewController(secondVC, animated: false)
     }
     
 }
@@ -404,19 +404,23 @@ extension AddScheduleFirstViewController: UITextFieldDelegate {
 extension AddScheduleFirstViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
+        let selectedDate = addSheetView.datePicker.date
         alertVC.dismissBottomSheet()
-        updateTextField()
+        
+        if addSheetView.datePicker.datePickerMode == .date {
+            updateTextField(selectedDate: selectedDate, mode: .date)
+        } else {
+            updateTextField(selectedDate: selectedDate, mode: .time)
+        }
     }
     
-    func updateTextField() {
-        let isTimePickerFlag = viewModel.isTimePicker ?? false
-        
-        if !isTimePickerFlag {
-            let selectedDate = addSheetView.datePicker.date
-            viewModel.isFutureDate(date: selectedDate, dateType: "date")
-        } else {
-            let formattedDate = addSheetView.datePicker.date
-            viewModel.isFutureDate(date: formattedDate, dateType: "time")
+    //'방문일자', '시작시간' 업데이트 함수
+    func updateTextField(selectedDate: Date, mode: DatePickerMode) {
+        switch mode {
+        case .date:
+            viewModel.setVisitDate(selectedDate)
+        case .time:
+            viewModel.setDateStartAt(selectedDate)
         }
     }
     
