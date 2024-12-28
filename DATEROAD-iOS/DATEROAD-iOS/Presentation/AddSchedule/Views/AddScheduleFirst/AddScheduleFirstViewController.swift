@@ -222,18 +222,6 @@ private extension AddScheduleFirstViewController {
         addScheduleFirstView.inAddScheduleFirstView.datePlaceContainer.isUserInteractionEnabled = true
     }
     
-    /// 일정등록 시 '불러오기' 여부 분기처리
-    func pastDateBindViewModel() {
-        if !viewModel.isBroughtData {
-            setRightBtnStyle()
-            setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
-        } else {
-            self.showLoadingView(type: StringLiterals.AddCourseOrSchedule.addScheduleTitle)
-            self.viewModel.fetchPastDate()
-            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewModel.viewPath])
-        }
-    }
-    
     /// 우측 상단 '불러오기' 버튼 함수
     @objc
     func didTapNavRightBtn() {
@@ -248,6 +236,19 @@ private extension AddScheduleFirstViewController {
 //MARK: - AddScheduleFirstViewController: BaseNavBarViewController
 
 extension AddScheduleFirstViewController {
+    
+    /// 일정등록 시 '불러오기' 여부 분기처리
+    /// 다른 파일에서 접근하기에 private 미사용
+    func pastDateBindViewModel() {
+        if !viewModel.isBroughtData {
+            setRightBtnStyle()
+            setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
+        } else {
+            self.showLoadingView(type: StringLiterals.AddCourseOrSchedule.addScheduleTitle)
+            self.viewModel.fetchPastDate()
+            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewModel.viewPath])
+        }
+    }
     
     /// BaseNavBarViewController에서 backButtonTapped() 오버라이드
     @objc
