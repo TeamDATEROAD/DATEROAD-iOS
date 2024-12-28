@@ -300,6 +300,7 @@ private extension AddCourseFirstViewController {
         }
     }
     
+    /// 사용하지 않는 코드
     @objc
     func broughtTagBtn(_ sender: UIButton) {
         self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
