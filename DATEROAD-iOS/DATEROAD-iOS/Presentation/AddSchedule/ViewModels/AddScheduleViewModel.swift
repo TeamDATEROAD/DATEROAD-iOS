@@ -103,7 +103,6 @@ final class AddScheduleViewModel: Serviceable {
     
     init(viewPath: String) {
         self.viewPath = viewPath
-//        initAmplitudeVar()
         fetchTagData()
     }
     
@@ -377,7 +376,6 @@ struct AddScheduleAmplitudeState {
     var dateDetailLocation: Bool = false
     var dateDetailTime: Bool = false
     var dateCourseNum: Int = 0
-    
     
     func sendAmplitudeEvent(for step: Int) {
         switch step {
