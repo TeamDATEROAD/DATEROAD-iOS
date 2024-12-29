@@ -85,7 +85,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
 }
 
 
-// MARK: - ViewController Methods
+// MARK: - AddScheduleSecondVC Methods
 
 private extension AddScheduleSecondViewController {
     
@@ -106,23 +106,7 @@ private extension AddScheduleSecondViewController {
         }
     }
     
-    func pastDateBindViewModel() {
-        if viewModel.isBroughtData  {
-            for i in viewModel.pastDatePlaces {
-                if let doubleValue = Double(String(i.duration)) {
-                    let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
-                    String(Int(doubleValue)) : String(doubleValue)
-                    viewModel.tapAddBtn(datePlace: i.title, timeRequire: "\(text) 시간")
-                } else {
-                    viewModel.tapAddBtn(datePlace: i.title, timeRequire: "\(String(i.duration)) 시간")
-                }
-            }
-            viewModel.pastDatePlaces.removeAll()
-            AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewAddBringcourse2)
-        } else {
-            AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewAddSchedule2)
-        }
-    }
+    
     
     func bindViewModel() {
         self.viewModel.isSuccessPostData.bind { [weak self] isSuccess in
@@ -179,7 +163,7 @@ private extension AddScheduleSecondViewController {
         viewModel.datePlace.bind { [weak self] date in
             guard let text = date else {return}
             self?.addScheduleSecondView.inAddScheduleSecondView.updateDatePlace(text: text)
-            self?.viewModel.dateDetailLocation = true
+            self?.viewModel.addScheduleAmplitude.dateDetailLocation = !(self?.viewModel.datePlace.value?.isEmpty ?? true)
             if let flag = self?.viewModel.isAbleAddBtn() {
                 self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
             }
@@ -188,7 +172,7 @@ private extension AddScheduleSecondViewController {
         viewModel.timeRequire.bind { [weak self] date in
             guard let date else {return}
             self?.addScheduleSecondView.inAddScheduleSecondView.updatetimeRequire(text: date)
-            self?.viewModel.dateDetailTime = true
+            self?.viewModel.addScheduleAmplitude.dateDetailTime = true
             if let flag = self?.viewModel.isAbleAddBtn() {
                 self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
             }
@@ -224,6 +208,50 @@ private extension AddScheduleSecondViewController {
         addScheduleSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
     }
     
+    /// '등록 완료' 이후 tabBarVC를 통해 화면 전환
+    func goBackOriginVCForAddSchedule() {
+        let tabbarVC = TabBarController()
+        tabbarVC.selectedIndex = 2
+        navigationController?.popToPreviousViewController(ofType: AddScheduleFirstViewController.self, defaultViewController: tabbarVC)
+    }
+    
+}
+
+
+//MARK: - AddScheduleFirstViewController: BaseNavBarViewController
+
+extension AddScheduleSecondViewController {
+    
+    private func pastDateBindViewModel() {
+        if viewModel.isBroughtData  {
+            for i in viewModel.pastDatePlaces {
+                if let doubleValue = Double(String(i.duration)) {
+                    let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
+                    String(Int(doubleValue)) : String(doubleValue)
+                    viewModel.tapAddBtn(datePlace: i.title, timeRequire: "\(text) 시간")
+                } else {
+                    viewModel.tapAddBtn(datePlace: i.title, timeRequire: "\(String(i.duration)) 시간")
+                }
+            }
+            viewModel.pastDatePlaces.removeAll()
+            AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewAddBringcourse2)
+        } else {
+            AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewAddSchedule2)
+        }
+    }
+    
+    @objc
+    override func backButtonTapped() {
+        viewModel.addScheduleAmplitude.sendAmplitudeEvent(for: 2)
+        super.backButtonTapped()
+    }
+    
+}
+
+
+//MARK: - AddScheduleSecondViewController: '일정등록 뷰2 프로퍼티' 관련 함수
+
+private extension AddScheduleSecondViewController {
     // 등록 완료 alertVC도 blurView 페이드인 적용 미정
     func successDone() {
         let customAlertVC = DRCustomAlertViewController(rightActionType: .none,
@@ -236,15 +264,17 @@ private extension AddScheduleSecondViewController {
         self.present(customAlertVC, animated: false)
     }
     
-    func goBackOriginVCForAddSchedule() {
-        let tabbarVC = TabBarController()
-        tabbarVC.selectedIndex = 2
-        navigationController?.popToPreviousViewController(ofType: AddScheduleFirstViewController.self, defaultViewController: tabbarVC)
-    }
-    
     
     // MARK: - @objc Methods
     
+    /// '완료' 버튼 관련
+    @objc
+    func didTapNextBtn() {
+        addScheduleSecondView.nextBtn.isUserInteractionEnabled = false
+        viewModel.postAddScheduel()
+    }
+    
+    /// '소요시간' 관련
     @objc
     func textFieldTapped(_ textField: UITextField) {
         let alertVC = AddScheduleBottomSheetViewController(viewModel: viewModel)
@@ -258,44 +288,15 @@ private extension AddScheduleSecondViewController {
         }
     }
     
+    /// '장소 등록 +' 버튼 관련
     @objc
     func tapAddPlaceBtn() {
         viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")
     }
     
-    @objc
-    func didTapNextBtn() {
-        addScheduleSecondView.nextBtn.isUserInteractionEnabled = false
-        viewModel.postAddScheduel()
-    }
-    
-    @objc
-    func removeCell(sender: UIButton) {
-        guard let cell = sender.superview?.superview as? AddSecondViewCollectionViewCell,
-              let indexPath = addScheduleSecondView.addPlaceCollectionView.indexPath(for: cell) else { return }
-        
-        viewModel.addPlaceCollectionViewDataSource.remove(at: indexPath.item)
-        addScheduleSecondView.addPlaceCollectionView.deleteItems(at: [indexPath])
-        viewModel.isSourceMoreThanOne()
-        
-        //여기서 datasource가 1개 미만이면
-        let dataSourceCnt = viewModel.addPlaceCollectionViewDataSource.count
-        if dataSourceCnt < 1 {
-            cell.updateEditMode(flag: false)
-            addScheduleSecondView.updateEditBtnText(flag: false)
-            addScheduleSecondView.editBtnState(isAble: false)
-            viewModel.isEditMode = false
-        }
-    }
-    
-    @objc
-    func moveCell(sender: UIButton) {
-        // Move cell logic here
-    }
-    
+    /// '편집' 버튼 관련
     @objc
     func toggleEditMode() {
-        print("EditButton 눌림")
         viewModel.isEditMode.toggle()
         let collectionView = addScheduleSecondView.addPlaceCollectionView
         
@@ -320,14 +321,29 @@ private extension AddScheduleSecondViewController {
         }
     }
     
-}
-
-extension AddScheduleSecondViewController {
-    
+    /// 장소 리스트 'X' 버튼 관련: list에 있는 장소 삭제
     @objc
-    override func backButtonTapped() {
-        viewModel.schedule2BackAmplitude()
-        super.backButtonTapped()
+    func removeCell(sender: UIButton) {
+        guard let cell = sender.superview?.superview as? AddSecondViewCollectionViewCell,
+              let indexPath = addScheduleSecondView.addPlaceCollectionView.indexPath(for: cell) else { return }
+        
+        viewModel.addPlaceCollectionViewDataSource.remove(at: indexPath.item)
+        addScheduleSecondView.addPlaceCollectionView.deleteItems(at: [indexPath])
+        viewModel.isSourceMoreThanOne()
+        
+        //여기서 datasource가 1개 미만이면
+        let dataSourceCnt = viewModel.addPlaceCollectionViewDataSource.count
+        if dataSourceCnt < 1 {
+            cell.updateEditMode(flag: false)
+            addScheduleSecondView.updateEditBtnText(flag: false)
+            addScheduleSecondView.editBtnState(isAble: false)
+            viewModel.isEditMode = false
+        }
+    }
+    
+    /// '=' 버튼 관련
+    @objc
+    func moveCell(sender: UIButton) {
     }
     
 }

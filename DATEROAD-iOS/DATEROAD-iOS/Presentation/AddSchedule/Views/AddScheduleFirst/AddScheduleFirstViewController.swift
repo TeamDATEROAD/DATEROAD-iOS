@@ -91,6 +91,9 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
     
 }
 
+
+// MARK: - AddScheduleFirstVC Methods
+
 private extension AddScheduleFirstViewController {
     
     func bindViewModel() {
@@ -163,31 +166,31 @@ private extension AddScheduleFirstViewController {
         viewModel.dateName.bind { date in
             guard let text = date else {return}
             self.addScheduleFirstView.inAddScheduleFirstView.updateDateName(text: text)
-            self.viewModel.dateTitle = true
+            self.viewModel.addScheduleAmplitude.dateTitle = true
         }
         
         viewModel.visitDate.bind { date in
             guard let text = date else {return}
             self.addScheduleFirstView.inAddScheduleFirstView.updateVisitDate(text: text)
-            self.viewModel.dateDate = true
+            self.viewModel.addScheduleAmplitude.dateDate = true
         }
         
         viewModel.dateStartAt.bind { date in
             guard let text = date else {return}
             self.addScheduleFirstView.inAddScheduleFirstView.updatedateStartTime(text: text)
-            self.viewModel.dateTime = true
+            self.viewModel.addScheduleAmplitude.dateTime = true
         }
         
         viewModel.tagCount.bind { count in
             guard let count else {return}
             self.addScheduleFirstView.inAddScheduleFirstView.updateTagCount(count: count)
-            self.viewModel.dateTagNum = count
+            self.viewModel.addScheduleAmplitude.dateTagNum = count
         }
         
         viewModel.dateLocation.bind { date in
             guard let date else {return}
             self.addScheduleFirstView.inAddScheduleFirstView.updateDateLocation(text: date)
-            self.viewModel.dateArea = true
+            self.viewModel.addScheduleAmplitude.dateArea = true
         }
     }
     
@@ -238,7 +241,7 @@ private extension AddScheduleFirstViewController {
 extension AddScheduleFirstViewController {
     
     /// 일정등록 시 '불러오기' 여부 분기처리
-    /// 다른 파일에서 해당 함수 사용하기에 private 미사용
+    /// 다른 파일에서 해당 함수 사용하기에 private 미사용schedule1BackAmplitude
     func pastDateBindViewModel() {
         if !viewModel.isBroughtData {
             setRightBtnStyle()
@@ -253,11 +256,12 @@ extension AddScheduleFirstViewController {
     /// BaseNavBarViewController에서 backButtonTapped() 오버라이드
     @objc
     override func backButtonTapped() {
-        viewModel.schedule1BackAmplitude()
+        viewModel.addScheduleAmplitude.sendAmplitudeEvent(for: 1)
         super.backButtonTapped()
     }
     
 }
+
 
 //MARK: - AddScheduleFirstViewController: '일정등록 뷰1 프로퍼티' 관련 함수
 
@@ -277,7 +281,7 @@ private extension AddScheduleFirstViewController {
         guard let text = textField.text else {return}
         viewModel.dateName.value = text
         viewModel.satisfyDateName(str: text)
-        self.viewModel.dateTitle = !text.isEmpty ? true : false
+        self.viewModel.addScheduleAmplitude.dateTitle = !text.isEmpty ? true : false
     }
     
     /// '방문일자' 관련

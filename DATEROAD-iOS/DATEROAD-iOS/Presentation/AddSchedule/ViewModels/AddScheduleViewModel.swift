@@ -96,85 +96,20 @@ final class AddScheduleViewModel: Serviceable {
     
     //MARK: - AddSchedule Amplitude 관련 변수
     
-    var dateTitle: Bool = false
-    
-    var dateDate: Bool = false
-    
-    var dateTime: Bool = false
-    
-    var dateTagNum: Int = 0
-    
-    var dateArea: Bool = false
-    
-    var dateDetailLocation: Bool = false
-    
-    var dateDetailTime: Bool = false
-    
-    var dateCourseNum: Int = 0
+    var addScheduleAmplitude = AddScheduleAmplitudeState()
     
     
     // MARK: - Initializer
     
     init(viewPath: String) {
         self.viewPath = viewPath
-        initAmplitudeVar()
+//        initAmplitudeVar()
         fetchTagData()
     }
     
     // tag 세팅 함수
     func fetchTagData() {
         tagData = TendencyTag.allCases.map { $0.tag }
-    }
-    
-}
-
-
-//MARK: - AddScheduleViewModel: Amplitude
-
-extension AddScheduleViewModel {
-    
-    func initAmplitudeVar() {
-        dateTitle = false
-        dateDate = false
-        dateTime = false
-        dateTagNum = 0
-        dateArea = false
-        dateDetailLocation = false
-        dateDetailTime = false
-        dateCourseNum = 0
-    }
-    
-    func resetAddFirstScheduleAmplitude() {
-        dateTitle = false
-        dateDate = false
-        dateTime = false
-        dateTagNum = 0
-        dateArea = false
-    }
-    
-    func schedule1BackAmplitude() {
-        AmplitudeManager.shared.trackEventWithProperties(
-            StringLiterals.Amplitude.EventName.clickSchedule1Back,
-            properties: [
-                StringLiterals.Amplitude.Property.dateTitle: self.dateTitle,
-                StringLiterals.Amplitude.Property.dateDate: self.dateDate,
-                StringLiterals.Amplitude.Property.dateTime: self.dateTime,
-                StringLiterals.Amplitude.Property.dateTagNum: self.dateTagNum,
-                StringLiterals.Amplitude.Property.dateArea: self.dateArea
-            ]
-        )
-        self.resetAddFirstScheduleAmplitude()
-    }
-    
-    func schedule2BackAmplitude() {
-        AmplitudeManager.shared.trackEventWithProperties(
-            StringLiterals.Amplitude.EventName.clickSchedule2Back,
-            properties: [
-                StringLiterals.Amplitude.Property.dateDetailLocation: self.dateDetailLocation,
-                StringLiterals.Amplitude.Property.dateDetailTime: self.dateDetailTime,
-                StringLiterals.Amplitude.Property.dateCourseNum: self.dateCourseNum
-            ]
-        )
     }
     
 }
@@ -345,15 +280,15 @@ extension AddScheduleViewModel {
         self.datePlace.value = ""
         self.timeRequire.value = ""
         
-        self.dateDetailLocation = false
-        self.dateDetailTime = false
+        self.addScheduleAmplitude.dateDetailLocation = false
+        self.addScheduleAmplitude.dateDetailTime = false
         self.isChange?()
     }
     
     /// dataSource 개수 >= 2 라면 '확인' 버튼 활성화
     func isSourceMoreThanOne() {
         let cnt = addPlaceCollectionViewDataSource.count
-        self.dateCourseNum = cnt
+        self.addScheduleAmplitude.dateCourseNum = cnt
         let flag = (cnt >= 2)
         print("지금 데이터소스 개수 : \(addPlaceCollectionViewDataSource.count)\nflag: \(flag)")
         isValidOfSecondNextBtn.value = flag
@@ -423,6 +358,53 @@ extension AddScheduleViewModel {
                 print("Failed to another reason")
                 return
             }
+        }
+    }
+    
+}
+
+
+//MARK: - AddScheduleAmplitudeState
+
+struct AddScheduleAmplitudeState {
+    
+    // addSchedule 관련 amplitude 변수들
+    var dateTitle: Bool = false
+    var dateDate: Bool = false
+    var dateTime: Bool = false
+    var dateTagNum: Int = 0
+    var dateArea: Bool = false
+    var dateDetailLocation: Bool = false
+    var dateDetailTime: Bool = false
+    var dateCourseNum: Int = 0
+    
+    
+    func sendAmplitudeEvent(for step: Int) {
+        switch step {
+        case 1:
+            let properties: [String: Any] = [
+                StringLiterals.Amplitude.Property.dateTitle: self.dateTitle,
+                StringLiterals.Amplitude.Property.dateDate: self.dateDate,
+                StringLiterals.Amplitude.Property.dateTime: self.dateTime,
+                StringLiterals.Amplitude.Property.dateTagNum: self.dateTagNum,
+                StringLiterals.Amplitude.Property.dateArea: self.dateArea
+            ]
+            AmplitudeManager.shared.trackEventWithProperties(
+                StringLiterals.Amplitude.EventName.clickSchedule1Back,
+                properties: properties
+            )
+        case 2:
+            let properties: [String: Any] = [
+                StringLiterals.Amplitude.Property.dateDetailLocation: dateDetailLocation,
+                StringLiterals.Amplitude.Property.dateDetailTime: dateDetailTime,
+                StringLiterals.Amplitude.Property.dateCourseNum: dateCourseNum
+            ]
+            AmplitudeManager.shared.trackEventWithProperties(
+                StringLiterals.Amplitude.EventName.clickSchedule2Back,
+                properties: properties
+            )
+        default:
+            print("sendAmplitudeEvent Error")
         }
     }
     
