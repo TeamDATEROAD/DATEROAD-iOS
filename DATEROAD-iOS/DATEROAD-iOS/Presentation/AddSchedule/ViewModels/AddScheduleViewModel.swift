@@ -377,32 +377,46 @@ struct AddScheduleAmplitudeState {
     var dateDetailTime: Bool = false
     var dateCourseNum: Int = 0
     
-    func sendAmplitudeEvent(for step: Int) {
+    func sendAmplitudeEvent(step: Int) {
+        guard let eventName = makeEventName(step: step) else {
+            print("Invalid EventName in sendAmplitudeEvent")
+            return
+        }
+        let properties = makeProperties(step: step)
+        AmplitudeManager.shared.trackEventWithProperties(eventName, properties: properties)
+    }
+    
+    func makeEventName(step: Int) -> String? {
         switch step {
         case 1:
-            let properties: [String: Any] = [
+            return StringLiterals.Amplitude.EventName.clickSchedule1Back
+        case 2:
+            return StringLiterals.Amplitude.EventName.clickSchedule2Back
+        default:
+            print("makeEventName Error")
+            return nil
+        }
+    }
+    
+    func makeProperties(step: Int) -> [String: Any] {
+        switch step {
+        case 1:
+            return [
                 StringLiterals.Amplitude.Property.dateTitle: self.dateTitle,
                 StringLiterals.Amplitude.Property.dateDate: self.dateDate,
                 StringLiterals.Amplitude.Property.dateTime: self.dateTime,
                 StringLiterals.Amplitude.Property.dateTagNum: self.dateTagNum,
                 StringLiterals.Amplitude.Property.dateArea: self.dateArea
             ]
-            AmplitudeManager.shared.trackEventWithProperties(
-                StringLiterals.Amplitude.EventName.clickSchedule1Back,
-                properties: properties
-            )
         case 2:
-            let properties: [String: Any] = [
+            return [
                 StringLiterals.Amplitude.Property.dateDetailLocation: dateDetailLocation,
                 StringLiterals.Amplitude.Property.dateDetailTime: dateDetailTime,
                 StringLiterals.Amplitude.Property.dateCourseNum: dateCourseNum
             ]
-            AmplitudeManager.shared.trackEventWithProperties(
-                StringLiterals.Amplitude.EventName.clickSchedule2Back,
-                properties: properties
-            )
         default:
-            print("sendAmplitudeEvent Error")
+            print("makeProperties Error")
+            return [:]
         }
     }
     

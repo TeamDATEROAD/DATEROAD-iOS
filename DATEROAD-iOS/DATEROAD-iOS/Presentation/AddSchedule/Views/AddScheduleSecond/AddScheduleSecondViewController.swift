@@ -242,7 +242,7 @@ extension AddScheduleSecondViewController {
     
     @objc
     override func backButtonTapped() {
-        viewModel.addScheduleAmplitude.sendAmplitudeEvent(for: 2)
+        viewModel.addScheduleAmplitude.sendAmplitudeEvent(step: 2)
         super.backButtonTapped()
     }
     

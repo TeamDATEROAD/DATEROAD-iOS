@@ -256,7 +256,7 @@ extension AddScheduleFirstViewController {
     /// BaseNavBarViewController에서 backButtonTapped() 오버라이드
     @objc
     override func backButtonTapped() {
-        viewModel.addScheduleAmplitude.sendAmplitudeEvent(for: 1)
+        viewModel.addScheduleAmplitude.sendAmplitudeEvent(step: 1)
         super.backButtonTapped()
     }
     
