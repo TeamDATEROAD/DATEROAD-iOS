@@ -183,19 +183,6 @@ extension AddScheduleViewModel {
         isDateNameVaild.value = str.count >= minimumDateNameLength
     }
     
-    func countSelectedTag(isSelected: Bool, tag: String) {
-        if isSelected {
-            if !selectedTagData.contains(tag) {
-                selectedTagData.append(tag)
-            }
-        } else {
-            if let index = selectedTagData.firstIndex(of: tag) {
-                selectedTagData.remove(at: index)
-            }
-        }
-        checkTagCount(min: minTagCnt, max: maxTagCnt)
-    }
-    
     func setVisitDate(_ date: Date) {
         let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: date)
         visitDate.value = formattedDate
@@ -209,6 +196,19 @@ extension AddScheduleViewModel {
             .replacingOccurrences(of: "오후", with: "PM")
         dateStartAt.value = formattedTime
         isDateStartAtVaild.value = !(dateStartAt.value?.isEmpty ?? true)
+    }
+    
+    func countSelectedTag(isSelected: Bool, tag: String) {
+        if isSelected {
+            if !selectedTagData.contains(tag) {
+                selectedTagData.append(tag)
+            }
+        } else {
+            if let index = selectedTagData.firstIndex(of: tag) {
+                selectedTagData.remove(at: index)
+            }
+        }
+        checkTagCount(min: minTagCnt, max: maxTagCnt)
     }
     
     func checkTagCount(min: Int, max: Int) {
@@ -232,20 +232,18 @@ extension AddScheduleViewModel {
         isDateLocationVaild.value = flag
     }
     
-    func isOkSixBtn() -> Bool {
-        let isDateNameVaild = isDateNameVaild.value ?? false
-        let isValidTag = isValidTag.value ?? false
-        let isVisitDateVaild = isVisitDateVaild.value ?? false
-        let isDateStartAtVaild = isDateStartAtVaild.value ?? false
-        let isDateLocationVaild = isDateLocationVaild.value ?? false
-        
-        for i in [isDateNameVaild, isValidTag, isVisitDateVaild, isDateLocationVaild, isDateStartAtVaild] {
-            if i == false {
-                print("\(i) == false")
-                return false
-            }
+    func isEnableNextButton() -> Bool {
+        guard let isDateNameVaild = isDateNameVaild.value,
+              let isValidTag = isValidTag.value,
+              let isVisitDateVaild = isVisitDateVaild.value,
+              let isDateStartAtVaild = isDateStartAtVaild.value,
+              let isDateLocationVaild = isDateLocationVaild.value
+        else {
+            print("isOkSixBtn guard let Error")
+            return false
         }
-        return true
+        
+        return [isDateNameVaild, isValidTag, isVisitDateVaild, isDateLocationVaild, isDateStartAtVaild].allSatisfy { $0 }
     }
     
 }

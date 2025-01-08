@@ -137,30 +137,25 @@ private extension AddScheduleFirstViewController {
         viewModel.isDateNameVaild.bind { date in
             guard let date else {return}
             self.addScheduleFirstView.updateDateNameTextField(isPassValid: date)
-            let flag = self.viewModel.isOkSixBtn()
-            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
+            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
         }
         
         viewModel.isVisitDateVaild.bind { date in
             guard let date else {return}
             self.addScheduleFirstView.updateVisitDateTextField(isPassValid: date)
-            let flag = self.viewModel.isOkSixBtn()
-            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
+            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
         }
         
-        viewModel.isDateStartAtVaild.bind { date in
-            let flag = self.viewModel.isOkSixBtn()
-            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
+        viewModel.isDateStartAtVaild.bind { _ in
+            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
         }
         
-        viewModel.isValidTag.bind { date in
-            let flag = self.viewModel.isOkSixBtn()
-            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
+        viewModel.isValidTag.bind { _ in
+            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
         }
         
-        viewModel.isDateLocationVaild.bind { date in
-            let flag = self.viewModel.isOkSixBtn()
-            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
+        viewModel.isDateLocationVaild.bind { _ in
+            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
         }
         
         viewModel.dateName.bind { date in
@@ -302,16 +297,18 @@ private extension AddScheduleFirstViewController {
         guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
         let maxTags = 3
         
-        if sender.isSelected {
-            // 이미 선택된 태그를 해제하는 로직
-            sender.isSelected = false
-            self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: UnselectedButton())
+        sender.isSelected ? self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: UnselectedButton()) :
+        self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: SelectedButton())
+        
+        if sender.isSelected { //해당 버튼이 이미 눌린 상태라면
+            sender.isSelected.toggle()
+//            self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: UnselectedButton())
             self.viewModel.countSelectedTag(isSelected: false, tag: tag)
-        } else {
+        } else { //해당 버튼이 안 눌린 상태라면
             // 새로 선택하는 태그가 최대 개수 이내일 때만 처리
             if self.viewModel.selectedTagData.count < maxTags {
-                sender.isSelected = true
-                self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: SelectedButton())
+                sender.isSelected.toggle()
+//                self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: SelectedButton())
                 self.viewModel.countSelectedTag(isSelected: true, tag: tag)
             }
         }
