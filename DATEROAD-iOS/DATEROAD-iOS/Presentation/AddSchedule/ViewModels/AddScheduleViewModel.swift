@@ -193,12 +193,12 @@ extension AddScheduleViewModel {
 
 extension AddScheduleViewModel {
     
-    func satisfyDateName(str: String) {
+    private func satisfyDateName(str: String) {
         outputDateNameVaild.value = str.count >= minimumDateNameLength
         
     }
     
-    func setVisitDate() {
+    private func setVisitDate() {
         guard let date = inputVisitDate.value else {return}
         let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: date)
         outputVisitDateVaild.value = !(formattedDate.isEmpty)
