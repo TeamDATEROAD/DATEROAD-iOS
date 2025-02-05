@@ -7,6 +7,21 @@
 
 import Foundation
 
+struct PostAddScheduleRequest2: Codable {
+    
+    var dateName: String = ""
+    var date: String = ""
+    var startAt: String = ""
+    
+    var tags: [PostAddScheduleTag] = []
+    
+    var country: String = ""
+    var city: String = ""
+    
+    var places: [PostAddSchedulePlace] = []
+    
+}
+
 // MARK: - PostAddScheduleRequest
 
 struct PostAddScheduleRequest: Codable {
