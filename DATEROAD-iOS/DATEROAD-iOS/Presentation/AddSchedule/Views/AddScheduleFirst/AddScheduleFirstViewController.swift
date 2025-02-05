@@ -138,14 +138,22 @@ private extension AddScheduleFirstViewController {
             guard let self, let value else {return}
             self.addScheduleFirstView.updateDateNameTextField(isPassValid: value)
             self.addScheduleFirstView.inAddScheduleFirstView.updateDateName(text: viewModel.inputDateName.value ?? "")
-            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
+            isValidNextBtn()
         }
         
-        viewModel.isVisitDateVaild.bind { date in
-            guard let date else {return}
-            self.addScheduleFirstView.updateVisitDateTextField(isPassValid: date)
-            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
+        viewModel.outputVisitDateVaild.bind { [weak self] value in
+            guard let self, let value,
+                  let date = self.viewModel.inputVisitDate.value
+            else {return}
+            
+            self.addScheduleFirstView.updateVisitDateTextField(isPassValid: value)
+            
+            let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: date)
+            self.addScheduleFirstView.inAddScheduleFirstView.updateVisitDate(text: formattedDate)
+            isValidNextBtn()
         }
+        
+        // ㅡ여기부터 재시작ㅡ
         
         viewModel.isDateStartAtVaild.bind { _ in
             self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
@@ -157,12 +165,6 @@ private extension AddScheduleFirstViewController {
         
         viewModel.isDateLocationVaild.bind { _ in
             self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
-        }
-        
-        viewModel.visitDate.bind { date in
-            guard let text = date else {return}
-            self.addScheduleFirstView.inAddScheduleFirstView.updateVisitDate(text: text)
-            self.viewModel.addScheduleAmplitude.dateDate = true
         }
         
         viewModel.dateStartAt.bind { date in
@@ -201,7 +203,7 @@ private extension AddScheduleFirstViewController {
         
         addScheduleFirstView.inAddScheduleFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
         
-        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(visitDate))
+        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(visitDateTapped))
         addScheduleFirstView.inAddScheduleFirstView.visitDateContainer.addGestureRecognizer(tapGesture1)
         addScheduleFirstView.inAddScheduleFirstView.visitDateContainer.isUserInteractionEnabled = true
         
@@ -213,6 +215,10 @@ private extension AddScheduleFirstViewController {
         let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(datePlaceContainerTapped))
         addScheduleFirstView.inAddScheduleFirstView.datePlaceContainer.addGestureRecognizer(tapGesture3)
         addScheduleFirstView.inAddScheduleFirstView.datePlaceContainer.isUserInteractionEnabled = true
+    }
+    
+    func isValidNextBtn() {
+        self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
     }
     
     /// 우측 상단 '불러오기' 버튼 함수
@@ -273,7 +279,7 @@ private extension AddScheduleFirstViewController {
     
     /// '방문일자' 관련
     @objc
-    func visitDate() {
+    func visitDateTapped() {
         presentDatePicker(mode: .date)
     }
     
@@ -402,19 +408,19 @@ extension AddScheduleFirstViewController: DRBottomSheetDelegate {
         alertVC.dismissBottomSheet()
         
         if addSheetView.datePicker.datePickerMode == .date {
-            updateTextField(selectedDate: selectedDate, mode: .date)
+            updateTextField(selectedValue: selectedDate, mode: .date)
         } else {
-            updateTextField(selectedDate: selectedDate, mode: .time)
+            updateTextField(selectedValue: selectedDate, mode: .time)
         }
     }
     
     //'방문일자', '시작시간' 업데이트 함수
-    func updateTextField(selectedDate: Date, mode: DatePickerMode) {
+    func updateTextField(selectedValue: Date, mode: DatePickerMode) {
         switch mode {
         case .date:
-            viewModel.setVisitDate(selectedDate)
+            viewModel.inputVisitDate.value = selectedValue
         case .time:
-            viewModel.setDateStartAt(selectedDate)
+            viewModel.setDateStartAt(selectedValue)
         }
     }
     

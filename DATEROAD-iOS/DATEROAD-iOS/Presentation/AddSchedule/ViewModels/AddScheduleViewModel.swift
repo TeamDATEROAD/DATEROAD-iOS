@@ -34,10 +34,9 @@ final class AddScheduleViewModel: Serviceable {
     let inputDateName: ObservablePattern<String> = ObservablePattern(nil)
     let outputDateNameVaild: ObservablePattern<Bool> = ObservablePattern(false)    
     
-    // 방문 일자 유효성 판별 (true는 통과)
-    let visitDate: ObservablePattern<String> = ObservablePattern(nil)
-    
-    let isVisitDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+    // 방문일자
+    let inputVisitDate: ObservablePattern<Date> = ObservablePattern(nil)
+    let outputVisitDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
     
     // 데이트 시작시간 유효성 판별 (self.count > 0 인지)
     let dateStartAt: ObservablePattern<String> = ObservablePattern(nil)
@@ -118,6 +117,12 @@ final class AddScheduleViewModel: Serviceable {
             self.addScheduleAmplitude.dateTitle = !value.isEmpty ? true : false
             self.satisfyDateName(str: value)
         }
+        
+        inputVisitDate.bind { [weak self] _ in
+            guard let self else {return}
+            self.addScheduleAmplitude.dateDate = true
+            self.setVisitDate()
+        }
     }
     
 }
@@ -193,10 +198,10 @@ extension AddScheduleViewModel {
         
     }
     
-    func setVisitDate(_ date: Date) {
+    func setVisitDate() {
+        guard let date = inputVisitDate.value else {return}
         let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: date)
-        visitDate.value = formattedDate
-        isVisitDateVaild.value = !(visitDate.value?.isEmpty ?? true)
+        outputVisitDateVaild.value = !(formattedDate.isEmpty)
     }
     
     func setDateStartAt(_ time: Date) {
@@ -243,9 +248,9 @@ extension AddScheduleViewModel {
     }
     
     func isEnableNextButton() -> Bool {
-        guard let outputDateNameVaild = outputDateNameVaild.value,
+        guard let dateNameVaild = outputDateNameVaild.value,
               let isValidTag = isValidTag.value,
-              let isVisitDateVaild = isVisitDateVaild.value,
+              let visitDateVaild = outputVisitDateVaild.value,
               let isDateStartAtVaild = isDateStartAtVaild.value,
               let isDateLocationVaild = isDateLocationVaild.value
         else {
@@ -253,7 +258,7 @@ extension AddScheduleViewModel {
             return false
         }
         
-        return [outputDateNameVaild, isValidTag, isVisitDateVaild, isDateLocationVaild, isDateStartAtVaild].allSatisfy { $0 }
+        return [dateNameVaild, isValidTag, visitDateVaild, isDateLocationVaild, isDateStartAtVaild].allSatisfy { $0 }
     }
     
 }
@@ -336,16 +341,19 @@ extension AddScheduleViewModel {
         print(addPlaceCollectionViewDataSource, "addPlaceCollectionViewDataSource : \(addPlaceCollectionViewDataSource)")
         print(places, "places : \(places)")
         
+        
+        
         guard let dateName = inputDateName.value,
-              let visitDate = visitDate.value,
+              let visitDate = inputVisitDate.value,
               let dateStartAt = dateStartAt.value
         else {return}
         let country = country
         let city = city
         let postAddScheduleTags = selectedTagData.map { PostAddScheduleTag(tag: $0) }
+        let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: visitDate)
         
         NetworkService.shared.addScheduleService.postAddSchedule(course: PostAddScheduleRequest(title: dateName,
-                                                                                                date: visitDate,
+                                                                                                date: formattedDate,
                                                                                                 startAt: dateStartAt,
                                                                                                 tags: postAddScheduleTags,
                                                                                                 country: country,
