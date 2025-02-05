@@ -134,9 +134,10 @@ private extension AddScheduleFirstViewController {
             }
         }
         
-        viewModel.isDateNameVaild.bind { date in
-            guard let date else {return}
-            self.addScheduleFirstView.updateDateNameTextField(isPassValid: date)
+        viewModel.outputDateNameVaild.lazyBind { [weak self] value in
+            guard let self, let value else {return}
+            self.addScheduleFirstView.updateDateNameTextField(isPassValid: value)
+            self.addScheduleFirstView.inAddScheduleFirstView.updateDateName(text: viewModel.inputDateName.value ?? "")
             self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
         }
         
@@ -156,12 +157,6 @@ private extension AddScheduleFirstViewController {
         
         viewModel.isDateLocationVaild.bind { _ in
             self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
-        }
-        
-        viewModel.dateName.bind { date in
-            guard let text = date else {return}
-            self.addScheduleFirstView.inAddScheduleFirstView.updateDateName(text: text)
-            self.viewModel.addScheduleAmplitude.dateTitle = true
         }
         
         viewModel.visitDate.bind { date in
@@ -202,7 +197,7 @@ private extension AddScheduleFirstViewController {
     }
     
     func setAddTarget() {
-        addScheduleFirstView.inAddScheduleFirstView.dateNameTextField.addTarget(self, action: #selector(textFieldDidChanacge(_:)), for: .editingChanged)
+        addScheduleFirstView.inAddScheduleFirstView.dateNameTextField.addTarget(self, action: #selector(dateNameTextFieldDidChange(_:)), for: .editingChanged)
         
         addScheduleFirstView.inAddScheduleFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
         
@@ -270,13 +265,10 @@ private extension AddScheduleFirstViewController {
         alertVC.presentBottomSheet(in: self)
     }
     
-    /// '데이트 이름' 관련
+    /// about 데이트이름
     @objc
-    func textFieldDidChanacge(_ textField: UITextField) {
-        guard let text = textField.text else {return}
-        viewModel.dateName.value = text
-        viewModel.satisfyDateName(str: text)
-        self.viewModel.addScheduleAmplitude.dateTitle = !text.isEmpty ? true : false
+    func dateNameTextFieldDidChange(_ textField: UITextField) {
+        viewModel.inputDateName.value = textField.text
     }
     
     /// '방문일자' 관련

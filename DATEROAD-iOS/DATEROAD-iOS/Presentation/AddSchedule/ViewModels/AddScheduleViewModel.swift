@@ -9,6 +9,8 @@ import UIKit
 
 final class AddScheduleViewModel: Serviceable {
     
+    private let minimumDateNameLength = 5
+    
     var viewPath: String
     
     var isBroughtData = false
@@ -28,12 +30,9 @@ final class AddScheduleViewModel: Serviceable {
     
     //MARK: - AddFirstCourse 사용되는 ViewModel
     
-    // 데이트 이름 유효성 판별 (true는 통과)
-    let dateName: ObservablePattern<String> = ObservablePattern(nil)
-    
-    let isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
-    
-    private let minimumDateNameLength = 5
+    // 데이트 이름
+    let inputDateName: ObservablePattern<String> = ObservablePattern(nil)
+    let outputDateNameVaild: ObservablePattern<Bool> = ObservablePattern(false)    
     
     // 방문 일자 유효성 판별 (true는 통과)
     let visitDate: ObservablePattern<String> = ObservablePattern(nil)
@@ -104,11 +103,21 @@ final class AddScheduleViewModel: Serviceable {
     init(viewPath: String) {
         self.viewPath = viewPath
         fetchTagData()
+        bindViewModel()
     }
     
     // tag 세팅 함수
     func fetchTagData() {
         tagData = TendencyTag.allCases.map { $0.tag }
+    }
+    
+    private func bindViewModel() {
+        inputDateName.bind { [weak self] value in
+            guard let self,
+                  let value else {return}
+            self.addScheduleAmplitude.dateTitle = !value.isEmpty ? true : false
+            self.satisfyDateName(str: value)
+        }
     }
     
 }
@@ -125,7 +134,7 @@ extension AddScheduleViewModel {
             if isSuccess == true {
                 self.setLoading(isLoading: true)
                 if let data = self.viewedDateCourseByMeData {
-                    dateName.value = data.titleHeaderData.value?.title
+                    inputDateName.value = data.titleHeaderData.value?.title
                     dateLocation.value = data.titleHeaderData.value?.city
                     dateStartAt.value = data.startAt
                     
@@ -149,7 +158,7 @@ extension AddScheduleViewModel {
                     
                     checkTagCount(min: minTagCnt, max: maxTagCnt)
                     
-                    isDateNameVaild.value = true
+                    outputDateNameVaild.value = true
                     isDateStartAtVaild.value = true
                     isDateLocationVaild.value = true
                     
@@ -180,7 +189,8 @@ extension AddScheduleViewModel {
 extension AddScheduleViewModel {
     
     func satisfyDateName(str: String) {
-        isDateNameVaild.value = str.count >= minimumDateNameLength
+        outputDateNameVaild.value = str.count >= minimumDateNameLength
+        
     }
     
     func setVisitDate(_ date: Date) {
@@ -233,7 +243,7 @@ extension AddScheduleViewModel {
     }
     
     func isEnableNextButton() -> Bool {
-        guard let isDateNameVaild = isDateNameVaild.value,
+        guard let outputDateNameVaild = outputDateNameVaild.value,
               let isValidTag = isValidTag.value,
               let isVisitDateVaild = isVisitDateVaild.value,
               let isDateStartAtVaild = isDateStartAtVaild.value,
@@ -243,7 +253,7 @@ extension AddScheduleViewModel {
             return false
         }
         
-        return [isDateNameVaild, isValidTag, isVisitDateVaild, isDateLocationVaild, isDateStartAtVaild].allSatisfy { $0 }
+        return [outputDateNameVaild, isValidTag, isVisitDateVaild, isDateLocationVaild, isDateStartAtVaild].allSatisfy { $0 }
     }
     
 }
@@ -326,7 +336,7 @@ extension AddScheduleViewModel {
         print(addPlaceCollectionViewDataSource, "addPlaceCollectionViewDataSource : \(addPlaceCollectionViewDataSource)")
         print(places, "places : \(places)")
         
-        guard let dateName = dateName.value,
+        guard let dateName = inputDateName.value,
               let visitDate = visitDate.value,
               let dateStartAt = dateStartAt.value
         else {return}
