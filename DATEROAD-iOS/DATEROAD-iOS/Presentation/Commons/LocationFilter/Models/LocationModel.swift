@@ -101,7 +101,7 @@ enum LocationModel {
             
             case namyangjuUijeongbu = "남양주/의정부"
             
-            case gwangjuIcheonYeoju = "과천/이천/여주"
+            case gwangjuIcheonYeoju = "광주/이천/여주"
             
             case gapyeongYangpyeong = "가평/양평"
             
@@ -239,7 +239,7 @@ struct LocationModelCityKorToEng {
                 self = .POCHEON_YANGJU
             case "남양주/의정부":
                 self = .NAMYANGJU_UIJEONGBU
-            case "과천/이천/여주":
+            case "광주/이천/여주":
                 self = .GWANGJU_ICHEON_YEOJU
             case "가평/양평":
                 self = .GAPYEONG_YANGPYEONG
@@ -420,7 +420,7 @@ struct LocationModelCityEngToKor {
             case .NAMYANGJU_UIJEONGBU:
                 return "남양주/의정부"
             case .GWANGJU_ICHEON_YEOJU:
-                return "과천/이천/여주"
+                return "광주/이천/여주"
             case .GAPYEONG_YANGPYEONG:
                 return "가평/양평"
             case .GUNPO_UIWANG:
