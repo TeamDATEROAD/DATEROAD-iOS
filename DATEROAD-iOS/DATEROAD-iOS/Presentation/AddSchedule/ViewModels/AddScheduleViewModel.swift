@@ -5,7 +5,7 @@
 //  Created by 박신영 on 7/18/24.
 //
 
-import UIKit
+import Foundation
 
 final class AddScheduleViewModel: Serviceable {
     
@@ -34,14 +34,14 @@ final class AddScheduleViewModel: Serviceable {
     let inputDateName: ObservablePattern<String> = ObservablePattern(nil)
     let outputDateNameVaild: ObservablePattern<Bool> = ObservablePattern(false)    
     
-    // 방문일자
+    // 데이트 방문일자
     let inputVisitDate: ObservablePattern<Date> = ObservablePattern(nil)
     let outputVisitDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
     
-    // 데이트 시작시간 유효성 판별 (self.count > 0 인지)
-    let dateStartAt: ObservablePattern<String> = ObservablePattern(nil)
-    
-    let isDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+    // 데이트 시작시간
+    let inputDataStartAtTransForm: ObservablePattern<Date> = ObservablePattern(nil)
+    let inputDateStartAt: ObservablePattern<String> = ObservablePattern(nil)
+    let outputDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
     
     // 코스 등록 태그 생성
     var tagData: [ProfileTagModel] = []
@@ -123,6 +123,22 @@ final class AddScheduleViewModel: Serviceable {
             self.addScheduleAmplitude.dateDate = true
             self.setVisitDate()
         }
+        
+        inputDataStartAtTransForm.lazyBind { [weak self] selectedDate in
+            guard let self,
+                  let selectedDate else {return}
+            var formattedTime = DateFormatterManager.shared.timeFormatter.string(from: selectedDate)
+            formattedTime = formattedTime
+                .replacingOccurrences(of: "오전", with: "AM")
+                .replacingOccurrences(of: "오후", with: "PM")
+            self.inputDateStartAt.value = formattedTime
+        }
+        
+        inputDateStartAt.bind { [weak self] _ in
+            guard let self else {return}
+            self.addScheduleAmplitude.dateTime = true
+            self.setDateStartAt()
+        }
     }
     
 }
@@ -140,8 +156,8 @@ extension AddScheduleViewModel {
                 self.setLoading(isLoading: true)
                 if let data = self.viewedDateCourseByMeData {
                     inputDateName.value = data.titleHeaderData.value?.title
+                    inputDateStartAt.value = data.startAt
                     dateLocation.value = data.titleHeaderData.value?.city
-                    dateStartAt.value = data.startAt
                     
                     //동네.KOR 불러와서 지역, 동네 ENG 버전 알아내는 미친 로직
                     let cityName = data.titleHeaderData.value?.city ?? ""
@@ -164,7 +180,7 @@ extension AddScheduleViewModel {
                     checkTagCount(min: minTagCnt, max: maxTagCnt)
                     
                     outputDateNameVaild.value = true
-                    isDateStartAtVaild.value = true
+                    outputDateStartAtVaild.value = true
                     isDateLocationVaild.value = true
                     
                     ///코스 등록 2 AddPlaceCollectionView 구성
@@ -204,13 +220,8 @@ extension AddScheduleViewModel {
         outputVisitDateVaild.value = !(formattedDate.isEmpty)
     }
     
-    func setDateStartAt(_ time: Date) {
-        var formattedTime = DateFormatterManager.shared.timeFormatter.string(from: time)
-        formattedTime = formattedTime
-            .replacingOccurrences(of: "오전", with: "AM")
-            .replacingOccurrences(of: "오후", with: "PM")
-        dateStartAt.value = formattedTime
-        isDateStartAtVaild.value = !(dateStartAt.value?.isEmpty ?? true)
+    func setDateStartAt() {
+        outputDateStartAtVaild.value = !(inputDateStartAt.value?.isEmpty ?? true)
     }
     
     func countSelectedTag(isSelected: Bool, tag: String) {
@@ -251,14 +262,14 @@ extension AddScheduleViewModel {
         guard let dateNameVaild = outputDateNameVaild.value,
               let isValidTag = isValidTag.value,
               let visitDateVaild = outputVisitDateVaild.value,
-              let isDateStartAtVaild = isDateStartAtVaild.value,
+              let dateStartAtVaild = outputDateStartAtVaild.value,
               let isDateLocationVaild = isDateLocationVaild.value
         else {
             print("isOkSixBtn guard let Error")
             return false
         }
         
-        return [dateNameVaild, isValidTag, visitDateVaild, isDateLocationVaild, isDateStartAtVaild].allSatisfy { $0 }
+        return [dateNameVaild, isValidTag, visitDateVaild, isDateLocationVaild, dateStartAtVaild].allSatisfy { $0 }
     }
     
 }
@@ -345,7 +356,7 @@ extension AddScheduleViewModel {
         
         guard let dateName = inputDateName.value,
               let visitDate = inputVisitDate.value,
-              let dateStartAt = dateStartAt.value
+              let dateStartAt = inputDateStartAt.value
         else {return}
         let country = country
         let city = city

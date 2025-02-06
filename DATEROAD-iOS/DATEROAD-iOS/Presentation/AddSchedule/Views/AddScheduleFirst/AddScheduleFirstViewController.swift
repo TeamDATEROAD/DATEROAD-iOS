@@ -143,21 +143,25 @@ private extension AddScheduleFirstViewController {
         
         viewModel.outputVisitDateVaild.bind { [weak self] value in
             guard let self, let value,
-                  let date = self.viewModel.inputVisitDate.value
+                  let data = self.viewModel.inputVisitDate.value
             else {return}
             
             self.addScheduleFirstView.updateVisitDateTextField(isPassValid: value)
             
-            let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: date)
+            let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: data)
             self.addScheduleFirstView.inAddScheduleFirstView.updateVisitDate(text: formattedDate)
             isValidNextBtn()
         }
         
-        // ㅡ여기부터 재시작ㅡ
-        
-        viewModel.isDateStartAtVaild.bind { _ in
-            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
+        viewModel.outputDateStartAtVaild.bind { [weak self] value in
+            guard let self, let value,
+                  let data = self.viewModel.inputDateStartAt.value
+            else {return}
+            self.addScheduleFirstView.inAddScheduleFirstView.updatedateStartTime(text: data)
+            isValidNextBtn()
         }
+        
+        // ㅡ여기부터 재시작ㅡ
         
         viewModel.isValidTag.bind { _ in
             self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
@@ -167,11 +171,7 @@ private extension AddScheduleFirstViewController {
             self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
         }
         
-        viewModel.dateStartAt.bind { date in
-            guard let text = date else {return}
-            self.addScheduleFirstView.inAddScheduleFirstView.updatedateStartTime(text: text)
-            self.viewModel.addScheduleAmplitude.dateTime = true
-        }
+        
         
         viewModel.tagCount.bind { count in
             guard let count else {return}
@@ -207,7 +207,7 @@ private extension AddScheduleFirstViewController {
         addScheduleFirstView.inAddScheduleFirstView.visitDateContainer.addGestureRecognizer(tapGesture1)
         addScheduleFirstView.inAddScheduleFirstView.visitDateContainer.isUserInteractionEnabled = true
         
-        let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(dateStartAt))
+        let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(dateStartAtTapped))
         addScheduleFirstView.inAddScheduleFirstView.dateStartAtContainer.addGestureRecognizer(tapGesture2)
         addScheduleFirstView.inAddScheduleFirstView.dateStartAtContainer.isUserInteractionEnabled = true
         
@@ -285,7 +285,7 @@ private extension AddScheduleFirstViewController {
     
     /// '데이트 시작 시간' 관련
     @objc
-    func dateStartAt() {
+    func dateStartAtTapped() {
         presentDatePicker(mode: .time)
     }
     
@@ -420,7 +420,7 @@ extension AddScheduleFirstViewController: DRBottomSheetDelegate {
         case .date:
             viewModel.inputVisitDate.value = selectedValue
         case .time:
-            viewModel.setDateStartAt(selectedValue)
+            viewModel.inputDataStartAtTransForm.value = selectedValue
         }
     }
     
