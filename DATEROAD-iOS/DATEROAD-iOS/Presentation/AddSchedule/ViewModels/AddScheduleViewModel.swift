@@ -48,14 +48,9 @@ final class AddScheduleViewModel: Serviceable {
     // 데이트 태그
     let outputDateTag: ObservablePattern<Bool> = ObservablePattern(false)
     
-    // 코스 지역 유효성 판별
-    let dateLocation: ObservablePattern<String> = ObservablePattern(nil)
-    
-    let isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
-    
-    var country = ""
-    
-    var city = ""
+    // 데이트 로케이션
+    let inputDateLocation: ObservablePattern<[String]> = ObservablePattern(Array(repeating: "", count: 2))
+    let outputDateLocation: ObservablePattern<String> = ObservablePattern("")
     
     
     //MARK: - AddSecondView 전용 Viewmodel 변수
@@ -130,6 +125,11 @@ final class AddScheduleViewModel: Serviceable {
             self.addScheduleAmplitude.dateTime = true
             self.setDateStartAt()
         }
+        
+        inputDateLocation.lazyBind { [weak self] locationArr in
+            guard let self, let locationArr else {return}
+            isDateLocationValid(LocationArr: locationArr)
+        }
     }
     
 }
@@ -138,6 +138,13 @@ final class AddScheduleViewModel: Serviceable {
 //MARK: - AddScheduleViewModel: PastDateSetting
 
 extension AddScheduleViewModel {
+    
+    func isDateLocationValid(LocationArr: [String]) {
+        if !LocationArr.contains("") && LocationArr.count == 2 {
+            addScheduleAmplitude.dateArea = true
+            outputDateLocation.value = LocationArr[1]
+        }
+    }
     
     // 일정등록(불러오기) 시 데이터 세팅 함수
     func fetchPastDate() {
@@ -148,16 +155,16 @@ extension AddScheduleViewModel {
                 if let data = self.viewedDateCourseByMeData {
                     inputDateName.value = data.titleHeaderData.value?.title
                     inputDateStartAt.value = data.startAt
-                    dateLocation.value = data.titleHeaderData.value?.city
+                    outputDateLocation.value = data.titleHeaderData.value?.city
                     
                     //동네.KOR 불러와서 지역, 동네 ENG 버전 알아내는 미친 로직
                     let cityName = data.titleHeaderData.value?.city ?? ""
                     if let result = LocationMapper.getCountryAndCity(from: cityName) {
                         let country = result.country.rawValue
                         let city = result.city.rawValue
-                        self.city = city
-                        self.country = country
-                        self.isDateLocationVaild.value = true
+                        self.inputDateLocation.value?[0] = country
+                        self.inputDateLocation.value?[1] = city
+                        self.outputDateLocation.value = city
                     }
                     
                     //태그 추적해서 미리 셀렉 및 개수 표시 해버리는 진짜 미쳐버린 로직
@@ -172,7 +179,6 @@ extension AddScheduleViewModel {
                     
                     outputDateNameVaild.value = true
                     outputDateStartAtVaild.value = true
-                    isDateLocationVaild.value = true
                     
                     ///코스 등록 2 AddPlaceCollectionView 구성
                     if let result = data.timelineData.value {
@@ -230,21 +236,16 @@ extension AddScheduleViewModel {
         addScheduleAmplitude.dateTagNum = selectedTagData.count
     }
     
-    func satisfyDateLocation(str: String) {
-        let flag = !str.isEmpty
-        isDateLocationVaild.value = flag
-    }
-    
     func isEnableNextButton() -> Bool {
         guard let dateNameVaild = outputDateNameVaild.value,
               let isValidTag = outputDateTag.value,
               let visitDateVaild = outputVisitDateVaild.value,
-              let dateStartAtVaild = outputDateStartAtVaild.value,
-              let isDateLocationVaild = isDateLocationVaild.value
+              let dateStartAtVaild = outputDateStartAtVaild.value
         else {
             print("isOkSixBtn guard let Error")
             return false
         }
+        let isDateLocationVaild = outputDateLocation.value != ""
         
         return [dateNameVaild, isValidTag, visitDateVaild, isDateLocationVaild, dateStartAtVaild].allSatisfy { $0 }
     }
@@ -327,16 +328,13 @@ extension AddScheduleViewModel {
             }
         }
         print(addPlaceCollectionViewDataSource, "addPlaceCollectionViewDataSource : \(addPlaceCollectionViewDataSource)")
-        print(places, "places : \(places)")
-        
-        
         
         guard let dateName = inputDateName.value,
               let visitDate = inputVisitDate.value,
               let dateStartAt = inputDateStartAt.value
         else {return}
-        let country = country
-        let city = city
+        let country = inputDateLocation.value?[0] ?? ""
+        let city = inputDateLocation.value?[1] ?? ""
         let postAddScheduleTags = selectedTagData.map { PostAddScheduleTag(tag: $0) }
         let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: visitDate)
         

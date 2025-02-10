@@ -168,16 +168,10 @@ private extension AddScheduleFirstViewController {
             isValidNextBtn()
         }
         
-        // ㅡ여기부터 재시작ㅡ
-        
-        viewModel.isDateLocationVaild.bind { _ in
-            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
-        }
-        
-        viewModel.dateLocation.bind { date in
-            guard let date else {return}
-            self.addScheduleFirstView.inAddScheduleFirstView.updateDateLocation(text: date)
-            self.viewModel.addScheduleAmplitude.dateArea = true
+        viewModel.outputDateLocation.lazyBind { [weak self] city in
+            guard let self, let city else {return}
+            self.addScheduleFirstView.inAddScheduleFirstView.updateDateLocation(text: city)
+            isValidNextBtn()
         }
     }
     
@@ -426,10 +420,10 @@ extension AddScheduleFirstViewController: LocationFilterDelegate {
     func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
         print("selected country : \(country.rawValue)")
         print("Selected city: \(city.rawValue)")
-        viewModel.dateLocation.value = city.rawValue
-        viewModel.satisfyDateLocation(str: city.rawValue)
-        viewModel.country = country.rawValue
-        viewModel.city = city.rawValue
+        var arr = Array(repeating: "", count: 2)
+        arr[0] = country.rawValue
+        arr[1] = city.rawValue
+        viewModel.inputDateLocation.value = arr
     }
     
 }
