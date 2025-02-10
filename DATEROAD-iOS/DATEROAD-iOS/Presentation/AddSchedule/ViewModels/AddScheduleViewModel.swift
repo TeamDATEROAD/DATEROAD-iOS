@@ -11,6 +11,8 @@ final class AddScheduleViewModel: Serviceable {
     
     private let minimumDateNameLength = 5
     
+    var tagData: [ProfileTagModel] = []
+    
     var viewPath: String
     
     var isBroughtData = false
@@ -43,19 +45,8 @@ final class AddScheduleViewModel: Serviceable {
     let inputDateStartAt: ObservablePattern<String> = ObservablePattern(nil)
     let outputDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    // 코스 등록 태그 생성
-    var tagData: [ProfileTagModel] = []
-    
-    // 선택된 태그
-    let isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
-    
-    let isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
-    
-    let tagCount: ObservablePattern<Int> = ObservablePattern(0)
-    
-    private let minTagCnt = 1
-    
-    private let maxTagCnt = 3
+    // 데이트 태그
+    let outputDateTag: ObservablePattern<Bool> = ObservablePattern(false)
     
     // 코스 지역 유효성 판별
     let dateLocation: ObservablePattern<String> = ObservablePattern(nil)
@@ -106,7 +97,7 @@ final class AddScheduleViewModel: Serviceable {
     }
     
     // tag 세팅 함수
-    func fetchTagData() {
+    private func fetchTagData() {
         tagData = TendencyTag.allCases.map { $0.tag }
     }
     
@@ -176,8 +167,8 @@ extension AddScheduleViewModel {
                     pastDateTagIndex.sort()
                     
                     print("pastDateTagIndex values: \(pastDateTagIndex)")
-                    
-                    checkTagCount(min: minTagCnt, max: maxTagCnt)
+                    outputDateTag.value = true
+                    addScheduleAmplitude.dateTagNum = selectedTagData.count
                     
                     outputDateNameVaild.value = true
                     outputDateStartAtVaild.value = true
@@ -234,23 +225,9 @@ extension AddScheduleViewModel {
                 selectedTagData.remove(at: index)
             }
         }
-        checkTagCount(min: minTagCnt, max: maxTagCnt)
-    }
-    
-    func checkTagCount(min: Int, max: Int) {
-        let count = selectedTagData.count
-        self.tagCount.value = count
-        
-        if count >= min && count <= max {
-            self.isValidTag.value = true
-            self.isOverCount.value = false
-        } else {
-            self.isValidTag.value = false
-            if count > max {
-                self.isOverCount.value = true
-            }
-        }
-        print(count)
+        print("selectedTagData: \(selectedTagData.count)")
+        outputDateTag.value = true
+        addScheduleAmplitude.dateTagNum = selectedTagData.count
     }
     
     func satisfyDateLocation(str: String) {
@@ -260,7 +237,7 @@ extension AddScheduleViewModel {
     
     func isEnableNextButton() -> Bool {
         guard let dateNameVaild = outputDateNameVaild.value,
-              let isValidTag = isValidTag.value,
+              let isValidTag = outputDateTag.value,
               let visitDateVaild = outputVisitDateVaild.value,
               let dateStartAtVaild = outputDateStartAtVaild.value,
               let isDateLocationVaild = isDateLocationVaild.value

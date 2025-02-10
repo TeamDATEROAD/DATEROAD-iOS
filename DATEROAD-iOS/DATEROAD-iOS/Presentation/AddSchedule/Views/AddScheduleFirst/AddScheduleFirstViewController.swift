@@ -161,22 +161,17 @@ private extension AddScheduleFirstViewController {
             isValidNextBtn()
         }
         
-        // ㅡ여기부터 재시작ㅡ
-        
-        viewModel.isValidTag.bind { _ in
-            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
+        viewModel.outputDateTag.bind { [weak self] bool in
+            guard let self else {return}
+            let count = viewModel.selectedTagData.count
+            self.addScheduleFirstView.inAddScheduleFirstView.updateTagCount(count: count)
+            isValidNextBtn()
         }
+        
+        // ㅡ여기부터 재시작ㅡ
         
         viewModel.isDateLocationVaild.bind { _ in
             self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
-        }
-        
-        
-        
-        viewModel.tagCount.bind { count in
-            guard let count else {return}
-            self.addScheduleFirstView.inAddScheduleFirstView.updateTagCount(count: count)
-            self.viewModel.addScheduleAmplitude.dateTagNum = count
         }
         
         viewModel.dateLocation.bind { date in
@@ -295,18 +290,15 @@ private extension AddScheduleFirstViewController {
         guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
         let maxTags = 3
         
-        sender.isSelected ? self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: UnselectedButton()) :
-        self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: SelectedButton())
-        
         if sender.isSelected { //해당 버튼이 이미 눌린 상태라면
             sender.isSelected.toggle()
-//            self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: UnselectedButton())
+            self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: UnselectedButton())
             self.viewModel.countSelectedTag(isSelected: false, tag: tag)
         } else { //해당 버튼이 안 눌린 상태라면
             // 새로 선택하는 태그가 최대 개수 이내일 때만 처리
             if self.viewModel.selectedTagData.count < maxTags {
                 sender.isSelected.toggle()
-//                self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: SelectedButton())
+                self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: SelectedButton())
                 self.viewModel.countSelectedTag(isSelected: true, tag: tag)
             }
         }
@@ -352,11 +344,10 @@ extension AddScheduleFirstViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
-extension AddScheduleFirstViewController: UICollectionViewDelegate {
-    
-}
 
-extension AddScheduleFirstViewController: UICollectionViewDataSource {
+//MARK: - Tag CollectionView 세팅
+
+extension AddScheduleFirstViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.tagData.count
