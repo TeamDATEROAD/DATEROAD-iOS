@@ -57,7 +57,8 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
         setDelegate()
         bindViewModel()
         setupKeyboardDismissRecognizer()
-        pastDateBindViewModel()
+        broughtButtonHandling()
+        
         AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddSchedule, properties: [StringLiterals.Amplitude.Property.viewPath: viewModel.viewPath])
     }
     
@@ -97,10 +98,9 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
 private extension AddScheduleFirstViewController {
     
     func bindViewModel() {
-        self.viewModel.isSuccessGetData.bind { [weak self] isSuccess in
+        self.viewModel.outputIsBroughtDataConfigured.lazyBind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
-                print("지금 tendencyTagCollectionView reload")
                 self?.addScheduleFirstView.inAddScheduleFirstView.tendencyTagCollectionView.reloadData()
             }
         }
@@ -225,16 +225,15 @@ private extension AddScheduleFirstViewController {
 
 extension AddScheduleFirstViewController {
     
-    /// 일정등록 시 '불러오기' 여부 분기처리
-    /// 다른 파일에서 해당 함수 사용하기에 private 미사용schedule1BackAmplitude
-    func pastDateBindViewModel() {
-        if !viewModel.isBroughtData {
+    // '일정 등록' 중 불러오기 버튼 핸들링
+    func broughtButtonHandling() {
+        switch viewModel.isBroughtData {
+        case true:
+            self.showLoadingView(type: StringLiterals.AddCourseOrSchedule.addScheduleTitle)
+            viewModel.inputIsBroughtData.value = true
+        case false:
             setRightBtnStyle()
             setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
-        } else {
-            self.showLoadingView(type: StringLiterals.AddCourseOrSchedule.addScheduleTitle)
-            self.viewModel.fetchPastDate()
-            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewModel.viewPath])
         }
     }
     

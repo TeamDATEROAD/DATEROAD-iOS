@@ -213,15 +213,12 @@ extension NavViewedCourseViewController : UICollectionViewDataSource {
         
         if indexPath != nil {
             guard let courseId = viewedCourseViewModel.viewedCourseData.value?[indexPath?.item ?? 0].courseId else {return}
-            
             let courseDetailViewModel = CourseDetailViewModel(courseId: courseId)
-            let addScheduleViewModel = AddScheduleViewModel(viewPath: StringLiterals.Amplitude.ViewPath.viewedCourse)
+            
+            let addScheduleViewModel = AddScheduleViewModel(viewPath: StringLiterals.Amplitude.ViewPath.viewedCourse, isBroughtData: true)
             addScheduleViewModel.viewedDateCourseByMeData = courseDetailViewModel
-            addScheduleViewModel.isBroughtData = true
             
             let vc = AddScheduleFirstViewController(viewModel: addScheduleViewModel)
-            // 데이터를 바인딩합니다.
-            vc.pastDateBindViewModel()
             self.navigationController?.pushViewController(vc, animated: false)
         }
     }

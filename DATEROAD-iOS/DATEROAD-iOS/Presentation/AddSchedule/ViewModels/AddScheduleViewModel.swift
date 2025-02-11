@@ -9,28 +9,30 @@ import Foundation
 
 final class AddScheduleViewModel: Serviceable {
     
-    private let minimumDateNameLength = 5
+    let viewPath: String
     
-    var tagData: [ProfileTagModel] = []
-    
-    var viewPath: String
-    
-    var isBroughtData = false
+    var isBroughtData: Bool
     
     var viewedDateCourseByMeData: CourseDetailViewModel?
     
-    let ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+    // MARK: - Initializer
     
-    let isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(false)
-    
-    var pastDatePlaces = [TimelineModel]()
-    
-    var selectedTagData: [String] = []
-    
-    var pastDateTagIndex = [Int]()
+    init(viewPath: String, isBroughtData: Bool) {
+        self.viewPath = viewPath
+        self.isBroughtData = isBroughtData
+        
+        fetchTagData()
+        bindViewModel()
+    }
     
     
     //MARK: - AddFirstCourse 사용되는 ViewModel
+    
+    var tagData: [ProfileTagModel] = []
+    
+    var pastDateTagIndex = [Int]()
+    
+    var selectedTagData: [String] = []
     
     // 데이트 이름
     let inputDateName: ObservablePattern<String> = ObservablePattern(nil)
@@ -52,8 +54,13 @@ final class AddScheduleViewModel: Serviceable {
     let inputDateLocation: ObservablePattern<[String]> = ObservablePattern(Array(repeating: "", count: 2))
     let outputDateLocation: ObservablePattern<String> = ObservablePattern("")
     
+    let inputIsBroughtData: ObservablePattern<Bool> = ObservablePattern(false)
+    let outputIsBroughtDataConfigured: ObservablePattern<Bool> = ObservablePattern(false)
+    
     
     //MARK: - AddSecondView 전용 Viewmodel 변수
+    
+    var pastDatePlaces = [TimelineModel]()
     
     var addPlaceCollectionViewDataSource: [AddCoursePlaceModel] = []
     
@@ -81,15 +88,6 @@ final class AddScheduleViewModel: Serviceable {
     //MARK: - AddSchedule Amplitude 관련 변수
     
     var addScheduleAmplitude = AddScheduleAmplitudeState()
-    
-    
-    // MARK: - Initializer
-    
-    init(viewPath: String) {
-        self.viewPath = viewPath
-        fetchTagData()
-        bindViewModel()
-    }
     
     // tag 세팅 함수
     private func fetchTagData() {
@@ -130,6 +128,14 @@ final class AddScheduleViewModel: Serviceable {
             guard let self, let locationArr else {return}
             isDateLocationValid(LocationArr: locationArr)
         }
+        
+        inputIsBroughtData.lazyBind { [weak self] isBroughtData in
+            guard let self, let isBroughtData else {return}
+            if isBroughtData {
+                self.fetchPastDate()
+                AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
+            }
+        }
     }
     
 }
@@ -148,6 +154,8 @@ extension AddScheduleViewModel {
     
     // 일정등록(불러오기) 시 데이터 세팅 함수
     func fetchPastDate() {
+        //isSuccessGetData가 true인 시점에 불러와야 data안의 값들이 공란이 아님.
+        //추후 리펙
         viewedDateCourseByMeData?.isSuccessGetData.bind { [weak self] isSuccess in
             guard let self = self else { return }
             if isSuccess == true {
@@ -186,7 +194,7 @@ extension AddScheduleViewModel {
                     }
                     
                     self.setLoading(isLoading: false)
-                    isSuccessGetData.value = true
+                    outputIsBroughtDataConfigured.value = true
                 }
             }
         }
@@ -207,6 +215,7 @@ extension AddScheduleViewModel {
 extension AddScheduleViewModel {
     
     private func satisfyDateName(str: String) {
+        let minimumDateNameLength = 5
         outputDateNameVaild.value = str.count >= minimumDateNameLength
         
     }
