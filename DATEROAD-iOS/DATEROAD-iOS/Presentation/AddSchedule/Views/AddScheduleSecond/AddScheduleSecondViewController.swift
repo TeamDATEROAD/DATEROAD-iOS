@@ -164,18 +164,13 @@ private extension AddScheduleSecondViewController {
             guard let text = date else {return}
             self?.addScheduleSecondView.inAddScheduleSecondView.updateDatePlace(text: text)
             self?.viewModel.addScheduleAmplitude.dateDetailLocation = !(self?.viewModel.datePlace.value?.isEmpty ?? true)
-            if let flag = self?.viewModel.isAbleAddBtn() {
-                self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
-            }
+            self?.checkAddPlaceBtnState()
         }
         
-        viewModel.timeRequire.bind { [weak self] date in
-            guard let date else {return}
-            self?.addScheduleSecondView.inAddScheduleSecondView.updatetimeRequire(text: date)
-            self?.viewModel.addScheduleAmplitude.dateDetailTime = true
-            if let flag = self?.viewModel.isAbleAddBtn() {
-                self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
-            }
+        viewModel.outputTimeRequire.lazyBind { [weak self] value in
+            guard let value else {return}
+            self?.addScheduleSecondView.inAddScheduleSecondView.updatetimeRequire(text: value)
+            self?.checkAddPlaceBtnState()
         }
         
         self.viewModel.isChange = { [weak self] in
@@ -206,6 +201,11 @@ private extension AddScheduleSecondViewController {
         addScheduleSecondView.inAddScheduleSecondView.addPlaceButton.addTarget(self, action: #selector(tapAddPlaceBtn), for: .touchUpInside)
         
         addScheduleSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
+    }
+    
+    func checkAddPlaceBtnState() {
+        let flag = self.viewModel.isAbleAddBtn()
+        self.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
     }
     
     /// '등록 완료' 이후 tabBarVC를 통해 화면 전환
@@ -291,7 +291,7 @@ private extension AddScheduleSecondViewController {
     /// '장소 등록 +' 버튼 관련
     @objc
     func tapAddPlaceBtn() {
-        viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")
+        viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", timeRequire: viewModel.outputTimeRequire.value ?? "")
     }
     
     /// '편집' 버튼 관련
@@ -472,7 +472,7 @@ extension AddScheduleSecondViewController: UICollectionViewDropDelegate {
                 }
                 coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
             }
-            viewModel.updatePlaceCollectionView()
+//            viewModel.updatePlaceCollectionView()
         }
     }
     

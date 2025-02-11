@@ -65,7 +65,10 @@ final class AddScheduleViewModel: Serviceable {
     
     let datePlace: ObservablePattern<String> = ObservablePattern(nil)
     
-    let timeRequire: ObservablePattern<String> = ObservablePattern(nil)
+//    let timeRequire: ObservablePattern<String> = ObservablePattern(nil)
+    let outputTimeRequire: ObservablePattern<String> = ObservablePattern("")
+    let inputUpdateTimeRequire: ObservablePattern<String> = ObservablePattern("")
+    
     
     let isValidOfSecondNextBtn: ObservablePattern<Bool> = ObservablePattern(false)
     
@@ -130,6 +133,16 @@ final class AddScheduleViewModel: Serviceable {
                 AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
             }
         }
+        
+        inputUpdateTimeRequire.lazyBind { [weak self] value in
+            guard let value else {return}
+            self?.updateTimeRequireTextField(text: value)
+        }
+    }
+    
+    // 로딩뷰 세팅 함수
+    private func setLoading(isLoading: Bool) {
+        self.onLoading.value = isLoading
     }
     
 }
@@ -260,21 +273,22 @@ extension AddScheduleViewModel {
 
 extension AddScheduleViewModel {
     
-    func updatePlaceCollectionView() {
-        print(addPlaceCollectionViewDataSource)
-    }
+//    func updatePlaceCollectionView() {
+//        print(addPlaceCollectionViewDataSource)
+//    }
     
-    func updateTimeRequireTextField(text: String) {
+    private func updateTimeRequireTextField(text: String) {
         var formattedText = text
         if let doubleValue = Double(text) {
             formattedText = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(doubleValue)) : String(doubleValue)
         }
-        timeRequire.value = "\(formattedText) 시간"
+        addScheduleAmplitude.dateDetailTime = true
+        outputTimeRequire.value = "\(formattedText) 시간"
     }
     
     func isAbleAddBtn() -> Bool {
         return !(datePlace.value?.isEmpty ?? true)
-        && !(timeRequire.value?.isEmpty ?? true)
+        && !(outputTimeRequire.value?.isEmpty ?? true)
     }
     
     func tapAddBtn(datePlace: String, timeRequire: String) {
@@ -282,7 +296,7 @@ extension AddScheduleViewModel {
         
         //viewmodel 값 초기화
         self.datePlace.value = ""
-        self.timeRequire.value = ""
+        self.outputTimeRequire.value = ""
         
         self.addScheduleAmplitude.dateDetailLocation = false
         self.addScheduleAmplitude.dateDetailTime = false
@@ -302,11 +316,6 @@ extension AddScheduleViewModel {
     func isDataSourceNotEmpty() {
         let flag = (addPlaceCollectionViewDataSource.count >= 1) ? true : false
         editBtnEnableState.value = flag
-    }
-    
-    /// 로딩뷰 세팅 함수
-    func setLoading(isLoading: Bool) {
-        self.onLoading.value = isLoading
     }
     
     func postAddScheduel() {
