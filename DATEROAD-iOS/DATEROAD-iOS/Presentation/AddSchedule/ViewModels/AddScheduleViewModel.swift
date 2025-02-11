@@ -63,7 +63,9 @@ final class AddScheduleViewModel: Serviceable {
     
     var addPlaceCollectionViewDataSource: [AddCoursePlaceModel] = []
     
-    let datePlace: ObservablePattern<String> = ObservablePattern(nil)
+//    let datePlace: ObservablePattern<String> = ObservablePattern(nil)
+    let inputDatePlace: ObservablePattern<String> = ObservablePattern("")
+    let outputDatePlace: ObservablePattern<String> = ObservablePattern("")
     
 //    let timeRequire: ObservablePattern<String> = ObservablePattern(nil)
     let outputTimeRequire: ObservablePattern<String> = ObservablePattern("")
@@ -145,6 +147,16 @@ final class AddScheduleViewModel: Serviceable {
         
         inputCheckEditBtnState.lazyBind { [weak self] isCheck in
             self?.isDataSourceNotEmpty()
+        }
+        
+        inputDatePlace.lazyBind { [weak self] text in
+            guard let self, let text else {return}
+            if !text.isEmpty {
+                addScheduleAmplitude.dateDetailLocation = true
+                outputDatePlace.value = text
+            } else {
+                addScheduleAmplitude.dateDetailLocation = false
+            }
         }
     }
     
@@ -301,7 +313,7 @@ extension AddScheduleViewModel {
     }
     
     func isAbleAddBtn() -> Bool {
-        return !(datePlace.value?.isEmpty ?? true)
+        return !(outputDatePlace.value?.isEmpty ?? true)
         && !(outputTimeRequire.value?.isEmpty ?? true)
     }
     
@@ -309,7 +321,7 @@ extension AddScheduleViewModel {
         addPlaceCollectionViewDataSource.append(AddCoursePlaceModel(placeTitle: datePlace, timeRequire: timeRequire))
         
         //viewmodel 값 초기화
-        self.datePlace.value = ""
+        self.outputDatePlace.value = ""
         self.outputTimeRequire.value = ""
         
         self.addScheduleAmplitude.dateDetailLocation = false

@@ -158,10 +158,9 @@ private extension AddScheduleSecondViewController {
             self?.addScheduleSecondView.editBtnState(isAble: enableState)
         }
         
-        viewModel.datePlace.bind { [weak self] date in
-            guard let text = date else {return}
-            self?.addScheduleSecondView.inAddScheduleSecondView.updateDatePlace(text: text)
-            self?.viewModel.addScheduleAmplitude.dateDetailLocation = !(self?.viewModel.datePlace.value?.isEmpty ?? true)
+        viewModel.outputDatePlace.lazyBind { [weak self] value in
+            guard let value else {return}
+            self?.addScheduleSecondView.inAddScheduleSecondView.updateDatePlace(text: value)
             self?.checkAddPlaceBtnState()
         }
         
@@ -292,7 +291,7 @@ private extension AddScheduleSecondViewController {
     /// '장소 등록 +' 버튼 관련
     @objc
     func tapAddPlaceBtn() {
-        viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", timeRequire: viewModel.outputTimeRequire.value ?? "")
+        viewModel.tapAddBtn(datePlace: viewModel.outputDatePlace.value ?? "", timeRequire: viewModel.outputTimeRequire.value ?? "")
     }
     
     /// '편집' 버튼 관련
@@ -369,15 +368,16 @@ extension AddScheduleSecondViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        let trimmedText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         
-        if let text = trimmedText, !text.isEmpty {
-            viewModel.datePlace.value = text
-            print(text)
-        } else {
-            viewModel.datePlace.value = ""
-            print("공란")
-        }
+        viewModel.inputDatePlace.value = trimmedText
+//        if let text = trimmedText, !text.isEmpty {
+//            viewModel.datePlace.value = text
+//            print(text)
+//        } else {
+//            viewModel.datePlace.value = ""
+//            print("공란")
+//        }
     }
     
 }
