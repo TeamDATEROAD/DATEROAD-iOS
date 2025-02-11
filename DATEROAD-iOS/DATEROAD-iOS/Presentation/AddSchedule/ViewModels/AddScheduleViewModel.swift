@@ -69,10 +69,14 @@ final class AddScheduleViewModel: Serviceable {
     let outputTimeRequire: ObservablePattern<String> = ObservablePattern("")
     let inputUpdateTimeRequire: ObservablePattern<String> = ObservablePattern("")
     
+//    let editBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
+    let inputCheckEditBtnState: ObservablePattern<Bool> = ObservablePattern(nil)
+    let outputEditBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
+    
     
     let isValidOfSecondNextBtn: ObservablePattern<Bool> = ObservablePattern(false)
     
-    let editBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
+    
     
     var isChange: (() -> Void)?
     
@@ -137,6 +141,10 @@ final class AddScheduleViewModel: Serviceable {
         inputUpdateTimeRequire.lazyBind { [weak self] value in
             guard let value else {return}
             self?.updateTimeRequireTextField(text: value)
+        }
+        
+        inputCheckEditBtnState.lazyBind { [weak self] isCheck in
+            self?.isDataSourceNotEmpty()
         }
     }
     
@@ -286,6 +294,12 @@ extension AddScheduleViewModel {
         outputTimeRequire.value = "\(formattedText) 시간"
     }
     
+    /// 데이터 0개면 true 반환
+    private func isDataSourceNotEmpty() {
+        let flag = (addPlaceCollectionViewDataSource.count >= 1) ? true : false
+        outputEditBtnEnableState.value = flag
+    }
+    
     func isAbleAddBtn() -> Bool {
         return !(datePlace.value?.isEmpty ?? true)
         && !(outputTimeRequire.value?.isEmpty ?? true)
@@ -310,12 +324,6 @@ extension AddScheduleViewModel {
         let flag = (cnt >= 2)
         print("지금 데이터소스 개수 : \(addPlaceCollectionViewDataSource.count)\nflag: \(flag)")
         isValidOfSecondNextBtn.value = flag
-    }
-    
-    /// 데이터 0개면 true 반환
-    func isDataSourceNotEmpty() {
-        let flag = (addPlaceCollectionViewDataSource.count >= 1) ? true : false
-        editBtnEnableState.value = flag
     }
     
     func postAddScheduel() {

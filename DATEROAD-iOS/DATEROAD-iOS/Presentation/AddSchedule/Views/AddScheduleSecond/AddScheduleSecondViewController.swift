@@ -153,11 +153,9 @@ private extension AddScheduleSecondViewController {
             }
         }
         
-        viewModel.isDataSourceNotEmpty()
-        
-        viewModel.editBtnEnableState.bind { [weak self] date in
-            guard let date else {return}
-            self?.addScheduleSecondView.editBtnState(isAble: date)
+        viewModel.outputEditBtnEnableState.bind { [weak self] enableState in
+            guard let enableState else {return}
+            self?.addScheduleSecondView.editBtnState(isAble: enableState)
         }
         
         viewModel.datePlace.bind { [weak self] date in
@@ -177,11 +175,14 @@ private extension AddScheduleSecondViewController {
             guard let cnt = self?.viewModel.addPlaceCollectionViewDataSource.count else {return}
             print(cnt)
             
-            self?.viewModel.isDataSourceNotEmpty()
+            self?.viewModel.inputCheckEditBtnState.value = true
+//            self?.viewModel.isDataSourceNotEmpty()
             
-            let state = self?.viewModel.editBtnEnableState.value ?? false
             
-            self?.addScheduleSecondView.editBtnState(isAble: state)
+            
+//            let state = self?.viewModel.editBtnEnableState.value ?? false
+            
+//            self?.addScheduleSecondView.editBtnState(isAble: state)
             
             self?.addScheduleSecondView.inAddScheduleSecondView.finishAddPlace()
             
