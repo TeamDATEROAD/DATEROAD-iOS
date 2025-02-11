@@ -21,14 +21,13 @@ final class AddScheduleViewModel: Serviceable {
         self.viewPath = viewPath
         self.isBroughtData = isBroughtData
         
-        fetchTagData()
         bindViewModel()
     }
     
     
     //MARK: - AddFirstCourse 사용되는 ViewModel
     
-    var tagData: [ProfileTagModel] = []
+    let tagData = TendencyTag.allCases.map { $0.tag }
     
     var pastDateTagIndex = [Int]()
     
@@ -88,11 +87,6 @@ final class AddScheduleViewModel: Serviceable {
     //MARK: - AddSchedule Amplitude 관련 변수
     
     var addScheduleAmplitude = AddScheduleAmplitudeState()
-    
-    // tag 세팅 함수
-    private func fetchTagData() {
-        tagData = TendencyTag.allCases.map { $0.tag }
-    }
     
     private func bindViewModel() {
         inputDateName.bind { [weak self] value in
