@@ -174,6 +174,7 @@ private extension AddScheduleSecondViewController {
             self.viewModel.inputCheckEditBtnState.value = true
             self.addScheduleSecondView.inAddScheduleSecondView.finishAddPlace()
             self.viewModel.inputValidateRegisterBtn.value = true
+            self.addScheduleSecondView.addPlaceCollectionView.reloadData()
 //            self.viewModel.isSourceMoreThanOne()
 //            self.addScheduleSecondView.addPlaceCollectionView.reloadData()
         }
@@ -437,25 +438,21 @@ extension AddScheduleSecondViewController: UICollectionViewDropDelegate {
     private func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView) {
         if collectionView == addScheduleSecondView.addPlaceCollectionView {
             if let item = coordinator.items.first, let sourceIndexPath = item.sourceIndexPath {
-                guard let body = viewModel.dataSourceOfAddPlaceCollectionView.value else {return}
-                collectionView.performBatchUpdates({
-                    
-                    let temp = body[sourceIndexPath.item]
-                    
-                    viewModel.dataSourceOfAddPlaceCollectionView.value?.remove(at: sourceIndexPath.item)
-                    viewModel.dataSourceOfAddPlaceCollectionView.value?.insert(temp, at: destinationIndexPath.item)
-                    
-                    collectionView.deleteItems(at: [sourceIndexPath])
-                    collectionView.insertItems(at: [destinationIndexPath])
-                    
-                })
-                { done in
-                    //
+                guard var body = viewModel.dataSourceOfAddPlaceCollectionView.value else { return }
+                
+                let movedItem = body.remove(at: sourceIndexPath.item)
+                body.insert(movedItem, at: destinationIndexPath.item)
+                viewModel.dataSourceOfAddPlaceCollectionView.value = body
+                
+                collectionView.performBatchUpdates {
+                    collectionView.moveItem(at: sourceIndexPath, to: destinationIndexPath)
                 }
+                
                 coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
             }
         }
     }
+
     
 }
 
