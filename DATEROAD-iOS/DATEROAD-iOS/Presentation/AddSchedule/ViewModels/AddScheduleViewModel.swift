@@ -370,45 +370,73 @@ extension AddScheduleViewModel {
         outputIstValidateRegisterBtn.value = flag
     }
     
+    // 장소 추출
+    private func extractPlaces(from models: [AddCoursePlaceModel]?) -> [PostAddSchedulePlace] {
+        guard let models else { return [] }
+        var places: [PostAddSchedulePlace] = []
+        
+        for (index, model) in models.enumerated() {
+            if let duration = extractDuration(from: model.timeRequire) {
+                let place = PostAddSchedulePlace(title: model.placeTitle, duration: duration, sequence: index)
+                places.append(place)
+                print("👍 place added: \(place)")
+            } else {
+                print("❌ Failed timeRequire: \(model.timeRequire)")
+            }
+        }
+        return places
+    }
+    
+    // 소요시간 추출
+    private func extractDuration(from timeRequire: String) -> Float? {
+        let timeComponents = timeRequire.split(separator: " ")
+        guard let timeString = timeComponents.first else { return nil }
+        return Float(timeString)
+    }
+    
+    // 기타 값 추출
+    private func validateInputData() -> (title: String, date: String, startAt: String, country: String, city: String)? {
+        guard let dateName = inputDateName.value,
+              let visitDate = inputVisitDate.value,
+              let dateStartAt = inputDateStartAt.value else {
+            return nil
+        }
+        let country = inputDateLocation.value?[0] ?? ""
+        let city = inputDateLocation.value?[1] ?? ""
+        let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: visitDate)
+        
+        return (dateName, formattedDate, dateStartAt, country, city)
+    }
+    
+    // request 반환
+    private func createPostRequest() -> PostAddScheduleRequest? {
+        guard let validatedData = validateInputData() else { return nil }
+        
+        let postAddScheduleTags = selectedTagData.map { PostAddScheduleTag(tag: $0) }
+        let places = extractPlaces(from: dataSourceOfAddPlaceCollectionView.value)
+        
+        return PostAddScheduleRequest(
+            title: validatedData.title,
+            date: validatedData.date,
+            startAt: validatedData.startAt,
+            tags: postAddScheduleTags,
+            country: validatedData.country,
+            city: validatedData.city,
+            places: places
+        )
+    }
+    
     private func postAddScheduel() {
         self.setLoading(isLoading: true)
         
-        var places: [PostAddSchedulePlace] = []
-        
-        guard let body = dataSourceOfAddPlaceCollectionView.value else {return}
-        for (index, model) in body.enumerated() {
-            // Extract the numeric part from the timeRequire string
-            let timeComponents = model.timeRequire.split(separator: " ")
-            
-            if let timeString = timeComponents.first {
-                if let duration = Float(timeString) {
-                    let place = PostAddSchedulePlace(title: model.placeTitle, duration: duration, sequence: index)
-                    places.append(place)
-                    print("👍👍👍👍 : place added - \(place)")
-                } else {
-                    print("❌❌❌ Step 1: Failed to convert timeString \(timeString) to Float")
-                }
-            } else {
-                print("❌❌❌ Step 2: Failed to extract timeString from \(model.timeRequire)")
-            }
+        // requestData 세팅
+        guard let request = createPostRequest() else {
+            self.setLoading(isLoading: false)
+            return
         }
         
-        guard let dateName = inputDateName.value,
-              let visitDate = inputVisitDate.value,
-              let dateStartAt = inputDateStartAt.value
-        else {return}
-        let country = inputDateLocation.value?[0] ?? ""
-        let city = inputDateLocation.value?[1] ?? ""
-        let postAddScheduleTags = selectedTagData.map { PostAddScheduleTag(tag: $0) }
-        let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: visitDate)
-        
-        NetworkService.shared.addScheduleService.postAddSchedule(course: PostAddScheduleRequest(title: dateName,
-                                                                                                date: formattedDate,
-                                                                                                startAt: dateStartAt,
-                                                                                                tags: postAddScheduleTags,
-                                                                                                country: country,
-                                                                                                city: city,
-                                                                                                places: places)) { result in
+        // api 호출
+        NetworkService.shared.addScheduleService.postAddSchedule(course: request) { result in
             switch result {
             case .success(let response):
                 print("Success: \(response)")
