@@ -101,7 +101,7 @@ final class AddScheduleViewModel: Serviceable {
         inputDateName.bind { [weak self] value in
             guard let self,
                   let value else {return}
-            self.addScheduleAmplitude.dateTitle = !value.isEmpty ? true : false
+            self.addScheduleAmplitude.dateTitle = !value.isEmpty
             self.satisfyDateName(str: value)
         }
         
@@ -340,7 +340,7 @@ extension AddScheduleViewModel {
     /// 데이터 0개면 true 반환
     private func isDataSourceNotEmpty() {
         guard let count = dataSourceOfAddPlaceCollectionView.value?.count else {return}
-        let flag = (count >= 1) ? true : false
+        let flag = (count >= 1)
         outputEditBtnEnableState.value = flag
     }
     
