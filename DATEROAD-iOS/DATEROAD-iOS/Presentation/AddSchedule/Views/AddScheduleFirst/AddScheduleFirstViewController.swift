@@ -352,9 +352,6 @@ extension AddScheduleFirstViewController: UICollectionViewDelegate, UICollection
         cell.tendencyTagButton.tag = indexPath.item
         cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
         
-        print("Setting up cell for tag: \(cell.tendencyTagButton.tag)")
-        print("pastDateTagIndex: \(viewModel.pastDateTagIndex)")
-        
         if viewModel.pastDateTagIndex.contains(cell.tendencyTagButton.tag) {
             cell.tendencyTagButton.isSelected = true
             self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: cell.tendencyTagButton, buttonType: SelectedButton())

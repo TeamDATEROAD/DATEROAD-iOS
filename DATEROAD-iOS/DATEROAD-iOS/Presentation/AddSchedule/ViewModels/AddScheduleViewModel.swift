@@ -28,9 +28,7 @@ final class AddScheduleViewModel: Serviceable {
     //MARK: - AddFirstCourse 사용되는 ViewModel
     
     let tagData = TendencyTag.allCases.map { $0.tag }
-    
     var pastDateTagIndex = [Int]()
-    
     var selectedTagData: [String] = []
     
     // 데이트 이름
@@ -61,7 +59,11 @@ final class AddScheduleViewModel: Serviceable {
     
     var pastDatePlaces = [TimelineModel]()
     
-    var addPlaceCollectionViewDataSource: [AddCoursePlaceModel] = []
+    //장소등록 collectionView 데이터
+    let dataSourceOfAddPlaceCollectionView: ObservablePattern<[AddCoursePlaceModel]> = ObservablePattern([])
+    
+    let inputPrepareBroughtData: ObservablePattern<Bool> = ObservablePattern(false)
+    let outputConfigureBroughtData: ObservablePattern<Bool> = ObservablePattern(false)
     
 //    let datePlace: ObservablePattern<String> = ObservablePattern(nil)
     let inputDatePlace: ObservablePattern<String> = ObservablePattern("")
@@ -75,18 +77,20 @@ final class AddScheduleViewModel: Serviceable {
     let inputCheckEditBtnState: ObservablePattern<Bool> = ObservablePattern(nil)
     let outputEditBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
     
+    let inputValidateAddPlcae: ObservablePattern<Bool> = ObservablePattern(false)
+    let outputSuccessedAddPlcae: ObservablePattern<Bool> = ObservablePattern(false)
     
-    let isValidOfSecondNextBtn: ObservablePattern<Bool> = ObservablePattern(false)
+    let inputValidateRegisterBtn: ObservablePattern<Bool> = ObservablePattern(false)
+    let outputIstValidateRegisterBtn: ObservablePattern<Bool> = ObservablePattern(false)
     
+    let inputPreparePostSchedule: ObservablePattern<Bool> = ObservablePattern(false)
     
-    
-    var isChange: (() -> Void)?
     
     var isEditMode: Bool = false
     
     let onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    let isSuccessPostData: ObservablePattern<Bool> = ObservablePattern(false)
+    let outputIsSuccessPostData: ObservablePattern<Bool> = ObservablePattern(false)
     
     let onLoading: ObservablePattern<Bool> = ObservablePattern(false)
     
@@ -157,6 +161,41 @@ final class AddScheduleViewModel: Serviceable {
             } else {
                 addScheduleAmplitude.dateDetailLocation = false
             }
+        }
+        
+        inputValidateAddPlcae.lazyBind { [weak self] _ in
+            guard let self else {return}
+            let datePlace = outputDatePlace.value ?? ""
+            let timeRequire = outputTimeRequire.value ?? ""
+            tapAddBtn(datePlace: datePlace, timeRequire: timeRequire)
+        }
+        
+        inputValidateRegisterBtn.lazyBind { [weak self] _ in
+            self?.isSourceMoreThanOne()
+        }
+        
+        inputPrepareBroughtData.lazyBind { [weak self] _ in
+            guard let self else {return}
+            switch isBroughtData {
+            case true:
+                for i in pastDatePlaces {
+                    if let doubleValue = Double(String(i.duration)) {
+                        let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
+                        String(Int(doubleValue)) : String(doubleValue)
+                        tapAddBtn(datePlace: i.title, timeRequire: "\(text) 시간")
+                    } else {
+                        tapAddBtn(datePlace: i.title, timeRequire: "\(String(i.duration)) 시간")
+                    }
+                }
+                pastDatePlaces.removeAll()
+                AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewAddBringcourse2)
+            case false:
+                AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewAddSchedule2)
+            }
+        }
+        
+        inputPreparePostSchedule.lazyBind { [weak self] _ in
+            self?.postAddScheduel()
         }
     }
     
@@ -244,7 +283,6 @@ extension AddScheduleViewModel {
     private func satisfyDateName(str: String) {
         let minimumDateNameLength = 5
         outputDateNameVaild.value = str.count >= minimumDateNameLength
-        
     }
     
     private func setVisitDate() {
@@ -253,7 +291,7 @@ extension AddScheduleViewModel {
         outputVisitDateVaild.value = !(formattedDate.isEmpty)
     }
     
-    func setDateStartAt() {
+    private func setDateStartAt() {
         outputDateStartAtVaild.value = !(inputDateStartAt.value?.isEmpty ?? true)
     }
     
@@ -308,7 +346,8 @@ extension AddScheduleViewModel {
     
     /// 데이터 0개면 true 반환
     private func isDataSourceNotEmpty() {
-        let flag = (addPlaceCollectionViewDataSource.count >= 1) ? true : false
+        guard let count = dataSourceOfAddPlaceCollectionView.value?.count else {return}
+        let flag = (count >= 1) ? true : false
         outputEditBtnEnableState.value = flag
     }
     
@@ -317,33 +356,34 @@ extension AddScheduleViewModel {
         && !(outputTimeRequire.value?.isEmpty ?? true)
     }
     
-    func tapAddBtn(datePlace: String, timeRequire: String) {
-        addPlaceCollectionViewDataSource.append(AddCoursePlaceModel(placeTitle: datePlace, timeRequire: timeRequire))
-        
-        //viewmodel 값 초기화
+    private func tapAddBtn(datePlace: String, timeRequire: String) {
+        dataSourceOfAddPlaceCollectionView.value?.append(AddCoursePlaceModel(placeTitle: datePlace, timeRequire: timeRequire))
+    
+        //등록 마쳤으니 각 값들 초기화
         self.outputDatePlace.value = ""
         self.outputTimeRequire.value = ""
         
         self.addScheduleAmplitude.dateDetailLocation = false
         self.addScheduleAmplitude.dateDetailTime = false
-        self.isChange?()
+        
+        outputSuccessedAddPlcae.value = true
     }
     
-    /// dataSource 개수 >= 2 라면 '확인' 버튼 활성화
-    func isSourceMoreThanOne() {
-        let cnt = addPlaceCollectionViewDataSource.count
+    // 등록된 장소 count >= 2 라면 '완료' 버튼 활성화
+    private func isSourceMoreThanOne() {
+        let cnt = dataSourceOfAddPlaceCollectionView.value?.count ?? 0
         self.addScheduleAmplitude.dateCourseNum = cnt
         let flag = (cnt >= 2)
-        print("지금 데이터소스 개수 : \(addPlaceCollectionViewDataSource.count)\nflag: \(flag)")
-        isValidOfSecondNextBtn.value = flag
+        outputIstValidateRegisterBtn.value = flag
     }
     
-    func postAddScheduel() {
+    private func postAddScheduel() {
         self.setLoading(isLoading: true)
         
         var places: [PostAddSchedulePlace] = []
         
-        for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
+        guard let body = dataSourceOfAddPlaceCollectionView.value else {return}
+        for (index, model) in body.enumerated() {
             // Extract the numeric part from the timeRequire string
             let timeComponents = model.timeRequire.split(separator: " ")
             
@@ -359,7 +399,6 @@ extension AddScheduleViewModel {
                 print("❌❌❌ Step 2: Failed to extract timeString from \(model.timeRequire)")
             }
         }
-        print(addPlaceCollectionViewDataSource, "addPlaceCollectionViewDataSource : \(addPlaceCollectionViewDataSource)")
         
         guard let dateName = inputDateName.value,
               let visitDate = inputVisitDate.value,
@@ -381,7 +420,7 @@ extension AddScheduleViewModel {
             case .success(let response):
                 print("Success: \(response)")
                 self.setLoading(isLoading: false)
-                self.isSuccessPostData.value = true
+                self.outputIsSuccessPostData.value = true
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
