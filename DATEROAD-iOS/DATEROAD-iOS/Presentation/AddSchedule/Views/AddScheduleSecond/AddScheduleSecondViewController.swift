@@ -68,7 +68,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
         
         addScheduleSecondView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(4)
-            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
         }
     }
@@ -401,6 +401,17 @@ extension AddScheduleSecondViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDropDelegate Methods
 
 extension AddScheduleSecondViewController: UICollectionViewDropDelegate {
+    
+    //드래그 cell Preview
+    func collectionView(_ collectionView: UICollectionView,
+                        dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters? {
+        print(#function)
+        
+        let parameters = UIDragPreviewParameters()
+        parameters.visiblePath = UIBezierPath(roundedRect: collectionView.cellForItem(at: indexPath)?.bounds ?? .zero,
+                                              cornerRadius: 14) // 원하는 cornerRadius 적용
+        return parameters
+    }
     
     //들고있던 cell을 이동시켜 cell의 index가 바뀌었을 때 동작
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {

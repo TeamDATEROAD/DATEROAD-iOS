@@ -67,9 +67,13 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func setStyle() {
+        self.do {
+            $0.layer.cornerRadius = 14
+            $0.clipsToBounds = true
+        }
+        
         contentView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.layer.cornerRadius = 14
         }
         
         placeTitleLabel.do {
