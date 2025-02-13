@@ -146,7 +146,6 @@ private extension AddScheduleSecondViewController {
             guard let onSuccess else { return }
             if onSuccess {
                 self?.viewModel.inputPreparePostSchedule.value = true
-//                self?.viewModel.postAddScheduel()
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
@@ -175,8 +174,6 @@ private extension AddScheduleSecondViewController {
             self.addScheduleSecondView.inAddScheduleSecondView.finishAddPlace()
             self.viewModel.inputValidateRegisterBtn.value = true
             self.addScheduleSecondView.addPlaceCollectionView.reloadData()
-//            self.viewModel.isSourceMoreThanOne()
-//            self.addScheduleSecondView.addPlaceCollectionView.reloadData()
         }
         
         self.viewModel.outputIstValidateRegisterBtn.bind { [weak self] isValid in
@@ -247,7 +244,6 @@ private extension AddScheduleSecondViewController {
     func didTapNextBtn() {
         addScheduleSecondView.nextBtn.isUserInteractionEnabled = false
         viewModel.inputPreparePostSchedule.value = true
-//        viewModel.postAddScheduel()
     }
     
     /// '소요시간' 관련
@@ -297,7 +293,6 @@ private extension AddScheduleSecondViewController {
         }
     }
     
-    ////얘도 뷰모델로
     /// 장소 리스트 'X' 버튼 관련: list에 있는 장소 삭제
     @objc
     func removeCell(sender: UIButton) {
@@ -307,7 +302,6 @@ private extension AddScheduleSecondViewController {
         viewModel.dataSourceOfAddPlaceCollectionView.value?.remove(at: indexPath.item)
         addScheduleSecondView.addPlaceCollectionView.deleteItems(at: [indexPath])
         viewModel.inputValidateRegisterBtn.value = true
-//        viewModel.isSourceMoreThanOne()
         
         //여기서 datasource가 1개 미만이면
         let dataSourceCnt = viewModel.dataSourceOfAddPlaceCollectionView.value?.count ?? 1

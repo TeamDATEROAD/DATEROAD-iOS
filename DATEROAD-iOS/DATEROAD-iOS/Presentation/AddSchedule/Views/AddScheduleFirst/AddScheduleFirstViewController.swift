@@ -153,8 +153,8 @@ private extension AddScheduleFirstViewController {
             isValidNextBtn()
         }
         
-        viewModel.outputDateStartAtVaild.bind { [weak self] value in
-            guard let self, let value,
+        viewModel.outputDateStartAtVaild.bind { [weak self] _ in
+            guard let self,
                   let data = self.viewModel.inputDateStartAt.value
             else {return}
             self.addScheduleFirstView.inAddScheduleFirstView.updatedateStartTime(text: data)

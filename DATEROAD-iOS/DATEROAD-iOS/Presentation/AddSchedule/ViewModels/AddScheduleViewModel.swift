@@ -65,15 +65,12 @@ final class AddScheduleViewModel: Serviceable {
     let inputPrepareBroughtData: ObservablePattern<Bool> = ObservablePattern(false)
     let outputConfigureBroughtData: ObservablePattern<Bool> = ObservablePattern(false)
     
-//    let datePlace: ObservablePattern<String> = ObservablePattern(nil)
     let inputDatePlace: ObservablePattern<String> = ObservablePattern("")
     let outputDatePlace: ObservablePattern<String> = ObservablePattern("")
     
-//    let timeRequire: ObservablePattern<String> = ObservablePattern(nil)
     let outputTimeRequire: ObservablePattern<String> = ObservablePattern("")
     let inputUpdateTimeRequire: ObservablePattern<String> = ObservablePattern("")
     
-//    let editBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
     let inputCheckEditBtnState: ObservablePattern<Bool> = ObservablePattern(nil)
     let outputEditBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
     
@@ -84,7 +81,6 @@ final class AddScheduleViewModel: Serviceable {
     let outputIstValidateRegisterBtn: ObservablePattern<Bool> = ObservablePattern(false)
     
     let inputPreparePostSchedule: ObservablePattern<Bool> = ObservablePattern(false)
-    
     
     var isEditMode: Bool = false
     
@@ -140,7 +136,8 @@ final class AddScheduleViewModel: Serviceable {
             guard let self, let isBroughtData else {return}
             if isBroughtData {
                 self.fetchPastDate()
-                AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
+                AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse,
+                                                                 properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
             }
         }
         
@@ -330,10 +327,6 @@ extension AddScheduleViewModel {
 //MARK: - viewModel: AddScheduleSecondVC 함수
 
 extension AddScheduleViewModel {
-    
-//    func updatePlaceCollectionView() {
-//        print(addPlaceCollectionViewDataSource)
-//    }
     
     private func updateTimeRequireTextField(text: String) {
         var formattedText = text
