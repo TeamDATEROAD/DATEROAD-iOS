@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AddCoursePlaceModel {
+struct AddCoursePlaceModel: Equatable {
     
     let placeTitle: String
     

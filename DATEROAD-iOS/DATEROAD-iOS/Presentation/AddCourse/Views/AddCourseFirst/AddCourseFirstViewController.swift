@@ -204,7 +204,7 @@ private extension AddCourseFirstViewController {
     }
     
     func setAddTarget() {
-        addCourseFirstView.addFirstView.dateNameTextField.addTarget(self, action: #selector(textFieldDidChanacge(_:)), for: .editingChanged)
+        addCourseFirstView.addFirstView.dateNameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
         addCourseFirstView.addFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
         
@@ -245,7 +245,7 @@ private extension AddCourseFirstViewController {
     }
     
     @objc
-    func textFieldDidChanacge(_ textField: UITextField) {
+    func textFieldDidChange(_ textField: UITextField) {
         guard let text = textField.text else {return}
         viewModel.dateName.value = text
         viewModel.satisfyDateName(str: text)
@@ -298,12 +298,6 @@ private extension AddCourseFirstViewController {
                 self.viewModel.countSelectedTag(isSelected: true, tag: tag)
             }
         }
-    }
-    
-    @objc
-    func broughtTagBtn(_ sender: UIButton) {
-        self.addCourseFirstView.addFirstView.updateTag(button: sender, buttonType: SelectedButton())
-        self.viewModel.isValidTag.value = true
     }
     
     @objc

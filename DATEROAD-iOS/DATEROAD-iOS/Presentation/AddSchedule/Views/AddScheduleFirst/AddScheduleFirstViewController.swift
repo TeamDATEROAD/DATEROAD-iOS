@@ -31,14 +31,11 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
     
     let viewModel: AddScheduleViewModel
     
-    var viewPath: String
-    
     
     // MARK: - Initializer
     
-    init(viewModel: AddScheduleViewModel, viewPath: String) {
+    init(viewModel: AddScheduleViewModel) {
         self.viewModel = viewModel
-        self.viewPath = viewPath
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -60,8 +57,9 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
         setDelegate()
         bindViewModel()
         setupKeyboardDismissRecognizer()
-        pastDateBindViewModel()
-        AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddSchedule, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
+        broughtButtonHandling()
+        
+        AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddSchedule, properties: [StringLiterals.Amplitude.Property.viewPath: viewModel.viewPath])
     }
     
     
@@ -94,13 +92,15 @@ final class AddScheduleFirstViewController: BaseNavBarViewController {
     
 }
 
+
+// MARK: - AddScheduleFirstVC Methods
+
 private extension AddScheduleFirstViewController {
     
     func bindViewModel() {
-        self.viewModel.isSuccessGetData.bind { [weak self] isSuccess in
+        self.viewModel.outputIsBroughtDataConfigured.lazyBind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
-                print("지금 tendencyTagCollectionView reload")
                 self?.addScheduleFirstView.inAddScheduleFirstView.tendencyTagCollectionView.reloadData()
             }
         }
@@ -128,76 +128,50 @@ private extension AddScheduleFirstViewController {
             guard let onLoading, let onFailNetwork = self?.viewModel.onFailNetwork.value else { return }
             // getData 중이거나, 에러 발생 X라면
             if onFailNetwork == false || onLoading == false {
-//                self?.loadingView.isHidden = !onLoading
                 self?.hideLoadingView()
                 self?.addScheduleFirstView.isHidden = onLoading
                 self?.tabBarController?.tabBar.isHidden = onLoading
             }
         }
         
-//        viewModel.ispastDateVaild.bind { [weak self] isValid in
-//            guard let self = self else { return }
-//            self.viewModel.fetchPastDate()
-//            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
-//        }
-        
-        viewModel.isDateNameVaild.bind { date in
-            guard let date else {return}
-            self.addScheduleFirstView.updateDateNameTextField(isPassValid: date)
-            let flag = self.viewModel.isOkSixBtn()
-            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
+        viewModel.outputDateNameVaild.lazyBind { [weak self] value in
+            guard let self, let value else {return}
+            self.addScheduleFirstView.updateDateNameTextField(isPassValid: value)
+            self.addScheduleFirstView.inAddScheduleFirstView.updateDateName(text: viewModel.inputDateName.value ?? "")
+            isValidNextBtn()
         }
         
-        viewModel.isVisitDateVaild.bind { date in
-            guard let date else {return}
-            self.addScheduleFirstView.updateVisitDateTextField(isPassValid: date)
-            let flag = self.viewModel.isOkSixBtn()
-            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
+        viewModel.outputVisitDateVaild.bind { [weak self] value in
+            guard let self, let value,
+                  let data = self.viewModel.inputVisitDate.value
+            else {return}
+            
+            self.addScheduleFirstView.updateVisitDateTextField(isPassValid: value)
+            
+            let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: data)
+            self.addScheduleFirstView.inAddScheduleFirstView.updateVisitDate(text: formattedDate)
+            isValidNextBtn()
         }
         
-        viewModel.isDateStartAtVaild.bind { date in
-            let flag = self.viewModel.isOkSixBtn()
-            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
+        viewModel.outputDateStartAtVaild.bind { [weak self] _ in
+            guard let self,
+                  let data = self.viewModel.inputDateStartAt.value
+            else {return}
+            self.addScheduleFirstView.inAddScheduleFirstView.updatedateStartTime(text: data)
+            isValidNextBtn()
         }
         
-        viewModel.isValidTag.bind { date in
-            let flag = self.viewModel.isOkSixBtn()
-            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
-        }
-        
-        viewModel.isDateLocationVaild.bind { date in
-            let flag = self.viewModel.isOkSixBtn()
-            self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: flag)
-        }
-        
-        viewModel.dateName.bind { date in
-            guard let text = date else {return}
-            self.addScheduleFirstView.inAddScheduleFirstView.updateDateName(text: text)
-            self.viewModel.dateTitle = true
-        }
-        
-        viewModel.visitDate.bind { date in
-            guard let text = date else {return}
-            self.addScheduleFirstView.inAddScheduleFirstView.updateVisitDate(text: text)
-            self.viewModel.dateDate = true
-        }
-        
-        viewModel.dateStartAt.bind { date in
-            guard let text = date else {return}
-            self.addScheduleFirstView.inAddScheduleFirstView.updatedateStartTime(text: text)
-            self.viewModel.dateTime = true
-        }
-        
-        viewModel.tagCount.bind { count in
-            guard let count else {return}
+        viewModel.outputDateTag.bind { [weak self] bool in
+            guard let self else {return}
+            let count = viewModel.selectedTagData.count
             self.addScheduleFirstView.inAddScheduleFirstView.updateTagCount(count: count)
-            self.viewModel.dateTagNum = count
+            isValidNextBtn()
         }
         
-        viewModel.dateLocation.bind { date in
-            guard let date else {return}
-            self.addScheduleFirstView.inAddScheduleFirstView.updateDateLocation(text: date)
-            self.viewModel.dateArea = true
+        viewModel.outputDateLocation.lazyBind { [weak self] city in
+            guard let self, let city else {return}
+            self.addScheduleFirstView.inAddScheduleFirstView.updateDateLocation(text: city)
+            isValidNextBtn()
         }
     }
     
@@ -214,15 +188,15 @@ private extension AddScheduleFirstViewController {
     }
     
     func setAddTarget() {
-        addScheduleFirstView.inAddScheduleFirstView.dateNameTextField.addTarget(self, action: #selector(textFieldDidChanacge(_:)), for: .editingChanged)
+        addScheduleFirstView.inAddScheduleFirstView.dateNameTextField.addTarget(self, action: #selector(dateNameTextFieldDidChange(_:)), for: .editingChanged)
         
         addScheduleFirstView.inAddScheduleFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
         
-        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(visitDate))
+        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(visitDateTapped))
         addScheduleFirstView.inAddScheduleFirstView.visitDateContainer.addGestureRecognizer(tapGesture1)
         addScheduleFirstView.inAddScheduleFirstView.visitDateContainer.isUserInteractionEnabled = true
         
-        let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(dateStartAt))
+        let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(dateStartAtTapped))
         addScheduleFirstView.inAddScheduleFirstView.dateStartAtContainer.addGestureRecognizer(tapGesture2)
         addScheduleFirstView.inAddScheduleFirstView.dateStartAtContainer.isUserInteractionEnabled = true
         
@@ -232,6 +206,11 @@ private extension AddScheduleFirstViewController {
         addScheduleFirstView.inAddScheduleFirstView.datePlaceContainer.isUserInteractionEnabled = true
     }
     
+    func isValidNextBtn() {
+        self.addScheduleFirstView.inAddScheduleFirstView.updateSixCheckButton(isValid: self.viewModel.isEnableNextButton())
+    }
+    
+    /// 우측 상단 '불러오기' 버튼 함수
     @objc
     func didTapNavRightBtn() {
         let vc = NavViewedCourseViewController(viewedCourseViewModel: MyCourseListViewModel())
@@ -239,68 +218,86 @@ private extension AddScheduleFirstViewController {
         self.navigationController?.pushViewController(vc, animated: false)
     }
     
-    @objc
-    func visitDate() {
-        addSheetView.datePickerMode(isDatePicker: true)
-        viewModel.isTimePicker = false
-        alertVC.delegate = self
-        addScheduleFirstView.inAddScheduleFirstView.dateNameTextField.resignFirstResponder()
-        DispatchQueue.main.async {
-            self.alertVC.presentBottomSheet(in: self)
+}
+
+
+//MARK: - AddScheduleFirstViewController: BaseNavBarViewController
+
+extension AddScheduleFirstViewController {
+    
+    // '일정 등록' 중 불러오기 버튼 핸들링
+    func broughtButtonHandling() {
+        switch viewModel.isBroughtData {
+        case true:
+            self.showLoadingView(type: StringLiterals.AddCourseOrSchedule.addScheduleTitle)
+            viewModel.inputIsBroughtData.value = true
+        case false:
+            setRightBtnStyle()
+            setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
         }
     }
     
+    /// BaseNavBarViewController에서 backButtonTapped() 오버라이드
     @objc
-    func dateStartAt() {
-        addSheetView.datePickerMode(isDatePicker: false)
-        viewModel.isTimePicker = true
+    override func backButtonTapped() {
+        viewModel.addScheduleAmplitude.sendAmplitudeEvent(step: 1)
+        super.backButtonTapped()
+    }
+    
+}
+
+
+//MARK: - AddScheduleFirstViewController: '일정등록 뷰1 프로퍼티' 관련 함수
+
+private extension AddScheduleFirstViewController {
+    
+    /// DatePicker 관련
+    func presentDatePicker(mode: DatePickerMode) {
+        addSheetView.datePickerMode(isDatePicker: mode == .date)
         alertVC.delegate = self
         addScheduleFirstView.inAddScheduleFirstView.dateNameTextField.resignFirstResponder()
-        DispatchQueue.main.async {
-            self.alertVC.presentBottomSheet(in: self)
-        }
+        alertVC.presentBottomSheet(in: self)
     }
     
+    /// about 데이트이름
     @objc
-    func textFieldDidChanacge(_ textField: UITextField) {
-        guard let text = textField.text else {return}
-        viewModel.dateName.value = text
-        viewModel.satisfyDateName(str: text)
-        self.viewModel.dateTitle = !text.isEmpty ? true : false
+    func dateNameTextFieldDidChange(_ textField: UITextField) {
+        viewModel.inputDateName.value = textField.text
     }
     
+    /// '방문일자' 관련
+    @objc
+    func visitDateTapped() {
+        presentDatePicker(mode: .date)
+    }
+    
+    /// '데이트 시작 시간' 관련
+    @objc
+    func dateStartAtTapped() {
+        presentDatePicker(mode: .time)
+    }
+    
+    /// dateTag 관련
     @objc
     func didTapTagButton(_ sender: UIButton) {
         guard let tag = TendencyTag(rawValue: sender.tag)?.tag.english else { return }
         let maxTags = 3
         
-        if sender.isSelected {
-            // 이미 선택된 태그를 해제하는 로직
-            sender.isSelected = false
+        if sender.isSelected { //해당 버튼이 이미 눌린 상태라면
+            sender.isSelected.toggle()
             self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: UnselectedButton())
             self.viewModel.countSelectedTag(isSelected: false, tag: tag)
-        } else {
+        } else { //해당 버튼이 안 눌린 상태라면
             // 새로 선택하는 태그가 최대 개수 이내일 때만 처리
             if self.viewModel.selectedTagData.count < maxTags {
-                sender.isSelected = true
+                sender.isSelected.toggle()
                 self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: SelectedButton())
                 self.viewModel.countSelectedTag(isSelected: true, tag: tag)
             }
         }
     }
     
-    @objc
-    func broughtTagBtn(_ sender: UIButton) {
-        self.addScheduleFirstView.inAddScheduleFirstView.updateTag(button: sender, buttonType: SelectedButton())
-        self.viewModel.isValidTag.value = true
-    }
-    
-    @objc
-    func sixCheckBtnTapped() {
-        let secondVC = AddScheduleSecondViewController(viewModel: self.viewModel)
-        navigationController?.pushViewController(secondVC, animated: false)
-    }
-    
+    /// datePlace 관련
     @objc
     func datePlaceContainerTapped() {
         locationFilterVC.isAddType = true
@@ -310,26 +307,11 @@ private extension AddScheduleFirstViewController {
         }
     }
     
-}
-
-extension AddScheduleFirstViewController {
-    
-    func pastDateBindViewModel() {
-        if !viewModel.isBroughtData {
-            setRightBtnStyle()
-            setRightButtonAction(target: self, action: #selector(didTapNavRightBtn))
-        } else {
-            self.showLoadingView(type: StringLiterals.AddCourseOrSchedule.addScheduleTitle)
-            self.viewModel.fetchPastDate()
-            AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse, properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
-        }
-    }
-    
-    /// BaseNavBarViewController에서 backButtonTapped() 오버라이드
+    /// 일정등록 뷰1 '다음' 버튼 관련
     @objc
-    override func backButtonTapped() {
-        viewModel.schedule1BackAmplitude()
-        super.backButtonTapped()
+    func sixCheckBtnTapped() {
+        let secondVC = AddScheduleSecondViewController(viewModel: self.viewModel)
+        navigationController?.pushViewController(secondVC, animated: false)
     }
     
 }
@@ -355,11 +337,10 @@ extension AddScheduleFirstViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
-extension AddScheduleFirstViewController: UICollectionViewDelegate {
-    
-}
 
-extension AddScheduleFirstViewController: UICollectionViewDataSource {
+//MARK: - Tag CollectionView 세팅
+
+extension AddScheduleFirstViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.tagData.count
@@ -370,9 +351,6 @@ extension AddScheduleFirstViewController: UICollectionViewDataSource {
         cell.updateButtonTitle(tag: self.viewModel.tagData[indexPath.item])
         cell.tendencyTagButton.tag = indexPath.item
         cell.tendencyTagButton.addTarget(self, action: #selector(didTapTagButton(_:)), for: .touchUpInside)
-        
-        print("Setting up cell for tag: \(cell.tendencyTagButton.tag)")
-        print("pastDateTagIndex: \(viewModel.pastDateTagIndex)")
         
         if viewModel.pastDateTagIndex.contains(cell.tendencyTagButton.tag) {
             cell.tendencyTagButton.isSelected = true
@@ -407,19 +385,23 @@ extension AddScheduleFirstViewController: UITextFieldDelegate {
 extension AddScheduleFirstViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
+        let selectedDate = addSheetView.datePicker.date
         alertVC.dismissBottomSheet()
-        updateTextField()
+        
+        if addSheetView.datePicker.datePickerMode == .date {
+            updateTextField(selectedValue: selectedDate, mode: .date)
+        } else {
+            updateTextField(selectedValue: selectedDate, mode: .time)
+        }
     }
     
-    func updateTextField() {
-        let isTimePickerFlag = viewModel.isTimePicker ?? false
-        
-        if !isTimePickerFlag {
-            let selectedDate = addSheetView.datePicker.date
-            viewModel.isFutureDate(date: selectedDate, dateType: "date")
-        } else {
-            let formattedDate = addSheetView.datePicker.date
-            viewModel.isFutureDate(date: formattedDate, dateType: "time")
+    //'방문일자', '시작시간' 업데이트 함수
+    func updateTextField(selectedValue: Date, mode: DatePickerMode) {
+        switch mode {
+        case .date:
+            viewModel.inputVisitDate.value = selectedValue
+        case .time:
+            viewModel.inputDataStartAtTransForm.value = selectedValue
         }
     }
     
@@ -434,10 +416,10 @@ extension AddScheduleFirstViewController: LocationFilterDelegate {
     func didSelectCity(_ country: LocationModel.Country, _ city: LocationModel.City) {
         print("selected country : \(country.rawValue)")
         print("Selected city: \(city.rawValue)")
-        viewModel.dateLocation.value = city.rawValue
-        viewModel.satisfyDateLocation(str: city.rawValue)
-        viewModel.country = country.rawValue
-        viewModel.city = city.rawValue
+        var arr = Array(repeating: "", count: 2)
+        arr[0] = country.rawValue
+        arr[1] = city.rawValue
+        viewModel.inputDateLocation.value = arr
     }
     
 }

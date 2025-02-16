@@ -51,19 +51,20 @@ final class AddScheduleSecondView: BaseView {
     
     override func setLayout() {
         inAddScheduleSecondView.snp.makeConstraints {
-            $0.top.horizontalEdges.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(153)
         }
         
         editButton.snp.makeConstraints {
             $0.top.equalTo(inAddScheduleSecondView.separatorLine.snp.bottom).offset(10)
-            $0.trailing.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(16)
             $0.width.equalTo(59)
             $0.height.equalTo(30)
         }
         
         guideLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().inset(16)
             $0.centerY.equalTo(editButton)
         }
         
@@ -75,7 +76,7 @@ final class AddScheduleSecondView: BaseView {
         
         nextBtn.snp.makeConstraints {
             $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(6)
-            $0.horizontalEdges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(54)
         }
     }

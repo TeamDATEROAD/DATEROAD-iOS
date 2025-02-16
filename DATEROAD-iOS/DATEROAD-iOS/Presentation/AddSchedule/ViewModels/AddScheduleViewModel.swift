@@ -5,90 +5,88 @@
 //  Created by 박신영 on 7/18/24.
 //
 
-import UIKit
+import Foundation
 
 final class AddScheduleViewModel: Serviceable {
     
-    var isBroughtData = false
+    let viewPath: String
+    
+    var isBroughtData: Bool
     
     var viewedDateCourseByMeData: CourseDetailViewModel?
     
-    let ispastDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+    // MARK: - Initializer
     
-    let isSuccessGetData: ObservablePattern<Bool> = ObservablePattern(false)
-    
-    var pastDatePlaces = [TimelineModel]()
-    
-    var selectedTagData: [String] = []
-    
-    var pastDateTagIndex = [Int]()
+    init(viewPath: String, isBroughtData: Bool) {
+        self.viewPath = viewPath
+        self.isBroughtData = isBroughtData
+        
+        bindViewModel()
+    }
     
     
     //MARK: - AddFirstCourse 사용되는 ViewModel
     
-    // 데이트 이름 유효성 판별 (true는 통과)
-    let dateName: ObservablePattern<String> = ObservablePattern(nil)
+    let tagData = TendencyTag.allCases.map { $0.tag }
+    var pastDateTagIndex = [Int]()
+    var selectedTagData: [String] = []
     
-    let isDateNameVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+    // 데이트 이름
+    let inputDateName: ObservablePattern<String> = ObservablePattern(nil)
+    let outputDateNameVaild: ObservablePattern<Bool> = ObservablePattern(false)    
     
-    private let minimumDateNameLength = 5
+    // 데이트 방문일자
+    let inputVisitDate: ObservablePattern<Date> = ObservablePattern(nil)
+    let outputVisitDateVaild: ObservablePattern<Bool> = ObservablePattern(false)
     
-    // 방문 일자 유효성 판별 (true는 통과)
-    let visitDate: ObservablePattern<String> = ObservablePattern(nil)
+    // 데이트 시작시간
+    let inputDataStartAtTransForm: ObservablePattern<Date> = ObservablePattern(nil)
+    let inputDateStartAt: ObservablePattern<String> = ObservablePattern(nil)
+    let outputDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    let isVisitDateVaild: ObservablePattern<Bool> = ObservablePattern(nil)
+    // 데이트 태그
+    let outputDateTag: ObservablePattern<Bool> = ObservablePattern(false)
     
-    // 데이트 시작시간 유효성 판별 (self.count > 0 인지)
-    let dateStartAt: ObservablePattern<String> = ObservablePattern(nil)
+    // 데이트 로케이션
+    let inputDateLocation: ObservablePattern<[String]> = ObservablePattern(Array(repeating: "", count: 2))
+    let outputDateLocation: ObservablePattern<String> = ObservablePattern("")
     
-    let isDateStartAtVaild: ObservablePattern<Bool> = ObservablePattern(nil)
-    
-    // 코스 등록 태그 생성
-    var tagData: [ProfileTagModel] = []
-    
-    // 선택된 태그
-    let isOverCount: ObservablePattern<Bool> = ObservablePattern(false)
-    
-    let isValidTag: ObservablePattern<Bool> = ObservablePattern(nil)
-    
-    let tagCount: ObservablePattern<Int> = ObservablePattern(0)
-    
-    private let minTagCnt = 1
-    
-    private let maxTagCnt = 3
-    
-    // 코스 지역 유효성 판별
-    let dateLocation: ObservablePattern<String> = ObservablePattern(nil)
-    
-    let isDateLocationVaild: ObservablePattern<Bool> = ObservablePattern(nil)
-    
-    // 기타
-    var isTimePicker: Bool?
-    
-    var country = ""
-    
-    var city = ""
+    let inputIsBroughtData: ObservablePattern<Bool> = ObservablePattern(false)
+    let outputIsBroughtDataConfigured: ObservablePattern<Bool> = ObservablePattern(false)
     
     
     //MARK: - AddSecondView 전용 Viewmodel 변수
     
-    var addPlaceCollectionViewDataSource: [AddCoursePlaceModel] = []
+    var pastDatePlaces = [TimelineModel]()
     
-    let datePlace: ObservablePattern<String> = ObservablePattern(nil)
+    //장소등록 collectionView 데이터
+    let dataSourceOfAddPlaceCollectionView: ObservablePattern<[AddCoursePlaceModel]> = ObservablePattern([])
     
-    let timeRequire: ObservablePattern<String> = ObservablePattern(nil)
+    let inputPrepareBroughtData: ObservablePattern<Bool> = ObservablePattern(false)
+    let outputConfigureBroughtData: ObservablePattern<Bool> = ObservablePattern(false)
     
-    let isValidOfSecondNextBtn: ObservablePattern<Bool> = ObservablePattern(false)
+    let inputDatePlace: ObservablePattern<String> = ObservablePattern("")
+    let outputDatePlace: ObservablePattern<String> = ObservablePattern("")
     
-    let editBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
+    let outputTimeRequire: ObservablePattern<String> = ObservablePattern("")
+    let inputUpdateTimeRequire: ObservablePattern<String> = ObservablePattern("")
     
-    var isChange: (() -> Void)?
+    let inputCheckEditBtnState: ObservablePattern<Bool> = ObservablePattern(nil)
+    let outputEditBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    let inputValidateAddPlcae: ObservablePattern<Bool> = ObservablePattern(false)
+    let outputSuccessedAddPlcae: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    let inputValidateRegisterBtn: ObservablePattern<Bool> = ObservablePattern(false)
+    let outputIstValidateRegisterBtn: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    let inputPreparePostSchedule: ObservablePattern<Bool> = ObservablePattern(false)
     
     var isEditMode: Bool = false
     
     let onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    let isSuccessPostData: ObservablePattern<Bool> = ObservablePattern(false)
+    let outputIsSuccessPostData: ObservablePattern<Bool> = ObservablePattern(false)
     
     let onLoading: ObservablePattern<Bool> = ObservablePattern(false)
     
@@ -97,102 +95,147 @@ final class AddScheduleViewModel: Serviceable {
     
     //MARK: - AddSchedule Amplitude 관련 변수
     
-    var dateTitle: Bool = false
+    var addScheduleAmplitude = AddScheduleAmplitudeState()
     
-    var dateDate: Bool = false
+    private func bindViewModel() {
+        inputDateName.bind { [weak self] value in
+            guard let self,
+                  let value else {return}
+            self.addScheduleAmplitude.dateTitle = !value.isEmpty
+            self.satisfyDateName(str: value)
+        }
+        
+        inputVisitDate.bind { [weak self] _ in
+            guard let self else {return}
+            self.addScheduleAmplitude.dateDate = true
+            self.setVisitDate()
+        }
+        
+        inputDataStartAtTransForm.lazyBind { [weak self] selectedDate in
+            guard let self,
+                  let selectedDate else {return}
+            var formattedTime = DateFormatterManager.shared.timeFormatter.string(from: selectedDate)
+            formattedTime = formattedTime
+                .replacingOccurrences(of: "오전", with: "AM")
+                .replacingOccurrences(of: "오후", with: "PM")
+            self.inputDateStartAt.value = formattedTime
+        }
+        
+        inputDateStartAt.bind { [weak self] _ in
+            guard let self else {return}
+            self.addScheduleAmplitude.dateTime = true
+            self.setDateStartAt()
+        }
+        
+        inputDateLocation.lazyBind { [weak self] locationArr in
+            guard let self, let locationArr else {return}
+            isDateLocationValid(LocationArr: locationArr)
+        }
+        
+        inputIsBroughtData.lazyBind { [weak self] isBroughtData in
+            guard let self, let isBroughtData else {return}
+            if isBroughtData {
+                self.fetchPastDate()
+                AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.viewAddBringcourse,
+                                                                 properties: [StringLiterals.Amplitude.Property.viewPath: viewPath])
+            }
+        }
+        
+        inputUpdateTimeRequire.lazyBind { [weak self] value in
+            guard let value else {return}
+            self?.updateTimeRequireTextField(text: value)
+        }
+        
+        inputCheckEditBtnState.lazyBind { [weak self] isCheck in
+            self?.isDataSourceNotEmpty()
+        }
+        
+        inputDatePlace.lazyBind { [weak self] text in
+            guard let self, let text else {return}
+            if !text.isEmpty {
+                addScheduleAmplitude.dateDetailLocation = true
+                outputDatePlace.value = text
+            } else {
+                addScheduleAmplitude.dateDetailLocation = false
+            }
+        }
+        
+        inputValidateAddPlcae.lazyBind { [weak self] _ in
+            guard let self else {return}
+            let datePlace = outputDatePlace.value ?? ""
+            let timeRequire = outputTimeRequire.value ?? ""
+            tapAddBtn(datePlace: datePlace, timeRequire: timeRequire)
+        }
+        
+        inputValidateRegisterBtn.lazyBind { [weak self] _ in
+            self?.isSourceMoreThanOne()
+        }
+        
+        inputPrepareBroughtData.lazyBind { [weak self] _ in
+            guard let self else {return}
+            switch isBroughtData {
+            case true:
+                for i in pastDatePlaces {
+                    if let doubleValue = Double(String(i.duration)) {
+                        let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
+                        String(Int(doubleValue)) : String(doubleValue)
+                        tapAddBtn(datePlace: i.title, timeRequire: "\(text) 시간")
+                    } else {
+                        tapAddBtn(datePlace: i.title, timeRequire: "\(String(i.duration)) 시간")
+                    }
+                }
+                pastDatePlaces.removeAll()
+                AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewAddBringcourse2)
+            case false:
+                AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewAddSchedule2)
+            }
+        }
+        
+        inputPreparePostSchedule.lazyBind { [weak self] _ in
+            self?.postAddScheduel()
+        }
+    }
     
-    var dateTime: Bool = false
-    
-    var dateTagNum: Int = 0
-    
-    var dateArea: Bool = false
-    
-    var dateDetailLocation: Bool = false
-    
-    var dateDetailTime: Bool = false
-    
-    var dateCourseNum: Int = 0
-    
-    
-    // MARK: - Initializer
-    
-    init() {
-        initAmplitudeVar()
-        fetchTagData()
+    // 로딩뷰 세팅 함수
+    private func setLoading(isLoading: Bool) {
+        self.onLoading.value = isLoading
     }
     
 }
 
+
+//MARK: - AddScheduleViewModel: PastDateSetting
+
 extension AddScheduleViewModel {
     
-    func initAmplitudeVar() {
-        dateTitle = false
-        dateDate = false
-        dateTime = false
-        dateTagNum = 0
-        dateArea = false
-        dateDetailLocation = false
-        dateDetailTime = false
-        dateCourseNum = 0
-    }
-    
-    func resetAddFirstScheduleAmplitude() {
-        dateTitle = false
-        dateDate = false
-        dateTime = false
-        dateTagNum = 0
-        dateArea = false
-    }
-    
-    func schedule1BackAmplitude() {
-        AmplitudeManager.shared.trackEventWithProperties(
-            StringLiterals.Amplitude.EventName.clickSchedule1Back,
-            properties: [
-                StringLiterals.Amplitude.Property.dateTitle: self.dateTitle,
-                StringLiterals.Amplitude.Property.dateDate: self.dateDate,
-                StringLiterals.Amplitude.Property.dateTime: self.dateTime,
-                StringLiterals.Amplitude.Property.dateTagNum: self.dateTagNum,
-                StringLiterals.Amplitude.Property.dateArea: self.dateArea
-            ]
-        )
-        self.resetAddFirstScheduleAmplitude()
-    }
-    
-    func schedule2BackAmplitude() {
-        AmplitudeManager.shared.trackEventWithProperties(
-            StringLiterals.Amplitude.EventName.clickSchedule2Back,
-            properties: [
-                StringLiterals.Amplitude.Property.dateDetailLocation: self.dateDetailLocation,
-                StringLiterals.Amplitude.Property.dateDetailTime: self.dateDetailTime,
-                StringLiterals.Amplitude.Property.dateCourseNum: self.dateCourseNum
-            ]
-        )
-    }
-    
-    func getTagIndices(from tags: [String]) -> [Int] {
-        return tags.compactMap { tag in
-            TendencyTag.allCases.firstIndex { $0.tag.english == tag }
+    func isDateLocationValid(LocationArr: [String]) {
+        if !LocationArr.contains("") && LocationArr.count == 2 {
+            addScheduleAmplitude.dateArea = true
+            outputDateLocation.value = LocationArr[1]
         }
     }
     
+    // 일정등록(불러오기) 시 데이터 세팅 함수
     func fetchPastDate() {
+        //isSuccessGetData가 true인 시점에 불러와야 data안의 값들이 공란이 아님.
+        //추후 리펙
         viewedDateCourseByMeData?.isSuccessGetData.bind { [weak self] isSuccess in
             guard let self = self else { return }
             if isSuccess == true {
                 self.setLoading(isLoading: true)
                 if let data = self.viewedDateCourseByMeData {
-                    dateName.value = data.titleHeaderData.value?.title
-                    dateLocation.value = data.titleHeaderData.value?.city
-                    dateStartAt.value = data.startAt
+                    inputDateName.value = data.titleHeaderData.value?.title
+                    inputDateStartAt.value = data.startAt
+                    outputDateLocation.value = data.titleHeaderData.value?.city
                     
                     //동네.KOR 불러와서 지역, 동네 ENG 버전 알아내는 미친 로직
                     let cityName = data.titleHeaderData.value?.city ?? ""
                     if let result = LocationMapper.getCountryAndCity(from: cityName) {
                         let country = result.country.rawValue
                         let city = result.city.rawValue
-                        self.city = city
-                        self.country = country
-                        self.isDateLocationVaild.value = true
+                        self.inputDateLocation.value?[0] = country
+                        self.inputDateLocation.value?[1] = city
+                        self.outputDateLocation.value = city
                     }
                     
                     //태그 추적해서 미리 셀렉 및 개수 표시 해버리는 진짜 미쳐버린 로직
@@ -202,12 +245,11 @@ extension AddScheduleViewModel {
                     pastDateTagIndex.sort()
                     
                     print("pastDateTagIndex values: \(pastDateTagIndex)")
+                    outputDateTag.value = true
+                    addScheduleAmplitude.dateTagNum = selectedTagData.count
                     
-                    checkTagCount(min: minTagCnt, max: maxTagCnt)
-                    
-                    isDateNameVaild.value = true
-                    isDateStartAtVaild.value = true
-                    isDateLocationVaild.value = true
+                    outputDateNameVaild.value = true
+                    outputDateStartAtVaild.value = true
                     
                     ///코스 등록 2 AddPlaceCollectionView 구성
                     if let result = data.timelineData.value {
@@ -215,36 +257,39 @@ extension AddScheduleViewModel {
                     }
                     
                     self.setLoading(isLoading: false)
-                    isSuccessGetData.value = true
+                    outputIsBroughtDataConfigured.value = true
                 }
             }
         }
     }
     
-    
-    //MARK: - AddSchedule First 함수
-    
-    func satisfyDateName(str: String) {
-        isDateNameVaild.value = str.count >= minimumDateNameLength
-    }
-    
-    func isFutureDate(date: Date, dateType: String) {
-        if dateType == "date" {
-            let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: date)
-            visitDate.value = formattedDate
-            self.isVisitDateVaild.value = true
-        } else {
-            var formattedDate = DateFormatterManager.shared.timeFormatter.string(from: date)
-            formattedDate = formattedDate
-                .replacingOccurrences(of: "오전", with: "AM")
-                .replacingOccurrences(of: "오후", with: "PM")
-            dateStartAt.value = formattedDate
-            self.isDateStartAtVaild.value = !(dateStartAt.value?.isEmpty ?? true)
+    //불러온 데이터에 선택된 tag index 값 넣어주는 함수
+    func getTagIndices(from tags: [String]) -> [Int] {
+        return tags.compactMap { tag in
+            TendencyTag.allCases.firstIndex { $0.tag.english == tag }
         }
     }
     
-    func fetchTagData() {
-        tagData = TendencyTag.allCases.map { $0.tag }
+}
+
+
+//MARK: - viewModel: AddScheduleFirstVC 함수
+
+extension AddScheduleViewModel {
+    
+    private func satisfyDateName(str: String) {
+        let minimumDateNameLength = 5
+        outputDateNameVaild.value = str.count >= minimumDateNameLength
+    }
+    
+    private func setVisitDate() {
+        guard let date = inputVisitDate.value else {return}
+        let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: date)
+        outputVisitDateVaild.value = !(formattedDate.isEmpty)
+    }
+    
+    private func setDateStartAt() {
+        outputDateStartAtVaild.value = !(inputDateStartAt.value?.isEmpty ?? true)
     }
     
     func countSelectedTag(isSelected: Bool, tag: String) {
@@ -257,152 +302,216 @@ extension AddScheduleViewModel {
                 selectedTagData.remove(at: index)
             }
         }
-        checkTagCount(min: minTagCnt, max: maxTagCnt)
+        print("selectedTagData: \(selectedTagData.count)")
+        outputDateTag.value = true
+        addScheduleAmplitude.dateTagNum = selectedTagData.count
     }
     
-    func checkTagCount(min: Int, max: Int) {
-        let count = selectedTagData.count
-        self.tagCount.value = count
-        
-        if count >= min && count <= max {
-            self.isValidTag.value = true
-            self.isOverCount.value = false
-        } else {
-            self.isValidTag.value = false
-            if count > max {
-                self.isOverCount.value = true
-            }
+    func isEnableNextButton() -> Bool {
+        guard let dateNameVaild = outputDateNameVaild.value,
+              let isValidTag = outputDateTag.value,
+              let visitDateVaild = outputVisitDateVaild.value,
+              let dateStartAtVaild = outputDateStartAtVaild.value
+        else {
+            print("isOkSixBtn guard let Error")
+            return false
         }
-        print(count)
-    }
-    
-    func satisfyDateLocation(str: String) {
-        let flag = !str.isEmpty
-        isDateLocationVaild.value = flag
-    }
-    
-    func isOkSixBtn() -> Bool {
-        let isDateNameVaild = isDateNameVaild.value ?? false
-        let isValidTag = isValidTag.value ?? false
-        let isVisitDateVaild = isVisitDateVaild.value ?? false
-        let isDateStartAtVaild = isDateStartAtVaild.value ?? false
-        let isDateLocationVaild = isDateLocationVaild.value ?? false
+        let isDateLocationVaild = outputDateLocation.value != ""
         
-        for i in [isDateNameVaild, isValidTag, isVisitDateVaild, isDateLocationVaild, isDateStartAtVaild] {
-            if i == false {
-                print("\(i) == false")
-                return false
-            }
-        }
-        return true
+        return [dateNameVaild, isValidTag, visitDateVaild, isDateLocationVaild, dateStartAtVaild].allSatisfy { $0 }
     }
     
+}
+
+
+//MARK: - viewModel: AddScheduleSecondVC 함수
+
+extension AddScheduleViewModel {
     
-    //MARK: - AddSecondView 전용 func
-    
-    func updatePlaceCollectionView() {
-        print(addPlaceCollectionViewDataSource)
-    }
-    
-    func updateTimeRequireTextField(text: String) {
+    private func updateTimeRequireTextField(text: String) {
         var formattedText = text
         if let doubleValue = Double(text) {
             formattedText = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(doubleValue)) : String(doubleValue)
         }
-        timeRequire.value = "\(formattedText) 시간"
-    }
-    
-    func isAbleAddBtn() -> Bool {
-        return !(datePlace.value?.isEmpty ?? true)
-        && !(timeRequire.value?.isEmpty ?? true)
-    }
-    
-    func tapAddBtn(datePlace: String, timeRequire: String) {
-        addPlaceCollectionViewDataSource.append(AddCoursePlaceModel(placeTitle: datePlace, timeRequire: timeRequire))
-        
-        //viewmodel 값 초기화
-        self.datePlace.value = ""
-        self.timeRequire.value = ""
-        
-        self.dateDetailLocation = false
-        self.dateDetailTime = false
-        self.isChange?()
-    }
-    
-    /// dataSource 개수 >= 2 라면 (다음 2/3) 버튼 활성화
-    func isSourceMoreThanOne() {
-        let cnt = addPlaceCollectionViewDataSource.count
-        self.dateCourseNum = cnt
-        let flag = (cnt >= 2)
-        print("지금 데이터소스 개수 : \(addPlaceCollectionViewDataSource.count)\nflag: \(flag)")
-        isValidOfSecondNextBtn.value = flag
+        addScheduleAmplitude.dateDetailTime = true
+        outputTimeRequire.value = "\(formattedText) 시간"
     }
     
     /// 데이터 0개면 true 반환
-    func isDataSourceNotEmpty() {
-        let flag = (addPlaceCollectionViewDataSource.count >= 1) ? true : false
-        editBtnEnableState.value = flag
+    private func isDataSourceNotEmpty() {
+        guard let count = dataSourceOfAddPlaceCollectionView.value?.count else {return}
+        let flag = (count >= 1)
+        outputEditBtnEnableState.value = flag
     }
     
-    /// 로딩뷰 세팅 함수
-    func setLoading(isLoading: Bool) {
-        self.onLoading.value = isLoading
+    func isAbleAddBtn() -> Bool {
+        return !(outputDatePlace.value?.isEmpty ?? true)
+        && !(outputTimeRequire.value?.isEmpty ?? true)
     }
     
-    func postAddScheduel() {
-        self.setLoading(isLoading: true)
+    private func tapAddBtn(datePlace: String, timeRequire: String) {
+        dataSourceOfAddPlaceCollectionView.value?.append(AddCoursePlaceModel(placeTitle: datePlace, timeRequire: timeRequire))
+    
+        //등록 마쳤으니 각 값들 초기화
+        self.outputDatePlace.value = ""
+        self.outputTimeRequire.value = ""
         
+        self.addScheduleAmplitude.dateDetailLocation = false
+        self.addScheduleAmplitude.dateDetailTime = false
+        
+        outputSuccessedAddPlcae.value = true
+    }
+    
+    // 등록된 장소 count >= 2 라면 '완료' 버튼 활성화
+    private func isSourceMoreThanOne() {
+        let cnt = dataSourceOfAddPlaceCollectionView.value?.count ?? 0
+        self.addScheduleAmplitude.dateCourseNum = cnt
+        let flag = (cnt >= 2)
+        outputIstValidateRegisterBtn.value = flag
+    }
+    
+    // 장소 추출
+    private func extractPlaces(from models: [AddCoursePlaceModel]?) -> [PostAddSchedulePlace] {
+        guard let models else { return [] }
         var places: [PostAddSchedulePlace] = []
         
-        for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
-            // Extract the numeric part from the timeRequire string
-            let timeComponents = model.timeRequire.split(separator: " ")
-            
-            if let timeString = timeComponents.first {
-                if let duration = Float(timeString) {
-                    let place = PostAddSchedulePlace(title: model.placeTitle, duration: duration, sequence: index)
-                    places.append(place)
-                    print("👍👍👍👍 : place added - \(place)")
-                } else {
-                    print("❌❌❌ Step 1: Failed to convert timeString \(timeString) to Float")
-                }
+        for (index, model) in models.enumerated() {
+            if let duration = extractDuration(from: model.timeRequire) {
+                let place = PostAddSchedulePlace(title: model.placeTitle, duration: duration, sequence: index)
+                places.append(place)
+                print("👍 place added: \(place)")
             } else {
-                print("❌❌❌ Step 2: Failed to extract timeString from \(model.timeRequire)")
+                print("❌ Failed timeRequire: \(model.timeRequire)")
             }
         }
-        print(addPlaceCollectionViewDataSource, "addPlaceCollectionViewDataSource : \(addPlaceCollectionViewDataSource)")
-        print(places, "places : \(places)")
+        return places
+    }
+    
+    // 소요시간 추출
+    private func extractDuration(from timeRequire: String) -> Float? {
+        let timeComponents = timeRequire.split(separator: " ")
+        guard let timeString = timeComponents.first else { return nil }
+        return Float(timeString)
+    }
+    
+    // 기타 값 추출
+    private func validateInputData() -> (title: String, date: String, startAt: String, country: String, city: String)? {
+        guard let dateName = inputDateName.value,
+              let visitDate = inputVisitDate.value,
+              let dateStartAt = inputDateStartAt.value else {
+            return nil
+        }
+        let country = inputDateLocation.value?[0] ?? ""
+        let city = inputDateLocation.value?[1] ?? ""
+        let formattedDate = DateFormatterManager.shared.dateFormatter.string(from: visitDate)
         
-        guard let dateName = dateName.value,
-              let visitDate = visitDate.value,
-              let dateStartAt = dateStartAt.value
-        else {return}
-        let country = country
-        let city = city
+        return (dateName, formattedDate, dateStartAt, country, city)
+    }
+    
+    // request 반환
+    private func createPostRequest() -> PostAddScheduleRequest? {
+        guard let validatedData = validateInputData() else { return nil }
+        
         let postAddScheduleTags = selectedTagData.map { PostAddScheduleTag(tag: $0) }
+        let places = extractPlaces(from: dataSourceOfAddPlaceCollectionView.value)
         
-        NetworkService.shared.addScheduleService.postAddSchedule(course: PostAddScheduleRequest(title: dateName,
-                                                                                                date: visitDate,
-                                                                                                startAt: dateStartAt,
-                                                                                                tags: postAddScheduleTags,
-                                                                                                country: country,
-                                                                                                city: city,
-                                                                                                places: places)) { result in
+        return PostAddScheduleRequest(
+            title: validatedData.title,
+            date: validatedData.date,
+            startAt: validatedData.startAt,
+            tags: postAddScheduleTags,
+            country: validatedData.country,
+            city: validatedData.city,
+            places: places
+        )
+    }
+    
+    private func postAddScheduel() {
+        self.setLoading(isLoading: true)
+        
+        // requestData 세팅
+        guard let request = createPostRequest() else {
+            self.setLoading(isLoading: false)
+            return
+        }
+        
+        // api 호출
+        NetworkService.shared.addScheduleService.postAddSchedule(course: request) { result in
             switch result {
-                case .success(let response):
-                    print("Success: \(response)")
-                    self.setLoading(isLoading: false)
-                    self.isSuccessPostData.value = true
-                case .reIssueJWT:
-                    self.patchReissue { isSuccess in
-                        self.onReissueSuccess.value = isSuccess
-                    }
-                default:
-                    self.onFailNetwork.value = true
-                    print("Failed to another reason")
-                    return
+            case .success(let response):
+                print("Success: \(response)")
+                self.setLoading(isLoading: false)
+                self.outputIsSuccessPostData.value = true
+            case .reIssueJWT:
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
                 }
+            default:
+                self.onFailNetwork.value = true
+                print("Failed to another reason")
+                return
             }
+        }
+    }
+    
+}
+
+
+//MARK: - AddScheduleAmplitudeState
+
+struct AddScheduleAmplitudeState {
+    
+    // addSchedule 관련 amplitude 변수들
+    var dateTitle: Bool = false
+    var dateDate: Bool = false
+    var dateTime: Bool = false
+    var dateTagNum: Int = 0
+    var dateArea: Bool = false
+    var dateDetailLocation: Bool = false
+    var dateDetailTime: Bool = false
+    var dateCourseNum: Int = 0
+    
+    func sendAmplitudeEvent(step: Int) {
+        guard let eventName = makeEventName(step: step) else {
+            print("Invalid EventName in sendAmplitudeEvent")
+            return
+        }
+        let properties = makeProperties(step: step)
+        AmplitudeManager.shared.trackEventWithProperties(eventName, properties: properties)
+    }
+    
+    func makeEventName(step: Int) -> String? {
+        switch step {
+        case 1:
+            return StringLiterals.Amplitude.EventName.clickSchedule1Back
+        case 2:
+            return StringLiterals.Amplitude.EventName.clickSchedule2Back
+        default:
+            print("makeEventName Error")
+            return nil
+        }
+    }
+    
+    func makeProperties(step: Int) -> [String: Any] {
+        switch step {
+        case 1:
+            return [
+                StringLiterals.Amplitude.Property.dateTitle: self.dateTitle,
+                StringLiterals.Amplitude.Property.dateDate: self.dateDate,
+                StringLiterals.Amplitude.Property.dateTime: self.dateTime,
+                StringLiterals.Amplitude.Property.dateTagNum: self.dateTagNum,
+                StringLiterals.Amplitude.Property.dateArea: self.dateArea
+            ]
+        case 2:
+            return [
+                StringLiterals.Amplitude.Property.dateDetailLocation: dateDetailLocation,
+                StringLiterals.Amplitude.Property.dateDetailTime: dateDetailTime,
+                StringLiterals.Amplitude.Property.dateCourseNum: dateCourseNum
+            ]
+        default:
+            print("makeProperties Error")
+            return [:]
+        }
     }
     
 }

@@ -50,7 +50,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
         setDelegate()
         registerCell()
         bindViewModel()
-        pastDateBindViewModel()
+        broughtDataHandling()
         setupKeyboardDismissRecognizer()
     }
     
@@ -68,7 +68,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
         
         addScheduleSecondView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(4)
-            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
         }
     }
@@ -85,7 +85,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
 }
 
 
-// MARK: - ViewController Methods
+// MARK: - AddScheduleSecondVC Methods
 
 private extension AddScheduleSecondViewController {
     
@@ -106,26 +106,8 @@ private extension AddScheduleSecondViewController {
         }
     }
     
-    func pastDateBindViewModel() {
-        if viewModel.isBroughtData  {
-            for i in viewModel.pastDatePlaces {
-                if let doubleValue = Double(String(i.duration)) {
-                    let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
-                    String(Int(doubleValue)) : String(doubleValue)
-                    viewModel.tapAddBtn(datePlace: i.title, timeRequire: "\(text) 시간")
-                } else {
-                    viewModel.tapAddBtn(datePlace: i.title, timeRequire: "\(String(i.duration)) 시간")
-                }
-            }
-            viewModel.pastDatePlaces.removeAll()
-            AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewAddBringcourse2)
-        } else {
-            AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewAddSchedule2)
-        }
-    }
-    
     func bindViewModel() {
-        self.viewModel.isSuccessPostData.bind { [weak self] isSuccess in
+        self.viewModel.outputIsSuccessPostData.bind { [weak self] isSuccess in
             guard let isSuccess else { return }
             if isSuccess {
                 self?.successDone()
@@ -163,56 +145,39 @@ private extension AddScheduleSecondViewController {
         self.viewModel.onReissueSuccess.bind { [weak self] onSuccess in
             guard let onSuccess else { return }
             if onSuccess {
-                self?.viewModel.postAddScheduel()
+                self?.viewModel.inputPreparePostSchedule.value = true
             } else {
                 self?.navigationController?.pushViewController(SplashViewController(splashViewModel: SplashViewModel()), animated: false)
             }
         }
         
-        viewModel.isDataSourceNotEmpty()
-        
-        viewModel.editBtnEnableState.bind { [weak self] date in
-            guard let date else {return}
-            self?.addScheduleSecondView.editBtnState(isAble: date)
+        viewModel.outputEditBtnEnableState.bind { [weak self] enableState in
+            guard let enableState else {return}
+            self?.addScheduleSecondView.editBtnState(isAble: enableState)
         }
         
-        viewModel.datePlace.bind { [weak self] date in
-            guard let text = date else {return}
-            self?.addScheduleSecondView.inAddScheduleSecondView.updateDatePlace(text: text)
-            self?.viewModel.dateDetailLocation = true
-            if let flag = self?.viewModel.isAbleAddBtn() {
-                self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
-            }
+        viewModel.outputDatePlace.lazyBind { [weak self] value in
+            guard let value else {return}
+            self?.addScheduleSecondView.inAddScheduleSecondView.updateDatePlace(text: value)
+            self?.checkAddPlaceBtnState()
         }
         
-        viewModel.timeRequire.bind { [weak self] date in
-            guard let date else {return}
-            self?.addScheduleSecondView.inAddScheduleSecondView.updatetimeRequire(text: date)
-            self?.viewModel.dateDetailTime = true
-            if let flag = self?.viewModel.isAbleAddBtn() {
-                self?.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
-            }
+        viewModel.outputTimeRequire.lazyBind { [weak self] value in
+            guard let value else {return}
+            self?.addScheduleSecondView.inAddScheduleSecondView.updatetimeRequire(text: value)
+            self?.checkAddPlaceBtnState()
         }
         
-        self.viewModel.isChange = { [weak self] in
-            guard let cnt = self?.viewModel.addPlaceCollectionViewDataSource.count else {return}
-            print(cnt)
-            
-            self?.viewModel.isDataSourceNotEmpty()
-            
-            let state = self?.viewModel.editBtnEnableState.value ?? false
-            
-            self?.addScheduleSecondView.editBtnState(isAble: state)
-            
-            self?.addScheduleSecondView.inAddScheduleSecondView.finishAddPlace()
-            
-            self?.viewModel.isSourceMoreThanOne()
-            
-            self?.addScheduleSecondView.addPlaceCollectionView.reloadData()
+        viewModel.outputSuccessedAddPlcae.lazyBind { [weak self] _ in
+            guard let self else {return}
+            self.viewModel.inputCheckEditBtnState.value = true
+            self.addScheduleSecondView.inAddScheduleSecondView.finishAddPlace()
+            self.viewModel.inputValidateRegisterBtn.value = true
+            self.addScheduleSecondView.addPlaceCollectionView.reloadData()
         }
         
-        self.viewModel.isValidOfSecondNextBtn.bind { [weak self] date in
-            self?.addScheduleSecondView.changeNextBtnState(flag: date ?? false)
+        self.viewModel.outputIstValidateRegisterBtn.bind { [weak self] isValid in
+            self?.addScheduleSecondView.changeNextBtnState(flag: isValid ?? false)
         }
     }
     
@@ -224,6 +189,41 @@ private extension AddScheduleSecondViewController {
         addScheduleSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
     }
     
+    func checkAddPlaceBtnState() {
+        let flag = self.viewModel.isAbleAddBtn()
+        self.addScheduleSecondView.inAddScheduleSecondView.changeAddPlaceButtonState(flag: flag)
+    }
+    
+    /// '등록 완료' 이후 tabBarVC를 통해 화면 전환
+    func goBackOriginVCForAddSchedule() {
+        let tabbarVC = TabBarController()
+        tabbarVC.selectedIndex = 2
+        navigationController?.popToPreviousViewController(ofType: AddScheduleFirstViewController.self, defaultViewController: tabbarVC)
+    }
+    
+}
+
+
+//MARK: - AddScheduleFirstViewController: BaseNavBarViewController
+
+extension AddScheduleSecondViewController {
+    
+    private func broughtDataHandling() {
+        viewModel.inputPrepareBroughtData.value = true
+    }
+    
+    @objc
+    override func backButtonTapped() {
+        viewModel.addScheduleAmplitude.sendAmplitudeEvent(step: 2)
+        super.backButtonTapped()
+    }
+    
+}
+
+
+//MARK: - AddScheduleSecondViewController: '일정등록 뷰2 프로퍼티' 관련 함수
+
+private extension AddScheduleSecondViewController {
     // 등록 완료 alertVC도 blurView 페이드인 적용 미정
     func successDone() {
         let customAlertVC = DRCustomAlertViewController(rightActionType: .none,
@@ -236,15 +236,17 @@ private extension AddScheduleSecondViewController {
         self.present(customAlertVC, animated: false)
     }
     
-    func goBackOriginVCForAddSchedule() {
-        let tabbarVC = TabBarController()
-        tabbarVC.selectedIndex = 2
-        navigationController?.popToPreviousViewController(ofType: AddScheduleFirstViewController.self, defaultViewController: tabbarVC)
-    }
-    
     
     // MARK: - @objc Methods
     
+    /// '완료' 버튼 관련
+    @objc
+    func didTapNextBtn() {
+        addScheduleSecondView.nextBtn.isUserInteractionEnabled = false
+        viewModel.inputPreparePostSchedule.value = true
+    }
+    
+    /// '소요시간' 관련
     @objc
     func textFieldTapped(_ textField: UITextField) {
         let alertVC = AddScheduleBottomSheetViewController(viewModel: viewModel)
@@ -258,44 +260,15 @@ private extension AddScheduleSecondViewController {
         }
     }
     
+    /// '장소 등록 +' 버튼 관련
     @objc
     func tapAddPlaceBtn() {
-        viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")
+        viewModel.inputValidateAddPlcae.value = true
     }
     
-    @objc
-    func didTapNextBtn() {
-        addScheduleSecondView.nextBtn.isUserInteractionEnabled = false
-        viewModel.postAddScheduel()
-    }
-    
-    @objc
-    func removeCell(sender: UIButton) {
-        guard let cell = sender.superview?.superview as? AddSecondViewCollectionViewCell,
-              let indexPath = addScheduleSecondView.addPlaceCollectionView.indexPath(for: cell) else { return }
-        
-        viewModel.addPlaceCollectionViewDataSource.remove(at: indexPath.item)
-        addScheduleSecondView.addPlaceCollectionView.deleteItems(at: [indexPath])
-        viewModel.isSourceMoreThanOne()
-        
-        //여기서 datasource가 1개 미만이면
-        let dataSourceCnt = viewModel.addPlaceCollectionViewDataSource.count
-        if dataSourceCnt < 1 {
-            cell.updateEditMode(flag: false)
-            addScheduleSecondView.updateEditBtnText(flag: false)
-            addScheduleSecondView.editBtnState(isAble: false)
-            viewModel.isEditMode = false
-        }
-    }
-    
-    @objc
-    func moveCell(sender: UIButton) {
-        // Move cell logic here
-    }
-    
+    /// '편집' 버튼 관련
     @objc
     func toggleEditMode() {
-        print("EditButton 눌림")
         viewModel.isEditMode.toggle()
         let collectionView = addScheduleSecondView.addPlaceCollectionView
         
@@ -320,14 +293,29 @@ private extension AddScheduleSecondViewController {
         }
     }
     
-}
-
-extension AddScheduleSecondViewController {
-    
+    /// 장소 리스트 'X' 버튼 관련: list에 있는 장소 삭제
     @objc
-    override func backButtonTapped() {
-        viewModel.schedule2BackAmplitude()
-        super.backButtonTapped()
+    func removeCell(sender: UIButton) {
+        guard let cell = sender.superview?.superview as? AddSecondViewCollectionViewCell,
+              let indexPath = addScheduleSecondView.addPlaceCollectionView.indexPath(for: cell) else { return }
+        
+        viewModel.dataSourceOfAddPlaceCollectionView.value?.remove(at: indexPath.item)
+        addScheduleSecondView.addPlaceCollectionView.deleteItems(at: [indexPath])
+        viewModel.inputValidateRegisterBtn.value = true
+        
+        //여기서 datasource가 1개 미만이면
+        let dataSourceCnt = viewModel.dataSourceOfAddPlaceCollectionView.value?.count ?? 1
+        if dataSourceCnt < 1 {
+            cell.updateEditMode(flag: false)
+            addScheduleSecondView.updateEditBtnText(flag: false)
+            addScheduleSecondView.editBtnState(isAble: false)
+            viewModel.isEditMode = false
+        }
+    }
+    
+    /// '=' 버튼 관련
+    @objc
+    func moveCell(sender: UIButton) {
     }
     
 }
@@ -352,15 +340,9 @@ extension AddScheduleSecondViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        let trimmedText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         
-        if let text = trimmedText, !text.isEmpty {
-            viewModel.datePlace.value = text
-            print(text)
-        } else {
-            viewModel.datePlace.value = ""
-            print("공란")
-        }
+        viewModel.inputDatePlace.value = trimmedText
     }
     
 }
@@ -385,17 +367,20 @@ extension AddScheduleSecondViewController: UICollectionViewDelegate {
 extension AddScheduleSecondViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.addPlaceCollectionViewDataSource.count
+        return viewModel.dataSourceOfAddPlaceCollectionView.value?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == addScheduleSecondView.addPlaceCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(
+            guard
+                let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: AddSecondViewCollectionViewCell.cellIdentifier,
-                for: indexPath
-            ) as? AddSecondViewCollectionViewCell else { return UICollectionViewCell() }
+                for: indexPath)
+                    as? AddSecondViewCollectionViewCell,
+                let model = viewModel.dataSourceOfAddPlaceCollectionView.value
+            else { return UICollectionViewCell() }
             
-            cell.configure(model: viewModel.addPlaceCollectionViewDataSource[indexPath.item])
+            cell.configure(model: model[indexPath.item])
             cell.updateEditMode(flag: viewModel.isEditMode)
             cell.moveAbleButton.removeTarget(nil, action: nil, for: .allEvents)
             if viewModel.isEditMode {
@@ -417,7 +402,20 @@ extension AddScheduleSecondViewController: UICollectionViewDataSource {
 
 extension AddScheduleSecondViewController: UICollectionViewDropDelegate {
     
+    //드래그 cell Preview
+    func collectionView(_ collectionView: UICollectionView,
+                        dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters? {
+        print(#function)
+        
+        let parameters = UIDragPreviewParameters()
+        parameters.visiblePath = UIBezierPath(roundedRect: collectionView.cellForItem(at: indexPath)?.bounds ?? .zero,
+                                              cornerRadius: 14) // 원하는 cornerRadius 적용
+        return parameters
+    }
+    
+    //들고있던 cell을 이동시켜 cell의 index가 바뀌었을 때 동작
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+        print(#function, "케케몬몬몬")
         if collectionView == addScheduleSecondView.addPlaceCollectionView {
             var destinationIndexPath: IndexPath
             if let indexPath = coordinator.destinationIndexPath {
@@ -445,20 +443,21 @@ extension AddScheduleSecondViewController: UICollectionViewDropDelegate {
     private func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView) {
         if collectionView == addScheduleSecondView.addPlaceCollectionView {
             if let item = coordinator.items.first, let sourceIndexPath = item.sourceIndexPath {
-                collectionView.performBatchUpdates({
-                    let temp = viewModel.addPlaceCollectionViewDataSource[sourceIndexPath.item]
-                    viewModel.addPlaceCollectionViewDataSource.remove(at: sourceIndexPath.item)
-                    viewModel.addPlaceCollectionViewDataSource.insert(temp, at: destinationIndexPath.item)
-                    collectionView.deleteItems(at: [sourceIndexPath])
-                    collectionView.insertItems(at: [destinationIndexPath])
-                }) { done in
-                    //
+                guard var body = viewModel.dataSourceOfAddPlaceCollectionView.value else { return }
+                
+                let movedItem = body.remove(at: sourceIndexPath.item)
+                body.insert(movedItem, at: destinationIndexPath.item)
+                viewModel.dataSourceOfAddPlaceCollectionView.value = body
+                
+                collectionView.performBatchUpdates {
+                    collectionView.moveItem(at: sourceIndexPath, to: destinationIndexPath)
                 }
+                
                 coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
             }
-            viewModel.updatePlaceCollectionView()
         }
     }
+
     
 }
 
@@ -467,7 +466,9 @@ extension AddScheduleSecondViewController: UICollectionViewDropDelegate {
 
 extension AddScheduleSecondViewController: UICollectionViewDragDelegate {
     
+    //롱핸들프래스로 cell이 들렸을 때 동작
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        print(#function)
         return []
     }
     

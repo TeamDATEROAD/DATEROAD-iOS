@@ -26,4 +26,8 @@ final class ObservablePattern<T: Equatable> {
         self.listener = listener
     }
     
+    func lazyBind(_ listener: @escaping (T?) -> Void) {
+        self.listener = listener
+    }
+    
 }
