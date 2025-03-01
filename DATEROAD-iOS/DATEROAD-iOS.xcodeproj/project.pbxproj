@@ -141,6 +141,7 @@
 		9E754CF52C4841CF00E2CA91 /* AddScheduleTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E754CF42C4841CF00E2CA91 /* AddScheduleTargetType.swift */; };
 		9E754CF72C48460400E2CA91 /* PostAddScheduleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E754CF62C48460400E2CA91 /* PostAddScheduleRequest.swift */; };
 		9E754CF92C48471100E2CA91 /* PostAddScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E754CF82C48471100E2CA91 /* PostAddScheduleResponse.swift */; };
+		9EA26B1D2D71C85700029A14 /* DRTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA26B1C2D71C85700029A14 /* DRTextField.swift */; };
 		9EB91E782C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */; };
 		9EBD5C712C7C557900EDE081 /* DRDateFormatterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD5C702C7C557900EDE081 /* DRDateFormatterManager.swift */; };
 		9EBD5C732C7C850400EDE081 /* UINavigationController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD5C722C7C850400EDE081 /* UINavigationController+.swift */; };
@@ -430,6 +431,7 @@
 		9E754CF42C4841CF00E2CA91 /* AddScheduleTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleTargetType.swift; sourceTree = "<group>"; };
 		9E754CF62C48460400E2CA91 /* PostAddScheduleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddScheduleRequest.swift; sourceTree = "<group>"; };
 		9E754CF82C48471100E2CA91 /* PostAddScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddScheduleResponse.swift; sourceTree = "<group>"; };
+		9EA26B1C2D71C85700029A14 /* DRTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRTextField.swift; sourceTree = "<group>"; };
 		9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		9EBD5C702C7C557900EDE081 /* DRDateFormatterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRDateFormatterManager.swift; sourceTree = "<group>"; };
 		9EBD5C722C7C850400EDE081 /* UINavigationController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+.swift"; sourceTree = "<group>"; };
@@ -1572,6 +1574,7 @@
 				CAE876092C6F232900D64B34 /* DRLoadingView.swift */,
 				CAE8760B2C6F68A000D64B34 /* DRErrorViewController.swift */,
 				9EBD5C702C7C557900EDE081 /* DRDateFormatterManager.swift */,
+				9EA26B1C2D71C85700029A14 /* DRTextField.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -2052,6 +2055,7 @@
 				CAC80FD22C3D7E5100658EA6 /* ProfileImageSettingView.swift in Sources */,
 				CAC80FD02C3D723200658EA6 /* DRBottomSheetViewController.swift in Sources */,
 				0D06D9A82C36946C0094C505 /* TimelineInfoCell.swift in Sources */,
+				9EA26B1D2D71C85700029A14 /* DRTextField.swift in Sources */,
 				0D9497D12C32A75A0004B442 /* InfoHeaderView.swift in Sources */,
 				9E07891A2C4547C200B9F9B8 /* CustomImagePicker.swift in Sources */,
 				0DA1C7142C3DA94F00DF2B92 /* CourseListModel.swift in Sources */,
