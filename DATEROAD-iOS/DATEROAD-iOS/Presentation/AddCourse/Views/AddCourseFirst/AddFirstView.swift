@@ -16,29 +16,33 @@ final class AddFirstView: BaseView {
     
     private let textFieldStackView = UIStackView()
     
-    let dateNameTextField = UITextField()
+    let dateNameTextField = DRTextField(placeholderText: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNmaePlaceHolder)
     
-    let visitDateContainer = UIView()
+    let visitDateTextField = DRTextField(placeholderText: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateLabel, rightIconType: .calender)
+//    let visitDateContainer = UIView()
     
-    private let visitDateLabel = UILabel()
+//    private let visitDateLabel = UILabel()
     
-    private let visitDateImage = UIImageView()
+//    private let visitDateImage = UIImageView()
     
-    let dateStartAtContainer = UIView()
+    let dateStartAtTextField = DRTextField(placeholderText: StringLiterals.AddCourseOrSchedule.AddFirstView.dateStartTimeLabel, rightIconType: .time)
+//    let dateStartAtContainer = UIView()
     
-    private let dateStartTimeLabel = UILabel()
-    
-    private let dateStartTimeImage = UIImageView()
+//    private let dateStartTimeLabel = UILabel()
+//    
+//    private let dateStartTimeImage = UIImageView()
     
     private let tagContainer = UIView()
     
     private let tagTitleLabel = UILabel()
     
-    let datePlaceContainer = UIView()
     
-    private let datePlaceLabel = UILabel()
+    let datePlaceTextField = DRTextField(placeholderText: StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel, rightIconType: .downArrow)
+//    let datePlaceContainer = UIView()
     
-    private let datePlaceImage = UIImageView()
+//    private let datePlaceLabel = UILabel()
+//    
+//    private let datePlaceImage = UIImageView()
     
     private let sixCheckNextBtnContainer = UIView()
     
@@ -60,21 +64,21 @@ final class AddFirstView: BaseView {
         self.addSubviews(
             textFieldStackView,
             tagContainer,
-            datePlaceContainer,
+            datePlaceTextField,
             sixCheckNextBtnContainer)
         
         textFieldStackView.addArrangedSubviews(
             dateNameTextField,
-            visitDateContainer,
-            dateStartAtContainer)
+            visitDateTextField,
+            dateStartAtTextField)
         
-        visitDateContainer.addSubviews(visitDateLabel, visitDateImage)
+//        visitDateContainer.addSubviews(visitDateLabel, visitDateImage)
         
-        dateStartAtContainer.addSubviews(dateStartTimeLabel, dateStartTimeImage)
+//        dateStartAtContainer.addSubviews(dateStartTimeLabel, dateStartTimeImage)
         
         tagContainer.addSubviews(tagTitleLabel, tendencyTagCollectionView)
         
-        datePlaceContainer.addSubviews(datePlaceLabel, datePlaceImage)
+//        datePlaceContainer.addSubviews(datePlaceLabel, datePlaceImage)
         
         sixCheckNextBtnContainer.addSubview(sixCheckNextButton)
     }
@@ -85,28 +89,28 @@ final class AddFirstView: BaseView {
             $0.height.equalTo(184)
         }
         
-        visitDateLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(16)
-        }
+//        visitDateLabel.snp.makeConstraints {
+//            $0.centerY.equalToSuperview()
+//            $0.leading.equalToSuperview().inset(16)
+//        }
+//        
+//        visitDateImage.snp.makeConstraints {
+//            $0.centerY.equalToSuperview()
+//            $0.trailing.equalToSuperview().inset(19)
+//            $0.width.equalTo(15)
+//            $0.height.equalTo(17)
+//        }
         
-        visitDateImage.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(19)
-            $0.width.equalTo(15)
-            $0.height.equalTo(17)
-        }
-        
-        dateStartTimeLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(16)
-        }
-        
-        dateStartTimeImage.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(18)
-            $0.size.equalTo(17)
-        }
+//        dateStartTimeLabel.snp.makeConstraints {
+//            $0.centerY.equalToSuperview()
+//            $0.leading.equalToSuperview().inset(16)
+//        }
+//        
+//        dateStartTimeImage.snp.makeConstraints {
+//            $0.centerY.equalToSuperview()
+//            $0.trailing.equalToSuperview().inset(18)
+//            $0.size.equalTo(17)
+//        }
         
         tagContainer.snp.makeConstraints {
             $0.top.equalTo(textFieldStackView.snp.bottom).offset(24)
@@ -124,26 +128,26 @@ final class AddFirstView: BaseView {
             $0.height.equalTo(120)
         }
         
-        datePlaceContainer.snp.makeConstraints {
+        datePlaceTextField.snp.makeConstraints {
             $0.top.equalTo(tagContainer.snp.bottom).offset(24)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(48)
         }
         
-        datePlaceLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(16)
-        }
-        
-        datePlaceImage.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(18)
-            $0.width.equalTo(10)
-            $0.height.equalTo(5)
-        }
+//        datePlaceLabel.snp.makeConstraints {
+//            $0.centerY.equalToSuperview()
+//            $0.leading.equalToSuperview().inset(16)
+//        }
+//        
+//        datePlaceImage.snp.makeConstraints {
+//            $0.centerY.equalToSuperview()
+//            $0.trailing.equalToSuperview().inset(18)
+//            $0.width.equalTo(10)
+//            $0.height.equalTo(5)
+//        }
         
         sixCheckNextBtnContainer.snp.makeConstraints {
-            $0.top.equalTo(datePlaceContainer.snp.bottom).offset(24)
+            $0.top.equalTo(datePlaceTextField.snp.bottom).offset(24)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview().inset(4)
         }
@@ -169,7 +173,7 @@ final class AddFirstView: BaseView {
             $0.distribution = .fillEqually
         }
         
-        [dateNameTextField, visitDateContainer, dateStartAtContainer].forEach { view in
+        [ dateStartAtTextField].forEach { view in
             view.do {
                 $0.backgroundColor = UIColor(resource: .gray100)
                 $0.layer.cornerRadius = 13
@@ -178,27 +182,27 @@ final class AddFirstView: BaseView {
             }
         }
         
-        visitDateImage.image = UIImage(resource: .calendar)
+//        visitDateImage.image = UIImage(resource: .calendar)
         
-        dateStartTimeImage.image = UIImage(resource: .time)
+//        dateStartTimeImage.image = UIImage(resource: .time)
         
-        dateNameTextField.do {
-            $0.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNmaePlaceHolder,
-                              fontColor: .gray300,
-                              font: UIFont.suit(.body_semi_13))
-            $0.setLeftPadding(amount: 16)
-            $0.setRightPadding(amount: 6)
-        }
+//        dateNameTextField.do {
+//            $0.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNmaePlaceHolder,
+//                              fontColor: .gray300,
+//                              font: UIFont.suit(.body_semi_13))
+//            $0.setLeftPadding(amount: 16)
+//            $0.setRightPadding(amount: 6)
+//        }
         
-        visitDateLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateLabel,
-                                alignment: .left,
-                                textColor: UIColor(resource: .gray300),
-                                font: UIFont.suit(.body_semi_13))
+//        visitDateLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateLabel,
+//                                alignment: .left,
+//                                textColor: UIColor(resource: .gray300),
+//                                font: UIFont.suit(.body_semi_13))
         
-        dateStartTimeLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.dateStartTimeLabel,
-                                    alignment: .left,
-                                    textColor: UIColor(resource: .gray300),
-                                    font: UIFont.suit(.body_semi_13))
+//        dateStartTimeLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.dateStartTimeLabel,
+//                                    alignment: .left,
+//                                    textColor: UIColor(resource: .gray300),
+//                                    font: UIFont.suit(.body_semi_13))
         
         tagTitleLabel.do {
             $0.setLabel(alignment: .left,
@@ -207,20 +211,20 @@ final class AddFirstView: BaseView {
             $0.text = StringLiterals.AddCourseOrSchedule.AddFirstView.tagTitle
         }
         
-        datePlaceContainer.do {
-            $0.backgroundColor = .gray100
-            $0.layer.cornerRadius = 14
-        }
+//        datePlaceContainer.do {
+//            $0.backgroundColor = .gray100
+//            $0.layer.cornerRadius = 14
+//        }
         
-        datePlaceLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel,
-                                alignment: .left,
-                                textColor: UIColor(resource: .gray300),
-                                font: .suit(.body_semi_13))
-        
-        datePlaceImage.do {
-            $0.image = UIImage(resource: .downArrow)
-            $0.contentMode = .scaleToFill
-        }
+//        datePlaceLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel,
+//                                alignment: .left,
+//                                textColor: UIColor(resource: .gray300),
+//                                font: .suit(.body_semi_13))
+//        
+//        datePlaceImage.do {
+//            $0.image = UIImage(resource: .downArrow)
+//            $0.contentMode = .scaleToFill
+//        }
         
         sixCheckNextButton.do {
             $0.setTitle(StringLiterals.AddCourseOrSchedule.AddFirstView.addFirstNextBtnOfCourse, for: .normal)
@@ -242,10 +246,11 @@ extension AddFirstView {
     }
     
     func updateVisitDate(text: String) {
-        visitDateLabel.do {
-            $0.text = text
-            $0.textColor = UIColor(resource: .drBlack)
-        }
+        visitDateTextField.text = text
+//        visitDateLabel.do {
+//            $0.text = text
+//            $0.textColor = UIColor(resource: .drBlack)
+//        }
     }
     
     func updatedateStartTime(text: String) {
@@ -253,10 +258,11 @@ extension AddFirstView {
             .replacingOccurrences(of: "오전", with: "AM")
             .replacingOccurrences(of: "오후", with: "PM")
         
-        dateStartTimeLabel.do {
-            $0.text = updatedText
-            $0.textColor = UIColor(resource: .drBlack)
-        }
+        dateStartAtTextField.text = updatedText
+//        dateStartTimeLabel.do {
+//            $0.text = updatedText
+//            $0.textColor = UIColor(resource: .drBlack)
+//        }
     }
     
     func updateTagButtonStyle(btn: UIButton, isSelected: Bool) {
@@ -280,17 +286,19 @@ extension AddFirstView {
     }
     
     func updateDateLocation(text: String) {
-        if text.count != 0 {
-            datePlaceLabel.do {
-                $0.textColor = UIColor(resource: .drBlack)
-                $0.text = text
-            }
-        } else {
-            datePlaceLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel,
-                                    alignment: .left,
-                                    textColor: UIColor(resource: .gray300),
-                                    font: .suit(.body_semi_13))
-        }
+        datePlaceTextField.text = text
+//        if text.count != 0 {
+//            datePlaceContainer.text = text
+////            datePlaceLabel.do {
+////                $0.textColor = UIColor(resource: .drBlack)
+////                $0.text = text
+////            }
+//        } else {
+//            datePlaceLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel,
+//                                    alignment: .left,
+//                                    textColor: UIColor(resource: .gray300),
+//                                    font: .suit(.body_semi_13))
+//        }
     }
     
 }
