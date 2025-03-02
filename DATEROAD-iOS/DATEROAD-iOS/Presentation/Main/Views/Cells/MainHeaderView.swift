@@ -20,7 +20,7 @@ final class MainHeaderView: UICollectionReusableView {
     
     let subLabel: UILabel = UILabel()
     
-    let viewMoreButton: UIButton = UIButton()
+    let viewMoreButton: DRTextButton = DRTextButton(title: StringLiterals.Main.viewMore, buttonName: .small_text_0)
     
     
     // MARK: - Properties
@@ -87,12 +87,6 @@ final class MainHeaderView: UICollectionReusableView {
         subLabel.setLabel(alignment: .left,
                           textColor: UIColor(resource: .gray400),
                           font: UIFont.suit(.body_med_13))
-        
-        viewMoreButton.do {
-            $0.setTitle(StringLiterals.Main.viewMore, for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_bold_13)
-            $0.setTitleColor(UIColor(resource: .mediumPurple), for: .normal)
-        }
     }
     
 }
