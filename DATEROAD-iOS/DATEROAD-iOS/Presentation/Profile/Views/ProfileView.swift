@@ -23,7 +23,11 @@ final class ProfileView: BaseView {
     
     private let rightViewBox: UIView = UIView()
     
-    let doubleCheckButton: UIButton = UIButton()
+    let doubleCheckButton: DRTextButton = DRTextButton(
+        title: StringLiterals.Profile.doubleCheck,
+        buttonName: .small_disable_10,
+        isEnabled: false
+    )
     
     let nicknameErrMessageLabel: UILabel = UILabel()
     
@@ -35,14 +39,14 @@ final class ProfileView: BaseView {
     
     let tagErrMessageLabel: UILabel = UILabel()
     
-    let registerButton: UIButton = UIButton()
+    let registerButton: DRTextButton = DRTextButton(
+        title: StringLiterals.Profile.registerProfile,
+        buttonName: .large_disable_14,
+        isEnabled: false
+    )
     
     
     // MARK: - Properties
-    
-    private let enabledButtonType: DRButtonType = EnabledButton()
-    
-    private let disabledButtonType: DRButtonType = DisabledButton()
     
     private let warningType: DRErrorType = Warning()
     
@@ -184,12 +188,6 @@ final class ProfileView: BaseView {
             $0.defaultTextAttributes = attributes
         }
         
-        doubleCheckButton.do {
-            $0.setTitle(StringLiterals.Profile.doubleCheck, for: .normal)
-            $0.setButtonStatus(buttonType: disabledButtonType)
-            $0.titleLabel?.font = UIFont.suit(.body_med_13)
-        }
-        
         nicknameErrMessageLabel.do {
             $0.isHidden = true
             $0.setErrorLabel(text: StringLiterals.Profile.disabledNickname, errorType: warningType)
@@ -204,11 +202,6 @@ final class ProfileView: BaseView {
                                      alignment: .left,
                                      textColor: UIColor(resource: .drBlack),
                                      font: UIFont.suit(.body_bold_15))
-
-        registerButton.do {
-            $0.setTitle(StringLiterals.Profile.registerProfile, for: .normal)
-            $0.setButtonStatus(buttonType: disabledButtonType)
-        }
         
         tendencyTagCollectionView.do {
             $0.contentInsetAdjustmentBehavior = .never
@@ -252,11 +245,7 @@ extension ProfileView {
     }
     
     func updateDoubleCheckButton(isValid: Bool) {
-        isValid
-        ? doubleCheckButton.setButtonStatus(buttonType: enabledButtonType)
-        : doubleCheckButton.setButtonStatus(buttonType: disabledButtonType)
-        doubleCheckButton.titleLabel?.font = UIFont.suit(.body_med_13)
-        doubleCheckButton.layer.cornerRadius = 10
+        doubleCheckButton.setButtonStyle(isValid ? .small_enable_10 : .small_disable_10, isEnabled: isValid)
     }
     
     func updateTagCount(count: Int) {
@@ -268,10 +257,7 @@ extension ProfileView {
     }
     
     func updateRegisterButton(isValid: Bool) {
-        isValid 
-        ? registerButton.setButtonStatus(buttonType: enabledButtonType)
-        : registerButton.setButtonStatus(buttonType: disabledButtonType)
-        registerButton.titleLabel?.font = UIFont.suit(.body_bold_15)
+        registerButton.setButtonStyle(isValid ? .large_enable_14 : .large_disable_14, isEnabled: isValid)
     }
     
     func updateProfileImage(image: UIImage) {

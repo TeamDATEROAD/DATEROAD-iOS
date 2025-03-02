@@ -20,11 +20,6 @@ final class ProfileImageSettingView: BaseView {
     let deleteLabel: UILabel = UILabel()
     
     
-    // MARK: - Properties
-    
-    let disabledButtonType: DRButtonType = DisabledButton()
-    
-    
     // MARK: - Life Cycle
     
     override func setHierarchy() {
