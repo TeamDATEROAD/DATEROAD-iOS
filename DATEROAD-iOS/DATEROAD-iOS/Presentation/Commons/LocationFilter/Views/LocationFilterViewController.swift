@@ -41,6 +41,7 @@ final class LocationFilterViewController: BaseViewController {
     
     // MARK: - Life Cycles
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -80,12 +81,8 @@ final class LocationFilterViewController: BaseViewController {
     }
     
     func registerCell() {
-        locationFilterView.countryCollectionView.register(
-            CountryLabelCollectionViewCell.self,
-            forCellWithReuseIdentifier: CountryLabelCollectionViewCell.cellIdentifier)
-        locationFilterView.cityCollectionView.register(
-            CityLabelCollectionViewCell.self,
-            forCellWithReuseIdentifier: CityLabelCollectionViewCell.cellIdentifier)
+        locationFilterView.countryCollectionView.register(CountryLabelCollectionViewCell.self, forCellWithReuseIdentifier: CountryLabelCollectionViewCell.cellIdentifier)
+        locationFilterView.cityCollectionView.register(CityLabelCollectionViewCell.self, forCellWithReuseIdentifier: CityLabelCollectionViewCell.cellIdentifier)
     }
     
     func setDelegate() {
@@ -97,38 +94,15 @@ final class LocationFilterViewController: BaseViewController {
     }
     
     func bindViewModel() {
-        courseViewModel.didUpdateCityData = { [weak self] in
-            self?.locationFilterView.cityCollectionView.reloadData()
-        }
-        
-        courseViewModel.didUpdateApplyButtonState = { [weak self] isEnabled in
-            self?.updateApplyButtonState(isEnabled: isEnabled)
-        }
-        
-        self.courseViewModel.selectedCountryIndex.bind { [weak self] index in
+        self.courseViewModel.selectedCountryIndex.bind { [weak self] _ in
+            self?.locationFilterView.countryCollectionView.reloadData()
             self?.courseViewModel.updateCityData()
             self?.courseViewModel.selectedCityIndex.value = nil
-            self?.courseViewModel.didUpdateSelectedCountryIndex?(index)
-            self?.courseViewModel.updateApplyButtonState()
         }
         
         self.courseViewModel.selectedCityIndex.bind { [weak self] index in
-            self?.courseViewModel.didUpdateSelectedCityIndex?(index)
-            self?.courseViewModel.updateApplyButtonState()
-        }
-        
-        self.courseViewModel.selectedCityName.bind { [weak self] cityName in
-            self?.courseViewModel.didUpdateselectedCityName?(cityName)
-            
-            self?.courseViewModel.updateApplyButtonState()
-        }
-        
-        self.courseViewModel.selectedPriceIndex.bind {[weak self] index in
-            self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
-        }
-        
-        self.courseViewModel.isApplyButtonEnabled.bind {[weak self] isApply in
-            self?.courseViewModel.didUpdateApplyButtonState?(isApply ?? false)
+            self?.locationFilterView.cityCollectionView.reloadData()
+            self?.locationFilterView.updateApplyButtonProperties(index != nil)
         }
     }
     
@@ -142,10 +116,7 @@ final class LocationFilterViewController: BaseViewController {
 extension LocationFilterViewController {
     
     func resetSelections() {
-        courseViewModel.selectedCityName.value = ""
-        courseViewModel.selectedPriceIndex.value = nil
-        courseViewModel.selectedCountryIndex.value = 0
-        courseViewModel.selectedCityIndex.value = nil
+        courseViewModel.resetSelections()
         locationFilterView.countryCollectionView.reloadData()
         locationFilterView.cityCollectionView.reloadData()
     }
@@ -190,20 +161,23 @@ extension LocationFilterViewController {
     
 }
 
+// MARK: - @objc Methods
 
-// MARK: - Private Methods
-
-private extension LocationFilterViewController {
+extension LocationFilterViewController {
     
-    func updateApplyButtonState(isEnabled: Bool) {
-        if isEnabled {
-            locationFilterView.applyButton.setButtonStatus(buttonType: EnabledButton())
-        } else {
-            locationFilterView.applyButton.setButtonStatus(buttonType: DisabledButton())
-        }
+    @objc
+    func didTapCountryButton(_ sender: DRTextButton) {
+        courseViewModel.selectedCountryIndex.value = sender.tag
+    }
+    
+    @objc
+    func didTapCityButton(_ sender: DRTextButton) {
+        courseViewModel.selectedCityIndex.value = sender.tag
     }
     
 }
+
+// MARK: - LocationFilterViewDelegate Methods
 
 extension LocationFilterViewController: LocationFilterViewDelegate {
     
@@ -250,20 +224,23 @@ extension LocationFilterViewController: UICollectionViewDataSource {
         if let countryCell = cell as? CountryLabelCollectionViewCell {
             let country = courseViewModel.countryData[indexPath.item]
             let isSelected = courseViewModel.selectedCountryIndex.value == indexPath.item
-            countryCell.configure(with: country, isSelected: isSelected)
+            countryCell.countryButton.tag = indexPath.item
+            countryCell.countryButton.addTarget(self, action: #selector(didTapCountryButton(_:)), for: .touchUpInside)
+            countryCell.updateCountryButtonProperties(with: country, isSelected: isSelected)
         } else if let cityCell = cell as? CityLabelCollectionViewCell {
+            var city: LocationModel.City
             // "서울 전체"를 제외한 필터링된 데이터 사용
             if isAddType {
                 let filteredCityData = courseViewModel.cityData.filter { $0.rawValue != "서울 전체" && $0.rawValue != "경기 전체" }
-                let city = filteredCityData[indexPath.item]
-                let isSelected = courseViewModel.selectedCityIndex.value == indexPath.item
-                cityCell.configure(with: city, isSelected: isSelected)
+                city = filteredCityData[indexPath.item]
             } else {
-                let city = courseViewModel.cityData[indexPath.item]
-                let isSelected = courseViewModel.selectedCityIndex.value == indexPath.item
-                print(city.rawValue, "🔥🔥🔥")
-                cityCell.configure(with: city, isSelected: isSelected)
+                city = courseViewModel.cityData[indexPath.item]
             }
+            
+            let isSelected = courseViewModel.selectedCityIndex.value == indexPath.item
+            cityCell.cityButton.tag = indexPath.item
+            cityCell.cityButton.addTarget(self, action: #selector(didTapCityButton(_:)), for: .touchUpInside)
+            cityCell.updateCityButtonProperties(with: city, isSelected: isSelected)
         }
         
         return cell
@@ -271,19 +248,7 @@ extension LocationFilterViewController: UICollectionViewDataSource {
     
 }
 
-extension LocationFilterViewController: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == locationFilterView.countryCollectionView {
-            courseViewModel.selectedCountryIndex.value = indexPath.item
-        } else {
-            courseViewModel.selectedCityIndex.value = indexPath.item
-        }
-        
-        collectionView.reloadData()
-    }
-    
-}
+extension LocationFilterViewController: UICollectionViewDelegate {}
 
 extension LocationFilterViewController: UICollectionViewDelegateFlowLayout {
     
