@@ -7,63 +7,39 @@
 
 import UIKit
 
-enum DRCommonButtonHandleType {
-    case noneHandle
-    case handle(foregroundColor: UIColor, backgroundColor: UIColor)
-}
-
-protocol DRCommonButtonType {
-    var handleType: DRCommonButtonHandleType { get }
-    var enabledBackgroundColor: UIColor { get }
-    var disabledBackgroundColor: UIColor { get }
-    var enabledTitleColor: UIColor { get }
-    var disabledTitleColor: UIColor { get }
-    var cornerRadius: CGFloat { get }
-}
-
-final class DRCommonButton: UIButton, DRCommonButtonType {
+final class DRCommonButton: UIButton {
     enum DRCommonBtnTitleType {
-        case text(title: String, titleFont: UIFont)
+        case text(title: String, suitFontStyle: FontName)
         case image(image: UIImage)
+    }
+    enum DRCommonBtnHandleType {
+        case noneHandle(backgroundFixColor: UIColor, foregroundFixColor: UIColor)
+        case handle(enabledTitleColor: UIColor,
+                    disabledTitleColor: UIColor,
+                    enabledBackgroundColor: UIColor,
+                    disabledBackgroundColor: UIColor)
     }
     
     private let titleType: DRCommonBtnTitleType
-    private(set) var handleType: DRCommonButtonHandleType
-    private(set) var enabledBackgroundColor: UIColor
-    private(set) var disabledBackgroundColor: UIColor
-    private(set) var enabledTitleColor: UIColor
-    private(set) var disabledTitleColor: UIColor
-    private(set) var cornerRadius: CGFloat
+    private let handleType: DRCommonBtnHandleType
 
     init(
         titleType: DRCommonBtnTitleType,
-        handleType: DRCommonButtonHandleType,
-        titleColor: UIColor? = nil,
-        disabledTitleColor: UIColor? = nil,
-        backgroundColor: UIColor? = nil,
-        disabledBackgroundColor: UIColor? = nil,
-        cornerRadius: CGFloat? = nil
+        handleType: DRCommonBtnHandleType,
+        cornerRadius: CGFloat
     ) {
         self.titleType = titleType
         self.handleType = handleType
-        self.enabledBackgroundColor = backgroundColor ?? UIColor.deepPurple
-        self.disabledBackgroundColor = disabledBackgroundColor ?? UIColor.gray200
-        self.enabledTitleColor = titleColor ?? UIColor.drWhite
-        self.disabledTitleColor = disabledTitleColor ?? UIColor.gray400
-        self.cornerRadius = cornerRadius ?? CGFloat(14)
         
         super.init(frame: .zero)
-
-        self.layer.cornerRadius = self.cornerRadius
-        
+        self.layer.cornerRadius = cornerRadius
         self.configurationUpdateHandler = { button in
             var config = button.configuration ?? UIButton.Configuration.filled()
 
             switch titleType {
-                
-            case .text(title: let title, titleFont: let titleFont):
+            case .text(title: let title, suitFontStyle: let fontStyle):
                 var titleAttr = AttributedString(title)
-                titleAttr.font = titleFont
+                titleAttr.font = UIFont.suit(fontStyle)
                 config.attributedTitle = titleAttr
             case .image(image: let image):
                 config.image = image
@@ -71,17 +47,21 @@ final class DRCommonButton: UIButton, DRCommonButtonType {
             }
             
             switch handleType {
-            case .noneHandle:
-                config.baseBackgroundColor = button.isEnabled ? self.enabledBackgroundColor : self.disabledBackgroundColor
-                config.baseForegroundColor = button.isEnabled ? self.enabledTitleColor : self.disabledTitleColor
-            case .handle(let foregroundColor, let baseBackgroundColor):
-                print("~~")
+            case .noneHandle(let baseBackgroundColor, let foregroundColor):
+                config.baseBackgroundColor = baseBackgroundColor
+                config.baseForegroundColor = foregroundColor
+                self.isEnabled = true //noneHandle에 따른 enable true default
+            case .handle(let enabledTitleColor,
+                         let disabledTitleColor,
+                         let enabledBackgroundColor,
+                         let disabledBackgroundColor):
+                
+                config.baseBackgroundColor = button.isEnabled ? enabledBackgroundColor : disabledBackgroundColor
+                config.baseForegroundColor = button.isEnabled ? enabledTitleColor : disabledTitleColor
+                self.isEnabled = false
             }
-            
             button.configuration = config
         }
-        //button 비활성화 default
-        self.isEnabled = false
     }
 
     required init?(coder: NSCoder) {
