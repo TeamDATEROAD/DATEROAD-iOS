@@ -13,12 +13,7 @@ final class BottomControlView: BaseView {
     
     let pageControl: UIPageControl = UIPageControl()
     
-    let nextButton: UIButton = UIButton()
-    
-    
-    // MARK: - Properties
-    
-    let buttonStyle: DRButtonType = NextButton()
+    let nextButton: DRTextButton = DRTextButton(title: StringLiterals.Onboarding.next, buttonName: .large_enable_29)
     
     
     // MARK: - Methods
@@ -41,8 +36,6 @@ final class BottomControlView: BaseView {
     }
     
     override func setStyle() {
-        nextButton.setButtonStatus(buttonType: buttonStyle)
-        
         pageControl.do {
             $0.numberOfPages = 3
             $0.currentPage = 0
@@ -56,7 +49,7 @@ final class BottomControlView: BaseView {
 extension BottomControlView {
     
     func updateBottomButtonText(buttonText: String) {
-        self.nextButton.setTitle(buttonText, for: .normal)
+        self.nextButton.configuration?.title = buttonText
     }
     
 }
