@@ -16,16 +16,18 @@ final class AddFirstView: BaseView {
     
     private let textFieldStackView = UIStackView()
     
-    let dateNameTextField = DRTextField(placeholderText: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNmaePlaceHolder)
+    let dateNameTextField = DRTextField(type: .AddCourseSchedule(.dateName))
+//    let dateNameTextField = DRTextField(placeholderText: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNmaePlaceHolder)
     
-    let visitDateTextField = DRTextField(placeholderText: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateLabel, rightIconType: .calender)
+    let visitDateTextField = DRTextField(type: .AddCourseSchedule(.visitDate))
+//    let visitDateTextField = DRTextField(placeholderText: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateLabel, rightIconType: .calender)
 //    let visitDateContainer = UIView()
     
 //    private let visitDateLabel = UILabel()
     
 //    private let visitDateImage = UIImageView()
     
-    let dateStartAtTextField = DRTextField(placeholderText: StringLiterals.AddCourseOrSchedule.AddFirstView.dateStartTimeLabel, rightIconType: .time)
+    let dateStartAtTextField = DRTextField(type: .AddCourseSchedule(.dateStartAt))
 //    let dateStartAtContainer = UIView()
     
 //    private let dateStartTimeLabel = UILabel()
@@ -37,7 +39,7 @@ final class AddFirstView: BaseView {
     private let tagTitleLabel = UILabel()
     
     
-    let datePlaceTextField = DRTextField(placeholderText: StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel, rightIconType: .downArrow)
+    let datePlaceTextField = DRTextField(type: .AddCourseSchedule(.dateLocation))
 //    let datePlaceContainer = UIView()
     
 //    private let datePlaceLabel = UILabel()
@@ -275,7 +277,7 @@ extension AddFirstView {
     
     func updateSixCheckButton(isValid: Bool) {
 //        let btnState = isValid ? enabledButtonType : disabledButtonType
-        sixCheckNextButton.isEnabled = isValid
+        sixCheckNextButton.isEnabled = !isValid
 //        sixCheckNextButton.setButtonStatus(buttonType: btnState)
     }
     
