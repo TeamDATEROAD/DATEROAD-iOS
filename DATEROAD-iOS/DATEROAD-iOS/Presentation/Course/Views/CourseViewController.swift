@@ -164,14 +164,14 @@ final class CourseViewController: BaseViewController {
         // 이전과 다른 버튼을 선택한 경우 -> 이전에 선택했던 버튼 해제 처리
         if let previousButton = selectedButton, previousButton != sender {
             previousButton.isSelected = false
-            courseView.courseFilterView.updatePrice(button: previousButton, .small_unselected_15, isSelected: false)
+            courseView.courseFilterView.updatePrice(button: previousButton, .med_gray100_15, isSelected: false)
         }
         
         // 선택한 버튼 상태 변경
         sender.isSelected.toggle()
         
         // 선택한 버튼 상태에 따라 속성 변경
-        courseView.courseFilterView.updatePrice(button: sender, sender.isSelected ? .small_selected_15 : .small_unselected_15, isSelected: sender.isSelected)
+        courseView.courseFilterView.updatePrice(button: sender, sender.isSelected ? .med_purple_15 : .med_gray100_15, isSelected: sender.isSelected)
         
         // 현재 선택한 버튼 인덱스 프로퍼티 변경
         courseViewModel.selectedPriceIndex.value = sender.isSelected ? sender.tag + 1 : nil

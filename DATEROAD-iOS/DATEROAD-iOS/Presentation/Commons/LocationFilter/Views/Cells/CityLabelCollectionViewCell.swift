@@ -14,7 +14,7 @@ final class CityLabelCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
-    let cityButton = DRTextButton(title: "", buttonName: .small_unselected_10)
+    let cityButton = DRTextButton(title: "", buttonName: .med_gray100_10)
     
     
     // MARK: - Methods
@@ -35,7 +35,7 @@ extension CityLabelCollectionViewCell {
     
     func updateCityButtonProperties(with city: LocationModel.City, isSelected: Bool) {
         cityButton.setTitle(city.rawValue, for: .normal)
-        cityButton.setButtonStyle(isSelected ? .small_selected_10 : .small_unselected_10)
+        cityButton.setButtonStyle(isSelected ? .med_purple_10 : .med_gray100_10)
     }
     
 }

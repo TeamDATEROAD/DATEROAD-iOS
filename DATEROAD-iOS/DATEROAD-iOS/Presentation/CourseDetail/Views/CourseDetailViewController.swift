@@ -24,10 +24,15 @@ final class CourseDetailViewController: BaseViewController {
     
     private let skeletonView: CourseDetailSkeletonView = CourseDetailSkeletonView()
     
-    lazy var bottomSheetVC = DRBottomSheetViewController(contentView: deleteCourseSettingView,
-                                                         height: 210,
-                                                         buttonType: DisabledButton(),
-                                                         buttonTitle: StringLiterals.Common.close)
+    lazy var bottomSheetVC = DRBottomSheetViewController(
+        contentView: deleteCourseSettingView,
+        height: 210,
+        buttonType: DRTextButton(
+            title: StringLiterals.Common.close,
+            buttonName: .bold_gray200_14,
+            isEnabled: false
+        )
+    )
     
     
     // MARK: - Properties
@@ -82,9 +87,11 @@ final class CourseDetailViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(courseDetailView,
-                              courseInfoTabBarView,
-                              skeletonView)
+        self.view.addSubviews(
+            courseDetailView,
+            courseInfoTabBarView,
+            skeletonView
+        )
     }
     
     override func setLayout() {
@@ -98,7 +105,7 @@ final class CourseDetailViewController: BaseViewController {
         }
         
         courseInfoTabBarView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.horizontalEdges.bottom.equalToSuperview()
             $0.height.equalTo(108)
         }
         
@@ -228,10 +235,10 @@ final class CourseDetailViewController: BaseViewController {
     }
     
     func setAddTarget() {
-        deleteCourseSettingView.deleteLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapBottomSheetLabel(sender:))))
+        deleteCourseSettingView.optionButton.addTarget(self, action: #selector(didTapBottomSheetLabel(sender:)), for: .touchUpInside)
         courseInfoTabBarView.likeButtonView.isUserInteractionEnabled = true
         courseInfoTabBarView.likeButtonView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapLikeButton)))
-        courseInfoTabBarView.bringCourseButton.addTarget(self, action: #selector(didTapMySchedule), for: .touchUpInside)
+        courseInfoTabBarView.registerForScheduleButton.addTarget(self, action: #selector(didTapRegisterForSchedule), for: .touchUpInside)
     }
     
 }
@@ -298,9 +305,13 @@ extension CourseDetailViewController: DRCustomAlertDelegate {
     
 }
 
-extension CourseDetailViewController: ContentMaskViewDelegate {
+
+// MARK: - ContentMaskView Methods
+
+extension CourseDetailViewController {
     
     //버튼 분기 처리하기
+    @objc
     func didTapViewButton() {
         self.clickCoursePurchase = true
         courseDetailViewModel.haveFreeCount.value == true ? showFreeViewAlert() : showReadCourseAlert()
@@ -345,12 +356,14 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     }
     
     func presentCustomAlert(title: String, description: String, action: RightButtonType, buttonText: String = StringLiterals.Alert.confirm) {
-        let alertVC = DRCustomAlertViewController(rightActionType: action,
-                                                  alertTextType: .hasDecription,
-                                                  alertButtonType: .twoButton,
-                                                  titleText: title,
-                                                  descriptionText: description,
-                                                  rightButtonText: buttonText)
+        let alertVC = DRCustomAlertViewController(
+            rightActionType: action,
+            alertTextType: .hasDecription,
+            titleText: title,
+            descriptionText: description,
+            leftButton: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_gray100_10),
+            rightButton: DRTextButton(title: buttonText, buttonName: .bold_purple_10)
+        )
         alertVC.delegate = self
         alertVC.modalPresentationStyle = .overFullScreen
         present(alertVC, animated: false)
@@ -365,15 +378,27 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     // 신고 혹은 삭제 버튼 클릭 시 처리
     @objc
     func didTapBottomSheetLabel(sender: UITapGestureRecognizer) {
-        print("삭제하기 클릭")
-        self.dismiss(animated: true)
+        self.dismiss(animated: false)
         courseDetailViewModel.isCourseMine.value == true ? showDeleteAlert() : showDeclareAlert()
-        
     }
     
 }
 
-extension CourseDetailViewController: StickyHeaderNavBarViewDelegate, DRBottomSheetDelegate {
+
+// MARK: - DRBottomSheetDelegate
+
+extension CourseDetailViewController: DRBottomSheetDelegate {
+    
+    func didTapBottomButton() {
+        bottomSheetVC.dismissBottomSheet()
+    }
+    
+}
+
+
+// MARK: - StickyHeaderNavBarViewDelegate
+
+extension CourseDetailViewController: StickyHeaderNavBarViewDelegate {
     
     func didTapBackButton() {
         navigationController?.popViewController(animated: false)
@@ -382,15 +407,11 @@ extension CourseDetailViewController: StickyHeaderNavBarViewDelegate, DRBottomSh
     
     func didTapMoreButton() {
         bottomSheetVC.delegate = self
-        deleteCourseSettingView.deleteLabel.text = courseDetailViewModel.isCourseMine.value == true ? StringLiterals.CourseDetail.deleteCourse : StringLiterals.CourseDetail.delclareCourse
-        
+        deleteCourseSettingView.optionButton.setTitle(courseDetailViewModel.isCourseMine.value == true ? StringLiterals.CourseDetail.deleteCourse : StringLiterals.CourseDetail.delclareCourse, for: .normal)
+
         DispatchQueue.main.async {
             self.bottomSheetVC.presentBottomSheet(in: self)
         }
-    }
-    
-    func didTapBottomButton() {
-        self.bottomSheetVC.dismissBottomSheet()
     }
     
 }
@@ -431,7 +452,7 @@ private extension CourseDetailViewController {
     }
     
     @objc
-    func didTapMySchedule() {
+    func didTapRegisterForSchedule() {
         let courseId = courseDetailViewModel.courseId
         let courseDetailViewModel = CourseDetailViewModel(courseId: courseId)
         
@@ -565,18 +586,24 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         switch kind {
         case VisitDateView.elementKinds:
             return configureVisitDateView(collectionView, indexPath: indexPath, titleHeaderData: titleHeaderData)
+            
         case InfoBarView.elementKinds:
             return configureInfoBarView(collectionView, indexPath: indexPath, titleHeaderData: titleHeaderData)
+            
         case GradientView.elementKinds:
             return configureGradientView(collectionView, indexPath: indexPath)
+            
         case BottomPageControllView.elementKinds:
             return configureBottomPageControlView(collectionView, indexPath: indexPath, imageData: imageData, isAccess: isAccess)
+            
         case ContentMaskView.elementKinds:
             return configureContentMaskView(collectionView, indexPath: indexPath, isAccess: isAccess)
         case InfoHeaderView.elementKinds:
             return configureInfoHeaderView(collectionView, indexPath: indexPath)
+            
         case TimelineHeaderView.elementKinds:
             return configureTimelineHeaderView(collectionView, indexPath: indexPath)
+            
         default:
             return UICollectionReusableView()
         }
@@ -608,11 +635,11 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
     
     private func configureContentMaskView(_ collectionView: UICollectionView, indexPath: IndexPath, isAccess: Bool) -> UICollectionReusableView {
         return collectionViewUtils.dequeueAndConfigureSupplementaryView(collectionView: collectionView, indexPath: indexPath, kind: ContentMaskView.elementKinds, identifier: ContentMaskView.identifier) { (view: ContentMaskView) in
+            view.readCourseButton.addTarget(self, action: #selector(didTapViewButton), for: .touchUpInside)
             if !isAccess {
                 let haveFree = courseDetailViewModel.haveFreeCount.value ?? false
                 let count = courseDetailViewModel.conditionalData.value?.free ?? 0
-                view.checkFree(haveFree: haveFree, count: count)
-                view.delegate = self
+                view.updateReadCourseButton(haveFree: haveFree, count: count)
             }
         }
     }

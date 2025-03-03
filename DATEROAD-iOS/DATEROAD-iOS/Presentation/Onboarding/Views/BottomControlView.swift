@@ -13,7 +13,7 @@ final class BottomControlView: BaseView {
     
     let pageControl: UIPageControl = UIPageControl()
     
-    let nextButton: DRTextButton = DRTextButton(title: StringLiterals.Onboarding.next, buttonName: .large_enable_29)
+    let nextButton: DRTextButton = DRTextButton(title: StringLiterals.Onboarding.next, buttonName: .bold_purple_29)
     
     
     // MARK: - Methods

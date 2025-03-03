@@ -11,7 +11,7 @@ final class PriceButtonCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
-    let priceButton: DRTextButton = DRTextButton(title: "", buttonName: .small_unselected_15)
+    let priceButton: DRTextButton = DRTextButton(title: "", buttonName: .med_gray100_15)
     
     
     // MARK: - Life Cycle

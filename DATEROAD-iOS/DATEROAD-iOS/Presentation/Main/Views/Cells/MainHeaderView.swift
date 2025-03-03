@@ -20,7 +20,7 @@ final class MainHeaderView: UICollectionReusableView {
     
     let subLabel: UILabel = UILabel()
     
-    let viewMoreButton: DRTextButton = DRTextButton(title: StringLiterals.Main.viewMore, buttonName: .small_text_0)
+    let viewMoreButton: DRTextButton = DRTextButton(title: StringLiterals.Main.viewMore, buttonName: .bold_white_0)
     
     
     // MARK: - Properties

@@ -14,7 +14,7 @@ final class CountryLabelCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
         
-    let countryButton = DRTextButton(title: "", buttonName: .semi_small_unselected_10)
+    let countryButton = DRTextButton(title: "", buttonName: .semi_gray100_10)
     
     
     // MARK: - Methods
@@ -35,7 +35,7 @@ extension CountryLabelCollectionViewCell {
     
     func updateCountryButtonProperties(with country: LocationModel.Country, isSelected: Bool) {
         countryButton.setTitle(country.rawValue, for: .normal)
-        countryButton.setButtonStyle(isSelected ? .semi_small_selected_10: .semi_small_unselected_10)
+        countryButton.setButtonStyle(isSelected ? .semi_purple_10: .semi_gray100_10)
     }
     
 }

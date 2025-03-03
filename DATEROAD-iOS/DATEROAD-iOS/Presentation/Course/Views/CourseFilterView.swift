@@ -113,7 +113,7 @@ extension CourseFilterView {
     
     func resetPriceButtons() {
         guard let priceButton = currentButton else { return }
-        updatePrice(button: priceButton, .small_unselected_15, isSelected: false)
+        updatePrice(button: priceButton, .med_gray100_15, isSelected: false)
         currentButton = nil
     }
     

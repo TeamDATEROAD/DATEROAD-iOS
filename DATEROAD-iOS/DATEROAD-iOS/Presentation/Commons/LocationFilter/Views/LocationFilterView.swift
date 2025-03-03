@@ -36,7 +36,7 @@ final class LocationFilterView: BaseView {
     
     let applyButton = DRTextButton(
         title: StringLiterals.LocationFilter.apply,
-        buttonName: .large_disable_14,
+        buttonName: .bold_gray200_14,
         isEnabled: false
     )
     
@@ -151,7 +151,7 @@ extension LocationFilterView {
 extension LocationFilterView {
 
     func updateApplyButtonProperties(_ isEnable: Bool) {
-        applyButton.setButtonStyle(isEnable ? .large_enable_14 : .large_disable_14)
+        applyButton.setButtonStyle(isEnable ? .bold_purple_14 : .bold_gray200_14)
     }
     
 }
