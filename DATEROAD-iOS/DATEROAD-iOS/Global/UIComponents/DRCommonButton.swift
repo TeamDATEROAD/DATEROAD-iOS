@@ -8,12 +8,12 @@
 import UIKit
 
 enum DRCommonButtonType {
-    case nextValidType
+    case nextValidType(title: String)
     
     var titleStyle: DRCommonButton.DRCommonBtnTitleStyle {
         switch self {
-        case .nextValidType:
-            return .text(title: StringLiterals.AddCourseOrSchedule.AddFirstView.addFirstNextBtnOfCourse, suitFontStyle: .body_bold_15)
+        case .nextValidType(let title):
+            return .text(title: title, suitFontStyle: .body_bold_15)
         }
     }
     var handleStyle: DRCommonButton.DRCommonBtnHandleStyle {
@@ -43,6 +43,14 @@ final class DRCommonButton: UIButton {
                     disabledTitleColor: UIColor,
                     enabledBackgroundColor: UIColor,
                     disabledBackgroundColor: UIColor)
+    }
+    
+    convenience init(type: DRCommonButtonType) {
+        self.init(
+            titleType: type.titleStyle,
+            handleType: type.handleStyle,
+            cornerRadius: type.cornerRadius
+        )
     }
     
     private let titleType: DRCommonBtnTitleStyle
