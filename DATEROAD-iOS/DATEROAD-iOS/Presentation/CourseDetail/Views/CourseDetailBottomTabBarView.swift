@@ -16,7 +16,7 @@ final class CourseDetailBottomTabBarView: BaseView {
     
     let likeButtonImageView = UIImageView()
     
-    let bringCourseButton = UIButton()
+    let registerForScheduleButton = DRTextButton(title: StringLiterals.CourseDetail.bringCourseLabel, buttonName: .bold_purple_14)
     
     
     // MARK: - Properties
@@ -33,7 +33,7 @@ final class CourseDetailBottomTabBarView: BaseView {
         self.addSubviews(
             likeButtonView,
             likeButtonImageView,
-            bringCourseButton
+            registerForScheduleButton
         )
     }
     
@@ -52,7 +52,7 @@ final class CourseDetailBottomTabBarView: BaseView {
             $0.height.equalTo(18)
         }
         
-        bringCourseButton.snp.makeConstraints {
+        registerForScheduleButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(16)
             $0.trailing.equalToSuperview().inset(16)
             $0.leading.equalTo(likeButtonView.snp.trailing).offset(16)
@@ -69,14 +69,6 @@ final class CourseDetailBottomTabBarView: BaseView {
         likeButtonImageView.do {
             $0.image = UIImage(resource:.heartIcon).withRenderingMode(.alwaysTemplate)
             $0.tintColor = UIColor(resource: .gray200)
-        }
-        
-        bringCourseButton.do {
-            $0.roundedButton(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
-            $0.backgroundColor = UIColor(resource: .deepPurple)
-            $0.setTitle(StringLiterals.CourseDetail.bringCourseLabel, for: .normal)
-            $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_bold_15)
         }
     }
     
