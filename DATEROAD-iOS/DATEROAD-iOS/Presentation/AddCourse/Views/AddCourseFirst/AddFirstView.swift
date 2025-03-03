@@ -46,7 +46,8 @@ final class AddFirstView: BaseView {
     
     private let sixCheckNextBtnContainer = UIView()
     
-    let sixCheckNextButton = UIButton()
+//    let sixCheckNextButton = UIButton()
+    let sixCheckNextButton = DRCommonButton(titleType: DRCommonButtonType.nextValidType.titleStyle, handleType: DRCommonButtonType.nextValidType.handleStyle, cornerRadius: DRCommonButtonType.nextValidType.cornerRadius)
     
     let tendencyTagCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -226,11 +227,11 @@ final class AddFirstView: BaseView {
 //            $0.contentMode = .scaleToFill
 //        }
         
-        sixCheckNextButton.do {
-            $0.setTitle(StringLiterals.AddCourseOrSchedule.AddFirstView.addFirstNextBtnOfCourse, for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_med_13)
-            $0.setButtonStatus(buttonType: disabledButtonType)
-        }
+//        sixCheckNextButton.do {
+//            $0.setTitle(StringLiterals.AddCourseOrSchedule.AddFirstView.addFirstNextBtnOfCourse, for: .normal)
+//            $0.titleLabel?.font = UIFont.suit(.body_med_13)
+//            $0.setButtonStatus(buttonType: disabledButtonType)
+//        }
     }
     
 }
@@ -273,8 +274,9 @@ extension AddFirstView {
     }
     
     func updateSixCheckButton(isValid: Bool) {
-        let btnState = isValid ? enabledButtonType : disabledButtonType
-        sixCheckNextButton.setButtonStatus(buttonType: btnState)
+//        let btnState = isValid ? enabledButtonType : disabledButtonType
+        sixCheckNextButton.isEnabled = isValid
+//        sixCheckNextButton.setButtonStatus(buttonType: btnState)
     }
     
     func updateTagCount(count: Int) {
