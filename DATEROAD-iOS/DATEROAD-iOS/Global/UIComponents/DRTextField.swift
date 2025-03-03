@@ -19,6 +19,7 @@ enum DRTextFieldType: Equatable {
     }
     
     case AddCourseSchedule(AddCourseScheduleType)
+    case profile
     
     var textFieldStyle: DRTextField.DRTextFieldStyle {
         switch self {
@@ -39,6 +40,8 @@ enum DRTextFieldType: Equatable {
             case .totalPrice:
                 return .basic(placeholder: StringLiterals.AddCourseOrSchedule.AddThirdView.priceTextFieldPlaceHolder, cornerRadius: 14)
             }
+        case .profile:
+            return .rightTextButton(placeholder: StringLiterals.Profile.nicknamePlaceholder, cornerRadius: 14)
         }
     }
 }
@@ -47,14 +50,14 @@ final class DRTextField: UITextField {
     
     enum DRTextFieldStyle {
         case basic(placeholder: String, cornerRadius: CGFloat, alignment: NSTextAlignment = .left)
-        case rightButton(placeholder: String, cornerRadius: CGFloat)
+        case rightTextButton(placeholder: String, cornerRadius: CGFloat)
         case rightIcon(iconStyle: RightIconStyle, placeholder: String, cornerRadius: CGFloat)
         
         var placeholderText: String {
             switch self {
             case .basic(let placeholder, _, _):
                 return placeholder
-            case .rightButton(let placeholder, _):
+            case .rightTextButton(let placeholder, _):
                 return placeholder
             case .rightIcon(_, let placeholder, _):
                 return placeholder
@@ -71,7 +74,7 @@ final class DRTextField: UITextField {
         var rightPadding: CGFloat {
             switch self {
             case .basic: 16
-            case .rightButton: 16
+            case .rightTextButton: 16
             case .rightIcon: 18
             }
         }
@@ -80,7 +83,7 @@ final class DRTextField: UITextField {
             switch self {
             case .basic(_, let cornerRadius, _):
                 return cornerRadius
-            case .rightButton(_, let cornerRadius):
+            case .rightTextButton(_, let cornerRadius):
                 return cornerRadius
             case .rightIcon(_, _, let cornerRadius):
                 return cornerRadius
@@ -89,8 +92,10 @@ final class DRTextField: UITextField {
         
         var rightSomeThingWidth: CGFloat {
             switch self {
-            case .basic, .rightButton:
+            case .basic:
                 return 0
+            case .rightTextButton:
+                return 74
             case .rightIcon(let iconStyle, _, _):
                 return iconStyle.iconWidth
             }
@@ -98,7 +103,7 @@ final class DRTextField: UITextField {
         
         var rightIconStyle: RightIconStyle {
             switch self {
-            case .basic, .rightButton:
+            case .basic, .rightTextButton:
                 return .none
             case .rightIcon(let iconStyle, _, _):
                 return iconStyle
@@ -145,11 +150,14 @@ final class DRTextField: UITextField {
     
     private let type: DRTextFieldStyle
     private var isNumberPad: Bool = false
+    private var isRightButton: Bool = false
     private let leftPadding: CGFloat
     private let rightPadding: CGFloat
     
     init(type: DRTextFieldType) {
         self.isNumberPad = type == DRTextFieldType.AddCourseSchedule(.totalPrice) ? true : false
+        self.isRightButton = type == DRTextFieldType.profile ? true : false
+        
         self.type = type.textFieldStyle
         self.leftPadding = type.textFieldStyle.leftPadding
         self.rightPadding = type.textFieldStyle.rightPadding
@@ -176,13 +184,25 @@ final class DRTextField: UITextField {
     }
     
     private func setupRightView() {
-        guard let icon = type.rightIconStyle.image else {return}
-        let iconView = UIImageView(image: icon)
-        iconView.tintColor = UIColor.gray200
-        iconView.contentMode = .scaleAspectFit
-        
-        rightView = iconView
-        rightViewMode = .always
+        if isRightButton {
+            let button = UIButton()
+            button.setTitle(StringLiterals.Profile.doubleCheck, for: .normal)
+            button.setTitleColor(UIColor(resource: .gray400), for: .normal)
+            button.titleLabel?.font = .suit(.body_med_13)
+            button.backgroundColor = UIColor(resource: .gray200)
+            button.layer.cornerRadius = 10
+            
+            rightView = button
+            rightViewMode = .always
+        } else {
+            guard let icon = type.rightIconStyle.image else {return}
+            let iconView = UIImageView(image: icon)
+            iconView.tintColor = UIColor.gray200
+            iconView.contentMode = .scaleAspectFit
+            
+            rightView = iconView
+            rightViewMode = .always
+        }
     }
     
     private func calculateRightPadding() -> CGFloat {
@@ -202,7 +222,10 @@ final class DRTextField: UITextField {
     }
     
     override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
-        let size = CGSize(width: type.rightSomeThingWidth, height: type.rightSomeThingWidth)
+        var size = CGSize(width: type.rightSomeThingWidth, height: type.rightSomeThingWidth)
+        if isRightButton {
+            size = CGSize(width: type.rightSomeThingWidth, height: 30)
+        }
         return CGRect(
             origin: CGPoint(x: bounds.width - size.width - rightPadding, y: (bounds.height - size.height) / 2),
             size: size
