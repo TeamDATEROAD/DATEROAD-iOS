@@ -47,7 +47,7 @@ final class AddFirstView: BaseView {
     private let sixCheckNextBtnContainer = UIView()
     
 //    let sixCheckNextButton = UIButton()
-    let sixCheckNextButton = DRCommonButton(titleType: DRCommonButtonType.nextValidType.titleStyle, handleType: DRCommonButtonType.nextValidType.handleStyle, cornerRadius: DRCommonButtonType.nextValidType.cornerRadius)
+    let sixCheckNextButton = DRCommonButton(type: .nextValidType(title: StringLiterals.AddCourseOrSchedule.AddFirstView.addFirstNextBtnOfCourse))
     
     let tendencyTagCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -150,11 +150,11 @@ final class AddFirstView: BaseView {
         sixCheckNextBtnContainer.snp.makeConstraints {
             $0.top.equalTo(datePlaceTextField.snp.bottom).offset(24)
             $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(4)
+            $0.bottom.equalToSuperview()
         }
         
         sixCheckNextButton.snp.makeConstraints {
-            $0.height.equalTo(52)
+            $0.height.equalTo(54)
             $0.bottom.horizontalEdges.equalToSuperview()
         }
     }

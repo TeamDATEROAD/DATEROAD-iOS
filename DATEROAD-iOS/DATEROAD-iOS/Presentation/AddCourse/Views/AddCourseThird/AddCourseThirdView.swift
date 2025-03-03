@@ -26,7 +26,7 @@ final class AddCourseThirdView: BaseView {
     
     private let enabledButtonType: DRButtonType = EnabledButton()
     
-    private let disabledButtonType: DRButtonType = addCoursePlaceDisabledButton()
+    private let disabledButtonType: DRButtonType = DisabledButton()
     
     
     // MARK: - Methods
@@ -46,7 +46,7 @@ final class AddCourseThirdView: BaseView {
         addThirdDoneBtn.snp.makeConstraints {
             $0.height.equalTo(54)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.bottom.equalTo(safeAreaLayoutGuide).offset(-4)
+            $0.bottom.equalTo(safeAreaLayoutGuide)
         }
         
         scrollContentView.snp.makeConstraints {
