@@ -9,23 +9,23 @@ import UIKit
 
 enum ButtonName {
     
-    case large_enable_14, large_disable_14, large_enable_29
+    case bold_purple_14, bold_gray200_14, bold_purple_29, semi_white_0, bold_purple_10, bold_gray100_10
     
-    case small_selected_15, small_unselected_15, small_selected_10, small_unselected_10, semi_small_selected_10, semi_small_unselected_10, small_disable_10, small_enable_10, small_text_0
+    case med_purple_15, med_gray100_15, med_purple_10, med_gray100_10, semi_purple_10, semi_gray100_10, med_gray200_10, bold_white_0
     
     
     var bgColor: UIColor {
         switch self {
-        case .large_enable_14, .large_enable_29, .small_selected_15, .small_selected_10, .semi_small_selected_10, .small_enable_10:
+        case .bold_purple_14, .bold_purple_29, .bold_purple_10, .med_purple_15, .med_purple_10, .semi_purple_10:
             return UIColor(resource: .deepPurple)
             
-        case .large_disable_14, .small_disable_10:
+        case .bold_gray200_14, .med_gray200_10:
             return UIColor(resource: .gray200)
             
-        case .small_unselected_15, .small_unselected_10, .semi_small_unselected_10:
+        case .bold_gray100_10, .med_gray100_15, .med_gray100_10, .semi_gray100_10:
             return UIColor(resource: .gray100)
             
-        case .small_text_0:
+        case .semi_white_0, .bold_white_0:
             return UIColor(resource: .drWhite)
             
         }
@@ -33,13 +33,13 @@ enum ButtonName {
     
     var fontColor: UIColor {
         switch self {
-        case .large_enable_14, .large_enable_29, .small_selected_15, .small_selected_10, .semi_small_selected_10, .small_enable_10:
+        case .bold_purple_14, .bold_purple_29, .bold_purple_10, .med_purple_15, .med_purple_10, .semi_purple_10:
             return UIColor(resource: .drWhite)
             
-        case .large_disable_14, .small_unselected_15, .small_unselected_10, .semi_small_unselected_10, .small_disable_10:
+        case .bold_gray100_10, .semi_white_0, .bold_gray200_14, .med_gray100_15, .med_gray100_10, .semi_gray100_10, .med_gray200_10:
             return UIColor(resource: .gray400)
             
-        case .small_text_0:
+        case .bold_white_0:
             return UIColor(resource: .mediumPurple)
             
         }
@@ -47,16 +47,16 @@ enum ButtonName {
     
     var borderColor: CGColor {
         switch self {
-        case .large_enable_14, .large_enable_29, .small_selected_15, .small_selected_10, .semi_small_selected_10, .small_enable_10:
+        case .bold_purple_14, .bold_purple_29, .bold_purple_10, .med_purple_15, .med_purple_10, .semi_purple_10:
             return UIColor(resource: .deepPurple).cgColor
             
-        case .large_disable_14, .small_disable_10:
+        case .bold_gray200_14, .med_gray200_10:
             return UIColor(resource: .gray200).cgColor
          
-        case .small_unselected_15, .small_unselected_10, .semi_small_unselected_10:
+        case .bold_gray100_10, .med_gray100_15, .med_gray100_10, .semi_gray100_10:
             return UIColor(resource: .gray100).cgColor
             
-        case .small_text_0:
+        case .semi_white_0, .bold_white_0:
             return UIColor(resource: .drWhite).cgColor
             
         }
@@ -65,19 +65,19 @@ enum ButtonName {
     
     var cornerRadius: CGFloat {
         switch self {
-        case .large_enable_29:
+        case .bold_purple_29:
             return ScreenUtils.height / 812 * 29
             
-        case .small_selected_15, .small_unselected_15:
+        case .med_purple_15, .med_gray100_15:
             return 15
             
-        case .large_enable_14, .large_disable_14:
+        case .semi_white_0, .bold_purple_14, .bold_gray200_14:
             return 14
 
-        case .small_disable_10, .small_enable_10, .small_selected_10, .small_unselected_10, .semi_small_selected_10, .semi_small_unselected_10:
+        case .bold_purple_10, .bold_gray100_10, .med_gray200_10, .med_purple_10, .med_gray100_10, .semi_purple_10, .semi_gray100_10:
             return 10
          
-        case .small_text_0:
+        case .bold_white_0:
             return 0
             
         }
@@ -86,10 +86,10 @@ enum ButtonName {
     
     var borderWidth: CGFloat {
         switch self {
-        case .large_enable_14:
+        case .bold_purple_14:
             return 1
             
-        case .large_disable_14, .large_enable_29, .small_disable_10, .small_enable_10, .small_text_0, .small_selected_15, .small_unselected_15, .small_selected_10, .small_unselected_10, .semi_small_selected_10, .semi_small_unselected_10:
+        default:
             return 0
 
         }
@@ -97,16 +97,16 @@ enum ButtonName {
         
     var font: UIFont {
         switch self {
-        case .large_enable_29, .large_enable_14, .large_disable_14:
+        case .bold_purple_29, .bold_purple_14, .bold_gray200_14, .bold_purple_10, .bold_gray100_10:
             return UIFont.suit(.body_bold_15)
 
-        case .small_text_0:
+        case .bold_white_0:
             return UIFont.suit(.body_bold_13)
             
-        case .semi_small_selected_10, .semi_small_unselected_10:
+        case .semi_white_0, .semi_purple_10, .semi_gray100_10:
             return UIFont.suit(.body_semi_15)
             
-        case .small_disable_10, .small_enable_10, .small_selected_15, .small_unselected_15, .small_selected_10, .small_unselected_10:
+        case .med_gray200_10, .med_purple_15, .med_gray100_15, .med_purple_10, .med_gray100_10:
             return UIFont.suit(.body_med_13)
         }
         
