@@ -25,7 +25,7 @@ final class ProfileView: BaseView {
     
     let doubleCheckButton: DRTextButton = DRTextButton(
         title: StringLiterals.Profile.doubleCheck,
-        buttonName: .small_disable_10,
+        buttonName: .med_gray200_10,
         isEnabled: false
     )
     
@@ -41,7 +41,7 @@ final class ProfileView: BaseView {
     
     let registerButton: DRTextButton = DRTextButton(
         title: StringLiterals.Profile.registerProfile,
-        buttonName: .large_disable_14,
+        buttonName: .bold_gray200_14,
         isEnabled: false
     )
     
@@ -245,7 +245,7 @@ extension ProfileView {
     }
     
     func updateDoubleCheckButton(isValid: Bool) {
-        doubleCheckButton.setButtonStyle(isValid ? .small_enable_10 : .small_disable_10, isEnabled: isValid)
+        doubleCheckButton.setButtonStyle(isValid ? .med_purple_10 : .med_gray200_10, isEnabled: isValid)
     }
     
     func updateTagCount(count: Int) {
@@ -257,7 +257,7 @@ extension ProfileView {
     }
     
     func updateRegisterButton(isValid: Bool) {
-        registerButton.setButtonStyle(isValid ? .large_enable_14 : .large_disable_14, isEnabled: isValid)
+        registerButton.setButtonStyle(isValid ? .bold_purple_14 : .bold_gray200_14, isEnabled: isValid)
     }
     
     func updateProfileImage(image: UIImage) {

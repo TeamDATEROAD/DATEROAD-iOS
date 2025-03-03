@@ -232,10 +232,9 @@ extension MyPageViewController {
         let customAlertVC = DRCustomAlertViewController(
             rightActionType: RightButtonType.logout,
             alertTextType: .noDescription,
-            alertButtonType: .twoButton,
             titleText: StringLiterals.Alert.wouldYouLogOut,
-            leftButtonText: StringLiterals.Common.cancel,
-            rightButtonText: StringLiterals.MyPage.logout
+            leftButton: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_gray100_10),
+            rightButton: DRTextButton(title: StringLiterals.MyPage.logout, buttonName: .bold_purple_10)
         )
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
@@ -248,11 +247,10 @@ extension MyPageViewController {
         let customAlertVC = DRCustomAlertViewController(
             rightActionType: RightButtonType.none,
             alertTextType: .noDescription,
-            alertButtonType: .twoButton,
             titleText: StringLiterals.Alert.realWithdrawal,
             descriptionText: StringLiterals.Alert.lastWarning,
-            leftButtonText: StringLiterals.MyPage.alertWithdrawal,
-            rightButtonText: StringLiterals.Common.cancel
+            leftButton: DRTextButton(title: StringLiterals.MyPage.alertWithdrawal, buttonName: .bold_gray100_10),
+            rightButton: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_purple_10)
         )
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen

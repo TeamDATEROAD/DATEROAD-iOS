@@ -177,12 +177,13 @@ extension UpcomingDateScheduleViewController: DRCustomAlertDelegate {
     @objc
     private func dateRegisterButtonTapped() {
         if upcomingDateScheduleViewModel.isMoreThanFiveSchedule {
-            let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none,
-                                                            alertTextType: .hasDecription, 
-                                                            alertButtonType: .oneButton,
-                                                            titleText: StringLiterals.Alert.noMoreSchedule,
-                                                            descriptionText: StringLiterals.Alert.noMoreThanFive,
-                                                            longButtonText: StringLiterals.Alert.iChecked)
+            let customAlertVC = DRCustomAlertViewController(
+                rightActionType: RightButtonType.none,
+                alertTextType: .hasDecription,
+                titleText: StringLiterals.Alert.noMoreSchedule,
+                descriptionText: StringLiterals.Alert.noMoreThanFive,
+                longButton: DRTextButton(title: StringLiterals.Alert.iChecked, buttonName: .bold_purple_10)
+            )
             customAlertVC.delegate = self
             customAlertVC.modalPresentationStyle = .overFullScreen
             self.present(customAlertVC, animated: false)

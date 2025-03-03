@@ -17,10 +17,11 @@ final class EditProfileViewController: BaseNavBarViewController {
     
     private let imagePickerViewController = CustomImagePicker(isProfilePicker: true)
     
-    lazy var alertVC = DRBottomSheetViewController(contentView: profileImageSettingView,
-                                                   height: 288,
-                                                   buttonType: DisabledButton(),
-                                                   buttonTitle: StringLiterals.Common.cancel)
+    lazy var alertVC = DRBottomSheetViewController(
+        contentView: profileImageSettingView,
+        height: 288,
+        buttonType: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_gray200_14)
+    )
     
     
     // MARK: - Properties
