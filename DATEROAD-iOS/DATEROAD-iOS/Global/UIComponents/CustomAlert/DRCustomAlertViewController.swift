@@ -33,7 +33,13 @@ final class DRCustomAlertViewController: BaseViewController {
     
     // MARK: - UI Properties
     
-    private var customAlertView = DRCustomAlertView()
+    private var customAlertView: DRCustomAlertView
+    
+    private var longButton: DRTextButton?
+    
+    private var leftButton: DRTextButton?
+    
+    private var rightButton: DRTextButton?
     
     
     // MARK: - Properties
@@ -41,18 +47,10 @@ final class DRCustomAlertViewController: BaseViewController {
     private var rightActionType: RightButtonType
     
     private var alertTextType: AlertTextType
-    
-    private var alertButtonType: AlertButtonType
-    
+        
     private var titleText: String
     
     private var descriptionText: String?
-    
-    private var longButtonText: String?
-    
-    private var leftButtonText: String?
-    
-    private var rightButtonText: String?
     
     var delegate: DRCustomAlertDelegate?
     
@@ -61,21 +59,23 @@ final class DRCustomAlertViewController: BaseViewController {
     
     init(rightActionType: RightButtonType,
          alertTextType: AlertTextType,
-         alertButtonType: AlertButtonType,
          titleText: String,
          descriptionText: String? = "",
-         longButtonText: String? = "",
-         leftButtonText: String? = "취소",
-         rightButtonText: String? = "") {
-        
+         longButton: DRTextButton? = nil,
+         leftButton: DRTextButton? = nil,
+         rightButton: DRTextButton? = nil) {
         self.rightActionType = rightActionType
         self.alertTextType = alertTextType
-        self.alertButtonType = alertButtonType
         self.titleText = titleText
         self.descriptionText = descriptionText
-        self.longButtonText = longButtonText
-        self.leftButtonText = leftButtonText
-        self.rightButtonText = rightButtonText
+        self.longButton = longButton
+        self.leftButton = leftButton
+        self.rightButton = rightButton
+        self.customAlertView = DRCustomAlertView(
+            longButton: longButton,
+            leftButton: leftButton,
+            rightButton: rightButton
+        )
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -118,42 +118,26 @@ extension DRCustomAlertViewController {
             customAlertView.titleLabel.snp.makeConstraints {
                 $0.bottom.equalToSuperview().inset(115)
             }
+            
         case .noDescription:
             customAlertView.titleLabel.snp.makeConstraints {
                 $0.bottom.equalToSuperview().inset(99)
             }
         }
         
-        switch alertButtonType {
-        case .oneButton:
-            setLongButton(text: longButtonText)
-        case .twoButton:
-            setLeftButton(text: leftButtonText)
-            setRightButton(text: rightButtonText)
+        if let longButton = self.longButton {
+            customAlertView.longButton?.addTarget(self, action: #selector(longButtonTapped), for: .touchUpInside)
+        }
+        
+        if let leftButton = self.leftButton, let rightButton = self.rightButton {
+            customAlertView.leftButton?.addTarget(self, action: #selector(longButtonTapped), for: .touchUpInside)
+            customAlertView.rightButton?.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
         }
     }
     
 }
 
 private extension DRCustomAlertViewController {
-    
-    func setLongButton(text: String?) {
-        customAlertView.longButton.isHidden = false
-        customAlertView.longButton.setTitle(text, for: .normal)
-        customAlertView.longButton.addTarget(self, action: #selector(longButtonTapped), for: .touchUpInside)
-    }
-    
-    func setLeftButton(text: String?) {
-        customAlertView.leftButton.isHidden = false
-        customAlertView.leftButton.setTitle(text, for: .normal)
-        customAlertView.leftButton.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
-    }
-    
-    func setRightButton(text: String?) {
-        customAlertView.rightButton.isHidden = false
-        customAlertView.rightButton.setTitle(text, for: .normal)
-        customAlertView.rightButton.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
-    }
     
     @objc
     func longButtonTapped() {
