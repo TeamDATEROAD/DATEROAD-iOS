@@ -55,7 +55,6 @@ extension DRTextButton {
             $0.backgroundColor = buttonName.bgColor
             $0.setTitleColor(buttonName.fontColor, for: .normal)
             $0.layer.borderWidth = buttonName.borderWidth
-            $0.layer.borderColor = buttonName.borderColor
             $0.isEnabled = isEnabled
             $0.isSelected = isSelected
             $0.layer.cornerRadius = buttonName.cornerRadius
