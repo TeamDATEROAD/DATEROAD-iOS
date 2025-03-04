@@ -15,9 +15,9 @@ final class LoginView: BaseView {
     
     let kakaoLoginButton: UIButton = UIButton()
     
-    let appleLoginButton: UIButton = UIButton()
+    let appleLoginButton: DRTextButton = DRTextButton(title: StringLiterals.Login.appleLoginLabel, buttonName: .bold_black_14)
     
-    let privacyPolicyButton: UIButton = UIButton()
+    let privacyPolicyButton: DRTextButton = DRTextButton(title: StringLiterals.Login.privacyPolicyLabel, buttonName: .med_purple_0)
     
     
     // MARK: - Methods
@@ -76,17 +76,7 @@ final class LoginView: BaseView {
             $0.configuration = config
         }
         
-        appleLoginButton.do {
-            $0.setButtonStatus(buttonType: AppleLoginButton())
-            $0.setTitle(StringLiterals.Login.appleLoginLabel, for: .normal)
-        }
-        
-        privacyPolicyButton.do {
-            $0.setTitle(StringLiterals.Login.privacyPolicyLabel, for: .normal)
-            $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_med_15)
-            $0.setUnderline()
-        }
+        privacyPolicyButton.setUnderline()
     }
     
 }

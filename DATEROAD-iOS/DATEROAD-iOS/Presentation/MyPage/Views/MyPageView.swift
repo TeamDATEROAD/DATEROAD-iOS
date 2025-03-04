@@ -15,7 +15,7 @@ final class MyPageView: BaseView {
     
     let myPageTableView: UITableView = UITableView(frame: .zero, style: .plain)
     
-    let withdrawalButton: UIButton = UIButton()
+    let withdrawalButton: DRTextButton = DRTextButton(title: StringLiterals.MyPage.withdrawal, buttonName: .med_white_0)
     
     
     // MARK: - Life Cycle
@@ -54,12 +54,6 @@ final class MyPageView: BaseView {
             $0.separatorStyle = .none
             $0.rowHeight = 60
             $0.isScrollEnabled = false
-        }
-        
-        withdrawalButton.do {
-            $0.setTitle(StringLiterals.MyPage.withdrawal, for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_med_13)
-            $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
         }
     }
     
