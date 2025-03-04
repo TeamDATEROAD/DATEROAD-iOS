@@ -104,11 +104,9 @@ private extension ProfileViewController {
         
         self.profileView.registerButton.addTarget(self, action: #selector(registerProfile), for: .touchUpInside)
         
-        let deleteGesture = UITapGestureRecognizer(target: self, action: #selector(deletePhoto))
-        self.profileImageSettingView.deleteLabel.addGestureRecognizer(deleteGesture)
+        self.profileImageSettingView.deleteButton.addTarget(self, action: #selector(deletePhoto), for: .touchUpInside)
         
-        let registerGesture = UITapGestureRecognizer(target: self, action: #selector(registerPhoto))
-        self.profileImageSettingView.registerLabel.addGestureRecognizer(registerGesture)
+        self.profileImageSettingView.registerButton.addTarget(self, action: #selector(registerPhoto), for: .touchUpInside)
     }
     
     func bindViewModel() {

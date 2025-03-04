@@ -15,18 +15,20 @@ final class ProfileImageSettingView: BaseView {
     
     private let titleLabel: UILabel = UILabel()
     
-    let registerLabel: UILabel = UILabel()
+    let registerButton: DRTextButton = DRTextButton(title: StringLiterals.Profile.settingImage, buttonName: .semi_white_0)
     
-    let deleteLabel: UILabel = UILabel()
+    let deleteButton: DRTextButton = DRTextButton(title: StringLiterals.Profile.deleteImage, buttonName: .semi_white_0)
     
     
     // MARK: - Life Cycle
     
     override func setHierarchy() {
         self.addSubview(settingStackView)
-        settingStackView.addArrangedSubviews(titleLabel,
-                                             registerLabel,
-                                             deleteLabel)
+        settingStackView.addArrangedSubviews(
+            titleLabel,
+            registerButton,
+            deleteButton
+        )
     }
     
     override func setLayout() {
@@ -46,22 +48,6 @@ final class ProfileImageSettingView: BaseView {
                             alignment: .center,
                             textColor: UIColor(resource: .drBlack),
                             font: UIFont.suit(.title_bold_18))
-
-        registerLabel.do {
-            $0.isUserInteractionEnabled = true
-            $0.setLabel(text: StringLiterals.Profile.registerImage,
-                        alignment: .center,
-                        textColor: UIColor(resource: .deepPurple),
-                        font: UIFont.suit(.body_semi_15))
-        }
-        
-        deleteLabel.do {
-            $0.isUserInteractionEnabled = true
-            $0.setLabel(text: StringLiterals.Profile.deleteImage,
-                        alignment: .center,
-                        textColor: UIColor(resource: .deepPurple),
-                        font: UIFont.suit(.body_semi_15))
-        }
     }
     
 }
