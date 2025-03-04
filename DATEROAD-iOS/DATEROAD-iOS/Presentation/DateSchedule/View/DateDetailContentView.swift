@@ -39,7 +39,7 @@ final class DateDetailContentView: BaseView {
     
     var kakaoShareButton = UIButton()
     
-    var courseShareButton = UIButton()
+    var courseShareButton = DRTextButton(title: StringLiterals.DateSchedule.courseShare, buttonName: .bold_purple_25)
     
     static var dateTimeLineCollectionViewLayout = UICollectionViewFlowLayout()
     
@@ -144,9 +144,9 @@ final class DateDetailContentView: BaseView {
         }
         
         courseShareButton.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(ScreenUtils.width*0.1386667)
-            $0.bottom.equalToSuperview().inset(ScreenUtils.height*0.04802956)
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.width / 375 * 97)
+            $0.height.equalTo(ScreenUtils.width * 0.1386667)
+            $0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.04802956)
         }
     }
     
@@ -246,15 +246,7 @@ final class DateDetailContentView: BaseView {
             $0.roundedButton(cornerRadius: 25, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
         }
         
-        courseShareButton.do {
-            $0.isHidden = true
-            $0.backgroundColor = UIColor(resource: .deepPurple)
-            $0.setTitle(StringLiterals.DateSchedule.courseShare, for: .normal)
-            $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_bold_15)
-            $0.contentEdgeInsets = UIEdgeInsets(top: 14, left: 24, bottom: 14, right: 24)
-            $0.roundedButton(cornerRadius: 25, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
-        }
+        courseShareButton.isHidden = true
         
         DateDetailContentView.dateTimeLineCollectionViewLayout.do {
             $0.scrollDirection = .vertical

@@ -24,7 +24,7 @@ final class UpcomingDateScheduleView: BaseView {
     
     var dateRegisterButton = UIButton()
     
-    var pastDateButton = UIButton()
+    var pastDateButton = DRTextButton(title: StringLiterals.DateSchedule.seePastDate, buttonName: .bold_gray100_14)
     
     
     // MARK: - LifeCycle
@@ -113,17 +113,6 @@ final class UpcomingDateScheduleView: BaseView {
             $0.backgroundColor = UIColor(resource: .deepPurple)
             $0.setImage(UIImage(resource: .plusSchedule), for: .normal)
             $0.roundedButton(cornerRadius: 15, maskedCorners: [.layerMaxXMaxYCorner,
-                                                               .layerMaxXMinYCorner,
-                                                               .layerMinXMaxYCorner,
-                                                               .layerMinXMinYCorner])
-        }
-        
-        pastDateButton.do {
-            $0.setTitle(StringLiterals.DateSchedule.seePastDate, for: .normal)
-            $0.backgroundColor = UIColor(resource: .gray100)
-            $0.titleLabel?.font = UIFont.suit(.body_bold_15)
-            $0.setTitleColor(UIColor(resource: .drBlack), for: .normal)
-            $0.roundedButton(cornerRadius: 13, maskedCorners: [.layerMaxXMaxYCorner,
                                                                .layerMaxXMinYCorner,
                                                                .layerMinXMaxYCorner,
                                                                .layerMinXMinYCorner])
