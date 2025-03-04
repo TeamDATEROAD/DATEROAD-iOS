@@ -101,9 +101,7 @@ private extension AddScheduleSecondViewController {
             $0.dataSource = self
         }
         
-        [addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField, addScheduleSecondView.inAddScheduleSecondView.timeRequireTextField].forEach {
-            $0.delegate = self
-        }
+        addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField.delegate = self
     }
     
     func bindViewModel() {
@@ -187,6 +185,8 @@ private extension AddScheduleSecondViewController {
         addScheduleSecondView.inAddScheduleSecondView.addPlaceButton.addTarget(self, action: #selector(tapAddPlaceBtn), for: .touchUpInside)
         
         addScheduleSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
+        
+        addScheduleSecondView.inAddScheduleSecondView.timeRequireButton.addTarget(self, action: #selector(didTapTimeRequireButton), for: .touchUpInside)
     }
     
     func checkAddPlaceBtnState() {
@@ -247,7 +247,7 @@ private extension AddScheduleSecondViewController {
     
     /// '소요시간' 관련
     @objc
-    func textFieldTapped(_ textField: UITextField) {
+    func didTapTimeRequireButton() {
         let alertVC = AddScheduleBottomSheetViewController(viewModel: viewModel)
         alertVC.addSheetView = AddScheduleBottomSheetView(isCustomPicker: true)
         
@@ -330,12 +330,7 @@ extension AddScheduleSecondViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField != addScheduleSecondView.inAddScheduleSecondView.timeRequireTextField {
-            return true
-        } else {
-            textFieldTapped(textField)
-            return false
-        }
+        return true
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {

@@ -22,7 +22,7 @@ final class InAddScheduleSecondView: BaseView {
     
     let datePlaceTextField: UITextField = UITextField()
     
-    let timeRequireTextField: UITextField = UITextField()
+    let timeRequireButton: DRTextButton = DRTextButton(title: StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder, buttonName: .semi_gray100_14)
     
     let addPlaceButton: UIButton = UIButton()
     
@@ -50,7 +50,7 @@ final class InAddScheduleSecondView: BaseView {
         
         placeRegistrationContainer.addSubviews(
             datePlaceTextField,
-            timeRequireTextField,
+            timeRequireButton,
             addPlaceButton
         )
     }
@@ -84,7 +84,7 @@ final class InAddScheduleSecondView: BaseView {
             $0.width.equalTo(ScreenUtils.width / 375 * 44)
         }
         
-        timeRequireTextField.snp.makeConstraints {
+        timeRequireButton.snp.makeConstraints {
             $0.verticalEdges.equalToSuperview()
             $0.leading.equalTo(datePlaceTextField.snp.trailing).offset(ScreenUtils.width / 375 * 8).priority(.low)
             $0.trailing.equalTo(addPlaceButton.snp.leading).offset(ScreenUtils.width / 375 * -8).priority(.low)
@@ -124,18 +124,6 @@ final class InAddScheduleSecondView: BaseView {
             $0.defaultTextAttributes = attributes
         }
         
-        timeRequireTextField.do {
-            $0.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder,
-                              fontColor: UIColor(resource: .gray300),
-                              font: .suit(.body_semi_13))
-            $0.textAlignment = .center
-            $0.backgroundColor = UIColor(resource: .gray100)
-            $0.layer.borderWidth = 0
-            $0.layer.cornerRadius = 14
-            $0.autocorrectionType = .no
-            $0.spellCheckingType = .no
-        }
-        
         addPlaceButton.do {
             $0.setImage(UIImage(resource: .icAddcourseWhite), for: .normal)
             $0.setImage(UIImage(resource: .icAddcourseGray), for: .disabled)
@@ -161,8 +149,11 @@ extension InAddScheduleSecondView {
     }
     
     func updatetimeRequire(text: String) {
-        timeRequireTextField.text = text
-        timeRequireTextField.font = UIFont.suit(.body_semi_13)
+        let isEmpty = text.isEmpty
+        let text = isEmpty ? StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder : text
+        let state: ButtonName = isEmpty ? .semi_gray100_14 : .semi_gray100_14_black
+        timeRequireButton.setTitle(text, for: .normal)
+        timeRequireButton.setButtonStyle(state)
     }
     
     func changeAddPlaceButtonState(flag: Bool) {
@@ -174,7 +165,7 @@ extension InAddScheduleSecondView {
     func finishAddPlace() {
         // textfield 값 초기화 및 장소 등록 버튼 비활성화
         datePlaceTextField.text = ""
-        timeRequireTextField.text = ""
+        timeRequireButton.setTitle(StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder, for: .normal)
         addPlaceButton.setButtonStatus(buttonType: addCourseDisabledButtonType)
     }
     
