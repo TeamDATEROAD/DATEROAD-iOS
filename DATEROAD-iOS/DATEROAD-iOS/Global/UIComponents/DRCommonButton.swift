@@ -45,26 +45,16 @@ final class DRCommonButton: UIButton {
                     disabledBackgroundColor: UIColor)
     }
     
-    convenience init(type: DRCommonButtonType) {
-        self.init(
-            titleType: type.titleStyle,
-            handleType: type.handleStyle,
-            cornerRadius: type.cornerRadius
-        )
-    }
-    
     private let titleType: DRCommonBtnTitleStyle
     private let handleType: DRCommonBtnHandleStyle
     private let cornerRadius: CGFloat
 
     init(
-        titleType: DRCommonBtnTitleStyle,
-        handleType: DRCommonBtnHandleStyle,
-        cornerRadius: CGFloat
+        type: DRCommonButtonType
     ) {
-        self.titleType = titleType
-        self.handleType = handleType
-        self.cornerRadius = cornerRadius
+        self.titleType = type.titleStyle
+        self.handleType = type.handleStyle
+        self.cornerRadius = type.cornerRadius
         
         super.init(frame: .zero)
         
