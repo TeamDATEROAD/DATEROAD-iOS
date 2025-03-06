@@ -24,7 +24,7 @@ final class CourseFilterView: BaseView {
     
     let locationFilterButton = UIButton()
     
-    let resetButton = UIButton()
+    let resetButton: DRImageButton = DRImageButton(image: UIImage(resource: .icReset), buttonName: .med_white_0)
     
     let priceCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -91,11 +91,7 @@ final class CourseFilterView: BaseView {
             $0.addGestureRecognizer(gesture)
         }
         
-        resetButton.do {
-            $0.setImage(UIImage(resource: .icReset), for: .normal)
-            $0.adjustsImageWhenHighlighted = false
-            $0.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
-        }
+        resetButton.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
     }
     
 }

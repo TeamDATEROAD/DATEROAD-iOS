@@ -26,7 +26,7 @@ final class LocationFilterView: BaseView {
     
     private let titleLabel = UILabel()
     
-    private let closeButton = UIButton()
+    private let closeButton: DRImageButton = DRImageButton(image: UIImage(resource: .btnClose), buttonName: .med_white_0)
     
     let countryCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -115,10 +115,7 @@ final class LocationFilterView: BaseView {
                             textColor: UIColor(resource: .drBlack),
                             font: UIFont.suit(.title_bold_18))
         
-        closeButton.do {
-            $0.setImage(UIImage(resource: .btnClose), for: .normal)
-            $0.addTarget(self, action: #selector(closeLocationFilterView), for: .touchUpInside)
-        }
+        closeButton.addTarget(self, action: #selector(closeLocationFilterView), for: .touchUpInside)
         
         lineView.backgroundColor = UIColor(resource: .gray200)
         
