@@ -42,7 +42,11 @@ final class BannerDetailView: BaseView {
     
     
     override func setHierarchy() {
-        self.addSubviews(mainCollectionView, gradientView, stickyHeaderNavBarView)
+        self.addSubviews(
+            mainCollectionView,
+            gradientView,
+            stickyHeaderNavBarView
+        )
     }
     
     override func setLayout() {

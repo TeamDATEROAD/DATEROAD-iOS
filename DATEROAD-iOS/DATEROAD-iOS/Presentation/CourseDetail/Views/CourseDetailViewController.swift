@@ -421,12 +421,10 @@ extension CourseDetailViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y > 350 {
             courseDetailView.stickyHeaderNavBarView.backgroundColor = .white
-            courseDetailView.stickyHeaderNavBarView.moreButton.tintColor = .gray600
-            courseDetailView.stickyHeaderNavBarView.previousButton.tintColor = .gray600
+            courseDetailView.stickyHeaderNavBarView.updateTintColor(.gray600)
         } else {
             courseDetailView.stickyHeaderNavBarView.backgroundColor = .clear
-            courseDetailView.stickyHeaderNavBarView.moreButton.tintColor = .drWhite
-            courseDetailView.stickyHeaderNavBarView.previousButton.tintColor = .drWhite
+            courseDetailView.stickyHeaderNavBarView.updateTintColor(.white)
         }
     }
     
@@ -444,7 +442,7 @@ private extension CourseDetailViewController {
     }
     
     func setNavBarVisibility() {
-        courseDetailView.stickyHeaderNavBarView.moreButton.isHidden = !(courseDetailViewModel.isAccess.value ?? false)
+        courseDetailView.stickyHeaderNavBarView.hiddenMoreButton(!(courseDetailViewModel.isAccess.value ?? false))
     }
     
     func setTabBarVisibility() {

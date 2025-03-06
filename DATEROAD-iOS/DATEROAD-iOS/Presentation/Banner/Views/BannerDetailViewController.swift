@@ -253,7 +253,7 @@ extension BannerDetailViewController: UICollectionViewDataSource {
 extension BannerDetailViewController {
     
     func setNavBar() {
-        bannerDetailView.stickyHeaderNavBarView.moreButton.isHidden = true
+        bannerDetailView.stickyHeaderNavBarView.hiddenMoreButton(true)
     }
     
 }
