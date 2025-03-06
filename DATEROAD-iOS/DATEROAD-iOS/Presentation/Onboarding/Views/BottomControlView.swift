@@ -49,7 +49,7 @@ final class BottomControlView: BaseView {
 extension BottomControlView {
     
     func updateBottomButtonText(buttonText: String) {
-        self.nextButton.configuration?.title = buttonText
+        self.nextButton.setTitle(buttonText, for: .normal)
     }
     
 }

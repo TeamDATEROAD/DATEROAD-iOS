@@ -7,6 +7,13 @@
 
 import UIKit
 
+
+protocol OnboardingDelegate: AnyObject {
+
+    func didTapNextButton()
+    
+}
+
 final class OnboardingView: BaseView {
     
     // MARK: - UI Properties
@@ -18,8 +25,20 @@ final class OnboardingView: BaseView {
     
     // MARK: - Properties
     
+    weak var delegate: OnboardingDelegate?
     
-    // MARK: - Methods
+    
+    // MARK: - Life Cycles
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setAddTarget()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func setHierarchy() {
         self.addSubviews(onboardingCollectionView, bottomControlView)
@@ -48,6 +67,29 @@ final class OnboardingView: BaseView {
             $0.isPagingEnabled = true
             $0.isScrollEnabled = true
         }
+    }
+    
+}
+
+
+// MARK: - Methods
+
+extension OnboardingView {
+    
+    func setAddTarget() {
+        bottomControlView.nextButton.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
+    }
+    
+}
+
+
+// MARK: - @objc Methods
+
+extension OnboardingView {
+    
+    @objc
+    func didTapNextButton() {
+        delegate?.didTapNextButton()
     }
     
 }
