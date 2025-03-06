@@ -101,6 +101,7 @@ private extension EditProfileViewController {
     }
     
     func setDelegate() {
+        self.profileView.delegate = self
         self.profileView.tendencyTagCollectionView.dataSource = self
         self.profileView.tendencyTagCollectionView.delegate = self
         self.profileView.nicknameTextfield.delegate = self
@@ -111,14 +112,8 @@ private extension EditProfileViewController {
         let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(self.view.endEditing(_:)))
         self.view.addGestureRecognizer(tapGesture)
         
-        self.profileView.editImageButton.addTarget(self, action: #selector(presentEditBottomSheet), for: .touchUpInside)
-        
-        self.profileView.doubleCheckButton.addTarget(self, action: #selector(doubleCheckNickname), for: .touchUpInside)
-        
         self.profileView.nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .editingChanged)
-        
-        self.profileView.registerButton.addTarget(self, action: #selector(registerProfile), for: .touchUpInside)
-        
+                
         self.profileImageSettingView.deleteButton.addTarget(self, action: #selector(deletePhoto), for: .touchUpInside)
         
         self.profileImageSettingView.registerButton.addTarget(self, action: #selector(registerPhoto), for: .touchUpInside)
@@ -267,7 +262,6 @@ private extension EditProfileViewController {
         }
     }
     
-    @objc
     func presentEditBottomSheet() {
         alertVC.delegate = self
         DispatchQueue.main.async {
@@ -275,8 +269,7 @@ private extension EditProfileViewController {
         }
     }
     
-    @objc
-    func doubleCheckNickname(sender: UITapGestureRecognizer) {
+    func doubleCheckNickname() {
         self.profileViewModel.getDoubleCheck()
     }
     
@@ -329,12 +322,29 @@ private extension EditProfileViewController {
     
     @objc
     func registerProfile() {
-        self.profileView.registerButton.isEnabled = false
         self.profileViewModel.patchEditProfile()
     }
     
 }
 
+
+// MARK: - ProfileDelegate
+
+extension EditProfileViewController: ProfileDelegate {
+    
+    func didTapRegisterButton() {
+        registerProfile()
+    }
+    
+    func didTapEditImageButton() {
+        presentEditBottomSheet()
+    }
+    
+    func didTapDoubleCheckButton() {
+        doubleCheckNickname()
+    }
+    
+}
 
 // MARK: - Delegates
 
