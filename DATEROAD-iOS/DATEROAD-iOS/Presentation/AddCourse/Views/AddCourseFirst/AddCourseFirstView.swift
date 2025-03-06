@@ -24,7 +24,7 @@ final class AddCourseFirstView: BaseView {
     
     private let imageAccessoryView = UIView()
     
-    let cameraBtn = UIButton()
+    let cameraBtn: DRImageButton = DRImageButton(image: UIImage(resource: .camera), buttonName: .semi_gray200_16)
     
     private let imageCountLabelContainer = UIView()
     
@@ -127,13 +127,6 @@ final class AddCourseFirstView: BaseView {
             $0.showsVerticalScrollIndicator = false
             $0.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 16)
             $0.clipsToBounds = true
-            $0.isUserInteractionEnabled = true
-        }
-        
-        cameraBtn.do {
-            $0.setImage(.camera, for: .normal)
-            $0.backgroundColor = .gray200
-            $0.layer.cornerRadius = 32 / 2
             $0.isUserInteractionEnabled = true
         }
         
