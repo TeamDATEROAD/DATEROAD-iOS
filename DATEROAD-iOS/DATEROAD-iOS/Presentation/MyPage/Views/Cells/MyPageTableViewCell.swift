@@ -13,7 +13,7 @@ final class MyPageTableViewCell: BaseTableViewCell {
     
     private let titleLabel: UILabel = UILabel()
     
-    let rightArrowButton: UIButton = UIButton()
+    let rightArrowButton: DRImageButton = DRImageButton(image: UIImage(resource: .arrowRightLarge), buttonName: .med_white_0)
     
     
     // MARK: - Life Cycle
@@ -38,8 +38,6 @@ final class MyPageTableViewCell: BaseTableViewCell {
         titleLabel.setLabel(alignment: .left,
                         textColor: UIColor(resource: .drBlack),
                         font: UIFont.suit(.body_semi_15))
-        
-        rightArrowButton.setImage(UIImage(resource: .arrowRightLarge), for: .normal)
     }
     
 }

@@ -125,11 +125,11 @@ extension DRCustomAlertViewController {
             }
         }
         
-        if let longButton = self.longButton {
+        if self.longButton != nil {
             customAlertView.longButton?.addTarget(self, action: #selector(longButtonTapped), for: .touchUpInside)
         }
         
-        if let leftButton = self.leftButton, let rightButton = self.rightButton {
+        if self.leftButton != nil, self.rightButton != nil {
             customAlertView.leftButton?.addTarget(self, action: #selector(longButtonTapped), for: .touchUpInside)
             customAlertView.rightButton?.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
         }
