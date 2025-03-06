@@ -24,7 +24,11 @@ final class InAddScheduleSecondView: BaseView {
     
     let timeRequireButton: DRTextButton = DRTextButton(title: StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder, buttonName: .semi_gray100_14)
     
-    let addPlaceButton: UIButton = UIButton()
+    let addPlaceButton: DRImageButton = DRImageButton(
+        image: UIImage(resource: .icAddcourseGray),
+        buttonName: .semi_gray100_14,
+        isEnabled: false
+    )
     
     let separatorLine: UIView = UIView()
     
@@ -86,8 +90,8 @@ final class InAddScheduleSecondView: BaseView {
         
         timeRequireButton.snp.makeConstraints {
             $0.verticalEdges.equalToSuperview()
-            $0.leading.equalTo(datePlaceTextField.snp.trailing).offset(ScreenUtils.width / 375 * 8).priority(.low)
-            $0.trailing.equalTo(addPlaceButton.snp.leading).offset(ScreenUtils.width / 375 * -8).priority(.low)
+            $0.leading.equalTo(datePlaceTextField.snp.trailing).offset(ScreenUtils.width / 375 * 8)
+            $0.trailing.equalTo(addPlaceButton.snp.leading).offset(ScreenUtils.width / 375 * -8)
         }
         
         separatorLine.snp.makeConstraints {
@@ -124,15 +128,6 @@ final class InAddScheduleSecondView: BaseView {
             $0.defaultTextAttributes = attributes
         }
         
-        addPlaceButton.do {
-            $0.setImage(UIImage(resource: .icAddcourseWhite), for: .normal)
-            $0.setImage(UIImage(resource: .icAddcourseGray), for: .disabled)
-            $0.setButtonStatus(buttonType: addCourseDisabledButtonType)
-            $0.imageView?.snp.makeConstraints {
-                $0.size.equalTo(14)
-            }
-        }
-        
         separatorLine.backgroundColor = UIColor(resource: .gray200)
     }
     
@@ -157,8 +152,13 @@ extension InAddScheduleSecondView {
     }
     
     func changeAddPlaceButtonState(flag: Bool) {
-        let state = flag ? enabledButtonType : addCourseDisabledButtonType
-        addPlaceButton.setButtonStatus(buttonType: state)
+        let state: ButtonName = flag ? .bold_purple_14 : .semi_gray100_14
+        let image = flag ? UIImage(resource: .icAddcourseWhite) : UIImage(resource: .icAddcourseGray)
+        addPlaceButton.setButtonStyle(
+            image,
+            state,
+            isEnabled: flag
+        )
     }
     
     /// 장소 등록 마치면 실행되는 함수
@@ -166,7 +166,11 @@ extension InAddScheduleSecondView {
         // textfield 값 초기화 및 장소 등록 버튼 비활성화
         datePlaceTextField.text = ""
         timeRequireButton.setTitle(StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder, for: .normal)
-        addPlaceButton.setButtonStatus(buttonType: addCourseDisabledButtonType)
+        addPlaceButton.setButtonStyle(
+            UIImage(resource: .icAddcourseGray),
+            .semi_gray100_14,
+            isEnabled: false
+        )
     }
     
 }
