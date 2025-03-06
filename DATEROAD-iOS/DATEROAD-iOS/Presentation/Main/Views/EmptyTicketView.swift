@@ -17,7 +17,7 @@ final class EmptyTicketView: BaseView {
     
     private let goToRegisterLabel: UILabel = UILabel()
     
-    let moveButton: UIButton = UIButton()
+    let moveButton: DRImageButton = DRImageButton(image: UIImage(resource: .icPlus), buttonName: .clear)
     
     
     // MARK: - Life Cycle
@@ -66,8 +66,6 @@ final class EmptyTicketView: BaseView {
                                    alignment: .left,
                                    textColor: UIColor(resource: .lightPurple),
                                    font: UIFont.suit(.body_med_15))
-        
-        moveButton.setImage(UIImage(resource: .icPlus), for: .normal)
     }
     
 }

@@ -9,6 +9,14 @@ import UIKit
 
 import Kingfisher
 
+protocol DateTicketDelegate: AnyObject {
+    
+    func didTapMoveButton()
+    
+    func didTapPlusButton()
+    
+}
+
 final class UpcomingDateCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
@@ -27,7 +35,9 @@ final class UpcomingDateCell: BaseCollectionViewCell {
     // MARK: - Properties
     
     private var isEmpty: Bool = false
-        
+    
+    weak var delegate: DateTicketDelegate?
+    
     
     // MARK: - Life Cycle
     
@@ -102,6 +112,11 @@ final class UpcomingDateCell: BaseCollectionViewCell {
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFill
         }
+        
+        emptyTicketView.moveButton.addTarget(self, action: #selector(didTapPlusButton), for: .touchUpInside)
+        
+        dateTicketView.moveButton.addTarget(self, action: #selector(didTapMoveButton), for: .touchUpInside)
+
     }
     
 }
@@ -135,6 +150,16 @@ extension UpcomingDateCell {
             $0.layer.cornerRadius = $0.frame.size.width / 2
             $0.backgroundColor = .clear
         }
+    }
+    
+    @objc
+    func didTapMoveButton() {
+        delegate?.didTapMoveButton()
+    }
+    
+    @objc
+    func didTapPlusButton() {
+        delegate?.didTapPlusButton()
     }
     
 }

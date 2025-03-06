@@ -57,7 +57,6 @@ final class MainViewController: BaseViewController {
         self.mainView.isHidden = true
         registerCell()
         setDelegate()
-        setAddTarget()
         bindViewModel()
     }
     
@@ -174,10 +173,6 @@ extension MainViewController {
         self.mainView.delegate = self
     }
     
-    func setAddTarget() {
-        self.mainView.floatingButton.addTarget(self, action: #selector(pushToAddCourseVC), for: .touchUpInside)
-    }
-    
     func updateBannerCell(index: Int, count: Int) {
         guard let bannerIndexView = self.mainView.mainCollectionView.supplementaryView(forElementKind: BannerIndexFooterView.elementKinds, at: IndexPath(item: 0, section: 2)) as? BannerIndexFooterView
         else { return }
@@ -227,11 +222,12 @@ extension MainViewController {
     }
     
     @objc
-    func pushToDateDetailVC(_ sender: UIButton) {
-        let dateID = sender.tag
-        let upcomingDateDetailVC = UpcomingDateDetailViewController(index: dateID, dateID: dateID, viewPath: StringLiterals.TabBar.home, upcomingDateDetailViewModel: DateDetailViewModel())
-        upcomingDateDetailVC.setColor(index: dateID)
-        self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
+    func pushToDateDetailVC() {
+        if let dateID = mainViewModel.upcomingData.value?.dateId {
+            let upcomingDateDetailVC = UpcomingDateDetailViewController(index: dateID, dateID: dateID, viewPath: StringLiterals.TabBar.home, upcomingDateDetailViewModel: DateDetailViewModel())
+            upcomingDateDetailVC.setColor(index: dateID)
+            self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
+        }
     }
     
     @objc
@@ -292,14 +288,12 @@ extension MainViewController: UICollectionViewDataSource {
         case .upcomingDate:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingDateCell.cellIdentifier, for: indexPath) as? UpcomingDateCell
             else { return UICollectionViewCell() }
+            cell.delegate = self
             cell.bindData(upcomingData: self.mainViewModel.upcomingData.value, mainUserData: self.mainViewModel.mainUserData.value)
             
             // Set button actions
             let pointLabelTapGesture = UITapGestureRecognizer(target: self, action: #selector(pushToPointDetailVC))
             cell.pointLabel.addGestureRecognizer(pointLabelTapGesture)
-            cell.dateTicketView.moveButton.tag = mainViewModel.upcomingData.value?.dateId ?? 0
-            cell.dateTicketView.moveButton.addTarget(self, action: #selector(pushToDateDetailVC(_:)), for: .touchUpInside)
-            cell.emptyTicketView.moveButton.addTarget(self, action: #selector(pushToDateScheduleVC), for: .touchUpInside)
             return cell
             
         case .hotDateCourse:
@@ -378,10 +372,32 @@ extension MainViewController: UICollectionViewDataSource {
     
 }
 
-extension MainViewController: BannerIndexDelegate {
+
+// MARK: - MainViewDelegate
+
+extension MainViewController: MainDelegate {
+    
+    func didTapFloatingButton() {
+        self.pushToAddCourseVC()
+    }
     
     func bindIndex(currentIndex: Int) {
         self.mainViewModel.currentIndex.value?.row = currentIndex
+    }
+    
+}
+
+
+// MARK: - DateTickDelegate
+
+extension MainViewController: DateTicketDelegate {
+    
+    func didTapMoveButton() {
+        pushToDateDetailVC()
+    }
+    
+    func didTapPlusButton() {
+        pushToDateScheduleVC()
     }
     
 }
