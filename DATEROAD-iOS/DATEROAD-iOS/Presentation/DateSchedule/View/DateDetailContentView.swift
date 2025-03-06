@@ -15,6 +15,8 @@ final class DateDetailContentView: BaseView {
     
     private var dateLabel = UILabel()
     
+    // TODO: - UILabel로 변경
+    
     var dDayButton = UIButton()
     
     private var firstTagButton = UIButton()

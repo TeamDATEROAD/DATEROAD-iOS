@@ -18,6 +18,8 @@ final class PastDateCollectionViewCell: BaseCollectionViewCell {
     
     private var dateLabel = UILabel()
     
+    // TODO: - UILabel로 변경
+    
     private var firstTagButton = UIButton()
     
     private var secondTagButton = UIButton()

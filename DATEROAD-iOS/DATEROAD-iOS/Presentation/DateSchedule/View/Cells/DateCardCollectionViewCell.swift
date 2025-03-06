@@ -20,6 +20,8 @@ final class DateCardCollectionViewCell: BaseCollectionViewCell {
     
     private var dateLabel = UILabel()
     
+    // TODO: - UILabel로 변경
+
     private var dDayButton = UIButton()
     
     private var firstTagButton = UIButton()
