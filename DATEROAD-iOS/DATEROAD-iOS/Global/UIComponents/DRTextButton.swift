@@ -42,7 +42,6 @@ extension DRTextButton {
             $0.setTitle(title, for: .normal)
             $0.titleLabel?.textAlignment = .center
             $0.layer.cornerRadius = buttonName.cornerRadius
-            $0.clipsToBounds = true
             $0.titleLabel?.font = buttonName.font
             $0.titleLabel?.numberOfLines = 1
             $0.clipsToBounds = true
