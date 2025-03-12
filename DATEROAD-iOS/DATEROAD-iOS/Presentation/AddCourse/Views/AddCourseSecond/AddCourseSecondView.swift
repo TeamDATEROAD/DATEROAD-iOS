@@ -34,7 +34,7 @@ final class AddCourseSecondView: BaseView {
     private let warningType: DRErrorType = Warning()
     
     
-    // MARK: - Methods
+    // MARK: - Methods
     
     override func setHierarchy() {
         self.addSubviews (collectionView, addSecondView)
@@ -116,7 +116,7 @@ final class AddCourseSecondView: BaseView {
 }
 
 
-// MARK: - Extension Methods
+// MARK: - Extension Methods
 
 extension AddCourseSecondView {
     

@@ -22,8 +22,9 @@ final class AddSecondView: BaseView {
     
     private let placeRegistrationContainer: UIView = UIView()
     
-    let datePlaceTextField = DRTextField(type: .AddCourseSchedule(.datePlace))
-    let timeRequireTextField = DRTextField(type: .AddCourseSchedule(.timeRequire))
+    let datePlaceTextField: UITextField = UITextField()
+    
+    let timeRequireTextField: UITextField = UITextField()
     
     let addPlaceButton: UIButton = UIButton()
     
@@ -41,7 +42,7 @@ final class AddSecondView: BaseView {
     private let addCourseDisabledButtonType: DRButtonType = addCoursePlaceDisabledButton()
     
     
-    // MARK: - Methods
+    // MARK: - Methods
     
     override func setHierarchy() {
         addSubviews(container,
@@ -114,6 +115,34 @@ final class AddSecondView: BaseView {
                                       textColor: UIColor(resource: .gray400),
                                       font: .suit(.body_med_13))
         
+        datePlaceTextField.do {
+            $0.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.datePlacePlaceHolder,
+                              fontColor: UIColor(resource: .gray300),
+                              font: UIFont.suit(.body_semi_13))
+            $0.setLeftPadding(amount: 14)
+            $0.setRightPadding(amount: 4)
+            $0.textAlignment = .left
+            $0.backgroundColor = UIColor(resource: .gray100)
+            $0.layer.borderWidth = 0
+            $0.layer.cornerRadius = 14
+            $0.autocorrectionType = .no
+            $0.spellCheckingType = .no
+            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 13, weight: .semibold), .foregroundColor: UIColor(resource: .drBlack)]
+            $0.defaultTextAttributes = attributes
+        }
+        
+        timeRequireTextField.do {
+            $0.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder,
+                              fontColor: UIColor(resource: .gray300),
+                              font: UIFont.suit(.body_semi_13))
+            $0.textAlignment = .center
+            $0.backgroundColor = UIColor(resource: .gray100)
+            $0.layer.borderWidth = 0
+            $0.layer.cornerRadius = 14
+            $0.autocorrectionType = .no
+            $0.spellCheckingType = .no
+        }
+        
         addPlaceButton.do {
             $0.setImage(UIImage(resource: .icAddcourseWhite), for: .normal)
             $0.setImage(UIImage(resource: .icAddcourseGray), for: .disabled)
@@ -134,7 +163,7 @@ final class AddSecondView: BaseView {
 }
 
 
-// MARK: - Extension Methods
+// MARK: - Extension Methods
 
 extension AddSecondView {
     

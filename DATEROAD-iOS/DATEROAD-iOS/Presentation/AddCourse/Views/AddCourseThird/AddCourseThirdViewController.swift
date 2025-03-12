@@ -101,7 +101,7 @@ final class AddCourseThirdViewController: BaseNavBarViewController {
 }
 
 
-// MARK: - ViewController Methods
+// MARK: - ViewController Methods
 
 private extension AddCourseThirdViewController {
     
