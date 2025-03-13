@@ -15,7 +15,7 @@ final class CourseNavigationBarView: BaseView {
 
     private let courseLabel = UILabel()
     
-    private let addCourseButton: DRImageButton = DRImageButton(image: UIImage(resource: .plusSchedule), buttonName: .med_purple_15)
+    private let addCourseButton: DRImageButton = DRImageButton(image: UIImage(resource: .plusSchedule), buttonName: .deepPurple_white_15)
     
     
     // MARK: - Properties

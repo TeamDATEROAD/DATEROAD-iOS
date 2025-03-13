@@ -20,7 +20,7 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
     
     private let timeRequireLabel: UILabel = UILabel()
     
-    let moveAbleButton: DRImageButton = DRImageButton(image: UIImage(resource: .icMovecourse), buttonName: .clear)
+    let moveAbleButton: DRImageButton = DRImageButton(image: UIImage(resource: .icMovecourse), buttonName: .clear_black_0)
     
     
     // MARK: - Properties

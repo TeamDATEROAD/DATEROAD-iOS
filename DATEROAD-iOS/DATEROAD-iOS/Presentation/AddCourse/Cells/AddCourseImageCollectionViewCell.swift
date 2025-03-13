@@ -16,7 +16,11 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
     
     private let imageView: UIImageView = UIImageView()
     
-    let deleteImageBtn: DRImageButton = DRImageButton(image: UIImage(resource: .icDeletepic), buttonName: .med_gray200_8)
+    let deleteImageBtn: DRImageButton = DRImageButton(
+        image: UIImage(resource: .icDeletepic),
+        buttonName: .clear_clear_8,
+        isHidden: true
+    )
     
     private let emptyView: UIView = UIView()
     
@@ -82,9 +86,7 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
             $0.layer.cornerRadius = 14
             $0.isHidden = true
         }
-        
-        deleteImageBtn.isHidden = true
-        
+                
         emptyView.do {
             $0.backgroundColor = .gray100
             $0.layer.cornerRadius = 14
@@ -121,9 +123,9 @@ extension AddCourseImageCollectionViewCell {
         emptyView.isHidden = !isImageEmpty
         imageView.isHidden = isImageEmpty
         if vcCnt > 1 {
-            deleteImageBtn.isHidden = true
+            deleteImageBtn.setButtonHidden(true)
         } else {
-            deleteImageBtn.isHidden = isImageEmpty
+            deleteImageBtn.setButtonHidden(isImageEmpty)
         }
     }
     

@@ -30,7 +30,7 @@ final class UpcomingDateScheduleView: BaseView {
     
     var emptyView = CustomEmptyView()
     
-    var dateRegisterButton: DRImageButton = DRImageButton(image: UIImage(resource: .plusSchedule), buttonName: .med_purple_15)
+    var dateRegisterButton: DRImageButton = DRImageButton(image: UIImage(resource: .plusSchedule), buttonName: .deepPurple_white_15)
     
     var pastDateButton = DRTextButton(title: StringLiterals.DateSchedule.seePastDate, buttonName: .bold_gray100_14)
     

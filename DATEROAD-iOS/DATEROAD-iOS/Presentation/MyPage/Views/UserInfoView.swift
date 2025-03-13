@@ -17,7 +17,7 @@ final class UserInfoView: BaseView {
     
     private let nicknameLabel: UILabel = UILabel()
     
-    let editProfileButton: UIImageView = UIImageView()
+    let editProfileButton: DRImageButton = DRImageButton(image: UIImage(resource: .icPencil), buttonName: .clear_black_0)
     
     let tagCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -31,7 +31,7 @@ final class UserInfoView: BaseView {
     
     private let goToPointHistoryLabel: UILabel = UILabel()
     
-    private let rightArrowButton: UIImageView = UIImageView()
+    private let rightArrowButton: DRImageButton = DRImageButton(image: UIImage(resource: .arrowRightMini), buttonName: .clear_gray400_0)
     
     
     // MARK: - Life Cycle
@@ -109,11 +109,6 @@ final class UserInfoView: BaseView {
         
         nicknameLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.systemFont(ofSize: 24, weight: .black))
         
-        editProfileButton.do {
-            $0.image = UIImage(resource: .icPencil)
-            $0.isUserInteractionEnabled = true
-        }
-        
         tagCollectionView.do {
             $0.contentInsetAdjustmentBehavior = .never
             $0.backgroundColor = UIColor(resource: .gray100)
@@ -154,8 +149,6 @@ final class UserInfoView: BaseView {
                                        alignment: .left,
                                        textColor: UIColor(resource: .gray400),
                                        font: UIFont.suit(.body_med_13))
-        
-        rightArrowButton.image = UIImage(resource: .arrowRightMini)
     }
     
 }

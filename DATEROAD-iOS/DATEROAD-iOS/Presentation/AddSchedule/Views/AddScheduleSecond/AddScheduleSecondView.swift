@@ -114,12 +114,12 @@ extension AddScheduleSecondView {
     }
     
     func editBtnState(isAble: Bool) {
-        let state: ButtonName = isAble ? .med_white_0_purple : .med_white_0
+        let state: TextButtonType = isAble ? .med_white_0_purple : .med_white_0
         editButton.setButtonStyle(state, isEnabled: isAble)
     }
     
     func changeNextBtnState(flag: Bool) {
-        let state: ButtonName = flag ? .bold_purple_14 : .bold_gray200_14
+        let state: TextButtonType = flag ? .bold_purple_14 : .bold_gray200_14
         nextBtn.setButtonStyle(state, isEnabled: flag)
     }
     

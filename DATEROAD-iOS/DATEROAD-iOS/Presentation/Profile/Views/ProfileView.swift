@@ -23,7 +23,7 @@ final class ProfileView: BaseView {
     
     let profileImageView: UIImageView = UIImageView()
     
-    private let editImageButton: DRImageButton = DRImageButton(image: UIImage(resource: .icProfileplus), buttonName: .clear)
+    private let editImageButton: DRImageButton = DRImageButton(image: UIImage(resource: .icProfileplus), buttonName: .clear_clear_0)
     
     private let nicknameLabel: UILabel = UILabel()
     

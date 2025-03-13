@@ -25,7 +25,7 @@ final class ViewedCourseView: BaseView {
     
     private let arrowButton: DRImageButton = DRImageButton(
         image: UIImage(resource: .createCourseArrow),
-        buttonName: .bold_purple_14,
+        buttonName: .deepPurple_white_14,
         isEnabled: false
     )
     

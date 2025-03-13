@@ -24,7 +24,7 @@ final class AddCourseFirstView: BaseView {
     
     private let imageAccessoryView = UIView()
     
-    let cameraBtn: DRImageButton = DRImageButton(image: UIImage(resource: .camera), buttonName: .semi_gray200_16)
+    let cameraBtn: DRImageButton = DRImageButton(image: UIImage(resource: .camera), buttonName: .clear_clear_16)
     
     private let imageCountLabelContainer = UIView()
     
@@ -170,7 +170,7 @@ extension AddCourseFirstView {
     }
     
     func updateImageCellUI(isEmpty: Bool, ImageDataCount: Int) {
-        cameraBtn.isHidden = isEmpty
+        cameraBtn.setButtonHidden(isEmpty)
         imageCountLabel.text = "\(ImageDataCount)/10"
     }
     

@@ -288,7 +288,8 @@
 		CAC80FF12C3EFF6600658EA6 /* DRPaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FF02C3EFF6600658EA6 /* DRPaddingLabel.swift */; };
 		CAC80FF32C3F203800658EA6 /* EmptyTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FF22C3F203800658EA6 /* EmptyTicketView.swift */; };
 		CAC80FF72C3FCAE500658EA6 /* BannerIndexFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC80FF62C3FCAE500658EA6 /* BannerIndexFooterView.swift */; };
-		CAD29F822D748B5100722147 /* ButtonName.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD29F812D748B4A00722147 /* ButtonName.swift */; };
+		CAD29F822D748B5100722147 /* TextButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD29F812D748B4A00722147 /* TextButtonType.swift */; };
+		CAE4C8C22D82C17D001FE299 /* ImageButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE4C8C12D82C179001FE299 /* ImageButtonType.swift */; };
 		CAE8760A2C6F232900D64B34 /* DRLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE876092C6F232900D64B34 /* DRLoadingView.swift */; };
 		CAE8760C2C6F68A000D64B34 /* DRErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE8760B2C6F68A000D64B34 /* DRErrorViewController.swift */; };
 		CAE890A32C86C94C00834A9E /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE890A22C86C94C00834A9E /* EditProfileViewController.swift */; };
@@ -568,7 +569,8 @@
 		CAC80FF02C3EFF6600658EA6 /* DRPaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRPaddingLabel.swift; sourceTree = "<group>"; };
 		CAC80FF22C3F203800658EA6 /* EmptyTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTicketView.swift; sourceTree = "<group>"; };
 		CAC80FF62C3FCAE500658EA6 /* BannerIndexFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerIndexFooterView.swift; sourceTree = "<group>"; };
-		CAD29F812D748B4A00722147 /* ButtonName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonName.swift; sourceTree = "<group>"; };
+		CAD29F812D748B4A00722147 /* TextButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextButtonType.swift; sourceTree = "<group>"; };
+		CAE4C8C12D82C179001FE299 /* ImageButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButtonType.swift; sourceTree = "<group>"; };
 		CAE876092C6F232900D64B34 /* DRLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRLoadingView.swift; sourceTree = "<group>"; };
 		CAE8760B2C6F68A000D64B34 /* DRErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRErrorViewController.swift; sourceTree = "<group>"; };
 		CAE890A22C86C94C00834A9E /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
@@ -1387,7 +1389,8 @@
 		CA4EF3BE2C3285AD003B02B6 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
-				CAD29F812D748B4A00722147 /* ButtonName.swift */,
+				CAE4C8C12D82C179001FE299 /* ImageButtonType.swift */,
+				CAD29F812D748B4A00722147 /* TextButtonType.swift */,
 				CA4EF3BF2C3285BA003B02B6 /* SocialType.swift */,
 				CAA30AE12C37497200835DE3 /* TendencyTag.swift */,
 				CAC80FB82C3BCE4E00658EA6 /* MyPageSection.swift */,
@@ -2045,7 +2048,7 @@
 				CAC80FE52C3EC6C500658EA6 /* HotDateCourseCell.swift in Sources */,
 				CAA76AD32C65FE0100821E3E /* SplashViewModel.swift in Sources */,
 				742C9D9F2C45A9C8007FFB51 /* MyCourseDTO.swift in Sources */,
-				CAD29F822D748B5100722147 /* ButtonName.swift in Sources */,
+				CAD29F822D748B5100722147 /* TextButtonType.swift in Sources */,
 				CAC80FC82C3C75F200658EA6 /* PointSystemViewModel.swift in Sources */,
 				CAC80FB32C3BBE9100658EA6 /* MyPageTableViewCell.swift in Sources */,
 				CAC80FDB2C3E7C3D00658EA6 /* MainSection.swift in Sources */,
@@ -2078,6 +2081,7 @@
 				CAC80FBF2C3C642300658EA6 /* PointSystemView.swift in Sources */,
 				CAA30AE22C37497200835DE3 /* TendencyTag.swift in Sources */,
 				CA5B979E2C91889C00F90A4C /* AmplitudeManager.swift in Sources */,
+				CAE4C8C22D82C17D001FE299 /* ImageButtonType.swift in Sources */,
 				9E754CF52C4841CF00E2CA91 /* AddScheduleTargetType.swift in Sources */,
 				CA4EF3DC2C347994003B02B6 /* BaseCollectionViewCell.swift in Sources */,
 				CABDCEAC2C4A61D600631FB3 /* BannerDetailSection.swift in Sources */,

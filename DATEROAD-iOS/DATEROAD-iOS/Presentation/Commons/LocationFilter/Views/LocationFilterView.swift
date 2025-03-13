@@ -26,7 +26,7 @@ final class LocationFilterView: BaseView {
     
     private let titleLabel = UILabel()
     
-    private let closeButton: DRImageButton = DRImageButton(image: UIImage(resource: .btnClose), buttonName: .med_white_0)
+    private let closeButton: DRImageButton = DRImageButton(image: UIImage(resource: .btnClose), buttonName: .white_gray600_0)
     
     let countryCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     

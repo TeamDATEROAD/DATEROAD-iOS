@@ -122,7 +122,7 @@ extension AddCourseSecondView {
     }
     
     func editBtnState(isAble: Bool) {
-        let state: ButtonName = isAble ? .med_white_0_purple : .med_white_0
+        let state: TextButtonType = isAble ? .med_white_0_purple : .med_white_0
         editButton.setButtonStyle(state, isEnabled: isAble)
     }
     

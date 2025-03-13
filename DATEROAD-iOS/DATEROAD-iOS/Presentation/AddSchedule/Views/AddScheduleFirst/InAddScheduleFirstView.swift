@@ -258,7 +258,7 @@ extension InAddScheduleFirstView {
     }
     
     func updateSixCheckButton(isValid: Bool) {
-        let btnState: ButtonName = isValid ? .bold_purple_14 : .bold_gray200_14
+        let btnState: TextButtonType = isValid ? .bold_purple_14 : .bold_gray200_14
         sixCheckNextButton.setButtonStyle(btnState, isEnabled: isValid)
     }
     

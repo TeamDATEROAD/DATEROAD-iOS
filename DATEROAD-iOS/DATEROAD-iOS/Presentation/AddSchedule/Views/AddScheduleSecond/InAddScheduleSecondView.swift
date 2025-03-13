@@ -26,7 +26,7 @@ final class InAddScheduleSecondView: BaseView {
     
     let addPlaceButton: DRImageButton = DRImageButton(
         image: UIImage(resource: .icAddcourseGray),
-        buttonName: .semi_gray100_14,
+        buttonName: .gray100_gray300_14,
         isEnabled: false
     )
     
@@ -146,13 +146,13 @@ extension InAddScheduleSecondView {
     func updatetimeRequire(text: String) {
         let isEmpty = text.isEmpty
         let text = isEmpty ? StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder : text
-        let state: ButtonName = isEmpty ? .semi_gray100_14 : .semi_gray100_14_black
+        let state: TextButtonType = isEmpty ? .semi_gray100_14 : .semi_gray100_14_black
         timeRequireButton.setTitle(text, for: .normal)
         timeRequireButton.setButtonStyle(state)
     }
     
     func changeAddPlaceButtonState(flag: Bool) {
-        let state: ButtonName = flag ? .bold_purple_14 : .semi_gray100_14
+        let state: ImageButtonType = flag ? .deepPurple_white_14 : .gray100_gray300_14
         let image = flag ? UIImage(resource: .icAddcourseWhite) : UIImage(resource: .icAddcourseGray)
         addPlaceButton.setButtonStyle(
             image,
@@ -168,7 +168,7 @@ extension InAddScheduleSecondView {
         timeRequireButton.setTitle(StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder, for: .normal)
         addPlaceButton.setButtonStyle(
             UIImage(resource: .icAddcourseGray),
-            .semi_gray100_14,
+            .gray100_gray300_14,
             isEnabled: false
         )
     }

@@ -92,7 +92,7 @@ extension AddCourseThirdView {
     
     func updateAddThirdDoneBtn(isValid: Bool) {
         print("현재 updateAddThirdDoneBtn \(isValid)")
-        let state: ButtonName = isValid ? .bold_purple_14 : .bold_gray200_14
+        let state: TextButtonType = isValid ? .bold_purple_14 : .bold_gray200_14
         addThirdDoneBtn.setButtonStyle(state, isEnabled: isValid)
     }
     

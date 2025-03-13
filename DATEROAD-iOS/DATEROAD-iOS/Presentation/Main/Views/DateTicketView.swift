@@ -25,7 +25,7 @@ final class DateTicketView: BaseView {
     
     private let goToRegisterLabel: UILabel = UILabel()
     
-    let moveButton: DRImageButton = DRImageButton(image: UIImage(resource: .icRightarrowPurple), buttonName: .clear)
+    let moveButton: DRImageButton = DRImageButton(image: UIImage(resource: .icRightarrowPurple), buttonName: .clear_mediumPurple_0)
     
     
     // MARK: - Life Cycle

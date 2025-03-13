@@ -24,7 +24,7 @@ final class CourseFilterView: BaseView {
     
     let locationFilterButton = UIButton()
     
-    let resetButton: DRImageButton = DRImageButton(image: UIImage(resource: .icReset), buttonName: .med_white_0)
+    let resetButton: DRImageButton = DRImageButton(image: UIImage(resource: .icReset), buttonName: .white_gray300_0)
     
     let priceCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -98,7 +98,7 @@ final class CourseFilterView: BaseView {
 
 extension CourseFilterView {
     
-    func updatePrice(button: DRTextButton, _ buttonName: ButtonName, isSelected: Bool) {
+    func updatePrice(button: DRTextButton, _ buttonName: TextButtonType, isSelected: Bool) {
         // 버튼 속성 업데이트
         button.setButtonStyle(buttonName, isSelected: isSelected)
         
