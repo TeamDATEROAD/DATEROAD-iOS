@@ -36,6 +36,16 @@ final class UserInfoView: BaseView {
     
     // MARK: - Life Cycle
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        registerCell()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func setHierarchy() {
         self.addSubviews(profileImageView,
                          nicknameLabel,
@@ -168,6 +178,14 @@ extension UserInfoView {
         self.nicknameLabel.text = userInfo.nickname
         self.userPointLabel.text = userInfo.nickname + "님의 포인트"
         self.pointLabel.text = String(userInfo.point) + " P"
+    }
+    
+}
+
+extension UserInfoView {
+    
+    func registerCell() {
+        tagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
     }
     
 }

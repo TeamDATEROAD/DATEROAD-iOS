@@ -52,7 +52,6 @@ final class MyPageViewController: BaseNavBarViewController {
         setTitleLabelStyle(title: StringLiterals.MyPage.myPage, alignment: .left)
         setHierarchy()
         setStyle()
-        registerCell()
         setDelegate()
         bindViewModel()
         setAddTarget()
@@ -87,11 +86,6 @@ final class MyPageViewController: BaseNavBarViewController {
 // MARK: - Private Methods
 
 private extension MyPageViewController {
-    
-    func registerCell() {
-        self.myPageView.userInfoView.tagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
-        self.myPageView.myPageTableView.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.cellIdentifier)
-    }
     
     func setDelegate() {
         self.myPageView.userInfoView.tagCollectionView.delegate = self

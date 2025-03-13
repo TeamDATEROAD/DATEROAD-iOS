@@ -20,8 +20,22 @@ final class MyPageView: BaseView {
     
     // MARK: - Life Cycle
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        registerCell()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func setHierarchy() {
-        self.addSubviews(userInfoView, myPageTableView, withdrawalButton)
+        self.addSubviews(
+            userInfoView,
+            myPageTableView,
+            withdrawalButton
+        )
     }
     
     override func setLayout() {
@@ -45,6 +59,7 @@ final class MyPageView: BaseView {
     
     override func setStyle() {
         self.backgroundColor = UIColor(resource: .drWhite)
+        
         userInfoView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
             $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner])
@@ -55,6 +70,14 @@ final class MyPageView: BaseView {
             $0.rowHeight = 60
             $0.isScrollEnabled = false
         }
+    }
+    
+}
+
+extension MyPageView {
+    
+    func registerCell() {
+        myPageTableView.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.cellIdentifier)
     }
     
 }
