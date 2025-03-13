@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum ButtonName {
+enum TextButtonType {
     
     case bold_purple_29, bold_purple_25, bold_purple_14, bold_purple_10,
          bold_gray200_14, bold_gray100_14, bold_gray100_10,
