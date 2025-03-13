@@ -13,15 +13,17 @@ final class DRImageButton: UIButton {
     
     init(
         image: UIImage,
-        buttonName: ButtonName,
-        isEnabled: Bool = true
+        buttonName: ImageButtonType,
+        isEnabled: Bool = true,
+        isHidden: Bool = false
     ) {
         super.init(frame: .zero)
         
         setProperties(
             image,
             buttonName,
-            isEnabled
+            isEnabled,
+            isHidden
         )
     }
     
@@ -35,8 +37,9 @@ extension DRImageButton {
     
     func setProperties(
         _ image: UIImage,
-        _ buttonName: ButtonName,
-        _ isEnabled: Bool
+        _ buttonName: ImageButtonType,
+        _ isEnabled: Bool,
+        _ isHidden: Bool
     ) {
         var config = UIButton.Configuration.filled()
         config.imageColorTransformer = nil
@@ -48,17 +51,28 @@ extension DRImageButton {
             $0.imageView?.contentMode = .scaleAspectFit
             $0.tintAdjustmentMode = .normal
         }
-        setButtonStyle(image, buttonName, isEnabled: isEnabled)
+        setButtonStyle(
+            image,
+            buttonName,
+            isEnabled: isEnabled
+        )
     }
     
-    func setButtonStyle(_ image: UIImage, _ buttonName: ButtonName, isEnabled: Bool = true, isSelected: Bool = false) {
+    func setButtonStyle(
+        _ image: UIImage,
+        _ buttonName: ImageButtonType,
+        isEnabled: Bool = true
+    ) {
         self.do {
             $0.configuration?.background.backgroundColor = buttonName.bgColor
             $0.configuration?.image = image.withRenderingMode(.alwaysOriginal)
             $0.isEnabled = isEnabled
-            $0.isSelected = isSelected
             $0.layer.cornerRadius = buttonName.cornerRadius
         }
+    }
+    
+    func setButtonHidden(_ isHidden: Bool) {
+        self.isHidden = isHidden
     }
     
 }

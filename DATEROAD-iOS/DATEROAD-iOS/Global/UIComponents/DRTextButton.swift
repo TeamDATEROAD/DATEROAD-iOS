@@ -13,7 +13,7 @@ final class DRTextButton: UIButton {
     
     init(
         title: String,
-        buttonName: ButtonName,
+        buttonName: TextButtonType,
         isEnabled: Bool = true
     ) {
         super.init(frame: .zero)
@@ -35,7 +35,7 @@ extension DRTextButton {
     
     func setProperties(
         _ title: String,
-        _ buttonName: ButtonName,
+        _ buttonName: TextButtonType,
         _ isEnabled: Bool
     ) {
         self.do {
@@ -49,7 +49,7 @@ extension DRTextButton {
         setButtonStyle(buttonName, isEnabled: isEnabled)
     }
     
-    func setButtonStyle(_ buttonName: ButtonName, isEnabled: Bool = true, isSelected: Bool = false) {
+    func setButtonStyle(_ buttonName: TextButtonType, isEnabled: Bool = true, isSelected: Bool = false) {
         self.do {
             $0.backgroundColor = buttonName.bgColor
             $0.setTitleColor(buttonName.fontColor, for: .normal)
