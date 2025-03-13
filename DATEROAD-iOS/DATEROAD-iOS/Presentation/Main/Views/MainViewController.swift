@@ -201,6 +201,25 @@ extension MainViewController {
         timer = nil
     }
     
+    func pushToCourseVC() {
+        self.tabBarController?.selectedIndex = 1
+    }
+    
+    func pushToPointDetailVC() {
+        guard let userName = self.userName, let totalPoint = self.point else { return }
+        let pointDetailVC = PointDetailViewController(pointViewModel: PointViewModel(userName: userName, totalPoint: totalPoint))
+        self.navigationController?.pushViewController(pointDetailVC, animated: false)
+    }
+    
+    func handleLongPress(_ gestureRecognizer: UISwipeGestureRecognizer) {
+        switch gestureRecognizer.state {
+        case .began, .changed, .ended:
+            stopBannerAutoScroll()
+        default:
+            startAutoScrollTimer()
+        }
+    }
+    
     @objc
     func autoScrollBanner() {
         guard let currentIndex = self.mainViewModel.currentIndex.value?.row else { return }
@@ -217,11 +236,6 @@ extension MainViewController {
     }
     
     @objc
-    func pushToCourseVC() {
-        self.tabBarController?.selectedIndex = 1
-    }
-    
-    @objc
     func pushToDateDetailVC() {
         if let dateID = mainViewModel.upcomingData.value?.dateId {
             let upcomingDateDetailVC = UpcomingDateDetailViewController(index: dateID, dateID: dateID, viewPath: StringLiterals.TabBar.home, upcomingDateDetailViewModel: DateDetailViewModel())
@@ -233,23 +247,6 @@ extension MainViewController {
     @objc
     func pushToDateScheduleVC() {
         self.tabBarController?.selectedIndex = 2
-    }
-    
-    @objc
-    func pushToPointDetailVC() {
-        guard let userName = self.userName, let totalPoint = self.point else { return }
-        let pointDetailVC = PointDetailViewController(pointViewModel: PointViewModel(userName: userName, totalPoint: totalPoint))
-        self.navigationController?.pushViewController(pointDetailVC, animated: false)
-    }
-    
-    @objc
-    func handleLongPress(_ gestureRecognizer: UISwipeGestureRecognizer) {
-        switch gestureRecognizer.state {
-        case .began, .changed, .ended:
-            stopBannerAutoScroll()
-        default:
-            startAutoScrollTimer()
-        }
     }
     
 }
@@ -273,10 +270,13 @@ extension MainViewController: UICollectionViewDataSource {
         switch self.mainViewModel.sectionData[section] {
         case .upcomingDate:
             return 1
+            
         case .hotDateCourse:
             return self.mainViewModel.hotCourseData.value?.count ?? 0
+        
         case .banner:
             return self.mainViewModel.bannerData.value?.count ?? 0
+        
         case .newDateCourse:
             return self.mainViewModel.newCourseData.value?.count ?? 0
         }
@@ -290,10 +290,6 @@ extension MainViewController: UICollectionViewDataSource {
             else { return UICollectionViewCell() }
             cell.delegate = self
             cell.bindData(upcomingData: self.mainViewModel.upcomingData.value, mainUserData: self.mainViewModel.mainUserData.value)
-            
-            // Set button actions
-            let pointLabelTapGesture = UITapGestureRecognizer(target: self, action: #selector(pushToPointDetailVC))
-            cell.pointLabel.addGestureRecognizer(pointLabelTapGesture)
             return cell
             
         case .hotDateCourse:
@@ -305,9 +301,8 @@ extension MainViewController: UICollectionViewDataSource {
         case .banner:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell
             else { return UICollectionViewCell() }
+            cell.delegate = self
             cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
-            let longPressGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-            cell.addGestureRecognizer(longPressGesture)
             return cell
             
         case .newDateCourse:
@@ -323,16 +318,16 @@ extension MainViewController: UICollectionViewDataSource {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MainHeaderView.identifier, for: indexPath) as? MainHeaderView
             else { return UICollectionReusableView() }
             
+            header.delegate = self
+            
             switch mainViewModel.sectionData[indexPath.section] {
             case .upcomingDate, .banner:
                 return header
                 
             case .hotDateCourse:
-                header.viewMoreButton.addTarget(self, action: #selector(pushToCourseVC), for: .touchUpInside)
                 header.bindTitle(section: .hotDateCourse, nickname: mainViewModel.nickname.value)
                 
             case .newDateCourse:
-                header.viewMoreButton.addTarget(self, action: #selector(pushToCourseVC), for: .touchUpInside)
                 header.bindTitle(section: .newDateCourse, nickname: nil)
             }
             return header
@@ -388,9 +383,9 @@ extension MainViewController: MainDelegate {
 }
 
 
-// MARK: - DateTickDelegate
+// MARK: - UpcomingDateDelegate
 
-extension MainViewController: DateTicketDelegate {
+extension MainViewController: UpcomingDateDelegate {
     
     func didTapMoveButton() {
         pushToDateDetailVC()
@@ -400,4 +395,30 @@ extension MainViewController: DateTicketDelegate {
         pushToDateScheduleVC()
     }
     
+    func didTapPointLabel() {
+        pushToPointDetailVC()
+    }
+    
+}
+
+
+// MARK: - MainHeaderDelegate
+
+extension MainViewController: MainHeaderDelegate {
+
+    func didTapViewMoreButton() {
+        pushToCourseVC()
+    }
+
+}
+
+
+// MARK: - BannerDelegate
+
+extension MainViewController: BannerDelegate {
+
+    func didSwipeBanner(_ gestureRecognizer: UISwipeGestureRecognizer) {
+        handleLongPress(gestureRecognizer)
+    }
+
 }

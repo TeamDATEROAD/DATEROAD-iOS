@@ -10,6 +10,12 @@ import UIKit
 import SnapKit
 import Then
 
+protocol MainHeaderDelegate: AnyObject {
+    
+    func didTapViewMoreButton()
+    
+}
+
 final class MainHeaderView: UICollectionReusableView {
     
     // MARK: - UI Properties
@@ -24,6 +30,8 @@ final class MainHeaderView: UICollectionReusableView {
     
     
     // MARK: - Properties
+    
+    weak var delegate: MainHeaderDelegate?
     
     static let elementKinds: String = StringLiterals.Common.header
     
@@ -96,6 +104,10 @@ final class MainHeaderView: UICollectionReusableView {
 
 extension MainHeaderView {
     
+    func setAddTarget() {
+        viewMoreButton.addTarget(self, action: #selector(didTapViewMoreButton), for: .touchUpInside)
+    }
+    
     func bindTitle(section: MainSection, nickname: String?) {
         let nickname = nickname ?? ""
         
@@ -125,6 +137,18 @@ extension MainHeaderView {
             }
             subLabel.text = StringLiterals.Main.newDateSub
         }
+    }
+    
+}
+
+
+// MARK: - @objc Methods
+
+private extension MainHeaderView {
+    
+    @objc
+    func didTapViewMoreButton() {
+        delegate?.didTapViewMoreButton()
     }
     
 }

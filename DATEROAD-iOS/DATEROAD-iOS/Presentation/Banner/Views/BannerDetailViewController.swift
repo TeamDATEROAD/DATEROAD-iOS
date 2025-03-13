@@ -47,7 +47,6 @@ final class BannerDetailViewController: BaseViewController {
         
         bindViewModel()
         setDelegate()
-        registerCell()
     }
     
     override func viewIsAppearing(_ animated: Bool) {
@@ -157,17 +156,7 @@ private extension BannerDetailViewController {
         bannerDetailView.mainCollectionView.dataSource = self
         bannerDetailView.stickyHeaderNavBarView.delegate = self
     }
-    
-    func registerCell() {
-        bannerDetailView.mainCollectionView.do {
-            $0.register(ImageCarouselCell.self, forCellWithReuseIdentifier: ImageCarouselCell.cellIdentifier)
-            $0.register(TitleInfoCell.self, forCellWithReuseIdentifier: TitleInfoCell.cellIdentifier)
-            $0.register(MainContentsCell.self, forCellWithReuseIdentifier: MainContentsCell.cellIdentifier)
-            $0.register(BannerInfoHeaderView.self, forSupplementaryViewOfKind: BannerInfoHeaderView.elementKinds, withReuseIdentifier: BannerInfoHeaderView.identifier)
-            $0.register(InfoBarView.self, forSupplementaryViewOfKind: InfoBarView.elementKinds, withReuseIdentifier: InfoBarView.identifier)
-            $0.register(BottomPageControllView.self, forSupplementaryViewOfKind: BottomPageControllView.elementKinds, withReuseIdentifier: BottomPageControllView.identifier)
-        }
-    }
+
 }
 
 
