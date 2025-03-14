@@ -141,7 +141,6 @@
 		9E754CF72C48460400E2CA91 /* PostAddScheduleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E754CF62C48460400E2CA91 /* PostAddScheduleRequest.swift */; };
 		9E754CF92C48471100E2CA91 /* PostAddScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E754CF82C48471100E2CA91 /* PostAddScheduleResponse.swift */; };
 		9EA26B1D2D71C85700029A14 /* DRTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA26B1C2D71C85700029A14 /* DRTextField.swift */; };
-		9EA26B1F2D7428F300029A14 /* DRCommonButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA26B1E2D7428F300029A14 /* DRCommonButton.swift */; };
 		9EB91E782C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */; };
 		9EBD5C712C7C557900EDE081 /* DRDateFormatterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD5C702C7C557900EDE081 /* DRDateFormatterManager.swift */; };
 		9EBD5C732C7C850400EDE081 /* UINavigationController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD5C722C7C850400EDE081 /* UINavigationController+.swift */; };
@@ -436,7 +435,6 @@
 		9E754CF62C48460400E2CA91 /* PostAddScheduleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddScheduleRequest.swift; sourceTree = "<group>"; };
 		9E754CF82C48471100E2CA91 /* PostAddScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddScheduleResponse.swift; sourceTree = "<group>"; };
 		9EA26B1C2D71C85700029A14 /* DRTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRTextField.swift; sourceTree = "<group>"; };
-		9EA26B1E2D7428F300029A14 /* DRCommonButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCommonButton.swift; sourceTree = "<group>"; };
 		9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		9EBD5C702C7C557900EDE081 /* DRDateFormatterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRDateFormatterManager.swift; sourceTree = "<group>"; };
 		9EBD5C722C7C850400EDE081 /* UINavigationController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+.swift"; sourceTree = "<group>"; };
@@ -1576,7 +1574,6 @@
 			children = (
 				CA7DFC952D76C3CD0065BB62 /* DRImageButton.swift */,
 				742840132C3EC8C600B21AA7 /* CustomAlert */,
-				9EA26B1E2D7428F300029A14 /* DRCommonButton.swift */,
 				CAA30AE42C37BCB200835DE3 /* DRTagButton.swift */,
 				CA78FE462C38667A001B1403 /* DRErrorLabel.swift */,
 				0D07420B2C3B0339004B3F59 /* TabBarController.swift */,
@@ -2116,7 +2113,6 @@
 				CAA76AD52C665E8B00821E3E /* PatchReissueResponse.swift in Sources */,
 				CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */,
 				CA3D0CDD2C29A2F300735097 /* SceneDelegate.swift in Sources */,
-				9EA26B1F2D7428F300029A14 /* DRCommonButton.swift in Sources */,
 				745547692C3C8D3200B526F3 /* DateDetailContentView.swift in Sources */,
 				CA6897752CD532A0005315B1 /* CourseDetailSkeletonView.swift in Sources */,
 				CA4EF3C32C3285F8003B02B6 /* StringLiterals.swift in Sources */,
