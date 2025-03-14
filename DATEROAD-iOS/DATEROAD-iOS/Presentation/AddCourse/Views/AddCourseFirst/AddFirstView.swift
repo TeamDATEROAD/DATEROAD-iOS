@@ -40,8 +40,6 @@ final class AddFirstView: BaseView {
     
     private let datePlaceImage = UIImageView()
     
-    private let sixCheckNextBtnContainer = UIView()
-    
     let sixCheckNextButton: DRTextButton = DRTextButton(
         title: StringLiterals.AddCourseOrSchedule.AddFirstView.addFirstNextBtnOfCourse,
         buttonName: .bold_gray200_14,
@@ -65,7 +63,7 @@ final class AddFirstView: BaseView {
             textFieldStackView,
             tagContainer,
             datePlaceContainer,
-            sixCheckNextBtnContainer)
+            sixCheckNextButton)
         
         textFieldStackView.addArrangedSubviews(
             dateNameTextField,
@@ -79,8 +77,6 @@ final class AddFirstView: BaseView {
         tagContainer.addSubviews(tagTitleLabel, tendencyTagCollectionView)
         
         datePlaceContainer.addSubviews(datePlaceLabel, datePlaceImage)
-        
-        sixCheckNextBtnContainer.addSubview(sixCheckNextButton)
     }
     
     override func setLayout() {
@@ -146,15 +142,9 @@ final class AddFirstView: BaseView {
             $0.height.equalTo(5)
         }
         
-        sixCheckNextBtnContainer.snp.makeConstraints {
-            $0.top.equalTo(datePlaceContainer.snp.bottom).offset(24)
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(4)
-        }
-        
         sixCheckNextButton.snp.makeConstraints {
-            $0.height.equalTo(52)
-            $0.bottom.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(54)
+            $0.horizontalEdges.bottom.equalTo(self.safeAreaLayoutGuide)
         }
     }
     
