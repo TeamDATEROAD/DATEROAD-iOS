@@ -7,9 +7,11 @@
 
 import UIKit
 
-protocol BannerIndexDelegate: AnyObject {
+protocol MainDelegate: AnyObject {
     
     func bindIndex(currentIndex: Int)
+    
+    func didTapFloatingButton()
     
 }
 
@@ -19,14 +21,14 @@ final class MainView: BaseView {
     
     lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeCompositionalLayout())
     
-    let floatingButton: UIButton = UIButton()
+    let floatingButton: DRImageButton = DRImageButton(image: UIImage(resource: .icPlus), buttonName: .deepPurple_white_25)
     
     
     // MARK: - Properties
     
     private var mainSectionData: [MainSection]
     
-    weak var delegate: BannerIndexDelegate?
+    weak var delegate: MainDelegate?
     
     
     // MARK: - Life Cycles
@@ -39,6 +41,7 @@ final class MainView: BaseView {
         setHierarchy()
         setLayout()
         setStyle()
+        setAddTarget()
     }
     
     required init?(coder: NSCoder) {
@@ -68,15 +71,29 @@ final class MainView: BaseView {
             $0.isScrollEnabled = true
             $0.contentInsetAdjustmentBehavior = .never
         }
-        
-        floatingButton.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
-            $0.setImage(UIImage(resource: .icPlus), for: .normal)
-            $0.roundedButton(cornerRadius: 25, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
-        }
+    }
+    
+    func setAddTarget() {
+        floatingButton.addTarget(self, action: #selector(didTapFloatingButton), for: .touchUpInside)
     }
     
 }
+
+
+
+// MARK: - @objc Methods
+
+extension MainView {
+    
+    @objc
+    func didTapFloatingButton() {
+        delegate?.didTapFloatingButton()
+    }
+    
+}
+
+
+// MARK: - Compositional Layout
 
 extension MainView {
     
@@ -85,10 +102,13 @@ extension MainView {
             switch self.mainSectionData[section] {
             case .upcomingDate:
                 return self.makeSectionLayout(layout: UpcomingDateLayout())
+                
             case .hotDateCourse:
                 return self.makeSectionLayout(layout: HotDateLayout())
+                
             case .banner:
                 return self.makeSectionLayout(layout: BannerDateLayout())
+                
             case .newDateCourse:
                 return self.makeSectionLayout(layout: NewDateLayout())
             }
@@ -125,10 +145,12 @@ extension MainView {
     
     func makeSupplementaryLayout(layout: MainSectionLayout, type: String) -> NSCollectionLayoutBoundarySupplementaryItem {
         let supplemetaryItemSize = layout.supplemetaryItemSize
-        let supplemetaryItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: supplemetaryItemSize,
-                                                                           elementKind: type,
-                                                                           alignment: layout.supplementaryAlignment,
-                                                                           absoluteOffset: layout.absoluteOffset)
+        let supplemetaryItem = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: supplemetaryItemSize,
+            elementKind: type,
+            alignment: layout.supplementaryAlignment,
+            absoluteOffset: layout.absoluteOffset
+        )
         return supplemetaryItem
     }
     

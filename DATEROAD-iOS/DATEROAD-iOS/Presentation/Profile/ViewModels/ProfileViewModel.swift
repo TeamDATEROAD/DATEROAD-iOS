@@ -204,17 +204,22 @@ extension ProfileViewModel {
             switch response {
             case .success(_):
                 self.isValidNickname.value = true
+                
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.type.value = NetworkType.getDoubleCheck
                     self.onReissueSuccess.value = isSuccess
                 }
+                
             case .requestErr:
                 self.isValidNickname.value = false
+                
             case .serverErr:
                 self.alertMessage.value = StringLiterals.Alert.serverError
+                
             case .networkFail:
                 self.alertMessage.value = StringLiterals.Alert.networkFail
+                
             default:
                 print("Failed to fetch get double check")
                 self.isValidNickname.value = false
@@ -244,11 +249,13 @@ extension ProfileViewModel {
             case .success(_):
                 self.onSuccessEdit?(true)
                 self.onEditProfileLoading.value = false
+                
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.type.value = NetworkType.patchEditProfile
                     self.onReissueSuccess.value = isSuccess
                 }
+                
             default:
                 print("Failed to fetch patch edit profile")
                 self.onFailNetwork.value = true

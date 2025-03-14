@@ -7,11 +7,22 @@
 
 import UIKit
 
+
+protocol BannerDelegate: AnyObject {
+    
+    func didSwipeBanner(_ gestureRecognizer: UISwipeGestureRecognizer)
+}
+
 final class BannerCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
     private let bannerImage: UIImageView = UIImageView()
+    
+    
+    // MARK: - Properties
+    
+    weak var delegate: BannerDelegate?
     
     
     // MARK: - Life Cycle
@@ -38,13 +49,18 @@ final class BannerCell: BaseCollectionViewCell {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFill
-            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 14)
         }
     }
     
 }
 
 extension BannerCell {
+    
+    func setAddGesture() {
+        let longPressGesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeBanner))
+        self.addGestureRecognizer(longPressGesture)
+    }
     
     func bindData(bannerData: BannerModel?) {
         guard let bannerData else { return }
@@ -56,6 +72,16 @@ extension BannerCell {
         } else {
             self.bannerImage.image = UIImage(resource: .imgBanner1)
         }
+    }
+    
+}
+
+
+extension BannerCell {
+    
+    @objc
+    func didSwipeBanner(_ gestureRecognizer: UISwipeGestureRecognizer) {
+        delegate?.didSwipeBanner(gestureRecognizer)
     }
     
 }

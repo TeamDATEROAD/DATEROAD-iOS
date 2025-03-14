@@ -7,13 +7,25 @@
 
 import UIKit
 
+protocol ProfileDelegate: AnyObject {
+    
+    func didChangeTextfield()
+    
+    func didTapEditImageButton()
+    
+    func didTapDoubleCheckButton()
+    
+    func didTapRegisterButton()
+    
+}
+
 final class ProfileView: BaseView {
     
     // MARK: - UI Properties
     
     let profileImageView: UIImageView = UIImageView()
     
-    let editImageButton: UIButton = UIButton()
+    private let editImageButton: DRImageButton = DRImageButton(image: UIImage(resource: .icProfileplus), buttonName: .clear_clear_0)
     
     private let nicknameLabel: UILabel = UILabel()
     
@@ -23,7 +35,11 @@ final class ProfileView: BaseView {
     
     private let rightViewBox: UIView = UIView()
     
-    let doubleCheckButton: UIButton = UIButton()
+    private let doubleCheckButton: DRTextButton = DRTextButton(
+        title: StringLiterals.Profile.doubleCheck,
+        buttonName: .med_gray200_10,
+        isEnabled: false
+    )
     
     let nicknameErrMessageLabel: UILabel = UILabel()
     
@@ -35,14 +51,16 @@ final class ProfileView: BaseView {
     
     let tagErrMessageLabel: UILabel = UILabel()
     
-    let registerButton: UIButton = UIButton()
+    let registerButton: DRTextButton = DRTextButton(
+        title: StringLiterals.Profile.registerProfile,
+        buttonName: .bold_gray200_14,
+        isEnabled: false
+    )
     
     
     // MARK: - Properties
     
-    private let enabledButtonType: DRButtonType = EnabledButton()
-    
-    private let disabledButtonType: DRButtonType = DisabledButton()
+    weak var delegate: ProfileDelegate?
     
     private let warningType: DRErrorType = Warning()
     
@@ -50,6 +68,16 @@ final class ProfileView: BaseView {
     
     
     // MARK: - Life Cycle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setAddTarget()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -142,11 +170,6 @@ final class ProfileView: BaseView {
             $0.contentMode = .scaleAspectFill
         }
         
-        editImageButton.do {
-            $0.setImage(UIImage(resource: .icProfileplus), for: .normal)
-            $0.isUserInteractionEnabled = true
-        }
-        
         nicknameLabel.setLabel(text: StringLiterals.Profile.nickname,
                                alignment: .left,
                                textColor: UIColor(resource: .drBlack),
@@ -184,12 +207,6 @@ final class ProfileView: BaseView {
             $0.defaultTextAttributes = attributes
         }
         
-        doubleCheckButton.do {
-            $0.setTitle(StringLiterals.Profile.doubleCheck, for: .normal)
-            $0.setButtonStatus(buttonType: disabledButtonType)
-            $0.titleLabel?.font = UIFont.suit(.body_med_13)
-        }
-        
         nicknameErrMessageLabel.do {
             $0.isHidden = true
             $0.setErrorLabel(text: StringLiterals.Profile.disabledNickname, errorType: warningType)
@@ -204,11 +221,6 @@ final class ProfileView: BaseView {
                                      alignment: .left,
                                      textColor: UIColor(resource: .drBlack),
                                      font: UIFont.suit(.body_bold_15))
-
-        registerButton.do {
-            $0.setTitle(StringLiterals.Profile.registerProfile, for: .normal)
-            $0.setButtonStatus(buttonType: disabledButtonType)
-        }
         
         tendencyTagCollectionView.do {
             $0.contentInsetAdjustmentBehavior = .never
@@ -229,12 +241,27 @@ final class ProfileView: BaseView {
 
 extension ProfileView {
     
+    func setAddTarget() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(endEditing(_:)))
+        addGestureRecognizer(tapGesture)
+        
+        nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .editingChanged)
+
+        editImageButton.addTarget(self, action: #selector(didTapEditImageButton), for: .touchUpInside)
+        
+        doubleCheckButton.addTarget(self, action: #selector(didTapDoubleCheckButton), for: .touchUpInside)
+        
+        registerButton.addTarget(self, action: #selector(didTapRegisterButton), for: .touchUpInside)
+    }
+    
     func updateNicknameErrLabel(errorType: ProfileErrorType) {
         switch errorType {
         case .isNotValidCount:
             nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.minimumNickname, errorType: self.warningType)
+        
         case .isValid:
             nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.enabledNickname, errorType: self.correctType)
+        
         case .isNotValid:
             nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.disabledNickname, errorType: self.warningType)
         }
@@ -252,11 +279,7 @@ extension ProfileView {
     }
     
     func updateDoubleCheckButton(isValid: Bool) {
-        isValid
-        ? doubleCheckButton.setButtonStatus(buttonType: enabledButtonType)
-        : doubleCheckButton.setButtonStatus(buttonType: disabledButtonType)
-        doubleCheckButton.titleLabel?.font = UIFont.suit(.body_med_13)
-        doubleCheckButton.layer.cornerRadius = 10
+        doubleCheckButton.setButtonStyle(isValid ? .med_purple_10 : .med_gray200_10, isEnabled: isValid)
     }
     
     func updateTagCount(count: Int) {
@@ -268,14 +291,40 @@ extension ProfileView {
     }
     
     func updateRegisterButton(isValid: Bool) {
-        isValid 
-        ? registerButton.setButtonStatus(buttonType: enabledButtonType)
-        : registerButton.setButtonStatus(buttonType: disabledButtonType)
-        registerButton.titleLabel?.font = UIFont.suit(.body_bold_15)
+        registerButton.setButtonStyle(isValid ? .bold_purple_14 : .bold_gray200_14, isEnabled: isValid)
     }
     
     func updateProfileImage(image: UIImage) {
         profileImageView.image = image
+    }
+    
+}
+
+
+// MARK: - @objc Methods
+
+extension ProfileView {
+    
+    @objc
+    func didChangeTextfield() {
+        delegate?.didChangeTextfield()
+    }
+    
+    @objc
+    func didTapEditImageButton() {
+        delegate?.didTapEditImageButton()
+    }
+    
+    @objc
+    func didTapDoubleCheckButton() {
+        print("doubleCheckNickname view")
+        delegate?.didTapDoubleCheckButton()
+    }
+    
+    @objc
+    func didTapRegisterButton() {
+        registerButton.isEnabled = false
+        delegate?.didTapRegisterButton()
     }
     
 }

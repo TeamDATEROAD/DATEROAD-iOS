@@ -24,20 +24,16 @@ final class CourseFilterView: BaseView {
     
     let locationFilterButton = UIButton()
     
-    let resetButton = UIButton()
+    let resetButton: DRImageButton = DRImageButton(image: UIImage(resource: .icReset), buttonName: .white_gray300_0)
     
     let priceCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     
     // MARK: - Properties
     
-    private let enabledButtonType: DRButtonType = EnabledButton()
-    
-    private let disabledButtonType: DRButtonType = DisabledButton()
-    
     weak var delegate: CourseFilterViewDelegate?
     
-    private var priceButtons: [UIButton] = []
+    private var currentButton: DRTextButton?
     
     
     // MARK: - Life Cycle
@@ -73,8 +69,7 @@ final class CourseFilterView: BaseView {
         
         priceCollectionView.snp.makeConstraints {
             $0.top.equalTo(locationFilterButton.snp.bottom).offset(8)
-            $0.leading.equalToSuperview().inset(16)
-            $0.trailing.equalToSuperview().inset(18)
+            $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(30)
         }
     }
@@ -96,35 +91,26 @@ final class CourseFilterView: BaseView {
             $0.addGestureRecognizer(gesture)
         }
         
-        resetButton.do {
-            $0.setImage(UIImage(resource: .icReset), for: .normal)
-            $0.adjustsImageWhenHighlighted = false
-            $0.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
-        }
+        resetButton.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
     }
     
 }
 
 extension CourseFilterView {
     
-    func updatePrice(button: UIButton, buttonType: DRButtonType, isSelected: Bool) {
-        button.setButtonStatus(buttonType: buttonType)
+    func updatePrice(button: DRTextButton, _ buttonName: TextButtonType, isSelected: Bool) {
+        // 버튼 속성 업데이트
+        button.setButtonStyle(buttonName, isSelected: isSelected)
         
-        if isSelected {
-            priceButtons.append(button)
-        } else {
-            if let index = priceButtons.firstIndex(of: button) {
-                priceButtons.remove(at: index)
-            }
-            button.setTitleColor(UIColor(resource: .gray400), for: .normal)
-        }
+        // 현재 선택된 버튼 변경
+        // true -> 받아온 버튼이 현재 선택된 버튼, false -> 버튼 해제한 경우이므로 선택된 버튼 x
+        currentButton = isSelected ? button : nil
     }
     
     func resetPriceButtons() {
-        for button in priceButtons {
-            updatePrice(button: button, buttonType: UnselectedButton(), isSelected: false)
-        }
-        priceButtons.removeAll()
+        guard let priceButton = currentButton else { return }
+        updatePrice(button: priceButton, .med_gray100_15, isSelected: false)
+        currentButton = nil
     }
     
     func resetLocationFilterButton() {
@@ -144,7 +130,6 @@ extension CourseFilterView {
     @objc
     private func didTapResetButton() {
         delegate?.didTapResetButton()
-        resetPriceButtons()
     }
     
 }
