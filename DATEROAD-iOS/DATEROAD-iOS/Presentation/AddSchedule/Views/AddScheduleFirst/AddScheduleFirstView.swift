@@ -44,8 +44,8 @@ final class AddScheduleFirstView: BaseView {
         }
         
         visitDateErrorLabel.snp.makeConstraints {
-            $0.top.equalTo(inAddScheduleFirstView.visitDateContainer.snp.bottom).offset(2)
-            $0.leading.equalTo(inAddScheduleFirstView.visitDateContainer.snp.leading).offset(9)
+            $0.top.equalTo(inAddScheduleFirstView.visitDateTextField.snp.bottom).offset(2)
+            $0.leading.equalTo(inAddScheduleFirstView.visitDateTextField.snp.leading).offset(9)
         }
     }
     
@@ -78,7 +78,7 @@ extension AddScheduleFirstView {
     
     func updateVisitDateTextField(isPassValid: Bool) {
         visitDateErrorLabel.isHidden = isPassValid
-        inAddScheduleFirstView.visitDateContainer.do {
+        inAddScheduleFirstView.visitDateTextField.do {
             $0.layer.borderWidth = isPassValid ? 0 : 1
         }
     }
