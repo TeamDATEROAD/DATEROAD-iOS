@@ -7,6 +7,16 @@
 
 import UIKit
 
+protocol LoginDelegate: AnyObject {
+
+    func didTapKakaoLoginButton()
+    
+    func didTapAppleLoginButton()
+    
+    func didTapPrivacyPolicyButton()
+    
+}
+
 final class LoginView: BaseView {
     
     // MARK: - UI Properties
@@ -20,13 +30,30 @@ final class LoginView: BaseView {
     let privacyPolicyButton: DRTextButton = DRTextButton(title: StringLiterals.Login.privacyPolicyLabel, buttonName: .med_purple_0)
     
     
-    // MARK: - Methods
+    // MARK: - Properties
+    
+    weak var delegate: LoginDelegate?
+    
+    
+    // MARK: - Life Cycles
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setAddTarget()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func setHierarchy() {
-        self.addSubviews(logoImageView,
-                         kakaoLoginButton,
-                         appleLoginButton,
-                         privacyPolicyButton)
+        self.addSubviews(
+            logoImageView,
+            kakaoLoginButton,
+            appleLoginButton,
+            privacyPolicyButton
+        )
     }
     
     override func setLayout() {
@@ -77,6 +104,43 @@ final class LoginView: BaseView {
         }
         
         privacyPolicyButton.setUnderline()
+    }
+    
+}
+
+
+// MARK: - Methods
+
+extension LoginView {
+    
+    func setAddTarget() {
+        kakaoLoginButton.addTarget(self, action: #selector(didTapKakaoLoginButton), for: .touchUpInside)
+        
+        appleLoginButton.addTarget(self, action: #selector(didTapAppleLoginButton), for: .touchUpInside)
+        
+        privacyPolicyButton.addTarget(self, action: #selector(didTapPrivacyPolicyButton), for: .touchUpInside)
+    }
+    
+}
+
+
+// MARK: - @objc Methods
+
+extension LoginView {
+    
+    @objc
+    func didTapKakaoLoginButton() {
+        delegate?.didTapKakaoLoginButton()
+    }
+    
+    @objc
+    func didTapAppleLoginButton() {
+        delegate?.didTapAppleLoginButton()
+    }
+    
+    @objc
+    func didTapPrivacyPolicyButton() {
+        delegate?.didTapPrivacyPolicyButton()
     }
     
 }
