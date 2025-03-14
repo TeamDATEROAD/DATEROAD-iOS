@@ -195,19 +195,6 @@ private extension AddScheduleFirstViewController {
         addScheduleFirstView.inAddScheduleFirstView.dateNameTextField.addTarget(self, action: #selector(dateNameTextFieldDidChange(_:)), for: .editingChanged)
         
         addScheduleFirstView.inAddScheduleFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
-        
-//        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(visitDateTapped))
-//        addScheduleFirstView.inAddScheduleFirstView.visitDateTextField.addGestureRecognizer(tapGesture1)
-//        addScheduleFirstView.inAddScheduleFirstView.visitDateTextField.isUserInteractionEnabled = true
-//        
-//        let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(dateStartAtTapped))
-//        addScheduleFirstView.inAddScheduleFirstView.dateStartAtTextField.addGestureRecognizer(tapGesture2)
-//        addScheduleFirstView.inAddScheduleFirstView.dateStartAtTextField.isUserInteractionEnabled = true
-//        
-//        
-//        let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(datePlaceContainerTapped))
-//        addScheduleFirstView.inAddScheduleFirstView.datePlaceTextField.addGestureRecognizer(tapGesture3)
-//        addScheduleFirstView.inAddScheduleFirstView.datePlaceTextField.isUserInteractionEnabled = true
     }
     
     func isValidNextBtn() {
