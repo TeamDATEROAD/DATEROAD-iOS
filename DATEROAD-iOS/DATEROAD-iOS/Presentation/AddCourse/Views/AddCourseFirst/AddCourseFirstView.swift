@@ -24,7 +24,7 @@ final class AddCourseFirstView: BaseView {
     
     private let imageAccessoryView = UIView()
     
-    let cameraBtn = UIButton()
+    let cameraBtn: DRImageButton = DRImageButton(image: UIImage(resource: .camera), buttonName: .clear_clear_16)
     
     private let imageCountLabelContainer = UIView()
     
@@ -130,13 +130,6 @@ final class AddCourseFirstView: BaseView {
             $0.isUserInteractionEnabled = true
         }
         
-        cameraBtn.do {
-            $0.setImage(.camera, for: .normal)
-            $0.backgroundColor = .gray200
-            $0.layer.cornerRadius = 32 / 2
-            $0.isUserInteractionEnabled = true
-        }
-        
         imageCountLabelContainer.do {
             $0.backgroundColor = .gray400
             $0.layer.cornerRadius = 10
@@ -177,7 +170,7 @@ extension AddCourseFirstView {
     }
     
     func updateImageCellUI(isEmpty: Bool, ImageDataCount: Int) {
-        cameraBtn.isHidden = isEmpty
+        cameraBtn.setButtonHidden(isEmpty)
         imageCountLabel.text = "\(ImageDataCount)/10"
     }
     

@@ -27,7 +27,7 @@ final class CourseViewController: BaseViewController {
     
     private var courseListModel = CourseListModel.courseContents
     
-    private var selectedButton: UIButton?
+    private var selectedButton: DRTextButton?
     
     private var loaded: Bool = false
     
@@ -87,7 +87,6 @@ final class CourseViewController: BaseViewController {
         self.courseView.courseListView.courseListCollectionView.delegate = self
         self.courseView.courseFilterView.delegate = self
         self.courseView.courseNavigationBarView.delegate = self
-        self.courseView.courseFilterView.resetButton.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
     }
     
     func bindViewModel() {
@@ -144,11 +143,7 @@ final class CourseViewController: BaseViewController {
         }
         
         self.courseViewModel.selectedPriceIndex.bind { [weak self] index in
-            self?.courseViewModel.didUpdateSelectedPriceIndex?(index)
-        }
-        
-        self.courseViewModel.selectedCityName.bind { [weak self] index in
-            self?.courseViewModel.didUpdateselectedCityName?(index)
+            self?.getCourse()
         }
         
         self.courseViewModel.didUpdateCourseList = { [weak self] in
@@ -162,6 +157,30 @@ final class CourseViewController: BaseViewController {
                 })
             }
         }
+    }
+    
+    @objc
+    func didTapPriceButton(_ sender: DRTextButton) {
+        // 이전과 다른 버튼을 선택한 경우 -> 이전에 선택했던 버튼 해제 처리
+        if let previousButton = selectedButton, previousButton != sender {
+            previousButton.isSelected = false
+            courseView.courseFilterView.updatePrice(button: previousButton, .med_gray100_15, isSelected: false)
+        }
+        
+        // 선택한 버튼 상태 변경
+        sender.isSelected.toggle()
+        
+        // 선택한 버튼 상태에 따라 속성 변경
+        courseView.courseFilterView.updatePrice(button: sender, sender.isSelected ? .med_purple_15 : .med_gray100_15, isSelected: sender.isSelected)
+        
+        // 현재 선택한 버튼 인덱스 프로퍼티 변경
+        courseViewModel.selectedPriceIndex.value = sender.isSelected ? sender.tag + 1 : nil
+
+        // 현재 선택한 버튼 변경
+        selectedButton = sender.isSelected ? sender : nil
+        
+        //
+        getCourse()
     }
     
 }
@@ -193,39 +212,11 @@ extension CourseViewController: CourseFilterViewDelegate {
         }
     }
     
-    @objc
-    func didTapPriceButton(_ sender: UIButton) {
-        if let previousButton = selectedButton, previousButton != sender {
-            previousButton.isSelected = false
-            self.courseView.courseFilterView.updatePrice(button: previousButton, buttonType: UnselectedButton(), isSelected: false)
-        }
-        
-        guard let cell = sender.superview?.superview as? UICollectionViewCell,
-              let indexPath = courseView.courseFilterView.priceCollectionView.indexPath(for: cell) else {
-            return
-        }
-        sender.isSelected = !sender.isSelected
-        
-        if sender.isSelected {
-            self.courseView.courseFilterView.updatePrice(button: sender, buttonType: SelectedButton(), isSelected: true)
-            courseViewModel.selectedPriceIndex.value = indexPath.row + 1
-        } else {
-            self.courseView.courseFilterView.updatePrice(button: sender, buttonType: UnselectedButton(), isSelected: false)
-            courseViewModel.selectedPriceIndex.value = nil
-        }
-        
-        selectedButton = sender.isSelected ? sender : nil
-        getCourse()
-    }
-    
-    @objc
     func didTapResetButton() {
-        courseViewModel.fetchPriceData()
-        courseViewModel.resetSelections()
-        courseView.courseFilterView.resetPriceButtons()
         courseView.courseFilterView.resetLocationFilterButton()
+        courseView.courseFilterView.resetPriceButtons()
+        courseViewModel.resetSelections()
         locationFilterVC.resetSelections()
-        getCourse()
     }
     
 }
@@ -233,11 +224,11 @@ extension CourseViewController: CourseFilterViewDelegate {
 extension CourseViewController: LocationFilterDelegate {
     
     func getCourse() {
-        let city = courseViewModel.selectedCityName.value ?? ""
-        let cost = courseViewModel.selectedPriceIndex.value?.costNum()
-        courseViewModel.getCourse(city: city, cost: cost)
-        if !courseListModel.isEmpty {
-            scrollToTop()
+        Task {
+            courseViewModel.getCourse()
+            if !courseListModel.isEmpty {
+                scrollToTop()
+            }
         }
     }
     
@@ -298,6 +289,7 @@ extension CourseViewController: UICollectionViewDataSource {
         
         if let priceCell = cell as? PriceButtonCollectionViewCell {
             priceCell.updateButtonTitle(title: self.courseViewModel.priceData[indexPath.item])
+            priceCell.priceButton.tag = indexPath.row
             priceCell.priceButton.addTarget(self, action: #selector(didTapPriceButton(_:)), for: .touchUpInside)
         } else if let courseListCell = cell as? CourseListCollectionViewCell {
             let course = self.courseListModel[indexPath.item]

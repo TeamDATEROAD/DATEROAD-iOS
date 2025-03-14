@@ -22,11 +22,11 @@ final class AddCourseThirdView: BaseView {
     
     let addThirdView: AddThirdView = AddThirdView()
     
-    let addThirdDoneBtn: UIButton = UIButton()
-    
-    private let enabledButtonType: DRButtonType = EnabledButton()
-    
-    private let disabledButtonType: DRButtonType = addCoursePlaceDisabledButton()
+    let addThirdDoneBtn: DRTextButton = DRTextButton(
+        title: StringLiterals.AddCourseOrSchedule.AddThirdView.addThirdDoneBtn,
+        buttonName: .bold_gray200_14,
+        isEnabled: false
+    )
     
     
     // MARK: - Methods
@@ -84,12 +84,6 @@ final class AddCourseThirdView: BaseView {
             $0.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 16)
             $0.clipsToBounds = true
         }
-        
-        addThirdDoneBtn.do {
-            $0.setButtonStatus(buttonType: disabledButtonType)
-            $0.setTitle(StringLiterals.AddCourseOrSchedule.AddThirdView.addThirdDoneBtn, for: .normal)
-            $0.titleLabel?.font = .suit(.body_bold_15)
-        }
     }
     
 }
@@ -98,8 +92,8 @@ extension AddCourseThirdView {
     
     func updateAddThirdDoneBtn(isValid: Bool) {
         print("현재 updateAddThirdDoneBtn \(isValid)")
-        let state = isValid ? enabledButtonType : disabledButtonType
-        addThirdDoneBtn.setButtonStatus(buttonType: state)
+        let state: TextButtonType = isValid ? .bold_purple_14 : .bold_gray200_14
+        addThirdDoneBtn.setButtonStyle(state, isEnabled: isValid)
     }
     
 }

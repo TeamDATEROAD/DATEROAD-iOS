@@ -37,7 +37,6 @@ final class OnboardingViewController: BaseViewController {
         registerCell()
         setDelegate()
         bindViewModel()
-        setAddTarget()
     }
     
     override func setHierarchy() {
@@ -62,8 +61,9 @@ private extension OnboardingViewController {
     }
     
     func setDelegate() {
-        self.onboardingView.onboardingCollectionView.delegate = self
-        self.onboardingView.onboardingCollectionView.dataSource = self
+        onboardingView.delegate = self
+        onboardingView.onboardingCollectionView.delegate = self
+        onboardingView.onboardingCollectionView.dataSource = self
     }
     
     func bindViewModel() {
@@ -85,19 +85,25 @@ private extension OnboardingViewController {
         }
     }
     
-    func setAddTarget() {
-        self.onboardingView.bottomControlView.nextButton.addTarget(self, action: #selector(pushToNextView), for: .touchUpInside)
-    }
-    
-    @objc
-    func pushToNextView(_ sender: UIButton) {
+    func pushToNextView() {
         self.onboardingViewModel.handleToIndex()
     }
     
 }
 
 
-// MARK: - Delegates
+// MARK: - OnboardingDelegate
+
+extension OnboardingViewController: OnboardingDelegate {
+    
+    func didTapNextButton() {
+        pushToNextView()
+    }
+    
+}
+
+
+// MARK: - UICollectionViewDelegate
 
 extension OnboardingViewController: UICollectionViewDelegate {
     

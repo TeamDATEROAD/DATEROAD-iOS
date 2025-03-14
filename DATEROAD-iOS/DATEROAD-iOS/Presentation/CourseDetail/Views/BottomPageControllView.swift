@@ -22,6 +22,7 @@ final class BottomPageControllView: UICollectionReusableView {
     
     private var likeStackView = UIStackView()
     
+    // TODO: - UILabel로 변경
     private let indexBoxButton = UIButton()
     
     

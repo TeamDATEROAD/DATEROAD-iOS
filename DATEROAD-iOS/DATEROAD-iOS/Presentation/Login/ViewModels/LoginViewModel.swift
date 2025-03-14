@@ -61,7 +61,7 @@ extension LoginViewModel {
     }
     
     func handleKakaoLoginResult(oauthToken: OAuthToken?, error: Error?) {
-        if let error {
+        if error != nil {
             self.onLoginSuccess.value = false
         } else {
             guard let oauthToken = oauthToken else { return }

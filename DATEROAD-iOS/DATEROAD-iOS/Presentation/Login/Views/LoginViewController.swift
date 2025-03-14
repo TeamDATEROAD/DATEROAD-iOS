@@ -27,7 +27,7 @@ final class LoginViewController: BaseViewController {
         super.viewDidLoad()
         
         bindViewModel()
-        setAddTarget()
+        setDelegate()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -80,10 +80,8 @@ extension LoginViewController {
         }
     }
     
-    func setAddTarget() {
-        self.loginView.kakaoLoginButton.addTarget(self, action: #selector(didTapKakaoLoginButton), for: .touchUpInside)
-        self.loginView.appleLoginButton.addTarget(self, action: #selector(didTapAppleLoginButton), for: .touchUpInside)
-        self.loginView.privacyPolicyButton.addTarget(self, action: #selector(didTapPrivacyPolicyButton), for: .touchUpInside)
+    func setDelegate() {
+        loginView.delegate = self
     }
     
     func pushToNextVC(isSignIn: Bool) {
@@ -98,12 +96,7 @@ extension LoginViewController {
         }
     }
     
-}
-
-extension LoginViewController {
-    
-    @objc
-    func didTapKakaoLoginButton() {
+    func checkKakaoLogin() {
         loginViewModel.checkKakaoInstallation { [weak self] isInstalled in
             if isInstalled {
                 self?.loginViewModel.loginWithKakaoApp()
@@ -114,8 +107,7 @@ extension LoginViewController {
         }
     }
     
-    @objc
-    func didTapAppleLoginButton() {
+    func checkAppleLogin() {
         let appleProvider = ASAuthorizationAppleIDProvider()
         let request = appleProvider.createRequest()
         request.requestedScopes = [.fullName, .email]
@@ -125,13 +117,34 @@ extension LoginViewController {
         controller.performRequests()
     }
     
-    @objc
-    func didTapPrivacyPolicyButton() {
+    func goToPrivacyPolicy() {
         let privacyPolicyVC = DRWebViewController(urlString: StringLiterals.WebView.privacyPolicyLink)
         self.present(privacyPolicyVC, animated: true)
     }
     
 }
+
+
+// MARK: - Apple Authorization Delegate
+
+extension LoginViewController: LoginDelegate {
+    
+    func didTapKakaoLoginButton() {
+        checkKakaoLogin()
+    }
+    
+    func didTapAppleLoginButton() {
+        checkAppleLogin()
+    }
+    
+    func didTapPrivacyPolicyButton() {
+        goToPrivacyPolicy()
+    }
+    
+}
+
+
+// MARK: - Apple Authorization Delegate
 
 extension LoginViewController: ASAuthorizationControllerDelegate {
     

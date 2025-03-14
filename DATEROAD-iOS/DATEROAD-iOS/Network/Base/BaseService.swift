@@ -12,13 +12,21 @@ class BaseService {
     func judgeStatus<T: Codable>(statusCode: Int, data: Data) -> NetworkResult<T> {
         switch statusCode {
         case 200..<205:
-            return isValidData(data: data, responseType: T.self, statusCode: statusCode)
+            return isValidData(
+                data: data,
+                responseType: T.self,
+                statusCode: statusCode
+            )
+            
         case 401:
             return .reIssueJWT
+            
         case 400..<500:
             return .requestErr
+            
         case 500:
             return .serverErr
+            
         default:
             return .networkFail
         }

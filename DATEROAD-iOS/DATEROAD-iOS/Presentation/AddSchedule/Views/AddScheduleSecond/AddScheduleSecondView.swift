@@ -16,24 +16,24 @@ final class AddScheduleSecondView: BaseView {
     
     let inAddScheduleSecondView = InAddScheduleSecondView()
     
-    let editButton: UIButton = UIButton()
+    let editButton: DRTextButton = DRTextButton(
+        title: StringLiterals.AddCourseOrSchedule.AddSecondView.edit,
+        buttonName: .med_white_0,
+        isEnabled: false
+    )
     
     private let guideLabel: UILabel = UILabel()
     
     var addPlaceCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    let nextBtn: UIButton = UIButton()
+    let nextBtn: DRTextButton = DRTextButton(
+        title: StringLiterals.AddCourseOrSchedule.AddSecondView.addSecondDoneBtnOfSchedule,
+        buttonName: .bold_purple_14,
+        isEnabled: false
+    )
     
     
     // MARK: - Properties
-    
-    private let enabledConfirmButtonType: DRButtonType = EnabledButton()
-    
-    private let disabledConfirmButtonType: DRButtonType = DisabledButton()
-    
-    private let enabledButtonType: DRButtonType = addCourseEditEnableButton()
-    
-    private let disabledButtonType: DRButtonType = addCourseEditDisableButton()
     
     private let warningType: DRErrorType = Warning()
     
@@ -94,19 +94,9 @@ final class AddScheduleSecondView: BaseView {
             $0.dragInteractionEnabled = true
         }
         
-        editButton.do {
-            $0.setTitle(StringLiterals.AddCourseOrSchedule.AddSecondView.edit, for: .normal)
-            $0.setButtonStatus(buttonType: enabledButtonType)
-        }
-        
         guideLabel.do {
             $0.setLabel(alignment: .left, textColor: UIColor(resource: .gray400), font: .suit(.body_med_13))
             $0.text = StringLiterals.AddCourseOrSchedule.AddSecondView.guideLabel
-        }
-        
-        nextBtn.do {
-            $0.setButtonStatus(buttonType: disabledConfirmButtonType)
-            $0.setTitle(StringLiterals.AddCourseOrSchedule.AddSecondView.addSecondDoneBtnOfSchedule, for: .normal)
         }
     }
     
@@ -124,15 +114,13 @@ extension AddScheduleSecondView {
     }
     
     func editBtnState(isAble: Bool) {
-        let state = isAble ? enabledButtonType : disabledButtonType
-        editButton.do {
-            $0.setButtonStatus(buttonType: state)
-        }
+        let state: TextButtonType = isAble ? .med_white_0_purple : .med_white_0
+        editButton.setButtonStyle(state, isEnabled: isAble)
     }
     
     func changeNextBtnState(flag: Bool) {
-        let state = flag ? enabledConfirmButtonType : disabledConfirmButtonType
-        nextBtn.setButtonStatus(buttonType: state)
+        let state: TextButtonType = flag ? .bold_purple_14 : .bold_gray200_14
+        nextBtn.setButtonStyle(state, isEnabled: flag)
     }
     
 }
