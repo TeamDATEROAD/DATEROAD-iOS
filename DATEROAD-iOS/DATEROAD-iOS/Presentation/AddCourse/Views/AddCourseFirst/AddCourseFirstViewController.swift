@@ -262,7 +262,9 @@ private extension AddCourseFirstViewController {
             viewModel.isPickedImageVaild.value = false
             addCourseFirstView.collectionView.reloadData()
         } else {
+            let currentImageCnt = viewModel.pickedImageArr.count
             addCourseFirstView.collectionView.deleteItems(at: [indexPath])
+            addCourseFirstView.updateImageCellUI(isEmpty: false, ImageDataCount: currentImageCnt)
         }
         
         self.addCourseFirstView.addFirstView.tendencyTagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
