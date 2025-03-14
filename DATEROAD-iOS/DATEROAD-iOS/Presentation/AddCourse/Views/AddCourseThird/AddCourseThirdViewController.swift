@@ -292,6 +292,7 @@ extension AddCourseThirdViewController: UITextViewDelegate {
 extension AddCourseThirdViewController: UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        textField.font = UIFont.suit(.body_med_13)
         return true
     }
     
