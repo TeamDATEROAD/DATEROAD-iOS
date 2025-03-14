@@ -51,7 +51,6 @@ final class EditProfileViewController: BaseNavBarViewController {
         setProfile()
         registerCell()
         setDelegate()
-        setAddGesture()
         bindViewModel()
     }
     
@@ -101,22 +100,12 @@ private extension EditProfileViewController {
     }
     
     func setDelegate() {
-        self.profileView.delegate = self
-        self.profileView.tendencyTagCollectionView.dataSource = self
-        self.profileView.tendencyTagCollectionView.delegate = self
-        self.profileView.nicknameTextfield.delegate = self
-        self.imagePickerViewController .delegate = self
-    }
-    
-    func setAddGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(self.view.endEditing(_:)))
-        self.view.addGestureRecognizer(tapGesture)
-        
-        self.profileView.nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .editingChanged)
-                
-        self.profileImageSettingView.deleteButton.addTarget(self, action: #selector(deletePhoto), for: .touchUpInside)
-        
-        self.profileImageSettingView.registerButton.addTarget(self, action: #selector(registerPhoto), for: .touchUpInside)
+        profileView.delegate = self
+        profileImageSettingView.delegate = self
+        profileView.tendencyTagCollectionView.dataSource = self
+        profileView.tendencyTagCollectionView.delegate = self
+        profileView.nicknameTextfield.delegate = self
+        imagePickerViewController.delegate = self
     }
     
     func bindViewModel() {
@@ -298,13 +287,11 @@ private extension EditProfileViewController {
         self.profileViewModel.checkValidNicknameCount(fromTagButton: true)
     }
     
-    @objc
-    func didChangeTextfield() {
+    func updateTextfield() {
         guard let text = self.profileView.nicknameTextfield.text else { return }
         self.profileViewModel.nickname.value = text
     }
     
-    @objc
     func deletePhoto() {
         alertVC.dismissBottomSheet()
         profileView.updateProfileImage(image: UIImage(resource: .emptyProfileImg))
@@ -312,7 +299,6 @@ private extension EditProfileViewController {
         self.profileViewModel.isUpdateProfileImage.value = true
     }
     
-    @objc
     func registerPhoto() {
         alertVC.dismissBottomSheet() { [weak self] in
             guard let self else { return }
@@ -320,7 +306,6 @@ private extension EditProfileViewController {
         }
     }
     
-    @objc
     func registerProfile() {
         self.profileViewModel.patchEditProfile()
     }
@@ -331,6 +316,10 @@ private extension EditProfileViewController {
 // MARK: - ProfileDelegate
 
 extension EditProfileViewController: ProfileDelegate {
+    
+    func didChangeTextfield() {
+        updateTextfield()
+    }
     
     func didTapRegisterButton() {
         registerProfile()
@@ -346,7 +335,8 @@ extension EditProfileViewController: ProfileDelegate {
     
 }
 
-// MARK: - Delegates
+
+// MARK: - UICollectionViewDelegate
 
 extension EditProfileViewController: UICollectionViewDelegateFlowLayout {
     
@@ -398,6 +388,9 @@ extension EditProfileViewController: UICollectionViewDataSource {
     
 }
 
+
+// MARK: - UITextFieldDelegate
+
 extension EditProfileViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -418,6 +411,9 @@ extension EditProfileViewController: UITextFieldDelegate {
     
 }
 
+
+// MARK: - DRBottomSheetDelegate
+
 extension EditProfileViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
@@ -425,14 +421,17 @@ extension EditProfileViewController: DRBottomSheetDelegate {
     }
     
     func didTapFirstLabel() {
-        self.registerPhoto()
+        registerPhoto()
     }
     
     func didTapSecondLabel() {
-        self.deletePhoto()
+        deletePhoto()
     }
     
 }
+
+
+// MARK: - ImagePickerDelegate
 
 extension EditProfileViewController: ImagePickerDelegate {
     
@@ -449,3 +448,17 @@ extension EditProfileViewController: ImagePickerDelegate {
     
 }
 
+
+// MARK: - ProfileImageSettingDelegate
+
+extension EditProfileViewController: ProfileImageSettingDelegate {
+    
+    func didTapDeleteImageButton() {
+        deletePhoto()
+    }
+    
+    func didTapRegisterImageButton() {
+        registerPhoto()
+    }
+    
+}

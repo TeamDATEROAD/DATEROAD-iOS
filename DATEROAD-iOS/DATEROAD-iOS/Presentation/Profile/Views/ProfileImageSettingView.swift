@@ -7,6 +7,14 @@
 
 import UIKit
 
+protocol ProfileImageSettingDelegate: AnyObject {
+    
+    func didTapDeleteImageButton()
+    
+    func didTapRegisterImageButton()
+    
+}
+
 final class ProfileImageSettingView: BaseView {
     
     // MARK: - UI Properties
@@ -15,15 +23,31 @@ final class ProfileImageSettingView: BaseView {
     
     private let titleLabel: UILabel = UILabel()
     
-    let registerButton: DRTextButton = DRTextButton(title: StringLiterals.Profile.settingImage, buttonName: .semi_white_0)
+    let registerButton: DRTextButton = DRTextButton(title: StringLiterals.Profile.registerImage, buttonName: .semi_white_0)
     
     let deleteButton: DRTextButton = DRTextButton(title: StringLiterals.Profile.deleteImage, buttonName: .semi_white_0)
     
     
+    // MARK: - Properties
+    
+    weak var delegate: ProfileImageSettingDelegate?
+    
+    
     // MARK: - Life Cycle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setAddTarget()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func setHierarchy() {
         self.addSubview(settingStackView)
+        
         settingStackView.addArrangedSubviews(
             titleLabel,
             registerButton,
@@ -44,10 +68,42 @@ final class ProfileImageSettingView: BaseView {
             $0.distribution = .fillEqually
         }
         
-        titleLabel.setLabel(text: StringLiterals.Profile.settingImage,
-                            alignment: .center,
-                            textColor: UIColor(resource: .drBlack),
-                            font: UIFont.suit(.title_bold_18))
+        titleLabel.setLabel(
+            text: StringLiterals.Profile.settingImage,
+            alignment: .center,
+            textColor: UIColor(resource: .drBlack),
+            font: UIFont.suit(.title_bold_18)
+        )
+    }
+    
+}
+
+
+// MARK: - Methods
+
+extension ProfileImageSettingView {
+    
+    func setAddTarget() {
+        deleteButton.addTarget(self, action: #selector(didTapDeleteImageButton), for: .touchUpInside)
+
+        registerButton.addTarget(self, action: #selector(didTapRegisterImageButton), for: .touchUpInside)
+    }
+    
+}
+
+
+// MARK: - @objc Methods
+
+extension ProfileImageSettingView {
+    
+    @objc
+    func didTapDeleteImageButton() {
+        delegate?.didTapDeleteImageButton()
+    }
+    
+    @objc
+    func didTapRegisterImageButton() {
+        delegate?.didTapRegisterImageButton()
     }
     
 }

@@ -9,6 +9,8 @@ import UIKit
 
 protocol ProfileDelegate: AnyObject {
     
+    func didChangeTextfield()
+    
     func didTapEditImageButton()
     
     func didTapDoubleCheckButton()
@@ -240,6 +242,11 @@ final class ProfileView: BaseView {
 extension ProfileView {
     
     func setAddTarget() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(endEditing(_:)))
+        addGestureRecognizer(tapGesture)
+        
+        nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .editingChanged)
+
         editImageButton.addTarget(self, action: #selector(didTapEditImageButton), for: .touchUpInside)
         
         doubleCheckButton.addTarget(self, action: #selector(didTapDoubleCheckButton), for: .touchUpInside)
@@ -251,8 +258,10 @@ extension ProfileView {
         switch errorType {
         case .isNotValidCount:
             nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.minimumNickname, errorType: self.warningType)
+        
         case .isValid:
             nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.enabledNickname, errorType: self.correctType)
+        
         case .isNotValid:
             nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.disabledNickname, errorType: self.warningType)
         }
@@ -295,6 +304,11 @@ extension ProfileView {
 // MARK: - @objc Methods
 
 extension ProfileView {
+    
+    @objc
+    func didChangeTextfield() {
+        delegate?.didChangeTextfield()
+    }
     
     @objc
     func didTapEditImageButton() {
