@@ -84,8 +84,8 @@ final class AddCourseThirdViewController: BaseNavBarViewController {
         
         addCourseThirdView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(4)
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
         }
     }
     

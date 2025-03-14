@@ -45,8 +45,8 @@ final class AddCourseThirdView: BaseView {
         
         addThirdDoneBtn.snp.makeConstraints {
             $0.height.equalTo(54)
-            $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.bottom.equalTo(safeAreaLayoutGuide).offset(-4)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalTo(safeAreaLayoutGuide)
         }
         
         scrollContentView.snp.makeConstraints {
@@ -61,7 +61,7 @@ final class AddCourseThirdView: BaseView {
         
         addThirdView.snp.makeConstraints {
             $0.top.equalTo(collectionView.snp.bottom).offset(7)
-            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
     }
