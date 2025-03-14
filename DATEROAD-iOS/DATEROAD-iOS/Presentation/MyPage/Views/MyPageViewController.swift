@@ -54,7 +54,6 @@ final class MyPageViewController: BaseNavBarViewController {
         setStyle()
         setDelegate()
         bindViewModel()
-//        setAddTarget()
     }
     
     override func setHierarchy() {
@@ -203,7 +202,11 @@ extension MyPageViewController {
             let nickname = userInfoData.nickname
             let tags = userInfoData.tagList
             
-            let profile = ProfileModel(profileImage: self.myPageView.userInfoView.profileImageView.image, nickname: nickname, tags: tags)
+            let profile = ProfileModel(
+                profileImage: self.myPageView.userInfoView.profileImageView.image,
+                nickname: nickname,
+                tags: tags
+            )
             let profileVC = EditProfileViewController(profileViewModel: ProfileViewModel(profileData: profile))
             
             self.navigationController?.pushViewController(profileVC, animated: false)

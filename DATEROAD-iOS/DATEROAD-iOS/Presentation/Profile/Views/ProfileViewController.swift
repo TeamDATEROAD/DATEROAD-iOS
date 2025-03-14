@@ -50,7 +50,6 @@ final class ProfileViewController: BaseNavBarViewController {
         self.profileView.registerButton.setTitle(StringLiterals.Profile.registerProfile, for: .normal)
         registerCell()
         setDelegate()
-//        setAddGesture()
         bindViewModel()
     }
     
