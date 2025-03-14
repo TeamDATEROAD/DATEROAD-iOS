@@ -15,7 +15,6 @@ final class InAddScheduleFirstView: BaseView {
     // MARK: - UI Properties
     
     let dateNameTextField = DRTextField(type: .AddCourseSchedule(.dateName))
-//    let dateNameTextField = UITextField()
     
     let visitDateTextField = DRTextField(type: .AddCourseSchedule(.visitDate))
     
