@@ -7,6 +7,16 @@
 
 import UIKit
 
+protocol MyPageDelegate: AnyObject {
+
+    func didTapGoToPointHistory()
+    
+    func didTapEditProfileButton()
+    
+    func didTapWithDrawalButton()
+    
+}
+
 final class MyPageView: BaseView {
     
     // MARK: - UI Properties
@@ -18,12 +28,18 @@ final class MyPageView: BaseView {
     let withdrawalButton: DRTextButton = DRTextButton(title: StringLiterals.MyPage.withdrawal, buttonName: .med_white_0)
     
     
+    // MARK: - Properties
+    
+    weak var delegate: MyPageDelegate?
+    
+    
     // MARK: - Life Cycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         registerCell()
+        setAddTarget()
     }
     
     required init?(coder: NSCoder) {
@@ -78,6 +94,37 @@ extension MyPageView {
     
     func registerCell() {
         myPageTableView.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.cellIdentifier)
+    }
+    
+    func setAddTarget() {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapGoToPointHistory))
+        userInfoView.goToPointHistoryStackView.addGestureRecognizer(gesture)
+        
+        let editProfileGesture = UITapGestureRecognizer(target: self, action: #selector(didTapEditProfileButton))
+        userInfoView.editProfileButton.addGestureRecognizer(editProfileGesture)
+        
+        withdrawalButton.addTarget(self, action: #selector(didTapWithdrawalButton), for: .touchUpInside)
+    }
+    
+}
+
+// MARK: - @objc Methods
+
+extension MyPageView {
+    
+    @objc
+    func didTapGoToPointHistory() {
+        delegate?.didTapGoToPointHistory()
+    }
+    
+    @objc
+    func didTapEditProfileButton() {
+        delegate?.didTapEditProfileButton()
+    }
+    
+    @objc
+    func didTapWithdrawalButton() {
+        delegate?.didTapWithDrawalButton()
     }
     
 }

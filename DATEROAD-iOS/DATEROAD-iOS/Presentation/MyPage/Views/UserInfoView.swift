@@ -47,15 +47,19 @@ final class UserInfoView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(profileImageView,
-                         nicknameLabel,
-                         editProfileButton,
-                         tagCollectionView,
-                         pointView)
+        self.addSubviews(
+            profileImageView,
+            nicknameLabel,
+            editProfileButton,
+            tagCollectionView,
+            pointView
+        )
         
-        pointView.addSubviews(userPointLabel,
-                              pointLabel,
-                              goToPointHistoryStackView)
+        pointView.addSubviews(
+            userPointLabel,
+            pointLabel,
+            goToPointHistoryStackView
+        )
         
         goToPointHistoryStackView.addArrangedSubviews(goToPointHistoryLabel,rightArrowButton)
     }
@@ -150,15 +154,19 @@ final class UserInfoView: BaseView {
             $0.isUserInteractionEnabled = true
         }
         
-        pointLabel.setLabel(text: "0 P",
-                            alignment: .left,
-                            textColor: UIColor(resource: .drBlack),
-                            font: UIFont.suit(.title_extra_24))
+        pointLabel.setLabel(
+            text: "0 P",
+            alignment: .left,
+            textColor: UIColor(resource: .drBlack),
+            font: UIFont.suit(.title_extra_24)
+        )
         
-        goToPointHistoryLabel.setLabel(text: StringLiterals.MyPage.goToPointHistory,
-                                       alignment: .left,
-                                       textColor: UIColor(resource: .gray400),
-                                       font: UIFont.suit(.body_med_13))
+        goToPointHistoryLabel.setLabel(
+            text: StringLiterals.MyPage.goToPointHistory,
+            alignment: .left,
+            textColor: UIColor(resource: .gray400),
+            font: UIFont.suit(.body_med_13)
+        )
     }
     
 }
@@ -168,9 +176,11 @@ extension UserInfoView {
     func bindData(userInfo: MyPageUserInfoModel) {
         if let imageURL = userInfo.imageURL  {
             let url = URL(string: imageURL)
-            self.profileImageView.kf.setImage(with: url,
-                                              placeholder: UIImage(resource: .placeholder),
-                                              options: [.transition(.none), .cacheOriginalImage])
+            self.profileImageView.kf.setImage(
+                with: url,
+                placeholder: UIImage(resource: .placeholder),
+                options: [.transition(.none), .cacheOriginalImage]
+            )
         } else {
             self.profileImageView.image = UIImage(resource: .emptyProfileImg)
         }
@@ -179,10 +189,6 @@ extension UserInfoView {
         self.userPointLabel.text = userInfo.nickname + "님의 포인트"
         self.pointLabel.text = String(userInfo.point) + " P"
     }
-    
-}
-
-extension UserInfoView {
     
     func registerCell() {
         tagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
