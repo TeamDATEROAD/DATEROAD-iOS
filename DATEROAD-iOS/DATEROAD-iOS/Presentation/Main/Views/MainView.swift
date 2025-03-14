@@ -102,10 +102,13 @@ extension MainView {
             switch self.mainSectionData[section] {
             case .upcomingDate:
                 return self.makeSectionLayout(layout: UpcomingDateLayout())
+                
             case .hotDateCourse:
                 return self.makeSectionLayout(layout: HotDateLayout())
+                
             case .banner:
                 return self.makeSectionLayout(layout: BannerDateLayout())
+                
             case .newDateCourse:
                 return self.makeSectionLayout(layout: NewDateLayout())
             }
@@ -142,10 +145,12 @@ extension MainView {
     
     func makeSupplementaryLayout(layout: MainSectionLayout, type: String) -> NSCollectionLayoutBoundarySupplementaryItem {
         let supplemetaryItemSize = layout.supplemetaryItemSize
-        let supplemetaryItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: supplemetaryItemSize,
-                                                                           elementKind: type,
-                                                                           alignment: layout.supplementaryAlignment,
-                                                                           absoluteOffset: layout.absoluteOffset)
+        let supplemetaryItem = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: supplemetaryItemSize,
+            elementKind: type,
+            alignment: layout.supplementaryAlignment,
+            absoluteOffset: layout.absoluteOffset
+        )
         return supplemetaryItem
     }
     

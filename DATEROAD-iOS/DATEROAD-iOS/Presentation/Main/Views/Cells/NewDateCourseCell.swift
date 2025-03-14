@@ -49,19 +49,21 @@ final class NewDateCourseCell: BaseCollectionViewCell {
     }
     
     override func setHierarchy() {
-        self.addSubviews(courseImage,
-                         likeView,
-                         likeImage,
-                         likeLabel,
-                         countryLabel,
-                         dateNameView,
-                         
-                         costView,
-                         costImage,
-                         costLabel,
-                         timeView,
-                         timeImage,
-                         timeLabel)
+        self.addSubviews(
+            courseImage,
+            likeView,
+            likeImage,
+            likeLabel,
+            countryLabel,
+            dateNameView,
+            costView,
+            costImage,
+            costLabel,
+            timeView,
+            timeImage,
+            timeLabel
+        )
+        
         dateNameView.addSubview(dateNameLabel)
     }
     
