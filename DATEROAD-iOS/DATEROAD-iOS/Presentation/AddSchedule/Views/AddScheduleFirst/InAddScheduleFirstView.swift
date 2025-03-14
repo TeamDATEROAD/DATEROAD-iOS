@@ -152,7 +152,7 @@ final class InAddScheduleFirstView: BaseView {
         
         sixCheckNextButton.snp.makeConstraints {
             $0.horizontalEdges.bottom.equalToSuperview()
-            $0.height.equalTo(52)
+            $0.height.equalTo(54)
         }
     }
     

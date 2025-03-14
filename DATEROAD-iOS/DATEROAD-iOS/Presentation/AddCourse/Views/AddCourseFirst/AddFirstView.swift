@@ -144,7 +144,7 @@ final class AddFirstView: BaseView {
         
         sixCheckNextButton.snp.makeConstraints {
             $0.height.equalTo(54)
-            $0.horizontalEdges.bottom.equalTo(self.safeAreaLayoutGuide)
+            $0.bottom.horizontalEdges.equalToSuperview()
         }
     }
     
