@@ -63,7 +63,7 @@ final class CourseDetailBottomTabBarView: BaseView {
     override func setStyle() {
         likeButtonView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+            $0.roundCorners(cornerRadius: 14)
         }
         
         likeButtonImageView.do {

@@ -49,7 +49,7 @@ final class BannerCell: BaseCollectionViewCell {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFill
-            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 14)
         }
     }
     

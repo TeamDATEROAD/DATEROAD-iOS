@@ -95,10 +95,7 @@ final class DRCustomAlertView: BaseView {
         self.backgroundColor = UIColor(resource: .drBlack).withAlphaComponent(0.5)
         
         alertView.do {
-            $0.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner,
-                                                              .layerMaxXMinYCorner,
-                                                              .layerMinXMaxYCorner,
-                                                              .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 20)
             $0.backgroundColor = UIColor(resource: .drWhite)
         }
         
