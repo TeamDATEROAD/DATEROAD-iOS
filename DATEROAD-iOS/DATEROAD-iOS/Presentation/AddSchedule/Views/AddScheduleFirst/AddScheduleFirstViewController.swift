@@ -186,6 +186,9 @@ private extension AddScheduleFirstViewController {
             $0.dataSource = self
         }
         addScheduleFirstView.inAddScheduleFirstView.dateNameTextField.delegate = self
+        addScheduleFirstView.inAddScheduleFirstView.visitDateTextField.delegate = self
+        addScheduleFirstView.inAddScheduleFirstView.dateStartAtTextField.delegate = self
+        addScheduleFirstView.inAddScheduleFirstView.datePlaceTextField.delegate = self
     }
     
     func setAddTarget() {
@@ -193,18 +196,18 @@ private extension AddScheduleFirstViewController {
         
         addScheduleFirstView.inAddScheduleFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
         
-        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(visitDateTapped))
-        addScheduleFirstView.inAddScheduleFirstView.visitDateContainer.addGestureRecognizer(tapGesture1)
-        addScheduleFirstView.inAddScheduleFirstView.visitDateContainer.isUserInteractionEnabled = true
-        
-        let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(dateStartAtTapped))
-        addScheduleFirstView.inAddScheduleFirstView.dateStartAtContainer.addGestureRecognizer(tapGesture2)
-        addScheduleFirstView.inAddScheduleFirstView.dateStartAtContainer.isUserInteractionEnabled = true
-        
-        
-        let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(datePlaceContainerTapped))
-        addScheduleFirstView.inAddScheduleFirstView.datePlaceContainer.addGestureRecognizer(tapGesture3)
-        addScheduleFirstView.inAddScheduleFirstView.datePlaceContainer.isUserInteractionEnabled = true
+//        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(visitDateTapped))
+//        addScheduleFirstView.inAddScheduleFirstView.visitDateTextField.addGestureRecognizer(tapGesture1)
+//        addScheduleFirstView.inAddScheduleFirstView.visitDateTextField.isUserInteractionEnabled = true
+//        
+//        let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(dateStartAtTapped))
+//        addScheduleFirstView.inAddScheduleFirstView.dateStartAtTextField.addGestureRecognizer(tapGesture2)
+//        addScheduleFirstView.inAddScheduleFirstView.dateStartAtTextField.isUserInteractionEnabled = true
+//        
+//        
+//        let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(datePlaceContainerTapped))
+//        addScheduleFirstView.inAddScheduleFirstView.datePlaceTextField.addGestureRecognizer(tapGesture3)
+//        addScheduleFirstView.inAddScheduleFirstView.datePlaceTextField.isUserInteractionEnabled = true
     }
     
     func isValidNextBtn() {
@@ -301,6 +304,7 @@ private extension AddScheduleFirstViewController {
     /// datePlace 관련
     @objc
     func datePlaceContainerTapped() {
+        view.endEditing(true)
         locationFilterVC.isAddType = true
         locationFilterVC.delegate = self
         DispatchQueue.main.async {
@@ -369,11 +373,23 @@ extension AddScheduleFirstViewController: UICollectionViewDelegate, UICollection
 extension AddScheduleFirstViewController: UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField == addScheduleFirstView.inAddScheduleFirstView.dateNameTextField {
+        switch textField {
+        case addScheduleFirstView.inAddScheduleFirstView.dateNameTextField:
+            print("dateNameTextField Tapped")
             return true
-        } else {
-            return false
+        case addScheduleFirstView.inAddScheduleFirstView.visitDateTextField:
+            print("visitDateTextField Tapped")
+            visitDateTapped()
+        case addScheduleFirstView.inAddScheduleFirstView.dateStartAtTextField:
+            print("dateStartAtTextField Tapped")
+            dateStartAtTapped()
+        case addScheduleFirstView.inAddScheduleFirstView.datePlaceTextField:
+            print("datePlaceTextField Tapped")
+            datePlaceContainerTapped()
+        default:
+            print("textFieldShouldBeginEditing default")
         }
+        return false
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
