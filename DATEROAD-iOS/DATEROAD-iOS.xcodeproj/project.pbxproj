@@ -141,6 +141,7 @@
 		9E754CF72C48460400E2CA91 /* PostAddScheduleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E754CF62C48460400E2CA91 /* PostAddScheduleRequest.swift */; };
 		9E754CF92C48471100E2CA91 /* PostAddScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E754CF82C48471100E2CA91 /* PostAddScheduleResponse.swift */; };
 		9EA26B1D2D71C85700029A14 /* DRTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA26B1C2D71C85700029A14 /* DRTextField.swift */; };
+		9EA977D72D85EDE1008B3AFE /* DRTextFieldType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA977D62D85EDE1008B3AFE /* DRTextFieldType.swift */; };
 		9EB91E782C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */; };
 		9EBD5C712C7C557900EDE081 /* DRDateFormatterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD5C702C7C557900EDE081 /* DRDateFormatterManager.swift */; };
 		9EBD5C732C7C850400EDE081 /* UINavigationController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD5C722C7C850400EDE081 /* UINavigationController+.swift */; };
@@ -435,6 +436,7 @@
 		9E754CF62C48460400E2CA91 /* PostAddScheduleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddScheduleRequest.swift; sourceTree = "<group>"; };
 		9E754CF82C48471100E2CA91 /* PostAddScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddScheduleResponse.swift; sourceTree = "<group>"; };
 		9EA26B1C2D71C85700029A14 /* DRTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRTextField.swift; sourceTree = "<group>"; };
+		9EA977D62D85EDE1008B3AFE /* DRTextFieldType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRTextFieldType.swift; sourceTree = "<group>"; };
 		9EB91E772C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		9EBD5C702C7C557900EDE081 /* DRDateFormatterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRDateFormatterManager.swift; sourceTree = "<group>"; };
 		9EBD5C722C7C850400EDE081 /* UINavigationController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+.swift"; sourceTree = "<group>"; };
@@ -1408,6 +1410,7 @@
 				CA5B97A12CA2FCD700F90A4C /* NetworkType.swift */,
 				CA5B97A32CA5562000F90A4C /* CourseDetailSection.swift */,
 				9EC22A972D1FCAF80076A1D8 /* DatePickerMode.swift */,
+				9EA977D62D85EDE1008B3AFE /* DRTextFieldType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -2102,6 +2105,7 @@
 				0DDC2B532C498F9300AC554D /* LikeCourseResponse.swift in Sources */,
 				0D98CBA92C410C7200E3618A /* CourseDetailViewModel.swift in Sources */,
 				CA4EF3E52C3538AA003B02B6 /* OnboardingViewModel.swift in Sources */,
+				9EA977D72D85EDE1008B3AFE /* DRTextFieldType.swift in Sources */,
 				745547672C3C67FE00B526F3 /* DateTimeLineCollectionViewCell.swift in Sources */,
 				742547132C4804E20075DD81 /* GetDateScheduleResponse.swift in Sources */,
 				0D9497D32C33BD760004B442 /* BottomPageControllView.swift in Sources */,
