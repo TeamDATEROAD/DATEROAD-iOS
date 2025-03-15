@@ -71,16 +71,12 @@ extension AddScheduleFirstView {
     
     func updateDateNameTextField(isPassValid: Bool) {
         dateNameErrorLabel.isHidden = isPassValid
-        inAddScheduleFirstView.dateNameTextField.do {
-            $0.layer.borderWidth = isPassValid ? 0 : 1
-        }
+        inAddScheduleFirstView.dateNameTextField.layer.borderWidth = isPassValid ? 0 : 1
     }
     
     func updateVisitDateTextField(isPassValid: Bool) {
         visitDateErrorLabel.isHidden = isPassValid
-        inAddScheduleFirstView.visitDateTextField.do {
-            $0.layer.borderWidth = isPassValid ? 0 : 1
-        }
+        inAddScheduleFirstView.visitDateTextField.layer.borderWidth = isPassValid ? 0 : 1
     }
     
 }

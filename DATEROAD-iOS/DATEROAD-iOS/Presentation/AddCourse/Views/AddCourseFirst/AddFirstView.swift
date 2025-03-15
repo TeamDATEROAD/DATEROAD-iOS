@@ -16,17 +16,17 @@ final class AddFirstView: BaseView {
     
     private let textFieldStackView = UIStackView()
     
-    let dateNameTextField = DRTextField(type: .AddCourseSchedule(.dateName))
+    let dateNameTextField: DRTextField = DRTextField(type: .addCourseSchedule(.dateName))
     
-    let visitDateTextField = DRTextField(type: .AddCourseSchedule(.visitDate))
+    let visitDateTextField: DRTextField = DRTextField(type: .addCourseSchedule(.visitDate))
     
-    let dateStartAtTextField = DRTextField(type: .AddCourseSchedule(.dateStartAt))
+    let dateStartAtTextField: DRTextField = DRTextField(type: .addCourseSchedule(.dateStartAt))
     
     private let tagContainer = UIView()
     
     private let tagTitleLabel = UILabel()
     
-    let datePlaceTextField = DRTextField(type: .AddCourseSchedule(.dateLocation))
+    let datePlaceTextField: DRTextField = DRTextField(type: .addCourseSchedule(.dateLocation))
     
     let sixCheckNextButton: DRTextButton = DRTextButton(
         title: StringLiterals.AddCourseOrSchedule.AddFirstView.addFirstNextBtnOfCourse,
@@ -53,10 +53,9 @@ final class AddFirstView: BaseView {
             datePlaceTextField,
             sixCheckNextButton)
         
-        textFieldStackView.addArrangedSubviews(
-            dateNameTextField,
-            visitDateTextField,
-            dateStartAtTextField)
+        textFieldStackView.addArrangedSubviews(dateNameTextField,
+                                               visitDateTextField,
+                                               dateStartAtTextField)
         
         tagContainer.addSubviews(tagTitleLabel, tendencyTagCollectionView)
     }
@@ -127,27 +126,16 @@ extension AddFirstView {
     
     func updateDateName(text: String) {
         dateNameTextField.text = text
-        dateNameTextField.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
     }
     
     func updateVisitDate(text: String) {
-        visitDateTextField.do {
-            $0.text = text
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.font = UIFont.suit(.body_semi_13)
-        }
+        visitDateTextField.text = text
     }
     
     func updatedateStartTime(text: String) {
-        let updatedText = text
+        dateStartAtTextField.text = text
             .replacingOccurrences(of: "오전", with: "AM")
             .replacingOccurrences(of: "오후", with: "PM")
-        
-        dateStartAtTextField.do {
-            $0.text = updatedText
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.font = UIFont.suit(.body_semi_13)
-        }
     }
     
     func updateTagButtonStyle(btn: UIButton, isSelected: Bool) {
@@ -171,11 +159,7 @@ extension AddFirstView {
     }
     
     func updateDateLocation(text: String) {
-        datePlaceTextField.do {
-            $0.text = text
-            $0.font = UIFont.suit(.body_semi_13)
-            $0.textColor = UIColor.drBlack
-        }
+        datePlaceTextField.text = text
     }
     
 }

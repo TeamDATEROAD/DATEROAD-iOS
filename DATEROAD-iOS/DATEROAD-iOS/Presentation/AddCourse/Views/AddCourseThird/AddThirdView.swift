@@ -24,7 +24,7 @@ final class AddThirdView: BaseView {
     
     private let priceTitleLabel: UILabel = UILabel()
     
-    let priceTextField = DRTextField(type: .AddCourseSchedule(.totalPrice))
+    let priceTextField: DRTextField = DRTextField(type: .addCourseSchedule(.totalPrice))
     
     private let addThirdDoneBtnContainer: UIView = UIView()
     
@@ -91,7 +91,7 @@ final class AddThirdView: BaseView {
                                    textColor: UIColor(resource: .drBlack),
                                    font: .suit(.body_bold_17))
         
-        [contentTextView].forEach {
+        contentTextView.do {
             $0.layer.borderWidth = 0
             $0.layer.cornerRadius = 14
             $0.backgroundColor = UIColor(resource: .gray100)
@@ -133,11 +133,7 @@ extension AddThirdView {
     }
     
     func updatePriceText(price: Int) {
-        priceTextField.do {
-            $0.text = price.formatted()
-            $0.font = .suit(.body_med_13)
-            $0.textColor = UIColor.drBlack
-        }
+        priceTextField.text = price.formatted()
     }
     
     func updateContentTextView(_ textView: UITextView, withText text: String, placeholder: String) {

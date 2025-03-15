@@ -7,59 +7,81 @@
 
 import UIKit
 
-enum DRTextFieldType: Equatable {
-    enum AddCourseScheduleType {
-        case dateName
-        case visitDate
-        case dateStartAt
-        case dateLocation
-        case datePlace
-        case timeRequire
-        case totalPrice
-    }
-    
-    case AddCourseSchedule(AddCourseScheduleType)
-    case profile
-    
-    var textFieldStyle: DRTextField.DRTextFieldStyle {
-        switch self {
-        case .AddCourseSchedule(let type):
-            switch type {
-            case .dateName:
-                return .basic(placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNmaePlaceHolder, cornerRadius: 14)
-            case .visitDate:
-                return .rightIcon(iconStyle: .calender, placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateLabel, cornerRadius: 14)
-            case .dateStartAt:
-                return .rightIcon(iconStyle: .time, placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.dateStartTimeLabel, cornerRadius: 14)
-            case .dateLocation:
-                return .rightIcon(iconStyle: .downArrow, placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel, cornerRadius: 14)
-            case .datePlace:
-                return .basic(placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.datePlacePlaceHolder, cornerRadius: 14)
-            case .timeRequire:
-                return .basic(placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder, cornerRadius: 14, alignment: .center)
-            case .totalPrice:
-                return .basic(placeholder: StringLiterals.AddCourseOrSchedule.AddThirdView.priceTextFieldPlaceHolder, cornerRadius: 14)
+final class DRTextField: UITextField {
+    enum DRTextFieldType: Equatable {
+        enum AddCourseScheduleType {
+            case dateName
+            case visitDate
+            case dateStartAt
+            case dateLocation
+            case datePlace
+            case totalPrice
+        }
+        
+        case addCourseSchedule(AddCourseScheduleType)
+        case profile
+        
+        var textFieldStyle: DRTextField.DRTextFieldStyle {
+            switch self {
+            case .addCourseSchedule(let type):
+                switch type {
+                case .dateName:
+                    return .basic(placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNmaePlaceHolder,
+                        cornerRadius: 14,
+                        font: UIFont.systemFont(ofSize: 13, weight: .semibold))
+                case .visitDate:
+                    return .rightIcon(iconStyle: .calender,
+                                      placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateLabel,
+                                      cornerRadius: 14,
+                                      font: UIFont.suit(.body_semi_13))
+                case .dateStartAt:
+                    return .rightIcon(iconStyle: .time,
+                                      placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.dateStartTimeLabel,
+                                      cornerRadius: 14,
+                                      font: UIFont.suit(.body_semi_13))
+                case .dateLocation:
+                    return .rightIcon(iconStyle: .downArrow,
+                                      placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel,
+                                      cornerRadius: 14,
+                                      font: UIFont.suit(.body_semi_13))
+                case .datePlace:
+                    return .basic(placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.datePlacePlaceHolder,
+                                  cornerRadius: 14,
+                                  font: UIFont.systemFont(ofSize: 13, weight: .semibold))
+                                    //TODO: 추후 장소 api 붙이면 이상한 글자 입력될 일 없으니 suit font 적용하기
+                case .totalPrice:
+                    return .basic(placeholder: StringLiterals.AddCourseOrSchedule.AddThirdView.priceTextFieldPlaceHolder,
+                                  cornerRadius: 14,
+                                  font: .suit(.body_med_13))
+                }
+            case .profile:
+                return .rightTextButton(placeholder:    StringLiterals.Profile.nicknamePlaceholder,
+                                        cornerRadius: 14,
+                                        font: UIFont.systemFont(ofSize: 15, weight: .semibold))
             }
-        case .profile:
-            return .rightTextButton(placeholder: StringLiterals.Profile.nicknamePlaceholder, cornerRadius: 14)
         }
     }
-}
-
-final class DRTextField: UITextField {
     
     enum DRTextFieldStyle {
-        case basic(placeholder: String, cornerRadius: CGFloat, alignment: NSTextAlignment = .left)
-        case rightTextButton(placeholder: String, cornerRadius: CGFloat)
-        case rightIcon(iconStyle: RightIconStyle, placeholder: String, cornerRadius: CGFloat)
+        case basic(placeholder: String,
+                   cornerRadius: CGFloat,
+                   alignment: NSTextAlignment = .left,
+                   font: UIFont)
+        case rightTextButton(placeholder: String,
+                             cornerRadius: CGFloat,
+                             font: UIFont)
+        case rightIcon(iconStyle: RightIconStyle,
+                       placeholder: String,
+                       cornerRadius: CGFloat,
+                       font: UIFont)
         
         var placeholderText: String {
             switch self {
-            case .basic(let placeholder, _, _):
+            case .basic(let placeholder, _, _, _):
                 return placeholder
-            case .rightTextButton(let placeholder, _):
+            case .rightTextButton(let placeholder, _, _):
                 return placeholder
-            case .rightIcon(_, let placeholder, _):
+            case .rightIcon(_, let placeholder, _, _):
                 return placeholder
             }
         }
@@ -81,11 +103,11 @@ final class DRTextField: UITextField {
         
         var cornerRadius: CGFloat {
             switch self {
-            case .basic(_, let cornerRadius, _):
+            case .basic(_, let cornerRadius, _, _):
                 return cornerRadius
-            case .rightTextButton(_, let cornerRadius):
+            case .rightTextButton(_, let cornerRadius, _):
                 return cornerRadius
-            case .rightIcon(_, _, let cornerRadius):
+            case .rightIcon(_, _, let cornerRadius, _):
                 return cornerRadius
             }
         }
@@ -96,7 +118,7 @@ final class DRTextField: UITextField {
                 return 0
             case .rightTextButton:
                 return 74
-            case .rightIcon(let iconStyle, _, _):
+            case .rightIcon(let iconStyle, _, _, _):
                 return iconStyle.iconWidth
             }
         }
@@ -105,17 +127,28 @@ final class DRTextField: UITextField {
             switch self {
             case .basic, .rightTextButton:
                 return .none
-            case .rightIcon(let iconStyle, _, _):
+            case .rightIcon(let iconStyle, _, _, _):
                 return iconStyle
             }
         }
         
         var alignment: NSTextAlignment {
             switch self {
-            case .basic(_, _, let alignment):
+            case .basic(_, _, let alignment, _):
                 return alignment
             default:
                 return .left
+            }
+        }
+        
+        var font: UIFont {
+            switch self {
+            case .basic(_, _, _, let font):
+                return font
+            case .rightTextButton(_, _, let font):
+                return font
+            case .rightIcon(_, _, _, let font):
+                return font
             }
         }
     }
@@ -155,8 +188,8 @@ final class DRTextField: UITextField {
     private let rightPadding: CGFloat
     
     init(type: DRTextFieldType) {
-        self.isNumberPad = type == DRTextFieldType.AddCourseSchedule(.totalPrice) ? true : false
-        self.isRightButton = type == DRTextFieldType.profile ? true : false
+        self.isNumberPad = type == DRTextFieldType.addCourseSchedule(.totalPrice)
+        self.isRightButton = type == DRTextFieldType.profile
         
         self.type = type.textFieldStyle
         self.leftPadding = type.textFieldStyle.leftPadding
@@ -173,27 +206,27 @@ final class DRTextField: UITextField {
     
     //텍스트필드 속성 설정
     private func setupTextField() {
-        setPlaceholder(placeholder: type.placeholderText, fontColor: UIColor(resource: .gray300), font: .suit(.body_semi_13))
-        self.autocorrectionType = .no
-        self.spellCheckingType = .no
-        self.layer.cornerRadius = type.cornerRadius
-        self.textAlignment = type.alignment
-        self.backgroundColor = UIColor(resource: .gray100)
-        self.textColor = UIColor(resource: .drBlack)
-        self.layer.borderColor = UIColor(resource: .alertRed).cgColor
-        self.keyboardType = self.isNumberPad ? .numberPad : .default
+        self.do {
+            $0.autocorrectionType = .no
+            $0.spellCheckingType = .no
+            $0.layer.cornerRadius = type.cornerRadius
+            $0.textAlignment = type.alignment
+            $0.backgroundColor = UIColor(resource: .gray100)
+            $0.textColor = UIColor(resource: .drBlack)
+            $0.layer.borderColor = UIColor(resource: .alertRed).cgColor
+            $0.keyboardType = self.isNumberPad ? .numberPad : .default
+            $0.font = type.font
+            let placeholderFont: UIFont = isRightButton ? .suit(.body_semi_15) : .suit(.body_semi_13)
+            $0.setPlaceholder(placeholder: type.placeholderText,
+                              fontColor: UIColor(resource: .gray300),
+                              font: placeholderFont)
+        }
     }
     
     //rightView 설정
     private func setupRightView() {
         if isRightButton {
-            let button = UIButton()
-            button.setTitle(StringLiterals.Profile.doubleCheck, for: .normal)
-            button.setTitleColor(UIColor(resource: .gray400), for: .normal)
-            button.titleLabel?.font = .suit(.body_med_13)
-            button.backgroundColor = UIColor(resource: .gray200)
-            button.layer.cornerRadius = 10
-            
+            let button = DRTextButton(title: StringLiterals.Profile.doubleCheck, buttonName: .med_gray400_13)
             rightView = button
             rightViewMode = .always
         } else {

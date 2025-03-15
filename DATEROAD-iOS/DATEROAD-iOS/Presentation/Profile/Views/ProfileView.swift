@@ -31,15 +31,7 @@ final class ProfileView: BaseView {
     
     private let nicknameInfoLabel: UILabel = UILabel()
     
-    let nicknameTextfield: UITextField = UITextField()
-    
-    private let rightViewBox: UIView = UIView()
-    
-    private let doubleCheckButton: DRTextButton = DRTextButton(
-        title: StringLiterals.Profile.doubleCheck,
-        buttonName: .med_gray200_10,
-        isEnabled: false
-    )
+    let nicknameTextfield: DRTextField = DRTextField(type: .profile)
     
     let nicknameErrMessageLabel: UILabel = UILabel()
     
@@ -51,11 +43,9 @@ final class ProfileView: BaseView {
     
     let tagErrMessageLabel: UILabel = UILabel()
     
-    let registerButton: DRTextButton = DRTextButton(
-        title: StringLiterals.Profile.registerProfile,
-        buttonName: .bold_gray200_14,
-        isEnabled: false
-    )
+    let registerButton: DRTextButton = DRTextButton(title: StringLiterals.Profile.registerProfile,
+                                                    buttonName: .bold_gray200_14,
+                                                    isEnabled: false)
     
     
     // MARK: - Properties
@@ -180,33 +170,6 @@ final class ProfileView: BaseView {
                                    textColor: UIColor(resource: .gray300),
                                    font: UIFont.suit(.body_med_13))
         
-        nicknameTextfield.do {
-            rightViewBox.addSubview(doubleCheckButton)
-            rightViewBox.snp.makeConstraints {
-                $0.width.equalTo(90)
-                $0.height.equalTo(30)
-            }
-            doubleCheckButton.snp.makeConstraints {
-                $0.leading.equalToSuperview()
-                $0.verticalEdges.equalToSuperview()
-                $0.width.equalTo(74)
-            }
-            $0.rightView = rightViewBox
-            $0.rightViewMode = .always
-            
-            $0.setLeftPadding(amount: 16)
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.backgroundColor = UIColor(resource: .gray100)
-            $0.clipsToBounds = true
-            $0.layer.cornerRadius = 14
-            $0.placeholder = StringLiterals.Profile.nicknamePlaceholder
-            $0.setPlaceholder(placeholder: StringLiterals.Profile.nicknamePlaceholder,
-                              fontColor: UIColor(resource: .gray300),
-                              font: UIFont.suit(.body_semi_15))
-            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 15, weight: .semibold), .foregroundColor: UIColor(resource: .drBlack)]
-            $0.defaultTextAttributes = attributes
-        }
-        
         nicknameErrMessageLabel.do {
             $0.isHidden = true
             $0.setErrorLabel(text: StringLiterals.Profile.disabledNickname, errorType: warningType)
@@ -249,7 +212,9 @@ extension ProfileView {
 
         editImageButton.addTarget(self, action: #selector(didTapEditImageButton), for: .touchUpInside)
         
-        doubleCheckButton.addTarget(self, action: #selector(didTapDoubleCheckButton), for: .touchUpInside)
+        if let button = nicknameTextfield.rightView as? UIButton {
+            button.addTarget(self, action: #selector(didTapDoubleCheckButton), for: .touchUpInside)
+        }
         
         registerButton.addTarget(self, action: #selector(didTapRegisterButton), for: .touchUpInside)
     }
@@ -279,7 +244,9 @@ extension ProfileView {
     }
     
     func updateDoubleCheckButton(isValid: Bool) {
-        doubleCheckButton.setButtonStyle(isValid ? .med_purple_10 : .med_gray200_10, isEnabled: isValid)
+        if let button = nicknameTextfield.rightView as? DRTextButton {
+            button.setButtonStyle(isValid ? .med_purple_10 : .med_gray200_10, isEnabled: isValid)
+        }
     }
     
     func updateTagCount(count: Int) {
