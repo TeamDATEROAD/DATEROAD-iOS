@@ -8,16 +8,9 @@
 import UIKit
 
 enum DRTextFieldType: Equatable {
-    enum AddCourseScheduleType {
-        case dateName
-        case visitDate
-        case dateStartAt
-        case dateLocation
-        case datePlace
-        case totalPrice
-    }
     
     case addCourseSchedule(AddCourseScheduleType)
+    
     case profile
     
     var textFieldStyle: DRTextFieldStyle {
@@ -26,8 +19,8 @@ enum DRTextFieldType: Equatable {
             switch type {
             case .dateName:
                 return .basic(placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNmaePlaceHolder,
-                    cornerRadius: 14,
-                    font: UIFont.systemFont(ofSize: 13, weight: .semibold))
+                              cornerRadius: 14,
+                              font: UIFont.systemFont(ofSize: 13, weight: .semibold))
             case .visitDate:
                 return .rightIcon(iconStyle: .calender,
                                   placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateLabel,
@@ -47,7 +40,7 @@ enum DRTextFieldType: Equatable {
                 return .basic(placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.datePlacePlaceHolder,
                               cornerRadius: 14,
                               font: UIFont.systemFont(ofSize: 13, weight: .semibold))
-                                //TODO: 추후 장소 api 붙이면 이상한 글자 입력될 일 없으니 suit font 적용하기
+                //TODO: 추후 장소 api 붙이면 이상한 글자 입력될 일 없으니 suit font 적용하기
             case .totalPrice:
                 return .basic(placeholder: StringLiterals.AddCourseOrSchedule.AddThirdView.priceTextFieldPlaceHolder,
                               cornerRadius: 14,
@@ -59,16 +52,20 @@ enum DRTextFieldType: Equatable {
                                     font: UIFont.systemFont(ofSize: 15, weight: .semibold))
         }
     }
+    
 }
 
 enum DRTextFieldStyle {
+    
     case basic(placeholder: String,
                cornerRadius: CGFloat,
                alignment: NSTextAlignment = .left,
                font: UIFont)
+    
     case rightTextButton(placeholder: String,
                          cornerRadius: CGFloat,
                          font: UIFont)
+    
     case rightIcon(iconStyle: RightIconStyle,
                    placeholder: String,
                    cornerRadius: CGFloat,
@@ -152,10 +149,30 @@ enum DRTextFieldStyle {
     }
 }
 
+enum AddCourseScheduleType {
+    
+    case dateName
+    
+    case visitDate
+    
+    case dateStartAt
+    
+    case dateLocation
+    
+    case datePlace
+    
+    case totalPrice
+    
+}
+
 enum RightIconStyle {
+    
     case none
+    
     case calender
+    
     case time
+    
     case downArrow
     
     var image: UIImage? {
@@ -178,4 +195,5 @@ enum RightIconStyle {
         case .downArrow: return 11
         }
     }
+    
 }
