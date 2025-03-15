@@ -107,8 +107,8 @@ final class AddCourseFirstView: BaseView {
         }
         
         visitDateErrorLabel.snp.makeConstraints {
-            $0.top.equalTo(addFirstView.visitDateContainer.snp.bottom).offset(2)
-            $0.leading.equalTo(addFirstView.visitDateContainer.snp.leading).offset(9)
+            $0.top.equalTo(addFirstView.visitDateTextField.snp.bottom).offset(2)
+            $0.leading.equalTo(addFirstView.visitDateTextField.snp.leading).offset(9)
         }
     }
     
@@ -166,7 +166,7 @@ extension AddCourseFirstView {
     
     func updateVisitDateTextField(isPassValid: Bool) {
         visitDateErrorLabel.isHidden = isPassValid
-        addFirstView.visitDateContainer.layer.borderWidth = isPassValid ? 0 : 1
+        addFirstView.visitDateTextField.layer.borderWidth = isPassValid ? 0 : 1
     }
     
     func updateImageCellUI(isEmpty: Bool, ImageDataCount: Int) {

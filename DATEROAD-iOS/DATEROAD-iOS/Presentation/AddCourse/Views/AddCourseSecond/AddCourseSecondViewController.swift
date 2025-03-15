@@ -76,7 +76,7 @@ final class AddCourseSecondViewController: BaseNavBarViewController {
 }
 
 
-// MARK: - Extension Methods
+// MARK: - Extension Methods
 
 private extension AddCourseSecondViewController {
     

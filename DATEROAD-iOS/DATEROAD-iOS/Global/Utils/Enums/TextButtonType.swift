@@ -21,7 +21,7 @@ enum TextButtonType {
     
     case med_purple_15, med_purple_10, med_purple_0,
          med_gray200_10, med_gray200_8, med_gray100_15, med_gray100_10,
-         med_white_0, med_white_0_purple
+         med_white_0, med_white_0_purple, med_gray400_13
     
     case clear
     
@@ -31,7 +31,7 @@ enum TextButtonType {
         case .bold_purple_25, .bold_purple_14, .bold_purple_29, .bold_purple_10, .med_purple_15, .med_purple_10, .semi_purple_10, .med_purple_0:
             return UIColor(resource: .deepPurple)
             
-        case .bold_gray200_14, .semi_gray200_16, .med_gray200_10, .med_gray200_8:
+        case .bold_gray200_14, .semi_gray200_16, .med_gray200_10, .med_gray200_8, .med_gray400_13:
             return UIColor(resource: .gray200)
             
         case .bold_gray100_10, .med_gray100_15, .med_gray100_10, .semi_gray100_10, .bold_gray100_14, .semi_gray100_14, .semi_gray100_14_black:
@@ -57,7 +57,7 @@ enum TextButtonType {
         case .bold_purple_25, .bold_purple_14, .bold_purple_29, .bold_purple_10, .med_purple_15, .med_purple_10, .semi_purple_10, .bold_black_14:
             return UIColor(resource: .drWhite)
             
-        case .bold_gray100_10, .bold_gray200_14, .med_gray100_15, .med_gray100_10, .semi_gray100_10, .med_gray200_10, .med_gray200_8, .semi_gray200_16, .med_white_0:
+        case .bold_gray100_10, .bold_gray200_14, .med_gray100_15, .med_gray100_10, .semi_gray100_10, .med_gray200_10, .med_gray200_8, .semi_gray200_16, .med_white_0, .med_gray400_13:
             return UIColor(resource: .gray400)
             
         case .semi_gray100_14:
@@ -92,7 +92,7 @@ enum TextButtonType {
         case .semi_white_0, .bold_purple_14, .bold_gray200_14, .bold_gray100_14, .semi_gray100_14, .bold_black_14, .semi_gray100_14_black:
             return 14
 
-        case .bold_purple_10, .bold_gray100_10, .med_gray200_10, .med_purple_10, .med_gray100_10, .semi_purple_10, .semi_gray100_10:
+        case .bold_purple_10, .bold_gray100_10, .med_gray200_10, .med_purple_10, .med_gray100_10, .semi_purple_10, .semi_gray100_10, .med_gray400_13:
             return 10
          
         case .med_gray200_8:
@@ -126,7 +126,7 @@ enum TextButtonType {
         case .med_purple_0, .med_gray200_8:
             return UIFont.suit(.body_med_15)
             
-        case .med_gray200_10, .med_purple_15, .med_gray100_15, .med_purple_10, .med_gray100_10, .med_white_0, .med_white_0_purple, .clear:
+        case .med_gray200_10, .med_purple_15, .med_gray100_15, .med_purple_10, .med_gray100_10, .med_white_0, .med_white_0_purple, .clear, .med_gray400_13:
             return UIFont.suit(.body_med_13)
         }
         

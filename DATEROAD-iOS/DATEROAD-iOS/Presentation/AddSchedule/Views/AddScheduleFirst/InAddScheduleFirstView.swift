@@ -14,35 +14,21 @@ final class InAddScheduleFirstView: BaseView {
     
     // MARK: - UI Properties
     
-    let dateNameTextField = UITextField()
+    let dateNameTextField = DRTextField(type: .addCourseSchedule(.dateName))
     
-    let visitDateContainer = UIView()
+    let visitDateTextField = DRTextField(type: .addCourseSchedule(.visitDate))
     
-    private let visitDateLabel = UILabel()
-    
-    private let visitDateImage = UIImageView()
-    
-    let dateStartAtContainer = UIView()
-    
-    private let dateStartTimeLabel = UILabel()
-    
-    private let dateStartTimeImage = UIImageView()
+    let dateStartAtTextField = DRTextField(type: .addCourseSchedule(.dateStartAt))
     
     private let tagContainer = UIView()
     
     private let tagTitleLabel = UILabel()
     
-    let datePlaceContainer = UIView()
+    let datePlaceTextField = DRTextField(type: .addCourseSchedule(.dateLocation))
     
-    private let datePlaceLabel = UILabel()
-    
-    private let datePlaceImage = UIImageView()
-    
-    let sixCheckNextButton: DRTextButton = DRTextButton(
-        title: StringLiterals.AddCourseOrSchedule.AddFirstView.addFirstNextBtnOfSchedule,
-        buttonName: .bold_gray200_14,
-        isEnabled: false
-    )
+    let sixCheckNextButton: DRTextButton = DRTextButton(title: StringLiterals.AddCourseOrSchedule.AddFirstView.addFirstNextBtnOfSchedule,
+                                                        buttonName: .bold_gray200_14,
+                                                        isEnabled: false)
     
     let tendencyTagCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -59,20 +45,14 @@ final class InAddScheduleFirstView: BaseView {
     override func setHierarchy() {
         self.addSubviews(
             dateNameTextField,
-            visitDateContainer,
-            dateStartAtContainer,
+            visitDateTextField,
+            dateStartAtTextField,
             tagContainer,
-            datePlaceContainer,
+            datePlaceTextField,
             sixCheckNextButton
         )
         
-        visitDateContainer.addSubviews(visitDateLabel, visitDateImage)
-        
-        dateStartAtContainer.addSubviews(dateStartTimeLabel, dateStartTimeImage)
-        
         tagContainer.addSubviews(tagTitleLabel, tendencyTagCollectionView)
-        
-        datePlaceContainer.addSubviews(datePlaceLabel, datePlaceImage)
     }
     
     override func setLayout() {
@@ -81,43 +61,20 @@ final class InAddScheduleFirstView: BaseView {
             $0.height.equalTo(48)
         }
         
-        visitDateContainer.snp.makeConstraints {
+        visitDateTextField.snp.makeConstraints {
             $0.top.equalTo(dateNameTextField.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(48)
         }
         
-        visitDateLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(16)
-        }
-        
-        visitDateImage.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(19)
-            $0.width.equalTo(15)
-            $0.height.equalTo(17)
-        }
-        
-        dateStartAtContainer.snp.makeConstraints {
-            $0.top.equalTo(visitDateContainer.snp.bottom).offset(20)
+        dateStartAtTextField.snp.makeConstraints {
+            $0.top.equalTo(visitDateTextField.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(48)
         }
         
-        dateStartTimeLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(16)
-        }
-        
-        dateStartTimeImage.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(18)
-            $0.size.equalTo(17)
-        }
-        
         tagContainer.snp.makeConstraints {
-            $0.top.equalTo(dateStartAtContainer.snp.bottom).offset(24)
+            $0.top.equalTo(dateStartAtTextField.snp.bottom).offset(24)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(140)
         }
@@ -132,27 +89,15 @@ final class InAddScheduleFirstView: BaseView {
             $0.height.equalTo(120)
         }
         
-        datePlaceContainer.snp.makeConstraints {
+        datePlaceTextField.snp.makeConstraints {
             $0.top.equalTo(tagContainer.snp.bottom).offset(24)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(48)
         }
         
-        datePlaceLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(16)
-        }
-        
-        datePlaceImage.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(18)
-            $0.width.equalTo(10)
-            $0.height.equalTo(5)
-        }
-        
         sixCheckNextButton.snp.makeConstraints {
             $0.horizontalEdges.bottom.equalToSuperview()
-            $0.height.equalTo(52)
+            $0.height.equalTo(54)
         }
     }
     
@@ -165,58 +110,11 @@ final class InAddScheduleFirstView: BaseView {
             $0.collectionViewLayout = layout
         }
         
-        [dateNameTextField, visitDateContainer, dateStartAtContainer].forEach { view in
-            view.do {
-                $0.backgroundColor = UIColor(resource: .gray100)
-                $0.layer.cornerRadius = 13
-                $0.layer.borderWidth = 0
-                $0.layer.borderColor = UIColor(resource: .alertRed).cgColor
-            }
-        }
-        
-        visitDateImage.image = UIImage(resource: .calendar)
-        dateStartTimeImage.image = UIImage(resource: .time)
-        
-        dateNameTextField.do {
-            $0.setPlaceholder(
-                placeholder: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNmaePlaceHolder,
-                fontColor: .gray300,
-                font: .suit(.body_semi_13)
-            )
-            $0.setLeftPadding(amount: 16)
-            $0.setRightPadding(amount: 6)
-        }
-        
-        visitDateLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateLabel,
-                                alignment: .left,
-                                textColor: UIColor(resource: .gray300),
-                                font: UIFont.suit(.body_semi_13))
-        
-        dateStartTimeLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.dateStartTimeLabel,
-                                    alignment: .left,
-                                    textColor: UIColor(resource: .gray300),
-                                    font: UIFont.suit(.body_semi_13))
-        
         tagTitleLabel.do {
             $0.text = StringLiterals.AddCourseOrSchedule.AddFirstView.tagTitle
             $0.setLabel(alignment: .left,
                         textColor: UIColor(resource: .drBlack),
                         font: .suit(.body_semi_15))
-        }
-        
-        datePlaceContainer.do {
-            $0.backgroundColor = .gray100
-            $0.layer.cornerRadius = 14
-        }
-        
-        datePlaceLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel,
-                                alignment: .left,
-                                textColor: UIColor(resource: .gray300),
-                                font: .suit(.body_semi_13))
-        
-        datePlaceImage.do {
-            $0.image = UIImage(resource: .downArrow)
-            $0.contentMode = .scaleToFill
         }
     }
     
@@ -229,25 +127,16 @@ extension InAddScheduleFirstView {
     
     func updateDateName(text: String) {
         dateNameTextField.text = text
-        dateNameTextField.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
     }
     
     func updateVisitDate(text: String) {
-        visitDateLabel.do {
-            $0.text = text
-            $0.textColor = UIColor(resource: .drBlack)
-        }
+        visitDateTextField.text = text
     }
     
     func updatedateStartTime(text: String) {
-        let updatedText = text
+        dateStartAtTextField.text = text
             .replacingOccurrences(of: "오전", with: "AM")
             .replacingOccurrences(of: "오후", with: "PM")
-        
-        dateStartTimeLabel.do {
-            $0.text = updatedText
-            $0.textColor = UIColor(resource: .drBlack)
-        }
     }
     
     func updateTagButtonStyle(btn: UIButton, isSelected: Bool) {
@@ -271,17 +160,7 @@ extension InAddScheduleFirstView {
     }
     
     func updateDateLocation(text: String) {
-        if text.count != 0 {
-            datePlaceLabel.do {
-                $0.textColor = UIColor(resource: .drBlack)
-                $0.text = text
-            }
-        } else {
-            datePlaceLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.datePlaceLabel,
-                            alignment: .left,
-                            textColor: UIColor(resource: .gray300),
-                            font: .suit(.body_semi_13))
-        }
+        datePlaceTextField.text = text
     }
     
 }
