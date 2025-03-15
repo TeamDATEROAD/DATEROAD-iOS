@@ -171,6 +171,7 @@ final class DRTextField: UITextField {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //텍스트필드 속성 설정
     private func setupTextField() {
         setPlaceholder(placeholder: type.placeholderText, fontColor: UIColor(resource: .gray300), font: .suit(.body_semi_13))
         self.autocorrectionType = .no
@@ -183,6 +184,7 @@ final class DRTextField: UITextField {
         self.keyboardType = self.isNumberPad ? .numberPad : .default
     }
     
+    //rightView 설정
     private func setupRightView() {
         if isRightButton {
             let button = UIButton()
@@ -205,22 +207,27 @@ final class DRTextField: UITextField {
         }
     }
     
+    //우측 패딩 계산 함수
     private func calculateRightPadding() -> CGFloat {
         return type.rightIconStyle == .none ? rightPadding : rightPadding + type.rightSomeThingWidth
     }
     
+    //text가 표시되는 영역(normal)
     override func textRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: calculateRightPadding()))
     }
     
+    //text가 표시되는 영역(editing)
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: calculateRightPadding()))
     }
-
+    
+    //textField leftView가 위치할 영역 (현재의 경우 여백)
     override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
         return CGRect(origin: .zero, size: CGSize(width: leftPadding, height: bounds.height))
     }
     
+    //textField rightView가 위치할 영역 (현재의 경우 아이콘 or 버튼)
     override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
         var size = CGSize(width: type.rightSomeThingWidth, height: type.rightSomeThingWidth)
         if isRightButton {
@@ -231,5 +238,4 @@ final class DRTextField: UITextField {
             size: size
         )
     }
-    
 }
