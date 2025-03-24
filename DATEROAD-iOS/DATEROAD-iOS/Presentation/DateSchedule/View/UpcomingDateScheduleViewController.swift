@@ -150,15 +150,6 @@ private extension UpcomingDateScheduleViewController {
     }
     
     @objc
-    func pushToDateRegisterVC() {
-        if (upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0) >= 5 {
-            dateRegisterButtonTapped()
-        } else {
-            print("일정 등록으로 이동")
-        }
-    }
-    
-    @objc
     func pushToPastDateVC() {
         let pastDateVC = PastDateViewController(pastDateScheduleViewModel: DateScheduleViewModel())
         self.navigationController?.pushViewController(pastDateVC, animated: false)
@@ -184,7 +175,6 @@ extension UpcomingDateScheduleViewController: DRCustomAlertDelegate {
             customAlertVC.modalPresentationStyle = .overFullScreen
             self.present(customAlertVC, animated: false)
         } else {
-            print("push to 일정등록하기")
             let vc = AddScheduleFirstViewController(viewModel: AddScheduleViewModel(viewPath: StringLiterals.Amplitude.ViewPath.dateSchedule, isBroughtData: false))
             self.navigationController?.pushViewController(vc, animated: false)
         }

@@ -64,6 +64,9 @@ final class NavViewedCourseViewController: BaseNavBarViewController {
     
 }
 
+
+// MARK: - @objc Methods
+
 extension NavViewedCourseViewController {
     
     @objc
@@ -175,7 +178,7 @@ private extension NavViewedCourseViewController {
 }
 
 
-// MARK: - Delegate
+// MARK: - CollectionView Delegate
 
 extension NavViewedCourseViewController : UICollectionViewDelegateFlowLayout {
     
@@ -186,7 +189,7 @@ extension NavViewedCourseViewController : UICollectionViewDelegateFlowLayout {
 }
 
 
-// MARK: - DataSource
+// MARK: - CollectionView DataSource
 
 extension NavViewedCourseViewController : UICollectionViewDataSource {
     

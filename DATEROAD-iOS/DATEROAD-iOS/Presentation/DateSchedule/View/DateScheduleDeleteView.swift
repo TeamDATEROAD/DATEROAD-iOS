@@ -27,6 +27,7 @@ final class DateScheduleDeleteView: BaseView {
             $0.horizontalEdges.equalToSuperview()
             $0.top.equalToSuperview().offset(20)
         }
+        
         deleteLabel.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
             $0.top.equalTo(titleLabel.snp.bottom).offset(15)

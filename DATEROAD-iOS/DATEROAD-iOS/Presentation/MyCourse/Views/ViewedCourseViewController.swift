@@ -288,7 +288,6 @@ extension ViewedCourseViewController : UICollectionViewDataSource {
 
 extension ViewedCourseViewController {
     
-    ///'데이트 일정' 바텀 탭으로 이동은 성공이나 뷰를 띄워도 그리지 않아서 문제
     func goToUpcomingDateScheduleVC() {
         let tabbarVC = TabBarController()
         tabbarVC.selectedIndex = 2
