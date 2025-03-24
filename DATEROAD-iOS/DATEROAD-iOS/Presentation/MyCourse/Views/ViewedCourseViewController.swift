@@ -24,7 +24,7 @@ final class ViewedCourseViewController: BaseViewController {
     
     private let arrowButton = UIButton()
     
-    private var viewedCourseView = MyCourseListView(type: "tab")
+    private var viewedCourseView = MyCourseListView(type: StringLiterals.NavType.tab)
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
