@@ -62,7 +62,7 @@ extension CityLabelCollectionViewCell {
     // 선택했을 때 버튼 색 속성 변경
     func updateSelectionState(_ isSelected: Bool) {
         if isSelected {
-            grayBoxView.backgroundColor = UIColor(resource: .deepPurple)
+            grayBoxView.backgroundColor = UIColor(resource: .purple600)
             cityLabel.textColor = UIColor(resource: .drWhite)
         } else  {
             grayBoxView.backgroundColor = UIColor(resource: .gray100)

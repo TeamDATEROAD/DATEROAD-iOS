@@ -163,7 +163,7 @@ final class DateCardCollectionViewCell: BaseCollectionViewCell {
         dDayButton.do {
             $0.titleLabel?.font = UIFont.suit(.cap_bold_11)
             $0.titleLabel?.textColor = UIColor(resource: .drWhite)
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.contentEdgeInsets = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
             $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMaxXMaxYCorner,
                                                                .layerMaxXMinYCorner,

@@ -103,13 +103,13 @@ final class ContentMaskView: UICollectionReusableView {
         
         subTitleLabel.do {
             $0.text = "50P로 코스를 확인해보세요!"
-            $0.textColor = UIColor(resource: .deepPurple)
+            $0.textColor = UIColor(resource: .purple600)
             $0.font = UIFont.suit(.body_semi_15)
         }
         
         readCourseButton.do {
             $0.roundedButton(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.setTitle(StringLiterals.CourseDetail.viewCoursewithPoint, for: .normal)
             $0.setTitleColor(.drWhite, for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_bold_15)

@@ -73,7 +73,7 @@ final class CourseDetailBottomTabBarView: BaseView {
         
         bringCourseButton.do {
             $0.roundedButton(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.setTitle(StringLiterals.CourseDetail.bringCourseLabel, for: .normal)
             $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_bold_15)

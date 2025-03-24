@@ -54,7 +54,7 @@ final class CountryLabelCollectionViewCell: BaseCollectionViewCell {
     func updateSelectionState(_ isSelected: Bool) {
         print(isSelected)
         if isSelected {
-            grayBoxView.backgroundColor = UIColor(resource: .deepPurple)
+            grayBoxView.backgroundColor = UIColor(resource: .purple600)
             countryLabel.textColor = UIColor(resource: .drWhite)
         } else {
             grayBoxView.backgroundColor = UIColor(resource: .gray100)

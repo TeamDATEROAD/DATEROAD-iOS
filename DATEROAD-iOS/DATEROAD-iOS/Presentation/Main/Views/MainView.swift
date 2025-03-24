@@ -70,7 +70,7 @@ final class MainView: BaseView {
         }
         
         floatingButton.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.setImage(UIImage(resource: .icPlus), for: .normal)
             $0.roundedButton(cornerRadius: 25, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
         }

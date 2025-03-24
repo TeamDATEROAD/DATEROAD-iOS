@@ -65,7 +65,7 @@ final class CourseNavigationBarView: BaseView {
                              font: UIFont.suit(.title_bold_20))
         
         addCourseButton.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.setImage(.plusSchedule, for: .normal)
             $0.addTarget(self, action: #selector(didTapAddCourseButton), for: .touchUpInside)
             $0.roundedButton(cornerRadius: 15, maskedCorners: [.layerMinXMinYCorner,

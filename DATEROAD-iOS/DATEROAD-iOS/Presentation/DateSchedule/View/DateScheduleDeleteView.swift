@@ -44,7 +44,7 @@ final class DateScheduleDeleteView: BaseView {
         deleteLabel.do {
             $0.setLabel(text: StringLiterals.DateSchedule.deleteDate,
                         alignment: .center,
-                        textColor: UIColor(resource: .deepPurple),
+                        textColor: UIColor(resource: .purple600),
                         font: UIFont.suit(.body_semi_15))
             $0.isUserInteractionEnabled = true
         }

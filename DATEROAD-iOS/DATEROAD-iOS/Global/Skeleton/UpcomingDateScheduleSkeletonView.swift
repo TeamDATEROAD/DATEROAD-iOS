@@ -71,7 +71,7 @@ final class UpcomingDateScheduleSkeletonView: BaseView {
         }
 
         dateRegisterButton.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.setImage(UIImage(resource: .plusSchedule), for: .normal)
             $0.roundedButton(cornerRadius: 15, maskedCorners: [.layerMaxXMaxYCorner,
                                                                .layerMaxXMinYCorner,

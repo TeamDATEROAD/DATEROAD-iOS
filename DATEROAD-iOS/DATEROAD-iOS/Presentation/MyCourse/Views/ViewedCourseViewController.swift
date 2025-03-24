@@ -120,7 +120,7 @@ final class ViewedCourseViewController: BaseViewController {
             $0.font = UIFont.systemFont(ofSize: 24, weight: .black)
             $0.setAttributedText(fullText: "\(self.userName)님이 지금까지\n열람한 데이트 코스\n\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개",
                                  pointText: "\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
-                                 pointColor: UIColor(resource: .mediumPurple),
+                                 pointColor: UIColor(resource: .purple500),
                                  lineHeight: 1)
             $0.numberOfLines = 3
         }
@@ -175,7 +175,7 @@ private extension ViewedCourseViewController {
                     self.viewedCourseView.myCourseListCollectionView.reloadData()
                     self.topLabel.setAttributedText(fullText: "\(name)님이 지금까지\n열람한 데이트 코스\n\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개",
                                                     pointText: "\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
-                                                    pointColor: UIColor(resource: .mediumPurple),
+                                                    pointColor: UIColor(resource: .purple500),
                                                     lineHeight: 1)
                 }
                 self.viewedCourseViewModel.viewedCoursesModelIsUpdate.value = false

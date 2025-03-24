@@ -102,7 +102,7 @@ final class AddScheduleBottomSheetView: BaseView {
                 $0.layer.cornerRadius = 14
             }
             doneBtn.do {
-                $0.backgroundColor = .deepPurple
+                $0.backgroundColor = .purple600
                 $0.layer.cornerRadius = 14
             }
             doneBtnTitleLabel.do {

@@ -53,7 +53,7 @@ final class DeleteCourseSettingView: BaseView {
             $0.isUserInteractionEnabled = true
             $0.setLabel(text: StringLiterals.CourseDetail.deleteCourse,
                         alignment: .center,
-                        textColor: UIColor(resource: .deepPurple),
+                        textColor: UIColor(resource: .purple600),
                         font: UIFont.suit(.body_semi_15))
         }
     }

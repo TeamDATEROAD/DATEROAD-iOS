@@ -80,7 +80,7 @@ final class MainHeaderView: UICollectionReusableView {
     }
     
     func setStyle() {
-        self.backgroundColor = UIColor(resource: .deepPurple)
+        self.backgroundColor = UIColor(resource: .purple600)
         
         backgroundView.backgroundColor = UIColor(resource: .drWhite)
         
@@ -91,7 +91,7 @@ final class MainHeaderView: UICollectionReusableView {
         viewMoreButton.do {
             $0.setTitle(StringLiterals.Main.viewMore, for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_bold_13)
-            $0.setTitleColor(UIColor(resource: .mediumPurple), for: .normal)
+            $0.setTitleColor(UIColor(resource: .purple500), for: .normal)
         }
     }
     
@@ -109,7 +109,7 @@ extension MainHeaderView {
             titleLabel.do {
                 $0.setAttributedText(fullText: nickname + StringLiterals.Main.hotDateTitle,
                                      pointText: nickname+"님,",
-                                     pointColor: UIColor(resource: .deepPurple), 
+                                     pointColor: UIColor(resource: .purple600),
                                      lineHeight: 1.04)
                 $0.font = UIFont.systemFont(ofSize: 24, weight: .black)
                 $0.textAlignment = .left

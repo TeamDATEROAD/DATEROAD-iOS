@@ -262,7 +262,7 @@ extension MainViewController: UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentOffsetY = scrollView.contentOffset.y
-        mainView.mainCollectionView.backgroundColor = contentOffsetY < 0 ? UIColor(resource: .deepPurple) : UIColor(resource: .drWhite)
+        mainView.mainCollectionView.backgroundColor = contentOffsetY < 0 ? UIColor(resource: .purple600) : UIColor(resource: .drWhite)
     }
     
 }

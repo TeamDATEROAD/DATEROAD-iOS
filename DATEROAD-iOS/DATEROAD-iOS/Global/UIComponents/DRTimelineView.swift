@@ -85,7 +85,7 @@ final class DRTimelineView: BaseView {
         }
         
         circleView.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.layer.cornerRadius = 12
         }
         

@@ -254,7 +254,7 @@ extension InAddScheduleFirstView {
     
     func updateTagButtonStyle(btn: UIButton, isSelected: Bool) {
         btn.do {
-            $0.configuration?.background.backgroundColor = isSelected ? UIColor(resource: .deepPurple) : UIColor(resource: .gray100)
+            $0.configuration?.background.backgroundColor = isSelected ? UIColor(resource: .purple600) : UIColor(resource: .gray100)
             $0.configuration?.baseForegroundColor = isSelected ? UIColor(resource: .drWhite) : UIColor(resource: .drBlack)
         }
     }

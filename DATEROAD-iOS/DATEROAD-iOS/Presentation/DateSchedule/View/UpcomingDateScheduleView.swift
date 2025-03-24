@@ -98,7 +98,7 @@ final class UpcomingDateScheduleView: BaseView {
         cardPageControl.do {
             $0.currentPage = 0
             $0.pageIndicatorTintColor = UIColor(resource: .gray200)
-            $0.currentPageIndicatorTintColor = UIColor(resource: .deepPurple)
+            $0.currentPageIndicatorTintColor = UIColor(resource: .purple600)
         }
         
         emptyView.do {
@@ -107,7 +107,7 @@ final class UpcomingDateScheduleView: BaseView {
         }
         
         dateRegisterButton.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.setImage(UIImage(resource: .plusSchedule), for: .normal)
             $0.roundedButton(cornerRadius: 15, maskedCorners: [.layerMaxXMaxYCorner,
                                                                .layerMaxXMinYCorner,

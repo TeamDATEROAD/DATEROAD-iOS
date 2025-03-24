@@ -150,7 +150,7 @@ final class HotDateCourseCell: BaseCollectionViewCell {
         self.backgroundColor = UIColor(resource: .drWhite)
         
         countryLabel.do {
-            $0.backgroundColor = UIColor(resource: .mediumPurple)
+            $0.backgroundColor = UIColor(resource: .purple500)
             $0.roundedLabel(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
             $0.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_med_13))
             $0.setPadding(top: 0, left: 13, bottom: 0, right: 13)
@@ -167,7 +167,7 @@ final class HotDateCourseCell: BaseCollectionViewCell {
         }
         
         likeView.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.roundCorners(cornerRadius: 12, maskedCorners: [.layerMaxXMinYCorner,
                                                               .layerMinXMaxYCorner,
                                                               .layerMaxXMaxYCorner,
@@ -177,7 +177,7 @@ final class HotDateCourseCell: BaseCollectionViewCell {
         likeImage.image = UIImage(resource: .heartIcon)
         
         likeLabel.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.textColor = UIColor(resource: .drWhite)
             $0.font = UIFont.suit(.body_bold_13)
             $0.roundedLabel(cornerRadius: 12, maskedCorners: [.layerMaxXMinYCorner, .layerMaxXMaxYCorner])

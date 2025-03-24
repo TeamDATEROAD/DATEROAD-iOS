@@ -153,7 +153,7 @@ final class CourseListCollectionViewCell: BaseCollectionViewCell {
         likeBoxView.do {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 11
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
         }
         
         likeNumLabel.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_bold_13))

@@ -414,7 +414,7 @@ extension CourseDetailViewController: UIScrollViewDelegate {
 private extension CourseDetailViewController {
     
     func updateLikeButtonColor(isLiked: Bool) {
-        courseInfoTabBarView.likeButtonImageView.tintColor = isLiked ? UIColor(resource: .deepPurple) : UIColor(resource: .gray200)
+        courseInfoTabBarView.likeButtonImageView.tintColor = isLiked ? UIColor(resource: .purple600) : UIColor(resource: .gray200)
     }
     
     func setSetctionCount() {

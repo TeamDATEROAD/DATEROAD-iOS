@@ -56,7 +56,7 @@ final class ProfileImageSettingView: BaseView {
             $0.isUserInteractionEnabled = true
             $0.setLabel(text: StringLiterals.Profile.registerImage,
                         alignment: .center,
-                        textColor: UIColor(resource: .deepPurple),
+                        textColor: UIColor(resource: .purple600),
                         font: UIFont.suit(.body_semi_15))
         }
         
@@ -64,7 +64,7 @@ final class ProfileImageSettingView: BaseView {
             $0.isUserInteractionEnabled = true
             $0.setLabel(text: StringLiterals.Profile.deleteImage,
                         alignment: .center,
-                        textColor: UIColor(resource: .deepPurple),
+                        textColor: UIColor(resource: .purple600),
                         font: UIFont.suit(.body_semi_15))
         }
     }
