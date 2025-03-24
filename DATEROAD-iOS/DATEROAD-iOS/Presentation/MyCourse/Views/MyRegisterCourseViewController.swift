@@ -7,9 +7,6 @@
 
 import UIKit
 
-import SnapKit
-import Then
-
 final class MyRegisterCourseViewController: BaseNavBarViewController {
     
     // MARK: - UI Properties

@@ -7,9 +7,6 @@
 
 import UIKit
 
-import SnapKit
-import Then
-
 final class PastDateCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties

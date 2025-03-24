@@ -7,9 +7,6 @@
 
 import UIKit
 
-import SnapKit
-import Then
-
 final class DateCardCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
