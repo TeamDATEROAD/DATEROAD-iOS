@@ -56,7 +56,7 @@ final class PastDateDetailViewController: BaseNavBarViewController {
         super.viewDidLoad()
         
         setLeftBackButton()
-        setTitleLabelStyle(title: "지난 데이트", alignment: .center)
+        setTitleLabelStyle(title: StringLiterals.DateSchedule.pastDate, alignment: .center)
         setRightButtonStyle(image: UIImage(resource: .moreButton))
         setRightButtonAction(target: self, action: #selector(deleteDateCourse))
         bindViewModel()
@@ -230,11 +230,10 @@ extension PastDateDetailViewController {
         pastDateDetailContentView.setColor(index: index)
     }
     
-    //TODO: - 추후 데이트코스 공유 코스 등록 기능 살아날 시 수정해야함.
+    // TODO: - 추후 데이트코스 공유 코스 등록 기능 살아날 시 수정해야함.
     // isBroughtData 변수 생성하여 AddSchedule과 동일하게 수행하도록 수정
     @objc
     private func tapShareCourse() {
-        print("코스 등록해서 공유하기 여기!!!!!!!!!!!!")
         guard let data = pastDateDetailViewModel.dateDetailData.value
         else { return }
         
