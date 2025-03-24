@@ -101,6 +101,7 @@
 		7478193E2C3A97440040D5E7 /* MyCourseListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193D2C3A97440040D5E7 /* MyCourseListCollectionViewCell.swift */; };
 		747819402C3AB7E10040D5E7 /* MyCourseListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193F2C3AB7E10040D5E7 /* MyCourseListViewModel.swift */; };
 		747819432C3ADFCE0040D5E7 /* NavViewedCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747819422C3ADFCE0040D5E7 /* NavViewedCourseViewController.swift */; };
+		749CFD3D2D910081008B47A2 /* DRTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CFD3C2D910071008B47A2 /* DRTimelineView.swift */; };
 		74A70BFA2C329A9600855E61 /* SUIT-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF82C329A6900855E61 /* SUIT-SemiBold.otf */; };
 		74A70BFC2C329A9C00855E61 /* SUIT-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF72C329A6700855E61 /* SUIT-Regular.otf */; };
 		74A70C012C329AB000855E61 /* SUIT-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF22C329A5B00855E61 /* SUIT-ExtraBold.otf */; };
@@ -389,6 +390,7 @@
 		7478193D2C3A97440040D5E7 /* MyCourseListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseListCollectionViewCell.swift; sourceTree = "<group>"; };
 		7478193F2C3AB7E10040D5E7 /* MyCourseListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseListViewModel.swift; sourceTree = "<group>"; };
 		747819422C3ADFCE0040D5E7 /* NavViewedCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavViewedCourseViewController.swift; sourceTree = "<group>"; };
+		749CFD3C2D910071008B47A2 /* DRTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRTimelineView.swift; sourceTree = "<group>"; };
 		74A70BF22C329A5B00855E61 /* SUIT-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-ExtraBold.otf"; sourceTree = "<group>"; };
 		74A70BF62C329A6400855E61 /* SUIT-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Medium.otf"; sourceTree = "<group>"; };
 		74A70BF72C329A6700855E61 /* SUIT-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Regular.otf"; sourceTree = "<group>"; };
@@ -1572,6 +1574,7 @@
 				CAE876092C6F232900D64B34 /* DRLoadingView.swift */,
 				CAE8760B2C6F68A000D64B34 /* DRErrorViewController.swift */,
 				9EBD5C702C7C557900EDE081 /* DRDateFormatterManager.swift */,
+				749CFD3C2D910071008B47A2 /* DRTimelineView.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -2154,6 +2157,7 @@
 				CA4EF3C72C3286C5003B02B6 /* SplashView.swift in Sources */,
 				0DC9BF0E2C4813FD00A817A8 /* Float+.swift in Sources */,
 				9E590B462C3C535500039690 /* AddCourseSecondViewController.swift in Sources */,
+				749CFD3D2D910081008B47A2 /* DRTimelineView.swift in Sources */,
 				CABDCE9F2C4903B900631FB3 /* MainService.swift in Sources */,
 				CA4EF3D72C347766003B02B6 /* OnboardingView.swift in Sources */,
 				CA4EF3BB2C328595003B02B6 /* ObservablePattern.swift in Sources */,
