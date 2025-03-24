@@ -163,7 +163,7 @@ final class NewDateCourseCell: BaseCollectionViewCell {
         }
         
         likeView.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.roundCorners(cornerRadius: 12)
         }
         

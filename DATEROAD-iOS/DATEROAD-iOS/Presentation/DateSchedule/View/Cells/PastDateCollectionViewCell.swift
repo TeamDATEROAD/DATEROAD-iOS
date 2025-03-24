@@ -124,8 +124,6 @@ final class PastDateCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func setStyle() {
-        self.backgroundColor = UIColor(resource: .lilac)
-        
         self.roundCorners(cornerRadius: 20)
         
         ribbonImageView.contentMode = .scaleAspectFill

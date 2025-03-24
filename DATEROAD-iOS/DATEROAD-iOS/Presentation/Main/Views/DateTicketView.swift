@@ -96,7 +96,7 @@ final class DateTicketView: BaseView {
         
         dateLabel.setLabel(textColor: UIColor(resource: .purple400), font: UIFont.suit(.body_med_15))
         
-        startTimeLabel.setLabel(textColor: UIColor(resource: .lightPurple), font: UIFont.suit(.body_med_15))
+        startTimeLabel.setLabel(textColor: UIColor(resource: .purple400), font: UIFont.suit(.body_med_15))
     }
     
 }
