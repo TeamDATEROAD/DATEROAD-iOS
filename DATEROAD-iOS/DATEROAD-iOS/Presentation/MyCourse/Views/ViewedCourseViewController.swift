@@ -13,15 +13,7 @@ final class ViewedCourseViewController: BaseViewController {
     
     private var contentView = UIView()
     
-    private var topLabel = UILabel()
-    
-    private var createCourseView = UIView()
-    
-    private let createCourseLabel = UILabel()
-    
-    private let arrowButton = UIButton()
-    
-    private var viewedCourseView = MyCourseListView(type: StringLiterals.NavType.tab)
+    private var viewedCourseView = ViewedCourseView()
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
@@ -55,7 +47,6 @@ final class ViewedCourseViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        registerCell()
         setDelegate()
         self.viewedCourseViewModel.isSuccessGetViewedCourseInfo.value = false
         bindViewModel()
@@ -66,11 +57,7 @@ final class ViewedCourseViewController: BaseViewController {
         
         self.view.addSubview(contentView)
         
-        self.contentView.addSubviews(topLabel,
-                                     createCourseView,
-                                     viewedCourseView)
-        
-        self.createCourseView.addSubviews(createCourseLabel, arrowButton)
+        self.contentView.addSubviews(viewedCourseView)
     }
     
     override func setLayout() {
@@ -80,69 +67,8 @@ final class ViewedCourseViewController: BaseViewController {
             $0.edges.equalToSuperview()
         }
         
-        topLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(82)
-            $0.leading.equalToSuperview().inset(16)
-            $0.height.equalTo(93)
-        }
-        
-        createCourseView.snp.makeConstraints {
-            $0.top.equalTo(topLabel.snp.bottom).offset(4)
-            $0.leading.equalToSuperview().inset(16)
-            $0.height.equalTo(40)
-            $0.width.equalTo(288)
-        }
-        
         viewedCourseView.snp.makeConstraints {
-            $0.top.equalTo(topLabel.snp.bottom).offset(54)
-            $0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.11)
-            $0.horizontalEdges.equalToSuperview()
-        }
-        
-        createCourseLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview()
-            $0.width.equalTo(233)
-        }
-        
-        arrowButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview()
-            $0.width.equalTo(45)
-            $0.height.equalTo(26)
-        }
-    }
-    
-    override func setStyle() {
-        super.setStyle()
-        
-        topLabel.do {
-            $0.font = UIFont.systemFont(ofSize: 24, weight: .black)
-            $0.setAttributedText(fullText: "\(self.userName)님이 지금까지\n열람한 데이트 코스\n\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개",
-                                 pointText: "\(viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
-                                 pointColor: UIColor(resource: .purple500),
-                                 lineHeight: 1)
-            $0.numberOfLines = 3
-        }
-        
-        createCourseView.do {
-            $0.backgroundColor = UIColor(resource: .drWhite)
-            $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToCourseUploadVC(_:))))
-            $0.isUserInteractionEnabled = true
-        }
-        
-        createCourseLabel.setLabel(text: StringLiterals.ViewedCourse.registerSchedule,
-                                   textColor: UIColor(resource: .drBlack),
-                                   font: UIFont.suit(.title_bold_18))
-        
-        arrowButton.do {
-            $0.setButtonStatus(buttonType: EnabledButton())
-            $0.setImage(UIImage(resource: .createCourseArrow), for: .normal)
-            $0.roundedButton(cornerRadius: 13, maskedCorners: [.layerMinXMinYCorner,
-                                                               .layerMaxXMinYCorner,
-                                                               .layerMinXMaxYCorner,
-                                                               .layerMaxXMaxYCorner])
-            $0.isUserInteractionEnabled = false
+            $0.edges.equalToSuperview()
         }
     }
     
@@ -160,27 +86,19 @@ private extension ViewedCourseViewController {
         else { return }
 
         let isEmpty = (viewedCourseCount == 0)
-        
-        viewedCourseView.emptyView.isHidden = !isEmpty
-        createCourseView.isHidden = isEmpty
+        viewedCourseView.setEmptyView(isEmpty)
         
         if isEmpty {
             DispatchQueue.main.async {
-                self.topLabel.text = "\(name)님,\n아직 열람한\n데이트코스가 없어요"
-                self.viewedCourseView.emptyView.setEmptyView(emptyImage: UIImage(resource: .emptyViewedCourse), emptyTitle: StringLiterals.EmptyView.emptyViewedCourse)
+                self.viewedCourseView.updateEmptyTopLabel(name)
             }
         } else {
             if updateData {
                 DispatchQueue.main.async {
-                    self.viewedCourseView.myCourseListCollectionView.reloadData()
-                    self.topLabel.setAttributedText(fullText: "\(name)님이 지금까지\n열람한 데이트 코스\n\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)개",
-                                                    pointText: "\(self.viewedCourseViewModel.viewedCourseData.value?.count ?? 0)",
-                                                    pointColor: UIColor(resource: .purple500),
-                                                    lineHeight: 1)
+                    self.viewedCourseView.updateTopLabel(name, viewedCourseCount, String(viewedCourseCount))
                 }
                 self.viewedCourseViewModel.viewedCoursesModelIsUpdate.value = false
             }
-            
         }
     }
     
@@ -241,16 +159,39 @@ extension ViewedCourseViewController {
 }
 
 
+// MARK: - @objc Methods
+
+extension ViewedCourseViewController {
+    
+    @objc
+    func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
+        if let index = sender.view?.tag {
+            let courseId = viewedCourseViewModel.viewedCourseData.value?[index].courseId ?? 0
+            self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
+        }
+    }
+    
+}
+
+
+// MARK: - ViewedCourseDelegate
+
+extension ViewedCourseViewController: ViewedCourseDelegate {
+    
+    func didTapAddCourse() {
+        pushToAddCourseVC()
+    }
+    
+}
+
+
 // MARK: - CollectionView Methods
 
 private extension ViewedCourseViewController {
     
-    func registerCell() {
-        viewedCourseView.myCourseListCollectionView.register(MyCourseListCollectionViewCell.self, forCellWithReuseIdentifier: MyCourseListCollectionViewCell.cellIdentifier)
-    }
-    
     func setDelegate() {
-        viewedCourseView.myCourseListCollectionView.dataSource = self
+        viewedCourseView.viewedCourseListView.myCourseListCollectionView.dataSource = self
+        viewedCourseView.delegate = self
     }
     
 }
@@ -269,34 +210,20 @@ extension ViewedCourseViewController : UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         cell.dataBind(viewedCourseViewModel.viewedCourseData.value?[indexPath.item], indexPath.item)
+        cell.tag = indexPath.item
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToCourseDetailVC(_:))))
         return cell
-    }
-    
-    @objc
-    func pushToCourseDetailVC(_ sender: UITapGestureRecognizer) {
-        let location = sender.location(in: viewedCourseView.myCourseListCollectionView)
-        let indexPath = viewedCourseView.myCourseListCollectionView.indexPathForItem(at: location)
-        
-        if let indexPath {
-            let courseId = viewedCourseViewModel.viewedCourseData.value?[indexPath.item].courseId ?? 0
-            self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
-        }
     }
     
 }
 
 extension ViewedCourseViewController {
     
-    func goToUpcomingDateScheduleVC() {
+    ///'데이트 일정' 바텀 탭으로 이동은 성공이나 뷰를 띄워도 그리지 않아서 문제
+    func pushToAddCourseVC() {
         let tabbarVC = TabBarController()
         tabbarVC.selectedIndex = 2
         navigationController?.pushViewController(tabbarVC, animated: false)
-    }
-    
-    @objc
-    func pushToCourseUploadVC(_ gesture: UITapGestureRecognizer) {
-        goToUpcomingDateScheduleVC()
     }
     
 }

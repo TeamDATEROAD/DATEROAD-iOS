@@ -108,7 +108,7 @@ final class PointDetailView: BaseView {
     override func setStyle() {
         pointView.do {
             $0.backgroundColor = UIColor(resource: .purple600)
-            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner])
+            $0.roundCorners(cornerRadius: 14)
         }
         
         userNameLabel.do {

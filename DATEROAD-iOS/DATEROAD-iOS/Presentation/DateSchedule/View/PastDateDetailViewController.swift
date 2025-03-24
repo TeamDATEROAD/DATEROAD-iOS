@@ -15,10 +15,11 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
-    lazy var bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView,
-                                                         height: 222,
-                                                         buttonType: DisabledButton(),
-                                                         buttonTitle: StringLiterals.DateSchedule.quit)
+    lazy var bottomSheetVC = DRBottomSheetViewController(
+        contentView: dateScheduleDeleteView,
+        height: 222,
+        buttonType: DRTextButton(title: StringLiterals.DateSchedule.quit, buttonName: .bold_gray200_14)
+    )
     
     
     // MARK: - Properties
@@ -92,12 +93,14 @@ extension PastDateDetailViewController: DRCustomAlertDelegate {
     
     @objc
     func tapDeleteLabel() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: .deleteCourse,
-                                                        alertTextType: .hasDecription,
-                                                        alertButtonType: .twoButton,
-                                                        titleText: StringLiterals.Alert.deletePastDateSchedule,
-                                                        descriptionText: StringLiterals.Alert.noMercy,
-                                                        rightButtonText: StringLiterals.Alert.delete)
+        let customAlertVC = DRCustomAlertViewController(
+            rightActionType: .deleteCourse,
+            alertTextType: .hasDecription,
+            titleText: StringLiterals.Alert.deletePastDateSchedule,
+            descriptionText: StringLiterals.Alert.noMercy,
+            leftButton: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_gray100_10),
+            rightButton: DRTextButton(title: StringLiterals.Alert.delete, buttonName: .bold_purple_10)
+        )
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         self.present(customAlertVC, animated: false)

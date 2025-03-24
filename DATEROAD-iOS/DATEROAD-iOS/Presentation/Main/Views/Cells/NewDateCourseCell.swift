@@ -49,19 +49,21 @@ final class NewDateCourseCell: BaseCollectionViewCell {
     }
     
     override func setHierarchy() {
-        self.addSubviews(courseImage,
-                         likeView,
-                         likeImage,
-                         likeLabel,
-                         countryLabel,
-                         dateNameView,
-                         
-                         costView,
-                         costImage,
-                         costLabel,
-                         timeView,
-                         timeImage,
-                         timeLabel)
+        self.addSubviews(
+            courseImage,
+            likeView,
+            likeImage,
+            likeLabel,
+            countryLabel,
+            dateNameView,
+            costView,
+            costImage,
+            costLabel,
+            timeView,
+            timeImage,
+            timeLabel
+        )
+        
         dateNameView.addSubview(dateNameLabel)
     }
     
@@ -157,18 +159,12 @@ final class NewDateCourseCell: BaseCollectionViewCell {
             $0.image = UIImage(resource: .placeholder)
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFill
-            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner,
-                                                              .layerMinXMaxYCorner,
-                                                              .layerMaxXMaxYCorner,
-                                                              .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 14)
         }
         
         likeView.do {
-            $0.backgroundColor = UIColor(resource: .purple600)
-            $0.roundCorners(cornerRadius: 12, maskedCorners: [.layerMaxXMinYCorner,
-                                                              .layerMinXMaxYCorner,
-                                                              .layerMaxXMaxYCorner,
-                                                              .layerMinXMinYCorner])
+            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.roundCorners(cornerRadius: 12)
         }
         
         likeImage.image = UIImage(resource: .heartIcon)
@@ -194,10 +190,7 @@ final class NewDateCourseCell: BaseCollectionViewCell {
         
         costView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner,
-                                                              .layerMinXMaxYCorner,
-                                                              .layerMaxXMaxYCorner,
-                                                              .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 14)
         }
         
         costImage.image = UIImage(resource: .coastIcon)
@@ -207,18 +200,12 @@ final class NewDateCourseCell: BaseCollectionViewCell {
             $0.textColor = UIColor(resource: .gray400)
             $0.font = UIFont.suit(.body_med_13)
             $0.setPadding(top: 4, left: 0, bottom: 4, right: 10)
-            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner,
-                                                              .layerMinXMaxYCorner,
-                                                              .layerMaxXMaxYCorner,
-                                                              .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 14)
         }
         
         timeView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner,
-                                                              .layerMinXMaxYCorner,
-                                                              .layerMaxXMaxYCorner,
-                                                              .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 14)
         }
         
         timeImage.image = UIImage(resource: .timeIcon)

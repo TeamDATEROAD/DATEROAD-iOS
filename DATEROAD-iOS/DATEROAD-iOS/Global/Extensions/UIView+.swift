@@ -15,7 +15,7 @@ extension UIView {
     }
     
     //모서리둥글게
-    func roundCorners(cornerRadius: CGFloat, maskedCorners: CACornerMask) {
+    func roundCorners(cornerRadius: CGFloat, maskedCorners: CACornerMask = [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner]) {
         clipsToBounds = true
         layer.cornerRadius = cornerRadius
         layer.maskedCorners = CACornerMask(arrayLiteral: maskedCorners)

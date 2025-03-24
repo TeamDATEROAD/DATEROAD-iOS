@@ -81,10 +81,7 @@ final class UpcomingDateScheduleSkeletonView: BaseView {
         
         pastDateButton.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.roundCorners(cornerRadius: 13, maskedCorners: [.layerMaxXMaxYCorner,
-                                                              .layerMaxXMinYCorner,
-                                                              .layerMinXMaxYCorner,
-                                                              .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 13)
         }
     }
 

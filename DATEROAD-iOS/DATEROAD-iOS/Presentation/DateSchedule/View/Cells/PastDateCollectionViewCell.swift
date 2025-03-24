@@ -15,6 +15,8 @@ final class PastDateCollectionViewCell: BaseCollectionViewCell {
     
     private var dateLabel = UILabel()
     
+    // TODO: - UILabel로 변경
+    
     private var firstTagButton = UIButton()
     
     private var secondTagButton = UIButton()
@@ -122,10 +124,9 @@ final class PastDateCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func setStyle() {
-        self.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner,
-                                                            .layerMaxXMinYCorner,
-                                                            .layerMinXMaxYCorner,
-                                                            .layerMinXMinYCorner])
+        self.backgroundColor = UIColor(resource: .lilac)
+        
+        self.roundCorners(cornerRadius: 20)
         
         ribbonImageView.contentMode = .scaleAspectFill
         

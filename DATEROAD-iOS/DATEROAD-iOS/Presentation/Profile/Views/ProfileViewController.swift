@@ -17,10 +17,11 @@ final class ProfileViewController: BaseNavBarViewController {
     
     private let imagePickerViewController = CustomImagePicker(isProfilePicker: true)
     
-    lazy var alertVC = DRBottomSheetViewController(contentView: profileImageSettingView,
-                                                   height: 288,
-                                                   buttonType: DisabledButton(),
-                                                   buttonTitle: StringLiterals.Common.cancel)
+    lazy var alertVC = DRBottomSheetViewController(
+        contentView: profileImageSettingView,
+        height: 288,
+        buttonType: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_gray200_14)
+    )
     
     
     // MARK: - Properties
@@ -49,7 +50,6 @@ final class ProfileViewController: BaseNavBarViewController {
         self.profileView.registerButton.setTitle(StringLiterals.Profile.registerProfile, for: .normal)
         registerCell()
         setDelegate()
-        setAddGesture()
         bindViewModel()
     }
     
@@ -89,25 +89,8 @@ private extension ProfileViewController {
         self.profileView.tendencyTagCollectionView.dataSource = self
         self.profileView.tendencyTagCollectionView.delegate = self
         self.profileView.nicknameTextfield.delegate = self
+        self.profileView.delegate = self
         self.imagePickerViewController .delegate = self
-    }
-    
-    func setAddGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(self.view.endEditing(_:)))
-        self.view.addGestureRecognizer(tapGesture)
-        self.profileView.editImageButton.addTarget(self, action: #selector(presentEditBottomSheet), for: .touchUpInside)
-        
-        self.profileView.doubleCheckButton.addTarget(self, action: #selector(doubleCheckNickname), for: .touchUpInside)
-        
-        self.profileView.nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .editingChanged)
-        
-        self.profileView.registerButton.addTarget(self, action: #selector(registerProfile), for: .touchUpInside)
-        
-        let deleteGesture = UITapGestureRecognizer(target: self, action: #selector(deletePhoto))
-        self.profileImageSettingView.deleteLabel.addGestureRecognizer(deleteGesture)
-        
-        let registerGesture = UITapGestureRecognizer(target: self, action: #selector(registerPhoto))
-        self.profileImageSettingView.registerLabel.addGestureRecognizer(registerGesture)
     }
     
     func bindViewModel() {
@@ -211,7 +194,6 @@ private extension ProfileViewController {
         }
     }
     
-    @objc
     func presentEditBottomSheet() {
         alertVC.delegate = self
         DispatchQueue.main.async {
@@ -219,8 +201,7 @@ private extension ProfileViewController {
         }
     }
     
-    @objc
-    func doubleCheckNickname(sender: UITapGestureRecognizer) {
+    func doubleCheckNickname() {
         self.profileViewModel.getDoubleCheck()
     }
     
@@ -249,20 +230,17 @@ private extension ProfileViewController {
         self.profileViewModel.checkValidRegistration()
     }
     
-    @objc
-    func didChangeTextfield() {
+    func updateTextfield() {
         guard let text = self.profileView.nicknameTextfield.text else { return }
         self.profileViewModel.nickname.value = text
     }
     
-    @objc
     func deletePhoto() {
         alertVC.dismissBottomSheet()
         profileView.updateProfileImage(image: UIImage(resource: .emptyProfileImg))
         profileViewModel.profileImage.value = UIImage(resource: .emptyProfileImg)
     }
     
-    @objc
     func registerPhoto() {
         alertVC.dismissBottomSheet() { [weak self] in
             guard let self else { return }
@@ -270,16 +248,14 @@ private extension ProfileViewController {
         }
     }
     
-    @objc
     func registerProfile() {
-        self.profileView.registerButton.isEnabled = false
         self.profileViewModel.postSignUp()
     }
     
 }
 
 
-// MARK: - Delegates
+// MARK: - UICollectionViewDelegate
 
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
@@ -319,6 +295,9 @@ extension ProfileViewController: UICollectionViewDataSource {
     
 }
 
+
+// MARK: - UITextFieldDelegate
+
 extension ProfileViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -339,6 +318,9 @@ extension ProfileViewController: UITextFieldDelegate {
     
 }
 
+
+// MARK: - DRBottomSheetDelegate
+
 extension ProfileViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
@@ -355,6 +337,9 @@ extension ProfileViewController: DRBottomSheetDelegate {
     
 }
 
+
+// MARK: - ImagePickerDelegate
+
 extension ProfileViewController: ImagePickerDelegate {
     
     func didPickImages(_ images: [UIImage]) {
@@ -365,3 +350,40 @@ extension ProfileViewController: ImagePickerDelegate {
     
 }
 
+
+// MARK: - ProfileDelegate
+
+extension ProfileViewController: ProfileDelegate {
+    
+    func didChangeTextfield() {
+        updateTextfield()
+    }
+    
+    func didTapRegisterButton() {
+        registerProfile()
+    }
+    
+    func didTapEditImageButton() {
+        presentEditBottomSheet()
+    }
+    
+    func didTapDoubleCheckButton() {
+        doubleCheckNickname()
+    }
+    
+}
+
+
+// MARK: - ProfileImageSettingDelegate
+
+extension ProfileViewController: ProfileImageSettingDelegate {
+    
+    func didTapDeleteImageButton() {
+        deletePhoto()
+    }
+    
+    func didTapRegisterImageButton() {
+        registerPhoto()
+    }
+    
+}

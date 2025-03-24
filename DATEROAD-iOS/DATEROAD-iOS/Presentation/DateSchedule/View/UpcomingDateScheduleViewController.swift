@@ -45,7 +45,6 @@ final class UpcomingDateScheduleViewController: BaseViewController {
         
         registerCell()
         setDelegate()
-        setAddTarget()
         self.upcomingDateScheduleViewModel.isSuccessGetUpcomingDateScheduleData.value = false
         bindViewModel()
     }
@@ -84,12 +83,6 @@ final class UpcomingDateScheduleViewController: BaseViewController {
 // MARK: - UI Setting Methods
 
 private extension UpcomingDateScheduleViewController {
-    
-    func setAddTarget() {
-        upcomingDateScheduleView.dateRegisterButton.addTarget(self, action: #selector(dateRegisterButtonTapped), for: .touchUpInside)
-        
-        upcomingDateScheduleView.pastDateButton.addTarget(self, action: #selector(pushToPastDateVC), for: .touchUpInside)
-    }
     
     func bindViewModel() {
         self.upcomingDateScheduleViewModel.updateUpcomingDateScheduleData.bind { [weak self] flag in
@@ -148,29 +141,29 @@ private extension UpcomingDateScheduleViewController {
             }
         }
     }
-    
-    @objc
-    func pushToPastDateVC() {
-        let pastDateVC = PastDateViewController(pastDateScheduleViewModel: DateScheduleViewModel())
-        self.navigationController?.pushViewController(pastDateVC, animated: false)
-    }
-    
+
 }
 
 
 // MARK: - Alert Delegate
 
-extension UpcomingDateScheduleViewController: DRCustomAlertDelegate {
+extension UpcomingDateScheduleViewController: DRCustomAlertDelegate {}
+
+
+// MARK: - @objc Methods
+
+extension UpcomingDateScheduleViewController {
     
     @objc
     private func dateRegisterButtonTapped() {
         if upcomingDateScheduleViewModel.isMoreThanFiveSchedule {
-            let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.none,
-                                                            alertTextType: .hasDecription, 
-                                                            alertButtonType: .oneButton,
-                                                            titleText: StringLiterals.Alert.noMoreSchedule,
-                                                            descriptionText: StringLiterals.Alert.noMoreThanFive,
-                                                            longButtonText: StringLiterals.Alert.iChecked)
+            let customAlertVC = DRCustomAlertViewController(
+                rightActionType: RightButtonType.none,
+                alertTextType: .hasDecription,
+                titleText: StringLiterals.Alert.noMoreSchedule,
+                descriptionText: StringLiterals.Alert.noMoreThanFive,
+                longButton: DRTextButton(title: StringLiterals.Alert.iChecked, buttonName: .bold_purple_10)
+            )
             customAlertVC.delegate = self
             customAlertVC.modalPresentationStyle = .overFullScreen
             self.present(customAlertVC, animated: false)
@@ -179,6 +172,22 @@ extension UpcomingDateScheduleViewController: DRCustomAlertDelegate {
             self.navigationController?.pushViewController(vc, animated: false)
         }
         AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.clickAddSchedule)
+    }
+    
+    
+    @objc
+    func pushToDateRegisterVC() {
+        if (upcomingDateScheduleViewModel.upcomingDateScheduleData.value?.count ?? 0) >= 5 {
+            dateRegisterButtonTapped()
+        } else {
+            print("일정 등록으로 이동")
+        }
+    }
+    
+    @objc
+    func pushToPastDateVC() {
+        let pastDateVC = PastDateViewController(pastDateScheduleViewModel: DateScheduleViewModel())
+        self.navigationController?.pushViewController(pastDateVC, animated: false)
     }
     
 }
@@ -195,6 +204,7 @@ private extension UpcomingDateScheduleViewController {
     func setDelegate() {
         upcomingDateScheduleView.cardCollectionView.delegate = self
         upcomingDateScheduleView.cardCollectionView.dataSource = self
+        upcomingDateScheduleView.delegate = self
     }
     
 }
@@ -259,6 +269,20 @@ extension UpcomingDateScheduleViewController: UICollectionViewDataSource {
             upcomingDateDetailVC.setColor(index: indexPath.item)
             self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
         }
+    }
+    
+}
+
+// MARK: - UpcomingDateScheduleDelete
+
+extension UpcomingDateScheduleViewController: UpcomingDateScheduleDelete {
+    
+    func didTapDateRegisterButton() {
+        dateRegisterButtonTapped()
+    }
+    
+    func didTapPastDateButton() {
+        pushToPastDateVC()
     }
     
 }

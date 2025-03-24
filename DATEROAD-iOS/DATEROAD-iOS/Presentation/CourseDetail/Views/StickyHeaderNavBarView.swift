@@ -22,11 +22,17 @@ final class StickyHeaderNavBarView: UIView {
     
     // MARK: - UI Properties
     
-    let previousButton = UIButton()
+    private let previousButton: DRImageButton = DRImageButton(image: UIImage(resource: .leftArrow), buttonName: .clear_black_0)
+    
+    private let moreButton: DRImageButton = DRImageButton(image: UIImage(resource: .moreButton), buttonName: .clear_black_0)
+    
+    
+    // MARK: - Properties
     
     weak var delegate: StickyHeaderNavBarViewDelegate?
     
-    let moreButton = UIButton()
+    
+    // MARK: - Life Cycles
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,6 +40,7 @@ final class StickyHeaderNavBarView: UIView {
         setHierarchy()
         setLayout()
         setStyle()
+        setAddTarget()
     }
     
     required init?(coder: NSCoder) {
@@ -61,23 +68,37 @@ final class StickyHeaderNavBarView: UIView {
     func setStyle() {
         self.backgroundColor = .clear
         
-        previousButton.do {
-            let image = UIImage(resource: .leftArrow).withRenderingMode(.alwaysTemplate)
-            $0.setImage(image, for: .normal)
-            $0.tintColor = UIColor(resource: .drWhite)
-            $0.addTarget(self, action: #selector(didTapPreviousButton), for: .touchUpInside)
-        }
+        previousButton.configuration?.baseForegroundColor = UIColor(resource: .drWhite)
         
-        moreButton.do {
-            let image = UIImage(resource: .moreButton).withRenderingMode(.alwaysTemplate)
-            $0.setImage(image, for: .normal)
-            $0.tintColor = UIColor(resource: .drWhite)
-            $0.addTarget(self, action: #selector(didTapMoreButton), for: .touchUpInside)
-        }
+        moreButton.configuration?.baseForegroundColor = UIColor(resource: .drWhite)
+    }
+    
+    func setAddTarget() {
+        previousButton.addTarget(self, action: #selector(didTapPreviousButton), for: .touchUpInside)
+        
+        moreButton.addTarget(self, action: #selector(didTapMoreButton), for: .touchUpInside)
     }
     
 }
 
+
+// MARK: - Methods
+
+extension StickyHeaderNavBarView {
+    
+    func updateTintColor( _ tintColor: UIColor) {
+        moreButton.configuration?.baseForegroundColor = tintColor
+        previousButton.configuration?.baseForegroundColor = tintColor
+    }
+    
+    func hiddenMoreButton(_ hidden: Bool) {
+        moreButton.setButtonHidden(hidden)
+    }
+    
+}
+
+
+// MARK: - @objc Methods
 
 private extension StickyHeaderNavBarView {
     

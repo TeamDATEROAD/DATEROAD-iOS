@@ -26,7 +26,7 @@ final class LocationFilterView: BaseView {
     
     private let titleLabel = UILabel()
     
-    private let closeButton = UIButton()
+    private let closeButton: DRImageButton = DRImageButton(image: UIImage(resource: .btnClose), buttonName: .white_gray600_0)
     
     let countryCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -34,7 +34,11 @@ final class LocationFilterView: BaseView {
     
     let cityCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLeftAlignFlowLayout())
     
-    let applyButton = UIButton()
+    let applyButton = DRTextButton(
+        title: StringLiterals.LocationFilter.apply,
+        buttonName: .bold_gray200_14,
+        isEnabled: false
+    )
     
     
     // MARK: - UI Properties
@@ -43,15 +47,7 @@ final class LocationFilterView: BaseView {
     
     
     // MARK: - Life Cycle
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+
     override func setHierarchy() {
         self.addSubview(bottomSheetView)
         
@@ -119,25 +115,20 @@ final class LocationFilterView: BaseView {
                             textColor: UIColor(resource: .drBlack),
                             font: UIFont.suit(.title_bold_18))
         
-        closeButton.do {
-            $0.setImage(UIImage(resource: .btnClose), for: .normal)
-            $0.addTarget(self, action: #selector(closeLocationFilterView), for: .touchUpInside)
-        }
+        closeButton.addTarget(self, action: #selector(closeLocationFilterView), for: .touchUpInside)
         
         lineView.backgroundColor = UIColor(resource: .gray200)
         
-        applyButton.do {
-            $0.roundedButton(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner,
-                                                               .layerMaxXMinYCorner,
-                                                               .layerMinXMaxYCorner,
-                                                               .layerMaxXMaxYCorner])
-            $0.backgroundColor = UIColor(resource: .gray200)
-            $0.setTitle(StringLiterals.LocationFilter.apply, for: .normal)
-            $0.setTitleColor(UIColor(resource: .gray400), for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_bold_15)
-            $0.addTarget(self, action: #selector(didTapApplyButton), for: .touchUpInside)
-        }
+        applyButton.addTarget(self, action: #selector(didTapApplyButton), for: .touchUpInside)
+
     }
+
+}
+
+
+// MARK: - @objc Methods
+
+extension LocationFilterView {
     
     @objc
     func closeLocationFilterView() {
@@ -152,3 +143,12 @@ final class LocationFilterView: BaseView {
 }
 
 
+// MARK: - Methods
+
+extension LocationFilterView {
+
+    func updateApplyButtonProperties(_ isEnable: Bool) {
+        applyButton.setButtonStyle(isEnable ? .bold_purple_14 : .bold_gray200_14)
+    }
+    
+}

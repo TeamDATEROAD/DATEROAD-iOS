@@ -84,8 +84,8 @@ final class AddCourseThirdViewController: BaseNavBarViewController {
         
         addCourseThirdView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(4)
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
         }
     }
     
@@ -101,7 +101,7 @@ final class AddCourseThirdViewController: BaseNavBarViewController {
 }
 
 
-// MARK: - ViewController Methods
+// MARK: - ViewController Methods
 
 private extension AddCourseThirdViewController {
     
@@ -195,10 +195,9 @@ private extension AddCourseThirdViewController {
         let customAlertVC = DRCustomAlertViewController(
             rightActionType: .none,
             alertTextType: .hasDecription,
-            alertButtonType: .oneButton,
             titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertTitleLabel,
             descriptionText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertSubTitleLabel,
-            longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton
+            longButton: DRTextButton(title: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton, buttonName: .bold_purple_10)
         )
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
@@ -293,6 +292,7 @@ extension AddCourseThirdViewController: UITextViewDelegate {
 extension AddCourseThirdViewController: UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        textField.font = UIFont.suit(.body_med_13)
         return true
     }
     

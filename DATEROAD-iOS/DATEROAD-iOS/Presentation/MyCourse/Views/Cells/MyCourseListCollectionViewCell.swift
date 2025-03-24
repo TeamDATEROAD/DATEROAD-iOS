@@ -119,7 +119,7 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
         self.backgroundColor = UIColor(resource: .drWhite)
         
         thumbnailImageView.do {
-            $0.roundCorners(cornerRadius: 12, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 12)
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
         }

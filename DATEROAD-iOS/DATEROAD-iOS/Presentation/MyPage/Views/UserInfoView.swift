@@ -17,7 +17,7 @@ final class UserInfoView: BaseView {
     
     private let nicknameLabel: UILabel = UILabel()
     
-    let editProfileButton: UIImageView = UIImageView()
+    let editProfileButton: DRImageButton = DRImageButton(image: UIImage(resource: .icPencil), buttonName: .clear_black_0)
     
     let tagCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -31,21 +31,35 @@ final class UserInfoView: BaseView {
     
     private let goToPointHistoryLabel: UILabel = UILabel()
     
-    private let rightArrowButton: UIImageView = UIImageView()
+    private let rightArrowButton: DRImageButton = DRImageButton(image: UIImage(resource: .arrowRightMini), buttonName: .clear_gray400_0)
     
     
     // MARK: - Life Cycle
     
-    override func setHierarchy() {
-        self.addSubviews(profileImageView,
-                         nicknameLabel,
-                         editProfileButton,
-                         tagCollectionView,
-                         pointView)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
-        pointView.addSubviews(userPointLabel,
-                              pointLabel,
-                              goToPointHistoryStackView)
+        registerCell()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func setHierarchy() {
+        self.addSubviews(
+            profileImageView,
+            nicknameLabel,
+            editProfileButton,
+            tagCollectionView,
+            pointView
+        )
+        
+        pointView.addSubviews(
+            userPointLabel,
+            pointLabel,
+            goToPointHistoryStackView
+        )
         
         goToPointHistoryStackView.addArrangedSubviews(goToPointHistoryLabel,rightArrowButton)
     }
@@ -109,11 +123,6 @@ final class UserInfoView: BaseView {
         
         nicknameLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.systemFont(ofSize: 24, weight: .black))
         
-        editProfileButton.do {
-            $0.image = UIImage(resource: .icPencil)
-            $0.isUserInteractionEnabled = true
-        }
-        
         tagCollectionView.do {
             $0.contentInsetAdjustmentBehavior = .never
             $0.backgroundColor = UIColor(resource: .gray100)
@@ -145,17 +154,19 @@ final class UserInfoView: BaseView {
             $0.isUserInteractionEnabled = true
         }
         
-        pointLabel.setLabel(text: "0 P",
-                            alignment: .left,
-                            textColor: UIColor(resource: .drBlack),
-                            font: UIFont.suit(.title_extra_24))
+        pointLabel.setLabel(
+            text: "0 P",
+            alignment: .left,
+            textColor: UIColor(resource: .drBlack),
+            font: UIFont.suit(.title_extra_24)
+        )
         
-        goToPointHistoryLabel.setLabel(text: StringLiterals.MyPage.goToPointHistory,
-                                       alignment: .left,
-                                       textColor: UIColor(resource: .gray400),
-                                       font: UIFont.suit(.body_med_13))
-        
-        rightArrowButton.image = UIImage(resource: .arrowRightMini)
+        goToPointHistoryLabel.setLabel(
+            text: StringLiterals.MyPage.goToPointHistory,
+            alignment: .left,
+            textColor: UIColor(resource: .gray400),
+            font: UIFont.suit(.body_med_13)
+        )
     }
     
 }
@@ -165,9 +176,11 @@ extension UserInfoView {
     func bindData(userInfo: MyPageUserInfoModel) {
         if let imageURL = userInfo.imageURL  {
             let url = URL(string: imageURL)
-            self.profileImageView.kf.setImage(with: url,
-                                              placeholder: UIImage(resource: .placeholder),
-                                              options: [.transition(.none), .cacheOriginalImage])
+            self.profileImageView.kf.setImage(
+                with: url,
+                placeholder: UIImage(resource: .placeholder),
+                options: [.transition(.none), .cacheOriginalImage]
+            )
         } else {
             self.profileImageView.image = UIImage(resource: .emptyProfileImg)
         }
@@ -175,6 +188,10 @@ extension UserInfoView {
         self.nicknameLabel.text = userInfo.nickname
         self.userPointLabel.text = userInfo.nickname + "님의 포인트"
         self.pointLabel.text = String(userInfo.point) + " P"
+    }
+    
+    func registerCell() {
+        tagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
     }
     
 }

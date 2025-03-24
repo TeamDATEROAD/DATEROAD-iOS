@@ -13,52 +13,19 @@ import Then
 final class CountryLabelCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
-    
-    private let grayBoxView = UIView()
-    
-    private let countryLabel = UILabel()
+        
+    let countryButton = DRTextButton(title: "", buttonName: .semi_gray100_10)
     
     
-    // MARK: - Properties
-    
-    var itemRow: Int?
+    // MARK: - Methods
     
     override func setHierarchy() {
-        self.addSubviews(grayBoxView, countryLabel)
+        self.addSubview(countryButton)
     }
     
     override func setLayout() {
-        grayBoxView.snp.makeConstraints {
+        countryButton.snp.makeConstraints {
             $0.edges.equalToSuperview()
-        }
-        
-        countryLabel.snp.makeConstraints {
-            $0.center.equalTo(grayBoxView)
-        }
-    }
-    
-    override func setStyle() {
-        grayBoxView.do {
-            $0.roundCorners(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
-            $0.backgroundColor = UIColor(resource: .gray100)
-        }
-        
-        countryLabel.do {
-            $0.text = "서울"
-            $0.font = UIFont.suit(.body_semi_15)
-            $0.textColor = UIColor(resource: .gray400)
-        }
-    }
-    
-    
-    func updateSelectionState(_ isSelected: Bool) {
-        print(isSelected)
-        if isSelected {
-            grayBoxView.backgroundColor = UIColor(resource: .purple600)
-            countryLabel.textColor = UIColor(resource: .drWhite)
-        } else {
-            grayBoxView.backgroundColor = UIColor(resource: .gray100)
-            countryLabel.textColor = UIColor(resource: .gray400)
         }
     }
     
@@ -66,9 +33,9 @@ final class CountryLabelCollectionViewCell: BaseCollectionViewCell {
 
 extension CountryLabelCollectionViewCell {
     
-    func configure(with country: LocationModel.Country, isSelected: Bool) {
-        countryLabel.text = country.rawValue
-        updateSelectionState(isSelected)
+    func updateCountryButtonProperties(with country: LocationModel.Country, isSelected: Bool) {
+        countryButton.setTitle(country.rawValue, for: .normal)
+        countryButton.setButtonStyle(isSelected ? .semi_purple_10: .semi_gray100_10)
     }
     
 }

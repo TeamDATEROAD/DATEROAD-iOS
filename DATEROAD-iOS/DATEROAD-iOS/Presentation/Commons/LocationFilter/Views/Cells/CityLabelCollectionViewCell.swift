@@ -14,39 +14,18 @@ final class CityLabelCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
-    private let grayBoxView = UIView()
-    
-    private let cityLabel = UILabel()
+    let cityButton = DRTextButton(title: "", buttonName: .med_gray100_10)
     
     
-    // MARK: - Properties
-    
-    var itemRow: Int?
+    // MARK: - Methods
     
     override func setHierarchy() {
-        self.addSubviews(grayBoxView, cityLabel)
+        self.addSubview(cityButton)
     }
     
     override func setLayout() {
-        grayBoxView.snp.makeConstraints {
+        cityButton.snp.makeConstraints {
             $0.edges.equalToSuperview()
-        }
-        
-        cityLabel.snp.makeConstraints {
-            $0.center.equalTo(grayBoxView)
-        }
-    }
-    
-    override func setStyle() {
-        grayBoxView.do {
-            $0.roundCorners(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
-            $0.backgroundColor = UIColor(resource: .gray100)
-        }
-        
-        cityLabel.do {
-            $0.text = "서울 전체"
-            $0.font = UIFont.suit(.body_med_13)
-            $0.textColor = UIColor(resource: .gray400)
         }
     }
     
@@ -54,20 +33,9 @@ final class CityLabelCollectionViewCell: BaseCollectionViewCell {
 
 extension CityLabelCollectionViewCell {
     
-    func configure(with city: LocationModel.City, isSelected: Bool) {
-        cityLabel.text = city.rawValue
-        updateSelectionState(isSelected)
-    }
-    
-    // 선택했을 때 버튼 색 속성 변경
-    func updateSelectionState(_ isSelected: Bool) {
-        if isSelected {
-            grayBoxView.backgroundColor = UIColor(resource: .purple600)
-            cityLabel.textColor = UIColor(resource: .drWhite)
-        } else  {
-            grayBoxView.backgroundColor = UIColor(resource: .gray100)
-            cityLabel.textColor = UIColor(resource: .gray400)
-        }
+    func updateCityButtonProperties(with city: LocationModel.City, isSelected: Bool) {
+        cityButton.setTitle(city.rawValue, for: .normal)
+        cityButton.setButtonStyle(isSelected ? .med_purple_10 : .med_gray100_10)
     }
     
 }

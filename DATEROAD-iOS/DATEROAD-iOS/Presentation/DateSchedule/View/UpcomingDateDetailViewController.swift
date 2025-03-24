@@ -15,10 +15,11 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
-    lazy var bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView,
-                                                         height: 222,
-                                                         buttonType: DisabledButton(),
-                                                         buttonTitle: StringLiterals.DateSchedule.quit)
+    lazy var bottomSheetVC = DRBottomSheetViewController(
+        contentView: dateScheduleDeleteView,
+        height: 222,
+        buttonType: DRTextButton(title: StringLiterals.DateSchedule.quit, buttonName: .bold_gray200_14)
+    )
     
     
     // MARK: - Properties
@@ -212,11 +213,13 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     @objc
     private func tapKakaoButton() {
         AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickKakaoShare, properties: [StringLiterals.Amplitude.Property.dateCourseNum : upcomingDateDetailViewModel.dateCourseNum, StringLiterals.Amplitude.Property.dateTotalDuration : upcomingDateDetailViewModel.dateTotalDuration])
-        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.kakaoShare,
-                                                        alertTextType: .noDescription,
-                                                        alertButtonType: .twoButton,
-                                                        titleText: StringLiterals.Alert.kakaoAlert,
-                                                        rightButtonText: "열기")
+        let customAlertVC = DRCustomAlertViewController(
+            rightActionType: RightButtonType.kakaoShare,
+            alertTextType: .noDescription,
+            titleText: StringLiterals.Alert.kakaoAlert,
+            leftButton: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_gray100_10),
+            rightButton: DRTextButton(title: StringLiterals.DateSchedule.open, buttonName: .bold_purple_10)
+        )
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         self.present(customAlertVC, animated: false)
@@ -224,7 +227,14 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     
     @objc
     private func tapDeleteLabel() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.deleteCourse, alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deleteDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
+        let customAlertVC = DRCustomAlertViewController(
+            rightActionType: RightButtonType.deleteCourse,
+            alertTextType: .hasDecription,
+            titleText: StringLiterals.Alert.deleteDateSchedule,
+            descriptionText: StringLiterals.Alert.noMercy,
+            leftButton: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_gray100_10),
+            rightButton: DRTextButton(title: StringLiterals.Alert.delete, buttonName: .bold_purple_10)
+        )
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         self.present(customAlertVC, animated: false)

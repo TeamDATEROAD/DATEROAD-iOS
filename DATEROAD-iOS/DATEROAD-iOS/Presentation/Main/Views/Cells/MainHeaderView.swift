@@ -10,6 +10,12 @@ import UIKit
 import SnapKit
 import Then
 
+protocol MainHeaderDelegate: AnyObject {
+    
+    func didTapViewMoreButton()
+    
+}
+
 final class MainHeaderView: UICollectionReusableView {
     
     // MARK: - UI Properties
@@ -20,10 +26,12 @@ final class MainHeaderView: UICollectionReusableView {
     
     let subLabel: UILabel = UILabel()
     
-    let viewMoreButton: UIButton = UIButton()
+    let viewMoreButton: DRTextButton = DRTextButton(title: StringLiterals.Main.viewMore, buttonName: .bold_white_0)
     
     
     // MARK: - Properties
+    
+    weak var delegate: MainHeaderDelegate?
     
     static let elementKinds: String = StringLiterals.Common.header
     
@@ -87,12 +95,6 @@ final class MainHeaderView: UICollectionReusableView {
         subLabel.setLabel(alignment: .left,
                           textColor: UIColor(resource: .gray400),
                           font: UIFont.suit(.body_med_13))
-        
-        viewMoreButton.do {
-            $0.setTitle(StringLiterals.Main.viewMore, for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_bold_13)
-            $0.setTitleColor(UIColor(resource: .purple500), for: .normal)
-        }
     }
     
 }
@@ -101,6 +103,10 @@ final class MainHeaderView: UICollectionReusableView {
 // MARK: - Extensions
 
 extension MainHeaderView {
+    
+    func setAddTarget() {
+        viewMoreButton.addTarget(self, action: #selector(didTapViewMoreButton), for: .touchUpInside)
+    }
     
     func bindTitle(section: MainSection, nickname: String?) {
         let nickname = nickname ?? ""
@@ -131,6 +137,18 @@ extension MainHeaderView {
             }
             subLabel.text = StringLiterals.Main.newDateSub
         }
+    }
+    
+}
+
+
+// MARK: - @objc Methods
+
+private extension MainHeaderView {
+    
+    @objc
+    func didTapViewMoreButton() {
+        delegate?.didTapViewMoreButton()
     }
     
 }

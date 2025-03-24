@@ -25,7 +25,7 @@ final class DateTicketView: BaseView {
     
     private let goToRegisterLabel: UILabel = UILabel()
     
-    let moveButton: UIButton = UIButton()
+    let moveButton: DRImageButton = DRImageButton(image: UIImage(resource: .icRightarrowPurple), buttonName: .clear_mediumPurple_0)
     
     
     // MARK: - Life Cycle
@@ -96,9 +96,7 @@ final class DateTicketView: BaseView {
         
         dateLabel.setLabel(textColor: UIColor(resource: .purple400), font: UIFont.suit(.body_med_15))
         
-        startTimeLabel.setLabel(textColor: UIColor(resource: .purple400), font: UIFont.suit(.body_med_15))
-        
-        moveButton.setImage(UIImage(resource: .icRightarrowPurple), for: .normal)
+        startTimeLabel.setLabel(textColor: UIColor(resource: .lightPurple), font: UIFont.suit(.body_med_15))
     }
     
 }

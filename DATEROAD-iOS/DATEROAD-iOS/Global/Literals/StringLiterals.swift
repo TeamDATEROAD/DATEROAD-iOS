@@ -371,6 +371,8 @@ enum StringLiterals {
         
         static let dDay = "D-Day"
         
+        static let open = "열기"
+        
     }
     
     enum Alert {
