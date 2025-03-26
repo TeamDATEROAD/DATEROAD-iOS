@@ -16,7 +16,7 @@ final class PastDateCollectionViewCell: BaseCollectionViewCell {
     
     private var ribbonImageView = UIImageView()
     
-    private var dateLabel = UILabel()
+    private var dateLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi13_black))
     
     // TODO: - UILabel로 변경
     
@@ -32,9 +32,13 @@ final class PastDateCollectionViewCell: BaseCollectionViewCell {
     
     private var rightCircleInsetImageView = UIImageView()
     
-    private var locationLabel = UILabel()
+    private var locationLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi13_black))
     
-    private var titleLabel = UILabel()
+    private var titleLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.systemBold20_black),
+        alignment: .left,
+        numberOfLines: 2
+    )
     
     private let tagButtonType : DRButtonType = PastDateScheduleTagButton()
     
@@ -132,9 +136,7 @@ final class PastDateCollectionViewCell: BaseCollectionViewCell {
         self.roundCorners(cornerRadius: 20)
         
         ribbonImageView.contentMode = .scaleAspectFill
-        
-        dateLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_13))
-        
+                
         firstTagButton.do {
             $0.setButtonStatus(buttonType: tagButtonType)
             $0.titleLabel?.lineBreakMode = .byClipping
@@ -178,13 +180,6 @@ final class PastDateCollectionViewCell: BaseCollectionViewCell {
         leftCircleInsetImageView.image = UIImage(resource: .leftCardInset)
         
         rightCircleInsetImageView.image = UIImage(resource: .rightCardInset)
-        
-        locationLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_13))
-        
-        titleLabel.setLabel(alignment: .left,
-                            numberOfLines: 2,
-                            textColor: UIColor(resource: .drBlack),
-                            font: UIFont.systemFont(ofSize: 20, weight: .black))
     }
     
 }

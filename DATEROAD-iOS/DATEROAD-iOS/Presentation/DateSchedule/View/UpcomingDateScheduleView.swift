@@ -22,7 +22,7 @@ final class UpcomingDateScheduleView: BaseView {
     
     // MARK: - UI Properties
     
-    private let titleLabel = UILabel()
+    private let titleLabel: DRTextLabel = DRTextLabel(title: StringLiterals.DateSchedule.upcomingDate, textLabelType: .clear(.bold20_black))
     
     var cardCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -104,10 +104,6 @@ final class UpcomingDateScheduleView: BaseView {
     override func setStyle() {
         self.backgroundColor = UIColor(resource: .drWhite)
         
-        titleLabel.setLabel(text: StringLiterals.DateSchedule.upcomingDate,
-                            textColor: UIColor(resource: .drBlack),
-                            font: UIFont.suit(.title_bold_20))
-        
         cardCollectionView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.isPagingEnabled = false
@@ -135,7 +131,6 @@ final class UpcomingDateScheduleView: BaseView {
     
     func setAddTarget() {
         dateRegisterButton.addTarget(self, action: #selector(didTapRegisterButton), for: .touchUpInside)
-        
         pastDateButton.addTarget(self, action: #selector(didTapPastDateButton), for: .touchUpInside)
     }
     
