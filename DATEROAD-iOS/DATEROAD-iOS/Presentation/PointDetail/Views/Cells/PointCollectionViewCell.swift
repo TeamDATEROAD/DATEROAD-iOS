@@ -14,11 +14,11 @@ final class PointCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
-    private var pointAmountLabel = UILabel()
+    private var pointAmountLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold15_black))
     
-    private var pointDescriptionLabel = UILabel()
+    private var pointDescriptionLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold15_gray500))
     
-    private var pointDateLabel = UILabel()
+    private var pointDateLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med15_gray500))
     
     private let cellDivider = UIView()
     
@@ -74,24 +74,8 @@ final class PointCollectionViewCell: BaseCollectionViewCell {
     
     override func setStyle() {
         self.backgroundColor = UIColor(resource: .drWhite)
-        pointAmountLabel.do {
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.font = UIFont.suit(.body_bold_15)
-        }
         
-        pointDescriptionLabel.do {
-            $0.textColor = UIColor(resource: .gray500)
-            $0.font = UIFont.suit(.body_bold_15)
-        }
-        
-        pointDateLabel.do {
-            $0.textColor = UIColor(resource: .gray500)
-            $0.font = UIFont.suit(.body_med_15)
-        }
-        
-        cellDivider.do {
-            $0.backgroundColor = UIColor(resource: .gray100)
-        }
+        cellDivider.backgroundColor = UIColor(resource: .gray100)
     }
     
 }
