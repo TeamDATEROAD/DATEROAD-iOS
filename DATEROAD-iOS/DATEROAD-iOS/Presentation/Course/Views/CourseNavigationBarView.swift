@@ -13,7 +13,7 @@ final class CourseNavigationBarView: BaseView {
     
     // MARK: - UI Properties
 
-    private let courseLabel = UILabel()
+    private let courseLabel: DRTextLabel = DRTextLabel(title: StringLiterals.Course.course, textLabelType: .clear(.bold20_black))
     
     private let addCourseButton: DRImageButton = DRImageButton(image: UIImage(resource: .plusSchedule), buttonName: .deepPurple_white_15)
     
@@ -28,6 +28,7 @@ final class CourseNavigationBarView: BaseView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        setAddTarget()
     }
     
     required init?(coder: NSCoder) {
@@ -52,13 +53,23 @@ final class CourseNavigationBarView: BaseView {
         }
     }
     
-    override func setStyle() {
-        courseLabel.setLabel(text: StringLiterals.Course.course,
-                             textColor: UIColor(resource: .drBlack),
-                             font: UIFont.suit(.title_bold_20))
-        
+}
+
+
+// MARK: - Methods
+
+extension CourseNavigationBarView {
+    
+    func setAddTarget() {
         addCourseButton.addTarget(self, action: #selector(didTapAddCourseButton), for: .touchUpInside)
     }
+
+}
+
+
+// MARK: - @objc Methods {
+
+extension CourseNavigationBarView {
     
     @objc
     func didTapAddCourseButton() {
@@ -66,4 +77,3 @@ final class CourseNavigationBarView: BaseView {
     }
     
 }
-
