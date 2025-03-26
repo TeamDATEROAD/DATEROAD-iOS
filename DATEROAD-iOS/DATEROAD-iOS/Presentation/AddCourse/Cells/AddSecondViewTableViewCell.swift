@@ -14,11 +14,15 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
-    private let placeTitleLabel: UILabel = UILabel()
+    private let placeTitleLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.systemBold15_black),
+        alignment: .left,
+        numberOfLines: 2
+    )
     
     private let timeRequireContainer: UIView = UIView()
     
-    private let timeRequireLabel: UILabel = UILabel()
+    private let timeRequireLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_black))
     
     let moveAbleButton: DRImageButton = DRImageButton(image: UIImage(resource: .icMovecourse), buttonName: .clear_black_0)
     
@@ -72,28 +76,12 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
             $0.clipsToBounds = true
         }
         
-        contentView.do {
-            $0.backgroundColor = UIColor(resource: .gray100)
-        }
-        
-        placeTitleLabel.do {
-            $0.setLabel(alignment: .left,
-                        numberOfLines: 2,
-                        textColor: UIColor(resource: .drBlack),
-                        font: UIFont.systemFont(ofSize: 15, weight: .bold))
-            $0.text = "test"
-        }
+        contentView.backgroundColor = UIColor(resource: .gray100)
         
         timeRequireContainer.do {
             $0.backgroundColor = UIColor(resource: .gray200)
             $0.layer.cornerRadius = 10
         }
-        
-        timeRequireLabel.do {
-            $0.text = "test"
-            $0.setLabel(textColor: UIColor(resource: .drBlack), font: .suit(.body_med_13))
-        }
-
     }
     
 }
