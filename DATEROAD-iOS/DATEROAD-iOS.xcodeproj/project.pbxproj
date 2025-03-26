@@ -150,6 +150,8 @@
 		CA0A963E2C2B131300F39EBE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A963D2C2B131300F39EBE /* BaseViewController.swift */; };
 		CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96422C2C60E800F39EBE /* LoginModel.swift */; };
 		CA0A96452C2C610900F39EBE /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A96442C2C610900F39EBE /* LoginViewModel.swift */; };
+		CA172F3C2D8943580097FF98 /* DRTextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA172F3B2D8943540097FF98 /* DRTextLabel.swift */; };
+		CA172F3E2D8943910097FF98 /* TextLabelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA172F3D2D89438C0097FF98 /* TextLabelType.swift */; };
 		CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0CDA2C29A2F300735097 /* AppDelegate.swift */; };
 		CA3D0CDD2C29A2F300735097 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D0CDC2C29A2F300735097 /* SceneDelegate.swift */; };
 		CA3D0CE42C29A2F500735097 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA3D0CE32C29A2F500735097 /* Assets.xcassets */; };
@@ -205,7 +207,6 @@
 		CA73F16E2C6080180089856C /* EditType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA73F16D2C6080180089856C /* EditType.swift */; };
 		CA73F1702C61E1C30089856C /* PatchEditProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA73F16F2C61E1C30089856C /* PatchEditProfileRequest.swift */; };
 		CA78FE442C383D53001B1403 /* SUIT-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF62C329A6400855E61 /* SUIT-Medium.otf */; };
-		CA78FE472C38667A001B1403 /* DRErrorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA78FE462C38667A001B1403 /* DRErrorLabel.swift */; };
 		CA78FE492C3866FD001B1403 /* DRErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA78FE482C3866FC001B1403 /* DRErrorType.swift */; };
 		CA7DFC962D76C3D50065BB62 /* DRImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7DFC952D76C3CD0065BB62 /* DRImageButton.swift */; };
 		CA7DFC982D76E4660065BB62 /* ViewedCourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7DFC972D76E4660065BB62 /* ViewedCourseView.swift */; };
@@ -445,6 +446,8 @@
 		CA0A963D2C2B131300F39EBE /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CA0A96422C2C60E800F39EBE /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		CA0A96442C2C610900F39EBE /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		CA172F3B2D8943540097FF98 /* DRTextLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRTextLabel.swift; sourceTree = "<group>"; };
+		CA172F3D2D89438C0097FF98 /* TextLabelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLabelType.swift; sourceTree = "<group>"; };
 		CA3D0CD72C29A2F300735097 /* DATEROAD-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DATEROAD-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA3D0CDA2C29A2F300735097 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA3D0CDC2C29A2F300735097 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -492,7 +495,6 @@
 		CA6897772CD53971005315B1 /* DetailContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContentView.swift; sourceTree = "<group>"; };
 		CA73F16D2C6080180089856C /* EditType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditType.swift; sourceTree = "<group>"; };
 		CA73F16F2C61E1C30089856C /* PatchEditProfileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchEditProfileRequest.swift; sourceTree = "<group>"; };
-		CA78FE462C38667A001B1403 /* DRErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRErrorLabel.swift; sourceTree = "<group>"; };
 		CA78FE482C3866FC001B1403 /* DRErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRErrorType.swift; sourceTree = "<group>"; };
 		CA7DFC952D76C3CD0065BB62 /* DRImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRImageButton.swift; sourceTree = "<group>"; };
 		CA7DFC972D76E4660065BB62 /* ViewedCourseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewedCourseView.swift; sourceTree = "<group>"; };
@@ -1393,6 +1395,7 @@
 		CA4EF3BE2C3285AD003B02B6 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
+				CA172F3D2D89438C0097FF98 /* TextLabelType.swift */,
 				CAE4C8C12D82C179001FE299 /* ImageButtonType.swift */,
 				CAD29F812D748B4A00722147 /* TextButtonType.swift */,
 				CA4EF3BF2C3285BA003B02B6 /* SocialType.swift */,
@@ -1575,10 +1578,10 @@
 		CAA30AE32C37BC9800835DE3 /* UIComponents */ = {
 			isa = PBXGroup;
 			children = (
+				CA172F3B2D8943540097FF98 /* DRTextLabel.swift */,
 				CA7DFC952D76C3CD0065BB62 /* DRImageButton.swift */,
 				742840132C3EC8C600B21AA7 /* CustomAlert */,
 				CAA30AE42C37BCB200835DE3 /* DRTagButton.swift */,
-				CA78FE462C38667A001B1403 /* DRErrorLabel.swift */,
 				0D07420B2C3B0339004B3F59 /* TabBarController.swift */,
 				CAC80FF02C3EFF6600658EA6 /* DRPaddingLabel.swift */,
 				CAC80FCF2C3D723200658EA6 /* DRBottomSheetViewController.swift */,
@@ -2075,6 +2078,7 @@
 				0D98CB9B2C405E4100E3618A /* VisitDateView.swift in Sources */,
 				0D9497BD2C3292C20004B442 /* TitleInfoCell.swift in Sources */,
 				CAC80FAF2C3B56A800658EA6 /* MyPageModel.swift in Sources */,
+				CA172F3E2D8943910097FF98 /* TextLabelType.swift in Sources */,
 				9EDD6B102CDD37B5001B4D02 /* UITextView+.swift in Sources */,
 				CA3D0CDB2C29A2F300735097 /* AppDelegate.swift in Sources */,
 				7455476D2C3D03E100B526F3 /* PastDateCollectionViewCell.swift in Sources */,
@@ -2201,7 +2205,6 @@
 				CA5B97A42CA5562000F90A4C /* CourseDetailSection.swift in Sources */,
 				CABDCEB92C4A6C8800631FB3 /* AdTagType.swift in Sources */,
 				CAC80FDE2C3E7F0100658EA6 /* MainViewModel.swift in Sources */,
-				CA78FE472C38667A001B1403 /* DRErrorLabel.swift in Sources */,
 				9E443A482C37AAE400C1F92C /* AddCourseViewModel.swift in Sources */,
 				CA80C0D72C4523A2002CAA9B /* DRBottomSheetAction.swift in Sources */,
 				CABDCEB12C4A67AA00631FB3 /* GetBannerDetailResponse.swift in Sources */,
@@ -2212,6 +2215,7 @@
 				9E754CD42C47FECC00E2CA91 /* AddCourseService.swift in Sources */,
 				CAC80FD72C3E7BB100658EA6 /* MainViewController.swift in Sources */,
 				9EB91E782C3628BA00D7A836 /* AddCourseImageCollectionViewCell.swift in Sources */,
+				CA172F3C2D8943580097FF98 /* DRTextLabel.swift in Sources */,
 				CABDCEBB2C4A6CC100631FB3 /* AdModel.swift in Sources */,
 				9E63BB202C35CF7200D5ED5B /* AddCourseFirstViewController.swift in Sources */,
 				9E443A4C2C37ACEF00C1F92C /* AddCourseFirstView.swift in Sources */,
