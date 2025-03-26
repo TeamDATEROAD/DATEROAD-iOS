@@ -27,25 +27,51 @@ final class ProfileView: BaseView {
     
     private let editImageButton: DRImageButton = DRImageButton(image: UIImage(resource: .icProfileplus), buttonName: .clear_clear_0)
     
-    private let nicknameLabel: UILabel = UILabel()
+    private let nicknameLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.Profile.nickname,
+        textLabelType: .clear(.bold15_black),
+        alignment: .left
+    )
     
-    private let nicknameInfoLabel: UILabel = UILabel()
+    private let nicknameInfoLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.Profile.nicknameInfo,
+        textLabelType: .clear(.med13_gray300),
+        alignment: .left
+    )
     
     let nicknameTextfield: DRTextField = DRTextField(type: .profile)
     
-    let nicknameErrMessageLabel: UILabel = UILabel()
+    let nicknameErrMessageLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.Profile.disabledNickname,
+        textLabelType: .clear(.reg11_alertRed),
+        hidden: true
+    )
     
-    private let countLabel: UILabel = UILabel()
+    private let countLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.Profile.countPlaceholder,
+        textLabelType: .clear(.reg11_gray300),
+        alignment: .right
+    )
     
-    private let datingTendencyLabel: UILabel = UILabel()
+    private let datingTendencyLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.Profile.dateTendency,
+        textLabelType: .clear(.bold15_black),
+        alignment: .left
+    )
     
     let tendencyTagCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    let tagErrMessageLabel: UILabel = UILabel()
+    let tagErrMessageLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.Profile.selectTag,
+        textLabelType: .clear(.reg11_alertRed),
+        hidden: true
+    )
     
-    let registerButton: DRTextButton = DRTextButton(title: StringLiterals.Profile.registerProfile,
-                                                    buttonName: .bold_gray200_14,
-                                                    isEnabled: false)
+    let registerButton: DRTextButton = DRTextButton(
+        title: StringLiterals.Profile.registerProfile,
+        buttonName: .bold_gray200_14,
+        isEnabled: false
+    )
     
     
     // MARK: - Properties
@@ -160,31 +186,6 @@ final class ProfileView: BaseView {
             $0.contentMode = .scaleAspectFill
         }
         
-        nicknameLabel.setLabel(text: StringLiterals.Profile.nickname,
-                               alignment: .left,
-                               textColor: UIColor(resource: .drBlack),
-                               font: UIFont.suit(.body_bold_15))
-        
-        nicknameInfoLabel.setLabel(text: StringLiterals.Profile.nicknameInfo,
-                                   alignment: .left,
-                                   textColor: UIColor(resource: .gray300),
-                                   font: UIFont.suit(.body_med_13))
-        
-        nicknameErrMessageLabel.do {
-            $0.isHidden = true
-            $0.setErrorLabel(text: StringLiterals.Profile.disabledNickname, errorType: warningType)
-        }
-        
-        countLabel.setLabel(text: StringLiterals.Profile.countPlaceholder,
-                            alignment: .right ,
-                            textColor: UIColor(resource: .gray300),
-                            font: UIFont.suit(.cap_reg_11))
-        
-        datingTendencyLabel.setLabel(text: StringLiterals.Profile.dateTendency,
-                                     alignment: .left,
-                                     textColor: UIColor(resource: .drBlack),
-                                     font: UIFont.suit(.body_bold_15))
-        
         tendencyTagCollectionView.do {
             $0.contentInsetAdjustmentBehavior = .never
             $0.showsVerticalScrollIndicator = false
@@ -192,11 +193,6 @@ final class ProfileView: BaseView {
             layout.cellSpacing = 8
             $0.collectionViewLayout = layout
             
-        }
-        
-        tagErrMessageLabel.do {
-            $0.isHidden = true
-            $0.setErrorLabel(text: StringLiterals.Profile.selectTag, errorType: warningType)
         }
     }
     
@@ -222,13 +218,13 @@ extension ProfileView {
     func updateNicknameErrLabel(errorType: ProfileErrorType) {
         switch errorType {
         case .isNotValidCount:
-            nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.minimumNickname, errorType: self.warningType)
+            nicknameErrMessageLabel.updateTextColor(StringLiterals.Profile.minimumNickname, .alertRed)
         
         case .isValid:
-            nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.enabledNickname, errorType: self.correctType)
+            nicknameErrMessageLabel.updateTextColor(StringLiterals.Profile.enabledNickname, .deepPurple)
         
         case .isNotValid:
-            nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.disabledNickname, errorType: self.warningType)
+            nicknameErrMessageLabel.updateTextColor(StringLiterals.Profile.disabledNickname, .alertRed)
         }
     }
     
