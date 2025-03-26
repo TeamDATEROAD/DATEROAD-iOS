@@ -13,9 +13,17 @@ final class DRErrorViewController: BaseNavBarViewController {
     
     private let errorImageView: UIImageView = UIImageView()
     
-    private let mainErrorMessageLabel: UILabel = UILabel()
+    private let mainErrorMessageLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.Network.mainErrorMessage,
+        textLabelType: .clear(.extra20_gray300),
+        numberOfLines: 1
+    )
     
-    private let subErrorMessageLabel: UILabel = UILabel()
+    private let subErrorMessageLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.Network.subErrorMessage,
+        textLabelType: .clear(.med15_gray500),
+        numberOfLines: 2
+    )
     
     
     // MARK: - Properties
@@ -53,9 +61,11 @@ final class DRErrorViewController: BaseNavBarViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.contentView.addSubviews(errorImageView,
-                                     mainErrorMessageLabel,
-                                     subErrorMessageLabel)
+        self.contentView.addSubviews(
+            errorImageView,
+            mainErrorMessageLabel,
+            subErrorMessageLabel
+        )
     }
     
     override func setLayout() {
@@ -85,16 +95,6 @@ final class DRErrorViewController: BaseNavBarViewController {
             $0.contentMode = .scaleAspectFit
             $0.backgroundColor = .clear
         }
-        
-        mainErrorMessageLabel.setLabel(text: StringLiterals.Network.mainErrorMessage,
-                                       numberOfLines: 1,
-                                       textColor: UIColor(resource: .gray300),
-                                       font: UIFont.suit(.title_extra_20))
-        
-        subErrorMessageLabel.setLabel(text: StringLiterals.Network.subErrorMessage,
-                                      numberOfLines: 2,
-                                      textColor: UIColor(resource: .gray300),
-                                      font: UIFont.suit(.body_med_15) )
     }
     
 }
