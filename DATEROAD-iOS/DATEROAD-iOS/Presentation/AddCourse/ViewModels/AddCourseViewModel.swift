@@ -26,6 +26,7 @@ final class AddCourseViewModel: Serviceable {
     
     // ImageCollection 유효성 판별
     var pickedImageArr = [UIImage]()
+    var thumbnailImageIndex = 0
     
     let isPickedImageVaild: ObservablePattern<Bool> = ObservablePattern(false)
     
