@@ -13,6 +13,8 @@ enum StringLiterals {
         
         static let nav = "nav"
         
+        static let tab = "tab"
+        
     }
     
     enum Social {

@@ -71,7 +71,7 @@ final class OnboardingCollectionViewCell: BaseCollectionViewCell {
         for index in 0..<data.pointText.count {
             self.mainInfoLabel.setAttributedText(fullText: data.mainInfo,
                                                  pointText: data.pointText[index],
-                                                 pointColor: UIColor(resource: .deepPurple),
+                                                 pointColor: UIColor(resource: .purple600),
                                                  lineHeight: 1.04)
         }
         

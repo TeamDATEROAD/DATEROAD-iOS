@@ -62,7 +62,7 @@ final class SplashViewController: BaseViewController {
     }
     
     override func setStyle() {
-        self.view.backgroundColor = UIColor(resource: .deepPurple)
+        self.view.backgroundColor = UIColor(resource: .purple600)
     }
     
 }

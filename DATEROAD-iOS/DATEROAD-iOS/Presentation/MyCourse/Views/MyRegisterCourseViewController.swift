@@ -7,9 +7,6 @@
 
 import UIKit
 
-import SnapKit
-import Then
-
 final class MyRegisterCourseViewController: BaseNavBarViewController {
     
     // MARK: - UI Properties
@@ -52,14 +49,13 @@ final class MyRegisterCourseViewController: BaseNavBarViewController {
         super.setLayout()
         
         myRegisterCourseView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.bottom.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
     }
     
     override func setStyle() {
         super.setStyle()
+        
         self.view.backgroundColor = UIColor(resource: .drWhite)
     }
     
@@ -168,7 +164,7 @@ private extension MyRegisterCourseViewController {
 }
 
 
-// MARK: - Delegate
+// MARK: - CollectionView Delegate
 
 extension MyRegisterCourseViewController : UICollectionViewDelegateFlowLayout {
     
@@ -179,7 +175,7 @@ extension MyRegisterCourseViewController : UICollectionViewDelegateFlowLayout {
 }
 
 
-// MARK: - DataSource
+// MARK: - CollectionView DataSource
 
 extension MyRegisterCourseViewController : UICollectionViewDataSource {
     

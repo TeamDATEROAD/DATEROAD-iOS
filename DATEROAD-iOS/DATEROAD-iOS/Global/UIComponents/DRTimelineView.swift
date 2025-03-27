@@ -1,13 +1,13 @@
 //
-//  LocationCell.swift
+//  DRTimelineView.swift
 //  DATEROAD-iOS
 //
-//  Created by 김민서 on 7/4/24.
+//  Created by 이수민 on 3/24/25.
 //
 
 import UIKit
 
-final class TimelineInfoCell: BaseCollectionViewCell {
+final class DRTimelineView: BaseView {
     
     // MARK: - UI Properties
     
@@ -15,32 +15,39 @@ final class TimelineInfoCell: BaseCollectionViewCell {
     
     private let circleView = UIView()
     
-    private let indexNumLabel: DRTextLabel = DRTextLabel(title: "1", textLabelType: .clear(.bold13_white))
+    let indexNumLabel = UILabel()
     
-    private let locationLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.systemBold15_black), alignment: .left)
+    let locationLabel = UILabel()
     
     private let timeBoxView = UIView()
     
-    private let timeLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_black))
+    let timeLabel = UILabel()
     
     
-    // MARK: - Life Cycles
+    // MARK: - LifeCycle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func setHierarchy() {
-        self.addSubviews(
-            timelineBackgroundView,
-            circleView,
-            indexNumLabel,
-            locationLabel,
-            timeBoxView,
-            timeLabel
-        )
+        self.addSubviews(timelineBackgroundView,
+                         circleView,
+                         indexNumLabel,
+                         locationLabel,
+                         timeBoxView,
+                         timeLabel)
     }
     
     override func setLayout() {
         timelineBackgroundView.snp.makeConstraints {
-            $0.leading.trailing.top.equalToSuperview()
+            $0.top.equalToSuperview()
             $0.height.equalTo(54)
+            $0.width.equalTo(ScreenUtils.width * 343 / 375)
         }
         
         circleView.snp.makeConstraints {
@@ -78,7 +85,7 @@ final class TimelineInfoCell: BaseCollectionViewCell {
         }
         
         circleView.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.layer.cornerRadius = 12
         }
         
@@ -90,14 +97,9 @@ final class TimelineInfoCell: BaseCollectionViewCell {
     
 }
 
-extension TimelineInfoCell {
-    
-    func setCell(timelineData: TimelineModel) {
-        print(timelineData,"🌀") // 데이터 로그 확인
-        indexNumLabel.text = "\(timelineData.sequence)"
-        locationLabel.text = timelineData.title
-        timeLabel.text = "\(timelineData.duration.formatFloatTime())시간"
-    }
-    
-}
+
+
+
+
+
 

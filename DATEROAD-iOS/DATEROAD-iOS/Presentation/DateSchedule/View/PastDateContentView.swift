@@ -7,9 +7,6 @@
 
 import UIKit
 
-import SnapKit
-import Then
-
 final class PastDateContentView: BaseView {
     
     // MARK: - UI Properties

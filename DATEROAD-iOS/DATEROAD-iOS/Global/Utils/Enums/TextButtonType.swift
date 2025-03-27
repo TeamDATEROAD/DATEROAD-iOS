@@ -29,7 +29,7 @@ enum TextButtonType {
     var bgColor: UIColor {
         switch self {
         case .bold_purple_25, .bold_purple_14, .bold_purple_29, .bold_purple_10, .med_purple_15, .med_purple_10, .semi_purple_10, .med_purple_0:
-            return UIColor(resource: .deepPurple)
+            return UIColor(resource: .purple600)
             
         case .bold_gray200_14, .semi_gray200_16, .med_gray200_10, .med_gray200_8, .med_gray400_13:
             return UIColor(resource: .gray200)
@@ -67,10 +67,10 @@ enum TextButtonType {
             return UIColor(resource: .gray200)
             
         case .semi_white_0, .med_white_0_purple:
-            return UIColor(resource: .deepPurple)
+            return UIColor(resource: .purple600)
             
         case .bold_white_0, .clear:
-            return UIColor(resource: .mediumPurple)
+            return UIColor(resource: .purple500)
             
         }
     }

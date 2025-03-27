@@ -93,7 +93,7 @@ final class MainHeaderView: UICollectionReusableView {
     }
     
     func setStyle() {
-        self.backgroundColor = UIColor(resource: .deepPurple)
+        self.backgroundColor = UIColor(resource: .purple600)
         
         backgroundView.backgroundColor = UIColor(resource: .drWhite)
     }
@@ -118,7 +118,7 @@ extension MainHeaderView {
             titleLabel.setProperties(nickname + StringLiterals.Main.hotDateTitle, .clear(.systemBold24_black), .left, 2)
             titleLabel.setAttributedText(fullText: nickname + StringLiterals.Main.hotDateTitle,
                                      pointText: nickname+"님,",
-                                     pointColor: UIColor(resource: .deepPurple), 
+                                     pointColor: UIColor(resource: .purple600),
                                      lineHeight: 1.04)
             subLabel.text = StringLiterals.Main.hotDateSub
         } else {

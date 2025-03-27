@@ -206,7 +206,7 @@ final class MainSkeletonView: BaseView {
     }
     
     override func setStyle() {
-        self.backgroundColor = UIColor(resource: .deepPurple)
+        self.backgroundColor = UIColor(resource: .purple600)
         
         logoImage.do {
             $0.image = UIImage(resource: .symbolLogo)
@@ -214,7 +214,7 @@ final class MainSkeletonView: BaseView {
             $0.contentMode = .scaleAspectFill
         }
         
-        pointLabel.setSkeletonLabel(bgColor: UIColor(resource: .mediumPurple), radius: 18)
+        pointLabel.setSkeletonLabel(bgColor: UIColor(resource: .purple500), radius: 18)
         
         ticketImage.do {
             $0.image = UIImage(resource: .ticket)

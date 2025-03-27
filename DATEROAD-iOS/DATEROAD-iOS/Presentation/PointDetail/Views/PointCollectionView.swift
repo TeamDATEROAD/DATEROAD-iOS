@@ -21,6 +21,7 @@ final class PointCollectionView: UICollectionView {
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         let flowLayout = PointCollectionView.pointCollectionViewLayout
         super.init(frame: frame, collectionViewLayout: flowLayout)
+        
         setStyle()
     }
     
