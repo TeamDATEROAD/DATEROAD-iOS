@@ -21,9 +21,13 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
     
     private var infoView = UIView()
     
-    private var locationLabel = UILabel()
+    private var locationLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_gray300), alignment: .left)
     
-    private var titleLabel = UILabel()
+    private var titleLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.systemBold15_black),
+        alignment: .left,
+        numberOfLines: 2
+    )
     
     private var expenseButton = UIButton()
     
@@ -119,13 +123,13 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
         self.backgroundColor = UIColor(resource: .drWhite)
         
         thumbnailImageView.do {
-            $0.roundCorners(cornerRadius: 12, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 12)
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
         }
         
         heartButton.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.roundedButton(cornerRadius: 12, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
             $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_bold_13)
@@ -134,19 +138,6 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
             $0.titleEdgeInsets = UIEdgeInsets(top: 2, left: 2.5, bottom: 2, right: -2.5)
             $0.setImage(UIImage(resource: .heartIcon), for: .normal)
             $0.imageView?.contentMode = .scaleAspectFit
-        }
-        
-        locationLabel.do {
-            $0.font = UIFont.suit(.body_med_13)
-            $0.textColor = UIColor(resource: .gray400)
-            $0.textAlignment = .left
-        }
-        
-        titleLabel.do {
-            $0.font = UIFont.systemFont(ofSize: 15, weight: .bold)
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.textAlignment = .left
-            $0.numberOfLines = 2
         }
         
         expenseButton.do {

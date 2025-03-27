@@ -52,10 +52,8 @@ final class MyPageViewController: BaseNavBarViewController {
         setTitleLabelStyle(title: StringLiterals.MyPage.myPage, alignment: .left)
         setHierarchy()
         setStyle()
-        registerCell()
         setDelegate()
         bindViewModel()
-        setAddTarget()
     }
     
     override func setHierarchy() {
@@ -88,12 +86,8 @@ final class MyPageViewController: BaseNavBarViewController {
 
 private extension MyPageViewController {
     
-    func registerCell() {
-        self.myPageView.userInfoView.tagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
-        self.myPageView.myPageTableView.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.cellIdentifier)
-    }
-    
     func setDelegate() {
+        self.myPageView.delegate = self
         self.myPageView.userInfoView.tagCollectionView.delegate = self
         self.myPageView.userInfoView.tagCollectionView.dataSource = self
         self.myPageView.myPageTableView.delegate = self
@@ -182,16 +176,6 @@ private extension MyPageViewController {
         }
     }
     
-    func setAddTarget() {
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(pushToPointDetailVC))
-        self.myPageView.userInfoView.goToPointHistoryStackView.addGestureRecognizer(gesture)
-        
-        let editProfileGesture = UITapGestureRecognizer(target: self, action: #selector(pushToProfileVC))
-        self.myPageView.userInfoView.editProfileButton.addGestureRecognizer(editProfileGesture)
-        
-        self.myPageView.withdrawalButton.addTarget(self, action: #selector(withDrawalButtonTapped), for: .touchUpInside)
-    }
-    
     func appleLogin() {
         let appleProvider = ASAuthorizationAppleIDProvider()
         let request = appleProvider.createRequest()
@@ -209,18 +193,20 @@ private extension MyPageViewController {
 
 extension MyPageViewController {
     
-    @objc
     func pushToPointDetailVC() {
         self.navigationController?.pushViewController(PointDetailViewController(pointViewModel: PointViewModel(userName: myPageViewModel.userInfoData.value?.nickname ?? "-", totalPoint: myPageViewModel.userInfoData.value?.point ?? 10)), animated: false)
     }
     
-    @objc
     func pushToProfileVC() {
         if let userInfoData = self.myPageViewModel.userInfoData.value {
             let nickname = userInfoData.nickname
             let tags = userInfoData.tagList
             
-            let profile = ProfileModel(profileImage: self.myPageView.userInfoView.profileImageView.image, nickname: nickname, tags: tags)
+            let profile = ProfileModel(
+                profileImage: self.myPageView.userInfoView.profileImageView.image,
+                nickname: nickname,
+                tags: tags
+            )
             let profileVC = EditProfileViewController(profileViewModel: ProfileViewModel(profileData: profile))
             
             self.navigationController?.pushViewController(profileVC, animated: false)
@@ -232,10 +218,9 @@ extension MyPageViewController {
         let customAlertVC = DRCustomAlertViewController(
             rightActionType: RightButtonType.logout,
             alertTextType: .noDescription,
-            alertButtonType: .twoButton,
             titleText: StringLiterals.Alert.wouldYouLogOut,
-            leftButtonText: StringLiterals.Common.cancel,
-            rightButtonText: StringLiterals.MyPage.logout
+            leftButton: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_gray100_10),
+            rightButton: DRTextButton(title: StringLiterals.MyPage.logout, buttonName: .bold_purple_10)
         )
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
@@ -243,21 +228,38 @@ extension MyPageViewController {
         self.present(customAlertVC, animated: false)
     }
     
-    @objc
-    func withDrawalButtonTapped() {
+    func didTapWithdrawalButton() {
         let customAlertVC = DRCustomAlertViewController(
             rightActionType: RightButtonType.none,
             alertTextType: .noDescription,
-            alertButtonType: .twoButton,
             titleText: StringLiterals.Alert.realWithdrawal,
             descriptionText: StringLiterals.Alert.lastWarning,
-            leftButtonText: StringLiterals.MyPage.alertWithdrawal,
-            rightButtonText: StringLiterals.Common.cancel
+            leftButton: DRTextButton(title: StringLiterals.MyPage.alertWithdrawal, buttonName: .bold_gray100_10),
+            rightButton: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_purple_10)
         )
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         selectedAlertFlag = 1
         self.present(customAlertVC, animated: false)
+    }
+    
+}
+
+
+// MARK: - MyPageDelegate
+
+extension MyPageViewController: MyPageDelegate {
+    
+    func didTapGoToPointHistory() {
+        pushToPointDetailVC()
+    }
+    
+    func didTapEditProfileButton() {
+        pushToProfileVC()
+    }
+    
+    func didTapWithDrawalButton() {
+        didTapWithdrawalButton()
     }
     
 }
@@ -334,12 +336,15 @@ extension MyPageViewController: UITableViewDelegate {
         case .myCourse:
             let myCourseVC = MyRegisterCourseViewController()
             self.navigationController?.pushViewController(myCourseVC, animated: false)
+            
         case .pointSystem:
             let pointSystemVC = PointSystemViewController(pointSystemViewModel: PointSystemViewModel())
             self.navigationController?.pushViewController(pointSystemVC, animated: false)
+            
         case .inquiry:
             let inquiryVC = DRWebViewController(urlString: StringLiterals.WebView.inquiryLink)
             self.present(inquiryVC, animated: true)
+            
         case .logout:
             logOutSectionTapped()
         }
@@ -360,19 +365,26 @@ extension MyPageViewController: UITableViewDataSource {
         switch MyPageSection.dataSource[indexPath.item] {
         case .myCourse:
             title = MyPageSection.myCourse.title
+        
         case .pointSystem:
             title = MyPageSection.pointSystem.title
+        
         case .inquiry:
             title = MyPageSection.inquiry.title
+        
         case .logout:
             title = MyPageSection.logout.title
         }
+        
         cell.bindTitle(title: title)
         cell.selectionStyle = .none
         return cell
     }
     
 }
+
+
+// MARK: - Apple Authorization Delegates
 
 extension MyPageViewController: ASAuthorizationControllerDelegate {
     

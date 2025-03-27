@@ -11,31 +11,25 @@ import Then
 import UIKit
 import SnapKit
 
-protocol ContentMaskViewDelegate: AnyObject {
-    func didTapViewButton()
-}
-
 final class ContentMaskView: UICollectionReusableView {
     
     // MARK: - UI Properties
     
     private let gradientView = UIView()
     
-    private let mainTitleLabel = UILabel()
+    private let mainTitleLabel: DRTextLabel = DRTextLabel(title: "코스 정보가 궁금하신가요?", textLabelType: .clear(.bold17_black))
     
     private let pointImageView = UIImageView(image: .imgPreview)
     
-    private let subTitleLabel = UILabel()
+    private let subTitleLabel: DRTextLabel = DRTextLabel(title: "50P로 코스를 확인해보세요!", textLabelType: .clear(.semi15_black))
     
-    private let readCourseButton = UIButton()
+    let readCourseButton = DRTextButton(title: StringLiterals.CourseDetail.viewCoursewithPoint, buttonName: .bold_purple_14)
     
     private let gradient = CAGradientLayer()
     
     
     // MARK: - Properties
-    
-    weak var delegate: ContentMaskViewDelegate?
-    
+        
     static let elementKinds: String = StringLiterals.Elementkinds.contentMaskView
     
     static let identifier: String = StringLiterals.Elementkinds.contentMaskView
@@ -94,28 +88,7 @@ final class ContentMaskView: UICollectionReusableView {
         }
     }
     
-    func setStyle() {
-        mainTitleLabel.do {
-            $0.text = "코스 정보가 궁금하신가요?"
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.font = UIFont.suit(.body_bold_17)
-        }
-        
-        subTitleLabel.do {
-            $0.text = "50P로 코스를 확인해보세요!"
-            $0.textColor = UIColor(resource: .deepPurple)
-            $0.font = UIFont.suit(.body_semi_15)
-        }
-        
-        readCourseButton.do {
-            $0.roundedButton(cornerRadius: 14, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
-            $0.backgroundColor = UIColor(resource: .deepPurple)
-            $0.setTitle(StringLiterals.CourseDetail.viewCoursewithPoint, for: .normal)
-            $0.setTitleColor(.drWhite, for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_bold_15)
-            $0.addTarget(self, action: #selector(didReadCourseButton), for: .touchUpInside)
-        }
-        
+    func setStyle() {        
         gradient.locations = [0, 1]
         gradient.frame = gradientView.bounds
         gradient.colors = [
@@ -132,21 +105,12 @@ final class ContentMaskView: UICollectionReusableView {
         gradient.frame = gradientView.bounds
     }
     
-    @objc
-    func didReadCourseButton() {
-        delegate?.didTapViewButton()
-    }
-    
 }
 
 extension ContentMaskView {
     
-    func checkFree(haveFree: Bool, count: Int) {
-        if haveFree {
-            readCourseButton.setTitle("무료 열람 기회 쓰기(\(count)/3)", for: .normal)
-        } else {
-            readCourseButton.setTitle(StringLiterals.CourseDetail.viewCoursewithPoint, for: .normal)
-        }
+    func updateReadCourseButton(haveFree: Bool, count: Int) {
+        readCourseButton.setTitle(haveFree ? "무료 열람 기회 쓰기(\(count)/3)" : StringLiterals.CourseDetail.viewCoursewithPoint, for: .normal)
     }
     
 }

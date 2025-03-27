@@ -18,11 +18,11 @@ final class BottomPageControllView: UICollectionReusableView {
     
     private let likeButton = UIImageView(image: .heartIcon)
     
-    private let likeNumLabel = UILabel()
+    private let likeNumLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold13_white))
     
     private var likeStackView = UIStackView()
     
-    private let indexBoxButton = UIButton()
+    private let indexBoxLabel: DRTextLabel = DRTextLabel(title: "1/10", textLabelType: .background(.med13_white, .gray400_11))
     
     
     // MARK: - Properties
@@ -62,11 +62,16 @@ final class BottomPageControllView: UICollectionReusableView {
 private extension BottomPageControllView {
     
     func updatePageLabel() {
-        indexBoxButton.setTitle("\(pageIndex + 1)/\(pageIndexSum)", for: .normal)
+        indexBoxLabel.text = "\(pageIndex + 1)/\(pageIndexSum)"
     }
     
     func setHierarchy() {
-        self.addSubviews(likeBoxView, likeStackView, indexBoxButton)
+        self.addSubviews(
+            likeBoxView,
+            likeStackView,
+            indexBoxLabel
+        )
+        
         likeStackView.addArrangedSubviews(likeButton, likeNumLabel)
     }
     
@@ -87,7 +92,7 @@ private extension BottomPageControllView {
             $0.centerY.equalTo(likeBoxView)
         }
         
-        indexBoxButton.snp.makeConstraints {
+        indexBoxLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.trailing.bottom.equalToSuperview()
             $0.width.equalTo(47)
@@ -99,28 +104,13 @@ private extension BottomPageControllView {
         likeBoxView.do {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 11
-            $0.backgroundColor = UIColor(resource: .deepPurple)
-        }
-        
-        likeNumLabel.do {
-            $0.text = "5"
-            $0.textColor = UIColor(resource: .drWhite)
-            $0.font = UIFont.suit(.body_bold_13)
+            $0.backgroundColor = UIColor(resource: .purple600)
         }
         
         likeStackView.do {
             $0.axis = .horizontal
             $0.alignment = .center
             $0.spacing = 3
-        }
-        
-        indexBoxButton.do {
-            $0.roundedButton(cornerRadius: 11, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
-            $0.backgroundColor = UIColor(resource: .gray400)
-            $0.setTitle("3/10", for: .normal)
-            $0.setTitleColor(.drWhite, for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_med_13)
-            $0.titleLabel?.textAlignment = .center
         }
     }
     

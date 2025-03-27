@@ -57,7 +57,6 @@ final class MainViewController: BaseViewController {
         self.mainView.isHidden = true
         registerCell()
         setDelegate()
-        setAddTarget()
         bindViewModel()
     }
     
@@ -174,10 +173,6 @@ extension MainViewController {
         self.mainView.delegate = self
     }
     
-    func setAddTarget() {
-        self.mainView.floatingButton.addTarget(self, action: #selector(pushToAddCourseVC), for: .touchUpInside)
-    }
-    
     func updateBannerCell(index: Int, count: Int) {
         guard let bannerIndexView = self.mainView.mainCollectionView.supplementaryView(forElementKind: BannerIndexFooterView.elementKinds, at: IndexPath(item: 0, section: 2)) as? BannerIndexFooterView
         else { return }
@@ -206,6 +201,25 @@ extension MainViewController {
         timer = nil
     }
     
+    func pushToCourseVC() {
+        self.tabBarController?.selectedIndex = 1
+    }
+    
+    func pushToPointDetailVC() {
+        guard let userName = self.userName, let totalPoint = self.point else { return }
+        let pointDetailVC = PointDetailViewController(pointViewModel: PointViewModel(userName: userName, totalPoint: totalPoint))
+        self.navigationController?.pushViewController(pointDetailVC, animated: false)
+    }
+    
+    func handleLongPress(_ gestureRecognizer: UISwipeGestureRecognizer) {
+        switch gestureRecognizer.state {
+        case .began, .changed, .ended:
+            stopBannerAutoScroll()
+        default:
+            startAutoScrollTimer()
+        }
+    }
+    
     @objc
     func autoScrollBanner() {
         guard let currentIndex = self.mainViewModel.currentIndex.value?.row else { return }
@@ -222,38 +236,17 @@ extension MainViewController {
     }
     
     @objc
-    func pushToCourseVC() {
-        self.tabBarController?.selectedIndex = 1
-    }
-    
-    @objc
-    func pushToDateDetailVC(_ sender: UIButton) {
-        let dateID = sender.tag
-        let upcomingDateDetailVC = UpcomingDateDetailViewController(index: dateID, dateID: dateID, viewPath: StringLiterals.TabBar.home, upcomingDateDetailViewModel: DateDetailViewModel())
-        upcomingDateDetailVC.setColor(index: dateID)
-        self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
+    func pushToDateDetailVC() {
+        if let dateID = mainViewModel.upcomingData.value?.dateId {
+            let upcomingDateDetailVC = UpcomingDateDetailViewController(index: dateID, dateID: dateID, viewPath: StringLiterals.TabBar.home, upcomingDateDetailViewModel: DateDetailViewModel())
+            upcomingDateDetailVC.setColor(index: dateID)
+            self.navigationController?.pushViewController(upcomingDateDetailVC, animated: false)
+        }
     }
     
     @objc
     func pushToDateScheduleVC() {
         self.tabBarController?.selectedIndex = 2
-    }
-    
-    @objc
-    func pushToPointDetailVC() {
-        guard let userName = self.userName, let totalPoint = self.point else { return }
-        let pointDetailVC = PointDetailViewController(pointViewModel: PointViewModel(userName: userName, totalPoint: totalPoint))
-        self.navigationController?.pushViewController(pointDetailVC, animated: false)
-    }
-    
-    @objc
-    func handleLongPress(_ gestureRecognizer: UISwipeGestureRecognizer) {
-        switch gestureRecognizer.state {
-        case .began, .changed, .ended:
-            stopBannerAutoScroll()
-        default:
-            startAutoScrollTimer()
-        }
     }
     
 }
@@ -262,7 +255,7 @@ extension MainViewController: UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentOffsetY = scrollView.contentOffset.y
-        mainView.mainCollectionView.backgroundColor = contentOffsetY < 0 ? UIColor(resource: .deepPurple) : UIColor(resource: .drWhite)
+        mainView.mainCollectionView.backgroundColor = contentOffsetY < 0 ? UIColor(resource: .purple600) : UIColor(resource: .drWhite)
     }
     
 }
@@ -277,10 +270,13 @@ extension MainViewController: UICollectionViewDataSource {
         switch self.mainViewModel.sectionData[section] {
         case .upcomingDate:
             return 1
+            
         case .hotDateCourse:
             return self.mainViewModel.hotCourseData.value?.count ?? 0
+        
         case .banner:
             return self.mainViewModel.bannerData.value?.count ?? 0
+        
         case .newDateCourse:
             return self.mainViewModel.newCourseData.value?.count ?? 0
         }
@@ -292,14 +288,8 @@ extension MainViewController: UICollectionViewDataSource {
         case .upcomingDate:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingDateCell.cellIdentifier, for: indexPath) as? UpcomingDateCell
             else { return UICollectionViewCell() }
+            cell.delegate = self
             cell.bindData(upcomingData: self.mainViewModel.upcomingData.value, mainUserData: self.mainViewModel.mainUserData.value)
-            
-            // Set button actions
-            let pointLabelTapGesture = UITapGestureRecognizer(target: self, action: #selector(pushToPointDetailVC))
-            cell.pointLabel.addGestureRecognizer(pointLabelTapGesture)
-            cell.dateTicketView.moveButton.tag = mainViewModel.upcomingData.value?.dateId ?? 0
-            cell.dateTicketView.moveButton.addTarget(self, action: #selector(pushToDateDetailVC(_:)), for: .touchUpInside)
-            cell.emptyTicketView.moveButton.addTarget(self, action: #selector(pushToDateScheduleVC), for: .touchUpInside)
             return cell
             
         case .hotDateCourse:
@@ -311,9 +301,8 @@ extension MainViewController: UICollectionViewDataSource {
         case .banner:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.cellIdentifier, for: indexPath) as? BannerCell
             else { return UICollectionViewCell() }
+            cell.delegate = self
             cell.bindData(bannerData: mainViewModel.bannerData.value?[indexPath.row])
-            let longPressGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-            cell.addGestureRecognizer(longPressGesture)
             return cell
             
         case .newDateCourse:
@@ -329,16 +318,16 @@ extension MainViewController: UICollectionViewDataSource {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MainHeaderView.identifier, for: indexPath) as? MainHeaderView
             else { return UICollectionReusableView() }
             
+            header.delegate = self
+            
             switch mainViewModel.sectionData[indexPath.section] {
             case .upcomingDate, .banner:
                 return header
                 
             case .hotDateCourse:
-                header.viewMoreButton.addTarget(self, action: #selector(pushToCourseVC), for: .touchUpInside)
                 header.bindTitle(section: .hotDateCourse, nickname: mainViewModel.nickname.value)
                 
             case .newDateCourse:
-                header.viewMoreButton.addTarget(self, action: #selector(pushToCourseVC), for: .touchUpInside)
                 header.bindTitle(section: .newDateCourse, nickname: nil)
             }
             return header
@@ -378,10 +367,58 @@ extension MainViewController: UICollectionViewDataSource {
     
 }
 
-extension MainViewController: BannerIndexDelegate {
+
+// MARK: - MainViewDelegate
+
+extension MainViewController: MainDelegate {
+    
+    func didTapFloatingButton() {
+        self.pushToAddCourseVC()
+    }
     
     func bindIndex(currentIndex: Int) {
         self.mainViewModel.currentIndex.value?.row = currentIndex
     }
     
+}
+
+
+// MARK: - UpcomingDateDelegate
+
+extension MainViewController: UpcomingDateDelegate {
+    
+    func didTapMoveButton() {
+        pushToDateDetailVC()
+    }
+    
+    func didTapPlusButton() {
+        pushToDateScheduleVC()
+    }
+    
+    func didTapPointLabel() {
+        pushToPointDetailVC()
+    }
+    
+}
+
+
+// MARK: - MainHeaderDelegate
+
+extension MainViewController: MainHeaderDelegate {
+
+    func didTapViewMoreButton() {
+        pushToCourseVC()
+    }
+
+}
+
+
+// MARK: - BannerDelegate
+
+extension MainViewController: BannerDelegate {
+
+    func didSwipeBanner(_ gestureRecognizer: UISwipeGestureRecognizer) {
+        handleLongPress(gestureRecognizer)
+    }
+
 }

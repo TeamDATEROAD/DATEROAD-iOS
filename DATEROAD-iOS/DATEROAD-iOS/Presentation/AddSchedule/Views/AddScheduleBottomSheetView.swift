@@ -22,9 +22,11 @@ final class AddScheduleBottomSheetView: BaseView {
     
     let customPickerView = UIPickerView()
     
-    let doneBtn = UIButton()
-    
-    private let doneBtnTitleLabel = UILabel()
+    let doneBtn: DRTextButton = DRTextButton(
+        title: StringLiterals.AddCourseOrSchedule.AddBottomSheetView.datePickerBtnTitle,
+        buttonName: .bold_purple_14,
+        isEnabled: true
+    )
     
     
     // MARK: - Properties
@@ -53,7 +55,6 @@ final class AddScheduleBottomSheetView: BaseView {
         case true:
             addSubviews(bottomSheetView)
             bottomSheetView.addSubviews(doneBtn, customPickerView)
-            doneBtn.addSubview(doneBtnTitleLabel)
             
         case false:
             self.addSubviews(datePicker)
@@ -81,10 +82,6 @@ final class AddScheduleBottomSheetView: BaseView {
                 $0.height.equalTo(54)
             }
             
-            doneBtnTitleLabel.snp.makeConstraints {
-                $0.center.equalToSuperview()
-            }
-            
         case false:
             datePicker.snp.makeConstraints {
                 $0.edges.equalToSuperview()
@@ -102,12 +99,8 @@ final class AddScheduleBottomSheetView: BaseView {
                 $0.layer.cornerRadius = 14
             }
             doneBtn.do {
-                $0.backgroundColor = .deepPurple
+                $0.backgroundColor = .purple600
                 $0.layer.cornerRadius = 14
-            }
-            doneBtnTitleLabel.do {
-                $0.setLabel(textColor: UIColor(resource: .drWhite), font: .suit(.body_bold_15))
-                $0.text = "선택하기"
             }
             
         case false:

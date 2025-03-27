@@ -68,7 +68,7 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
         
         addScheduleSecondView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(4)
-            $0.horizontalEdges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(16)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
         }
     }
@@ -101,9 +101,7 @@ private extension AddScheduleSecondViewController {
             $0.dataSource = self
         }
         
-        [addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField, addScheduleSecondView.inAddScheduleSecondView.timeRequireTextField].forEach {
-            $0.delegate = self
-        }
+        addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField.delegate = self
     }
     
     func bindViewModel() {
@@ -187,6 +185,8 @@ private extension AddScheduleSecondViewController {
         addScheduleSecondView.inAddScheduleSecondView.addPlaceButton.addTarget(self, action: #selector(tapAddPlaceBtn), for: .touchUpInside)
         
         addScheduleSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
+        
+        addScheduleSecondView.inAddScheduleSecondView.timeRequireButton.addTarget(self, action: #selector(didTapTimeRequireButton), for: .touchUpInside)
     }
     
     func checkAddPlaceBtnState() {
@@ -228,9 +228,8 @@ private extension AddScheduleSecondViewController {
     func successDone() {
         let customAlertVC = DRCustomAlertViewController(rightActionType: .none,
                                                         alertTextType: .hasDecription,
-                                                        alertButtonType: .oneButton,
                                                         titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertScheduelTitleLabel,
-                                                        longButtonText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton)
+                                                        longButton: DRTextButton(title: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton, buttonName: .bold_purple_10))
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         self.present(customAlertVC, animated: false)
@@ -248,7 +247,7 @@ private extension AddScheduleSecondViewController {
     
     /// '소요시간' 관련
     @objc
-    func textFieldTapped(_ textField: UITextField) {
+    func didTapTimeRequireButton() {
         let alertVC = AddScheduleBottomSheetViewController(viewModel: viewModel)
         alertVC.addSheetView = AddScheduleBottomSheetView(isCustomPicker: true)
         
@@ -331,12 +330,7 @@ extension AddScheduleSecondViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField != addScheduleSecondView.inAddScheduleSecondView.timeRequireTextField {
-            return true
-        } else {
-            textFieldTapped(textField)
-            return false
-        }
+        return true
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {

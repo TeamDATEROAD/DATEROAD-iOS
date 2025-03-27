@@ -29,7 +29,7 @@ extension DRButtonType {
     
     var fontColor: UIColor { return UIColor(resource: .drBlack) }
     
-    var borderColor: CGColor { return UIColor(resource: .deepPurple).cgColor }
+    var borderColor: CGColor { return UIColor(resource: .purple600).cgColor }
     
     var borderWidth: CGFloat { return 0 }
     
@@ -43,7 +43,7 @@ extension DRButtonType {
 
 struct NextButton: DRButtonType {
     
-    var bgColor: UIColor =  UIColor(resource: .deepPurple)
+    var bgColor: UIColor =  UIColor(resource: .purple600)
     
     var fontColor: UIColor = UIColor(resource: .drWhite)
     
@@ -53,7 +53,7 @@ struct NextButton: DRButtonType {
 
 struct EnabledButton: DRButtonType {
     
-    var bgColor: UIColor = UIColor(resource: .deepPurple)
+    var bgColor: UIColor = UIColor(resource: .purple600)
     
     var fontColor: UIColor = UIColor(resource: .drWhite)
     
@@ -109,7 +109,7 @@ struct UnselectedButton: DRButtonType {
 
 struct SelectedButton : DRButtonType {
     
-    var bgColor: UIColor = UIColor(resource: .deepPurple)
+    var bgColor: UIColor = UIColor(resource: .purple600)
     
     var fontColor: UIColor = UIColor(resource: .drWhite)
     
@@ -136,7 +136,7 @@ struct TendencyTagButton: DRButtonType {
 
 struct DateScheduleTagButton: DRButtonType {
     
-    var bgColor: UIColor =  UIColor(resource: .lightPink)
+    var bgColor: UIColor =  UIColor(resource: .pink100)
     
     var fontColor: UIColor = UIColor(resource: .drBlack)
     
@@ -148,7 +148,7 @@ struct DateScheduleTagButton: DRButtonType {
 
 struct DateDetailTagButton: DRButtonType {
     
-    var bgColor: UIColor =  UIColor(resource: .lightPink)
+    var bgColor: UIColor =  UIColor(resource: .pink100)
     
     var fontColor: UIColor = UIColor(resource: .drBlack)
     
@@ -160,7 +160,7 @@ struct DateDetailTagButton: DRButtonType {
 
 struct PastDateScheduleTagButton: DRButtonType {
     
-    var bgColor: UIColor =  UIColor(resource: .lightPink)
+    var bgColor: UIColor =  UIColor(resource: .pink100)
     
     var fontColor: UIColor = UIColor(resource: .drBlack)
     
@@ -172,7 +172,7 @@ struct PastDateScheduleTagButton: DRButtonType {
 
 struct addCoursePlaceAbledButton: DRButtonType {
     
-    var bgColor: UIColor = UIColor(resource: .deepPurple)
+    var bgColor: UIColor = UIColor(resource: .purple600)
     
     var fontColor: UIColor = UIColor(resource: .drWhite)
     
@@ -240,7 +240,7 @@ struct AlertLeftButton: DRButtonType {
 
 struct AlertRightButton: DRButtonType {
     
-    var bgColor: UIColor =  UIColor(resource: .deepPurple)
+    var bgColor: UIColor =  UIColor(resource: .purple600)
     
     var fontColor: UIColor = UIColor(resource: .drWhite)
     

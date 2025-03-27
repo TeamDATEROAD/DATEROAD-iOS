@@ -76,7 +76,7 @@ final class AddCourseSecondViewController: BaseNavBarViewController {
 }
 
 
-// MARK: - Extension Methods
+// MARK: - Extension Methods
 
 private extension AddCourseSecondViewController {
     
@@ -103,10 +103,7 @@ private extension AddCourseSecondViewController {
             $0.dataSource = self
         }
         
-        [addCourseSecondView.addSecondView.datePlaceTextField,
-         addCourseSecondView.addSecondView.timeRequireTextField].forEach { i in
-            i.delegate = self
-        }
+        addCourseSecondView.addSecondView.datePlaceTextField.delegate = self
     }
     
     //TODO: - 추후 데이트코스 공유 코스 등록 기능 살아날 시 수정해야함.
@@ -117,9 +114,9 @@ private extension AddCourseSecondViewController {
                 if let doubleValue = Double(String(i.duration)) {
                     let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
                     String(Int(doubleValue)) : String(doubleValue)
-                    viewModel.tapAddBtn(datePlace: i.name, timeRequire: "\(text) 시간")
+                    viewModel.tapAddBtn(datePlace: i.title, timeRequire: "\(text) 시간")
                 } else {
-                    viewModel.tapAddBtn(datePlace: i.name, timeRequire: "\(String(i.duration)) 시간")
+                    viewModel.tapAddBtn(datePlace: i.title, timeRequire: "\(String(i.duration)) 시간")
                 }
             }
         }
@@ -129,12 +126,12 @@ private extension AddCourseSecondViewController {
         viewModel.isDataSourceNotEmpty()
         
         viewModel.editBtnEnableState.bind { [weak self] date in
-            guard let date else {return}
+            guard let date else { return }
             self?.addCourseSecondView.editBtnState(isAble: date)
         }
         
         viewModel.datePlace.bind { [weak self] date in
-            guard let text = date else {return}
+            guard let text = date else { return }
             self?.addCourseSecondView.addSecondView.updateDatePlace(text: text)
             self?.viewModel.dateLocation = true
             if let flag = self?.viewModel.isAbleAddBtn() {
@@ -143,7 +140,7 @@ private extension AddCourseSecondViewController {
         }
         
         viewModel.timeRequire.bind { [weak self] date in
-            guard let date else {return}
+            guard let date else { return }
             self?.addCourseSecondView.addSecondView.updatetimeRequire(text: date)
             self?.viewModel.dateSpendTime = true
             if let flag = self?.viewModel.isAbleAddBtn() {
@@ -176,13 +173,14 @@ private extension AddCourseSecondViewController {
         addCourseSecondView.editButton.addTarget(self, action: #selector(toggleEditMode), for: .touchUpInside)
         addCourseSecondView.addSecondView.addPlaceButton.addTarget(self, action: #selector(tapAddPlaceBtn), for: .touchUpInside)
         addCourseSecondView.addSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
+        addCourseSecondView.addSecondView.timeRequireButton.addTarget(self, action: #selector(didTapTimeRequireButton), for: .touchUpInside)
     }
     
     
     // MARK: - @objc Methods
     
     @objc
-    func textFieldTapped(_ textField: UITextField) {
+    func didTapTimeRequireButton(_ textField: UITextField) {
         let alertVC = AddSheetViewController(viewModel: viewModel)
         alertVC.addSheetView = AddSheetView(isCustomPicker: true)
         
@@ -282,12 +280,7 @@ extension AddCourseSecondViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField != addCourseSecondView.addSecondView.timeRequireTextField {
-            return true
-        } else {
-            textFieldTapped(textField)
-            return false
-        }
+        return true
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {

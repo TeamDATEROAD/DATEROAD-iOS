@@ -13,27 +13,47 @@ final class DRCustomAlertView: BaseView {
     
     private var alertView = UIView()
     
-    var titleLabel = UILabel()
+    var titleLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold17_black))
     
-    var descriptionLabel = UILabel()
+    var descriptionLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_black), hidden: true)
     
-    var longButton = UIButton()
+    var longButton: DRTextButton?
     
-    var leftButton = UIButton()
+    var leftButton: DRTextButton?
     
-    var rightButton = UIButton()
+    var rightButton: DRTextButton?
     
+    
+    init(longButton: DRTextButton?, leftButton: DRTextButton?, rightButton: DRTextButton?) {
+        self.longButton = longButton
+        self.leftButton = leftButton
+        self.rightButton = rightButton
+        
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Life Cycle
     
     override func setHierarchy() {
         self.addSubviews(alertView)
         
-        alertView.addSubviews(titleLabel,
-                              descriptionLabel,
-                              longButton,
-                              leftButton,
-                              rightButton)
+        alertView.addSubviews(titleLabel, descriptionLabel)
+
+        if let longButton = self.longButton {
+            alertView.addSubview(longButton)
+        }
+        
+        if let leftButton = self.leftButton {
+            alertView.addSubview(leftButton)
+        }
+        
+        if let rightButton = self.rightButton {
+            alertView.addSubview(rightButton)
+        }
     }
     
     override func setLayout() {
@@ -53,22 +73,21 @@ final class DRCustomAlertView: BaseView {
             $0.top.equalToSuperview().inset(ScreenUtils.height * 52 / 812)
         }
         
-        longButton.snp.makeConstraints {
+        longButton?.snp.makeConstraints {
             $0.horizontalEdges.bottom.equalToSuperview().inset(ScreenUtils.width * 14 / 375)
             $0.height.equalTo(ScreenUtils.height * 48 / 812)
         }
         
-        leftButton.snp.makeConstraints {
+        leftButton?.snp.makeConstraints {
             $0.leading.bottom.equalToSuperview().inset(ScreenUtils.width * 14 / 375)
             $0.height.equalTo(ScreenUtils.height * 48 / 812)
             $0.width.equalTo(ScreenUtils.width * 152 / 375)
         }
         
-        rightButton.snp.makeConstraints {
+        rightButton?.snp.makeConstraints {
             $0.trailing.bottom.equalToSuperview().inset(ScreenUtils.width * 14 / 375)
             $0.height.equalTo(ScreenUtils.height * 48 / 812)
             $0.width.equalTo(ScreenUtils.width * 152 / 375)
-            $0.leading.equalTo(leftButton.snp.trailing).offset(ScreenUtils.width * 11 / 375)
         }
     }
     
@@ -76,37 +95,8 @@ final class DRCustomAlertView: BaseView {
         self.backgroundColor = UIColor(resource: .drBlack).withAlphaComponent(0.5)
         
         alertView.do {
-            $0.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner,
-                                                              .layerMaxXMinYCorner,
-                                                              .layerMinXMaxYCorner,
-                                                              .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 20)
             $0.backgroundColor = UIColor(resource: .drWhite)
-        }
-        
-        titleLabel.setLabel(alignment: .center,
-                        textColor: UIColor(resource: .drBlack),
-                        font: UIFont.suit(.body_bold_17))
-        
-        descriptionLabel.do {
-            $0.setLabel(alignment: .center,
-                        textColor: UIColor(resource: .drBlack),
-                        font: UIFont.suit(.body_med_13))
-            $0.isHidden = true
-        }
-        
-        longButton.do {
-            $0.setButtonStatus(buttonType: AlertRightButton())
-            $0.isHidden = true
-        }
-        
-        leftButton.do {
-            $0.setButtonStatus(buttonType: AlertLeftButton())
-            $0.isHidden = true
-        }
-        
-        rightButton.do {
-            $0.setButtonStatus(buttonType: AlertRightButton())
-            $0.isHidden = true
         }
     }
     

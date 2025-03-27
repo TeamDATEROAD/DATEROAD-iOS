@@ -13,12 +13,7 @@ final class BottomControlView: BaseView {
     
     let pageControl: UIPageControl = UIPageControl()
     
-    let nextButton: UIButton = UIButton()
-    
-    
-    // MARK: - Properties
-    
-    let buttonStyle: DRButtonType = NextButton()
+    let nextButton: DRTextButton = DRTextButton(title: StringLiterals.Onboarding.next, buttonName: .bold_purple_29)
     
     
     // MARK: - Methods
@@ -41,13 +36,11 @@ final class BottomControlView: BaseView {
     }
     
     override func setStyle() {
-        nextButton.setButtonStatus(buttonType: buttonStyle)
-        
         pageControl.do {
             $0.numberOfPages = 3
             $0.currentPage = 0
             $0.pageIndicatorTintColor = UIColor(resource: .gray200)
-            $0.currentPageIndicatorTintColor = UIColor(resource: .deepPurple)
+            $0.currentPageIndicatorTintColor = UIColor(resource: .purple600)
         }
     }
     

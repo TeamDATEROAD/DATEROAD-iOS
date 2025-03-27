@@ -13,11 +13,19 @@ final class EmptyTicketView: BaseView {
     
     private let ticketImage: UIImageView = UIImageView()
     
-    private let emptyDateLabel: UILabel = UILabel()
+    private let emptyDateLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.Main.emptyDateTitle,
+        textLabelType: .clear(.bold18_black),
+        alignment: .left
+    )
     
-    private let goToRegisterLabel: UILabel = UILabel()
+    private let goToRegisterLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.Main.emptyDateSub,
+        textLabelType: .clear(.med15_purple400),
+        alignment: .left
+    )
     
-    let moveButton: UIButton = UIButton()
+    let moveButton: DRImageButton = DRImageButton(image: UIImage(resource: .icPlus), buttonName: .clear_mediumPurple_0)
     
     
     // MARK: - Life Cycle
@@ -56,18 +64,6 @@ final class EmptyTicketView: BaseView {
             $0.image = UIImage(resource: .ticket)
             $0.contentMode = .scaleAspectFill
         }
-        
-        emptyDateLabel.setLabel(text: StringLiterals.Main.emptyDateTitle,
-                                alignment: .left,
-                                textColor: UIColor(resource: .drWhite),
-                                font: UIFont.suit(.title_bold_18))
-        
-        goToRegisterLabel.setLabel(text: StringLiterals.Main.emptyDateSub,
-                                   alignment: .left,
-                                   textColor: UIColor(resource: .lightPurple),
-                                   font: UIFont.suit(.body_med_15))
-        
-        moveButton.setImage(UIImage(resource: .icPlus), for: .normal)
     }
     
 }

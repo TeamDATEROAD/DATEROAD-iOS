@@ -1,10 +1,3 @@
-//
-//  CourseNavigationBarView.swift
-//  DATEROAD-iOS
-//
-//  Created by 김민서 on 7/11/24.
-//
-
 import UIKit
 
 import SnapKit
@@ -19,10 +12,10 @@ protocol CourseNavigationBarViewDelegate: AnyObject {
 final class CourseNavigationBarView: BaseView {
     
     // MARK: - UI Properties
+
+    private let courseLabel: DRTextLabel = DRTextLabel(title: StringLiterals.Course.course, textLabelType: .clear(.bold20_black))
     
-    private let courseLabel = UILabel()
-    
-    private let addCourseButton = UIButton()
+    private let addCourseButton: DRImageButton = DRImageButton(image: UIImage(resource: .plusSchedule), buttonName: .deepPurple_white_15)
     
     
     // MARK: - Properties
@@ -35,6 +28,7 @@ final class CourseNavigationBarView: BaseView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        setAddTarget()
     }
     
     required init?(coder: NSCoder) {
@@ -59,21 +53,23 @@ final class CourseNavigationBarView: BaseView {
         }
     }
     
-    override func setStyle() {
-        courseLabel.setLabel(text: StringLiterals.Course.course,
-                             textColor: UIColor(resource: .drBlack),
-                             font: UIFont.suit(.title_bold_20))
-        
-        addCourseButton.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
-            $0.setImage(.plusSchedule, for: .normal)
-            $0.addTarget(self, action: #selector(didTapAddCourseButton), for: .touchUpInside)
-            $0.roundedButton(cornerRadius: 15, maskedCorners: [.layerMinXMinYCorner,
-                                                               .layerMaxXMinYCorner,
-                                                               .layerMinXMaxYCorner,
-                                                               .layerMaxXMaxYCorner])
-        }
+}
+
+
+// MARK: - Methods
+
+extension CourseNavigationBarView {
+    
+    func setAddTarget() {
+        addCourseButton.addTarget(self, action: #selector(didTapAddCourseButton), for: .touchUpInside)
     }
+
+}
+
+
+// MARK: - @objc Methods {
+
+extension CourseNavigationBarView {
     
     @objc
     func didTapAddCourseButton() {
@@ -81,4 +77,3 @@ final class CourseNavigationBarView: BaseView {
     }
     
 }
-

@@ -13,23 +13,29 @@ final class DateDetailContentView: BaseView {
     
     private var ribbonImageView = UIImageView()
     
-    private var dateLabel = UILabel()
+    private var dateLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi15_black))
     
-    var dDayButton = UIButton()
-    
+    var dDayLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.bold11_white, .purple600_10), hidden: true)
+
+    // TODO: - UILabel로 변경
+        
     private var firstTagButton = UIButton()
     
     private var secondTagButton = UIButton()
     
     private var thirdTagButton = UIButton()
     
-    private var locationLabel = UILabel()
+    private var locationLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med15_gray500))
     
-    private var titleLabel = UILabel()
+    private var titleLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.systemBold24_black),
+        alignment: .left,
+        numberOfLines: 2
+    )
     
     private var dateDetailView = UIView()
     
-    private var dateStartTimeLabel = UILabel()
+    private var dateStartTimeLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi15_black))
     
     var dateTimeLineCollectionView = UICollectionView(frame: .zero, collectionViewLayout: dateTimeLineCollectionViewLayout)
     
@@ -39,7 +45,7 @@ final class DateDetailContentView: BaseView {
     
     var kakaoShareButton = UIButton()
     
-    var courseShareButton = UIButton()
+    var courseShareButton = DRTextButton(title: StringLiterals.DateSchedule.courseShare, buttonName: .bold_purple_25)
     
     static var dateTimeLineCollectionViewLayout = UICollectionViewFlowLayout()
     
@@ -57,7 +63,7 @@ final class DateDetailContentView: BaseView {
     override func setHierarchy() {
         self.addSubviews(ribbonImageView,
                          dateLabel,
-                         dDayButton,
+                         dDayLabel,
                          firstTagButton,
                          secondTagButton,
                          thirdTagButton,
@@ -84,7 +90,7 @@ final class DateDetailContentView: BaseView {
             $0.height.equalTo(21)
         }
         
-        dDayButton.snp.makeConstraints {
+        dDayLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(13)
             $0.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(19)
@@ -144,33 +150,19 @@ final class DateDetailContentView: BaseView {
         }
         
         courseShareButton.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(ScreenUtils.width*0.1386667)
-            $0.bottom.equalToSuperview().inset(ScreenUtils.height*0.04802956)
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.width / 375 * 97)
+            $0.height.equalTo(ScreenUtils.width * 0.1386667)
+            $0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.04802956)
         }
     }
     
     override func setStyle() {
-        self.backgroundColor = UIColor(resource: .lilac)
-        
         ribbonImageView.do {
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
         }
-        
-        dateLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
-        
-        dDayButton.do {
-            $0.isHidden = true
-            $0.titleLabel?.font = UIFont.suit(.cap_bold_11)
-            $0.titleLabel?.textColor = UIColor(resource: .drWhite)
-            $0.backgroundColor = UIColor(resource: .deepPurple)
-            $0.contentEdgeInsets = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
-            $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMaxXMaxYCorner,
-                                                               .layerMaxXMinYCorner,
-                                                               .layerMinXMaxYCorner,
-                                                               .layerMinXMinYCorner])
-        }
+                
+        dDayLabel.setPadding(top: 2, left: 10, bottom: 2, right: 10)
         
         firstTagButton.do {
             $0.setButtonStatus(buttonType: tagButtonType)
@@ -210,20 +202,11 @@ final class DateDetailContentView: BaseView {
             $0.adjustsImageWhenDisabled = false
         }
         
-        locationLabel.setLabel(textColor: UIColor(resource: .gray500), font: UIFont.suit(.body_med_15))
-        
-        titleLabel.setLabel(alignment: .left,
-                               numberOfLines: 2,
-                               textColor: UIColor(resource: .drBlack),
-                               font:  UIFont.systemFont(ofSize: 24, weight: .black))
-        
         dateDetailView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.roundCorners(cornerRadius: 20, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
         }
-        
-        dateStartTimeLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
-        
+                
         dateTimeLineCollectionView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.isPagingEnabled = false
@@ -235,7 +218,7 @@ final class DateDetailContentView: BaseView {
         
         kakaoShareButton.do {
             $0.isHidden = true
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.setImage(UIImage(resource: .kakaoShare), for: .normal)
             $0.setTitle(StringLiterals.DateSchedule.kakaoShare, for: .normal)
             $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
@@ -246,15 +229,7 @@ final class DateDetailContentView: BaseView {
             $0.roundedButton(cornerRadius: 25, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
         }
         
-        courseShareButton.do {
-            $0.isHidden = true
-            $0.backgroundColor = UIColor(resource: .deepPurple)
-            $0.setTitle(StringLiterals.DateSchedule.courseShare, for: .normal)
-            $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_bold_15)
-            $0.contentEdgeInsets = UIEdgeInsets(top: 14, left: 24, bottom: 14, right: 24)
-            $0.roundedButton(cornerRadius: 25, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
-        }
+        courseShareButton.isHidden = true
         
         DateDetailContentView.dateTimeLineCollectionViewLayout.do {
             $0.scrollDirection = .vertical
@@ -271,13 +246,9 @@ final class DateDetailContentView: BaseView {
 extension DateDetailContentView {
     
     func dataBind(_ dateDetailData : DateDetailModel) {
-        self.dateLabel.text = dateDetailData.date
-        if dateDetailData.dDay == 0 {
-            self.dDayButton.setTitle("D-Day", for: .normal)
-        } else {
-            self.dDayButton.setTitle("D-\(dateDetailData.dDay)", for: .normal)
-            
-        }
+        dateLabel.text = dateDetailData.date
+        dDayLabel.text = dateDetailData.dDay == 0 ? "D-Day" : "D-\(dateDetailData.dDay)"
+        
         self.dateStartTimeLabel.text = "\(dateDetailData.startAt) " + StringLiterals.DateSchedule.startTime
         updateTagButton(title: "\(dateDetailData.tags[0].tag)", button: self.firstTagButton)
         if dateDetailData.tags.count >= 2 {
@@ -292,29 +263,17 @@ extension DateDetailContentView {
         self.titleLabel.text = dateDetailData.title
     }
     
-    private func setColorToLabel(bgColor : UIColor, ribbonImage: UIImage, buttonColor: UIColor) {
-        self.backgroundColor = bgColor
-        self.ribbonImageView.image = ribbonImage
-        self.firstTagButton.backgroundColor = buttonColor
-        self.secondTagButton.backgroundColor = buttonColor
-        self.thirdTagButton.backgroundColor = buttonColor
+    private func setColorToLabel(_ cardType: DateCardType) {
+        self.backgroundColor = cardType.bgColor
+        self.ribbonImageView.image = cardType.ribbonImage
+        [self.firstTagButton, self.secondTagButton, self.thirdTagButton].forEach {
+            $0.backgroundColor = cardType.buttonColor
+        }
     }
     
     func setColor(index: Int) {
-        let colorIndex = index % 3
-        if colorIndex == 0 {
-            setColorToLabel(bgColor: UIColor(resource: .pink200),
-                            ribbonImage: UIImage(resource: .lilacRibbon),
-                            buttonColor: UIColor(resource: .pink100))
-        } else if colorIndex == 1 {
-            setColorToLabel(bgColor: UIColor(resource: .purple200),
-                            ribbonImage: UIImage(resource: .deepPurpleRibbon),
-                            buttonColor: UIColor(resource: .purple100))
-        } else {
-            setColorToLabel(bgColor: UIColor(resource: .lime),
-                            ribbonImage: UIImage(resource: .limeRibbon),
-                            buttonColor: UIColor(resource: .lime100))
-        }
+        let cardType = DateCardType(rawValue: index % 3) ?? .pink
+        setColorToLabel(cardType)
     }
     
     func updateTagButton(title: String, button: UIButton) {

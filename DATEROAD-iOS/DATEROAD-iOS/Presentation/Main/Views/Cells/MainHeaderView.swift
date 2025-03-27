@@ -10,20 +10,32 @@ import UIKit
 import SnapKit
 import Then
 
+protocol MainHeaderDelegate: AnyObject {
+    
+    func didTapViewMoreButton()
+    
+}
+
 final class MainHeaderView: UICollectionReusableView {
     
     // MARK: - UI Properties
     
     private let backgroundView: UIView = UIView()
     
-    let titleLabel: UILabel = UILabel()
+    let titleLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.systemBold24_black),
+        alignment: .left,
+        numberOfLines: 2
+    )
     
-    let subLabel: UILabel = UILabel()
+    let subLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_gray400), alignment: .left)
     
-    let viewMoreButton: UIButton = UIButton()
+    let viewMoreButton: DRTextButton = DRTextButton(title: StringLiterals.Main.viewMore, buttonName: .bold_white_0)
     
     
     // MARK: - Properties
+    
+    weak var delegate: MainHeaderDelegate?
     
     static let elementKinds: String = StringLiterals.Common.header
     
@@ -38,6 +50,7 @@ final class MainHeaderView: UICollectionReusableView {
         setHierarchy()
         setLayout()
         setStyle()
+        setAddTarget()
     }
     
     required init?(coder: NSCoder) {
@@ -80,19 +93,9 @@ final class MainHeaderView: UICollectionReusableView {
     }
     
     func setStyle() {
-        self.backgroundColor = UIColor(resource: .deepPurple)
+        self.backgroundColor = UIColor(resource: .purple600)
         
         backgroundView.backgroundColor = UIColor(resource: .drWhite)
-        
-        subLabel.setLabel(alignment: .left,
-                          textColor: UIColor(resource: .gray400),
-                          font: UIFont.suit(.body_med_13))
-        
-        viewMoreButton.do {
-            $0.setTitle(StringLiterals.Main.viewMore, for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_bold_13)
-            $0.setTitleColor(UIColor(resource: .mediumPurple), for: .normal)
-        }
     }
     
 }
@@ -102,35 +105,40 @@ final class MainHeaderView: UICollectionReusableView {
 
 extension MainHeaderView {
     
+    func setAddTarget() {
+        viewMoreButton.addTarget(self, action: #selector(didTapViewMoreButton), for: .touchUpInside)
+    }
+    
     func bindTitle(section: MainSection, nickname: String?) {
         let nickname = nickname ?? ""
         
         if section == .hotDateCourse {
-            titleLabel.do {
-                $0.setAttributedText(fullText: nickname + StringLiterals.Main.hotDateTitle,
-                                     pointText: nickname+"님,",
-                                     pointColor: UIColor(resource: .deepPurple), 
-                                     lineHeight: 1.04)
-                $0.font = UIFont.systemFont(ofSize: 24, weight: .black)
-                $0.textAlignment = .left
-                $0.numberOfLines = 2
-            }
             self.backgroundView.clipsToBounds = true
             self.backgroundView.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMinYCorner])
+            titleLabel.setProperties(nickname + StringLiterals.Main.hotDateTitle, .clear(.systemBold24_black), .left, 2)
+            titleLabel.setAttributedText(fullText: nickname + StringLiterals.Main.hotDateTitle,
+                                     pointText: nickname+"님,",
+                                     pointColor: UIColor(resource: .purple600),
+                                     lineHeight: 1.04)
             subLabel.text = StringLiterals.Main.hotDateSub
         } else {
             self.backgroundView.clipsToBounds = false
             self.backgroundView.roundCorners(cornerRadius: 0, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMinYCorner])
-            titleLabel.do {
-                $0.setLabel(text: StringLiterals.Main.newDateTitle,
-                            alignment: .left,
-                            textColor: UIColor(resource: .drBlack),
-                            font: UIFont.suit(.title_extra_20))
-                $0.textAlignment = .left
-                $0.numberOfLines = 0
-            }
+            titleLabel.setProperties(StringLiterals.Main.newDateTitle, .clear(.extra20_black), .left, 0)
             subLabel.text = StringLiterals.Main.newDateSub
         }
+    }
+    
+}
+
+
+// MARK: - @objc Methods
+
+private extension MainHeaderView {
+    
+    @objc
+    func didTapViewMoreButton() {
+        delegate?.didTapViewMoreButton()
     }
     
 }

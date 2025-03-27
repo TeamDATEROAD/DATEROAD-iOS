@@ -13,6 +13,8 @@ enum StringLiterals {
         
         static let nav = "nav"
         
+        static let tab = "tab"
+        
     }
     
     enum Social {
@@ -368,6 +370,8 @@ enum StringLiterals {
         static let quit = "취소"
         
         static let dDay = "D-Day"
+        
+        static let open = "열기"
         
     }
     

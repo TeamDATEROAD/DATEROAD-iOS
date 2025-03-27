@@ -7,14 +7,19 @@
 
 import UIKit
 
-import SnapKit
-import Then
+protocol UpcomingDateScheduleDelete: AnyObject {
+    
+    func didTapDateRegisterButton()
+    
+    func didTapPastDateButton()
+    
+}
 
 final class UpcomingDateScheduleView: BaseView {
     
     // MARK: - UI Properties
     
-    private let titleLabel = UILabel()
+    private let titleLabel: DRTextLabel = DRTextLabel(title: StringLiterals.DateSchedule.upcomingDate, textLabelType: .clear(.bold20_black))
     
     var cardCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -22,12 +27,27 @@ final class UpcomingDateScheduleView: BaseView {
     
     var emptyView = CustomEmptyView()
     
-    var dateRegisterButton = UIButton()
+    var dateRegisterButton: DRImageButton = DRImageButton(image: UIImage(resource: .plusSchedule), buttonName: .deepPurple_white_15)
     
-    var pastDateButton = UIButton()
+    var pastDateButton = DRTextButton(title: StringLiterals.DateSchedule.seePastDate, buttonName: .bold_gray100_14)
+    
+    
+    // MARK: - Properties
+    
+    weak var delegate: UpcomingDateScheduleDelete?
     
     
     // MARK: - LifeCycle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setAddTarget()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func setHierarchy() {
         self.addSubviews(titleLabel,
@@ -81,10 +101,6 @@ final class UpcomingDateScheduleView: BaseView {
     override func setStyle() {
         self.backgroundColor = UIColor(resource: .drWhite)
         
-        titleLabel.setLabel(text: StringLiterals.DateSchedule.upcomingDate,
-                            textColor: UIColor(resource: .drBlack),
-                            font: UIFont.suit(.title_bold_20))
-        
         cardCollectionView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.isPagingEnabled = false
@@ -101,33 +117,18 @@ final class UpcomingDateScheduleView: BaseView {
         cardPageControl.do {
             $0.currentPage = 0
             $0.pageIndicatorTintColor = UIColor(resource: .gray200)
-            $0.currentPageIndicatorTintColor = UIColor(resource: .deepPurple)
+            $0.currentPageIndicatorTintColor = UIColor(resource: .purple600)
         }
         
         emptyView.do {
             $0.isHidden = true
             $0.setEmptyView(emptyImage: UIImage(resource: .emptyDateSchedule), emptyTitle: StringLiterals.EmptyView.emptyDateSchedule)
         }
-        
-        dateRegisterButton.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
-            $0.setImage(UIImage(resource: .plusSchedule), for: .normal)
-            $0.roundedButton(cornerRadius: 15, maskedCorners: [.layerMaxXMaxYCorner,
-                                                               .layerMaxXMinYCorner,
-                                                               .layerMinXMaxYCorner,
-                                                               .layerMinXMinYCorner])
-        }
-        
-        pastDateButton.do {
-            $0.setTitle(StringLiterals.DateSchedule.seePastDate, for: .normal)
-            $0.backgroundColor = UIColor(resource: .gray100)
-            $0.titleLabel?.font = UIFont.suit(.body_bold_15)
-            $0.setTitleColor(UIColor(resource: .drBlack), for: .normal)
-            $0.roundedButton(cornerRadius: 13, maskedCorners: [.layerMaxXMaxYCorner,
-                                                               .layerMaxXMinYCorner,
-                                                               .layerMinXMaxYCorner,
-                                                               .layerMinXMinYCorner])
-        }
+    }
+    
+    func setAddTarget() {
+        dateRegisterButton.addTarget(self, action: #selector(didTapRegisterButton), for: .touchUpInside)
+        pastDateButton.addTarget(self, action: #selector(didTapPastDateButton), for: .touchUpInside)
     }
     
 }
@@ -144,4 +145,19 @@ extension UpcomingDateScheduleView {
 }
 
 
+// MARK: - @objc Methods
+
+extension UpcomingDateScheduleView {
+    
+    @objc
+    func didTapRegisterButton() {
+        delegate?.didTapDateRegisterButton()
+    }
+    
+    @objc
+    func didTapPastDateButton() {
+        delegate?.didTapPastDateButton()
+    }
+    
+}
 

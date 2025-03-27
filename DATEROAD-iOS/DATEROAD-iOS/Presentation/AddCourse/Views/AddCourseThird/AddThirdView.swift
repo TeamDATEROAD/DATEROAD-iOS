@@ -16,15 +16,27 @@ final class AddThirdView: BaseView {
     
     private let container: UIView = UIView()
     
-    private let contentTitleLabel: UILabel = UILabel()
+    private let contentTitleLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.AddCourseOrSchedule.AddThirdView.contentTitleLabel,
+        textLabelType: .clear(.bold17_black),
+        alignment: .left
+    )
     
     let contentTextView: UITextView = UITextView()
     
-    let contentTextCountLabel: UILabel = UILabel()
+    let contentTextCountLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.AddCourseOrSchedule.AddThirdView.contentTextCountLabel,
+        textLabelType: .clear(.med13_gray300),
+        alignment: .right
+    )
     
-    private let priceTitleLabel: UILabel = UILabel()
+    private let priceTitleLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.AddCourseOrSchedule.AddThirdView.priceTitleLabel,
+        textLabelType: .clear(.bold17_black),
+        alignment: .left
+    )
     
-    var priceTextField: UITextField = UITextField()
+    let priceTextField: DRTextField = DRTextField(type: .addCourseSchedule(.totalPrice))
     
     private let addThirdDoneBtnContainer: UIView = UIView()
     
@@ -86,12 +98,7 @@ final class AddThirdView: BaseView {
     }
     
     override func setStyle() {
-        contentTitleLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddThirdView.contentTitleLabel,
-                                   alignment: .left,
-                                   textColor: UIColor(resource: .drBlack),
-                                   font: .suit(.body_bold_17))
-        
-        [contentTextView, priceTextField].forEach {
+        contentTextView.do {
             $0.layer.borderWidth = 0
             $0.layer.cornerRadius = 14
             $0.backgroundColor = UIColor(resource: .gray100)
@@ -108,34 +115,6 @@ final class AddThirdView: BaseView {
             $0.autocorrectionType = .no
             $0.spellCheckingType = .no
         }
-        
-        priceTextField.do {
-            $0.setLeftPadding(amount: 16)
-            $0.setRightPadding(amount: 16)
-            $0.keyboardType = .numberPad
-            $0.font = .suit(.body_med_13)
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.autocorrectionType = .no
-            $0.spellCheckingType = .no
-        }
-        
-        priceTextField.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedule.AddThirdView.priceTextFieldPlaceHolder,
-                                      fontColor: UIColor(resource: .gray300),
-                                      font: .suit(.body_med_13))
-        
-        contentTextCountLabel.do {
-            $0.setLabel(alignment: .right,
-                        textColor: UIColor(resource: .gray300),
-                        font: .suit(.body_med_13))
-            $0.text = StringLiterals.AddCourseOrSchedule.AddThirdView.contentTextCountLabel
-        }
-        
-        priceTitleLabel.do {
-            $0.setLabel(alignment: .left,
-                        textColor: UIColor(resource: .drBlack),
-                        font: .suit(.body_bold_17))
-            $0.text = StringLiterals.AddCourseOrSchedule.AddThirdView.priceTitleLabel
-        }
     }
     
 }
@@ -147,7 +126,7 @@ extension AddThirdView {
     }
     
     func updatePriceText(price: Int) {
-        priceTextField.text = String(price.formattedWithSeparator)
+        priceTextField.text = price.formatted()
     }
     
     func updateContentTextView(_ textView: UITextView, withText text: String, placeholder: String) {

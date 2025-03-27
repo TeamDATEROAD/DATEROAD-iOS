@@ -7,9 +7,6 @@
 
 import UIKit
 
-import SnapKit
-import Then
-
 class PointDetailViewController: BaseNavBarViewController {
     
     // MARK: - UI Properties

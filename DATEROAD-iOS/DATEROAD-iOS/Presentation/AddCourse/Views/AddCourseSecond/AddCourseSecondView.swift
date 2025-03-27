@@ -18,23 +18,27 @@ final class AddCourseSecondView: BaseView {
     
     let addSecondView = AddSecondView()
     
-    let editButton: UIButton = UIButton()
+    let editButton: DRTextButton = DRTextButton(
+        title: StringLiterals.AddCourseOrSchedule.AddSecondView.edit,
+        buttonName: .med_white_0,
+        isEnabled: false
+    )
     
-    private let guideLabel: UILabel = UILabel()
+    private let guideLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.AddCourseOrSchedule.AddSecondView.guideLabel,
+        textLabelType: .clear(.med13_gray400),
+        alignment: .left
+    )
     
     var addPlaceCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     
     // MARK: - Properties
-    
-    private let enabledButtonType: DRButtonType = addCourseEditEnableButton()
-    
-    private let disabledButtonType: DRButtonType = addCourseEditDisableButton()
-    
+            
     private let warningType: DRErrorType = Warning()
     
     
-    // MARK: - Methods
+    // MARK: - Methods
     
     override func setHierarchy() {
         self.addSubviews (collectionView, addSecondView)
@@ -99,24 +103,12 @@ final class AddCourseSecondView: BaseView {
             $0.showsVerticalScrollIndicator = false
             $0.dragInteractionEnabled = true
         }
-        
-        editButton.do {
-            $0.setTitle(StringLiterals.AddCourseOrSchedule.AddSecondView.edit, for: .normal)
-            $0.setButtonStatus(buttonType: enabledButtonType)
-        }
-        
-        guideLabel.do {
-            $0.setLabel(alignment: .left,
-                        textColor: UIColor(resource: .gray400),
-                        font: .suit(.body_med_13))
-            $0.text = StringLiterals.AddCourseOrSchedule.AddSecondView.guideLabel
-        }
     }
     
 }
 
 
-// MARK: - Extension Methods
+// MARK: - Extension Methods
 
 extension AddCourseSecondView {
     
@@ -127,8 +119,8 @@ extension AddCourseSecondView {
     }
     
     func editBtnState(isAble: Bool) {
-        let state = isAble ? enabledButtonType : disabledButtonType
-        editButton.setButtonStatus(buttonType: state)
+        let state: TextButtonType = isAble ? .med_white_0_purple : .med_white_0
+        editButton.setButtonStyle(state, isEnabled: isAble)
     }
     
 }

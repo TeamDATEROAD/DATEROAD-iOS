@@ -70,11 +70,11 @@ struct DateDetailModel: Equatable {
     
     let date: String
     
-    let places: [DatePlaceModel]
+    let places: [TimelineModel]
     
     let dDay: Int
     
-    init(dateID: Int, title: String, startAt: String, city: String, tags: [TagsModel], date: String, places: [DatePlaceModel], dDay: Int) {
+    init(dateID: Int, title: String, startAt: String, city: String, tags: [TagsModel], date: String, places: [TimelineModel], dDay: Int) {
         self.dateID = dateID
         self.title = title
         self.startAt = startAt
@@ -83,22 +83,6 @@ struct DateDetailModel: Equatable {
         self.date = date
         self.places = places
         self.dDay = dDay
-    }
-    
-}
-
-struct DatePlaceModel: Equatable {
-    
-    let name: String
-    
-    let duration: String
-    
-    let sequence: Int
-    
-    init(name: String, duration: String, sequence: Int) {
-        self.name = name
-        self.duration = duration
-        self.sequence = sequence
     }
     
 }

@@ -16,21 +16,33 @@ final class AddSecondView: BaseView {
     
     private let container: UIView = UIView()
     
-    private let contentTitleLabel: UILabel = UILabel()
+    private let contentTitleLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.AddCourseOrSchedule.AddSecondView.contentTitleLabelOfCourse,
+        textLabelType: .clear(.bold17_black),
+        alignment: .left
+    )
     
-    private let contentSubTitleLabel: UILabel = UILabel()
+    private let contentSubTitleLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.AddCourseOrSchedule.AddSecondView.subTitleLabel,
+        textLabelType: .clear(.med13_gray400),
+        alignment: .left
+    )
     
     private let placeRegistrationContainer: UIView = UIView()
     
-    let datePlaceTextField: UITextField = UITextField()
+    let datePlaceTextField: DRTextField = DRTextField(type: .addCourseSchedule(.datePlace))
     
-    let timeRequireTextField: UITextField = UITextField()
+    let timeRequireButton: DRTextButton = DRTextButton(title: StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder, buttonName: .semi_gray100_14)
     
-    let addPlaceButton: UIButton = UIButton()
+    let addPlaceButton: DRImageButton = DRImageButton(image: UIImage(resource: .icAddcourseGray),
+                                                      buttonName: .gray100_gray300_14,
+                                                      isEnabled: false)
     
     let separatorLine: UIView = UIView()
     
-    let nextBtn: UIButton = UIButton()
+    let nextBtn: DRTextButton = DRTextButton(title: StringLiterals.AddCourseOrSchedule.AddSecondView.addSecondNextBtnOfCourse,
+                                             buttonName: .bold_gray200_14,
+                                             isEnabled: false)
     
     
     // MARK: - Properties
@@ -42,7 +54,7 @@ final class AddSecondView: BaseView {
     private let addCourseDisabledButtonType: DRButtonType = addCoursePlaceDisabledButton()
     
     
-    // MARK: - Methods
+    // MARK: - Methods
     
     override func setHierarchy() {
         addSubviews(container,
@@ -53,7 +65,7 @@ final class AddSecondView: BaseView {
                     nextBtn)
         
         placeRegistrationContainer.addSubviews(datePlaceTextField,
-                                               timeRequireTextField,
+                                               timeRequireButton,
                                                addPlaceButton)
     }
     
@@ -85,10 +97,10 @@ final class AddSecondView: BaseView {
             $0.width.equalTo(ScreenUtils.width / 375 * 44)
         }
         
-        timeRequireTextField.snp.makeConstraints {
+        timeRequireButton.snp.makeConstraints {
             $0.verticalEdges.equalToSuperview()
-            $0.leading.equalTo(datePlaceTextField.snp.trailing).offset(ScreenUtils.width / 375 * 8).priority(.low)
-            $0.trailing.equalTo(addPlaceButton.snp.leading).offset(ScreenUtils.width / 375 * -8).priority(.low)
+            $0.leading.equalTo(datePlaceTextField.snp.trailing).offset(ScreenUtils.width / 375 * 8)
+            $0.trailing.equalTo(addPlaceButton.snp.leading).offset(ScreenUtils.width / 375 * -8)
         }
         
         separatorLine.snp.makeConstraints {
@@ -105,94 +117,58 @@ final class AddSecondView: BaseView {
     }
     
     override func setStyle() {
-        contentTitleLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddSecondView.contentTitleLabelOfCourse,
-                                   alignment: .left,
-                                   textColor: UIColor(resource: .drBlack),
-                                   font: .suit(.body_bold_17))
-        
         contentSubTitleLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddSecondView.subTitleLabel,
                                       alignment: .left,
                                       textColor: UIColor(resource: .gray400),
                                       font: .suit(.body_med_13))
         
-        datePlaceTextField.do {
-            $0.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.datePlacePlaceHolder,
-                              fontColor: UIColor(resource: .gray300),
-                              font: UIFont.suit(.body_semi_13))
-            $0.setLeftPadding(amount: 14)
-            $0.setRightPadding(amount: 4)
-            $0.textAlignment = .left
-            $0.backgroundColor = UIColor(resource: .gray100)
-            $0.layer.borderWidth = 0
-            $0.layer.cornerRadius = 14
-            $0.autocorrectionType = .no
-            $0.spellCheckingType = .no
-            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 13, weight: .semibold), .foregroundColor: UIColor(resource: .drBlack)]
-            $0.defaultTextAttributes = attributes
-        }
-        
-        timeRequireTextField.do {
-            $0.setPlaceholder(placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder,
-                              fontColor: UIColor(resource: .gray300),
-                              font: UIFont.suit(.body_semi_13))
-            $0.textAlignment = .center
-            $0.backgroundColor = UIColor(resource: .gray100)
-            $0.layer.borderWidth = 0
-            $0.layer.cornerRadius = 14
-            $0.autocorrectionType = .no
-            $0.spellCheckingType = .no
-        }
-        
-        addPlaceButton.do {
-            $0.setImage(UIImage(resource: .icAddcourseWhite), for: .normal)
-            $0.setImage(UIImage(resource: .icAddcourseGray), for: .disabled)
-            $0.setButtonStatus(buttonType: addCourseDisabledButtonType)
-            $0.imageView?.snp.makeConstraints {
-                $0.size.equalTo(14)
-            }
-        }
-        
         separatorLine.backgroundColor = UIColor(resource: .gray200)
-        
-        nextBtn.do {
-            $0.setButtonStatus(buttonType: disabledButtonType)
-            $0.setTitle(StringLiterals.AddCourseOrSchedule.AddSecondView.addSecondNextBtnOfCourse, for: .normal)
-        }
     }
     
 }
 
 
-// MARK: - Extension Methods
+// MARK: - Extension Methods
 
 extension AddSecondView {
     
     func updateDatePlace(text: String) {
         datePlaceTextField.text = text
-        datePlaceTextField.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
     }
     
     func updatetimeRequire(text: String) {
-        timeRequireTextField.text = text
-        timeRequireTextField.font = UIFont.suit(.body_semi_13)
+        let isEmpty = text.isEmpty
+        let text = isEmpty ? StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder : text
+        let state: TextButtonType = isEmpty ? .semi_gray100_14 : .semi_gray100_14_black
+        timeRequireButton.setTitle(text, for: .normal)
+        timeRequireButton.setButtonStyle(state)
     }
     
     func changeAddPlaceButtonState(flag: Bool) {
-        let state = flag ? enabledButtonType : addCourseDisabledButtonType
-        addPlaceButton.setButtonStatus(buttonType: state)
+        let state: ImageButtonType = flag ? .deepPurple_white_14 : .gray100_gray300_14
+        let image = flag ? UIImage(resource: .icAddcourseWhite) : UIImage(resource: .icAddcourseGray)
+        addPlaceButton.setButtonStyle(
+            image,
+            state,
+            isEnabled: flag
+        )
     }
     
     /// 장소 등록 마치면 실행되는 함수
     func finishAddPlace() {
         // textfield 값 초기화 및 장소 등록 버튼 비활성화
         datePlaceTextField.text = ""
-        timeRequireTextField.text = ""
-        addPlaceButton.setButtonStatus(buttonType: addCourseDisabledButtonType)
+        timeRequireButton.setTitle(StringLiterals.AddCourseOrSchedule.AddSecondView.timeRequiredPlaceHolder, for: .normal)
+        addPlaceButton.setButtonStyle(
+            UIImage(resource: .icAddcourseGray),
+            .gray100_gray300_14,
+            isEnabled: false
+        )
     }
     
     func changeNextBtnState(flag: Bool) {
-        let state = flag ? enabledButtonType : disabledButtonType
-        nextBtn.setButtonStatus(buttonType: state)
+        let state: TextButtonType = flag ? .bold_purple_14 : .bold_gray200_14
+        nextBtn.setButtonStyle(state, isEnabled: flag)
     }
     
 }

@@ -16,13 +16,21 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
     
     private let imageView: UIImageView = UIImageView()
     
-    let deleteImageBtn: UIButton = UIButton()
+    let deleteImageBtn: DRImageButton = DRImageButton(
+        image: UIImage(resource: .icDeletepic),
+        buttonName: .clear_clear_8,
+        isHidden: true
+    )
     
     private let emptyView: UIView = UIView()
     
     private let emptyCameraImage: UIImageView = UIImageView()
     
-    private let emptyLabel: UILabel = UILabel()
+    private let emptyLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.AddCourseOrSchedule.AddFirstView.emptyImage,
+        textLabelType: .clear(.bold11_gray300),
+        numberOfLines: 2
+    )
     
     
     // MARK: - Prepare Methods
@@ -41,7 +49,12 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
     // MARK: - Methods
     
     override func setHierarchy() {
-        contentView.addSubviews(imageView, emptyView, deleteImageBtn)
+        contentView.addSubviews(
+            imageView,
+            emptyView,
+            deleteImageBtn
+        )
+        
         emptyView.addSubviews(emptyCameraImage, emptyLabel)
     }
     
@@ -78,16 +91,7 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
             $0.layer.cornerRadius = 14
             $0.isHidden = true
         }
-        
-        deleteImageBtn.do {
-            $0.clipsToBounds = true
-            $0.layer.cornerRadius = 8
-            $0.isHidden = true
-            $0.setImage(UIImage(resource: .icDeletepic), for: .normal)
-            $0.imageView?.contentMode = .scaleAspectFit
-            $0.backgroundColor = UIColor(resource: .gray200)
-        }
-        
+                
         emptyView.do {
             $0.backgroundColor = .gray100
             $0.layer.cornerRadius = 14
@@ -99,13 +103,6 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
             $0.contentMode = .scaleAspectFit
             $0.backgroundColor = .gray200
             $0.layer.cornerRadius = 32 / 2
-        }
-        
-        emptyLabel.do {
-            $0.setLabel(numberOfLines: 2,
-                        textColor: UIColor(resource: .gray300),
-                        font: .suit(.body_bold_11))
-            $0.text = StringLiterals.AddCourseOrSchedule.AddFirstView.emptyImage
         }
     }
     
@@ -124,9 +121,9 @@ extension AddCourseImageCollectionViewCell {
         emptyView.isHidden = !isImageEmpty
         imageView.isHidden = isImageEmpty
         if vcCnt > 1 {
-            deleteImageBtn.isHidden = true
+            deleteImageBtn.setButtonHidden(true)
         } else {
-            deleteImageBtn.isHidden = isImageEmpty
+            deleteImageBtn.setButtonHidden(isImageEmpty)
         }
     }
     

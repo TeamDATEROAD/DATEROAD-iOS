@@ -11,9 +11,9 @@ final class MyPageTableViewCell: BaseTableViewCell {
     
     // MARK: - UI Properties
     
-    private let titleLabel: UILabel = UILabel()
+    private let titleLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi15_black), alignment: .left)
     
-    let rightArrowButton: UIButton = UIButton()
+    let rightArrowButton: DRImageButton = DRImageButton(image: UIImage(resource: .arrowRightLarge), buttonName: .white_gray400_0)
     
     
     // MARK: - Life Cycle
@@ -32,14 +32,6 @@ final class MyPageTableViewCell: BaseTableViewCell {
             $0.trailing.equalToSuperview().inset(23)
             $0.centerY.equalToSuperview()
         }
-    }
-    
-    override func setStyle() {
-        titleLabel.setLabel(alignment: .left,
-                        textColor: UIColor(resource: .drBlack),
-                        font: UIFont.suit(.body_semi_15))
-        
-        rightArrowButton.setImage(UIImage(resource: .arrowRightLarge), for: .normal)
     }
     
 }

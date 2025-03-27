@@ -24,18 +24,24 @@ final class AddCourseFirstView: BaseView {
     
     private let imageAccessoryView = UIView()
     
-    let cameraBtn = UIButton()
+    let cameraBtn: DRImageButton = DRImageButton(image: UIImage(resource: .camera), buttonName: .clear_clear_16)
     
     private let imageCountLabelContainer = UIView()
     
-    let imageCountLabel = UILabel()
+    let imageCountLabel: DRTextLabel = DRTextLabel(title: "1/10", textLabelType: .clear(.med10_white))
     
-    let dateNameErrorLabel = UILabel()
+    let dateNameErrorLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNameErrorLabel,
+        textLabelType: .clear(.reg11_alertRed),
+        hidden: true
+    )
     
-    let visitDateErrorLabel = UILabel()
-    
-    private let warningType: DRErrorType = Warning()
-    
+    let visitDateErrorLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateErrorLabel,
+        textLabelType: .clear(.reg11_alertRed),
+        hidden: true
+    )
+        
     
     // MARK: - Methods
     
@@ -107,8 +113,8 @@ final class AddCourseFirstView: BaseView {
         }
         
         visitDateErrorLabel.snp.makeConstraints {
-            $0.top.equalTo(addFirstView.visitDateContainer.snp.bottom).offset(2)
-            $0.leading.equalTo(addFirstView.visitDateContainer.snp.leading).offset(9)
+            $0.top.equalTo(addFirstView.visitDateTextField.snp.bottom).offset(2)
+            $0.leading.equalTo(addFirstView.visitDateTextField.snp.leading).offset(9)
         }
     }
     
@@ -130,32 +136,9 @@ final class AddCourseFirstView: BaseView {
             $0.isUserInteractionEnabled = true
         }
         
-        cameraBtn.do {
-            $0.setImage(.camera, for: .normal)
-            $0.backgroundColor = .gray200
-            $0.layer.cornerRadius = 32 / 2
-            $0.isUserInteractionEnabled = true
-        }
-        
         imageCountLabelContainer.do {
             $0.backgroundColor = .gray400
             $0.layer.cornerRadius = 10
-        }
-        
-        imageCountLabel.do {
-            $0.setLabel(textColor: UIColor(resource: .drWhite), font: .suit(.body_med_10))
-            $0.text = "1/10"
-        }
-        
-        for i in [dateNameErrorLabel,visitDateErrorLabel] {
-            i.do {
-                if i == dateNameErrorLabel {
-                    $0.setErrorLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNameErrorLabel, errorType: warningType)
-                } else {
-                    $0.setErrorLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateErrorLabel, errorType: warningType)
-                }
-                $0.isHidden = true
-            }
         }
     }
     
@@ -167,17 +150,17 @@ final class AddCourseFirstView: BaseView {
 extension AddCourseFirstView {
     
     func updateDateNameTextField(isPassValid: Bool) {
-        dateNameErrorLabel.isHidden = isPassValid
+        dateNameErrorLabel.updateLabelHidden(isPassValid)
         addFirstView.dateNameTextField.layer.borderWidth = isPassValid ? 0 : 1
     }
     
     func updateVisitDateTextField(isPassValid: Bool) {
-        visitDateErrorLabel.isHidden = isPassValid
-        addFirstView.visitDateContainer.layer.borderWidth = isPassValid ? 0 : 1
+        visitDateErrorLabel.updateLabelHidden(isPassValid)
+        addFirstView.visitDateTextField.layer.borderWidth = isPassValid ? 0 : 1
     }
     
     func updateImageCellUI(isEmpty: Bool, ImageDataCount: Int) {
-        cameraBtn.isHidden = isEmpty
+        cameraBtn.setButtonHidden(isEmpty)
         imageCountLabel.text = "\(ImageDataCount)/10"
     }
     

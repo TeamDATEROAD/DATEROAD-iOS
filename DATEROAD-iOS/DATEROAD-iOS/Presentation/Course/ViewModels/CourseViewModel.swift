@@ -36,37 +36,21 @@ final class CourseViewModel: Serviceable {
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var onLoading: ObservablePattern<Bool> = ObservablePattern(true)
-    
-    var didUpdateCityData: (() -> Void)?
-    
-    var didUpdateselectedCityName: ((String?) -> Void)?
-    
-    var didUpdateSelectedCountryIndex: ((Int?) -> Void)?
-    
-    var didUpdateSelectedCityIndex: ((Int?) -> Void)?
-    
-    var didUpdateSelectedPriceIndex: ((Int?) -> Void)?
-    
-    var didUpdateApplyButtonState: ((Bool) -> Void)?
-    
+        
     var didUpdateCourseList: (() -> Void)?
     
     func resetSelections() {
         selectedCountryIndex.value = 0
+        selectedCityName.value = nil
         selectedCityIndex.value = nil
         selectedPriceIndex.value = nil
         updateCityData()
     }
     
     func updateCityData() {
-        guard let selectedCountryIndex = selectedCountryIndex.value else {
-            cityData.removeAll()
-            didUpdateCityData?()
-            return
-        }
+        guard let selectedCountryIndex = selectedCountryIndex.value else { return }
         let selectedCountry = countryData[selectedCountryIndex]
         cityData = selectedCountry.cities
-        didUpdateCityData?()
     }
     
     func updateApplyButtonState() {
@@ -81,10 +65,14 @@ extension CourseViewModel {
         priceData = Price.allCases.map { $0.priceTitle }
     }
     
-    func getCourse(city: String?, cost: Int?) {
+    func getCourse() {
+        let city = selectedCityName.value ?? ""
+        let cost = selectedPriceIndex.value?.costNum()
+        
         self.isSuccessGetData.value = false
         self.setLoading()
-        NetworkService.shared.courseService.getCourseInfo(city: city ?? "", cost: cost) { response in
+        
+        NetworkService.shared.courseService.getCourseInfo(city: city, cost: cost) { response in
             switch response {
             case .success(let data):
                 let courseModels = data.courses.map { filterList in

@@ -7,6 +7,16 @@
 
 import UIKit
 
+protocol LoginDelegate: AnyObject {
+
+    func didTapKakaoLoginButton()
+    
+    func didTapAppleLoginButton()
+    
+    func didTapPrivacyPolicyButton()
+    
+}
+
 final class LoginView: BaseView {
     
     // MARK: - UI Properties
@@ -15,18 +25,35 @@ final class LoginView: BaseView {
     
     let kakaoLoginButton: UIButton = UIButton()
     
-    let appleLoginButton: UIButton = UIButton()
+    let appleLoginButton: DRTextButton = DRTextButton(title: StringLiterals.Login.appleLoginLabel, buttonName: .bold_black_14)
     
-    let privacyPolicyButton: UIButton = UIButton()
+    let privacyPolicyButton: DRTextButton = DRTextButton(title: StringLiterals.Login.privacyPolicyLabel, buttonName: .med_purple_0)
     
     
-    // MARK: - Methods
+    // MARK: - Properties
+    
+    weak var delegate: LoginDelegate?
+    
+    
+    // MARK: - Life Cycles
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setAddTarget()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func setHierarchy() {
-        self.addSubviews(logoImageView,
-                         kakaoLoginButton,
-                         appleLoginButton,
-                         privacyPolicyButton)
+        self.addSubviews(
+            logoImageView,
+            kakaoLoginButton,
+            appleLoginButton,
+            privacyPolicyButton
+        )
     }
     
     override func setLayout() {
@@ -56,7 +83,7 @@ final class LoginView: BaseView {
     }
     
     override func setStyle() {
-        self.backgroundColor = UIColor(resource: .deepPurple)
+        self.backgroundColor = UIColor(resource: .purple600)
         
         logoImageView.do {
             $0.image = UIImage(resource: .splashLogo)
@@ -76,17 +103,44 @@ final class LoginView: BaseView {
             $0.configuration = config
         }
         
-        appleLoginButton.do {
-            $0.setButtonStatus(buttonType: AppleLoginButton())
-            $0.setTitle(StringLiterals.Login.appleLoginLabel, for: .normal)
-        }
+        privacyPolicyButton.setUnderline()
+    }
+    
+}
+
+
+// MARK: - Methods
+
+extension LoginView {
+    
+    func setAddTarget() {
+        kakaoLoginButton.addTarget(self, action: #selector(didTapKakaoLoginButton), for: .touchUpInside)
         
-        privacyPolicyButton.do {
-            $0.setTitle(StringLiterals.Login.privacyPolicyLabel, for: .normal)
-            $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_med_15)
-            $0.setUnderline()
-        }
+        appleLoginButton.addTarget(self, action: #selector(didTapAppleLoginButton), for: .touchUpInside)
+        
+        privacyPolicyButton.addTarget(self, action: #selector(didTapPrivacyPolicyButton), for: .touchUpInside)
+    }
+    
+}
+
+
+// MARK: - @objc Methods
+
+extension LoginView {
+    
+    @objc
+    func didTapKakaoLoginButton() {
+        delegate?.didTapKakaoLoginButton()
+    }
+    
+    @objc
+    func didTapAppleLoginButton() {
+        delegate?.didTapAppleLoginButton()
+    }
+    
+    @objc
+    func didTapPrivacyPolicyButton() {
+        delegate?.didTapPrivacyPolicyButton()
     }
     
 }

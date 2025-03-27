@@ -161,13 +161,17 @@ extension MainViewModel {
                     self.updateSectionIndex.value = 0
                 }
                 self.totalFetchCount += 1
+                
             case .requestErr:
                 self.upcomingData.value = nil
+                self.updateSectionIndex.value = 0
                 self.totalFetchCount += 1
+                
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
+                
             default:
                 print("Failed to fetch upcoming date course")
                 self.onFailNetwork.value = false

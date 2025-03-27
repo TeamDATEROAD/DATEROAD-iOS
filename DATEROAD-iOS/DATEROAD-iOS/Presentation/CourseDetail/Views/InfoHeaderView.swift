@@ -14,7 +14,7 @@ final class InfoHeaderView: UICollectionReusableView {
     
     // MARK: - UI Properties
     
-    private let titleLabel: UILabel = UILabel()
+    private let titleLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold18_black), numberOfLines: 1)
     
     
     // MARK: - Properties
@@ -31,7 +31,6 @@ final class InfoHeaderView: UICollectionReusableView {
         
         setHierarchy()
         setLayout()
-        setStyle()
     }
     
     required init?(coder: NSCoder) {
@@ -46,15 +45,6 @@ final class InfoHeaderView: UICollectionReusableView {
         titleLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview()
             $0.leading.equalToSuperview()
-        }
-    }
-    
-    func setStyle() {
-        titleLabel.do {
-            $0.text = "코스"
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.font = UIFont.suit(.title_bold_18)
-            $0.numberOfLines = 1
         }
     }
     

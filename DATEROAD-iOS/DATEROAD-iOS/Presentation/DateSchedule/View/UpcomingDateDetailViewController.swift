@@ -7,9 +7,6 @@
 
 import UIKit
 
-import SnapKit
-import Then
-
 final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - UI Properties
@@ -18,10 +15,11 @@ final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
-    lazy var bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView,
-                                                         height: 222,
-                                                         buttonType: DisabledButton(),
-                                                         buttonTitle: StringLiterals.DateSchedule.quit)
+    lazy var bottomSheetVC = DRBottomSheetViewController(
+        contentView: dateScheduleDeleteView,
+        height: 222,
+        buttonType: DRTextButton(title: StringLiterals.DateSchedule.quit, buttonName: .bold_gray200_14)
+    )
     
     
     // MARK: - Properties
@@ -177,7 +175,7 @@ extension UpcomingDateDetailViewController {
     }
     
     private func setButton() {
-        upcomingDateDetailContentView.dDayButton.isHidden = false
+        upcomingDateDetailContentView.dDayLabel.isHidden = false
         upcomingDateDetailContentView.kakaoShareButton.isHidden = false
         upcomingDateDetailContentView.courseShareButton.isHidden = true
         
@@ -185,19 +183,29 @@ extension UpcomingDateDetailViewController {
     }
     
     func setColor(index: Int) {
-        let colorIndex = index % 3
-        if colorIndex == 0 {
-            self.setBackgroundColor(color: UIColor(resource: .pink200))
-        } else if colorIndex == 1 {
-            self.setBackgroundColor(color: UIColor(resource: .purple200))
-        } else {
-            self.setBackgroundColor(color: UIColor(resource: .lime))
-        }
+        let cardType = DateCardType(rawValue: index % 3) ?? .pink
+        self.setBackgroundColor(color: cardType.bgColor)
         upcomingDateDetailContentView.setColor(index: index)
     }
     
 }
 
+// MARK: - @objc Methods
+
+extension UpcomingDateDetailViewController {
+    
+    // 상단 왼쪽 더보기 버튼 탭 액션
+    
+    @objc
+    private func deleteDateCourse() {
+        bottomSheetVC.delegate = self
+        
+        DispatchQueue.main.async {
+            self.bottomSheetVC.presentBottomSheet(in: self)
+        }
+    }
+    
+}
 
 // MARK: - Alert Methods
 
@@ -221,11 +229,13 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     @objc
     private func tapKakaoButton() {
         AmplitudeManager.shared.trackEventWithProperties(StringLiterals.Amplitude.EventName.clickKakaoShare, properties: [StringLiterals.Amplitude.Property.dateCourseNum : upcomingDateDetailViewModel.dateCourseNum, StringLiterals.Amplitude.Property.dateTotalDuration : upcomingDateDetailViewModel.dateTotalDuration])
-        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.kakaoShare,
-                                                        alertTextType: .noDescription,
-                                                        alertButtonType: .twoButton,
-                                                        titleText: StringLiterals.Alert.kakaoAlert,
-                                                        rightButtonText: "열기")
+        let customAlertVC = DRCustomAlertViewController(
+            rightActionType: RightButtonType.kakaoShare,
+            alertTextType: .noDescription,
+            titleText: StringLiterals.Alert.kakaoAlert,
+            leftButton: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_gray100_10),
+            rightButton: DRTextButton(title: StringLiterals.DateSchedule.open, buttonName: .bold_purple_10)
+        )
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         self.present(customAlertVC, animated: false)
@@ -233,7 +243,14 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
     
     @objc
     private func tapDeleteLabel() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: RightButtonType.deleteCourse, alertTextType: .hasDecription, alertButtonType: .twoButton, titleText: StringLiterals.Alert.deleteDateSchedule, descriptionText: StringLiterals.Alert.noMercy, rightButtonText: "삭제")
+        let customAlertVC = DRCustomAlertViewController(
+            rightActionType: RightButtonType.deleteCourse,
+            alertTextType: .hasDecription,
+            titleText: StringLiterals.Alert.deleteDateSchedule,
+            descriptionText: StringLiterals.Alert.noMercy,
+            leftButton: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_gray100_10),
+            rightButton: DRTextButton(title: StringLiterals.Alert.delete, buttonName: .bold_purple_10)
+        )
         customAlertVC.delegate = self
         customAlertVC.modalPresentationStyle = .overFullScreen
         self.present(customAlertVC, animated: false)
@@ -248,22 +265,11 @@ extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
         self.bottomSheetVC.dismissBottomSheet()
     }
     
-    @objc
-    private func deleteDateCourse() {
-        let labelTap = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
-        dateScheduleDeleteView.deleteLabel.addGestureRecognizer(labelTap)
-        bottomSheetVC.delegate = self
-        
-        DispatchQueue.main.async {
-            self.bottomSheetVC.presentBottomSheet(in: self)
-        }
-    }
-    
-    @objc
-    func didTapFirstLabel() {
-        self.dismiss(animated: false)
-        tapDeleteLabel()
-    }
+//    @objc
+//    func didTapFirstLabel() {
+//        self.dismiss(animated: false)
+//        tapDeleteLabel()
+//    }
     
 }
 
@@ -273,7 +279,7 @@ extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
 private extension UpcomingDateDetailViewController {
     
     func registerCell() {
-        upcomingDateDetailContentView.dateTimeLineCollectionView.register(DateTimeLineCollectionViewCell.self, forCellWithReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier)
+        upcomingDateDetailContentView.dateTimeLineCollectionView.register(DRTimelineCollectionViewCell.self, forCellWithReuseIdentifier: DRTimelineCollectionViewCell.cellIdentifier)
     }
     
     func setDelegate() {
@@ -309,10 +315,23 @@ extension UpcomingDateDetailViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let data = upcomingDateDetailViewModel.dateDetailData.value?.places[indexPath.item] else { return UICollectionViewCell() }
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier, for: indexPath) as? DateTimeLineCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DRTimelineCollectionViewCell.cellIdentifier, for: indexPath) as? DRTimelineCollectionViewCell else {
             return UICollectionViewCell() }
-        cell.dataBind(data, indexPath.item)
+        cell.type = .schedule
+        cell.dataBind(data)
         return cell
+    }
+    
+}
+
+
+// MARK: - DateScheduleDeleteDelegate
+
+extension UpcomingDateDetailViewController: DateScheduleDeleteDelegate {
+    
+    func didTapDeleteSchedule() {
+        self.dismiss(animated: false)
+        tapDeleteLabel()
     }
     
 }

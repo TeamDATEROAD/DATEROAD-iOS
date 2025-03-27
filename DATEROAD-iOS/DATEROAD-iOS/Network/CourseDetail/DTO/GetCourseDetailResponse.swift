@@ -71,7 +71,7 @@ struct GetCourseDetailPlace: Codable {
     
     let title: String
     
-    let duration: Double
+    let duration: Float
     
 }
 

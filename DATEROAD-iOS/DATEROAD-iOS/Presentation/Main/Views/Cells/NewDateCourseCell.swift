@@ -19,11 +19,15 @@ final class NewDateCourseCell: BaseCollectionViewCell {
     
     private let likeLabel: DRPaddingLabel = DRPaddingLabel()
     
-    private let countryLabel: DRPaddingLabel = DRPaddingLabel()
+    private let countryLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_gray400))
     
     private let dateNameView: UIView = UIView()
     
-    private let dateNameLabel: UILabel = UILabel()
+    private let dateNameLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.systemBold17_black),
+        alignment: .left,
+        numberOfLines: 2
+    )
     
     private let costView: UIView = UIView()
     
@@ -49,19 +53,21 @@ final class NewDateCourseCell: BaseCollectionViewCell {
     }
     
     override func setHierarchy() {
-        self.addSubviews(courseImage,
-                         likeView,
-                         likeImage,
-                         likeLabel,
-                         countryLabel,
-                         dateNameView,
-                         
-                         costView,
-                         costImage,
-                         costLabel,
-                         timeView,
-                         timeImage,
-                         timeLabel)
+        self.addSubviews(
+            courseImage,
+            likeView,
+            likeImage,
+            likeLabel,
+            countryLabel,
+            dateNameView,
+            costView,
+            costImage,
+            costLabel,
+            timeView,
+            timeImage,
+            timeLabel
+        )
+        
         dateNameView.addSubview(dateNameLabel)
     }
     
@@ -147,34 +153,23 @@ final class NewDateCourseCell: BaseCollectionViewCell {
     override func setStyle() {
         self.backgroundColor = UIColor(resource: .drWhite)
         
-        countryLabel.do {
-            $0.backgroundColor = UIColor(resource: .drWhite)
-            $0.setLabel(textColor: UIColor(resource: .gray400), font: UIFont.suit(.body_med_13))
-        }
-        
         courseImage.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.image = UIImage(resource: .placeholder)
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFill
-            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner,
-                                                              .layerMinXMaxYCorner,
-                                                              .layerMaxXMaxYCorner,
-                                                              .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 14)
         }
         
         likeView.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
-            $0.roundCorners(cornerRadius: 12, maskedCorners: [.layerMaxXMinYCorner,
-                                                              .layerMinXMaxYCorner,
-                                                              .layerMaxXMaxYCorner,
-                                                              .layerMinXMinYCorner])
+            $0.backgroundColor = UIColor(resource: .purple600)
+            $0.roundCorners(cornerRadius: 12)
         }
         
         likeImage.image = UIImage(resource: .heartIcon)
         
         likeLabel.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.textColor = UIColor(resource: .drWhite)
             $0.font = UIFont.suit(.body_bold_13)
             $0.roundedLabel(cornerRadius: 12, maskedCorners: [.layerMaxXMinYCorner, .layerMaxXMaxYCorner])
@@ -183,21 +178,9 @@ final class NewDateCourseCell: BaseCollectionViewCell {
         
         dateNameView.backgroundColor = UIColor(resource: .drWhite)
         
-        dateNameLabel.do {
-            $0.textAlignment = .left
-            $0.backgroundColor = UIColor(resource: .drWhite)
-            $0.numberOfLines = 2
-            $0.setLabel(alignment: .left,
-                textColor: UIColor(resource: .drBlack),
-                font: UIFont.systemFont(ofSize: 17, weight: .bold))
-        }
-        
         costView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner,
-                                                              .layerMinXMaxYCorner,
-                                                              .layerMaxXMaxYCorner,
-                                                              .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 14)
         }
         
         costImage.image = UIImage(resource: .coastIcon)
@@ -207,18 +190,12 @@ final class NewDateCourseCell: BaseCollectionViewCell {
             $0.textColor = UIColor(resource: .gray400)
             $0.font = UIFont.suit(.body_med_13)
             $0.setPadding(top: 4, left: 0, bottom: 4, right: 10)
-            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner,
-                                                              .layerMinXMaxYCorner,
-                                                              .layerMaxXMaxYCorner,
-                                                              .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 14)
         }
         
         timeView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
-            $0.roundCorners(cornerRadius: 14, maskedCorners: [.layerMaxXMinYCorner,
-                                                              .layerMinXMaxYCorner,
-                                                              .layerMaxXMaxYCorner,
-                                                              .layerMinXMinYCorner])
+            $0.roundCorners(cornerRadius: 14)
         }
         
         timeImage.image = UIImage(resource: .timeIcon)

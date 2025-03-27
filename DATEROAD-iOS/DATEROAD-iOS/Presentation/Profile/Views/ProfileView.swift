@@ -7,42 +7,76 @@
 
 import UIKit
 
+protocol ProfileDelegate: AnyObject {
+    
+    func didChangeTextfield()
+    
+    func didTapEditImageButton()
+    
+    func didTapDoubleCheckButton()
+    
+    func didTapRegisterButton()
+    
+}
+
 final class ProfileView: BaseView {
     
     // MARK: - UI Properties
     
     let profileImageView: UIImageView = UIImageView()
     
-    let editImageButton: UIButton = UIButton()
+    private let editImageButton: DRImageButton = DRImageButton(image: UIImage(resource: .icProfileplus), buttonName: .clear_clear_0)
     
-    private let nicknameLabel: UILabel = UILabel()
+    private let nicknameLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.Profile.nickname,
+        textLabelType: .clear(.bold15_black),
+        alignment: .left
+    )
     
-    private let nicknameInfoLabel: UILabel = UILabel()
+    private let nicknameInfoLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.Profile.nicknameInfo,
+        textLabelType: .clear(.med13_gray300),
+        alignment: .left
+    )
     
-    let nicknameTextfield: UITextField = UITextField()
+    let nicknameTextfield: DRTextField = DRTextField(type: .profile)
     
-    private let rightViewBox: UIView = UIView()
+    let nicknameErrMessageLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.Profile.disabledNickname,
+        textLabelType: .clear(.reg11_alertRed),
+        hidden: true
+    )
     
-    let doubleCheckButton: UIButton = UIButton()
+    private let countLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.Profile.countPlaceholder,
+        textLabelType: .clear(.reg11_gray300),
+        alignment: .right
+    )
     
-    let nicknameErrMessageLabel: UILabel = UILabel()
-    
-    private let countLabel: UILabel = UILabel()
-    
-    private let datingTendencyLabel: UILabel = UILabel()
+    private let datingTendencyLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.Profile.dateTendency,
+        textLabelType: .clear(.bold15_black),
+        alignment: .left
+    )
     
     let tendencyTagCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    let tagErrMessageLabel: UILabel = UILabel()
+    let tagErrMessageLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.Profile.selectTag,
+        textLabelType: .clear(.reg11_alertRed),
+        hidden: true
+    )
     
-    let registerButton: UIButton = UIButton()
+    let registerButton: DRTextButton = DRTextButton(
+        title: StringLiterals.Profile.registerProfile,
+        buttonName: .bold_gray200_14,
+        isEnabled: false
+    )
     
     
     // MARK: - Properties
     
-    private let enabledButtonType: DRButtonType = EnabledButton()
-    
-    private let disabledButtonType: DRButtonType = DisabledButton()
+    weak var delegate: ProfileDelegate?
     
     private let warningType: DRErrorType = Warning()
     
@@ -50,6 +84,16 @@ final class ProfileView: BaseView {
     
     
     // MARK: - Life Cycle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setAddTarget()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -142,74 +186,6 @@ final class ProfileView: BaseView {
             $0.contentMode = .scaleAspectFill
         }
         
-        editImageButton.do {
-            $0.setImage(UIImage(resource: .icProfileplus), for: .normal)
-            $0.isUserInteractionEnabled = true
-        }
-        
-        nicknameLabel.setLabel(text: StringLiterals.Profile.nickname,
-                               alignment: .left,
-                               textColor: UIColor(resource: .drBlack),
-                               font: UIFont.suit(.body_bold_15))
-        
-        nicknameInfoLabel.setLabel(text: StringLiterals.Profile.nicknameInfo,
-                                   alignment: .left,
-                                   textColor: UIColor(resource: .gray300),
-                                   font: UIFont.suit(.body_med_13))
-        
-        nicknameTextfield.do {
-            rightViewBox.addSubview(doubleCheckButton)
-            rightViewBox.snp.makeConstraints {
-                $0.width.equalTo(90)
-                $0.height.equalTo(30)
-            }
-            doubleCheckButton.snp.makeConstraints {
-                $0.leading.equalToSuperview()
-                $0.verticalEdges.equalToSuperview()
-                $0.width.equalTo(74)
-            }
-            $0.rightView = rightViewBox
-            $0.rightViewMode = .always
-            
-            $0.setLeftPadding(amount: 16)
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.backgroundColor = UIColor(resource: .gray100)
-            $0.clipsToBounds = true
-            $0.layer.cornerRadius = 14
-            $0.placeholder = StringLiterals.Profile.nicknamePlaceholder
-            $0.setPlaceholder(placeholder: StringLiterals.Profile.nicknamePlaceholder,
-                              fontColor: UIColor(resource: .gray300),
-                              font: UIFont.suit(.body_semi_15))
-            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 15, weight: .semibold), .foregroundColor: UIColor(resource: .drBlack)]
-            $0.defaultTextAttributes = attributes
-        }
-        
-        doubleCheckButton.do {
-            $0.setTitle(StringLiterals.Profile.doubleCheck, for: .normal)
-            $0.setButtonStatus(buttonType: disabledButtonType)
-            $0.titleLabel?.font = UIFont.suit(.body_med_13)
-        }
-        
-        nicknameErrMessageLabel.do {
-            $0.isHidden = true
-            $0.setErrorLabel(text: StringLiterals.Profile.disabledNickname, errorType: warningType)
-        }
-        
-        countLabel.setLabel(text: StringLiterals.Profile.countPlaceholder,
-                            alignment: .right ,
-                            textColor: UIColor(resource: .gray300),
-                            font: UIFont.suit(.cap_reg_11))
-        
-        datingTendencyLabel.setLabel(text: StringLiterals.Profile.dateTendency,
-                                     alignment: .left,
-                                     textColor: UIColor(resource: .drBlack),
-                                     font: UIFont.suit(.body_bold_15))
-
-        registerButton.do {
-            $0.setTitle(StringLiterals.Profile.registerProfile, for: .normal)
-            $0.setButtonStatus(buttonType: disabledButtonType)
-        }
-        
         tendencyTagCollectionView.do {
             $0.contentInsetAdjustmentBehavior = .never
             $0.showsVerticalScrollIndicator = false
@@ -218,25 +194,37 @@ final class ProfileView: BaseView {
             $0.collectionViewLayout = layout
             
         }
-        
-        tagErrMessageLabel.do {
-            $0.isHidden = true
-            $0.setErrorLabel(text: StringLiterals.Profile.selectTag, errorType: warningType)
-        }
     }
     
 }
 
 extension ProfileView {
     
+    func setAddTarget() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(endEditing(_:)))
+        addGestureRecognizer(tapGesture)
+        
+        nicknameTextfield.addTarget(self, action: #selector(didChangeTextfield), for: .editingChanged)
+
+        editImageButton.addTarget(self, action: #selector(didTapEditImageButton), for: .touchUpInside)
+        
+        if let button = nicknameTextfield.rightView as? UIButton {
+            button.addTarget(self, action: #selector(didTapDoubleCheckButton), for: .touchUpInside)
+        }
+        
+        registerButton.addTarget(self, action: #selector(didTapRegisterButton), for: .touchUpInside)
+    }
+    
     func updateNicknameErrLabel(errorType: ProfileErrorType) {
         switch errorType {
         case .isNotValidCount:
-            nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.minimumNickname, errorType: self.warningType)
+            nicknameErrMessageLabel.updateTextColor(StringLiterals.Profile.minimumNickname, .alertRed)
+        
         case .isValid:
-            nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.enabledNickname, errorType: self.correctType)
+            nicknameErrMessageLabel.updateTextColor(StringLiterals.Profile.enabledNickname, .purple600)
+        
         case .isNotValid:
-            nicknameErrMessageLabel.setErrorLabel(text: StringLiterals.Profile.disabledNickname, errorType: self.warningType)
+            nicknameErrMessageLabel.updateTextColor(StringLiterals.Profile.disabledNickname, .alertRed)
         }
     }
     
@@ -252,11 +240,9 @@ extension ProfileView {
     }
     
     func updateDoubleCheckButton(isValid: Bool) {
-        isValid
-        ? doubleCheckButton.setButtonStatus(buttonType: enabledButtonType)
-        : doubleCheckButton.setButtonStatus(buttonType: disabledButtonType)
-        doubleCheckButton.titleLabel?.font = UIFont.suit(.body_med_13)
-        doubleCheckButton.layer.cornerRadius = 10
+        if let button = nicknameTextfield.rightView as? DRTextButton {
+            button.setButtonStyle(isValid ? .med_purple_10 : .med_gray200_10, isEnabled: isValid)
+        }
     }
     
     func updateTagCount(count: Int) {
@@ -268,14 +254,40 @@ extension ProfileView {
     }
     
     func updateRegisterButton(isValid: Bool) {
-        isValid 
-        ? registerButton.setButtonStatus(buttonType: enabledButtonType)
-        : registerButton.setButtonStatus(buttonType: disabledButtonType)
-        registerButton.titleLabel?.font = UIFont.suit(.body_bold_15)
+        registerButton.setButtonStyle(isValid ? .bold_purple_14 : .bold_gray200_14, isEnabled: isValid)
     }
     
     func updateProfileImage(image: UIImage) {
         profileImageView.image = image
+    }
+    
+}
+
+
+// MARK: - @objc Methods
+
+extension ProfileView {
+    
+    @objc
+    func didChangeTextfield() {
+        delegate?.didChangeTextfield()
+    }
+    
+    @objc
+    func didTapEditImageButton() {
+        delegate?.didTapEditImageButton()
+    }
+    
+    @objc
+    func didTapDoubleCheckButton() {
+        print("doubleCheckNickname view")
+        delegate?.didTapDoubleCheckButton()
+    }
+    
+    @objc
+    func didTapRegisterButton() {
+        registerButton.isEnabled = false
+        delegate?.didTapRegisterButton()
     }
     
 }

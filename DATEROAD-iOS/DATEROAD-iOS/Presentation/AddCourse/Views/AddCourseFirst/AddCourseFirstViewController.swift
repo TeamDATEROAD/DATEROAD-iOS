@@ -18,7 +18,11 @@ final class AddCourseFirstViewController: BaseNavBarViewController {
     
     let addSheetView = AddSheetView(isCustomPicker: false)
     
-    lazy var alertVC = DRBottomSheetViewController(contentView: addSheetView, height: 304, buttonType: EnabledButton(), buttonTitle: StringLiterals.AddCourseOrSchedule.AddBottomSheetView.datePickerBtnTitle)
+    lazy var alertVC = DRBottomSheetViewController(
+        contentView: addSheetView,
+        height: 304,
+        buttonType: DRTextButton(title: StringLiterals.AddCourseOrSchedule.AddBottomSheetView.datePickerBtnTitle, buttonName: .bold_purple_14)
+    )
     
     let locationFilterVC = LocationFilterViewController()
     
@@ -189,6 +193,11 @@ private extension AddCourseFirstViewController {
     }
     
     func setDelegate() {
+        addCourseFirstView.addFirstView.dateNameTextField.delegate = self
+        addCourseFirstView.addFirstView.visitDateTextField.delegate = self
+        addCourseFirstView.addFirstView.dateStartAtTextField.delegate = self
+        addCourseFirstView.addFirstView.datePlaceTextField.delegate = self
+        
         addCourseFirstView.collectionView.do {
             $0.delegate = self
             $0.dataSource = self
@@ -207,19 +216,6 @@ private extension AddCourseFirstViewController {
         addCourseFirstView.addFirstView.dateNameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
         addCourseFirstView.addFirstView.sixCheckNextButton.addTarget(self, action: #selector(sixCheckBtnTapped), for: .touchUpInside)
-        
-        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(visitDate))
-        addCourseFirstView.addFirstView.visitDateContainer.addGestureRecognizer(tapGesture1)
-        addCourseFirstView.addFirstView.visitDateContainer.isUserInteractionEnabled = true
-        
-        let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(dateStartAt))
-        addCourseFirstView.addFirstView.dateStartAtContainer.addGestureRecognizer(tapGesture2)
-        addCourseFirstView.addFirstView.dateStartAtContainer.isUserInteractionEnabled = true
-        
-        
-        let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(datePlaceContainerTapped))
-        addCourseFirstView.addFirstView.datePlaceContainer.addGestureRecognizer(tapGesture3)
-        addCourseFirstView.addFirstView.datePlaceContainer.isUserInteractionEnabled = true
     }
     
     @objc
@@ -266,7 +262,9 @@ private extension AddCourseFirstViewController {
             viewModel.isPickedImageVaild.value = false
             addCourseFirstView.collectionView.reloadData()
         } else {
+            let currentImageCnt = viewModel.pickedImageArr.count
             addCourseFirstView.collectionView.deleteItems(at: [indexPath])
+            addCourseFirstView.updateImageCellUI(isEmpty: false, ImageDataCount: currentImageCnt)
         }
         
         self.addCourseFirstView.addFirstView.tendencyTagCollectionView.register(TendencyTagCollectionViewCell.self, forCellWithReuseIdentifier: TendencyTagCollectionViewCell.cellIdentifier)
@@ -308,6 +306,7 @@ private extension AddCourseFirstViewController {
     
     @objc
     func datePlaceContainerTapped() {
+        view.endEditing(true)
         locationFilterVC.isAddType = true
         locationFilterVC.delegate = self
         DispatchQueue.main.async {
@@ -439,13 +438,25 @@ extension AddCourseFirstViewController: UICollectionViewDataSource {
 extension AddCourseFirstViewController: UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField == addCourseFirstView.addFirstView.dateNameTextField {
+        switch textField {
+        case addCourseFirstView.addFirstView.dateNameTextField:
+            print("dateNameTextField Tapped")
             return true
-        } else {
-            return false
+        case addCourseFirstView.addFirstView.visitDateTextField:
+            print("visitDateTextField Tapped")
+            visitDate()
+        case addCourseFirstView.addFirstView.dateStartAtTextField:
+            print("dateStartAtTextField Tapped")
+            dateStartAt()
+        case addCourseFirstView.addFirstView.datePlaceTextField:
+            print("datePlaceTextField Tapped")
+            datePlaceContainerTapped()
+        default:
+            print("textFieldShouldBeginEditing default")
         }
+        return false
     }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

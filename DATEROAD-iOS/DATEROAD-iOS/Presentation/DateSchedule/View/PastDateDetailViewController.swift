@@ -7,9 +7,6 @@
 
 import UIKit
 
-import SnapKit
-import Then
-
 final class PastDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - UI Properties
@@ -18,10 +15,11 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
-    lazy var bottomSheetVC = DRBottomSheetViewController(contentView: dateScheduleDeleteView,
-                                                         height: 222,
-                                                         buttonType: DisabledButton(),
-                                                         buttonTitle: StringLiterals.DateSchedule.quit)
+    lazy var bottomSheetVC = DRBottomSheetViewController(
+        contentView: dateScheduleDeleteView,
+        height: 222,
+        buttonType: DRTextButton(title: StringLiterals.DateSchedule.quit, buttonName: .bold_gray200_14)
+    )
     
     
     // MARK: - Properties
@@ -59,7 +57,7 @@ final class PastDateDetailViewController: BaseNavBarViewController {
         super.viewDidLoad()
         
         setLeftBackButton()
-        setTitleLabelStyle(title: "지난 데이트", alignment: .center)
+        setTitleLabelStyle(title: StringLiterals.DateSchedule.pastDate, alignment: .center)
         setRightButtonStyle(image: UIImage(resource: .moreButton))
         setRightButtonAction(target: self, action: #selector(deleteDateCourse))
         bindViewModel()
@@ -85,25 +83,54 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     
 }
 
+
+// MARK: - Methods
+
+extension PastDateDetailViewController {
+    
+    // 바텀 시트 삭제 버튼 탭 메소드
+    func tapDeleteLabel() {
+        let customAlertVC = DRCustomAlertViewController(
+            rightActionType: .deleteCourse,
+            alertTextType: .hasDecription,
+            titleText: StringLiterals.Alert.deletePastDateSchedule,
+            descriptionText: StringLiterals.Alert.noMercy,
+            leftButton: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_gray100_10),
+            rightButton: DRTextButton(title: StringLiterals.Alert.delete, buttonName: .bold_purple_10)
+        )
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        self.present(customAlertVC, animated: false)
+    }
+    
+}
+
+
+// MARK: - @objc Methods
+
+extension PastDateDetailViewController {
+    
+    // 상단 왼쪽 더보기 버튼 탭 메소드
+    @objc
+    private func deleteDateCourse() {
+        bottomSheetVC.delegate = self
+        
+        DispatchQueue.main.async {
+            self.bottomSheetVC.presentBottomSheet(in: self)
+        }
+    }
+    
+}
+
+
+// MARK: - 삭제 커스텀 알럿 델리게이트
+
 extension PastDateDetailViewController: DRCustomAlertDelegate {
     
     func action(rightButtonAction: RightButtonType) {
         if rightButtonAction == .deleteCourse {
             pastDateDetailViewModel.deleteDateSchdeuleData(dateID: pastDateDetailViewModel.dateDetailData.value?.dateID ?? 0)
         }
-    }
-    
-    @objc
-    func tapDeleteLabel() {
-        let customAlertVC = DRCustomAlertViewController(rightActionType: .deleteCourse,
-                                                        alertTextType: .hasDecription,
-                                                        alertButtonType: .twoButton,
-                                                        titleText: StringLiterals.Alert.deletePastDateSchedule,
-                                                        descriptionText: StringLiterals.Alert.noMercy,
-                                                        rightButtonText: StringLiterals.Alert.delete)
-        customAlertVC.delegate = self
-        customAlertVC.modalPresentationStyle = .overFullScreen
-        self.present(customAlertVC, animated: false)
     }
     
 }
@@ -116,23 +143,11 @@ extension PastDateDetailViewController: DRBottomSheetDelegate {
     func didTapBottomButton() {
         self.bottomSheetVC.dismissBottomSheet()
     }
-    
-    @objc
-    private func deleteDateCourse() {
-        let labelTap = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
-        dateScheduleDeleteView.deleteLabel.addGestureRecognizer(labelTap)
-        bottomSheetVC.delegate = self
-        
-        DispatchQueue.main.async {
-            self.bottomSheetVC.presentBottomSheet(in: self)
-        }
-    }
-    
-    @objc
-    func didTapFirstLabel() {
-        self.dismiss(animated: false)
-        tapDeleteLabel()
-    }
+
+//    func didTapFirstLabel() {
+//        self.dismiss(animated: false)
+//        tapDeleteLabel()
+//    }
     
 }
 
@@ -228,22 +243,15 @@ extension PastDateDetailViewController {
     }
     
     func setColor(index: Int) {
-        let colorIndex = index % 3
-        if colorIndex == 0 {
-            self.setBackgroundColor(color: UIColor(resource: .pink200))
-        } else if colorIndex == 1 {
-            self.setBackgroundColor(color: UIColor(resource: .purple200))
-        } else {
-            self.setBackgroundColor(color: UIColor(resource: .lime))
-        }
+        let cardType = DateCardType(rawValue: index % 3) ?? .pink
+        self.setBackgroundColor(color: cardType.bgColor)
         pastDateDetailContentView.setColor(index: index)
     }
     
-    //TODO: - 추후 데이트코스 공유 코스 등록 기능 살아날 시 수정해야함.
+    // TODO: - 추후 데이트코스 공유 코스 등록 기능 살아날 시 수정해야함.
     // isBroughtData 변수 생성하여 AddSchedule과 동일하게 수행하도록 수정
     @objc
     private func tapShareCourse() {
-        print("코스 등록해서 공유하기 여기!!!!!!!!!!!!")
         guard let data = pastDateDetailViewModel.dateDetailData.value
         else { return }
         
@@ -260,10 +268,11 @@ extension PastDateDetailViewController {
 private extension PastDateDetailViewController {
     
     func registerCell() {
-        pastDateDetailContentView.dateTimeLineCollectionView.register(DateTimeLineCollectionViewCell.self, forCellWithReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier)
+        pastDateDetailContentView.dateTimeLineCollectionView.register(DRTimelineCollectionViewCell.self, forCellWithReuseIdentifier: DRTimelineCollectionViewCell.cellIdentifier)
     }
     
     func setDelegate() {
+        dateScheduleDeleteView.delegate = self
         pastDateDetailContentView.dateTimeLineCollectionView.delegate = self
         pastDateDetailContentView.dateTimeLineCollectionView.dataSource = self
     }
@@ -295,10 +304,23 @@ extension PastDateDetailViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let data = pastDateDetailViewModel.dateDetailData.value?.places[indexPath.item] else { return UICollectionViewCell() }
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier, for: indexPath) as? DateTimeLineCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DRTimelineCollectionViewCell.cellIdentifier, for: indexPath) as? DRTimelineCollectionViewCell else {
             return UICollectionViewCell() }
-        cell.dataBind(data, indexPath.item)
+        cell.type = .schedule
+        cell.dataBind(data)
         return cell
+    }
+    
+}
+
+
+// MARK: - DateScheduleDeleteDelegate
+
+extension PastDateDetailViewController: DateScheduleDeleteDelegate {
+    
+    func didTapDeleteSchedule() {
+        self.dismiss(animated: false)
+        tapDeleteLabel()
     }
     
 }

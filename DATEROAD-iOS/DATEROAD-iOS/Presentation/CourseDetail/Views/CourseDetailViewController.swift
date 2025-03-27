@@ -24,10 +24,15 @@ final class CourseDetailViewController: BaseViewController {
     
     private let skeletonView: CourseDetailSkeletonView = CourseDetailSkeletonView()
     
-    lazy var bottomSheetVC = DRBottomSheetViewController(contentView: deleteCourseSettingView,
-                                                         height: 210,
-                                                         buttonType: DisabledButton(),
-                                                         buttonTitle: StringLiterals.Common.close)
+    lazy var bottomSheetVC = DRBottomSheetViewController(
+        contentView: deleteCourseSettingView,
+        height: 210,
+        buttonType: DRTextButton(
+            title: StringLiterals.Common.close,
+            buttonName: .bold_gray200_14,
+            isEnabled: false
+        )
+    )
     
     
     // MARK: - Properties
@@ -82,9 +87,11 @@ final class CourseDetailViewController: BaseViewController {
     override func setHierarchy() {
         super.setHierarchy()
         
-        self.view.addSubviews(courseDetailView,
-                              courseInfoTabBarView,
-                              skeletonView)
+        self.view.addSubviews(
+            courseDetailView,
+            courseInfoTabBarView,
+            skeletonView
+        )
     }
     
     override func setLayout() {
@@ -98,7 +105,7 @@ final class CourseDetailViewController: BaseViewController {
         }
         
         courseInfoTabBarView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.horizontalEdges.bottom.equalToSuperview()
             $0.height.equalTo(108)
         }
         
@@ -121,7 +128,7 @@ final class CourseDetailViewController: BaseViewController {
             
             $0.register(MainContentsCell.self, forCellWithReuseIdentifier: MainContentsCell.cellIdentifier)
             
-            $0.register(TimelineInfoCell.self, forCellWithReuseIdentifier: TimelineInfoCell.cellIdentifier)
+            $0.register(DRTimelineCollectionViewCell.self, forCellWithReuseIdentifier: DRTimelineCollectionViewCell.cellIdentifier)
             
             $0.register(CostInfoCell.self, forCellWithReuseIdentifier: CostInfoCell.cellIdentifier)
             
@@ -228,10 +235,10 @@ final class CourseDetailViewController: BaseViewController {
     }
     
     func setAddTarget() {
-        deleteCourseSettingView.deleteLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapBottomSheetLabel(sender:))))
+        deleteCourseSettingView.optionButton.addTarget(self, action: #selector(didTapBottomSheetLabel(sender:)), for: .touchUpInside)
         courseInfoTabBarView.likeButtonView.isUserInteractionEnabled = true
         courseInfoTabBarView.likeButtonView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapLikeButton)))
-        courseInfoTabBarView.bringCourseButton.addTarget(self, action: #selector(didTapMySchedule), for: .touchUpInside)
+        courseInfoTabBarView.registerForScheduleButton.addTarget(self, action: #selector(didTapRegisterForSchedule), for: .touchUpInside)
     }
     
 }
@@ -298,9 +305,13 @@ extension CourseDetailViewController: DRCustomAlertDelegate {
     
 }
 
-extension CourseDetailViewController: ContentMaskViewDelegate {
+
+// MARK: - ContentMaskView Methods
+
+extension CourseDetailViewController {
     
     //버튼 분기 처리하기
+    @objc
     func didTapViewButton() {
         self.clickCoursePurchase = true
         courseDetailViewModel.haveFreeCount.value == true ? showFreeViewAlert() : showReadCourseAlert()
@@ -345,12 +356,14 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     }
     
     func presentCustomAlert(title: String, description: String, action: RightButtonType, buttonText: String = StringLiterals.Alert.confirm) {
-        let alertVC = DRCustomAlertViewController(rightActionType: action,
-                                                  alertTextType: .hasDecription,
-                                                  alertButtonType: .twoButton,
-                                                  titleText: title,
-                                                  descriptionText: description,
-                                                  rightButtonText: buttonText)
+        let alertVC = DRCustomAlertViewController(
+            rightActionType: action,
+            alertTextType: .hasDecription,
+            titleText: title,
+            descriptionText: description,
+            leftButton: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_gray100_10),
+            rightButton: DRTextButton(title: buttonText, buttonName: .bold_purple_10)
+        )
         alertVC.delegate = self
         alertVC.modalPresentationStyle = .overFullScreen
         present(alertVC, animated: false)
@@ -365,15 +378,27 @@ extension CourseDetailViewController: ContentMaskViewDelegate {
     // 신고 혹은 삭제 버튼 클릭 시 처리
     @objc
     func didTapBottomSheetLabel(sender: UITapGestureRecognizer) {
-        print("삭제하기 클릭")
-        self.dismiss(animated: true)
+        self.dismiss(animated: false)
         courseDetailViewModel.isCourseMine.value == true ? showDeleteAlert() : showDeclareAlert()
-        
     }
     
 }
 
-extension CourseDetailViewController: StickyHeaderNavBarViewDelegate, DRBottomSheetDelegate {
+
+// MARK: - DRBottomSheetDelegate
+
+extension CourseDetailViewController: DRBottomSheetDelegate {
+    
+    func didTapBottomButton() {
+        bottomSheetVC.dismissBottomSheet()
+    }
+    
+}
+
+
+// MARK: - StickyHeaderNavBarViewDelegate
+
+extension CourseDetailViewController: StickyHeaderNavBarViewDelegate {
     
     func didTapBackButton() {
         navigationController?.popViewController(animated: false)
@@ -382,15 +407,11 @@ extension CourseDetailViewController: StickyHeaderNavBarViewDelegate, DRBottomSh
     
     func didTapMoreButton() {
         bottomSheetVC.delegate = self
-        deleteCourseSettingView.deleteLabel.text = courseDetailViewModel.isCourseMine.value == true ? StringLiterals.CourseDetail.deleteCourse : StringLiterals.CourseDetail.delclareCourse
-        
+        deleteCourseSettingView.optionButton.setTitle(courseDetailViewModel.isCourseMine.value == true ? StringLiterals.CourseDetail.deleteCourse : StringLiterals.CourseDetail.delclareCourse, for: .normal)
+
         DispatchQueue.main.async {
             self.bottomSheetVC.presentBottomSheet(in: self)
         }
-    }
-    
-    func didTapBottomButton() {
-        self.bottomSheetVC.dismissBottomSheet()
     }
     
 }
@@ -400,12 +421,10 @@ extension CourseDetailViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y > 350 {
             courseDetailView.stickyHeaderNavBarView.backgroundColor = .white
-            courseDetailView.stickyHeaderNavBarView.moreButton.tintColor = .gray600
-            courseDetailView.stickyHeaderNavBarView.previousButton.tintColor = .gray600
+            courseDetailView.stickyHeaderNavBarView.updateTintColor(.gray600)
         } else {
             courseDetailView.stickyHeaderNavBarView.backgroundColor = .clear
-            courseDetailView.stickyHeaderNavBarView.moreButton.tintColor = .drWhite
-            courseDetailView.stickyHeaderNavBarView.previousButton.tintColor = .drWhite
+            courseDetailView.stickyHeaderNavBarView.updateTintColor(.white)
         }
     }
     
@@ -414,7 +433,7 @@ extension CourseDetailViewController: UIScrollViewDelegate {
 private extension CourseDetailViewController {
     
     func updateLikeButtonColor(isLiked: Bool) {
-        courseInfoTabBarView.likeButtonImageView.tintColor = isLiked ? UIColor(resource: .deepPurple) : UIColor(resource: .gray200)
+        courseInfoTabBarView.likeButtonImageView.tintColor = isLiked ? UIColor(resource: .purple600) : UIColor(resource: .gray200)
     }
     
     func setSetctionCount() {
@@ -423,7 +442,7 @@ private extension CourseDetailViewController {
     }
     
     func setNavBarVisibility() {
-        courseDetailView.stickyHeaderNavBarView.moreButton.isHidden = !(courseDetailViewModel.isAccess.value ?? false)
+        courseDetailView.stickyHeaderNavBarView.hiddenMoreButton(!(courseDetailViewModel.isAccess.value ?? false))
     }
     
     func setTabBarVisibility() {
@@ -431,7 +450,7 @@ private extension CourseDetailViewController {
     }
     
     @objc
-    func didTapMySchedule() {
+    func didTapRegisterForSchedule() {
         let courseId = courseDetailViewModel.courseId
         let courseDetailViewModel = CourseDetailViewModel(courseId: courseId)
         
@@ -537,10 +556,12 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
     }
     
     private func configureTimelineInfoCell(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionViewUtils.dequeueAndConfigureCell(collectionView: collectionView, indexPath: indexPath, identifier: TimelineInfoCell.cellIdentifier) { (cell: TimelineInfoCell) in
-            let timelineItem = courseDetailViewModel.timelineData.value?[indexPath.row] ?? TimelineModel(sequence: 0, title: "", duration: 0)
-            cell.setCell(timelineData: timelineItem)
-        }
+        guard let data = courseDetailViewModel.timelineData.value?[indexPath.row] else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DRTimelineCollectionViewCell.cellIdentifier, for: indexPath) as? DRTimelineCollectionViewCell else {
+            return UICollectionViewCell() }
+        cell.type = .course
+        cell.dataBind(data)
+        return cell
     }
     
     private func configureCoastInfoCell(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
@@ -565,18 +586,24 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         switch kind {
         case VisitDateView.elementKinds:
             return configureVisitDateView(collectionView, indexPath: indexPath, titleHeaderData: titleHeaderData)
+            
         case InfoBarView.elementKinds:
             return configureInfoBarView(collectionView, indexPath: indexPath, titleHeaderData: titleHeaderData)
+            
         case GradientView.elementKinds:
             return configureGradientView(collectionView, indexPath: indexPath)
+            
         case BottomPageControllView.elementKinds:
             return configureBottomPageControlView(collectionView, indexPath: indexPath, imageData: imageData, isAccess: isAccess)
+            
         case ContentMaskView.elementKinds:
             return configureContentMaskView(collectionView, indexPath: indexPath, isAccess: isAccess)
         case InfoHeaderView.elementKinds:
             return configureInfoHeaderView(collectionView, indexPath: indexPath)
+            
         case TimelineHeaderView.elementKinds:
             return configureTimelineHeaderView(collectionView, indexPath: indexPath)
+            
         default:
             return UICollectionReusableView()
         }
@@ -608,11 +635,11 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
     
     private func configureContentMaskView(_ collectionView: UICollectionView, indexPath: IndexPath, isAccess: Bool) -> UICollectionReusableView {
         return collectionViewUtils.dequeueAndConfigureSupplementaryView(collectionView: collectionView, indexPath: indexPath, kind: ContentMaskView.elementKinds, identifier: ContentMaskView.identifier) { (view: ContentMaskView) in
+            view.readCourseButton.addTarget(self, action: #selector(didTapViewButton), for: .touchUpInside)
             if !isAccess {
                 let haveFree = courseDetailViewModel.haveFreeCount.value ?? false
                 let count = courseDetailViewModel.conditionalData.value?.free ?? 0
-                view.checkFree(haveFree: haveFree, count: count)
-                view.delegate = self
+                view.updateReadCourseButton(haveFree: haveFree, count: count)
             }
         }
     }

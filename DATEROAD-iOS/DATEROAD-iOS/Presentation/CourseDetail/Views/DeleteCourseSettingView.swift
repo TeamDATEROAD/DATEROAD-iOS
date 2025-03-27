@@ -13,14 +13,9 @@ final class DeleteCourseSettingView: BaseView {
     
     private let settingStackView: UIStackView = UIStackView()
     
-    let titleLabel: UILabel = UILabel()
+    let titleLabel: DRTextLabel = DRTextLabel(title: StringLiterals.CourseDetail.settingDateCourse, textLabelType: .clear(.bold18_black))
     
-    let deleteLabel: UILabel = UILabel()
-    
-    
-    // MARK: - Properties
-    
-    private let disabledButtonType: DRButtonType = DisabledButton()
+    let optionButton: DRTextButton = DRTextButton(title: "", buttonName: .semi_white_0)
     
     
     // MARK: - Life Cycle
@@ -28,7 +23,7 @@ final class DeleteCourseSettingView: BaseView {
     override func setHierarchy() {
         self.addSubview(settingStackView)
         
-        settingStackView.addArrangedSubviews(titleLabel, deleteLabel)
+        settingStackView.addArrangedSubviews(titleLabel, optionButton)
     }
     
     override func setLayout() {
@@ -42,19 +37,6 @@ final class DeleteCourseSettingView: BaseView {
             $0.axis = .vertical
             $0.alignment = .center
             $0.distribution = .fillEqually
-        }
-        
-        titleLabel.setLabel(text: StringLiterals.CourseDetail.settingDateCourse,
-                            alignment: .center,
-                            textColor: UIColor(resource: .drBlack),
-                            font: UIFont.suit(.title_bold_18))
-        
-        deleteLabel.do {
-            $0.isUserInteractionEnabled = true
-            $0.setLabel(text: StringLiterals.CourseDetail.deleteCourse,
-                        alignment: .center,
-                        textColor: UIColor(resource: .deepPurple),
-                        font: UIFont.suit(.body_semi_15))
         }
     }
     

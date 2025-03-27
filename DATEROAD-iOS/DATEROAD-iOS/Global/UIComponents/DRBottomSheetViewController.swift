@@ -17,27 +17,22 @@ final class DRBottomSheetViewController: BaseViewController {
     
     var contentView: UIView
     
-    private let bottomButton: UIButton = UIButton()
+    private let bottomButton: DRTextButton
     
     
     // MARK: - Properties
     
     private var height: CGFloat
-    
-    private var buttonType: DRButtonType
-    
-    private var buttonTitle: String
-    
+            
     weak var delegate: DRBottomSheetDelegate?
     
     
     // MARK: - Life Cycle
     
-    init(contentView: UIView, height: CGFloat, buttonType: DRButtonType, buttonTitle: String) {
+    init(contentView: UIView, height: CGFloat, buttonType: DRTextButton) {
         self.contentView = contentView
         self.height = height
-        self.buttonType = buttonType
-        self.buttonTitle = buttonTitle
+        self.bottomButton = buttonType
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -95,21 +90,18 @@ final class DRBottomSheetViewController: BaseViewController {
             $0.roundCorners(cornerRadius: 20, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
             $0.backgroundColor = UIColor(resource: .drWhite)
         }
-        
-        self.bottomButton.do {
-            $0.setButtonStatus(buttonType: buttonType)
-            $0.setTitle(self.buttonTitle, for: .normal)
-        }
     }
     
     func setBottomButtonByType() {
-        switch buttonTitle {
+        switch bottomButton.titleLabel?.text {
         case StringLiterals.Common.cancel, StringLiterals.AddCourseOrSchedule.AddBottomSheetView.datePickerBtnTitle:
             self.bottomButton.isEnabled = true
             self.bottomButton.addTarget(self, action: #selector(didTapBottomButton), for: .touchUpInside)
+            
         case StringLiterals.Common.close:
             self.bottomButton.isEnabled = true
             self.bottomButton.addTarget(self, action: #selector(didTapBottomButton), for: .touchUpInside)
+            
         default:
             self.bottomButton.isEnabled = false
         }
@@ -117,15 +109,16 @@ final class DRBottomSheetViewController: BaseViewController {
     
     @objc
     func didTapBottomButton() {
-        print("Bottom button tapped")
         self.delegate?.didTapBottomButton()
     }
     
+    // TODO: - 이거 사용 안하는 거 같은데,,,,? 추후 수정
     @objc
     func didTapTopLabel() {
         self.delegate?.didTapFirstLabel()
     }
     
+    // TODO: - 이거 사용 안하는 거 같은데,,,,? 추후 수정
     @objc
     func didTapBottomLabel() {
         self.delegate?.didTapSecondLabel()
