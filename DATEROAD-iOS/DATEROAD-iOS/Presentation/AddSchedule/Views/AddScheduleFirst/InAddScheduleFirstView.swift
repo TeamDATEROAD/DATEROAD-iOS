@@ -22,7 +22,11 @@ final class InAddScheduleFirstView: BaseView {
     
     private let tagContainer = UIView()
     
-    private let tagTitleLabel = UILabel()
+    private let tagTitleLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.AddCourseOrSchedule.AddFirstView.tagTitle,
+        textLabelType: .clear(.semi15_black),
+        alignment: .left
+    )
     
     let datePlaceTextField = DRTextField(type: .addCourseSchedule(.dateLocation))
     
@@ -109,13 +113,6 @@ final class InAddScheduleFirstView: BaseView {
             layout.cellSpacing = 8
             $0.collectionViewLayout = layout
         }
-        
-        tagTitleLabel.do {
-            $0.text = StringLiterals.AddCourseOrSchedule.AddFirstView.tagTitle
-            $0.setLabel(alignment: .left,
-                        textColor: UIColor(resource: .drBlack),
-                        font: .suit(.body_semi_15))
-        }
     }
     
 }
@@ -141,7 +138,7 @@ extension InAddScheduleFirstView {
     
     func updateTagButtonStyle(btn: UIButton, isSelected: Bool) {
         btn.do {
-            $0.configuration?.background.backgroundColor = isSelected ? UIColor(resource: .deepPurple) : UIColor(resource: .gray100)
+            $0.configuration?.background.backgroundColor = isSelected ? UIColor(resource: .purple600) : UIColor(resource: .gray100)
             $0.configuration?.baseForegroundColor = isSelected ? UIColor(resource: .drWhite) : UIColor(resource: .drBlack)
         }
     }

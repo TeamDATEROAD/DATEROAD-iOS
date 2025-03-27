@@ -128,7 +128,7 @@ final class CourseDetailViewController: BaseViewController {
             
             $0.register(MainContentsCell.self, forCellWithReuseIdentifier: MainContentsCell.cellIdentifier)
             
-            $0.register(TimelineInfoCell.self, forCellWithReuseIdentifier: TimelineInfoCell.cellIdentifier)
+            $0.register(DRTimelineCollectionViewCell.self, forCellWithReuseIdentifier: DRTimelineCollectionViewCell.cellIdentifier)
             
             $0.register(CostInfoCell.self, forCellWithReuseIdentifier: CostInfoCell.cellIdentifier)
             
@@ -433,7 +433,7 @@ extension CourseDetailViewController: UIScrollViewDelegate {
 private extension CourseDetailViewController {
     
     func updateLikeButtonColor(isLiked: Bool) {
-        courseInfoTabBarView.likeButtonImageView.tintColor = isLiked ? UIColor(resource: .deepPurple) : UIColor(resource: .gray200)
+        courseInfoTabBarView.likeButtonImageView.tintColor = isLiked ? UIColor(resource: .purple600) : UIColor(resource: .gray200)
     }
     
     func setSetctionCount() {
@@ -556,10 +556,12 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
     }
     
     private func configureTimelineInfoCell(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionViewUtils.dequeueAndConfigureCell(collectionView: collectionView, indexPath: indexPath, identifier: TimelineInfoCell.cellIdentifier) { (cell: TimelineInfoCell) in
-            let timelineItem = courseDetailViewModel.timelineData.value?[indexPath.row] ?? TimelineModel(sequence: 0, title: "", duration: 0)
-            cell.setCell(timelineData: timelineItem)
-        }
+        guard let data = courseDetailViewModel.timelineData.value?[indexPath.row] else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DRTimelineCollectionViewCell.cellIdentifier, for: indexPath) as? DRTimelineCollectionViewCell else {
+            return UICollectionViewCell() }
+        cell.type = .course
+        cell.dataBind(data)
+        return cell
     }
     
     private func configureCoastInfoCell(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {

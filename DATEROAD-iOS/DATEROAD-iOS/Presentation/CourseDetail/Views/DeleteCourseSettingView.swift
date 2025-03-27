@@ -13,7 +13,7 @@ final class DeleteCourseSettingView: BaseView {
     
     private let settingStackView: UIStackView = UIStackView()
     
-    let titleLabel: UILabel = UILabel()
+    let titleLabel: DRTextLabel = DRTextLabel(title: StringLiterals.CourseDetail.settingDateCourse, textLabelType: .clear(.bold18_black))
     
     let optionButton: DRTextButton = DRTextButton(title: "", buttonName: .semi_white_0)
     
@@ -38,11 +38,6 @@ final class DeleteCourseSettingView: BaseView {
             $0.alignment = .center
             $0.distribution = .fillEqually
         }
-        
-        titleLabel.setLabel(text: StringLiterals.CourseDetail.settingDateCourse,
-                            alignment: .center,
-                            textColor: UIColor(resource: .drBlack),
-                            font: UIFont.suit(.title_bold_18))
     }
     
 }

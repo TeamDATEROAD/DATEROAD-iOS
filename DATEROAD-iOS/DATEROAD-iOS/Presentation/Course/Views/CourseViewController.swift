@@ -237,13 +237,13 @@ extension CourseViewController: LocationFilterDelegate {
         courseViewModel.selectedCityName.value = cityName
         
         self.courseView.courseFilterView.locationFilterButton.do {
-            $0.setTitleColor(UIColor(resource: .deepPurple), for: .normal)
+            $0.setTitleColor(UIColor(resource: .purple600), for: .normal)
             $0.setTitle(cityName, for: .normal)
             $0.layer.borderWidth = 1
-            $0.layer.borderColor = UIColor(resource: .deepPurple).cgColor
+            $0.layer.borderColor = UIColor(resource: .purple600).cgColor
             let image = UIImage(resource: .icDropdown).withRenderingMode(.alwaysTemplate)
             $0.setImage(image, for: .normal)
-            $0.tintColor = UIColor(resource: .deepPurple)
+            $0.tintColor = UIColor(resource: .purple600)
         }
     }
     

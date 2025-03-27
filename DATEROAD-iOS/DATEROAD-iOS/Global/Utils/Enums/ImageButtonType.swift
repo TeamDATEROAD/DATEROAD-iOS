@@ -15,13 +15,13 @@ enum ImageButtonType {
     
     case white_gray600_0, white_gray400_0, white_gray300_0
     
-    case clear_mediumPurple_0, clear_black_0, clear_gray400_0, clear_clear_16, clear_clear_8, clear_clear_0
+    case clear_mediumPurple_0, clear_black_0, clear_gray400_0, clear_clear_16, clear_clear_8, clear_clear_0, clear_white_0
     
     
     var bgColor: UIColor {
         switch self {
         case .deepPurple_white_25, .deepPurple_white_15, .deepPurple_white_14:
-            return UIColor(resource: .deepPurple)
+            return UIColor(resource: .purple600)
             
         case .gray100_gray300_14:
             return UIColor(resource: .gray100) 
@@ -45,7 +45,7 @@ enum ImageButtonType {
         case .clear_black_0:
             return UIColor(resource: .drBlack)
             
-        case .deepPurple_white_25, .deepPurple_white_15, .deepPurple_white_14:
+        case .deepPurple_white_25, .deepPurple_white_15, .deepPurple_white_14, .clear_white_0:
             return UIColor(resource: .drWhite)
             
         case .white_gray600_0:
@@ -61,7 +61,7 @@ enum ImageButtonType {
             return UIColor.clear
             
         case .clear_mediumPurple_0:
-            return UIColor(resource: .mediumPurple)
+            return UIColor(resource: .purple500)
             
         }
     }
@@ -84,7 +84,7 @@ enum ImageButtonType {
             return 8
             
         case .white_gray600_0, .white_gray400_0, .white_gray300_0,
-                .clear_mediumPurple_0, .clear_black_0, .clear_gray400_0, .clear_clear_0:
+                .clear_mediumPurple_0, .clear_black_0, .clear_gray400_0, .clear_clear_0, .clear_white_0:
             return 0
             
         }

@@ -24,7 +24,11 @@ final class AddFirstView: BaseView {
     
     private let tagContainer = UIView()
     
-    private let tagTitleLabel = UILabel()
+    private let tagTitleLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.AddCourseOrSchedule.AddFirstView.tagTitle,
+        textLabelType: .clear(.semi15_black),
+        alignment: .left
+    )
     
     let datePlaceTextField: DRTextField = DRTextField(type: .addCourseSchedule(.dateLocation))
     
@@ -35,13 +39,6 @@ final class AddFirstView: BaseView {
     )
     
     let tendencyTagCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    
-    
-    // MARK: - Properties
-    
-    private let enabledButtonType: DRButtonType = EnabledButton()
-    
-    private let disabledButtonType: DRButtonType = DisabledButton()
     
     
     // MARK: - Life Cycle
@@ -108,13 +105,6 @@ final class AddFirstView: BaseView {
             $0.spacing = 20
             $0.distribution = .fillEqually
         }
-        
-        tagTitleLabel.do {
-            $0.setLabel(alignment: .left,
-                        textColor: UIColor(resource: .drBlack),
-                        font: .suit(.body_semi_15))
-            $0.text = StringLiterals.AddCourseOrSchedule.AddFirstView.tagTitle
-        }
     }
     
 }
@@ -140,7 +130,7 @@ extension AddFirstView {
     
     func updateTagButtonStyle(btn: UIButton, isSelected: Bool) {
         btn.do {
-            $0.configuration?.background.backgroundColor = isSelected ? UIColor(resource: .deepPurple) : UIColor(resource: .gray100)
+            $0.configuration?.background.backgroundColor = isSelected ? UIColor(resource: .purple600) : UIColor(resource: .gray100)
             $0.configuration?.baseForegroundColor = isSelected ? UIColor(resource: .drWhite) : UIColor(resource: .drBlack)
         }
     }

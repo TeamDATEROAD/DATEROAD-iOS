@@ -192,7 +192,7 @@ final class AddScheduleViewModel: Serviceable {
         }
         
         inputPreparePostSchedule.lazyBind { [weak self] _ in
-            self?.postAddScheduel()
+            self?.postAddSchedule()
         }
     }
     
@@ -426,7 +426,7 @@ extension AddScheduleViewModel {
         )
     }
     
-    private func postAddScheduel() {
+    private func postAddSchedule() {
         self.setLoading(isLoading: true)
         
         // requestData 세팅

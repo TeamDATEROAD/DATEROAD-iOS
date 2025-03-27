@@ -83,7 +83,7 @@ final class LoginView: BaseView {
     }
     
     override func setStyle() {
-        self.backgroundColor = UIColor(resource: .deepPurple)
+        self.backgroundColor = UIColor(resource: .purple600)
         
         logoImageView.do {
             $0.image = UIImage(resource: .splashLogo)

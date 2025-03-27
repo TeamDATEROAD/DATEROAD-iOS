@@ -7,16 +7,13 @@
 
 import UIKit
 
-import SnapKit
-import Then
-
 final class PastDateCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
     private var ribbonImageView = UIImageView()
     
-    private var dateLabel = UILabel()
+    private var dateLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi13_black))
     
     // TODO: - UILabel로 변경
     
@@ -32,9 +29,13 @@ final class PastDateCollectionViewCell: BaseCollectionViewCell {
     
     private var rightCircleInsetImageView = UIImageView()
     
-    private var locationLabel = UILabel()
+    private var locationLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi13_black))
     
-    private var titleLabel = UILabel()
+    private var titleLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.systemBold20_black),
+        alignment: .left,
+        numberOfLines: 2
+    )
     
     private let tagButtonType : DRButtonType = PastDateScheduleTagButton()
     
@@ -127,14 +128,10 @@ final class PastDateCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func setStyle() {
-        self.backgroundColor = UIColor(resource: .lilac)
-        
         self.roundCorners(cornerRadius: 20)
         
         ribbonImageView.contentMode = .scaleAspectFill
-        
-        dateLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_13))
-        
+                
         firstTagButton.do {
             $0.setButtonStatus(buttonType: tagButtonType)
             $0.titleLabel?.lineBreakMode = .byClipping
@@ -178,13 +175,6 @@ final class PastDateCollectionViewCell: BaseCollectionViewCell {
         leftCircleInsetImageView.image = UIImage(resource: .leftCardInset)
         
         rightCircleInsetImageView.image = UIImage(resource: .rightCardInset)
-        
-        locationLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_13))
-        
-        titleLabel.setLabel(alignment: .left,
-                            numberOfLines: 2,
-                            textColor: UIColor(resource: .drBlack),
-                            font: UIFont.systemFont(ofSize: 20, weight: .black))
     }
     
 }
@@ -206,29 +196,17 @@ extension PastDateCollectionViewCell {
         titleLabel.text = dateCardData.title
     }
     
-    private func setColorToLabel(bgColor : UIColor, ribbonImage: UIImage, buttonColor: UIColor) {
-        self.backgroundColor = bgColor
-        self.ribbonImageView.image = ribbonImage
-        self.firstTagButton.backgroundColor = buttonColor
-        self.secondTagButton.backgroundColor = buttonColor
-        self.thirdTagButton.backgroundColor = buttonColor
+    private func setColorToLabel(_ cardType: DateCardType) {
+        self.backgroundColor = cardType.bgColor
+        self.ribbonImageView.image = cardType.ribbonImage
+        [self.firstTagButton, self.secondTagButton, self.thirdTagButton].forEach {
+            $0.backgroundColor = cardType.buttonColor
+        }
     }
     
     func setColor(index: Int) {
-        let colorIndex = index % 3
-        if colorIndex == 0 {
-            setColorToLabel(bgColor: UIColor(resource: .pink200),
-                            ribbonImage: UIImage(resource: .lilacRibbon),
-                            buttonColor: UIColor(resource: .pink100))
-        } else if colorIndex == 1 {
-            setColorToLabel(bgColor: UIColor(resource: .purple200),
-                            ribbonImage: UIImage(resource: .deepPurpleRibbon),
-                            buttonColor: UIColor(resource: .purple100))
-        } else {
-            setColorToLabel(bgColor: UIColor(resource: .lime),
-                            ribbonImage: UIImage(resource: .limeRibbon),
-                            buttonColor: UIColor(resource: .lime100))
-        }
+        let cardType = DateCardType(rawValue: index % 3) ?? .pink
+        setColorToLabel(cardType)
     }
     
     func updateTagButton(title: String, button: UIButton) {

@@ -28,7 +28,11 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
     
     private let emptyCameraImage: UIImageView = UIImageView()
     
-    private let emptyLabel: UILabel = UILabel()
+    private let emptyLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.AddCourseOrSchedule.AddFirstView.emptyImage,
+        textLabelType: .clear(.bold11_gray300),
+        numberOfLines: 2
+    )
     
     
     // MARK: - Prepare Methods
@@ -120,13 +124,6 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
             $0.contentMode = .scaleAspectFit
             $0.backgroundColor = .gray200
             $0.layer.cornerRadius = 32 / 2
-        }
-        
-        emptyLabel.do {
-            $0.setLabel(numberOfLines: 2,
-                        textColor: UIColor(resource: .gray300),
-                        font: .suit(.body_bold_11))
-            $0.text = StringLiterals.AddCourseOrSchedule.AddFirstView.emptyImage
         }
     }
     

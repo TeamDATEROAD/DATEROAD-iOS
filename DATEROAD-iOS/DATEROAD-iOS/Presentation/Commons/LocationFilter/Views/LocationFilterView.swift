@@ -24,7 +24,7 @@ final class LocationFilterView: BaseView {
     
     private let bottomSheetView = UIView()
     
-    private let titleLabel = UILabel()
+    private let titleLabel: DRTextLabel = DRTextLabel(title: StringLiterals.LocationFilter.title, textLabelType: .clear(.bold18_black))
     
     private let closeButton: DRImageButton = DRImageButton(image: UIImage(resource: .btnClose), buttonName: .white_gray600_0)
     
@@ -48,6 +48,16 @@ final class LocationFilterView: BaseView {
     
     // MARK: - Life Cycle
 
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setAddTarget()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func setHierarchy() {
         self.addSubview(bottomSheetView)
         
@@ -110,17 +120,8 @@ final class LocationFilterView: BaseView {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.roundCorners(cornerRadius: 16, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
         }
-        
-        titleLabel.setLabel(text:StringLiterals.LocationFilter.title,
-                            textColor: UIColor(resource: .drBlack),
-                            font: UIFont.suit(.title_bold_18))
-        
-        closeButton.addTarget(self, action: #selector(closeLocationFilterView), for: .touchUpInside)
-        
+                
         lineView.backgroundColor = UIColor(resource: .gray200)
-        
-        applyButton.addTarget(self, action: #selector(didTapApplyButton), for: .touchUpInside)
-
     }
 
 }
@@ -147,6 +148,11 @@ extension LocationFilterView {
 
 extension LocationFilterView {
 
+    func setAddTarget() {
+        closeButton.addTarget(self, action: #selector(closeLocationFilterView), for: .touchUpInside)
+        applyButton.addTarget(self, action: #selector(didTapApplyButton), for: .touchUpInside)
+    }
+    
     func updateApplyButtonProperties(_ isEnable: Bool) {
         applyButton.setButtonStyle(isEnable ? .bold_purple_14 : .bold_gray200_14)
     }

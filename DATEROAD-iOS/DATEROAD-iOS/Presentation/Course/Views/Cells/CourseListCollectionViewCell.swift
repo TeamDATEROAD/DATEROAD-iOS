@@ -29,9 +29,13 @@ final class CourseListCollectionViewCell: BaseCollectionViewCell {
     
     private let likeNumLabel = UILabel()
     
-    private let locationLabel = UILabel()
+    private let locationLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_gray400), numberOfLines: 1)
     
-    private let titleLabel = UILabel()
+    private let titleLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.systemBold15_black),
+        alignment: .left,
+        numberOfLines: 2
+    )
     
     private let coastIconImageView = UIImageView(image: .coastIcon)
     
@@ -153,19 +157,10 @@ final class CourseListCollectionViewCell: BaseCollectionViewCell {
         likeBoxView.do {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 11
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
         }
         
         likeNumLabel.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_bold_13))
-        
-        locationLabel.setLabel(numberOfLines: 1,
-                               textColor: UIColor(resource: .gray400),
-                               font: UIFont.suit(.body_med_13))
-        
-        titleLabel.setLabel(alignment: .left,
-                            numberOfLines: 2,
-                            textColor: UIColor(resource: .drBlack),
-                            font: UIFont.systemFont(ofSize: 15, weight: .bold))
         
         coastLabel.setLabel(textColor: UIColor(resource: .gray400), font: UIFont.suit(.cap_reg_11))
         

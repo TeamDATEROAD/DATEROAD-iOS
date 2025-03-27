@@ -29,6 +29,6 @@ struct Warning: DRErrorType {
 
 struct Correct: DRErrorType {
     
-    var fontColor: UIColor = UIColor(resource: .deepPurple)
+    var fontColor: UIColor = UIColor(resource: .purple600)
     
 }

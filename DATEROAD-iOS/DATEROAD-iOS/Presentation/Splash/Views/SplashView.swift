@@ -27,7 +27,7 @@ final class SplashView: BaseView {
     }
     
     override func setStyle() {
-        self.backgroundColor = UIColor(resource: .deepPurple)
+        self.backgroundColor = UIColor(resource: .purple600)
         
         splashLogo.do {
             $0.image = UIImage(resource: .splashLogo)

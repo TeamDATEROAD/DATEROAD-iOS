@@ -15,7 +15,7 @@ final class AddCourseViewModel: Serviceable {
     
     var pastDateDetailData: DateDetailModel?
     
-    var pastDatePlaces = [DatePlaceModel]()
+    var pastDatePlaces = [TimelineModel]()
     
     var selectedTagData: [String] = []
     

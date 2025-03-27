@@ -7,9 +7,6 @@
 
 import UIKit
 
-import SnapKit
-import Then
-
 final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - UI Properties
@@ -178,7 +175,7 @@ extension UpcomingDateDetailViewController {
     }
     
     private func setButton() {
-        upcomingDateDetailContentView.dDayButton.isHidden = false
+        upcomingDateDetailContentView.dDayLabel.isHidden = false
         upcomingDateDetailContentView.kakaoShareButton.isHidden = false
         upcomingDateDetailContentView.courseShareButton.isHidden = true
         
@@ -186,19 +183,29 @@ extension UpcomingDateDetailViewController {
     }
     
     func setColor(index: Int) {
-        let colorIndex = index % 3
-        if colorIndex == 0 {
-            self.setBackgroundColor(color: UIColor(resource: .pink200))
-        } else if colorIndex == 1 {
-            self.setBackgroundColor(color: UIColor(resource: .purple200))
-        } else {
-            self.setBackgroundColor(color: UIColor(resource: .lime))
-        }
+        let cardType = DateCardType(rawValue: index % 3) ?? .pink
+        self.setBackgroundColor(color: cardType.bgColor)
         upcomingDateDetailContentView.setColor(index: index)
     }
     
 }
 
+// MARK: - @objc Methods
+
+extension UpcomingDateDetailViewController {
+    
+    // 상단 왼쪽 더보기 버튼 탭 액션
+    
+    @objc
+    private func deleteDateCourse() {
+        bottomSheetVC.delegate = self
+        
+        DispatchQueue.main.async {
+            self.bottomSheetVC.presentBottomSheet(in: self)
+        }
+    }
+    
+}
 
 // MARK: - Alert Methods
 
@@ -258,22 +265,11 @@ extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
         self.bottomSheetVC.dismissBottomSheet()
     }
     
-    @objc
-    private func deleteDateCourse() {
-        let labelTap = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
-        dateScheduleDeleteView.deleteLabel.addGestureRecognizer(labelTap)
-        bottomSheetVC.delegate = self
-        
-        DispatchQueue.main.async {
-            self.bottomSheetVC.presentBottomSheet(in: self)
-        }
-    }
-    
-    @objc
-    func didTapFirstLabel() {
-        self.dismiss(animated: false)
-        tapDeleteLabel()
-    }
+//    @objc
+//    func didTapFirstLabel() {
+//        self.dismiss(animated: false)
+//        tapDeleteLabel()
+//    }
     
 }
 
@@ -283,7 +279,7 @@ extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
 private extension UpcomingDateDetailViewController {
     
     func registerCell() {
-        upcomingDateDetailContentView.dateTimeLineCollectionView.register(DateTimeLineCollectionViewCell.self, forCellWithReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier)
+        upcomingDateDetailContentView.dateTimeLineCollectionView.register(DRTimelineCollectionViewCell.self, forCellWithReuseIdentifier: DRTimelineCollectionViewCell.cellIdentifier)
     }
     
     func setDelegate() {
@@ -319,10 +315,23 @@ extension UpcomingDateDetailViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let data = upcomingDateDetailViewModel.dateDetailData.value?.places[indexPath.item] else { return UICollectionViewCell() }
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier, for: indexPath) as? DateTimeLineCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DRTimelineCollectionViewCell.cellIdentifier, for: indexPath) as? DRTimelineCollectionViewCell else {
             return UICollectionViewCell() }
-        cell.dataBind(data, indexPath.item)
+        cell.type = .schedule
+        cell.dataBind(data)
         return cell
+    }
+    
+}
+
+
+// MARK: - DateScheduleDeleteDelegate
+
+extension UpcomingDateDetailViewController: DateScheduleDeleteDelegate {
+    
+    func didTapDeleteSchedule() {
+        self.dismiss(animated: false)
+        tapDeleteLabel()
     }
     
 }
