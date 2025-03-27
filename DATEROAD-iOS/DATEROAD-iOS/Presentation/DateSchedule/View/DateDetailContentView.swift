@@ -15,7 +15,7 @@ final class DateDetailContentView: BaseView {
     
     private var dateLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi15_black))
     
-    var dDayLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.bold11_white, .deepPurple_10), hidden: true)
+    var dDayLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.bold11_white, .purple600_10), hidden: true)
 
     // TODO: - UILabel로 변경
         

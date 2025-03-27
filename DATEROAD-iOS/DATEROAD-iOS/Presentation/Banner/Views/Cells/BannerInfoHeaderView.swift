@@ -14,7 +14,7 @@ final class BannerInfoHeaderView: UICollectionReusableView {
     
     // MARK: - UI Properties
     
-    private let tagLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.semi13_white, .mediumPurple_10))
+    private let tagLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.semi13_white, .purple500_10))
     
     private let visitDateLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi15_gray400))
     

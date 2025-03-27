@@ -221,7 +221,7 @@ extension ProfileView {
             nicknameErrMessageLabel.updateTextColor(StringLiterals.Profile.minimumNickname, .alertRed)
         
         case .isValid:
-            nicknameErrMessageLabel.updateTextColor(StringLiterals.Profile.enabledNickname, .deepPurple)
+            nicknameErrMessageLabel.updateTextColor(StringLiterals.Profile.enabledNickname, .purple600)
         
         case .isNotValid:
             nicknameErrMessageLabel.updateTextColor(StringLiterals.Profile.disabledNickname, .alertRed)

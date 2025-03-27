@@ -28,7 +28,7 @@ enum TextStyle {
     case systemBold24_black, systemBold20_black, systemBold20_white, bold20_black, bold20_white, bold18_black, bold18_white, bold18_gray300,
          bold18_gray500, systemBold17_black, bold17_black, systemBold15_black, bold15_black, bold15_gray500, bold13_white, bold11_white, bold11_gray300
     
-    case semi15_black, semi15_deepPurple, semi15_gray400, semi13_black, semi13_white, semi13_gray500, semi13_gray400
+    case semi15_black, semi15_purple600, semi15_gray400, semi13_black, semi13_white, semi13_gray500, semi13_gray400
     
     case med15_purple400, med15_gray500, med15_gray300, med13_black, med13_gray500,
          systemMed13_gray400, med13_gray400, med13_gray300, systemMed13_white,
@@ -74,7 +74,7 @@ enum TextStyle {
         case .bold11_white, .bold11_gray300:
             return UIFont.suit(.cap_bold_11)
 
-        case .semi15_black, .semi15_deepPurple, .semi15_gray400:
+        case .semi15_black, .semi15_purple600, .semi15_gray400:
             return UIFont.suit(.body_semi_15)
             
         case .systemMed13_black, .systemMed13_gray400, .systemMed13_white:
@@ -118,11 +118,11 @@ enum TextStyle {
         case .extra20_gray300, .bold18_gray300, .bold11_gray300, .med15_gray300, .med13_gray300, .reg11_gray300:
             return UIColor(.gray300)
             
-        case .semi15_deepPurple, .reg11_purple600:
-            return UIColor(.deepPurple)
+        case .semi15_purple600, .reg11_purple600:
+            return UIColor(.purple600)
             
         case .med15_purple400:
-            return UIColor(.lightPurple)
+            return UIColor(.purple400)
 
         case .reg11_alertRed:
             return UIColor(.alertRed)
@@ -132,21 +132,21 @@ enum TextStyle {
 
 enum BackgroundStyle {
     
-    case deepPurple_12, deepPurple_10
+    case purple600_12, purple600_10
     
-    case mediumPurple_14, mediumPurple_10
+    case purple500_14, purple500_10
     
     case gray400_20, gray400_11
         
     var cornerMask: CACornerMask {
         switch self {
-        case .deepPurple_10, .gray400_20, .gray400_11, .mediumPurple_10:
+        case .purple600_10, .gray400_20, .gray400_11, .purple500_10:
             return [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
             
-        case .deepPurple_12:
+        case .purple600_12:
             return [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
             
-        case .mediumPurple_14:
+        case .purple500_14:
             return [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         }
     }
@@ -156,27 +156,27 @@ enum BackgroundStyle {
         case .gray400_20:
             return 20
             
-        case .mediumPurple_14:
+        case .purple500_14:
             return 14
             
-        case .deepPurple_12:
+        case .purple600_12:
             return 12
             
         case .gray400_11:
             return 11
             
-        case .deepPurple_10, .mediumPurple_10:
+        case .purple600_10, .purple500_10:
             return 10
         }
     }
     
     var bgColor: UIColor {
         switch self {
-        case .deepPurple_12, .deepPurple_10:
-            return UIColor(.deepPurple)
+        case .purple600_12, .purple600_10:
+            return UIColor(.purple600)
             
-        case .mediumPurple_14, .mediumPurple_10:
-            return UIColor(.mediumPurple)
+        case .purple500_14, .purple500_10:
+            return UIColor(.purple500)
             
         case .gray400_20, .gray400_11:
             return UIColor(.gray400)

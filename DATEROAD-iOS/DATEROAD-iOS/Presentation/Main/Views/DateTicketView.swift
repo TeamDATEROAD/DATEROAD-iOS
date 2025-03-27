@@ -13,7 +13,7 @@ final class DateTicketView: BaseView {
     
     private let ticketImage: UIImageView = UIImageView()
     
-    private let dDayLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.bold13_white, .deepPurple_10))
+    private let dDayLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.bold13_white, .purple600_10))
     
     private let dateNameLabel: DRTextLabel = DRTextLabel(
         textLabelType: .clear(.systemBold20_white),

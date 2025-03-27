@@ -21,7 +21,7 @@ final class DateCardCollectionViewCell: BaseCollectionViewCell {
         numberOfLines: 2
     )
 
-    private var dDayLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.bold11_white, .deepPurple_10))
+    private var dDayLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.bold11_white, .purple600_10))
 
     // TODO: - UILabel로 변경
     
