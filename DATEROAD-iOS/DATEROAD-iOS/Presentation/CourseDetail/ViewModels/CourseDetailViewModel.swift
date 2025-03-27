@@ -184,7 +184,7 @@ extension CourseDetailViewModel {
                 let newTimelineData = data.places.map { place in
                     TimelineModel(sequence: place.sequence,
                                   title: place.title,
-                                  duration: Float(place.duration)) }
+                                  duration: (place.duration).formatFloatTime()) }
                 if self.currentTimelineData != newTimelineData {
                     self.currentTimelineData = newTimelineData
                     self.timelineData.value = newTimelineData

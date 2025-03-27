@@ -115,8 +115,8 @@ extension AddSecondViewCollectionViewCell {
         moveAbleButton.setImage(image, for: .normal)
     }
     
-    func pastDatePlaceConfigure(model: DatePlaceModel) {
-        self.placeTitleLabel.text = model.name
+    func pastDatePlaceConfigure(model: TimelineModel) {
+        self.placeTitleLabel.text = model.title
         self.timeRequireLabel.text = model.duration
     }
     

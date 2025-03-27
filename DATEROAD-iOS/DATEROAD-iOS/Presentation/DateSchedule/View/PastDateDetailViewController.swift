@@ -253,7 +253,7 @@ extension PastDateDetailViewController {
 private extension PastDateDetailViewController {
     
     func registerCell() {
-        pastDateDetailContentView.dateTimeLineCollectionView.register(DateTimeLineCollectionViewCell.self, forCellWithReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier)
+        pastDateDetailContentView.dateTimeLineCollectionView.register(DRTimelineCollectionViewCell.self, forCellWithReuseIdentifier: DRTimelineCollectionViewCell.cellIdentifier)
     }
     
     func setDelegate() {
@@ -288,9 +288,10 @@ extension PastDateDetailViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let data = pastDateDetailViewModel.dateDetailData.value?.places[indexPath.item] else { return UICollectionViewCell() }
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier, for: indexPath) as? DateTimeLineCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DRTimelineCollectionViewCell.cellIdentifier, for: indexPath) as? DRTimelineCollectionViewCell else {
             return UICollectionViewCell() }
-        cell.dataBind(data, indexPath.item)
+        cell.type = .schedule
+        cell.dataBind(data)
         return cell
     }
     
