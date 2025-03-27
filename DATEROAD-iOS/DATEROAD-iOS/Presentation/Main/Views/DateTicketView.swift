@@ -86,7 +86,7 @@ final class DateTicketView: BaseView {
                                                               .layerMaxXMaxYCorner])
             $0.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_bold_13))
             $0.setPadding(top: 0, left: 10, bottom: 0, right: 10)
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
         }
         
         dateNameLabel.setLabel(alignment: .left,
@@ -94,9 +94,9 @@ final class DateTicketView: BaseView {
                                textColor: UIColor(resource: .drWhite),
                                font: UIFont.systemFont(ofSize: 20,weight: .bold))
         
-        dateLabel.setLabel(textColor: UIColor(resource: .lightPurple), font: UIFont.suit(.body_med_15))
+        dateLabel.setLabel(textColor: UIColor(resource: .purple400), font: UIFont.suit(.body_med_15))
         
-        startTimeLabel.setLabel(textColor: UIColor(resource: .lightPurple), font: UIFont.suit(.body_med_15))
+        startTimeLabel.setLabel(textColor: UIColor(resource: .purple400), font: UIFont.suit(.body_med_15))
     }
     
 }

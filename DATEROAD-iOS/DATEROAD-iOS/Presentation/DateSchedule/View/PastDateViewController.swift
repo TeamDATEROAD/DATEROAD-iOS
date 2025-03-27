@@ -7,9 +7,6 @@
 
 import UIKit
 
-import SnapKit
-import Then
-
 final class PastDateViewController: BaseNavBarViewController {
     
     // MARK: - UI Properties

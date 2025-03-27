@@ -7,9 +7,6 @@
 
 import UIKit
 
-import SnapKit
-import Then
-
 final class DateCardCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
@@ -165,7 +162,7 @@ final class DateCardCollectionViewCell: BaseCollectionViewCell {
         dDayButton.do {
             $0.titleLabel?.font = UIFont.suit(.cap_bold_11)
             $0.titleLabel?.textColor = UIColor(resource: .drWhite)
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.contentEdgeInsets = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
             $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMaxXMaxYCorner,
                                                                .layerMaxXMinYCorner,
@@ -251,33 +248,18 @@ extension DateCardCollectionViewCell {
         self.titleLabel.text = dateCardData.title
     }
     
-    private func setColorToLabel(bgColor : UIColor, topImage: UIImage, bottomImage: UIImage, buttonColor: UIColor) {
-        self.backgroundColor = bgColor
-        self.topImageView.image = topImage
-        self.bottomImageView.image = bottomImage
-        self.firstTagButton.backgroundColor = buttonColor
-        self.secondTagButton.backgroundColor = buttonColor
-        self.thirdTagButton.backgroundColor = buttonColor
+    private func setColorToLabel(_ cardType: DateCardType) {
+        self.backgroundColor = cardType.bgColor
+        self.topImageView.image = cardType.topImage
+        self.bottomImageView.image = cardType.bottomImage
+        [self.firstTagButton, self.secondTagButton, self.thirdTagButton].forEach {
+            $0.backgroundColor = cardType.buttonColor
+        }
     }
     
     func setColor(index: Int) {
-        let colorIndex = index % 3
-        if colorIndex == 0 {
-            setColorToLabel(bgColor: UIColor(resource: .pink200),
-                            topImage: UIImage(resource: .lilacTop),
-                            bottomImage: UIImage(resource: .lilacBottom),
-                            buttonColor: UIColor(resource: .pink100))
-        } else if colorIndex == 1 {
-            setColorToLabel(bgColor: UIColor(resource: .purple200),
-                            topImage: UIImage(resource: .deepPurpleTop),
-                            bottomImage: UIImage(resource: .deepPurpleBottom),
-                            buttonColor: UIColor(resource: .purple100))
-        } else {
-            setColorToLabel(bgColor: UIColor(resource: .lime),
-                            topImage: UIImage(resource: .limeTop),
-                            bottomImage: UIImage(resource: .limeBottom),
-                            buttonColor: UIColor(resource: .lime100))
-        }
+        let cardType = DateCardType(rawValue: index % 3) ?? .pink
+        setColorToLabel(cardType)
     }
     
     func updateTagButton(title: String, button: UIButton) {

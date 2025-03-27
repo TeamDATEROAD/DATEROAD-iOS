@@ -88,7 +88,7 @@ final class MainHeaderView: UICollectionReusableView {
     }
     
     func setStyle() {
-        self.backgroundColor = UIColor(resource: .deepPurple)
+        self.backgroundColor = UIColor(resource: .purple600)
         
         backgroundView.backgroundColor = UIColor(resource: .drWhite)
         
@@ -115,7 +115,7 @@ extension MainHeaderView {
             titleLabel.do {
                 $0.setAttributedText(fullText: nickname + StringLiterals.Main.hotDateTitle,
                                      pointText: nickname+"님,",
-                                     pointColor: UIColor(resource: .deepPurple), 
+                                     pointColor: UIColor(resource: .purple600),
                                      lineHeight: 1.04)
                 $0.font = UIFont.systemFont(ofSize: 24, weight: .black)
                 $0.textAlignment = .left

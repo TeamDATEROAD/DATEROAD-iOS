@@ -72,8 +72,8 @@ extension DateDetailViewModel {
                     TagsModel(tag: tag.tag)
                 }
                 
-                let datePlaceInfo: [DatePlaceModel] = data.places.map { place in
-                    DatePlaceModel(name: place.title, duration: (place.duration).formatFloatTime(), sequence: place.sequence)
+                let datePlaceInfo: [TimelineModel] = data.places.map { place in
+                    TimelineModel(sequence: place.sequence, title: place.title, duration: (place.duration).formatFloatTime())
                 }
                 
                 let newDateDetailData = DateDetailModel(dateID: data.dateID,
@@ -136,7 +136,7 @@ extension DateDetailViewModel {
         switch dateDetailData.value?.places.count ?? 0 <= 5 {
         case true:
             for i in 0...maxPlaces-1 {
-                kakaoShareInfo["name\(i+1)"] = dateDetailData.value?.places[i].name
+                kakaoShareInfo["name\(i+1)"] = dateDetailData.value?.places[i].title
                 kakaoShareInfo["duration\(i+1)"] = "\(dateDetailData.value?.places[i].duration ?? "") 시간"
             }
             for _ in maxPlaces...5 {
@@ -144,7 +144,7 @@ extension DateDetailViewModel {
             }
         case false:
             for i in 0...4 {
-                kakaoShareInfo["name\(i+1)"] = dateDetailData.value?.places[i].name
+                kakaoShareInfo["name\(i+1)"] = dateDetailData.value?.places[i].title
                 kakaoShareInfo["duration\(i+1)"] = "\(dateDetailData.value?.places[i].duration ?? "") 시간"
             }
         }

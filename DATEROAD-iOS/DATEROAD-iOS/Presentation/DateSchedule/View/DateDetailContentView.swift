@@ -153,8 +153,6 @@ final class DateDetailContentView: BaseView {
     }
     
     override func setStyle() {
-        self.backgroundColor = UIColor(resource: .lilac)
-        
         ribbonImageView.do {
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
@@ -166,7 +164,7 @@ final class DateDetailContentView: BaseView {
             $0.isHidden = true
             $0.titleLabel?.font = UIFont.suit(.cap_bold_11)
             $0.titleLabel?.textColor = UIColor(resource: .drWhite)
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.contentEdgeInsets = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
             $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMaxXMaxYCorner,
                                                                .layerMaxXMinYCorner,
@@ -237,7 +235,7 @@ final class DateDetailContentView: BaseView {
         
         kakaoShareButton.do {
             $0.isHidden = true
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.setImage(UIImage(resource: .kakaoShare), for: .normal)
             $0.setTitle(StringLiterals.DateSchedule.kakaoShare, for: .normal)
             $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
@@ -286,29 +284,17 @@ extension DateDetailContentView {
         self.titleLabel.text = dateDetailData.title
     }
     
-    private func setColorToLabel(bgColor : UIColor, ribbonImage: UIImage, buttonColor: UIColor) {
-        self.backgroundColor = bgColor
-        self.ribbonImageView.image = ribbonImage
-        self.firstTagButton.backgroundColor = buttonColor
-        self.secondTagButton.backgroundColor = buttonColor
-        self.thirdTagButton.backgroundColor = buttonColor
+    private func setColorToLabel(_ cardType: DateCardType) {
+        self.backgroundColor = cardType.bgColor
+        self.ribbonImageView.image = cardType.ribbonImage
+        [self.firstTagButton, self.secondTagButton, self.thirdTagButton].forEach {
+            $0.backgroundColor = cardType.buttonColor
+        }
     }
     
     func setColor(index: Int) {
-        let colorIndex = index % 3
-        if colorIndex == 0 {
-            setColorToLabel(bgColor: UIColor(resource: .pink200),
-                            ribbonImage: UIImage(resource: .lilacRibbon),
-                            buttonColor: UIColor(resource: .pink100))
-        } else if colorIndex == 1 {
-            setColorToLabel(bgColor: UIColor(resource: .purple200),
-                            ribbonImage: UIImage(resource: .deepPurpleRibbon),
-                            buttonColor: UIColor(resource: .purple100))
-        } else {
-            setColorToLabel(bgColor: UIColor(resource: .lime),
-                            ribbonImage: UIImage(resource: .limeRibbon),
-                            buttonColor: UIColor(resource: .lime100))
-        }
+        let cardType = DateCardType(rawValue: index % 3) ?? .pink
+        setColorToLabel(cardType)
     }
     
     func updateTagButton(title: String, button: UIButton) {

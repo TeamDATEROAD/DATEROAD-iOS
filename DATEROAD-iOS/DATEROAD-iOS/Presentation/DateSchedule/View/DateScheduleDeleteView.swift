@@ -27,6 +27,7 @@ final class DateScheduleDeleteView: BaseView {
             $0.horizontalEdges.equalToSuperview()
             $0.top.equalToSuperview().offset(20)
         }
+        
         deleteLabel.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
             $0.top.equalTo(titleLabel.snp.bottom).offset(15)
@@ -43,7 +44,7 @@ final class DateScheduleDeleteView: BaseView {
         deleteLabel.do {
             $0.setLabel(text: StringLiterals.DateSchedule.deleteDate,
                         alignment: .center,
-                        textColor: UIColor(resource: .deepPurple),
+                        textColor: UIColor(resource: .purple600),
                         font: UIFont.suit(.body_semi_15))
             $0.isUserInteractionEnabled = true
         }

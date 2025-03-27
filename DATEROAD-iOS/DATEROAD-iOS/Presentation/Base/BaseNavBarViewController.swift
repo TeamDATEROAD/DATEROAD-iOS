@@ -139,7 +139,7 @@ extension BaseNavBarViewController {
             config.baseForegroundColor = UIColor(resource: .drWhite)
             config.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10)
             config.buttonSize = .mini
-            config.background.backgroundColor = UIColor(resource: .deepPurple)
+            config.background.backgroundColor = UIColor(resource: .purple600)
             $0.configuration = config
             $0.isHidden = false
         }

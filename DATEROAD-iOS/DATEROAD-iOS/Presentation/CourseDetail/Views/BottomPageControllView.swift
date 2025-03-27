@@ -99,7 +99,7 @@ private extension BottomPageControllView {
         likeBoxView.do {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 11
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
         }
         
         likeNumLabel.do {

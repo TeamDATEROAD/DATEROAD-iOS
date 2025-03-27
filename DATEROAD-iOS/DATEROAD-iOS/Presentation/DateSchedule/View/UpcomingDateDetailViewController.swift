@@ -7,9 +7,6 @@
 
 import UIKit
 
-import SnapKit
-import Then
-
 final class UpcomingDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - UI Properties
@@ -186,14 +183,8 @@ extension UpcomingDateDetailViewController {
     }
     
     func setColor(index: Int) {
-        let colorIndex = index % 3
-        if colorIndex == 0 {
-            self.setBackgroundColor(color: UIColor(resource: .pink200))
-        } else if colorIndex == 1 {
-            self.setBackgroundColor(color: UIColor(resource: .purple200))
-        } else {
-            self.setBackgroundColor(color: UIColor(resource: .lime))
-        }
+        let cardType = DateCardType(rawValue: index % 3) ?? .pink
+        self.setBackgroundColor(color: cardType.bgColor)
         upcomingDateDetailContentView.setColor(index: index)
     }
     
@@ -283,7 +274,7 @@ extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
 private extension UpcomingDateDetailViewController {
     
     func registerCell() {
-        upcomingDateDetailContentView.dateTimeLineCollectionView.register(DateTimeLineCollectionViewCell.self, forCellWithReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier)
+        upcomingDateDetailContentView.dateTimeLineCollectionView.register(DRTimelineCollectionViewCell.self, forCellWithReuseIdentifier: DRTimelineCollectionViewCell.cellIdentifier)
     }
     
     func setDelegate() {
@@ -319,9 +310,10 @@ extension UpcomingDateDetailViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let data = upcomingDateDetailViewModel.dateDetailData.value?.places[indexPath.item] else { return UICollectionViewCell() }
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier, for: indexPath) as? DateTimeLineCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DRTimelineCollectionViewCell.cellIdentifier, for: indexPath) as? DRTimelineCollectionViewCell else {
             return UICollectionViewCell() }
-        cell.dataBind(data, indexPath.item)
+        cell.type = .schedule
+        cell.dataBind(data)
         return cell
     }
     

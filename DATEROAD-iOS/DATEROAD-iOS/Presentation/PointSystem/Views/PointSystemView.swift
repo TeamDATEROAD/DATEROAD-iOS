@@ -50,7 +50,7 @@ final class PointSystemView: BaseView {
             $0.font = UIFont.suit(.title_extra_20)
             $0.setAttributedText(fullText: StringLiterals.Onboarding.firstMainInfoLabel,
                                  pointText: StringLiterals.Onboarding.firstMainPoint,
-                                 pointColor: UIColor(resource: .deepPurple),
+                                 pointColor: UIColor(resource: .purple600),
                                  lineHeight: 1.04)
         }
         

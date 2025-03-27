@@ -97,7 +97,7 @@ final class ContentMaskView: UICollectionReusableView {
         
         subTitleLabel.do {
             $0.text = "50P로 코스를 확인해보세요!"
-            $0.textColor = UIColor(resource: .deepPurple)
+            $0.textColor = UIColor(resource: .purple600)
             $0.font = UIFont.suit(.body_semi_15)
         }
         

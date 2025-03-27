@@ -163,14 +163,14 @@ final class NewDateCourseCell: BaseCollectionViewCell {
         }
         
         likeView.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.roundCorners(cornerRadius: 12)
         }
         
         likeImage.image = UIImage(resource: .heartIcon)
         
         likeLabel.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.textColor = UIColor(resource: .drWhite)
             $0.font = UIFont.suit(.body_bold_13)
             $0.roundedLabel(cornerRadius: 12, maskedCorners: [.layerMaxXMinYCorner, .layerMaxXMaxYCorner])

@@ -21,7 +21,7 @@ enum ImageButtonType {
     var bgColor: UIColor {
         switch self {
         case .deepPurple_white_25, .deepPurple_white_15, .deepPurple_white_14:
-            return UIColor(resource: .deepPurple)
+            return UIColor(resource: .purple600)
             
         case .gray100_gray300_14:
             return UIColor(resource: .gray100)
@@ -59,7 +59,7 @@ enum ImageButtonType {
             return UIColor.clear
             
         case .clear_mediumPurple_0:
-            return UIColor(resource: .mediumPurple)
+            return UIColor(resource: .purple500)
             
         }
     }

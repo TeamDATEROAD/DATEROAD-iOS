@@ -64,7 +64,7 @@ final class EmptyTicketView: BaseView {
         
         goToRegisterLabel.setLabel(text: StringLiterals.Main.emptyDateSub,
                                    alignment: .left,
-                                   textColor: UIColor(resource: .lightPurple),
+                                   textColor: UIColor(resource: .purple400),
                                    font: UIFont.suit(.body_med_15))
     }
     

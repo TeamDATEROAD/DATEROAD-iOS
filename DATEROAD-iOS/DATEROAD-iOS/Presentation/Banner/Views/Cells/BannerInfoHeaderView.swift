@@ -74,7 +74,7 @@ private extension BannerInfoHeaderView {
             $0.layer.cornerRadius = 10
             $0.clipsToBounds = true
             $0.setPadding(top: 2, left: 10, bottom: 2, right: 10)
-            $0.backgroundColor = UIColor(resource: .mediumPurple)
+            $0.backgroundColor = UIColor(resource: .purple500)
             $0.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_semi_13))
         }
         
