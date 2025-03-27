@@ -15,7 +15,7 @@ final class UserInfoView: BaseView {
     
     let profileImageView: UIImageView = UIImageView()
     
-    private let nicknameLabel: UILabel = UILabel()
+    private let nicknameLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.systemBold24_black))
     
     let editProfileButton: DRImageButton = DRImageButton(image: UIImage(resource: .icPencil), buttonName: .clear_black_0)
     
@@ -23,13 +23,26 @@ final class UserInfoView: BaseView {
     
     private let pointView: UIView = UIView()
     
-    private let userPointLabel: UILabel = UILabel()
+    private let userPointLabel: DRTextLabel = DRTextLabel(
+        title: "님의 포인트",
+        textLabelType: .clear(.systemMed13_gray400),
+        alignment: .left,
+        numberOfLines: 1
+    )
     
-    private let pointLabel: UILabel = UILabel()
+    private let pointLabel: DRTextLabel = DRTextLabel(
+        title: "0 P",
+        textLabelType: .clear(.extra24_black),
+        alignment: .left
+    )
     
     let goToPointHistoryStackView: UIStackView = UIStackView()
     
-    private let goToPointHistoryLabel: UILabel = UILabel()
+    private let goToPointHistoryLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.MyPage.goToPointHistory,
+        textLabelType: .clear(.med13_gray400),
+        alignment: .left
+    )
     
     private let rightArrowButton: DRImageButton = DRImageButton(image: UIImage(resource: .arrowRightMini), buttonName: .clear_gray400_0)
     
@@ -120,9 +133,7 @@ final class UserInfoView: BaseView {
             $0.layer.cornerRadius = 22
             $0.contentMode = .scaleAspectFill
         }
-        
-        nicknameLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.systemFont(ofSize: 24, weight: .black))
-        
+                
         tagCollectionView.do {
             $0.contentInsetAdjustmentBehavior = .never
             $0.backgroundColor = UIColor(resource: .gray100)
@@ -138,35 +149,12 @@ final class UserInfoView: BaseView {
             $0.clipsToBounds = true
         }
         
-        userPointLabel.do {
-            $0.setLabel(text: "님의 포인트",
-                        alignment: .left,
-                        textColor: UIColor(resource: .gray400),
-                        font: UIFont.systemFont(ofSize: 13, weight: .medium))
-            $0.numberOfLines = 1
-            $0.textAlignment = .left
-        }
-        
         goToPointHistoryStackView.do {
             $0.axis = .horizontal
             $0.alignment = .center
             $0.distribution = .equalSpacing
             $0.isUserInteractionEnabled = true
         }
-        
-        pointLabel.setLabel(
-            text: "0 P",
-            alignment: .left,
-            textColor: UIColor(resource: .drBlack),
-            font: UIFont.suit(.title_extra_24)
-        )
-        
-        goToPointHistoryLabel.setLabel(
-            text: StringLiterals.MyPage.goToPointHistory,
-            alignment: .left,
-            textColor: UIColor(resource: .gray400),
-            font: UIFont.suit(.body_med_13)
-        )
     }
     
 }

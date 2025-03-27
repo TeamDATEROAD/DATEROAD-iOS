@@ -25,7 +25,7 @@ class BaseNavBarViewController: UIViewController {
     
     private var rightButton = UIButton()
     
-    var titleLabel = UILabel()
+    var titleLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold20_black), hidden: true)
     
     private let backgroundView: UIView = UIView()
     
@@ -167,8 +167,6 @@ extension BaseNavBarViewController {
         titleLabel.do {
             $0.isHidden = false
             $0.text = title
-            $0.font = UIFont(name: "SUIT-Bold", size: 20)
-            $0.textColor = .black
             $0.textAlignment = alignment
         }
     }

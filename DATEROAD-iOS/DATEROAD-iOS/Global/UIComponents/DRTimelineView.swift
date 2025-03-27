@@ -89,19 +89,10 @@ final class DRTimelineView: BaseView {
             $0.layer.cornerRadius = 12
         }
         
-        indexNumLabel.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_bold_13))
-        
-        locationLabel.setLabel(alignment: .left,
-                              numberOfLines: 1,
-                              textColor: UIColor(resource: .drBlack) ,
-                              font: UIFont.systemFont(ofSize: 15, weight: .bold))
-        
         timeBoxView.do {
             $0.backgroundColor = UIColor(resource: .gray200)
             $0.layer.cornerRadius = 10
         }
-        
-        timeLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_med_13))
     }
     
 }

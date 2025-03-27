@@ -11,9 +11,13 @@ final class PointSystemView: BaseView {
     
     // MARK: - UI Properties
     
-    private let mainLabel: UILabel = UILabel()
+    private let mainLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.extra20_black), alignment: .left, numberOfLines: 2)
     
-    private let subLabel: UILabel = UILabel()
+    private let subLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.PointSystem.subTitle,
+        textLabelType: .clear(.med15_gray500),
+        alignment: .left
+    )
     
     let pointSystemCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -21,7 +25,11 @@ final class PointSystemView: BaseView {
     // MARK: - Life Cycle
     
     override func setHierarchy() {
-        self.addSubviews(mainLabel, subLabel, pointSystemCollectionView)
+        self.addSubviews(
+            mainLabel,
+            subLabel,
+            pointSystemCollectionView
+        )
     }
     
     override func setLayout() {
@@ -44,23 +52,10 @@ final class PointSystemView: BaseView {
     }
     
     override func setStyle() {
-        mainLabel.do {
-            $0.textAlignment = .left
-            $0.numberOfLines = 2
-            $0.font = UIFont.suit(.title_extra_20)
-            $0.setAttributedText(fullText: StringLiterals.Onboarding.firstMainInfoLabel,
+        mainLabel.setAttributedText(fullText: StringLiterals.Onboarding.firstMainInfoLabel,
                                  pointText: StringLiterals.Onboarding.firstMainPoint,
                                  pointColor: UIColor(resource: .purple600),
                                  lineHeight: 1.04)
-        }
-        
-        subLabel.do {
-            $0.numberOfLines = 0
-            $0.setLabel(text: StringLiterals.PointSystem.subTitle,
-                        alignment: .left,
-                        textColor: UIColor(resource: .gray500),
-                        font: UIFont.suit(.body_med_15) )
-        }
         
         pointSystemCollectionView.do {
             let layout = UICollectionViewFlowLayout()

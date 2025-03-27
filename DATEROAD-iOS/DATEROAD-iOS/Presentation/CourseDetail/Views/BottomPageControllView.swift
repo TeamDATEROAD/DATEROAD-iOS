@@ -18,11 +18,11 @@ final class BottomPageControllView: UICollectionReusableView {
     
     private let likeButton = UIImageView(image: .heartIcon)
     
-    private let likeNumLabel = UILabel()
+    private let likeNumLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold13_white))
     
     private var likeStackView = UIStackView()
     
-    private let indexBoxLabel = UILabel()
+    private let indexBoxLabel: DRTextLabel = DRTextLabel(title: "1/10", textLabelType: .background(.med13_white, .gray400_11))
     
     
     // MARK: - Properties
@@ -66,7 +66,12 @@ private extension BottomPageControllView {
     }
     
     func setHierarchy() {
-        self.addSubviews(likeBoxView, likeStackView, indexBoxLabel)
+        self.addSubviews(
+            likeBoxView,
+            likeStackView,
+            indexBoxLabel
+        )
+        
         likeStackView.addArrangedSubviews(likeButton, likeNumLabel)
     }
     
@@ -102,23 +107,10 @@ private extension BottomPageControllView {
             $0.backgroundColor = UIColor(resource: .purple600)
         }
         
-        likeNumLabel.do {
-            $0.text = "5"
-            $0.textColor = UIColor(resource: .drWhite)
-            $0.font = UIFont.suit(.body_bold_13)
-        }
-        
         likeStackView.do {
             $0.axis = .horizontal
             $0.alignment = .center
             $0.spacing = 3
-        }
-        
-        indexBoxLabel.do {
-            $0.layer.cornerRadius = 11
-            $0.clipsToBounds = true
-            $0.backgroundColor = .gray400
-            $0.setLabel(text: "1/10", alignment: .center, textColor: .drWhite, font: .suit(.body_med_13))
         }
     }
     

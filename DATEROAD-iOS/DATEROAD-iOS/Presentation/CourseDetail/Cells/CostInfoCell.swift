@@ -16,7 +16,10 @@ final class CostInfoCell: BaseCollectionViewCell {
     
     private let timelineBackgroundView = UIView()
     
-    private let costLabel = UILabel()
+    private let costLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold15_black))
+    
+    
+    // MARK: - Life Cycles
     
     override func setHierarchy() {
         self.addSubviews(timelineBackgroundView, costLabel)
@@ -38,12 +41,6 @@ final class CostInfoCell: BaseCollectionViewCell {
         timelineBackgroundView.do {
             $0.backgroundColor = UIColor(resource: .gray100)
             $0.layer.cornerRadius = 14
-        }
-        
-        costLabel.do {
-            $0.text = "90,000원"
-            $0.font = UIFont.suit(.body_bold_15)
-            $0.textColor = UIColor(resource: .drBlack)
         }
     }
 }

@@ -104,8 +104,10 @@ extension BannerDetailView {
             switch self.bannerDetailSection[section]  {
             case .imageCarousel:
                 return self.makeImageCarouselLayout()
+                
             case .titleInfo:
                 return self.makeTitleInfoLayout()
+            
             case .mainContents:
                 return self.makeMainContentsLayout()
             }

@@ -11,11 +11,11 @@ final class UpcomingDateScheduleSkeletonView: BaseView {
     
     // MARK: - UI Properties
     
-    private let titleLabel: UILabel = UILabel()
+    private let titleLabel: DRTextLabel = DRTextLabel(title: StringLiterals.DateSchedule.upcomingDate, textLabelType: .clear(.bold20_black))
     
     private let cardImageView: UIImageView = UIImageView()
     
-    private let dateRegisterButton: UIButton = UIButton()
+    private let dateRegisterButton: DRImageButton = DRImageButton(image: UIImage(resource: .plusSchedule), buttonName: .deepPurple_white_15)
     
     private let pastDateButton: UIView = UIView()
     
@@ -61,22 +61,9 @@ final class UpcomingDateScheduleSkeletonView: BaseView {
     override func setStyle() {
         self.backgroundColor = UIColor(resource: .drWhite)
         
-        titleLabel.setLabel(text: StringLiterals.DateSchedule.upcomingDate,
-                            textColor: UIColor(resource: .drBlack),
-                            font: UIFont.suit(.title_bold_20))
-        
         cardImageView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.image = UIImage(resource: .card)
-        }
-
-        dateRegisterButton.do {
-            $0.backgroundColor = UIColor(resource: .purple600)
-            $0.setImage(UIImage(resource: .plusSchedule), for: .normal)
-            $0.roundedButton(cornerRadius: 15, maskedCorners: [.layerMaxXMaxYCorner,
-                                                               .layerMaxXMinYCorner,
-                                                               .layerMinXMaxYCorner,
-                                                               .layerMinXMinYCorner])
         }
         
         pastDateButton.do {

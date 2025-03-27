@@ -14,9 +14,9 @@ final class BannerInfoHeaderView: UICollectionReusableView {
     
     // MARK: - UI Properties
     
-    private let tagLabel: DRPaddingLabel = DRPaddingLabel()
+    private let tagLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.semi13_white, .purple500_10))
     
-    private let visitDateLabel: UILabel = UILabel()
+    private let visitDateLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi15_gray400))
     
     
     // MARK: - Properties
@@ -33,15 +33,17 @@ final class BannerInfoHeaderView: UICollectionReusableView {
         
         setHierarchy()
         setLayout()
-        setStyle()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func bindTitle(tagLabel: String, visitDate: String) {
-        self.tagLabel.text = tagLabel
+    func bindTitle(tagLabelText: String, visitDate: String) {
+        tagLabel.do {
+            $0.text = tagLabelText
+            $0.setPadding(top: 2, left: 10, bottom: 2, right: 10)
+        }
         
         if let formattedDate = visitDate.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일 방문") {
             visitDateLabel.text = formattedDate
@@ -67,18 +69,6 @@ private extension BannerInfoHeaderView {
             $0.bottom.equalToSuperview()
             $0.leading.equalToSuperview()
         }
-    }
-    
-    func setStyle() {
-        tagLabel.do {
-            $0.layer.cornerRadius = 10
-            $0.clipsToBounds = true
-            $0.setPadding(top: 2, left: 10, bottom: 2, right: 10)
-            $0.backgroundColor = UIColor(resource: .purple500)
-            $0.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_semi_13))
-        }
-        
-        visitDateLabel.setLabel(textColor: UIColor(resource: .gray400), font: UIFont.suit(.body_semi_15))
     }
     
 }

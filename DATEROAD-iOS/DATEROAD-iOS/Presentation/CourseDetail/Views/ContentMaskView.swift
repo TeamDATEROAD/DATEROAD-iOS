@@ -17,11 +17,11 @@ final class ContentMaskView: UICollectionReusableView {
     
     private let gradientView = UIView()
     
-    private let mainTitleLabel = UILabel()
+    private let mainTitleLabel: DRTextLabel = DRTextLabel(title: "코스 정보가 궁금하신가요?", textLabelType: .clear(.bold17_black))
     
     private let pointImageView = UIImageView(image: .imgPreview)
     
-    private let subTitleLabel = UILabel()
+    private let subTitleLabel: DRTextLabel = DRTextLabel(title: "50P로 코스를 확인해보세요!", textLabelType: .clear(.semi15_black))
     
     let readCourseButton = DRTextButton(title: StringLiterals.CourseDetail.viewCoursewithPoint, buttonName: .bold_purple_14)
     
@@ -88,19 +88,7 @@ final class ContentMaskView: UICollectionReusableView {
         }
     }
     
-    func setStyle() {
-        mainTitleLabel.do {
-            $0.text = "코스 정보가 궁금하신가요?"
-            $0.textColor = UIColor(resource: .drBlack)
-            $0.font = UIFont.suit(.body_bold_17)
-        }
-        
-        subTitleLabel.do {
-            $0.text = "50P로 코스를 확인해보세요!"
-            $0.textColor = UIColor(resource: .purple600)
-            $0.font = UIFont.suit(.body_semi_15)
-        }
-        
+    func setStyle() {        
         gradient.locations = [0, 1]
         gradient.frame = gradientView.bounds
         gradient.colors = [

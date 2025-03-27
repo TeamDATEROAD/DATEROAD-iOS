@@ -16,9 +16,17 @@ final class AddSecondView: BaseView {
     
     private let container: UIView = UIView()
     
-    private let contentTitleLabel: UILabel = UILabel()
+    private let contentTitleLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.AddCourseOrSchedule.AddSecondView.contentTitleLabelOfCourse,
+        textLabelType: .clear(.bold17_black),
+        alignment: .left
+    )
     
-    private let contentSubTitleLabel: UILabel = UILabel()
+    private let contentSubTitleLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.AddCourseOrSchedule.AddSecondView.subTitleLabel,
+        textLabelType: .clear(.med13_gray400),
+        alignment: .left
+    )
     
     private let placeRegistrationContainer: UIView = UIView()
     
@@ -109,11 +117,6 @@ final class AddSecondView: BaseView {
     }
     
     override func setStyle() {
-        contentTitleLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddSecondView.contentTitleLabelOfCourse,
-                                   alignment: .left,
-                                   textColor: UIColor(resource: .drBlack),
-                                   font: .suit(.body_bold_17))
-        
         contentSubTitleLabel.setLabel(text: StringLiterals.AddCourseOrSchedule.AddSecondView.subTitleLabel,
                                       alignment: .left,
                                       textColor: UIColor(resource: .gray400),

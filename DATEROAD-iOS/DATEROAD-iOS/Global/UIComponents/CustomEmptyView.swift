@@ -16,7 +16,7 @@ final class CustomEmptyView: BaseView {
     
     let imageView = UIImageView()
     
-    let titleLabel = UILabel()
+    let titleLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold18_gray300))
     
     
     // MARK: - Methods
@@ -42,10 +42,6 @@ final class CustomEmptyView: BaseView {
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFit
         }
-        
-        titleLabel.setLabel(alignment: .center,
-                            textColor: UIColor(resource: .gray300),
-                            font: UIFont.suit(.title_bold_18))
     }
     
 }

@@ -22,7 +22,11 @@ final class AddScheduleSecondView: BaseView {
         isEnabled: false
     )
     
-    private let guideLabel: UILabel = UILabel()
+    private let guideLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.AddCourseOrSchedule.AddSecondView.guideLabel,
+        textLabelType: .clear(.med13_gray400),
+        alignment: .left
+    )
     
     var addPlaceCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -91,11 +95,6 @@ final class AddScheduleSecondView: BaseView {
             $0.isScrollEnabled = true
             $0.showsVerticalScrollIndicator = false
             $0.dragInteractionEnabled = true
-        }
-        
-        guideLabel.do {
-            $0.setLabel(alignment: .left, textColor: UIColor(resource: .gray400), font: .suit(.body_med_13))
-            $0.text = StringLiterals.AddCourseOrSchedule.AddSecondView.guideLabel
         }
     }
     

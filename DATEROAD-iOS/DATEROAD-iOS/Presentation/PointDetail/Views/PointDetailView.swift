@@ -13,9 +13,9 @@ final class PointDetailView: BaseView {
     
     private let pointView = UIView()
     
-    var userNameLabel = UILabel()
+    var userNameLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.systemMed13_white), alignment: .left)
     
-    var totalPointLabel = UILabel()
+    var totalPointLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.extra24_white), alignment: .left)
     
     var segmentControl = UISegmentedControl(items: [StringLiterals.PointDetail.gainedDetail, StringLiterals.PointDetail.usedDetail])
     
@@ -109,18 +109,6 @@ final class PointDetailView: BaseView {
         pointView.do {
             $0.backgroundColor = UIColor(resource: .purple600)
             $0.roundCorners(cornerRadius: 14)
-        }
-        
-        userNameLabel.do {
-            $0.font = UIFont.systemFont(ofSize: 13, weight: .medium)
-            $0.textColor = UIColor(resource: .drWhite)
-            $0.textAlignment = .left
-        }
-        
-        totalPointLabel.do {
-            $0.font = UIFont.suit(.title_extra_24)
-            $0.textColor = UIColor(resource: .drWhite)
-            $0.textAlignment = .left
         }
         
         segmentControl.do {

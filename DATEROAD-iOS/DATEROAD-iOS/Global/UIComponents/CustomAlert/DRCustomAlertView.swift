@@ -13,9 +13,9 @@ final class DRCustomAlertView: BaseView {
     
     private var alertView = UIView()
     
-    var titleLabel = UILabel()
+    var titleLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold17_black))
     
-    var descriptionLabel = UILabel()
+    var descriptionLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_black), hidden: true)
     
     var longButton: DRTextButton?
     
@@ -97,17 +97,6 @@ final class DRCustomAlertView: BaseView {
         alertView.do {
             $0.roundCorners(cornerRadius: 20)
             $0.backgroundColor = UIColor(resource: .drWhite)
-        }
-        
-        titleLabel.setLabel(alignment: .center,
-                        textColor: UIColor(resource: .drBlack),
-                        font: UIFont.suit(.body_bold_17))
-        
-        descriptionLabel.do {
-            $0.setLabel(alignment: .center,
-                        textColor: UIColor(resource: .drBlack),
-                        font: UIFont.suit(.body_med_13))
-            $0.isHidden = true
         }
     }
     

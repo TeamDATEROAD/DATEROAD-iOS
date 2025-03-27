@@ -175,7 +175,7 @@ extension UpcomingDateDetailViewController {
     }
     
     private func setButton() {
-        upcomingDateDetailContentView.dDayButton.isHidden = false
+        upcomingDateDetailContentView.dDayLabel.isHidden = false
         upcomingDateDetailContentView.kakaoShareButton.isHidden = false
         upcomingDateDetailContentView.courseShareButton.isHidden = true
         
@@ -190,6 +190,22 @@ extension UpcomingDateDetailViewController {
     
 }
 
+// MARK: - @objc Methods
+
+extension UpcomingDateDetailViewController {
+    
+    // 상단 왼쪽 더보기 버튼 탭 액션
+    
+    @objc
+    private func deleteDateCourse() {
+        bottomSheetVC.delegate = self
+        
+        DispatchQueue.main.async {
+            self.bottomSheetVC.presentBottomSheet(in: self)
+        }
+    }
+    
+}
 
 // MARK: - Alert Methods
 
@@ -249,22 +265,11 @@ extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
         self.bottomSheetVC.dismissBottomSheet()
     }
     
-    @objc
-    private func deleteDateCourse() {
-        let labelTap = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
-        dateScheduleDeleteView.deleteLabel.addGestureRecognizer(labelTap)
-        bottomSheetVC.delegate = self
-        
-        DispatchQueue.main.async {
-            self.bottomSheetVC.presentBottomSheet(in: self)
-        }
-    }
-    
-    @objc
-    func didTapFirstLabel() {
-        self.dismiss(animated: false)
-        tapDeleteLabel()
-    }
+//    @objc
+//    func didTapFirstLabel() {
+//        self.dismiss(animated: false)
+//        tapDeleteLabel()
+//    }
     
 }
 
@@ -315,6 +320,18 @@ extension UpcomingDateDetailViewController: UICollectionViewDataSource {
         cell.type = .schedule
         cell.dataBind(data)
         return cell
+    }
+    
+}
+
+
+// MARK: - DateScheduleDeleteDelegate
+
+extension UpcomingDateDetailViewController: DateScheduleDeleteDelegate {
+    
+    func didTapDeleteSchedule() {
+        self.dismiss(animated: false)
+        tapDeleteLabel()
     }
     
 }

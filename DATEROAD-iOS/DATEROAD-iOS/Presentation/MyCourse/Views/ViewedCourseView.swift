@@ -17,11 +17,15 @@ final class ViewedCourseView: BaseView {
     
     // MARK: - UI Properties
     
-    private var topLabel = UILabel()
+    private var topLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.systemBold24_black),
+        alignment: .left,
+        numberOfLines: 3
+    )
     
     private var addCourseView = UIView()
     
-    private let createCourseLabel = UILabel()
+    private let createCourseLabel: DRTextLabel = DRTextLabel(title: StringLiterals.ViewedCourse.registerSchedule, textLabelType: .clear(.bold18_black))
     
     private let arrowButton: DRImageButton = DRImageButton(
         image: UIImage(resource: .createCourseArrow),
@@ -105,19 +109,10 @@ final class ViewedCourseView: BaseView {
     override func setStyle() {
         super.setStyle()
         
-        topLabel.do {
-            $0.font = UIFont.systemFont(ofSize: 24, weight: .black)
-            $0.numberOfLines = 3
-        }
-        
         addCourseView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.isUserInteractionEnabled = true
         }
-        
-        createCourseLabel.setLabel(text: StringLiterals.ViewedCourse.registerSchedule,
-                                   textColor: UIColor(resource: .drBlack),
-                                   font: UIFont.suit(.title_bold_18))
     }
     
 }

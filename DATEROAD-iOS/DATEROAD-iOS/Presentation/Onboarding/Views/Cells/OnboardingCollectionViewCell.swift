@@ -13,20 +13,22 @@ final class OnboardingCollectionViewCell: BaseCollectionViewCell {
     
     private let backgroundImage: UIImageView = UIImageView()
     
-    private let mainInfoLabel: UILabel = UILabel()
+    private let mainInfoLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.extra24_black))
     
-    private let subInfoLabel: UILabel = UILabel()
+    private let subInfoLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_gray500))
     
-    private let hintInfoLabel: UILabel = UILabel()
+    private let hintInfoLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.reg11_gray400))
     
     
     // MARK: - Methods
     
     override func setHierarchy() {
-        self.contentView.addSubviews(backgroundImage,
-                                     mainInfoLabel,
-                                     subInfoLabel,
-                                     hintInfoLabel)
+        self.contentView.addSubviews(
+            backgroundImage,
+            mainInfoLabel,
+            subInfoLabel,
+            hintInfoLabel
+        )
     }
     
     override func setLayout() {
@@ -60,12 +62,6 @@ final class OnboardingCollectionViewCell: BaseCollectionViewCell {
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
         }
-        
-        mainInfoLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.title_extra_24))
-        
-        subInfoLabel.setLabel(textColor: UIColor(resource: .gray500), font: UIFont.suit(.body_med_15))
-        
-        hintInfoLabel.setLabel(textColor: UIColor(resource: .gray400), font: UIFont.suit(.cap_reg_11))
     }
     
     // 각 온보딩 페이지에 맞는 데이터를 세팅해주는 메소드

@@ -83,15 +83,12 @@ final class PastDateDetailViewController: BaseNavBarViewController {
     
 }
 
-extension PastDateDetailViewController: DRCustomAlertDelegate {
+
+// MARK: - Methods
+
+extension PastDateDetailViewController {
     
-    func action(rightButtonAction: RightButtonType) {
-        if rightButtonAction == .deleteCourse {
-            pastDateDetailViewModel.deleteDateSchdeuleData(dateID: pastDateDetailViewModel.dateDetailData.value?.dateID ?? 0)
-        }
-    }
-    
-    @objc
+    // 바텀 시트 삭제 버튼 탭 메소드
     func tapDeleteLabel() {
         let customAlertVC = DRCustomAlertViewController(
             rightActionType: .deleteCourse,
@@ -109,18 +106,13 @@ extension PastDateDetailViewController: DRCustomAlertDelegate {
 }
 
 
-// MARK: - BottomSheet Methods
+// MARK: - @objc Methods
 
-extension PastDateDetailViewController: DRBottomSheetDelegate {
+extension PastDateDetailViewController {
     
-    func didTapBottomButton() {
-        self.bottomSheetVC.dismissBottomSheet()
-    }
-    
+    // 상단 왼쪽 더보기 버튼 탭 메소드
     @objc
     private func deleteDateCourse() {
-        let labelTap = UITapGestureRecognizer(target: self, action: #selector(didTapFirstLabel))
-        dateScheduleDeleteView.deleteLabel.addGestureRecognizer(labelTap)
         bottomSheetVC.delegate = self
         
         DispatchQueue.main.async {
@@ -128,11 +120,34 @@ extension PastDateDetailViewController: DRBottomSheetDelegate {
         }
     }
     
-    @objc
-    func didTapFirstLabel() {
-        self.dismiss(animated: false)
-        tapDeleteLabel()
+}
+
+
+// MARK: - 삭제 커스텀 알럿 델리게이트
+
+extension PastDateDetailViewController: DRCustomAlertDelegate {
+    
+    func action(rightButtonAction: RightButtonType) {
+        if rightButtonAction == .deleteCourse {
+            pastDateDetailViewModel.deleteDateSchdeuleData(dateID: pastDateDetailViewModel.dateDetailData.value?.dateID ?? 0)
+        }
     }
+    
+}
+
+
+// MARK: - BottomSheet Methods
+
+extension PastDateDetailViewController: DRBottomSheetDelegate {
+    
+    func didTapBottomButton() {
+        self.bottomSheetVC.dismissBottomSheet()
+    }
+
+//    func didTapFirstLabel() {
+//        self.dismiss(animated: false)
+//        tapDeleteLabel()
+//    }
     
 }
 
@@ -257,6 +272,7 @@ private extension PastDateDetailViewController {
     }
     
     func setDelegate() {
+        dateScheduleDeleteView.delegate = self
         pastDateDetailContentView.dateTimeLineCollectionView.delegate = self
         pastDateDetailContentView.dateTimeLineCollectionView.dataSource = self
     }
@@ -293,6 +309,18 @@ extension PastDateDetailViewController: UICollectionViewDataSource {
         cell.type = .schedule
         cell.dataBind(data)
         return cell
+    }
+    
+}
+
+
+// MARK: - DateScheduleDeleteDelegate
+
+extension PastDateDetailViewController: DateScheduleDeleteDelegate {
+    
+    func didTapDeleteSchedule() {
+        self.dismiss(animated: false)
+        tapDeleteLabel()
     }
     
 }

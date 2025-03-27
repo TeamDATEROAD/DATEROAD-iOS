@@ -13,17 +13,17 @@ final class DateTicketView: BaseView {
     
     private let ticketImage: UIImageView = UIImageView()
     
-    private let dDayLabel: DRPaddingLabel = DRPaddingLabel()
+    private let dDayLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.bold13_white, .purple600_10))
     
-    private let dateNameLabel: UILabel = UILabel()
+    private let dateNameLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.systemBold20_white),
+        alignment: .left,
+        numberOfLines: 1
+    )
     
-    private let dateLabel: UILabel = UILabel()
+    private let dateLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med15_purple400))
     
-    private let startTimeLabel: UILabel = UILabel()
-    
-    private let emptyDateLabel: UILabel = UILabel()
-    
-    private let goToRegisterLabel: UILabel = UILabel()
+    private let startTimeLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med15_purple400))
     
     let moveButton: DRImageButton = DRImageButton(image: UIImage(resource: .icRightarrowPurple), buttonName: .clear_mediumPurple_0)
     
@@ -79,24 +79,7 @@ final class DateTicketView: BaseView {
             $0.contentMode = .scaleAspectFill
         }
         
-        dDayLabel.do {
-            $0.roundedLabel(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner,
-                                                              .layerMaxXMinYCorner,
-                                                              .layerMinXMaxYCorner,
-                                                              .layerMaxXMaxYCorner])
-            $0.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_bold_13))
-            $0.setPadding(top: 0, left: 10, bottom: 0, right: 10)
-            $0.backgroundColor = UIColor(resource: .purple600)
-        }
-        
-        dateNameLabel.setLabel(alignment: .left,
-                               numberOfLines: 1 ,
-                               textColor: UIColor(resource: .drWhite),
-                               font: UIFont.systemFont(ofSize: 20,weight: .bold))
-        
-        dateLabel.setLabel(textColor: UIColor(resource: .purple400), font: UIFont.suit(.body_med_15))
-        
-        startTimeLabel.setLabel(textColor: UIColor(resource: .purple400), font: UIFont.suit(.body_med_15))
+        dDayLabel.setPadding(top: 0, left: 10, bottom: 0, right: 10)
     }
     
 }

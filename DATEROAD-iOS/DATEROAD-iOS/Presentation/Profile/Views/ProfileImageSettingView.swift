@@ -21,7 +21,7 @@ final class ProfileImageSettingView: BaseView {
     
     private let settingStackView: UIStackView = UIStackView()
     
-    private let titleLabel: UILabel = UILabel()
+    private let titleLabel: DRTextLabel = DRTextLabel(title: StringLiterals.Profile.settingImage, textLabelType: .clear(.bold18_black))
     
     let registerButton: DRTextButton = DRTextButton(title: StringLiterals.Profile.registerImage, buttonName: .semi_white_0)
     
@@ -67,13 +67,6 @@ final class ProfileImageSettingView: BaseView {
             $0.alignment = .center
             $0.distribution = .fillEqually
         }
-        
-        titleLabel.setLabel(
-            text: StringLiterals.Profile.settingImage,
-            alignment: .center,
-            textColor: UIColor(resource: .drBlack),
-            font: UIFont.suit(.title_bold_18)
-        )
     }
     
 }
@@ -85,7 +78,6 @@ extension ProfileImageSettingView {
     
     func setAddTarget() {
         deleteButton.addTarget(self, action: #selector(didTapDeleteImageButton), for: .touchUpInside)
-
         registerButton.addTarget(self, action: #selector(didTapRegisterImageButton), for: .touchUpInside)
     }
     

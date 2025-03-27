@@ -218,7 +218,7 @@ extension BannerDetailViewController: UICollectionViewDataSource {
         switch kind {
         case BannerInfoHeaderView.elementKinds:
             guard let visitDate = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BannerInfoHeaderView.identifier, for: indexPath) as? BannerInfoHeaderView else { return UICollectionReusableView() }
-            visitDate.bindTitle(tagLabel: tagLabel, visitDate: createDate)
+            visitDate.bindTitle(tagLabelText: tagLabel, visitDate: createDate)
             return visitDate
             
         case InfoBarView.elementKinds:

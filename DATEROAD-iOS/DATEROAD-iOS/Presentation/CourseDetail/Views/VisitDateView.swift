@@ -14,7 +14,7 @@ final class VisitDateView: UICollectionReusableView {
     
     // MARK: - UI Properties
     
-    private let dateLabel = UILabel()
+    private let dateLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi15_gray400))
     
     
     // MARK: - Properties
@@ -28,7 +28,6 @@ final class VisitDateView: UICollectionReusableView {
         
         setHierarchy()
         setLayout()
-        setStyle()
     }
     
     required init?(coder: NSCoder) {
@@ -44,15 +43,6 @@ final class VisitDateView: UICollectionReusableView {
             $0.top.leading.equalToSuperview()
         }
     }
-    
-    func setStyle() {
-        dateLabel.do {
-            $0.text = "2024년 6월 27일"
-            $0.font = UIFont.suit(.body_semi_15)
-            $0.textColor = UIColor(resource: .gray400)
-        }
-    }
-    
 }
 
 extension VisitDateView {
