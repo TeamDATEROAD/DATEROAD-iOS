@@ -22,9 +22,13 @@ final class MainHeaderView: UICollectionReusableView {
     
     private let backgroundView: UIView = UIView()
     
-    let titleLabel: UILabel = UILabel()
+    let titleLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.systemBold24_black),
+        alignment: .left,
+        numberOfLines: 2
+    )
     
-    let subLabel: UILabel = UILabel()
+    let subLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_gray400), alignment: .left)
     
     let viewMoreButton: DRTextButton = DRTextButton(title: StringLiterals.Main.viewMore, buttonName: .bold_white_0)
     
@@ -46,6 +50,7 @@ final class MainHeaderView: UICollectionReusableView {
         setHierarchy()
         setLayout()
         setStyle()
+        setAddTarget()
     }
     
     required init?(coder: NSCoder) {
@@ -91,10 +96,6 @@ final class MainHeaderView: UICollectionReusableView {
         self.backgroundColor = UIColor(resource: .deepPurple)
         
         backgroundView.backgroundColor = UIColor(resource: .drWhite)
-        
-        subLabel.setLabel(alignment: .left,
-                          textColor: UIColor(resource: .gray400),
-                          font: UIFont.suit(.body_med_13))
     }
     
 }
@@ -112,29 +113,18 @@ extension MainHeaderView {
         let nickname = nickname ?? ""
         
         if section == .hotDateCourse {
-            titleLabel.do {
-                $0.setAttributedText(fullText: nickname + StringLiterals.Main.hotDateTitle,
+            self.backgroundView.clipsToBounds = true
+            self.backgroundView.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMinYCorner])
+            titleLabel.setProperties(nickname + StringLiterals.Main.hotDateTitle, .clear(.systemBold24_black), .left, 2)
+            titleLabel.setAttributedText(fullText: nickname + StringLiterals.Main.hotDateTitle,
                                      pointText: nickname+"님,",
                                      pointColor: UIColor(resource: .deepPurple), 
                                      lineHeight: 1.04)
-                $0.font = UIFont.systemFont(ofSize: 24, weight: .black)
-                $0.textAlignment = .left
-                $0.numberOfLines = 2
-            }
-            self.backgroundView.clipsToBounds = true
-            self.backgroundView.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMinYCorner])
             subLabel.text = StringLiterals.Main.hotDateSub
         } else {
             self.backgroundView.clipsToBounds = false
             self.backgroundView.roundCorners(cornerRadius: 0, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMinYCorner])
-            titleLabel.do {
-                $0.setLabel(text: StringLiterals.Main.newDateTitle,
-                            alignment: .left,
-                            textColor: UIColor(resource: .drBlack),
-                            font: UIFont.suit(.title_extra_20))
-                $0.textAlignment = .left
-                $0.numberOfLines = 0
-            }
+            titleLabel.setProperties(StringLiterals.Main.newDateTitle, .clear(.extra20_black), .left, 0)
             subLabel.text = StringLiterals.Main.newDateSub
         }
     }

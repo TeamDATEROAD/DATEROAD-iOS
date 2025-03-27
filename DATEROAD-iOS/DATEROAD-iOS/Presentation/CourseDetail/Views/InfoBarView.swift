@@ -16,15 +16,15 @@ final class InfoBarView: UICollectionReusableView {
     
     private let coastIconImageView = UIImageView(image: .coastIcon)
     
-    private let coastLabel = UILabel()
+    private let costLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi15_gray400))
     
     private let timeIconImageView = UIImageView(image: .timeIcon)
     
-    private let timeLabel = UILabel()
+    private let timeLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi15_gray400))
     
     private let locationIconImageView = UIImageView(image: .locationIcon)
     
-    private let locationLabel = UILabel()
+    private let locationLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi15_gray400))
     
     
     // MARK: - Properties
@@ -38,7 +38,6 @@ final class InfoBarView: UICollectionReusableView {
         
         setHierarchy()
         setLayout()
-        setStyle()
     }
     
     required init?(coder: NSCoder) {
@@ -47,7 +46,7 @@ final class InfoBarView: UICollectionReusableView {
     
     func setHierarchy() {
         self.addSubviews(
-            coastLabel,
+            costLabel,
             coastIconImageView,
             timeLabel,
             timeIconImageView,
@@ -62,7 +61,7 @@ final class InfoBarView: UICollectionReusableView {
             $0.size.equalTo(14)
         }
         
-        coastLabel.snp.makeConstraints {
+        costLabel.snp.makeConstraints {
             $0.centerY.equalTo(coastIconImageView)
             $0.leading.equalTo(coastIconImageView.snp.trailing).offset(3.5)
         }
@@ -91,39 +90,19 @@ final class InfoBarView: UICollectionReusableView {
         }
     }
     
-    func setStyle() {
-        coastLabel.do {
-            $0.text = "10만원 이하"
-            $0.font = UIFont.suit(.body_semi_15)
-            $0.textColor = UIColor(resource: .gray400)
-        }
-        
-        timeLabel.do {
-            $0.text = "6시간"
-            $0.font = UIFont.suit(.body_semi_15)
-            $0.textColor = UIColor(resource: .gray400)
-        }
-        
-        locationLabel.do {
-            $0.text = "건대/성수/왕십리"
-            $0.font = UIFont.suit(.body_semi_15)
-            $0.textColor = UIColor(resource: .gray400)
-        }
-    }
-    
 }
 
 extension InfoBarView {
     
     func bindTitleHeader(titleHeaderData: TitleHeaderModel) {
         print("가격 여기여기",titleHeaderData.cost)
-        coastLabel.text = "\(titleHeaderData.cost.priceRangeTag())"
+        costLabel.text = "\(titleHeaderData.cost.priceRangeTag())"
         timeLabel.text = "\(titleHeaderData.totalTime.formatTime())시간"
         locationLabel.text = titleHeaderData.city
     }
     
     func allHidden() {
-        [coastLabel,
+        [costLabel,
          coastIconImageView,
          timeLabel,
          timeIconImageView,

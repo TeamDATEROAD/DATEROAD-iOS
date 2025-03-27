@@ -16,9 +16,21 @@ final class AddScheduleFirstView: BaseView {
     
     let inAddScheduleFirstView = InAddScheduleFirstView()
     
-    let dateNameErrorLabel = UILabel()
+    private let dateNameErrorLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNameErrorLabel,
+        textLabelType: .clear(.reg11_alertRed),
+        alignment: .left,
+        numberOfLines: 1,
+        hidden: true
+    )
     
-    let visitDateErrorLabel = UILabel()
+    private let visitDateErrorLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateErrorLabel,
+        textLabelType: .clear(.reg11_alertRed),
+        alignment: .left,
+        numberOfLines: 1,
+        hidden: true
+    )
     
     
     // MARK: - Properties
@@ -46,19 +58,6 @@ final class AddScheduleFirstView: BaseView {
         visitDateErrorLabel.snp.makeConstraints {
             $0.top.equalTo(inAddScheduleFirstView.visitDateTextField.snp.bottom).offset(2)
             $0.leading.equalTo(inAddScheduleFirstView.visitDateTextField.snp.leading).offset(9)
-        }
-    }
-    
-    override func setStyle() {
-        for i in [dateNameErrorLabel,visitDateErrorLabel] {
-            i.do {
-                if i == dateNameErrorLabel {
-                    $0.setErrorLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.dateNameErrorLabel, errorType: warningType)
-                } else {
-                    $0.setErrorLabel(text: StringLiterals.AddCourseOrSchedule.AddFirstView.visitDateErrorLabel, errorType: warningType)
-                }
-                $0.isHidden = true
-            }
         }
     }
     

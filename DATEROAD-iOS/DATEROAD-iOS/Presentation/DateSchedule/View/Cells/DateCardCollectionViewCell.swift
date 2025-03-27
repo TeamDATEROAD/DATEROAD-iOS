@@ -18,11 +18,15 @@ final class DateCardCollectionViewCell: BaseCollectionViewCell {
     
     private var bottomImageView = UIImageView()
     
-    private var dateLabel = UILabel()
-    
-    // TODO: - UILabel로 변경
+    private var dateLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.extra24_black),
+        alignment: .left,
+        numberOfLines: 2
+    )
 
-    private var dDayButton = UIButton()
+    private var dDayLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.bold11_white, .deepPurple_10))
+
+    // TODO: - UILabel로 변경
     
     private var firstTagButton = UIButton()
     
@@ -36,9 +40,13 @@ final class DateCardCollectionViewCell: BaseCollectionViewCell {
     
     private var rightCircleInsetImageView = UIImageView()
     
-    private var locationLabel = UILabel()
+    private var locationLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med15_gray500))
     
-    private var titleLabel = UILabel()
+    private var titleLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.systemBold24_black),
+        alignment: .left,
+        numberOfLines: 2
+    )
     
     private let tagButtonType : DRButtonType = DateScheduleTagButton()
     
@@ -69,7 +77,7 @@ final class DateCardCollectionViewCell: BaseCollectionViewCell {
         self.addSubviews(topImageView,
                          bottomImageView,
                          dateLabel,
-                         dDayButton,
+                         dDayLabel,
                          firstTagButton,
                          secondTagButton,
                          thirdTagButton,
@@ -98,7 +106,7 @@ final class DateCardCollectionViewCell: BaseCollectionViewCell {
             $0.height.equalTo(62)
         }
         
-        dDayButton.snp.makeConstraints {
+        dDayLabel.snp.makeConstraints {
             $0.top.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(19)
         }
@@ -157,21 +165,7 @@ final class DateCardCollectionViewCell: BaseCollectionViewCell {
         
         bottomImageView.contentMode = .scaleAspectFill
         
-        dateLabel.setLabel(alignment: .left,
-                           numberOfLines: 2,
-                           textColor: UIColor(resource: .drBlack),
-                           font: UIFont.suit(.title_extra_24))
-        
-        dDayButton.do {
-            $0.titleLabel?.font = UIFont.suit(.cap_bold_11)
-            $0.titleLabel?.textColor = UIColor(resource: .drWhite)
-            $0.backgroundColor = UIColor(resource: .deepPurple)
-            $0.contentEdgeInsets = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
-            $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMaxXMaxYCorner,
-                                                               .layerMaxXMinYCorner,
-                                                               .layerMinXMaxYCorner,
-                                                               .layerMinXMinYCorner])
-        }
+        dDayLabel.setPadding(top: 2, left: 10, bottom: 2, right: 10)
         
         firstTagButton.do {
             $0.setButtonStatus(buttonType: tagButtonType)
@@ -220,11 +214,6 @@ final class DateCardCollectionViewCell: BaseCollectionViewCell {
         rightCircleInsetImageView.image = UIImage(resource: .rightCardInset)
         
         locationLabel.setLabel(textColor: UIColor(resource: .gray500), font: UIFont.suit(.body_med_15))
-        
-        titleLabel.setLabel(alignment: .left,
-                            numberOfLines: 2,
-                            textColor: UIColor(resource: .drBlack),
-                            font: UIFont.systemFont(ofSize: 24, weight: .black))
     }
     
 }
@@ -233,11 +222,8 @@ extension DateCardCollectionViewCell {
     
     func dataBind(_ dateCardData : DateCardModel, _ dateCardItemRow: Int) {
         self.dateLabel.text = dateCardData.date
-        if dateCardData.dDay == 0 {
-            self.dDayButton.setTitle(StringLiterals.DateSchedule.dDay, for: .normal)
-        } else {
-            self.dDayButton.setTitle("D-\(dateCardData.dDay)", for: .normal)
-        }
+        dDayLabel.text = dateCardData.dDay == 0 ? StringLiterals.DateSchedule.dDay : "D-\(dateCardData.dDay)"
+
         updateTagButton(title: "\(dateCardData.tags[0].tag)", button: self.firstTagButton)
         if dateCardData.tags.count >= 2 {
             self.secondTagButton.isHidden = false
@@ -247,8 +233,8 @@ extension DateCardCollectionViewCell {
             self.thirdTagButton.isHidden = false
             updateTagButton(title: "\(dateCardData.tags[2].tag)", button: self.thirdTagButton)
         }
-        self.locationLabel.text = dateCardData.city
-        self.titleLabel.text = dateCardData.title
+        locationLabel.text = dateCardData.city
+        titleLabel.text = dateCardData.title
     }
     
     private func setColorToLabel(bgColor : UIColor, topImage: UIImage, bottomImage: UIImage, buttonColor: UIColor) {

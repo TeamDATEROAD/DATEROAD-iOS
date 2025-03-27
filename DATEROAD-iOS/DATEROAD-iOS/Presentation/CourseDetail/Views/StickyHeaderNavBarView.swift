@@ -22,9 +22,9 @@ final class StickyHeaderNavBarView: UIView {
     
     // MARK: - UI Properties
     
-    private let previousButton: DRImageButton = DRImageButton(image: UIImage(resource: .leftArrow), buttonName: .clear_black_0)
+    private let previousButton: DRImageButton = DRImageButton(image: UIImage(resource: .leftArrow), buttonName: .clear_white_0)
     
-    private let moreButton: DRImageButton = DRImageButton(image: UIImage(resource: .moreButton), buttonName: .clear_black_0)
+    private let moreButton: DRImageButton = DRImageButton(image: UIImage(resource: .moreButton), buttonName: .clear_white_0)
     
     
     // MARK: - Properties

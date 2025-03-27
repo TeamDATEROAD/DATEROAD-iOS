@@ -19,11 +19,15 @@ final class NewDateCourseCell: BaseCollectionViewCell {
     
     private let likeLabel: DRPaddingLabel = DRPaddingLabel()
     
-    private let countryLabel: DRPaddingLabel = DRPaddingLabel()
+    private let countryLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_gray400))
     
     private let dateNameView: UIView = UIView()
     
-    private let dateNameLabel: UILabel = UILabel()
+    private let dateNameLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.systemBold17_black),
+        alignment: .left,
+        numberOfLines: 2
+    )
     
     private let costView: UIView = UIView()
     
@@ -149,11 +153,6 @@ final class NewDateCourseCell: BaseCollectionViewCell {
     override func setStyle() {
         self.backgroundColor = UIColor(resource: .drWhite)
         
-        countryLabel.do {
-            $0.backgroundColor = UIColor(resource: .drWhite)
-            $0.setLabel(textColor: UIColor(resource: .gray400), font: UIFont.suit(.body_med_13))
-        }
-        
         courseImage.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.image = UIImage(resource: .placeholder)
@@ -178,15 +177,6 @@ final class NewDateCourseCell: BaseCollectionViewCell {
         }
         
         dateNameView.backgroundColor = UIColor(resource: .drWhite)
-        
-        dateNameLabel.do {
-            $0.textAlignment = .left
-            $0.backgroundColor = UIColor(resource: .drWhite)
-            $0.numberOfLines = 2
-            $0.setLabel(alignment: .left,
-                textColor: UIColor(resource: .drBlack),
-                font: UIFont.systemFont(ofSize: 17, weight: .bold))
-        }
         
         costView.do {
             $0.backgroundColor = UIColor(resource: .gray100)

@@ -13,25 +13,29 @@ final class DateDetailContentView: BaseView {
     
     private var ribbonImageView = UIImageView()
     
-    private var dateLabel = UILabel()
+    private var dateLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi15_black))
     
+    var dDayLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.bold11_white, .deepPurple_10), hidden: true)
+
     // TODO: - UILabel로 변경
-    
-    var dDayButton = UIButton()
-    
+        
     private var firstTagButton = UIButton()
     
     private var secondTagButton = UIButton()
     
     private var thirdTagButton = UIButton()
     
-    private var locationLabel = UILabel()
+    private var locationLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med15_gray500))
     
-    private var titleLabel = UILabel()
+    private var titleLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.systemBold24_black),
+        alignment: .left,
+        numberOfLines: 2
+    )
     
     private var dateDetailView = UIView()
     
-    private var dateStartTimeLabel = UILabel()
+    private var dateStartTimeLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi15_black))
     
     var dateTimeLineCollectionView = UICollectionView(frame: .zero, collectionViewLayout: dateTimeLineCollectionViewLayout)
     
@@ -59,7 +63,7 @@ final class DateDetailContentView: BaseView {
     override func setHierarchy() {
         self.addSubviews(ribbonImageView,
                          dateLabel,
-                         dDayButton,
+                         dDayLabel,
                          firstTagButton,
                          secondTagButton,
                          thirdTagButton,
@@ -86,7 +90,7 @@ final class DateDetailContentView: BaseView {
             $0.height.equalTo(21)
         }
         
-        dDayButton.snp.makeConstraints {
+        dDayLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(13)
             $0.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(19)
@@ -159,20 +163,8 @@ final class DateDetailContentView: BaseView {
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
         }
-        
-        dateLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
-        
-        dDayButton.do {
-            $0.isHidden = true
-            $0.titleLabel?.font = UIFont.suit(.cap_bold_11)
-            $0.titleLabel?.textColor = UIColor(resource: .drWhite)
-            $0.backgroundColor = UIColor(resource: .deepPurple)
-            $0.contentEdgeInsets = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
-            $0.roundedButton(cornerRadius: 10, maskedCorners: [.layerMaxXMaxYCorner,
-                                                               .layerMaxXMinYCorner,
-                                                               .layerMinXMaxYCorner,
-                                                               .layerMinXMinYCorner])
-        }
+                
+        dDayLabel.setPadding(top: 2, left: 10, bottom: 2, right: 10)
         
         firstTagButton.do {
             $0.setButtonStatus(buttonType: tagButtonType)
@@ -212,20 +204,11 @@ final class DateDetailContentView: BaseView {
             $0.adjustsImageWhenDisabled = false
         }
         
-        locationLabel.setLabel(textColor: UIColor(resource: .gray500), font: UIFont.suit(.body_med_15))
-        
-        titleLabel.setLabel(alignment: .left,
-                               numberOfLines: 2,
-                               textColor: UIColor(resource: .drBlack),
-                               font:  UIFont.systemFont(ofSize: 24, weight: .black))
-        
         dateDetailView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.roundCorners(cornerRadius: 20, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
         }
-        
-        dateStartTimeLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_semi_15))
-        
+                
         dateTimeLineCollectionView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.isPagingEnabled = false
@@ -265,13 +248,9 @@ final class DateDetailContentView: BaseView {
 extension DateDetailContentView {
     
     func dataBind(_ dateDetailData : DateDetailModel) {
-        self.dateLabel.text = dateDetailData.date
-        if dateDetailData.dDay == 0 {
-            self.dDayButton.setTitle("D-Day", for: .normal)
-        } else {
-            self.dDayButton.setTitle("D-\(dateDetailData.dDay)", for: .normal)
-            
-        }
+        dateLabel.text = dateDetailData.date
+        dDayLabel.text = dateDetailData.dDay == 0 ? "D-Day" : "D-\(dateDetailData.dDay)"
+        
         self.dateStartTimeLabel.text = "\(dateDetailData.startAt) " + StringLiterals.DateSchedule.startTime
         updateTagButton(title: "\(dateDetailData.tags[0].tag)", button: self.firstTagButton)
         if dateDetailData.tags.count >= 2 {

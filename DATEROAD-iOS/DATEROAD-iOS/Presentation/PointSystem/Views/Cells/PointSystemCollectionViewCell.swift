@@ -13,12 +13,19 @@ final class PointSystemCollectionViewCell: BaseCollectionViewCell {
     
     private let illustrationView: UIImageView = UIImageView()
     
-    private let mainLabel: UILabel = UILabel()
+    private let mainLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold15_black), alignment: .left, numberOfLines: 2)
     
-    private let subLabel: UILabel = UILabel()
+    private let subLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_gray400), alignment: .left, numberOfLines: 1)
+    
+    
+    // MARK: - Life Cycles
     
     override func setHierarchy() {
-        self.addSubviews(illustrationView, mainLabel, subLabel)
+        self.addSubviews(
+            illustrationView,
+            mainLabel,
+            subLabel
+        )
     }
     
     override func setLayout() {
@@ -39,8 +46,6 @@ final class PointSystemCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    // TODO: - 이미지 바인딩 수정 예정
-    
     override func setStyle() {
         self.do {
             $0.backgroundColor = UIColor(resource: .gray100)
@@ -53,25 +58,12 @@ final class PointSystemCollectionViewCell: BaseCollectionViewCell {
             $0.image = UIImage(resource: .emptyProfileImg)
             $0.layer.cornerRadius = 35
         }
-        
-        mainLabel.do {
-            $0.backgroundColor = UIColor(resource: .gray100)
-            $0.setLabel(alignment: .left,
-                        textColor: UIColor(resource: .drBlack),
-                        font: UIFont.suit(.body_bold_15))
-            $0.numberOfLines = 2
-        }
-        
-        subLabel.do {
-            $0.backgroundColor = UIColor(resource: .gray100)
-            $0.setLabel(alignment: .left,
-                        textColor: UIColor(resource: .gray500),
-                        font: UIFont.suit(.body_med_13))
-            $0.numberOfLines = 1
-        }
     }
     
 }
+
+
+// MARK: - Methods
 
 extension PointSystemCollectionViewCell {
     

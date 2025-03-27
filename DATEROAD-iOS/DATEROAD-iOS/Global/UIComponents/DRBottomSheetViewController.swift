@@ -112,11 +112,13 @@ final class DRBottomSheetViewController: BaseViewController {
         self.delegate?.didTapBottomButton()
     }
     
+    // TODO: - 이거 사용 안하는 거 같은데,,,,? 추후 수정
     @objc
     func didTapTopLabel() {
         self.delegate?.didTapFirstLabel()
     }
     
+    // TODO: - 이거 사용 안하는 거 같은데,,,,? 추후 수정
     @objc
     func didTapBottomLabel() {
         self.delegate?.didTapSecondLabel()

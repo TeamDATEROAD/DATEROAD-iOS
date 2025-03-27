@@ -7,7 +7,7 @@
 
 import UIKit
 
-//TODO: 민서언니 코드랑 같음 !! -> 나중에 병합
+// TODO: 민서언니 코드랑 같음 !! -> 나중에 병합
 final class DateTimeLineCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
@@ -16,13 +16,17 @@ final class DateTimeLineCollectionViewCell: BaseCollectionViewCell {
     
     private let circleView = UIView()
     
-    private let indexNumLabel = UILabel()
+    private let indexNumLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold13_white))
     
-    private let locationLabel = UILabel()
+    private let locationLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.systemBold15_black),
+        alignment: .left,
+        numberOfLines: 1
+    )
     
     private let timeBoxView = UIView()
     
-    private let timeLabel = UILabel()
+    private let timeLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_black))
     
     
     // MARK: - Properties
@@ -97,19 +101,10 @@ final class DateTimeLineCollectionViewCell: BaseCollectionViewCell {
             $0.layer.cornerRadius = 12
         }
         
-        indexNumLabel.setLabel(textColor: UIColor(resource: .drWhite), font: UIFont.suit(.body_bold_13))
-        
-        locationLabel.setLabel(alignment: .left,
-                              numberOfLines: 1,
-                              textColor: UIColor(resource: .drBlack) ,
-                              font: UIFont.systemFont(ofSize: 15, weight: .bold))
-        
         timeBoxView.do {
             $0.backgroundColor = UIColor(resource: .gray200)
             $0.layer.cornerRadius = 10
         }
-        
-        timeLabel.setLabel(textColor: UIColor(resource: .drBlack), font: UIFont.suit(.body_med_13))
     }
     
 }

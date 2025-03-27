@@ -15,13 +15,16 @@ final class TimelineInfoCell: BaseCollectionViewCell {
     
     private let circleView = UIView()
     
-    private let indexNumLabel = UILabel()
+    private let indexNumLabel: DRTextLabel = DRTextLabel(title: "1", textLabelType: .clear(.bold13_white))
     
-    private let locationLabel = UILabel()
+    private let locationLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.systemBold15_black), alignment: .left)
     
     private let timeBoxView = UIView()
     
-    private let timeLabel = UILabel()
+    private let timeLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_black))
+    
+    
+    // MARK: - Life Cycles
     
     override func setHierarchy() {
         self.addSubviews(
@@ -79,27 +82,9 @@ final class TimelineInfoCell: BaseCollectionViewCell {
             $0.layer.cornerRadius = 12
         }
         
-        indexNumLabel.do {
-            $0.text = "1"
-            $0.font = UIFont.suit(.body_bold_13)
-            $0.textColor = UIColor(resource: .drWhite)
-        }
-        
-        locationLabel.do {
-            $0.text = "성수 미술관 성수점"
-            $0.font = UIFont.systemFont(ofSize: 15, weight: .bold)
-            $0.textColor = UIColor(resource: .drBlack)
-        }
-        
         timeBoxView.do {
             $0.backgroundColor = UIColor(resource: .gray200)
             $0.layer.cornerRadius = 10
-        }
-        
-        timeLabel.do {
-            $0.text = "1시간"
-            $0.font = UIFont.suit(.body_med_13)
-            $0.textColor = UIColor(resource: .drBlack)
         }
     }
     
