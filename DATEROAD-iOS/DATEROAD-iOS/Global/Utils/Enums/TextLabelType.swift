@@ -132,7 +132,7 @@ enum TextStyle {
 
 enum BackgroundStyle {
     
-    case purple600_12, purple600_10
+    case purple600_12, purple600_12_circle, purple600_10
     
     case purple500_14, purple500_10
     
@@ -140,7 +140,7 @@ enum BackgroundStyle {
         
     var cornerMask: CACornerMask {
         switch self {
-        case .purple600_10, .gray400_20, .gray400_11, .purple500_10:
+        case .purple600_12_circle, .purple600_10, .gray400_20, .gray400_11, .purple500_10:
             return [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
             
         case .purple600_12:
@@ -159,7 +159,7 @@ enum BackgroundStyle {
         case .purple500_14:
             return 14
             
-        case .purple600_12:
+        case .purple600_12, .purple600_12_circle:
             return 12
             
         case .gray400_11:
@@ -172,7 +172,7 @@ enum BackgroundStyle {
     
     var bgColor: UIColor {
         switch self {
-        case .purple600_12, .purple600_10:
+        case .purple600_12, .purple600_12_circle, .purple600_10:
             return UIColor(.purple600)
             
         case .purple500_14, .purple500_10:
