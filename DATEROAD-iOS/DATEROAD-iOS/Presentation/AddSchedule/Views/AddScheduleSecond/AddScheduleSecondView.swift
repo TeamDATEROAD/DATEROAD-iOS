@@ -62,7 +62,7 @@ final class AddScheduleSecondView: BaseView {
         
         editButton.snp.makeConstraints {
             $0.top.equalTo(inAddScheduleSecondView.separatorLine.snp.bottom).offset(10)
-            $0.trailing.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(ScreenUtils.width * 16/375)
             $0.width.equalTo(59)
             $0.height.equalTo(30)
         }
@@ -89,8 +89,7 @@ final class AddScheduleSecondView: BaseView {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .vertical
             layout.minimumInteritemSpacing = 14.0
-            layout.itemSize = CGSize(width: ScreenUtils.width * 0.914, height: 54)
-            $0.contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 0, right: 0)
+            layout.itemSize = CGSize(width: ScreenUtils.width * 343/375, height: 76)
             $0.collectionViewLayout =  layout
             $0.isScrollEnabled = true
             $0.showsVerticalScrollIndicator = false

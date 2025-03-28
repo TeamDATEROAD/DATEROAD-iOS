@@ -63,6 +63,8 @@ final class DRTimelineView: BaseView {
     }
     
     override func setStyle() {
+        self.backgroundColor = .clear
+        
         timeBoxView.do {
             $0.backgroundColor = UIColor(resource: .gray200)
             $0.layer.cornerRadius = 10
