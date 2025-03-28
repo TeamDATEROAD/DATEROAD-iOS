@@ -1,10 +1,3 @@
-//
-//  StickyHeaderNavBarView.swift
-//  DATEROAD-iOS
-//
-//  Created by 김민서 on 7/17/24.
-//
-
 import UIKit
 
 import SnapKit
@@ -18,13 +11,21 @@ protocol StickyHeaderNavBarViewDelegate: AnyObject {
     
 }
 
+extension StickyHeaderNavBarViewDelegate {
+    
+    func didTapBackButton() {}
+    
+    func didTapMoreButton() {}
+    
+}
+
 final class StickyHeaderNavBarView: UIView {
     
     // MARK: - UI Properties
     
-    private let previousButton: DRImageButton = DRImageButton(image: UIImage(resource: .leftArrow), buttonName: .clear_white_0)
+    private let previousButton: DRImageButton = DRImageButton(image: UIImage(resource: .leftArrowWhite), buttonName: .clear_white_0)
     
-    private let moreButton: DRImageButton = DRImageButton(image: UIImage(resource: .moreButton), buttonName: .clear_white_0)
+    private let moreButton: DRImageButton = DRImageButton(image: UIImage(resource: .moreButtonWhite), buttonName: .clear_white_0)
     
     
     // MARK: - Properties
@@ -67,10 +68,6 @@ final class StickyHeaderNavBarView: UIView {
     
     func setStyle() {
         self.backgroundColor = .clear
-        
-        previousButton.configuration?.baseForegroundColor = UIColor(resource: .drWhite)
-        
-        moreButton.configuration?.baseForegroundColor = UIColor(resource: .drWhite)
     }
     
     func setAddTarget() {
@@ -86,9 +83,9 @@ final class StickyHeaderNavBarView: UIView {
 
 extension StickyHeaderNavBarView {
     
-    func updateTintColor( _ tintColor: UIColor) {
-        moreButton.configuration?.baseForegroundColor = tintColor
-        previousButton.configuration?.baseForegroundColor = tintColor
+    func updateIconColor( _ tintColor: String) {
+        moreButton.configuration?.image = UIImage(named: "moreButton\(tintColor)")
+        previousButton.configuration?.image = UIImage(named: "leftArrow\(tintColor)")
     }
     
     func hiddenMoreButton(_ hidden: Bool) {

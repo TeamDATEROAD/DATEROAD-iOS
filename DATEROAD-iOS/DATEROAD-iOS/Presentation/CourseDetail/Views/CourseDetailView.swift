@@ -67,9 +67,7 @@ final class CourseDetailView: BaseView {
             $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }
         
-        stickyHeaderNavBarView.do {
-            $0.backgroundColor = .clear
-        }
+        stickyHeaderNavBarView.backgroundColor = .clear
     }
     
 }
