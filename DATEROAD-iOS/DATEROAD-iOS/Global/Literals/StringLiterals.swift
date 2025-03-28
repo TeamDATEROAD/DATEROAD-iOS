@@ -536,9 +536,7 @@ enum StringLiterals {
     }
     
     enum Elementkinds {
-        
-        static let bannerInfoHeaderView = "BannerInfoHeaderView"
-        
+                
         static let contentMaskView = "ContentMaskView"
         
     }
