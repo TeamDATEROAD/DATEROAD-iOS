@@ -68,8 +68,8 @@ extension DRTimelineCollectionViewCell {
         self.sequenceLabel.text = self.type == .course ? "\(timelineData.sequence)" : "\(timelineData.sequence+1)"
         timelineView.do {
             $0.locationLabel.text = timelineData.title
-            // TODO: 추후 수정
-            $0.addressLabel.text = "서울특별시 데로구 데로로 1"
+            // TODO: 주소, abbreviatedString 메소드 사용
+            $0.addressLabel.text = "서울특별시 데로로로로 데로로로로 데로 20자시작".abbreviatedString(20)
             $0.timeLabel.text = "\(timelineData.duration)시간"
         }
     }

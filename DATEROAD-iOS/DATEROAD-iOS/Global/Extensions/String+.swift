@@ -62,4 +62,10 @@ extension String {
         return false
     }
     
+    // maxLength자 넘으면 말줄임표
+    
+    func abbreviatedString(_ maxLength: Int) -> String {
+        return self.count <= maxLength ? self : "\(self.prefix(maxLength))···"
+    }
+    
 }
