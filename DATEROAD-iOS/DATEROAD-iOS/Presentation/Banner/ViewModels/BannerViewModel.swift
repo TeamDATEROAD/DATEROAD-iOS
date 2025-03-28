@@ -36,6 +36,8 @@ final class BannerViewModel: Serviceable {
     var advertisementId: Int = 0
     
     var bannerDetailTitle: String = ""
+        
+    var totalIndex: ObservablePattern<Int> = ObservablePattern(0)
     
     
     init(advertisementId: Int) {
