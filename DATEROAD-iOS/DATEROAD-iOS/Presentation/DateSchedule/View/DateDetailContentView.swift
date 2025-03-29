@@ -234,7 +234,7 @@ final class DateDetailContentView: BaseView {
         DateDetailContentView.dateTimeLineCollectionViewLayout.do {
             $0.scrollDirection = .vertical
             $0.minimumLineSpacing = 12
-            $0.itemSize = CGSize(width: ScreenUtils.width * 343/375, height: 54)
+            $0.itemSize = CGSize(width: ScreenUtils.width * 343/375, height: 76)
         }
     }
     

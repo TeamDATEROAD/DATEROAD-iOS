@@ -11,17 +11,13 @@ final class DRTimelineView: BaseView {
     
     // MARK: - UI Properties
     
-    private let timelineBackgroundView = UIView()
+    var locationLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold15_black), alignment: .left)
     
-    private let circleView = UIView()
-    
-    let indexNumLabel = UILabel()
-    
-    let locationLabel = UILabel()
+    var addressLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_gray300), alignment: .left)
     
     private let timeBoxView = UIView()
     
-    let timeLabel = UILabel()
+    var timeLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_black), alignment: .left)
     
     
     // MARK: - LifeCycle
@@ -35,41 +31,29 @@ final class DRTimelineView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(timelineBackgroundView,
-                         circleView,
-                         indexNumLabel,
-                         locationLabel,
+        self.addSubviews(locationLabel,
+                         addressLabel,
                          timeBoxView,
                          timeLabel)
     }
     
     override func setLayout() {
-        timelineBackgroundView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.height.equalTo(54)
-            $0.width.equalTo(ScreenUtils.width * 343 / 375)
-        }
-        
-        circleView.snp.makeConstraints {
-            $0.leading.equalTo(timelineBackgroundView).inset(13)
-            $0.centerY.equalTo(timelineBackgroundView)
-            $0.size.equalTo(24)
-        }
-        
-        indexNumLabel.snp.makeConstraints {
-            $0.center.equalTo(circleView)
-        }
-        
         locationLabel.snp.makeConstraints {
-            $0.leading.equalTo(circleView.snp.trailing).offset(13)
-            $0.centerY.equalTo(timelineBackgroundView)
-            $0.trailing.equalTo(timeBoxView.snp.leading).offset(-13)
+            $0.leading.equalToSuperview()
+            $0.top.equalToSuperview().inset(17)
+            $0.trailing.equalToSuperview().inset(14+59)
+        }
+        
+        addressLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(13)
+            $0.width.equalTo(207)
         }
         
         timeBoxView.snp.makeConstraints {
-            $0.trailing.equalTo(timelineBackgroundView).inset(13)
-            $0.centerY.equalTo(timelineBackgroundView)
-            $0.width.equalTo(60)
+            $0.trailing.equalToSuperview()
+            $0.top.equalToSuperview().inset(13)
+            $0.width.equalTo(59)
             $0.height.equalTo(28)
         }
         
@@ -79,15 +63,7 @@ final class DRTimelineView: BaseView {
     }
     
     override func setStyle() {
-        timelineBackgroundView.do {
-            $0.backgroundColor = UIColor(resource: .gray100)
-            $0.layer.cornerRadius = 14
-        }
-        
-        circleView.do {
-            $0.backgroundColor = UIColor(resource: .purple600)
-            $0.layer.cornerRadius = 12
-        }
+        self.backgroundColor = .clear
         
         timeBoxView.do {
             $0.backgroundColor = UIColor(resource: .gray200)
@@ -96,9 +72,6 @@ final class DRTimelineView: BaseView {
     }
     
 }
-
-
-
 
 
 

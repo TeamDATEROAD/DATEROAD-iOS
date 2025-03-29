@@ -14,17 +14,11 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
-    private let placeTitleLabel: DRTextLabel = DRTextLabel(
-        textLabelType: .clear(.systemBold15_black),
-        alignment: .left,
-        numberOfLines: 2
-    )
+    let leftBackgroundView = UIView()
     
-    private let timeRequireContainer: UIView = UIView()
+    let timelineView = DRTimelineView()
     
-    private let timeRequireLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_black))
-    
-    let moveAbleButton: DRImageButton = DRImageButton(image: UIImage(resource: .icMovecourse), buttonName: .clear_black_0)
+    let moveAbleButton: DRImageButton = DRImageButton(image: UIImage(resource: .icMovecourse), buttonName: .gray100_gray300_14)
     
     
     // MARK: - Properties
@@ -37,50 +31,42 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
     override func setHierarchy() {
         self.addSubview(contentView)
         
-        contentView.addSubviews(placeTitleLabel,
-                                timeRequireContainer,
-                                moveAbleButton)
+        contentView.addSubviews(leftBackgroundView, moveAbleButton)
         
-        timeRequireContainer.addSubview(timeRequireLabel)
+        leftBackgroundView.addSubview(timelineView)
     }
     
     override func setLayout() {
-        placeTitleLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().offset(17)
-            $0.trailing.equalTo(timeRequireContainer.snp.leading).offset(-20)
-            $0.width.equalTo(198)
-            $0.height.equalToSuperview()
+        leftBackgroundView.snp.makeConstraints {
+            $0.leading.verticalEdges.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(52)
         }
-        
-        timeRequireContainer.snp.makeConstraints {
-            $0.leading.equalTo(placeTitleLabel.snp.trailing).offset(20)
-            $0.verticalEdges.equalToSuperview().inset(13)
-            $0.width.equalTo(59)
-        }
-        
-        timeRequireLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
+                              
+        timelineView.snp.makeConstraints {
+            $0.verticalEdges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(17)
         }
         
         moveAbleButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(3)
-            $0.size.equalTo(44)
-            $0.centerY.equalToSuperview()
+            $0.trailing.verticalEdges.equalToSuperview()
+            $0.width.equalTo(44)
         }
     }
     
     override func setStyle() {
         self.do {
+            $0.backgroundColor = .clear
+            $0.clipsToBounds = true
+        }
+        
+        leftBackgroundView.do {
+            $0.backgroundColor = UIColor(resource: .gray100)
             $0.layer.cornerRadius = 14
             $0.clipsToBounds = true
         }
         
-        contentView.backgroundColor = UIColor(resource: .gray100)
-        
-        timeRequireContainer.do {
-            $0.backgroundColor = UIColor(resource: .gray200)
-            $0.layer.cornerRadius = 10
+        moveAbleButton.do {
+            $0.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0)
         }
     }
     
@@ -92,8 +78,12 @@ final class AddSecondViewCollectionViewCell: BaseCollectionViewCell {
 extension AddSecondViewCollectionViewCell {
     
     func configure(model: AddCoursePlaceModel) {
-        self.placeTitleLabel.text = model.placeTitle
-        self.timeRequireLabel.text = model.timeRequire
+        timelineView.do {
+            $0.locationLabel.text = model.placeTitle
+            // TODO: - 주소 수정, abbreviatedString 사용
+            $0.addressLabel.text = "서울특별시 데로로로 데로로로 데로로로로".abbreviatedString(20)
+            $0.timeLabel.text = model.timeRequire
+        }
     }
     
     /// editMode 활성화라면
@@ -101,11 +91,17 @@ extension AddSecondViewCollectionViewCell {
         let image = flag ? UIImage(resource: .icDeletecourse) : UIImage(resource: .icMovecourse)
         
         moveAbleButton.setImage(image, for: .normal)
+        moveAbleButton.configuration?.background.backgroundColor = flag ? .clear : .gray100
+//        moveAbleButton.setNeedsUpdateConfiguration()
     }
     
     func pastDatePlaceConfigure(model: TimelineModel) {
-        self.placeTitleLabel.text = model.title
-        self.timeRequireLabel.text = model.duration
+        timelineView.do {
+            $0.locationLabel.text = model.title
+            // TODO: - 모델 수정 후 수정
+            $0.addressLabel.text = "서울특별시 데로로로 데로로로"
+            $0.timeLabel.text = model.duration
+        }
     }
     
 }
