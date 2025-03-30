@@ -22,7 +22,7 @@ final class BannerDetailView: BaseView {
                 
     private var indexLabel: DRTextLabel = DRTextLabel(title: "1/10", textLabelType: .background(.med13_white, .gray400_11))
         
-    private var bannerTypeLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.semi13_white, .mediumPurple_10), numberOfLines: 1)
+    private var bannerTypeLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.semi13_white, .purple500_10), numberOfLines: 1)
     
     private var visitDateLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi15_gray400))
     

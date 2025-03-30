@@ -77,7 +77,7 @@ final class MainSkeletonView: BaseView {
     
     override func setLayout() {
         logoImage.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(UIApplication.shared.statusBarFrame.size.height)
+            $0.top.equalTo(self.safeAreaLayoutGuide.snp.top)
             $0.leading.equalToSuperview().inset(16)
             $0.size.equalTo(44)
         }

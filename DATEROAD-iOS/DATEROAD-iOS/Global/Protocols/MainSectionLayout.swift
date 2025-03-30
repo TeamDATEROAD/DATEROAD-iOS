@@ -79,7 +79,7 @@ extension MainSectionLayout {
 
 struct UpcomingDateLayout: MainSectionLayout {
     
-    var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(185 + UIApplication.shared.statusBarFrame.size.height))
+    var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(235))
     
 }
 
