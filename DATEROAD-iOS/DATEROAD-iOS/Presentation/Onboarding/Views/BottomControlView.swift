@@ -40,7 +40,7 @@ final class BottomControlView: BaseView {
             $0.numberOfPages = 3
             $0.currentPage = 0
             $0.pageIndicatorTintColor = UIColor(resource: .gray200)
-            $0.currentPageIndicatorTintColor = UIColor(resource: .deepPurple)
+            $0.currentPageIndicatorTintColor = UIColor(resource: .purple600)
         }
     }
     

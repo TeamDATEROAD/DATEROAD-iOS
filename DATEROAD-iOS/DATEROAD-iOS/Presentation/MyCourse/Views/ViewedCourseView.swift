@@ -140,7 +140,7 @@ extension ViewedCourseView {
         topLabel.setAttributedText(
             fullText: "\(userName)님이 지금까지\n열람한 데이트 코스\n\(String(courseCount))개",
             pointText: "\(pointText)",
-            pointColor: UIColor(resource: .mediumPurple),
+            pointColor: UIColor(resource: .purple500),
             lineHeight: 1
         )
     }

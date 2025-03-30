@@ -73,9 +73,9 @@ struct TimelineModel: Equatable {
     
     let title: String
     
-    let duration: Float
+    let duration: String
     
-    init(sequence: Int, title: String, duration: Float) {
+    init(sequence: Int, title: String, duration: String) {
         self.sequence = sequence
         self.title = title
         self.duration = duration

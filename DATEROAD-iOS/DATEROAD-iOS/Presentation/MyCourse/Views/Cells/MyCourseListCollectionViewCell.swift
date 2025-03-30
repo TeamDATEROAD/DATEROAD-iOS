@@ -129,7 +129,7 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
         }
         
         heartButton.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.roundedButton(cornerRadius: 12, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
             $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
             $0.titleLabel?.font = UIFont.suit(.body_bold_13)

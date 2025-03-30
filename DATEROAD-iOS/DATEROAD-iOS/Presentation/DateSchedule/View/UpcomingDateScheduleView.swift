@@ -7,9 +7,6 @@
 
 import UIKit
 
-import SnapKit
-import Then
-
 protocol UpcomingDateScheduleDelete: AnyObject {
     
     func didTapDateRegisterButton()
@@ -120,7 +117,7 @@ final class UpcomingDateScheduleView: BaseView {
         cardPageControl.do {
             $0.currentPage = 0
             $0.pageIndicatorTintColor = UIColor(resource: .gray200)
-            $0.currentPageIndicatorTintColor = UIColor(resource: .deepPurple)
+            $0.currentPageIndicatorTintColor = UIColor(resource: .purple600)
         }
         
         emptyView.do {

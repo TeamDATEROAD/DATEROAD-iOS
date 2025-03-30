@@ -7,9 +7,6 @@
 
 import UIKit
 
-import SnapKit
-import Then
-
 final class PastDateDetailViewController: BaseNavBarViewController {
     
     // MARK: - UI Properties
@@ -60,7 +57,7 @@ final class PastDateDetailViewController: BaseNavBarViewController {
         super.viewDidLoad()
         
         setLeftBackButton()
-        setTitleLabelStyle(title: "지난 데이트", alignment: .center)
+        setTitleLabelStyle(title: StringLiterals.DateSchedule.pastDate, alignment: .center)
         setRightButtonStyle(image: UIImage(resource: .moreButton))
         setRightButtonAction(target: self, action: #selector(deleteDateCourse))
         bindViewModel()
@@ -246,22 +243,15 @@ extension PastDateDetailViewController {
     }
     
     func setColor(index: Int) {
-        let colorIndex = index % 3
-        if colorIndex == 0 {
-            self.setBackgroundColor(color: UIColor(resource: .pink200))
-        } else if colorIndex == 1 {
-            self.setBackgroundColor(color: UIColor(resource: .purple200))
-        } else {
-            self.setBackgroundColor(color: UIColor(resource: .lime))
-        }
+        let cardType = DateCardType(rawValue: index % 3) ?? .pink
+        self.setBackgroundColor(color: cardType.bgColor)
         pastDateDetailContentView.setColor(index: index)
     }
     
-    //TODO: - 추후 데이트코스 공유 코스 등록 기능 살아날 시 수정해야함.
+    // TODO: - 추후 데이트코스 공유 코스 등록 기능 살아날 시 수정해야함.
     // isBroughtData 변수 생성하여 AddSchedule과 동일하게 수행하도록 수정
     @objc
     private func tapShareCourse() {
-        print("코스 등록해서 공유하기 여기!!!!!!!!!!!!")
         guard let data = pastDateDetailViewModel.dateDetailData.value
         else { return }
         
@@ -278,7 +268,7 @@ extension PastDateDetailViewController {
 private extension PastDateDetailViewController {
     
     func registerCell() {
-        pastDateDetailContentView.dateTimeLineCollectionView.register(DateTimeLineCollectionViewCell.self, forCellWithReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier)
+        pastDateDetailContentView.dateTimeLineCollectionView.register(DRTimelineCollectionViewCell.self, forCellWithReuseIdentifier: DRTimelineCollectionViewCell.cellIdentifier)
     }
     
     func setDelegate() {
@@ -314,9 +304,10 @@ extension PastDateDetailViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let data = pastDateDetailViewModel.dateDetailData.value?.places[indexPath.item] else { return UICollectionViewCell() }
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DateTimeLineCollectionViewCell.cellIdentifier, for: indexPath) as? DateTimeLineCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DRTimelineCollectionViewCell.cellIdentifier, for: indexPath) as? DRTimelineCollectionViewCell else {
             return UICollectionViewCell() }
-        cell.dataBind(data, indexPath.item)
+        cell.type = .schedule
+        cell.dataBind(data)
         return cell
     }
     

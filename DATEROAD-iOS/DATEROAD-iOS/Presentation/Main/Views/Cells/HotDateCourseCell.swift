@@ -13,7 +13,7 @@ final class HotDateCourseCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
-    private let countryLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.med13_white, .mediumPurple_14))
+    private let countryLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.med13_white, .purple500_14))
     
     private let courseImage: UIImageView = UIImageView()
     
@@ -21,7 +21,7 @@ final class HotDateCourseCell: BaseCollectionViewCell {
     
     private let likeImage: UIImageView = UIImageView()
     
-    private let likeLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.bold13_white, .deepPurple_12))
+    private let likeLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.bold13_white, .purple600_12))
     
     private let dateNameView: UIView = UIView()
     
@@ -166,7 +166,7 @@ final class HotDateCourseCell: BaseCollectionViewCell {
         }
         
         likeView.do {
-            $0.backgroundColor = UIColor(resource: .deepPurple)
+            $0.backgroundColor = UIColor(resource: .purple600)
             $0.roundCorners(cornerRadius: 12)
         }
         
