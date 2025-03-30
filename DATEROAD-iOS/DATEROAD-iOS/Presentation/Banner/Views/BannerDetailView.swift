@@ -119,7 +119,7 @@ final class BannerDetailView: BaseView {
         bannerContentLabel.snp.makeConstraints {
             $0.top.equalTo(bannerTitleLabel.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview().offset(-10)
+            $0.bottom.equalToSuperview().offset(-50)
         }
 
     }
