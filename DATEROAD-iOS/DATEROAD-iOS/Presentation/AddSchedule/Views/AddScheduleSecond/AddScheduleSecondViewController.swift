@@ -400,10 +400,10 @@ extension AddScheduleSecondViewController: UICollectionViewDropDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters? {
         print(#function)
-        
         let parameters = UIDragPreviewParameters()
         parameters.visiblePath = UIBezierPath(roundedRect: collectionView.cellForItem(at: indexPath)?.bounds ?? .zero,
                                               cornerRadius: 14) // 원하는 cornerRadius 적용
+        parameters.backgroundColor = .clear
         return parameters
     }
     
