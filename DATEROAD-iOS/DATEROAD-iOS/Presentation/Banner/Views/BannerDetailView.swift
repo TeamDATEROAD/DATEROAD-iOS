@@ -14,7 +14,7 @@ final class BannerDetailView: BaseView {
     
     // MARK: - UI Properties
     
-    var scrollView: UIScrollView = UIScrollView()
+    let scrollView: UIScrollView = UIScrollView()
     
     private var contentView: UIView = UIView()
     

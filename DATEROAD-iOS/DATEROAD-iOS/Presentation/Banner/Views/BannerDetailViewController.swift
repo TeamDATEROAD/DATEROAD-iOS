@@ -82,6 +82,21 @@ final class BannerDetailViewController: BaseViewController {
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.tabBarController?.tabBar.isHidden = true
     }
+
+}
+
+private extension BannerDetailViewController {
+    
+    func setDelegate() {
+        bannerDetailView.bannerImageCollectionView.delegate = self
+        bannerDetailView.bannerImageCollectionView.dataSource = self
+        bannerDetailView.stickyHeaderNavBarView.delegate = self
+        bannerDetailView.scrollView.delegate = self
+    }
+
+    func setNavBar() {
+        bannerDetailView.stickyHeaderNavBarView.hiddenMoreButton(true)
+    }
     
     func bindViewModel() {
         self.bannerViewModel.updateBannerDetailData.bind { [weak self] flag in
@@ -153,20 +168,8 @@ final class BannerDetailViewController: BaseViewController {
     
 }
 
-private extension BannerDetailViewController {
-    
-    func setDelegate() {
-        bannerDetailView.bannerImageCollectionView.delegate = self
-        bannerDetailView.bannerImageCollectionView.dataSource = self
-        bannerDetailView.stickyHeaderNavBarView.delegate = self
-        bannerDetailView.scrollView.delegate = self
-    }
 
-    func setNavBar() {
-        bannerDetailView.stickyHeaderNavBarView.hiddenMoreButton(true)
-    }
-    
-}
+// MARK: - BannerDetailView ScrollView Delegate
 
 extension BannerDetailViewController: UIScrollViewDelegate {
     
@@ -176,6 +179,7 @@ extension BannerDetailViewController: UIScrollViewDelegate {
     }
     
 }
+
 
 // MARK: - UICollectionViewDelegate
 

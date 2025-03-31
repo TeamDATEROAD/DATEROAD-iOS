@@ -420,7 +420,7 @@ extension CourseDetailViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         courseDetailView.stickyHeaderNavBarView.backgroundColor = scrollView.contentOffset.y > 350 ? UIColor.drWhite : UIColor.clear
-        courseDetailView.stickyHeaderNavBarView.updateIconColor(scrollView.contentOffset.y > 350 ? "" : "white")
+        courseDetailView.stickyHeaderNavBarView.updateIconColor(scrollView.contentOffset.y > 350 ? "" : "White")
     }
     
 }
