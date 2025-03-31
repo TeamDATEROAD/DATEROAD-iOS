@@ -399,7 +399,7 @@ extension AddCourseViewModel {
             
             if let timeString = timeComponents.first {
                 if let duration = Float(timeString) {
-                    let place = PostAddCoursePlace(title: model.placeTitle, duration: duration, sequence: index + 1)
+                    let place = PostAddCoursePlace(title: model.placeTitle, address: "서울특별시 녹번구 케케 나도 몰라!", duration: duration, sequence: index + 1)
                     places.append(place.toDictionary())
                     print("👍👍👍👍 : place added - \(place)")
                 } else {
@@ -422,8 +422,9 @@ extension AddCourseViewModel {
         let price = price
         let images = pickedImageArr
         let place = places
+        let thumbnail = self.thumbnailImageIndex
         
-        NetworkService.shared.addCourseService.postAddCourse(course: PostAddCourse(title: dateName, date: visitDate, startAt: dateStartAt, country: country, city: city, description: contentText, cost: price).toDictionary(), tags: postAddCourseTag.tags, places: place, images: images)  { result in
+        NetworkService.shared.addCourseService.postAddCourse(course: PostAddCourse(title: dateName, date: visitDate, startAt: dateStartAt, country: country, city: city, description: contentText, cost: price, thumbnailIndex: thumbnail).toDictionary(), tags: postAddCourseTag.tags, places: place, images: images)  { result in
             switch result {
             case .success(let response):
                 print("Success: \(response)")

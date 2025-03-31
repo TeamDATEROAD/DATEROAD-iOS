@@ -23,6 +23,8 @@ struct PostAddCourse: Codable {
     
     let cost: Int
     
+    let thumbnailIndex: Int
+    
     enum CodingKeys: String, CodingKey {
         
         case title
@@ -38,6 +40,8 @@ struct PostAddCourse: Codable {
         case description
         
         case cost
+        
+        case thumbnailIndex
         
     }
     
@@ -81,6 +85,8 @@ struct PostAddCourseTag {
 struct PostAddCoursePlace {
     
     let title: String
+    
+    let address: String
     
     let duration: Float
     

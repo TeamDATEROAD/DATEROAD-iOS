@@ -377,7 +377,7 @@ extension AddScheduleViewModel {
         
         for (index, model) in models.enumerated() {
             if let duration = extractDuration(from: model.timeRequire) {
-                let place = PostAddSchedulePlace(title: model.placeTitle, duration: duration, sequence: index)
+                let place = PostAddSchedulePlace(title: model.placeTitle, address: "테스트 출동", duration: duration, sequence: index)
                 places.append(place)
                 print("👍 place added: \(place)")
             } else {
