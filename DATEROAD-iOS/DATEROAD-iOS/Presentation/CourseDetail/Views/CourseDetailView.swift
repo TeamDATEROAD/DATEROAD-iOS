@@ -67,9 +67,7 @@ final class CourseDetailView: BaseView {
             $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }
         
-        stickyHeaderNavBarView.do {
-            $0.backgroundColor = .clear
-        }
+        stickyHeaderNavBarView.backgroundColor = .clear
     }
     
 }
@@ -87,7 +85,9 @@ extension CourseDetailView {
             case .mainContents:
                 return self.layoutFactory.createLayout(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50), itemHeight: .estimated(50), supplementaryItems: !self.isAccess ? [self.makeContentMaskView()] : nil, itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
             case .timelineInfo:
-                return self.layoutFactory.createLayout(widthDimension: .fractionalWidth(1), heightDimension: .estimated(70), itemHeight: .estimated(70), supplementaryItems: [self.makeTimelineHeaderView()], sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 15, trailing: 0), itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+                let layout = self.layoutFactory.createLayout(widthDimension: .fractionalWidth(1), heightDimension: .estimated(88), itemHeight: .estimated(76), supplementaryItems: [self.makeTimelineHeaderView()], sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 32, trailing: 0), itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+                layout.interGroupSpacing = 12
+                return layout
             case .coastInfo:
                 return self.layoutFactory.createLayout(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50), itemHeight: .fractionalHeight(1), supplementaryItems: [self.makeHeaderView()], sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0), itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
             case .tagInfo:

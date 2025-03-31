@@ -11,6 +11,8 @@ final class DRTimelineCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - UI Properties
     
+    let sequenceLabel = DRTextLabel(textLabelType: .background(.bold13_white, .purple600_12_circle))
+    
     let timelineView = DRTimelineView()
     
     
@@ -34,23 +36,40 @@ final class DRTimelineCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func setHierarchy() {
-        self.addSubview(timelineView)
+        self.addSubviews(sequenceLabel, timelineView)
     }
     
     override func setLayout() {
+        sequenceLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(14)
+            $0.top.equalToSuperview().inset(16)
+            $0.size.equalTo(24)
+        }
+        
         timelineView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.verticalEdges.equalToSuperview()
+            $0.leading.equalToSuperview().inset(52)
+            $0.trailing.equalToSuperview().inset(14)
         }
     }
     
+    override func setStyle() {
+        self.roundCorners(cornerRadius: 14)
+        self.backgroundColor = .gray100
+    }
 }
+
+
+// MARK: - dataBind
 
 extension DRTimelineCollectionViewCell {
     
     func dataBind(_ timelineData: TimelineModel) {
+        self.sequenceLabel.text = self.type == .course ? "\(timelineData.sequence)" : "\(timelineData.sequence+1)"
         timelineView.do {
-            $0.indexNumLabel.text = self.type == .course ? "\(timelineData.sequence)" : "\(timelineData.sequence+1)"
             $0.locationLabel.text = timelineData.title
+            // TODO: 주소, abbreviatedString 메소드 사용
+            $0.addressLabel.text = "서울특별시 데로로로로 데로로로로 데로 20자시작".abbreviatedString(20)
             $0.timeLabel.text = "\(timelineData.duration)시간"
         }
     }

@@ -197,7 +197,7 @@ extension MyRegisterCourseViewController : UICollectionViewDataSource {
         let location = sender.location(in: myRegisterCourseView.myCourseListCollectionView)
         let indexPath = myRegisterCourseView.myCourseListCollectionView.indexPathForItem(at: location)
         
-        if let index = indexPath {
+        if indexPath != nil {
             let courseId = myRegisterCourseViewModel.myRegisterCourseData.value?[indexPath?.item ?? 0].courseId ?? 0
             self.navigationController?.pushViewController(CourseDetailViewController(viewModel: CourseDetailViewModel(courseId: courseId)), animated: false)
         }

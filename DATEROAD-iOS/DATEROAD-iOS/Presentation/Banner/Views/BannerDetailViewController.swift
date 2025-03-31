@@ -14,7 +14,7 @@ final class BannerDetailViewController: BaseViewController {
     
     // MARK: - UI Properties
     
-    private let bannerDetailView: BannerDetailView
+    private let bannerDetailView: BannerDetailView = BannerDetailView()
     
     private let errorView: DRErrorViewController = DRErrorViewController()
     
@@ -32,7 +32,6 @@ final class BannerDetailViewController: BaseViewController {
     
     init(viewModel: BannerViewModel) {
         self.bannerViewModel = viewModel
-        self.bannerDetailView = BannerDetailView(bannerDetailSection: self.bannerViewModel.bannerSectionData)
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -83,15 +82,30 @@ final class BannerDetailViewController: BaseViewController {
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.tabBarController?.tabBar.isHidden = true
     }
+
+}
+
+private extension BannerDetailViewController {
+    
+    func setDelegate() {
+        bannerDetailView.bannerImageCollectionView.delegate = self
+        bannerDetailView.bannerImageCollectionView.dataSource = self
+        bannerDetailView.stickyHeaderNavBarView.delegate = self
+        bannerDetailView.scrollView.delegate = self
+    }
+
+    func setNavBar() {
+        bannerDetailView.stickyHeaderNavBarView.hiddenMoreButton(true)
+    }
     
     func bindViewModel() {
         self.bannerViewModel.updateBannerDetailData.bind { [weak self] flag in
-            guard let flag else { return }
+            guard let flag, let newData = self?.bannerViewModel.bannerDetailData.value else { return }
             if flag {
+                self?.bannerViewModel.totalIndex.value = newData?.images.count
                 DispatchQueue.main.async {
-                    self?.bannerDetailView.mainCollectionView.performBatchUpdates({
-                        self?.bannerDetailView.mainCollectionView.reloadData()
-                    })
+                    self?.bannerDetailView.updateData(newData)
+                    self?.bannerDetailView.bannerImageCollectionView.reloadData()
                 }
                 self?.bannerViewModel.updateBannerDetailData.value = false
             }
@@ -124,7 +138,11 @@ final class BannerDetailViewController: BaseViewController {
         }
         
         self.bannerViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.bannerViewModel.onFailNetwork.value else { return }
+            guard let onLoading,
+                    let onFailNetwork = self?.bannerViewModel.onFailNetwork.value,
+                    let newData = self?.bannerViewModel.bannerDetailData.value
+            else { return }
+            
             if !onFailNetwork {
                 if onLoading {
                     self?.bannerDetailSkeletonView.isHidden = false
@@ -133,7 +151,8 @@ final class BannerDetailViewController: BaseViewController {
                 } else {
                     self?.bannerDetailSkeletonView.isHidden = true
                     self?.setNavBar()
-                    self?.bannerDetailView.mainCollectionView.reloadData()
+                    self?.bannerDetailView.updateData(newData)
+                    self?.bannerDetailView.bannerImageCollectionView.reloadData()
                     self?.bannerDetailView.isHidden = false
                     self?.hideLoadingView()
                 }
@@ -141,116 +160,87 @@ final class BannerDetailViewController: BaseViewController {
         }
         
         bannerViewModel.currentPage.bind { [weak self] currentPage in
-            guard let currentPage else { return }
-            if let bottomPageControllView = self?.bannerDetailView.mainCollectionView.supplementaryView(forElementKind: BottomPageControllView.elementKinds, at: IndexPath(item: 0, section: 0)) as? BottomPageControllView {
-                bottomPageControllView.pageIndex = currentPage
-            }
+            guard let currentPage, let totalIndex = self?.bannerViewModel.totalIndex.value else { return }
+            self?.bannerDetailView.updateIndexLabel(currentPage, totalIndex)
         }
+        
     }
     
 }
 
-private extension BannerDetailViewController {
+
+// MARK: - BannerDetailView ScrollView Delegate
+
+extension BannerDetailViewController: UIScrollViewDelegate {
     
-    func setDelegate() {
-        bannerDetailView.mainCollectionView.dataSource = self
-        bannerDetailView.stickyHeaderNavBarView.delegate = self
-    }
-
-}
-
-
-extension BannerDetailViewController: ImageCarouselDelegate {
-    
-    func didSwipeImage(index: Int, vc: UIPageViewController, vcData: [UIViewController]) {
-        bannerViewModel.didSwipeImage(to: index)
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        bannerDetailView.stickyHeaderNavBarView.backgroundColor = scrollView.contentOffset.y > ScreenUtils.width ? UIColor.drWhite : UIColor.clear
+        bannerDetailView.stickyHeaderNavBarView.updateIconColor(scrollView.contentOffset.y > ScreenUtils.width ? "" : "White")
     }
     
 }
 
+
+// MARK: - UICollectionViewDelegate
+
+extension BannerDetailViewController: UICollectionViewDelegate {
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let page = Int(targetContentOffset.pointee.x / self.view.frame.width)
+        self.bannerViewModel.currentPage.value = page
+    }
+
+}
+
+extension BannerDetailViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return .zero
+    }
+    
+}
 
 extension BannerDetailViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return bannerViewModel.bannerSectionData.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
     }
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let numberOfItemsInSection = bannerViewModel.imageData.value?.count else { return 0 }
+        bannerViewModel.totalIndex.value = numberOfItemsInSection
+        bannerDetailView.updateIndexLabel(0, numberOfItemsInSection)
+        return numberOfItemsInSection
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        switch bannerViewModel.bannerSectionData[indexPath.section] {
-        case .imageCarousel:
-            guard let imageCarouselCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCarouselCell.cellIdentifier, for: indexPath) as? ImageCarouselCell else {
-                return UICollectionViewCell()
-            }
-            let imageData = bannerViewModel.imageData.value ?? []
-            imageCarouselCell.setPageVC(thumbnailModel: imageData)
-            imageCarouselCell.setAccess(isAccess: true)
-            imageCarouselCell.delegate = self
-            return imageCarouselCell
-            
-        case .titleInfo:
-            guard let titleInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleInfoCell.cellIdentifier, for: indexPath) as? TitleInfoCell
-            else { return UICollectionViewCell() }
-            titleInfoCell.bindBannerTitle(title: bannerViewModel.bannerDetailTitle)
-            return titleInfoCell
-            
-        case .mainContents:
-            guard let mainContentsCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainContentsCell.cellIdentifier, for: indexPath) as? MainContentsCell else { return UICollectionViewCell() }
-            let mainData = bannerViewModel.mainContentsData.value ?? MainContentsModel(description: "")
-            mainContentsCell.setCell(mainContentsData: mainData)
-            mainContentsCell.mainTextLabel.numberOfLines = 0
-            
-            return mainContentsCell
+        guard let bannerImageCell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerImageCollectionViewCell.cellIdentifier, for: indexPath) as? BannerImageCollectionViewCell,
+              let imageData = bannerViewModel.imageData.value
+        else {
+            return UICollectionViewCell()
         }
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        let imageData = self.bannerViewModel.imageData.value ?? []
-        let tagLabel = bannerViewModel.bannerHeaderData.value?.tag ?? ""
-        let createDate = bannerViewModel.bannerHeaderData.value?.createAt ?? ""
-        
-        switch kind {
-        case BannerInfoHeaderView.elementKinds:
-            guard let visitDate = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BannerInfoHeaderView.identifier, for: indexPath) as? BannerInfoHeaderView else { return UICollectionReusableView() }
-            visitDate.bindTitle(tagLabelText: tagLabel, visitDate: createDate)
-            return visitDate
-            
-        case InfoBarView.elementKinds:
-            guard let infoView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InfoBarView.identifier, for: indexPath) as? InfoBarView else { return UICollectionReusableView() }
-            infoView.allHidden()
-            return infoView
-            
-        case BottomPageControllView.elementKinds:
-            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControllView.identifier, for: indexPath) as? BottomPageControllView else { return UICollectionReusableView() }
-            footer.pageIndexSum = imageData.count
-            footer.hiddenLikeStackView()
-            return footer
-            
-        default :
-            return UICollectionReusableView()
-        }
+        bannerImageCell.setBannerImageData(imageData[indexPath.item])
+        return bannerImageCell
     }
     
 }
 
-extension BannerDetailViewController {
-    
-    func setNavBar() {
-        bannerDetailView.stickyHeaderNavBarView.hiddenMoreButton(true)
-    }
-    
-}
 
+// MARK: - StickyHeaderNavBarViewDelegate
 
 extension BannerDetailViewController: StickyHeaderNavBarViewDelegate {
-    
-    func didTapMoreButton() {}
     
     func didTapBackButton() {
         navigationController?.popViewController(animated: false)

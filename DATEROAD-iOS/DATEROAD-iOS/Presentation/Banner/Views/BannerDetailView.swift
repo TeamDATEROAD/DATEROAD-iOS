@@ -14,7 +14,25 @@ final class BannerDetailView: BaseView {
     
     // MARK: - UI Properties
     
-    lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
+    let scrollView: UIScrollView = UIScrollView()
+    
+    private var contentView: UIView = UIView()
+    
+    lazy var bannerImageCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+                
+    private var indexLabel: DRTextLabel = DRTextLabel(title: "1/10", textLabelType: .background(.med13_white, .gray400_11))
+        
+    private var bannerTypeLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.semi13_white, .purple500_10), numberOfLines: 1)
+    
+    private var visitDateLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi15_gray400))
+    
+    private var bannerTitleLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.systemBold24_black),
+        alignment: .left,
+        numberOfLines: 2
+    )
+    
+    private var bannerContentLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.systemMed13_black), alignment: .left)
     
     private let gradientView = GradientView()
     
@@ -22,18 +40,12 @@ final class BannerDetailView: BaseView {
     
     
     // MARK: - Properties
-    
-    private var bannerDetailSection: [BannerDetailSection]
-    
-    var isAccess: Bool = false
-    
+        
     
     // MARK: - Life Cycle
     
-    init(bannerDetailSection: [BannerDetailSection]) {
-        self.bannerDetailSection = bannerDetailSection
-        
-        super.init(frame: .zero)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         registerCell()
     }
@@ -42,45 +54,101 @@ final class BannerDetailView: BaseView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     override func setHierarchy() {
-        self.addSubviews(
-            mainCollectionView,
-            gradientView,
-            stickyHeaderNavBarView
+        self.addSubviews(scrollView, stickyHeaderNavBarView)
+        
+        scrollView.addSubview(contentView)
+        
+        contentView.addSubviews(
+            bannerImageCollectionView,
+            indexLabel,
+            bannerTypeLabel,
+            visitDateLabel,
+            bannerTitleLabel,
+            bannerContentLabel
         )
+        
+        bannerImageCollectionView.addSubview(gradientView)
+        bannerImageCollectionView.bringSubviewToFront(gradientView)
     }
     
     override func setLayout() {
-        mainCollectionView.snp.makeConstraints {
-            $0.top.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
-        gradientView.snp.makeConstraints {
+        stickyHeaderNavBarView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
             $0.height.equalTo(104)
         }
         
-        stickyHeaderNavBarView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(UIApplication.shared.statusBarFrame.size.height)
-            $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(54)
+        contentView.snp.makeConstraints {
+            $0.edges.width.equalToSuperview()
         }
+        
+        bannerImageCollectionView.snp.makeConstraints {
+            $0.top.horizontalEdges.width.equalToSuperview()
+            $0.height.equalTo(ScreenUtils.width)
+        }
+        
+        gradientView.snp.makeConstraints {
+            $0.top.horizontalEdges.width.equalToSuperview()
+            $0.height.equalTo(104)
+        }
+        
+        indexLabel.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(10)
+            $0.top.equalToSuperview().inset(ScreenUtils.width - 33)
+        }
+        
+        bannerTypeLabel.snp.makeConstraints {
+            $0.top.equalTo(bannerImageCollectionView.snp.bottom).offset(23)
+            $0.leading.equalToSuperview().inset(16)
+        }
+        
+        visitDateLabel.snp.makeConstraints {
+            $0.top.equalTo(bannerTypeLabel.snp.bottom).offset(14)
+            $0.leading.equalToSuperview().inset(16)
+        }
+
+        bannerTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(visitDateLabel.snp.bottom).offset(14)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+        }
+        
+        bannerContentLabel.snp.makeConstraints {
+            $0.top.equalTo(bannerTitleLabel.snp.bottom).offset(20)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().offset(-50)
+        }
+
     }
     
     override func setStyle() {
-        mainCollectionView.do {
-            $0.contentInsetAdjustmentBehavior = .never
+        scrollView.do {
+            $0.backgroundColor = .drWhite
             $0.showsVerticalScrollIndicator = false
-            $0.showsHorizontalScrollIndicator = false
-            $0.isScrollEnabled = true
-            $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            $0.contentInsetAdjustmentBehavior = .never
         }
         
-        stickyHeaderNavBarView.do {
-            $0.backgroundColor = .clear
+        contentView.backgroundColor = .drWhite
+        
+        bannerImageCollectionView.do {
+            let flowLayout = UICollectionViewFlowLayout()
+            flowLayout.scrollDirection = .horizontal
+            $0.collectionViewLayout = flowLayout
+            $0.contentInsetAdjustmentBehavior = .never
+            $0.showsHorizontalScrollIndicator = false
+            $0.decelerationRate = .normal
+            $0.isScrollEnabled = true
+            $0.isPagingEnabled = true
         }
+        
+        bannerTypeLabel.setPadding(top: 2, left: 10, bottom: 2, right: 10)
+        
+        stickyHeaderNavBarView.backgroundColor = .clear
+        
+        indexLabel.setPadding(top: 2.5, left: 14.5, bottom: 2.5, right: 14.5)
     }
     
 }
@@ -88,99 +156,29 @@ final class BannerDetailView: BaseView {
 extension BannerDetailView {
     
     func registerCell() {
-        mainCollectionView.do {
-            $0.register(ImageCarouselCell.self, forCellWithReuseIdentifier: ImageCarouselCell.cellIdentifier)
-            $0.register(TitleInfoCell.self, forCellWithReuseIdentifier: TitleInfoCell.cellIdentifier)
-            $0.register(MainContentsCell.self, forCellWithReuseIdentifier: MainContentsCell.cellIdentifier)
-            $0.register(BannerInfoHeaderView.self, forSupplementaryViewOfKind: BannerInfoHeaderView.elementKinds, withReuseIdentifier: BannerInfoHeaderView.identifier)
-            $0.register(InfoBarView.self, forSupplementaryViewOfKind: InfoBarView.elementKinds, withReuseIdentifier: InfoBarView.identifier)
-            $0.register(BottomPageControllView.self, forSupplementaryViewOfKind: BottomPageControllView.elementKinds, withReuseIdentifier: BottomPageControllView.identifier)
-        }
+        bannerImageCollectionView.register(BannerImageCollectionViewCell.self, forCellWithReuseIdentifier: BannerImageCollectionViewCell.cellIdentifier)
     }
-    
-    func makeFlowLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout { section, _ -> NSCollectionLayoutSection? in
-            
-            switch self.bannerDetailSection[section]  {
-            case .imageCarousel:
-                return self.makeImageCarouselLayout()
-                
-            case .titleInfo:
-                return self.makeTitleInfoLayout()
-            
-            case .mainContents:
-                return self.makeMainContentsLayout()
-            }
-        }
-    }
-    
-    func makeImageCarouselLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 23, trailing: 0)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
-        
-        let footer = makeBottomPageControllView()
-        section.boundarySupplementaryItems = [footer]
-        
-        return section
-    }
-    
-    func makeTitleInfoLayout() -> NSCollectionLayoutSection {
-        
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .estimated(124))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(16), top: .fixed(0), trailing: .fixed(16), bottom: .fixed(20))
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(124))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+    func updateData(_ bannerDetailData: BannerDetailModel?) {
+        guard let newData = bannerDetailData else { return }
+
+        bannerTypeLabel.do {
+            $0.text = newData.headerData.tag
+            $0.setPadding(top: 2, left: 10, bottom: 2, right: 10)
+        }
         
-        let section = NSCollectionLayoutSection(group: group)
-        
-        let infoBar = makeInfoBarView()
-        let date = makeVisitDateView()
-        section.boundarySupplementaryItems = [infoBar, date]
-        
-        return section
+        if let formattedDate = newData.headerData.createAt.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일 방문") {
+            visitDateLabel.text = formattedDate
+        } else {
+            visitDateLabel.text = newData.headerData.createAt
+            print("날짜 포맷 변환에 실패했습니다.")
+        }
+        bannerTitleLabel.text = newData.title
+        bannerContentLabel.text = newData.mainContents.description
     }
     
-    func makeMainContentsLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        
-        return section
-    }
-    
-    func makeBottomPageControllView() -> NSCollectionLayoutBoundarySupplementaryItem {
-        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(22))
-        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: BottomPageControllView.elementKinds, alignment: .bottom, absoluteOffset: CGPoint(x: 0, y: -55))
-        footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
-        return footer
-    }
-    
-    func makeVisitDateView() -> NSCollectionLayoutBoundarySupplementaryItem {
-        let dateSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(71))
-        let date = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: dateSize, elementKind: BannerInfoHeaderView.elementKinds, alignment: .top, absoluteOffset: CGPoint(x: 0, y: 0))
-        date.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 14, trailing: 16)
-        return date
-    }
-    
-    func makeInfoBarView() -> NSCollectionLayoutBoundarySupplementaryItem {
-        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(20))
-        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: InfoBarView.elementKinds, alignment: .bottom, absoluteOffset: CGPoint(x: 0, y: 0))
-        footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
-        return footer
+    func updateIndexLabel(_ index: Int, _ totalIndex: Int) {
+        indexLabel.text = "\(index + 1)/\(totalIndex)"
     }
     
 }
