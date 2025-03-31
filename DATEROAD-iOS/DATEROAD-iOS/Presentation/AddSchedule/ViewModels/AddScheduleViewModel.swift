@@ -68,6 +68,8 @@ final class AddScheduleViewModel: Serviceable {
     let inputDatePlace: ObservablePattern<String> = ObservablePattern("")
     let outputDatePlace: ObservablePattern<String> = ObservablePattern("")
     
+    //주소 관련 프로퍼티
+    //TODO: inputAddress.value에 address 값을 추가하시면 추후 outputAddress.value로 활용 가능합니다!
     let inputAddress: ObservablePattern<String> = ObservablePattern("")
     let outputAddress: ObservablePattern<String> = ObservablePattern("")
     

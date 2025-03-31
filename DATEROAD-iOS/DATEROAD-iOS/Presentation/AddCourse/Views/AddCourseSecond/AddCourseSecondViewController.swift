@@ -194,6 +194,7 @@ private extension AddCourseSecondViewController {
     }
     
     ///데이트 장소 추가 함수
+    //TODO: 해당 함수를 활용하여 장소를 추가해주십쇼!
     @objc
     func tapAddPlaceBtn() {
         viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", dateAddress: viewModel.address.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")

@@ -348,6 +348,7 @@ extension AddCourseViewModel {
     
     func isAbleAddBtn() -> Bool {
         return !(datePlace.value?.isEmpty ?? true)
+        && !(address.value?.isEmpty ?? true)
         && !(timeRequire.value?.isEmpty ?? true)
     }
     
@@ -357,6 +358,7 @@ extension AddCourseViewModel {
         
         //viewmodel 값 초기화
         self.datePlace.value = ""
+        self.address.value = ""
         self.timeRequire.value = ""
         
         self.dateLocation = false
