@@ -106,7 +106,7 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
             $0.layer.borderWidth = 2
         }
         
-        thumbnailTagView.backgroundColor = UIColor(resource: .deepPurple)
+        thumbnailTagView.backgroundColor = UIColor(resource: .purple600)
         
         thumbnailTagLabel.setLabel(text: "대표",
                                    alignment: .center,
@@ -138,7 +138,7 @@ extension AddCourseImageCollectionViewCell {
         imageView.do {
             $0.image = pickedImage
             $0.layer.borderColor = isThumbnail
-            ? UIColor.deepPurple.cgColor : UIColor.clear.cgColor
+            ? UIColor.purple600.cgColor : UIColor.clear.cgColor
         }
         thumbnailTagView.isHidden = !isThumbnail
     }
