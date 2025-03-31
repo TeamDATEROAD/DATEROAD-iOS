@@ -79,6 +79,9 @@ final class AddCourseViewModel: Serviceable {
     
     let datePlace: ObservablePattern<String> = ObservablePattern(nil)
     
+    ///주소 관련 프로퍼티
+    let address: ObservablePattern<String> = ObservablePattern(nil)
+    
     let timeRequire: ObservablePattern<String> = ObservablePattern(nil)
     
     let isValidOfSecondNextBtn: ObservablePattern<Bool> = ObservablePattern(false)
@@ -348,9 +351,9 @@ extension AddCourseViewModel {
         && !(timeRequire.value?.isEmpty ?? true)
     }
     
-    func tapAddBtn(datePlace: String, timeRequire: String) {
+    func tapAddBtn(datePlace: String, dateAddress: String, timeRequire: String) {
         print(datePlace, timeRequire)
-        addPlaceCollectionViewDataSource.append(AddCoursePlaceModel(placeTitle: datePlace, timeRequire: timeRequire))
+        addPlaceCollectionViewDataSource.append(AddCoursePlaceModel(placeTitle: datePlace, address: dateAddress, timeRequire: timeRequire))
         
         //viewmodel 값 초기화
         self.datePlace.value = ""
@@ -394,12 +397,11 @@ extension AddCourseViewModel {
         var places: [[String: Any]] = []
         
         for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
-            // Extract the numeric part from the timeRequire string
             let timeComponents = model.timeRequire.split(separator: " ")
             
             if let timeString = timeComponents.first {
                 if let duration = Float(timeString) {
-                    let place = PostAddCoursePlace(title: model.placeTitle, address: "서울특별시 녹번구 케케 나도 몰라!", duration: duration, sequence: index + 1)
+                    let place = PostAddCoursePlace(title: model.placeTitle, address: model.address, duration: duration, sequence: index + 1)
                     places.append(place.toDictionary())
                     print("👍👍👍👍 : place added - \(place)")
                 } else {

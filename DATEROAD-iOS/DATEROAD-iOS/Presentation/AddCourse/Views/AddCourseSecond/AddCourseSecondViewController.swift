@@ -108,15 +108,16 @@ private extension AddCourseSecondViewController {
     
     //TODO: - 추후 데이트코스 공유 코스 등록 기능 살아날 시 수정해야함.
     // isBroughtData 변수 생성하여 AddSchedule과 동일하게 수행하도록 수정
+    // 위 TODO 만족 시 수정
     func pastDateBindViewModel() {
         if viewModel.pastDatePlaces.count > 0  {
             for i in viewModel.pastDatePlaces {
                 if let doubleValue = Double(String(i.duration)) {
                     let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
                     String(Int(doubleValue)) : String(doubleValue)
-                    viewModel.tapAddBtn(datePlace: i.title, timeRequire: "\(text) 시간")
+                    viewModel.tapAddBtn(datePlace: i.title, dateAddress: "추후 수정", timeRequire: "\(text) 시간")
                 } else {
-                    viewModel.tapAddBtn(datePlace: i.title, timeRequire: "\(String(i.duration)) 시간")
+                    viewModel.tapAddBtn(datePlace: i.title, dateAddress: "추후 수정", timeRequire: "\(String(i.duration)) 시간")
                 }
             }
         }
@@ -192,9 +193,10 @@ private extension AddCourseSecondViewController {
         }
     }
     
+    ///데이트 장소 추가 함수
     @objc
     func tapAddPlaceBtn() {
-        viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")
+        viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", dateAddress: viewModel.address.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")
     }
     
     @objc
