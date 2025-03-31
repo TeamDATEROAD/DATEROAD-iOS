@@ -34,9 +34,9 @@ enum ImageButtonType {
         case .clear_mediumPurple_0,
                 .clear_black_0,
                 .clear_gray400_0,
-                .clear_clear_0:
+                .clear_clear_0,
+                .clear_white_0:
             return UIColor.clear
-            
         }
     }
     
