@@ -9,4 +9,6 @@ import Foundation
 
 // MARK: - PostAddScheduleResponse
 
-struct PostAddScheduleResponse: Codable {}
+struct PostAddScheduleResponse: Codable {
+    let dateScheduleNum: Int64
+}

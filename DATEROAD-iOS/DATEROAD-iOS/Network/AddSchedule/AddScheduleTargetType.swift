@@ -18,7 +18,7 @@ enum AddScheduleTargetType {
 extension AddScheduleTargetType: BaseTargetType {
     
     var utilPath: String {
-        return "api/v1/"
+        return "api/v2/"
     }
     
     var method: Moya.Method {
