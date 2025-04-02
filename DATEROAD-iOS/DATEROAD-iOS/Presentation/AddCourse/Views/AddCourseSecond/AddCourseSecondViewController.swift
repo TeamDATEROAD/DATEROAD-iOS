@@ -37,7 +37,6 @@ final class AddCourseSecondViewController: BaseNavBarViewController {
         setStyle()
         setTitleLabelStyle(title: StringLiterals.AddCourseOrSchedule.addCourseTitle, alignment: .center)
         setLeftBackButton()
-        setAddTarget()
         setDelegate()
         registerCell()
         bindViewModel()
@@ -52,6 +51,7 @@ final class AddCourseSecondViewController: BaseNavBarViewController {
         super.setHierarchy()
         
         self.view.addSubview(contentView)
+        
         contentView.addSubview(addCourseSecondView)
     }
     
@@ -102,6 +102,8 @@ private extension AddCourseSecondViewController {
             $0.dropDelegate = self
             $0.dataSource = self
         }
+        
+        addCourseSecondView.delegate = self
         
         addCourseSecondView.addSecondView.datePlaceTextField.delegate = self
     }
@@ -169,41 +171,9 @@ private extension AddCourseSecondViewController {
         
     }
     
-    func setAddTarget() {
-        addCourseSecondView.editButton.addTarget(self, action: #selector(toggleEditMode), for: .touchUpInside)
-        addCourseSecondView.addSecondView.addPlaceButton.addTarget(self, action: #selector(tapAddPlaceBtn), for: .touchUpInside)
-        addCourseSecondView.addSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
-        addCourseSecondView.addSecondView.timeRequireButton.addTarget(self, action: #selector(didTapTimeRequireButton), for: .touchUpInside)
-    }
-    
     
     // MARK: - @objc Methods
-    
-    @objc
-    func didTapTimeRequireButton(_ textField: UITextField) {
-        let alertVC = AddSheetViewController(viewModel: viewModel)
-        alertVC.addSheetView = AddSheetView(isCustomPicker: true)
-        
-        self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
-        addCourseSecondView.addSecondView.datePlaceTextField.resignFirstResponder()
-        
-        DispatchQueue.main.async {
-            alertVC.presentBottomSheet(in: self)
-        }
-    }
-    
-    @objc
-    func tapAddPlaceBtn() {
-        viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")
-    }
-    
-    @objc
-    func didTapNextBtn() {
-        print("지금 장소 등록된 값 : ", viewModel.addPlaceCollectionViewDataSource)
-        
-        let thirdVC = AddCourseThirdViewController(viewModel: self.viewModel)
-        navigationController?.pushViewController(thirdVC, animated: false)
-    }
+
     
     @objc
     func removeCell(sender: UIButton) {
@@ -229,8 +199,25 @@ private extension AddCourseSecondViewController {
         // Move cell logic here
     }
     
+}
+
+extension AddCourseSecondViewController {
+    
     @objc
-    func toggleEditMode() {
+    override func backButtonTapped() {
+        viewModel.course2BackAmplitude()
+        super.backButtonTapped()
+    }
+    
+}
+
+
+
+// MARK: - AddCourseDelegate Methods
+
+extension AddCourseSecondViewController: AddCourseDelegate {
+ 
+    func didTapEditButton() {
         print("EditButton 눌림")
         viewModel.isEditMode.toggle()
         let collectionView = addCourseSecondView.addPlaceCollectionView
@@ -257,14 +244,27 @@ private extension AddCourseSecondViewController {
         }
     }
     
-}
-
-extension AddCourseSecondViewController {
+    func didTapAddPlaceBtn() {
+        viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")
+    }
     
-    @objc
-    override func backButtonTapped() {
-        viewModel.course2BackAmplitude()
-        super.backButtonTapped()
+    func didTapNextBtn() {
+        print("지금 장소 등록된 값 : ", viewModel.addPlaceCollectionViewDataSource)
+        
+        let thirdVC = AddCourseThirdViewController(viewModel: self.viewModel)
+        navigationController?.pushViewController(thirdVC, animated: false)
+    }
+
+    func didTapTimeRequireButton() {
+        let alertVC = AddSheetViewController(viewModel: viewModel)
+        alertVC.addSheetView = AddSheetView(isCustomPicker: true)
+        
+        self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
+        addCourseSecondView.addSecondView.datePlaceTextField.resignFirstResponder()
+        
+        DispatchQueue.main.async {
+            alertVC.presentBottomSheet(in: self)
+        }
     }
     
 }

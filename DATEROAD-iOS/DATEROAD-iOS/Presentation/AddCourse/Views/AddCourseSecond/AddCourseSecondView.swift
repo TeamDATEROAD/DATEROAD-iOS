@@ -10,6 +10,18 @@ import UIKit
 import SnapKit
 import Then
 
+protocol AddCourseDelegate: AnyObject {
+    
+    func didTapEditButton()
+    
+    func didTapAddPlaceBtn()
+    
+    func didTapNextBtn()
+
+    func didTapTimeRequireButton()
+        
+}
+
 final class AddCourseSecondView: BaseView {
     
     // MARK: - UI Properties
@@ -37,8 +49,20 @@ final class AddCourseSecondView: BaseView {
             
     private let warningType: DRErrorType = Warning()
     
+    weak var delegate: AddCourseDelegate?
     
-    // MARK: - Methods
+    
+    // MARK: - Life Cycles
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setAddTarget()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func setHierarchy() {
         self.addSubviews (collectionView, addSecondView)
@@ -111,6 +135,13 @@ final class AddCourseSecondView: BaseView {
 
 extension AddCourseSecondView {
     
+    func setAddTarget() {
+        editButton.addTarget(self, action: #selector(didTapEditButton), for: .touchUpInside)
+        addSecondView.addPlaceButton.addTarget(self, action: #selector(didTapAddPlaceBtn), for: .touchUpInside)
+        addSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
+        addSecondView.timeRequireButton.addTarget(self, action: #selector(didTapTimeRequireButton), for: .touchUpInside)
+    }
+    
     /// editMode 활성화라면
     func updateEditBtnText(flag: Bool) {
         let text = flag ? StringLiterals.AddCourseOrSchedule.AddSecondView.done : StringLiterals.AddCourseOrSchedule.AddSecondView.edit
@@ -120,6 +151,33 @@ extension AddCourseSecondView {
     func editBtnState(isAble: Bool) {
         let state: TextButtonType = isAble ? .med_white_0_purple : .med_white_0
         editButton.setButtonStyle(state, isEnabled: isAble)
+    }
+    
+}
+
+
+// MARK: - @objc Methods
+
+extension AddCourseSecondView {
+    
+    @objc
+    func didTapEditButton() {
+        delegate?.didTapEditButton()
+    }
+    
+    @objc
+    func didTapAddPlaceBtn() {
+        delegate?.didTapAddPlaceBtn()
+    }
+    
+    @objc
+    func didTapNextBtn() {
+        delegate?.didTapNextBtn()
+    }
+    
+    @objc
+    func didTapTimeRequireButton() {
+        delegate?.didTapTimeRequireButton()
     }
     
 }
