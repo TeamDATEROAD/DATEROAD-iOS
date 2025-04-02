@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SearchPlaceData {
+struct SearchPlaceData: Equatable {
     
     let name: String
     
@@ -20,7 +20,24 @@ struct SearchPlaceData {
     }
     
     static var dummyData: [SearchPlaceData] = {
-        return Array(repeating: SearchPlaceData.init(), count: 25)
+        return [
+            SearchPlaceData(name: "뚝섬 이름이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오", address: "뚝섬 주소명이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오"),
+            SearchPlaceData(name: "뚝섬", address: "뚝섬 주소명"),
+            SearchPlaceData(name: "여의도다ㄷ", address: "ㅇㅇㅇ"),
+            SearchPlaceData(name: "노들섬", address: "ㄴㄷㄹㅅㅇㄴㅎㅁㅎㅁㄴㅇ"),
+            SearchPlaceData(name: "ㅇㄹㄴㄹㅁㅈㄷ", address: "뚝섬 주소명이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오"),
+            SearchPlaceData(name: "뚝섬 이름이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오", address: "ㅂㅈㄷㄱㅂ오"),
+            SearchPlaceData(name: "ㅁㄴㅇㄹㅁㄴㅇㄹ", address: "뚝섬 주소명이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오"),
+            SearchPlaceData(name: "뚝섬 이름이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오", address: "뚝섬 주소명이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오"),
+            SearchPlaceData(name: "ㅇ", address: "뚝섬 주소명이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오"),
+            SearchPlaceData(name: "뚝섬 이름이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오", address: "ㅂㅈㄷㄱㅂ오"),
+            SearchPlaceData(name: "뚝섬 이름이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오", address: "뚝섬 주소명이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오"),
+            SearchPlaceData(name: "ㄴㄹ", address: "뚝섬 주소명이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오"),
+            SearchPlaceData(name: "뚝섬 이름이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오", address: "베ㅜㄹㄱㅂㄷㄱ"),
+            SearchPlaceData(name: "뚝섬 이름이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오", address: "뚝섬 주소명이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오"),
+            SearchPlaceData(name: "ㅇㄹㄱㄷㄷㄱㅎㄱㄷㅎ", address: "뚝섬 주소명이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오"),
+            SearchPlaceData(name: "뚝섬 이름이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오", address: "뚝섬 주소명이 이렇게 길진 않겠지만 길어지면 점처리를 해보자고오오")
+        ]
     }()
     
 }
