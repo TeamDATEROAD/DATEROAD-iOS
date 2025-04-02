@@ -7,6 +7,8 @@ final class AddCourseSecondViewController: BaseNavBarViewController {
     
     // MARK: - UI Properties
     
+    private lazy var searchPlaceVC: SearchPlaceViewController = SearchPlaceViewController(SearchPlaceViewModel())
+
     private var addCourseSecondView = AddCourseSecondView()
     
     private let viewModel: AddCourseViewModel
@@ -212,7 +214,6 @@ extension AddCourseSecondViewController {
 }
 
 
-
 // MARK: - AddCourseDelegate Methods
 
 extension AddCourseSecondViewController: AddCourseDelegate {
@@ -263,7 +264,11 @@ extension AddCourseSecondViewController: AddCourseDelegate {
         addCourseSecondView.addSecondView.datePlaceTextField.resignFirstResponder()
         
         DispatchQueue.main.async {
-            alertVC.presentBottomSheet(in: self)
+            alertVC.presentBottomSheet(
+                alertVC.addSheetView,
+                alertVC.dimmedView,
+                in: self
+            )
         }
     }
     
@@ -274,25 +279,14 @@ extension AddCourseSecondViewController: AddCourseDelegate {
 
 extension AddCourseSecondViewController: UITextFieldDelegate {
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        let trimmedText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        if let text = trimmedText, !text.isEmpty {
-            viewModel.datePlace.value = text
-            print(text)
-        } else {
-            viewModel.datePlace.value = ""
-            print("공란")
-        }
+        print("didTapDatePlaceTextField")
+        searchPlaceVC.presentBottomSheet(
+            searchPlaceVC.searchPlaceView,
+            searchPlaceVC.dimmedView,
+            in: self
+        )
+        return false
     }
     
 }
