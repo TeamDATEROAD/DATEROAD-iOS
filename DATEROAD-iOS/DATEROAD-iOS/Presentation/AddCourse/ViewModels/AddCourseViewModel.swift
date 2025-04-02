@@ -428,7 +428,21 @@ extension AddCourseViewModel {
         let place = places
         let thumbnail = self.thumbnailImageIndex
         
-        NetworkService.shared.addCourseService.postAddCourse(course: PostAddCourse(title: dateName, date: visitDate, startAt: dateStartAt, country: country, city: city, description: contentText, cost: price, thumbnailIndex: thumbnail).toDictionary(), tags: postAddCourseTag.tags, places: place, images: images)  { result in
+        NetworkService.shared.addCourseService.postAddCourse(
+            course: PostAddCourse(
+                title: dateName,
+                date: visitDate,
+                startAt: dateStartAt,
+                country: country,
+                city: city,
+                description: contentText,
+                cost: price,
+                thumbnailIndex: thumbnail
+            ).toDictionary(),
+            tags: postAddCourseTag.tags,
+            places: place,
+            images: images
+        )  { result in
             switch result {
             case .success(let response):
                 print("Success: \(response)")

@@ -409,7 +409,6 @@ extension AddScheduleSecondViewController: UICollectionViewDropDelegate {
     
     //들고있던 cell을 이동시켜 cell의 index가 바뀌었을 때 동작
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
-        print(#function, "케케몬몬몬")
         if collectionView == addScheduleSecondView.addPlaceCollectionView {
             var destinationIndexPath: IndexPath
             if let indexPath = coordinator.destinationIndexPath {

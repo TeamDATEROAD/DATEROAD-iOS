@@ -16,7 +16,11 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
     
     private let imageView: UIImageView = UIImageView()
     private let thumbnailTagView: UIView = UIView()
-    private let thumbnailTagLabel: UILabel = UILabel()
+    private let thumbnailTagLabel: DRTextLabel = DRTextLabel(
+        title: "대표",
+        textLabelType: .clear(.semi13_white),
+        alignment: .center
+    )
     
     let deleteImageBtn: DRImageButton = DRImageButton(
         image: UIImage(resource: .icDeletepic),
@@ -107,11 +111,6 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
         }
         
         thumbnailTagView.backgroundColor = UIColor(resource: .purple600)
-        
-        thumbnailTagLabel.setLabel(text: "대표",
-                                   alignment: .center,
-                                   textColor: UIColor(resource: .drWhite),
-                                   font: .suit(.body_semi_13))
         
         emptyView.do {
             $0.backgroundColor = .gray100
