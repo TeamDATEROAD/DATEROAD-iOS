@@ -51,27 +51,27 @@ final class PointDetailView: BaseView {
     
     override func setLayout() {
         userNameLabel.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(14)
-            $0.leading.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().offset(14 * ScreenUtils.height / 812)
+            $0.leading.equalToSuperview().inset(16 * ScreenUtils.width / 375)
             $0.height.equalTo(18)
         }
         
         totalPointLabel.snp.makeConstraints{
-            $0.top.equalToSuperview().inset(42)
-            $0.leading.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().inset(42 * ScreenUtils.height / 812)
+            $0.leading.equalToSuperview().inset(16 * ScreenUtils.width / 375)
             $0.height.equalTo(31)
         }
         
         pointAddButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(93)
-            $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(54)
+            $0.top.equalToSuperview().inset(93 * ScreenUtils.height / 812)
+            $0.horizontalEdges.equalToSuperview().inset(16 * ScreenUtils.width / 375)
+            $0.height.equalTo(54 * ScreenUtils.height / 812)
         }
         
         segmentControl.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(167)
+            $0.top.equalToSuperview().offset(167 * ScreenUtils.height / 812)
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(54)
+            $0.height.equalTo(54 * ScreenUtils.height / 812)
         }
         
         segmentControlUnderLineView.snp.makeConstraints{
@@ -90,7 +90,7 @@ final class PointDetailView: BaseView {
         pointCollectionView.snp.makeConstraints{
             $0.top.equalTo(segmentControl.snp.bottom)
             $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(34)
+            $0.bottom.equalToSuperview().inset(34 * ScreenUtils.height / 812)
         }
         
         emptyGainedPointView.snp.makeConstraints {
