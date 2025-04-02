@@ -13,6 +13,8 @@ enum DRTextFieldType: Equatable {
     
     case profile
     
+    case searchPlace
+    
     var textFieldStyle: DRTextFieldStyle {
         switch self {
         case .addCourseSchedule(let type):
@@ -47,9 +49,17 @@ enum DRTextFieldType: Equatable {
                               font: .suit(.body_med_13))
             }
         case .profile:
-            return .rightTextButton(placeholder:    StringLiterals.Profile.nicknamePlaceholder,
+            return .rightTextButton(placeholder: StringLiterals.Profile.nicknamePlaceholder,
                                     cornerRadius: 14,
                                     font: UIFont.systemFont(ofSize: 15, weight: .semibold))
+            
+        case .searchPlace:
+            return .rightIcon(
+                iconStyle: .close,
+                placeholder: StringLiterals.SearchPlace.placeholder,
+                cornerRadius: 14,
+                font: .suit(.body_semi_15)
+            )
         }
     }
     
@@ -175,6 +185,8 @@ enum RightIconStyle {
     
     case downArrow
     
+    case close
+    
     var image: UIImage? {
         switch self {
         case .none:
@@ -185,6 +197,8 @@ enum RightIconStyle {
             return .time
         case .downArrow:
             return .downArrow
+        case .close:
+            return .icCloseGray
         }
     }
     
@@ -193,6 +207,8 @@ enum RightIconStyle {
         case .none: return 0
         case .calender, .time: return 17
         case .downArrow: return 11
+        case .close:
+            return 20
         }
     }
     
