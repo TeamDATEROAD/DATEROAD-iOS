@@ -201,7 +201,11 @@ extension UpcomingDateDetailViewController {
         bottomSheetVC.delegate = self
         
         DispatchQueue.main.async {
-            self.bottomSheetVC.presentBottomSheet(in: self)
+            self.bottomSheetVC.presentBottomSheet(
+                self.bottomSheetVC.bottomSheetView,
+                self.bottomSheetVC.dimmedView,
+                in: self
+            )
         }
     }
     
@@ -262,7 +266,7 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
 extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
-        self.bottomSheetVC.dismissBottomSheet()
+        self.bottomSheetVC.dismissBottomSheet(bottomSheetVC.bottomSheetView, bottomSheetVC.dimmedView)
     }
     
 //    @objc

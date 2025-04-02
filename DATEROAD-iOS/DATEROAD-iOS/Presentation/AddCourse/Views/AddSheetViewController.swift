@@ -15,7 +15,7 @@ final class AddSheetViewController: BaseViewController {
     
     // MARK: - UI Properties
     
-    private let dimmedView: DRDimmedView = DRDimmedView()
+    let dimmedView: DRDimmedView = DRDimmedView()
 
     var addSheetView = AddSheetView(isCustomPicker: true)
     
@@ -77,49 +77,6 @@ final class AddSheetViewController: BaseViewController {
 }
 
 
-// MARK: - ViewController Methods
-
-extension AddSheetViewController {
-    
-    func presentBottomSheet(in viewController: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil) {
-        self.modalPresentationStyle = .overFullScreen
-        viewController.present(self, animated: false) {
-            self.animateBottomSheetPresentation(animated: animated, completion: completion)
-        }
-    }
-    
-    func dismissBottomSheet(animated: Bool = true, completion: (() -> Void)? = nil) {
-        if animated {
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: {
-                self.addSheetView.transform = CGAffineTransform(translationX: 0, y: self.addSheetView.frame.height)
-                self.dimmedView.alpha = 0
-            }, completion: { _ in
-                self.dismiss(animated: false, completion: completion)
-            })
-        } else {
-            self.dimmedView.alpha = 0
-            self.dismiss(animated: false, completion: completion)
-        }
-    }
-    
-    private func animateBottomSheetPresentation(animated: Bool, completion: (() -> Void)? = nil) {
-        if animated {
-            self.addSheetView.transform = CGAffineTransform(translationX: 0, y: self.addSheetView.frame.height)
-            
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-                self.dimmedView.alpha = 1
-                self.addSheetView.transform = .identity
-            }, completion: { _ in
-                completion?()
-            })
-        } else {
-            self.dimmedView.alpha = 1
-            completion?()
-        }
-    }
-    
-}
-
 private extension AddSheetViewController {
     
     func setCustomPicker() {
@@ -138,7 +95,7 @@ private extension AddSheetViewController {
         let selectedRow = addSheetView.customPickerView.selectedRow(inComponent: 0)
         let selectedValue = customPickerValues[selectedRow]
         viewModel?.updateTimeRequireTextField(text: String(selectedValue))
-        self.dismissBottomSheet()
+        self.dismissBottomSheet(addSheetView, dimmedView)
     }
     
 }

@@ -11,9 +11,9 @@ final class DRBottomSheetViewController: BaseViewController {
     
     // MARK: - UI Properties
     
-    private let dimmedView: DRDimmedView = DRDimmedView()
+    let dimmedView: DRDimmedView = DRDimmedView()
 
-    private let bottomSheetView: UIView = UIView()
+    let bottomSheetView: UIView = UIView()
     
     var contentView: UIView
     
@@ -117,48 +117,6 @@ final class DRBottomSheetViewController: BaseViewController {
     @objc
     func didTapBottomLabel() {
         self.delegate?.didTapSecondLabel()
-    }
-    
-}
-
-extension DRBottomSheetViewController {
-    
-    func presentBottomSheet(in viewController: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil) {
-        self.modalPresentationStyle = .overFullScreen
-        viewController.present(self, animated: false) {
-            self.animateBottomSheetPresentation(animated: animated, completion: completion)
-        }
-    }
-    
-    func dismissBottomSheet(animated: Bool = true, completion: (() -> Void)? = nil) {
-        if animated {
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: {
-                self.bottomSheetView.transform = CGAffineTransform(translationX: 0, y: self.height)
-                self.dimmedView.alpha = 0
-            }, completion: { _ in
-                self.dismiss(animated: false, completion: completion)
-            })
-        } else {
-            self.dimmedView.alpha = 0
-            self.dismiss(animated: false, completion: completion)
-        }
-    }
-    
-    private func animateBottomSheetPresentation(animated: Bool, completion: (() -> Void)? = nil) {
-        if animated {
-            self.bottomSheetView.transform = CGAffineTransform(translationX: 0, y: self.height)
-            self.dimmedView.alpha = 0
-            
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-                self.dimmedView.alpha = 1
-                self.bottomSheetView.transform = .identity
-            }, completion: { _ in
-                completion?()
-            })
-        } else {
-            self.dimmedView.alpha = 1
-            completion?()
-        }
     }
     
 }

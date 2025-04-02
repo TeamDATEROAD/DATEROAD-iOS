@@ -103,7 +103,7 @@ final class LocationFilterViewController: BaseViewController {
     
     @objc
     func closeLocationFilterView() {
-        self.dismissBottomSheet()
+        self.dismissBottomSheet(locationFilterView, dimmedView)
     }
     
 }
@@ -114,44 +114,6 @@ extension LocationFilterViewController {
         courseViewModel.resetSelections()
         locationFilterView.countryCollectionView.reloadData()
         locationFilterView.cityCollectionView.reloadData()
-    }
-    
-    func presentBottomSheet(in viewController: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil) {
-        self.modalPresentationStyle = .overFullScreen
-        viewController.present(self, animated: false) {
-            self.animateBottomSheetPresentation(animated: animated, completion: completion)
-        }
-    }
-    
-    func dismissBottomSheet(animated: Bool = true, completion: (() -> Void)? = nil) {
-        if animated {
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: {
-                self.locationFilterView.transform = CGAffineTransform(translationX: 0, y: 469)
-                self.backgroundView.alpha = 0  // 배경을 페이드아웃
-            }, completion: { _ in
-                self.dismiss(animated: false, completion: completion)
-            })
-        } else {
-            self.backgroundView.alpha = 0
-            self.dismiss(animated: false, completion: completion)
-        }
-    }
-    
-    private func animateBottomSheetPresentation(animated: Bool, completion: (() -> Void)? = nil) {
-        if animated {
-            self.locationFilterView.transform = CGAffineTransform(translationX: 0, y: 469)
-            self.backgroundView.alpha = 0
-            
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-                self.backgroundView.alpha = 1
-                self.locationFilterView.transform = .identity
-            }, completion: { _ in
-                completion?()
-            })
-        } else {
-            self.backgroundView.alpha = 1
-            completion?()
-        }
     }
     
 }
@@ -172,12 +134,24 @@ extension LocationFilterViewController {
     
 }
 
+
+// MARK: - DimmedView Delegates
+
+extension LocationFilterViewController: DimmedViewDelegate {
+    
+    func didTapDimmedView() {
+        self.dismissBottomSheet(locationFilterView, dimmedView)
+    }
+    
+}
+
+
 // MARK: - LocationFilterViewDelegate Methods
 
 extension LocationFilterViewController: LocationFilterViewDelegate {
     
     func closeLocationFilterViewToDelegate() {
-        self.dismissBottomSheet()
+        self.dismissBottomSheet(locationFilterView, dimmedView)
     }
     
     func didTapApplyButton() {

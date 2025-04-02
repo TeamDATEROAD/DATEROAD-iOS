@@ -255,7 +255,11 @@ private extension AddScheduleSecondViewController {
         addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField.resignFirstResponder()
         
         DispatchQueue.main.async {
-            alertVC.presentBottomSheet(in: self)
+            alertVC.presentBottomSheet(
+                alertVC.addSheetView,
+                alertVC.dimmedView,
+                in: self
+            )
         }
     }
     

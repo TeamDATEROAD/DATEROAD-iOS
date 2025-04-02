@@ -116,7 +116,11 @@ extension PastDateDetailViewController {
         bottomSheetVC.delegate = self
         
         DispatchQueue.main.async {
-            self.bottomSheetVC.presentBottomSheet(in: self)
+            self.bottomSheetVC.presentBottomSheet(
+                self.bottomSheetVC.bottomSheetView,
+                self.bottomSheetVC.dimmedView,
+                in: self
+            )
         }
     }
     
@@ -141,7 +145,7 @@ extension PastDateDetailViewController: DRCustomAlertDelegate {
 extension PastDateDetailViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
-        self.bottomSheetVC.dismissBottomSheet()
+        self.bottomSheetVC.dismissBottomSheet(bottomSheetVC.bottomSheetView, bottomSheetVC.dimmedView)
     }
 
 //    func didTapFirstLabel() {

@@ -247,7 +247,11 @@ private extension AddScheduleFirstViewController {
         addSheetView.datePickerMode(isDatePicker: mode == .date)
         alertVC.delegate = self
         addScheduleFirstView.inAddScheduleFirstView.dateNameTextField.resignFirstResponder()
-        alertVC.presentBottomSheet(in: self)
+        alertVC.presentBottomSheet(
+            alertVC.bottomSheetView,
+            alertVC.dimmedView,
+            in: self
+        )
     }
     
     /// about 데이트이름
@@ -295,7 +299,11 @@ private extension AddScheduleFirstViewController {
         locationFilterVC.isAddType = true
         locationFilterVC.delegate = self
         DispatchQueue.main.async {
-            self.locationFilterVC.presentBottomSheet(in: self)
+            self.locationFilterVC.presentBottomSheet(
+                self.locationFilterVC.locationFilterView,
+                self.locationFilterVC.dimmedView,
+                in: self
+            )
         }
     }
     
@@ -390,7 +398,7 @@ extension AddScheduleFirstViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
         let selectedDate = addSheetView.datePicker.date
-        alertVC.dismissBottomSheet()
+        alertVC.dismissBottomSheet(alertVC.bottomSheetView, alertVC.dimmedView)
         
         if addSheetView.datePicker.datePickerMode == .date {
             updateTextField(selectedValue: selectedDate, mode: .date)
