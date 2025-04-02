@@ -108,15 +108,16 @@ private extension AddCourseSecondViewController {
     
     //TODO: - 추후 데이트코스 공유 코스 등록 기능 살아날 시 수정해야함.
     // isBroughtData 변수 생성하여 AddSchedule과 동일하게 수행하도록 수정
+    // 위 TODO 만족 시 수정
     func pastDateBindViewModel() {
         if viewModel.pastDatePlaces.count > 0  {
             for i in viewModel.pastDatePlaces {
                 if let doubleValue = Double(String(i.duration)) {
                     let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
                     String(Int(doubleValue)) : String(doubleValue)
-                    viewModel.tapAddBtn(datePlace: i.title, timeRequire: "\(text) 시간")
+                    viewModel.tapAddBtn(datePlace: i.title, dateAddress: "추후 수정", timeRequire: "\(text) 시간")
                 } else {
-                    viewModel.tapAddBtn(datePlace: i.title, timeRequire: "\(String(i.duration)) 시간")
+                    viewModel.tapAddBtn(datePlace: i.title, dateAddress: "추후 수정", timeRequire: "\(String(i.duration)) 시간")
                 }
             }
         }
@@ -192,9 +193,11 @@ private extension AddCourseSecondViewController {
         }
     }
     
+    ///데이트 장소 추가 함수
+    //TODO: 해당 함수를 활용하여 장소를 추가해주십쇼!
     @objc
     func tapAddPlaceBtn() {
-        viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")
+        viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", dateAddress: viewModel.address.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")
     }
     
     @objc
@@ -331,7 +334,9 @@ extension AddCourseSecondViewController: UICollectionViewDataSource {
             ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
             
             cell.updateImageCellUI(isImageEmpty: false, vcCnt: 2)
-            cell.configurePickedImage(pickedImage: viewModel.pickedImageArr[indexPath.item])
+            
+            let isThumbnail = viewModel.thumbnailImageIndex == indexPath.row
+            cell.configurePickedImage(pickedImage: viewModel.pickedImageArr[indexPath.item], isThumbnail: isThumbnail)
             cell.prepare(image: viewModel.pickedImageArr[indexPath.item])
             
             return cell
@@ -361,6 +366,18 @@ extension AddCourseSecondViewController: UICollectionViewDataSource {
 
 extension AddCourseSecondViewController: UICollectionViewDropDelegate {
     
+    //드래그 cell Preview
+    func collectionView(_ collectionView: UICollectionView,
+                        dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters? {
+        print(#function)
+        let parameters = UIDragPreviewParameters()
+        parameters.visiblePath = UIBezierPath(roundedRect: collectionView.cellForItem(at: indexPath)?.bounds ?? .zero,
+                                              cornerRadius: 14) // 원하는 cornerRadius 적용
+        parameters.backgroundColor = .clear
+        return parameters
+    }
+    
+    //들고있던 cell을 이동시켜 cell의 index가 바뀌었을 때 동작
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
         if collectionView != addCourseSecondView.collectionView {
             var destinationIndexPath: IndexPath
@@ -388,19 +405,20 @@ extension AddCourseSecondViewController: UICollectionViewDropDelegate {
     
     private func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView) {
         if collectionView != addCourseSecondView.collectionView {
+            
             if let item = coordinator.items.first, let sourceIndexPath = item.sourceIndexPath {
-                collectionView.performBatchUpdates({
-                    let temp = viewModel.addPlaceCollectionViewDataSource[sourceIndexPath.item]
-                    viewModel.addPlaceCollectionViewDataSource.remove(at: sourceIndexPath.item)
-                    viewModel.addPlaceCollectionViewDataSource.insert(temp, at: destinationIndexPath.item)
-                    collectionView.deleteItems(at: [sourceIndexPath])
-                    collectionView.insertItems(at: [destinationIndexPath])
-                }) { done in
-                    //
+                var body = viewModel.addPlaceCollectionViewDataSource
+                
+                let movedItem = body.remove(at: sourceIndexPath.item)
+                body.insert(movedItem, at: destinationIndexPath.item)
+                viewModel.addPlaceCollectionViewDataSource = body
+                
+                collectionView.performBatchUpdates {
+                    collectionView.moveItem(at: sourceIndexPath, to: destinationIndexPath)
                 }
+                
                 coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
             }
-            viewModel.updatePlaceCollectionView()
         }
     }
     

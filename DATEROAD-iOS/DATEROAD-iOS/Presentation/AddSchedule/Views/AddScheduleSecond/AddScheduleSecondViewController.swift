@@ -400,16 +400,15 @@ extension AddScheduleSecondViewController: UICollectionViewDropDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters? {
         print(#function)
-        
         let parameters = UIDragPreviewParameters()
         parameters.visiblePath = UIBezierPath(roundedRect: collectionView.cellForItem(at: indexPath)?.bounds ?? .zero,
                                               cornerRadius: 14) // 원하는 cornerRadius 적용
+        parameters.backgroundColor = .clear
         return parameters
     }
     
     //들고있던 cell을 이동시켜 cell의 index가 바뀌었을 때 동작
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
-        print(#function, "케케몬몬몬")
         if collectionView == addScheduleSecondView.addPlaceCollectionView {
             var destinationIndexPath: IndexPath
             if let indexPath = coordinator.destinationIndexPath {

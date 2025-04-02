@@ -13,7 +13,11 @@ final class DRTimelineView: BaseView {
     
     var locationLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold15_black), alignment: .left)
     
-    var addressLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_gray300), alignment: .left)
+    var addressLabel: DRTextLabel = DRTextLabel(
+        textLabelType: .clear(.med13_gray300),
+        alignment: .left,
+        numberOfLines: 1
+    )
     
     private let timeBoxView = UIView()
     
