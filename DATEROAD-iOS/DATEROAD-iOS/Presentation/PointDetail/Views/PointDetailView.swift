@@ -11,11 +11,11 @@ final class PointDetailView: BaseView {
     
     // MARK: - UI Properties
     
-    private let pointView = UIView()
+    var userNameLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold13_gray400), alignment: .left)
     
-    var userNameLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.systemMed13_white), alignment: .left)
+    var totalPointLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.extra24_black), alignment: .left)
     
-    var totalPointLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.extra24_white), alignment: .left)
+    let pointAddButton: DRTextButton = DRTextButton(title: "포인트 모으러 가기", buttonName: .bold_purple_14)
     
     var segmentControl = UISegmentedControl(items: [StringLiterals.PointDetail.gainedDetail, StringLiterals.PointDetail.usedDetail])
     
@@ -38,37 +38,38 @@ final class PointDetailView: BaseView {
     // MARK: - LifeCycle
     
     override func setHierarchy() {
-        self.addSubviews(pointView,
+        self.addSubviews(userNameLabel,
+                         totalPointLabel,
+                         pointAddButton,
                          segmentControl,
                          segmentControlUnderLineView,
                          selectedSegmentUnderLineView,
                          pointCollectionView,
                          emptyUsedPointView,
                          emptyGainedPointView)
-        
-        self.pointView.addSubviews(userNameLabel, totalPointLabel)
     }
     
     override func setLayout() {
-        pointView.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(20)
-            $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(90)
-        }
-        
         userNameLabel.snp.makeConstraints{
-            $0.top.leading.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().offset(14)
+            $0.leading.equalToSuperview().inset(16)
             $0.height.equalTo(18)
         }
         
         totalPointLabel.snp.makeConstraints{
-            $0.top.equalToSuperview().inset(45)
+            $0.top.equalToSuperview().inset(42)
             $0.leading.equalToSuperview().inset(16)
             $0.height.equalTo(31)
         }
         
+        pointAddButton.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(93)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(54)
+        }
+        
         segmentControl.snp.makeConstraints{
-            $0.top.equalTo(pointView.snp.bottom).offset(21)
+            $0.top.equalToSuperview().offset(167)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(54)
         }
@@ -106,11 +107,6 @@ final class PointDetailView: BaseView {
     }
     
     override func setStyle() {
-        pointView.do {
-            $0.backgroundColor = UIColor(resource: .purple600)
-            $0.roundCorners(cornerRadius: 14)
-        }
-        
         segmentControl.do {
             $0.selectedSegmentIndex = 0
             $0.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.suit(.body_bold_17), NSAttributedString.Key.foregroundColor: UIColor(resource: .gray300)], for: .normal)

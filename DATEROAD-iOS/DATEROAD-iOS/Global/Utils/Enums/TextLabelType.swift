@@ -26,7 +26,7 @@ enum TextStyle {
     case extra24_black, extra24_white, extra20_black, extra20_gray300
     
     case systemBold24_black, systemBold20_black, systemBold20_white, bold20_black, bold20_white, bold18_black, bold18_white, bold18_gray300,
-         bold18_gray500, systemBold17_black, bold17_black, systemBold15_black, bold15_black, bold15_gray500, bold13_white, bold11_white, bold11_gray300
+         bold18_gray500, systemBold17_black, bold17_black, systemBold15_black, bold15_black, bold15_gray500, bold13_gray400, bold13_white, bold11_white, bold11_gray300
     
     case semi15_black, semi15_purple600, semi15_gray400, semi13_black, semi13_white, semi13_gray500, semi13_gray400
     
@@ -68,7 +68,7 @@ enum TextStyle {
         case .systemBold15_black:
             return UIFont.systemFont(ofSize: 15, weight: .bold)
 
-        case .bold13_white:
+        case .bold13_gray400, .bold13_white:
             return UIFont.suit(.body_bold_13)
 
         case .bold11_white, .bold11_gray300:
@@ -112,7 +112,7 @@ enum TextStyle {
         case .bold15_gray500, .bold18_gray500, .semi13_gray500, .med15_gray500, .med13_gray500:
             return UIColor(.gray500)
             
-        case .semi15_gray400, .semi13_gray400, .systemMed13_gray400, .med13_gray400, .reg11_gray400:
+        case .semi15_gray400, .bold13_gray400, .semi13_gray400, .systemMed13_gray400, .med13_gray400, .reg11_gray400:
             return UIColor(.gray400)
 
         case .extra20_gray300, .bold18_gray300, .bold11_gray300, .med15_gray300, .med13_gray300, .reg11_gray300:
