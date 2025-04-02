@@ -11,8 +11,8 @@ final class DRBottomSheetViewController: BaseViewController {
     
     // MARK: - UI Properties
     
-    private let backgroundView: UIView = UIView()
-    
+    private let dimmedView: DRDimmedView = DRDimmedView()
+
     private let bottomSheetView: UIView = UIView()
     
     var contentView: UIView
@@ -48,13 +48,13 @@ final class DRBottomSheetViewController: BaseViewController {
     }
     
     override func setHierarchy() {
-        self.view.addSubviews(backgroundView, bottomSheetView)
+        self.view.addSubviews(dimmedView, bottomSheetView)
         
         bottomSheetView.addSubviews(contentView, bottomButton)
     }
     
     override func setLayout() {
-        backgroundView.snp.makeConstraints {
+        dimmedView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
@@ -76,11 +76,6 @@ final class DRBottomSheetViewController: BaseViewController {
     }
     
     override func setStyle() {
-        self.backgroundView.do {
-            $0.backgroundColor = UIColor(resource: .drBlack).withAlphaComponent(0.4)
-            $0.alpha = 0
-        }
-        
         self.bottomSheetView.do {
             $0.roundCorners(cornerRadius: 20, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
             $0.backgroundColor = UIColor(resource: .drWhite)
@@ -139,12 +134,12 @@ extension DRBottomSheetViewController {
         if animated {
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: {
                 self.bottomSheetView.transform = CGAffineTransform(translationX: 0, y: self.height)
-                self.backgroundView.alpha = 0
+                self.dimmedView.alpha = 0
             }, completion: { _ in
                 self.dismiss(animated: false, completion: completion)
             })
         } else {
-            self.backgroundView.alpha = 0
+            self.dimmedView.alpha = 0
             self.dismiss(animated: false, completion: completion)
         }
     }
@@ -152,16 +147,16 @@ extension DRBottomSheetViewController {
     private func animateBottomSheetPresentation(animated: Bool, completion: (() -> Void)? = nil) {
         if animated {
             self.bottomSheetView.transform = CGAffineTransform(translationX: 0, y: self.height)
-            self.backgroundView.alpha = 0
+            self.dimmedView.alpha = 0
             
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-                self.backgroundView.alpha = 1
+                self.dimmedView.alpha = 1
                 self.bottomSheetView.transform = .identity
             }, completion: { _ in
                 completion?()
             })
         } else {
-            self.backgroundView.alpha = 1
+            self.dimmedView.alpha = 1
             completion?()
         }
     }

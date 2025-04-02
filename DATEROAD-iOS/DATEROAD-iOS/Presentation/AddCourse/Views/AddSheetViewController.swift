@@ -15,8 +15,8 @@ final class AddSheetViewController: BaseViewController {
     
     // MARK: - UI Properties
     
-    private let backgroundView: UIView = UIView()
-    
+    private let dimmedView: DRDimmedView = DRDimmedView()
+
     var addSheetView = AddSheetView(isCustomPicker: true)
     
     
@@ -52,11 +52,11 @@ final class AddSheetViewController: BaseViewController {
     // MARK: - Methods
     
     override func setHierarchy() {
-        view.addSubviews(backgroundView, addSheetView)
+        view.addSubviews(dimmedView, addSheetView)
     }
     
     override func setLayout() {
-        backgroundView.snp.makeConstraints {
+        dimmedView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
@@ -67,11 +67,6 @@ final class AddSheetViewController: BaseViewController {
     }
     
     override func setStyle() {
-        backgroundView.do {
-            $0.backgroundColor = UIColor.drBlack.withAlphaComponent(0.4)
-            $0.alpha = 0
-        }
-        
         addSheetView.do {
             $0.backgroundColor = .white
             $0.layer.cornerRadius = 20
@@ -97,12 +92,12 @@ extension AddSheetViewController {
         if animated {
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: {
                 self.addSheetView.transform = CGAffineTransform(translationX: 0, y: self.addSheetView.frame.height)
-                self.backgroundView.alpha = 0
+                self.dimmedView.alpha = 0
             }, completion: { _ in
                 self.dismiss(animated: false, completion: completion)
             })
         } else {
-            self.backgroundView.alpha = 0
+            self.dimmedView.alpha = 0
             self.dismiss(animated: false, completion: completion)
         }
     }
@@ -112,13 +107,13 @@ extension AddSheetViewController {
             self.addSheetView.transform = CGAffineTransform(translationX: 0, y: self.addSheetView.frame.height)
             
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-                self.backgroundView.alpha = 1
+                self.dimmedView.alpha = 1
                 self.addSheetView.transform = .identity
             }, completion: { _ in
                 completion?()
             })
         } else {
-            self.backgroundView.alpha = 1
+            self.dimmedView.alpha = 1
             completion?()
         }
     }

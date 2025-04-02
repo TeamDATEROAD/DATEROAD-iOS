@@ -22,14 +22,16 @@ final class LocationFilterViewController: BaseViewController {
     
     // MARK: - UI Properties
     
-    private let backgroundView = UIView() // 배경 뷰 추가
-    
-    private let locationFilterView = LocationFilterView()
+    let dimmedView: DRDimmedView = DRDimmedView()
+
+    let locationFilterView = LocationFilterView()
     
     
     // MARK: - Properties
     
     private let courseViewModel = CourseViewModel()
+    
+    weak var dimmedViewDelegate: DimmedViewDelegate?
     
     weak var delegate: LocationFilterDelegate?
     
@@ -39,8 +41,8 @@ final class LocationFilterViewController: BaseViewController {
     
     final var isAddType: Bool = false
     
-    // MARK: - Life Cycles
     
+    // MARK: - Life Cycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,11 +53,11 @@ final class LocationFilterViewController: BaseViewController {
     }
     
     override func setHierarchy() {
-        self.view.addSubviews(backgroundView, locationFilterView)
+        self.view.addSubviews(dimmedView, locationFilterView)
     }
     
     override func setLayout() {
-        backgroundView.snp.makeConstraints {
+        dimmedView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
@@ -66,14 +68,6 @@ final class LocationFilterViewController: BaseViewController {
     }
     
     override func setStyle() {
-        self.backgroundView.do {
-            $0.backgroundColor = UIColor(resource: .drBlack).withAlphaComponent(0.4)
-            $0.alpha = 0
-            let gesture = UITapGestureRecognizer(target: self, action: #selector(closeLocationFilterView))
-            $0.isUserInteractionEnabled = true
-            $0.addGestureRecognizer(gesture)
-        }
-        
         self.locationFilterView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.roundCorners(cornerRadius: 16, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
@@ -86,6 +80,7 @@ final class LocationFilterViewController: BaseViewController {
     }
     
     func setDelegate() {
+        dimmedView.delegate = self
         locationFilterView.delegate = self
         locationFilterView.countryCollectionView.delegate = self
         locationFilterView.countryCollectionView.dataSource = self
