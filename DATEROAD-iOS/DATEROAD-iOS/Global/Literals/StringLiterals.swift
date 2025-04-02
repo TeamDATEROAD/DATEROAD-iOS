@@ -493,6 +493,8 @@ enum StringLiterals {
         
         static let emptyUsedPoint = "아직 포인트 사용 내역이 없어요!"
         
+        static let emptySearchPlace = "일치하는 장소가 없어요!"
+        
     }
     
     enum Network {
@@ -690,6 +692,14 @@ enum StringLiterals {
             static let courseDetail = "코스 상세"
             
         }
+                
+    }
+    
+    enum SearchPlace {
+        
+        static let title = "장소 검색하기"
+        
+        static let placeholder = "장소명을 입력해주세요"
         
     }
     
