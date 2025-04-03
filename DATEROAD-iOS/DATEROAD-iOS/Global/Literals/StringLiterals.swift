@@ -469,6 +469,17 @@ enum StringLiterals {
         
         static let title = "포인트 내역"
         
+        
+        static let noPoint = "포인트가 부족해요!"
+        
+        static let advertiseTitle = "광고 시청하기"
+        
+        static let advertiseDescription = "짧은 광고 보고 바로 50P 획득하기"
+        
+        static let addCourseTitle = "코스 등록하기"
+        
+        static let addCourseDescription = "나만의 코스 등록하고 100P 획득하기"
+        
     }
     
     enum MyRegisterCourse {
@@ -688,6 +699,9 @@ enum StringLiterals {
             static let viewedCourse = "내가 열람한 코스"
             
             static let courseDetail = "코스 상세"
+            
+            // 🥐 기획한테 무러봄
+            static let pointShortage = "포인트 부족"
             
         }
         
