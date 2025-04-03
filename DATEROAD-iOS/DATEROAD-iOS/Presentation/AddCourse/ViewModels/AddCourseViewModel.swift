@@ -7,7 +7,15 @@
 
 import UIKit
 
-final class AddCourseViewModel: Serviceable {
+protocol TimeRequireViewModel {
+    var inputUpdateTimeRequire: ObservablePattern<String> { get }
+}
+
+final class AddCourseViewModel: Serviceable, TimeRequireViewModel {
+    
+    let inputUpdateTimeRequire: ObservablePattern<String> = ObservablePattern("")
+    let outputTimeRequire: ObservablePattern<String> = ObservablePattern("")
+    
     
     let onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
@@ -151,6 +159,11 @@ final class AddCourseViewModel: Serviceable {
         initAmplitudeVar()
         fetchTagData()
         self.pastDateDetailData = pastDateDetailData
+        
+        inputUpdateTimeRequire.lazyBind { [weak self] value in
+            guard let value else {return}
+            self?.updateTimeRequireTextField(text: value)
+        }
     }
     
 }
@@ -347,6 +360,9 @@ extension AddCourseViewModel {
     }
     
     func isAbleAddBtn() -> Bool {
+        print(!(datePlace.value?.isEmpty ?? true))
+        print(!(address.value?.isEmpty ?? true))
+        print(!(timeRequire.value?.isEmpty ?? true))
         return !(datePlace.value?.isEmpty ?? true)
         && !(address.value?.isEmpty ?? true)
         && !(timeRequire.value?.isEmpty ?? true)

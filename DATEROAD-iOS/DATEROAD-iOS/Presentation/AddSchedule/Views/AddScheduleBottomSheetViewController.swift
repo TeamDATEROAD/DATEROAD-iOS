@@ -21,14 +21,14 @@ final class AddScheduleBottomSheetViewController: BaseViewController {
     
     // MARK: - Properties
     
-    var viewModel: AddScheduleViewModel?
+    var viewModel: TimeRequireViewModel?
     
     var customPickerValues: [Double] = []
     
     
     // MARK: - Initializer
     
-    init(viewModel: AddScheduleViewModel) {
+    init(viewModel: TimeRequireViewModel) {
         self.viewModel = viewModel
         
         super.init(nibName: nil, bundle: nil)
@@ -90,7 +90,6 @@ private extension AddScheduleBottomSheetViewController {
         let selectedRow = addSheetView.customPickerView.selectedRow(inComponent: 0)
         let selectedValue = customPickerValues[selectedRow]
         viewModel?.inputUpdateTimeRequire.value = String(selectedValue)
-//        viewModel?.updateTimeRequireTextField(text: String(selectedValue))
         self.dismissBottomSheet(addSheetView, dimmedView)
     }
     

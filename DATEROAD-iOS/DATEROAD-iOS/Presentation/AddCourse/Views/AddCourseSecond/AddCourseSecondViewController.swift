@@ -13,7 +13,7 @@ final class AddCourseSecondViewController: BaseNavBarViewController {
     
     private let viewModel: AddCourseViewModel
     
-    private var alertVC: AddSheetViewController?
+    private var alertVC: AddScheduleBottomSheetViewController?
     
     
     // MARK: - Initializer
@@ -135,6 +135,7 @@ private extension AddCourseSecondViewController {
             self?.addCourseSecondView.editBtnState(isAble: date)
         }
         
+        //place 등록 시, address 역시 등록되기에 address는 생략
         viewModel.datePlace.bind { [weak self] date in
             guard let text = date else { return }
             self?.addCourseSecondView.addSecondView.updateDatePlace(text: text)
@@ -172,13 +173,13 @@ private extension AddCourseSecondViewController {
             self?.addCourseSecondView.addSecondView.changeNextBtnState(flag: date ?? false)
         }
         
-        // MARK: - 이 부분 연결 부탁~
         searchPlaceVC.viewModel.selectedPlaceData.bind { [weak self] place in
             guard let place else { return }
             self?.addCourseSecondView.addSecondView.updateDatePlace(text: place.name)
             self?.addCourseSecondView.addSecondView.timeRequireButton.isEnabled = true
-            print("선택된 장소: \(place.name), \(place.address)")
-            // UI 업데이트 또는 데이터 저장
+            print("코스 등록 선택된 장소: \(place.name), \(place.address)")
+            self?.viewModel.address.value = place.address
+            self?.viewModel.datePlace.value = place.name
         }
         
     }
@@ -186,7 +187,6 @@ private extension AddCourseSecondViewController {
     
     // MARK: - @objc Methods
 
-    
     @objc
     func removeCell(sender: UIButton) {
         guard let cell = sender.superview?.superview as? AddSecondViewCollectionViewCell,
@@ -256,7 +256,7 @@ extension AddCourseSecondViewController: AddCourseDelegate {
     }
     
     func didTapAddPlaceBtn() {
-        viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", dateAddress: "", timeRequire: viewModel.timeRequire.value ?? "")
+        viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", dateAddress: viewModel.address.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")
     }
     
     func didTapNextBtn() {
@@ -267,8 +267,9 @@ extension AddCourseSecondViewController: AddCourseDelegate {
     }
 
     func didTapTimeRequireButton() {
-        let alertVC = AddSheetViewController(viewModel: viewModel)
-        alertVC.addSheetView = AddSheetView(isCustomPicker: true)
+        print(#function)
+        let alertVC = AddScheduleBottomSheetViewController(viewModel: viewModel)
+        alertVC.addSheetView = AddScheduleBottomSheetView(isCustomPicker: true)
         
         self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
         addCourseSecondView.addSecondView.datePlaceTextField.resignFirstResponder()

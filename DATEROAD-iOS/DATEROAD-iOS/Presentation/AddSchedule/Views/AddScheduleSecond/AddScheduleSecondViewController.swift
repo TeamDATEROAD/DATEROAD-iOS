@@ -103,6 +103,8 @@ private extension AddScheduleSecondViewController {
         }
         
         addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField.delegate = self
+        
+        addScheduleSecondView.delegate = self
     }
     
     func bindViewModel() {
@@ -179,14 +181,13 @@ private extension AddScheduleSecondViewController {
             self?.addScheduleSecondView.changeNextBtnState(flag: isValid ?? false)
         }
         
-        // MARK: - 이 부분 연결 부탁~
         searchPlaceVC.viewModel.selectedPlaceData.bind { [weak self] place in
             guard let place else { return }
-            self?.viewModel.outputAddress.value = place.address
             self?.addScheduleSecondView.inAddScheduleSecondView.updateDatePlace(text: place.name)
             self?.addScheduleSecondView.inAddScheduleSecondView.timeRequireButton.isEnabled = true
             print("선택된 장소: \(place.name), \(place.address)")
-            // UI 업데이트 또는 데이터 저장
+            self?.viewModel.outputAddress.value = place.address
+            self?.viewModel.outputDatePlace.value = place.name
         }
         
     }
@@ -212,6 +213,7 @@ extension AddScheduleSecondViewController: AddCourseDelegate {
  
     // '편집' 버튼 관련
     func didTapEditButton() {
+        print(#function)
         viewModel.isEditMode.toggle()
         let collectionView = addScheduleSecondView.addPlaceCollectionView
         
@@ -238,6 +240,7 @@ extension AddScheduleSecondViewController: AddCourseDelegate {
 
     // '장소 등록 +' 버튼 관련
     func didTapAddPlaceBtn() {
+        print(#function)
         viewModel.inputValidateAddPlcae.value = true
     }
     
@@ -249,6 +252,7 @@ extension AddScheduleSecondViewController: AddCourseDelegate {
     
     // '소요시간' 관련
     func didTapTimeRequireButton() {
+        print(#function)
         let alertVC = AddScheduleBottomSheetViewController(viewModel: viewModel)
         alertVC.addSheetView = AddScheduleBottomSheetView(isCustomPicker: true)
         

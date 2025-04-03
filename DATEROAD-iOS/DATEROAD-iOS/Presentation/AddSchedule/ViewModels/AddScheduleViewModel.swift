@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class AddScheduleViewModel: Serviceable {
+final class AddScheduleViewModel: Serviceable, TimeRequireViewModel {
     
     let viewPath: String
     
