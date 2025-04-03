@@ -79,6 +79,16 @@ private extension SearchPlaceViewController {
     }
 
     func bindViewModel() {
+        // 입력된 키워드
+        viewModel.inputPlace.bind { [weak self] input in
+            guard let input else { return }
+            
+            Task {
+                await self?.viewModel.getSearchPlace()
+            }
+        }
+        
+        // 키워드 검색 결과를 담은 데이터
         viewModel.filteredSearchPlaceData.bind { [weak self] filteredData in
             guard let filteredData,
                   let initial = self?.viewModel.initialBottomSheet.value
@@ -133,7 +143,6 @@ extension SearchPlaceViewController: SearchPlaceDelegate {
     
     func editSearchPlaceTextField() {
         viewModel.inputPlace.value = searchPlaceView.searchPlaceTextField.text
-        viewModel.filterSearchPlace(searchPlaceView.searchPlaceTextField.text ?? "")
         print("입력 장소 : \(String(describing: viewModel.inputPlace.value))")
     }
     

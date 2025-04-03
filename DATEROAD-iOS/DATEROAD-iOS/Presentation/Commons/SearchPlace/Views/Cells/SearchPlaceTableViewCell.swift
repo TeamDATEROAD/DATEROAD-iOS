@@ -52,7 +52,7 @@ final class SearchPlaceTableViewCell: BaseTableViewCell {
 
 extension SearchPlaceTableViewCell {
     
-    func bindData(_ data: SearchPlaceData?) {
+    func bindData(_ data: SearchPlaceModel?) {
         guard let searchPlaceData = data else { return }
         placeNameLabel.text = searchPlaceData.name
         placeAddressLabel.text = searchPlaceData.address
