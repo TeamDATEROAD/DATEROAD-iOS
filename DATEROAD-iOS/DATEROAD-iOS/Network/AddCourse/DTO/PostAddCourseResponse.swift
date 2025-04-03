@@ -11,11 +11,17 @@ import Foundation
 
 struct PostAddCourseResponse: Codable {
     
-    let courseID: Int
+    let courseID: Int64
+    
+    let userPoint: Int
+    
+    let userCourseCount: Int64
     
     enum CodingKeys: String, CodingKey {
         
         case courseID = "courseId"
+        
+        case userPoint, userCourseCount
         
     }
     

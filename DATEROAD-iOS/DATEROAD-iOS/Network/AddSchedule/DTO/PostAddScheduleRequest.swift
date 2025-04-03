@@ -37,6 +37,8 @@ struct PostAddSchedulePlace: Codable {
     
     let title: String
     
+    let address: String
+    
     let duration: Float
     
     let sequence: Int

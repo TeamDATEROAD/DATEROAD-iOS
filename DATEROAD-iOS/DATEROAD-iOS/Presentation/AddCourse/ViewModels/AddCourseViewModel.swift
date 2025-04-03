@@ -26,6 +26,7 @@ final class AddCourseViewModel: Serviceable {
     
     // ImageCollection 유효성 판별
     var pickedImageArr = [UIImage]()
+    var thumbnailImageIndex = 0
     
     let isPickedImageVaild: ObservablePattern<Bool> = ObservablePattern(false)
     
@@ -77,6 +78,9 @@ final class AddCourseViewModel: Serviceable {
     var addPlaceCollectionViewDataSource: [AddCoursePlaceModel] = []
     
     let datePlace: ObservablePattern<String> = ObservablePattern(nil)
+    
+    ///주소 관련 프로퍼티
+    let address: ObservablePattern<String> = ObservablePattern(nil)
     
     let timeRequire: ObservablePattern<String> = ObservablePattern(nil)
     
@@ -344,15 +348,17 @@ extension AddCourseViewModel {
     
     func isAbleAddBtn() -> Bool {
         return !(datePlace.value?.isEmpty ?? true)
+        && !(address.value?.isEmpty ?? true)
         && !(timeRequire.value?.isEmpty ?? true)
     }
     
-    func tapAddBtn(datePlace: String, timeRequire: String) {
+    func tapAddBtn(datePlace: String, dateAddress: String, timeRequire: String) {
         print(datePlace, timeRequire)
-        addPlaceCollectionViewDataSource.append(AddCoursePlaceModel(placeTitle: datePlace, timeRequire: timeRequire))
+        addPlaceCollectionViewDataSource.append(AddCoursePlaceModel(placeTitle: datePlace, address: dateAddress, timeRequire: timeRequire))
         
         //viewmodel 값 초기화
         self.datePlace.value = ""
+        self.address.value = ""
         self.timeRequire.value = ""
         
         self.dateLocation = false
@@ -393,12 +399,11 @@ extension AddCourseViewModel {
         var places: [[String: Any]] = []
         
         for (index, model) in addPlaceCollectionViewDataSource.enumerated() {
-            // Extract the numeric part from the timeRequire string
             let timeComponents = model.timeRequire.split(separator: " ")
             
             if let timeString = timeComponents.first {
                 if let duration = Float(timeString) {
-                    let place = PostAddCoursePlace(title: model.placeTitle, duration: duration, sequence: index + 1)
+                    let place = PostAddCoursePlace(title: model.placeTitle, address: model.address, duration: duration, sequence: index + 1)
                     places.append(place.toDictionary())
                     print("👍👍👍👍 : place added - \(place)")
                 } else {
@@ -421,8 +426,23 @@ extension AddCourseViewModel {
         let price = price
         let images = pickedImageArr
         let place = places
+        let thumbnail = self.thumbnailImageIndex
         
-        NetworkService.shared.addCourseService.postAddCourse(course: PostAddCourse(title: dateName, date: visitDate, startAt: dateStartAt, country: country, city: city, description: contentText, cost: price).toDictionary(), tags: postAddCourseTag.tags, places: place, images: images)  { result in
+        NetworkService.shared.addCourseService.postAddCourse(
+            course: PostAddCourse(
+                title: dateName,
+                date: visitDate,
+                startAt: dateStartAt,
+                country: country,
+                city: city,
+                description: contentText,
+                cost: price,
+                thumbnailIndex: thumbnail
+            ).toDictionary(),
+            tags: postAddCourseTag.tags,
+            places: place,
+            images: images
+        )  { result in
             switch result {
             case .success(let response):
                 print("Success: \(response)")

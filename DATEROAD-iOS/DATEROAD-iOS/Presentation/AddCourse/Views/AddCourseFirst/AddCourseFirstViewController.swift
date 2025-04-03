@@ -378,6 +378,14 @@ extension AddCourseFirstViewController: UICollectionViewDelegate {
             let isImageEmpty = (viewModel.pickedImageArr.count<1) ? true : false
             if isImageEmpty  && collectionView == addCourseFirstView.collectionView {
                 imagePickerViewController.presentPicker(from: self)
+            } else {
+                let beforeThumbnailIndex = viewModel.thumbnailImageIndex
+                viewModel.thumbnailImageIndex = indexPath.row
+                let indexPaths = [IndexPath(item: beforeThumbnailIndex, section: 0),
+                                  IndexPath(item: indexPath.row, section: 0)]
+                collectionView.performBatchUpdates {
+                    collectionView.reloadItems(at: indexPaths)
+                }
             }
         }
     }
@@ -415,8 +423,8 @@ extension AddCourseFirstViewController: UICollectionViewDataSource {
             if imageIsNotEmpty {
                 self.addCourseFirstView.updateImageCellUI(isEmpty: !imageIsNotEmpty, ImageDataCount: cnt)
                 
-                cell.configurePickedImage(
-                    pickedImage: viewModel.pickedImageArr[indexPath.row])
+                let isThumbnail = viewModel.thumbnailImageIndex == indexPath.row
+                cell.configurePickedImage(pickedImage: viewModel.pickedImageArr[indexPath.row], isThumbnail: isThumbnail)
                 cell.prepare(image: viewModel.pickedImageArr[indexPath.row])
                 cell.deleteImageBtn.tag = indexPath.row
                 

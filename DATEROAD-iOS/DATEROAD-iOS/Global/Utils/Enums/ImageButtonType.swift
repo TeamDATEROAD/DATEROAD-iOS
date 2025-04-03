@@ -24,7 +24,9 @@ enum ImageButtonType {
             return UIColor(resource: .purple600)
             
         case .gray100_gray300_14:
-            return UIColor(resource: .gray100)
+            return UIColor(resource: .gray100) 
+        case .clear_clear_8, .clear_clear_16:
+            return UIColor(resource: .gray200)
             
         case .white_gray600_0, .white_gray400_0, .white_gray300_0:
             return UIColor(resource: .drWhite)
@@ -32,10 +34,9 @@ enum ImageButtonType {
         case .clear_mediumPurple_0,
                 .clear_black_0,
                 .clear_gray400_0,
-                .clear_white_0,
-                .clear_clear_16, .clear_clear_8, .clear_clear_0:
+                .clear_clear_0,
+                .clear_white_0:
             return UIColor.clear
-            
         }
     }
     
