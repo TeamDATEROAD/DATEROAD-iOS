@@ -469,6 +469,7 @@ enum StringLiterals {
         
         static let title = "포인트 내역"
         
+        static let collectPoint = "포인트 모으러 가기"
         
         static let noPoint = "포인트가 부족해요!"
         

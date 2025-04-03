@@ -15,7 +15,7 @@ final class PointDetailView: BaseView {
     
     var totalPointLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.extra24_black), alignment: .left)
     
-    let pointAddButton: DRTextButton = DRTextButton(title: "포인트 모으러 가기", buttonName: .bold_purple_14)
+    let pointAddButton: DRTextButton = DRTextButton(title: StringLiterals.PointDetail.collectPoint, buttonName: .bold_purple_14)
     
     var segmentControl = UISegmentedControl(items: [StringLiterals.PointDetail.gainedDetail, StringLiterals.PointDetail.usedDetail])
     

@@ -133,6 +133,7 @@ extension PointDetailViewController {
     }
     
     private func setAddTarget() {
+        pointDetailView.pointAddButton.addTarget(self, action: #selector(goToPointShortageVC), for: .touchUpInside)
         pointDetailView.segmentControl.addTarget(self, action: #selector(didChangeValue(segment:)), for: .valueChanged)
     }
     
@@ -179,6 +180,26 @@ private extension PointDetailViewController {
                 $0.leading.equalToSuperview()
             }
         }
+    }
+    
+    @objc
+    func goToPointShortageVC() {
+        //  🥐 진짜 생각없이 짰네 .. 리팩 필욜
+        let pointShortageVC = PointShortageViewController()
+        pointShortageVC.modalPresentationStyle = .overFullScreen
+        pointShortageVC.onAdvertisementDismiss = { [weak self] in
+            // TODO : - 구글 애즈
+            print("google ads display")
+        }
+        pointShortageVC.onAddCourseDismiss = { [weak self] in
+            guard let self = self else { return }
+            let addCourseFirstVC = AddCourseFirstViewController(
+                viewModel: AddCourseViewModel(),
+                viewPath: StringLiterals.Amplitude.ViewPath.pointShortage
+            )
+            self.navigationController?.pushViewController(addCourseFirstVC, animated: false)
+        }
+        self.present(pointShortageVC, animated: false)
     }
     
     @objc
