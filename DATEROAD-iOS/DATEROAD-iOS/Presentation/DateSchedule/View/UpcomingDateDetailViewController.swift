@@ -188,6 +188,19 @@ extension UpcomingDateDetailViewController {
         upcomingDateDetailContentView.setColor(index: index)
     }
     
+    func tapDeleteLabel() {
+        let customAlertVC = DRCustomAlertViewController(
+            rightActionType: RightButtonType.deleteCourse,
+            alertTextType: .hasDecription,
+            titleText: StringLiterals.Alert.deleteDateSchedule,
+            descriptionText: StringLiterals.Alert.noMercy,
+            leftButton: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_gray100_10),
+            rightButton: DRTextButton(title: StringLiterals.Alert.delete, buttonName: .bold_purple_10)
+        )
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        self.present(customAlertVC, animated: false)
+    }
 }
 
 // MARK: - @objc Methods
@@ -245,21 +258,6 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
         self.present(customAlertVC, animated: false)
     }
     
-    @objc
-    private func tapDeleteLabel() {
-        let customAlertVC = DRCustomAlertViewController(
-            rightActionType: RightButtonType.deleteCourse,
-            alertTextType: .hasDecription,
-            titleText: StringLiterals.Alert.deleteDateSchedule,
-            descriptionText: StringLiterals.Alert.noMercy,
-            leftButton: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_gray100_10),
-            rightButton: DRTextButton(title: StringLiterals.Alert.delete, buttonName: .bold_purple_10)
-        )
-        customAlertVC.delegate = self
-        customAlertVC.modalPresentationStyle = .overFullScreen
-        self.present(customAlertVC, animated: false)
-    }
-    
 }
 
 
@@ -287,6 +285,7 @@ private extension UpcomingDateDetailViewController {
     }
     
     func setDelegate() {
+        dateScheduleDeleteView.delegate = self
         upcomingDateDetailContentView.dateTimeLineCollectionView.delegate = self
         upcomingDateDetailContentView.dateTimeLineCollectionView.dataSource = self
     }
