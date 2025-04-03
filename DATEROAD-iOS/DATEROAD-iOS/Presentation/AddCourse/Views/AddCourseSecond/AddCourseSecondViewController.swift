@@ -172,6 +172,15 @@ private extension AddCourseSecondViewController {
             self?.addCourseSecondView.addSecondView.changeNextBtnState(flag: date ?? false)
         }
         
+        // MARK: - 이 부분 연결 부탁~
+        searchPlaceVC.viewModel.selectedPlaceData.bind { [weak self] place in
+            guard let place else { return }
+            self?.addCourseSecondView.addSecondView.updateDatePlace(text: place.name)
+            self?.addCourseSecondView.addSecondView.timeRequireButton.isEnabled = true
+            print("선택된 장소: \(place.name), \(place.address)")
+            // UI 업데이트 또는 데이터 저장
+        }
+        
     }
     
     
@@ -247,7 +256,7 @@ extension AddCourseSecondViewController: AddCourseDelegate {
     }
     
     func didTapAddPlaceBtn() {
-        viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")
+        viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", dateAddress: "", timeRequire: viewModel.timeRequire.value ?? "")
     }
     
     func didTapNextBtn() {

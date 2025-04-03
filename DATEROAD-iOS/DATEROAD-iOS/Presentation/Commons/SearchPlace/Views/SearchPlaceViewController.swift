@@ -16,9 +16,9 @@ final class SearchPlaceViewController: BaseViewController {
     let searchPlaceView: SearchPlaceView = SearchPlaceView()
     
     
-    // MARK: - UI Properties
+    // MARK: - Properties
 
-    private var viewModel: SearchPlaceViewModel
+    var viewModel: SearchPlaceViewModel
     
     
     // MARK: - Life Cycles
@@ -38,10 +38,6 @@ final class SearchPlaceViewController: BaseViewController {
         
         setDelegate()
         bindViewModel()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        initialSearchPlaceBottomSheet()
     }
     
     override func setHierarchy() {
@@ -81,36 +77,42 @@ private extension SearchPlaceViewController {
     func bindViewModel() {
         // 입력된 키워드
         viewModel.inputPlace.bind { [weak self] input in
-            guard let input else { return }
-            
-            Task {
-                await self?.viewModel.getSearchPlace()
+            guard input != nil
+            else {                                                             // 키워드 초기화 된 경우 -> clear 버튼
+                self?.viewModel.filteredSearchPlaceData.value = nil
+                return
             }
+            self?.viewModel.page = 1                                           // 키워드가 변경되었으므로 page 변수 초기화
+            self?.viewModel.isEnd = false
+            self?.viewModel.getSearchPlace()
         }
         
         // 키워드 검색 결과를 담은 데이터
         viewModel.filteredSearchPlaceData.bind { [weak self] filteredData in
-            guard let filteredData,
-                  let initial = self?.viewModel.initialBottomSheet.value
-            else { return }
+            guard let filteredData
+            else {
+                self?.searchPlaceView.placeTableView.reloadData()
+                self?.searchPlaceView.updatePlaceView(false)                   // 엠티뷰 말고 빈 테이블 뷰 뜨도록 초기화
+                return
+            }
             
             let isEmpty = filteredData.count == 0
-            if !initial {                                                     // 처음 시트가 열린 게 아닌 경우 -> 맨 처음 띄웠을 때만 엠티뷰 생략 위함
-                self?.searchPlaceView.updatePlaceView(isEmpty)
-            }
             self?.searchPlaceView.placeTableView.reloadData()                 // 데이터가 필터링 되고, 필터링된 데이터가 존재하는 경우 하단 장소 컬뷰 reload
-            self?.viewModel.initialBottomSheet.value = false
+            self?.searchPlaceView.updatePlaceView(isEmpty)
         }
     }
     
     // clear 버튼 탭 or 바텀 시트 x 버튼 탭 시 데이터 및 UI 초기화 메소드
-    func initialSearchPlaceBottomSheet() {
+    func clearSearchPlaceTextField() {
         searchPlaceView.searchPlaceTextField.text = ""                        // 텍스트 필드 텍스트 초기화
-        viewModel.inputPlace.value = ""                                       // 텍스트 필드 인풋 바인딩 변수 초기화
-        viewModel.initialBottomSheet.value = true                             // 엠티뷰 띄우지 않도록 초기화
-        viewModel.filteredSearchPlaceData.value = []                          // 데이터 초기화
-        searchPlaceView.updatePlaceView(false)                                // 엠티뷰 말고 빈 테이블 뷰 뜨도록 초기화
-        searchPlaceView.placeTableView.reloadData()
+        viewModel.inputPlace.value = nil                                      // 텍스트 필드 인풋 바인딩 변수 초기화
+    }
+    
+    // 키보드내리기 + 바텀시트 닫기 + 텍스트 필드 초기화
+    func dismissVC() {
+        self.view.endEditing(true)
+        self.dismissBottomSheet(searchPlaceView, dimmedView)
+        clearSearchPlaceTextField()
     }
     
 }
@@ -121,8 +123,7 @@ private extension SearchPlaceViewController {
 extension SearchPlaceViewController: DimmedViewDelegate {
     
     func didTapDimmedView() {
-        self.view.endEditing(true)
-        self.dismissBottomSheet(searchPlaceView, dimmedView)
+        dismissVC()
     }
     
 }
@@ -133,12 +134,11 @@ extension SearchPlaceViewController: DimmedViewDelegate {
 extension SearchPlaceViewController: SearchPlaceDelegate {
     
     func didTapCloseButton() {
-        self.view.endEditing(true)
-        self.dismissBottomSheet(searchPlaceView, dimmedView)
+        dismissVC()
     }
     
     func didTapClearButton() {
-        initialSearchPlaceBottomSheet()
+        clearSearchPlaceTextField()
     }
     
     func editSearchPlaceTextField() {
@@ -173,13 +173,26 @@ extension SearchPlaceViewController: UITableViewDataSource {
 extension SearchPlaceViewController: UITableViewDelegate {
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        self.view.endEditing(true)  // 테이블뷰 스크롤 시 키보드 내려가도록 하기 위함
+        self.view.endEditing(true)                          // 테이블뷰 스크롤 시 키보드 내려가도록 하기 위함
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // TODO: - 코스 및 일정 등록 뷰와 연결
-        guard let searchPlaceData = viewModel.searchPlaceData.value else { return }
-        print("선택 장소 : \(searchPlaceData[indexPath.item].name) & \(searchPlaceData[indexPath.item].address)")
+        guard let selectedPlaceData = viewModel.filteredSearchPlaceData.value else { return }
+        viewModel.selectedPlaceData.value = selectedPlaceData[indexPath.item]
+        dismissVC()
+
+        print("선택 장소 : \(selectedPlaceData[indexPath.item].name) & \(selectedPlaceData[indexPath.item].address)")
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let scrollViewHeight = scrollView.frame.height
+        
+        if offsetY > contentHeight - scrollViewHeight * 2 { // 스크롤이 거의 끝에 도달하면
+            viewModel.getSearchPlace()
+        }
     }
     
 }

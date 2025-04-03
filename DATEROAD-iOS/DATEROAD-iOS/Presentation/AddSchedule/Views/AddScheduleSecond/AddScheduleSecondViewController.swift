@@ -175,9 +175,20 @@ private extension AddScheduleSecondViewController {
             self.addScheduleSecondView.addPlaceCollectionView.reloadData()
         }
         
-        self.viewModel.outputIstValidateRegisterBtn.bind { [weak self] isValid in
+        viewModel.outputIstValidateRegisterBtn.bind { [weak self] isValid in
             self?.addScheduleSecondView.changeNextBtnState(flag: isValid ?? false)
         }
+        
+        // MARK: - 이 부분 연결 부탁~
+        searchPlaceVC.viewModel.selectedPlaceData.bind { [weak self] place in
+            guard let place else { return }
+            self?.viewModel.outputAddress.value = place.address
+            self?.addScheduleSecondView.inAddScheduleSecondView.updateDatePlace(text: place.name)
+            self?.addScheduleSecondView.inAddScheduleSecondView.timeRequireButton.isEnabled = true
+            print("선택된 장소: \(place.name), \(place.address)")
+            // UI 업데이트 또는 데이터 저장
+        }
+        
     }
     
     func checkAddPlaceBtnState() {
