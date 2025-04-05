@@ -98,6 +98,7 @@
 		7478193E2C3A97440040D5E7 /* MyCourseListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193D2C3A97440040D5E7 /* MyCourseListCollectionViewCell.swift */; };
 		747819402C3AB7E10040D5E7 /* MyCourseListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193F2C3AB7E10040D5E7 /* MyCourseListViewModel.swift */; };
 		747819432C3ADFCE0040D5E7 /* NavViewedCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747819422C3ADFCE0040D5E7 /* NavViewedCourseViewController.swift */; };
+		7479E4BE2DA0BB9D009AEB2E /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 7479E4BD2DA0BB9D009AEB2E /* GoogleMobileAds */; };
 		749CFD3D2D910081008B47A2 /* DRTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CFD3C2D910071008B47A2 /* DRTimelineView.swift */; };
 		749CFD3F2D9116EF008B47A2 /* DateCardType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CFD3E2D9116E9008B47A2 /* DateCardType.swift */; };
 		74A70BFA2C329A9600855E61 /* SUIT-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF82C329A6900855E61 /* SUIT-SemiBold.otf */; };
@@ -601,6 +602,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7479E4BE2DA0BB9D009AEB2E /* GoogleMobileAds in Frameworks */,
 				CA3D0D022C29A62D00735097 /* KakaoSDKCertCore in Frameworks */,
 				CA3D0CF92C29A55300735097 /* Kingfisher in Frameworks */,
 				CA5B979B2C91848F00F90A4C /* AmplitudeSwift in Frameworks */,
@@ -1901,6 +1903,7 @@
 				CA3D0D032C29A62D00735097 /* KakaoSDKCommon */,
 				CAE890A52C8ADE9000834A9E /* Lottie */,
 				CA5B979A2C91848F00F90A4C /* AmplitudeSwift */,
+				7479E4BD2DA0BB9D009AEB2E /* GoogleMobileAds */,
 			);
 			productName = "DATEROAD-iOS";
 			productReference = CA3D0CD72C29A2F300735097 /* DATEROAD-iOS.app */;
@@ -1938,6 +1941,7 @@
 				CA3D0CFA2C29A62C00735097 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				CAE890A42C8ADE9000834A9E /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				CA5B97992C91848F00F90A4C /* XCRemoteSwiftPackageReference "Amplitude-Swift" */,
+				7479E4BC2DA0BB9D009AEB2E /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = CA3D0CD82C29A2F300735097 /* Products */;
 			projectDirPath = "";
@@ -2492,6 +2496,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7479E4BC2DA0BB9D009AEB2E /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.2.0;
+			};
+		};
 		CA3D0CEE2C29A4DB00735097 /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya";
@@ -2551,6 +2563,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7479E4BD2DA0BB9D009AEB2E /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7479E4BC2DA0BB9D009AEB2E /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
 		CA3D0CEF2C29A4DB00735097 /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CA3D0CEE2C29A4DB00735097 /* XCRemoteSwiftPackageReference "Moya" */;
