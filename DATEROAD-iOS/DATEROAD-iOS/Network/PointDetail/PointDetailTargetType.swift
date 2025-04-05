@@ -13,6 +13,8 @@ enum PointDetailTargetType {
     
     case getPointDetail
     
+    case postPoint
+    
 }
 
 extension PointDetailTargetType: BaseTargetType {
@@ -25,19 +27,21 @@ extension PointDetailTargetType: BaseTargetType {
         switch self {
         case .getPointDetail:
             return .get
+        case .postPoint:
+            return .post
         }
     }
     
     var path: String {
         switch self {
-        case .getPointDetail:
+        case .getPointDetail, .postPoint:
             return utilPath + "points"
         }
     }
     
     var task: Task {
         switch self {
-        case .getPointDetail:
+        case .getPointDetail, .postPoint:
             return .requestPlain
         }
     }

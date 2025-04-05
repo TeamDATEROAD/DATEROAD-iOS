@@ -13,6 +13,8 @@ protocol PointDetailServiceProtocol {
     
     func getPointDetail(completion: @escaping (NetworkResult<GetPointDetailResponse>) -> Void)
     
+    func postPoint(completion: @escaping (NetworkResult<EmptyResponse>) -> ())
+    
 }
 
 final class PointDetailService: BaseService, PointDetailServiceProtocol {
@@ -23,9 +25,19 @@ final class PointDetailService: BaseService, PointDetailServiceProtocol {
         pointDetailProvider.request(.getPointDetail) { result in
             switch result {
             case .success(let response):
-                let statusCode = response.statusCode
-                let data = response.data
-                let networkResult: NetworkResult<GetPointDetailResponse> = self.judgeStatus(statusCode: statusCode, data: data)
+                let networkResult: NetworkResult<GetPointDetailResponse> = self.judgeStatus(statusCode: response.statusCode, data: response.data)
+                completion(networkResult)
+            case .failure(let err):
+                print(err)
+            }
+        }
+    }
+    
+    func postPoint(completion: @escaping (NetworkResult<EmptyResponse>) -> Void) {
+        pointDetailProvider.request(.getPointDetail) { result in
+            switch result {
+            case .success(let response):
+                let networkResult: NetworkResult<EmptyResponse> = self.judgeStatus(statusCode: response.statusCode, data: response.data)
                 completion(networkResult)
             case .failure(let err):
                 print(err)
