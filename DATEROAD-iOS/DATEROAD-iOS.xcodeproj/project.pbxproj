@@ -99,6 +99,7 @@
 		747819402C3AB7E10040D5E7 /* MyCourseListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478193F2C3AB7E10040D5E7 /* MyCourseListViewModel.swift */; };
 		747819432C3ADFCE0040D5E7 /* NavViewedCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747819422C3ADFCE0040D5E7 /* NavViewedCourseViewController.swift */; };
 		7479E4BE2DA0BB9D009AEB2E /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 7479E4BD2DA0BB9D009AEB2E /* GoogleMobileAds */; };
+		7479E4C02DA0BBBB009AEB2E /* GoogleAdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7479E4BF2DA0BBB4009AEB2E /* GoogleAdsManager.swift */; };
 		749CFD3D2D910081008B47A2 /* DRTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CFD3C2D910071008B47A2 /* DRTimelineView.swift */; };
 		749CFD3F2D9116EF008B47A2 /* DateCardType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CFD3E2D9116E9008B47A2 /* DateCardType.swift */; };
 		74A70BFA2C329A9600855E61 /* SUIT-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF82C329A6900855E61 /* SUIT-SemiBold.otf */; };
@@ -398,6 +399,7 @@
 		7478193D2C3A97440040D5E7 /* MyCourseListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseListCollectionViewCell.swift; sourceTree = "<group>"; };
 		7478193F2C3AB7E10040D5E7 /* MyCourseListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseListViewModel.swift; sourceTree = "<group>"; };
 		747819422C3ADFCE0040D5E7 /* NavViewedCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavViewedCourseViewController.swift; sourceTree = "<group>"; };
+		7479E4BF2DA0BBB4009AEB2E /* GoogleAdsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdsManager.swift; sourceTree = "<group>"; };
 		749CFD3C2D910071008B47A2 /* DRTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRTimelineView.swift; sourceTree = "<group>"; };
 		749CFD3E2D9116E9008B47A2 /* DateCardType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCardType.swift; sourceTree = "<group>"; };
 		74A70BF22C329A5B00855E61 /* SUIT-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-ExtraBold.otf"; sourceTree = "<group>"; };
@@ -1534,6 +1536,7 @@
 		CA5B979C2C91888E00F90A4C /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				7479E4BF2DA0BBB4009AEB2E /* GoogleAdsManager.swift */,
 				CA5B979D2C91889C00F90A4C /* AmplitudeManager.swift */,
 				0D47D6C62C91DD0F0085A477 /* DRCompositionalLayoutFactory.swift */,
 			);
@@ -2230,6 +2233,7 @@
 				CABDCEB12C4A67AA00631FB3 /* GetBannerDetailResponse.swift in Sources */,
 				743D5BF42C401FF9007C156C /* PointDetailView.swift in Sources */,
 				CA6897712CD4F07A005315B1 /* ViewedCourseSkeletonView.swift in Sources */,
+				7479E4C02DA0BBBB009AEB2E /* GoogleAdsManager.swift in Sources */,
 				0DC1AEBC2C689ECC00210F60 /* LocationFilterView.swift in Sources */,
 				9E443A502C39158100C1F92C /* AddSheetViewController.swift in Sources */,
 				9E754CD42C47FECC00E2CA91 /* AddCourseService.swift in Sources */,
