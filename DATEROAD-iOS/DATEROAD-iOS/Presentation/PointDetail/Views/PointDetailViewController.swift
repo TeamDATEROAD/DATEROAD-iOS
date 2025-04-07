@@ -44,7 +44,7 @@ class PointDetailViewController: BaseNavBarViewController {
         
         setLeftBackButton()
         setTitleLabelStyle(title: StringLiterals.PointDetail.title, alignment: .center)
-        setProfile(userName: pointViewModel.userName, totalPoint: pointViewModel.totalPoint)
+        setProfile(userName: pointViewModel.userName, totalPoint: pointViewModel.totalPoint.value ?? 0)
         registerCell()
         setDelegate()
         setAddTarget()
@@ -74,6 +74,11 @@ class PointDetailViewController: BaseNavBarViewController {
 extension PointDetailViewController {
     
     func bindViewModel() {
+        self.pointViewModel.totalPoint.bind { [weak self] totalPoint in
+            guard let self, let totalPoint else { return }
+            pointDetailView.totalPointLabel.text = "\(totalPoint) P"
+        }
+        
         self.pointViewModel.updateGainedPointData.bind { [weak self] flag in
             guard let flag else { return }
             if flag {
@@ -94,20 +99,20 @@ extension PointDetailViewController {
             }
         }
         
-        self.pointViewModel.onFailNetwork.bind { [weak self] onFailure in
+        self.pointViewModel.onGetPointDetailFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
                 let errorVC = DRErrorViewController()
                 errorVC.onDismiss = {
-                    self?.pointViewModel.onFailNetwork.value = false
-                    self?.pointViewModel.onLoading.value = false
+                    self?.pointViewModel.onGetPointDetailFailNetwork.value = false
+                    self?.pointViewModel.onGetPointDetailLoading.value = false
                 }
                 self?.navigationController?.pushViewController(errorVC, animated: false)
             }
         }
         
-        self.pointViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.pointViewModel.onFailNetwork.value else { return }
+        self.pointViewModel.onGetPointDetailLoading.bind { [weak self] onLoading in
+            guard let onLoading, let onFailNetwork = self?.pointViewModel.onGetPointDetailFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
                     self?.showLoadingView(type: StringLiterals.PointDetail.title)
@@ -120,11 +125,32 @@ extension PointDetailViewController {
                     self?.hideLoadingView()
                 }
             }
+            self?.pointViewModel.onGetPointDetailLoading.value = nil
         }
         
         self.pointViewModel.isSuccessGetPointInfo.bind { [weak self] _ in
             self?.pointViewModel.setPointDetailLoading()
         }
+        
+        self.pointViewModel.isSuccessPostPoint.bind { [weak self] isSuccess in
+            guard let isSuccess = isSuccess else { return }
+            if isSuccess {
+                self?.pointViewModel.getPointDetail(nowEarnedPointHidden: false)
+            }
+        }
+        
+        self.pointViewModel.onPostPointFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                errorVC.onDismiss = {
+                    GoogleAdsManager.shared.loadRewardedAd()
+                    self?.pointViewModel.onPostPointFailNetwork.value = false
+                }
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
+        }
+        
     }
     
     func setProfile(userName: String, totalPoint: Int) {
