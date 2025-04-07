@@ -34,7 +34,7 @@ final class PointDetailService: BaseService, PointDetailServiceProtocol {
     }
     
     func postPoint(completion: @escaping (NetworkResult<EmptyResponse>) -> Void) {
-        pointDetailProvider.request(.getPointDetail) { result in
+        pointDetailProvider.request(.postPoint) { result in
             switch result {
             case .success(let response):
                 let networkResult: NetworkResult<EmptyResponse> = self.judgeStatus(statusCode: response.statusCode, data: response.data)
