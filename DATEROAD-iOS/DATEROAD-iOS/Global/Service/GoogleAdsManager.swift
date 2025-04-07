@@ -16,20 +16,16 @@ final class GoogleAdsManager: NSObject {
     
     private var adCompletion: ((Bool, Error) -> Void)?
     
+    private var loadError: Error? = nil
+    
     func loadRewardedAd() {
-        let adUnitID = "adUnitID" // TODO: config에 넣기
+        let adUnitID = Config.GADAdUnitID
         let request = Request()
         
         RewardedAd.load(with: adUnitID, request: request) { [weak self] ad, error in
             if let error = error as? NSError {
-                if error.code == 1 {
-                    print("noFillError : 제한 5개 다 씀")
-                } else {
-                    print("광고 로드 실패: \(error.localizedDescription)")
-                }
-                // TODO: - 흠 noFillerror을 여기서 분기처리하고싶은데 ..
-                self?.adCompletion?(false, error)
-                self?.adCompletion = nil
+                self?.loadError = error
+                // TODO: - 🥐 흠 noFillerror을 여기서 분기처리하고싶은데 ..
             }
             
             self?.rewardedAd = ad
@@ -38,17 +34,26 @@ final class GoogleAdsManager: NSObject {
     }
     
     func showRewardedAd(from viewController: UIViewController, completion: @escaping (Bool, Error?) -> Void) {
+        /// 광고 로드 : loadRewardedAd() 도중 에러
+        if let error = loadError {
+            completion(false, error)
+            return
+        }
+        
+        /// 광고 로드 요청은 됐으나, 로드 안 됨
         guard let rewardedAd = rewardedAd else {
-            /// 광고 준비 안 됨
             completion(false, nil)
             return
         }
         
+        loadError = nil
         self.adCompletion = completion
+        
+        self.rewardedAd = nil
+        loadRewardedAd()
         
         rewardedAd.present(from: viewController) {
             let reward = rewardedAd.adReward
-            
             completion(true, nil)
             self.adCompletion = nil
         }
@@ -68,7 +73,6 @@ extension GoogleAdsManager: FullScreenContentDelegate {
     
     func ad(_ ad: FullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
         /// 광고 처리 실패
-        print("광고 표시 실패: \(error.localizedDescription)")
         adCompletion?(false, error)
         adCompletion = nil
         loadRewardedAd()
