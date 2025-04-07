@@ -9,6 +9,7 @@ import UIKit
 
 import AmplitudeSwift
 import KakaoSDKCommon
+import GoogleMobileAds
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +21,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Amplitude 초기화
         AmplitudeManager.shared.initialize()
+        
+        // 구글 애즈 초기화
+        MobileAds.shared.start(completionHandler: nil)
+                
+        // 초기화 후 광고 미리 로드
+        GoogleAdsManager.shared.loadRewardedAd()
         
         return true
     }
