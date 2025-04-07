@@ -427,6 +427,16 @@ enum StringLiterals {
 
         static let serverError = "서버에 문제가 발생했습니다."
         
+        static let adLimitTitle = "광고는 하루 5회까지만 시청할 수 있어요"
+        
+        static let adLimitMessage = "광고 시청 한도는 매일 자정에 초기화돼요"
+        
+        static let adFailTitle = "광고 표시 실패"
+        
+        static let adFailNetworkMessage = "잠시 후 다시 시도하세요"
+        
+        static let adFailWaitMessage = "네트워크 연결 확인 후 다시 시도하세요"
+
     }
     
     enum Course {
