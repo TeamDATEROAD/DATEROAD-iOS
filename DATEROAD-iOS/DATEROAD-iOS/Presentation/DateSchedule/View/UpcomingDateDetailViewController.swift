@@ -188,6 +188,19 @@ extension UpcomingDateDetailViewController {
         upcomingDateDetailContentView.setColor(index: index)
     }
     
+    func tapDeleteLabel() {
+        let customAlertVC = DRCustomAlertViewController(
+            rightActionType: RightButtonType.deleteCourse,
+            alertTextType: .hasDecription,
+            titleText: StringLiterals.Alert.deleteDateSchedule,
+            descriptionText: StringLiterals.Alert.noMercy,
+            leftButton: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_gray100_10),
+            rightButton: DRTextButton(title: StringLiterals.Alert.delete, buttonName: .bold_purple_10)
+        )
+        customAlertVC.delegate = self
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        self.present(customAlertVC, animated: false)
+    }
 }
 
 // MARK: - @objc Methods
@@ -201,7 +214,11 @@ extension UpcomingDateDetailViewController {
         bottomSheetVC.delegate = self
         
         DispatchQueue.main.async {
-            self.bottomSheetVC.presentBottomSheet(in: self)
+            self.bottomSheetVC.presentBottomSheet(
+                self.bottomSheetVC.bottomSheetView,
+                self.bottomSheetVC.dimmedView,
+                in: self
+            )
         }
     }
     
@@ -241,28 +258,13 @@ extension UpcomingDateDetailViewController: DRCustomAlertDelegate {
         self.present(customAlertVC, animated: false)
     }
     
-    @objc
-    private func tapDeleteLabel() {
-        let customAlertVC = DRCustomAlertViewController(
-            rightActionType: RightButtonType.deleteCourse,
-            alertTextType: .hasDecription,
-            titleText: StringLiterals.Alert.deleteDateSchedule,
-            descriptionText: StringLiterals.Alert.noMercy,
-            leftButton: DRTextButton(title: StringLiterals.Common.cancel, buttonName: .bold_gray100_10),
-            rightButton: DRTextButton(title: StringLiterals.Alert.delete, buttonName: .bold_purple_10)
-        )
-        customAlertVC.delegate = self
-        customAlertVC.modalPresentationStyle = .overFullScreen
-        self.present(customAlertVC, animated: false)
-    }
-    
 }
 
 
 extension UpcomingDateDetailViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
-        self.bottomSheetVC.dismissBottomSheet()
+        self.bottomSheetVC.dismissBottomSheet(bottomSheetVC.bottomSheetView, bottomSheetVC.dimmedView)
     }
     
 //    @objc
@@ -283,6 +285,7 @@ private extension UpcomingDateDetailViewController {
     }
     
     func setDelegate() {
+        dateScheduleDeleteView.delegate = self
         upcomingDateDetailContentView.dateTimeLineCollectionView.delegate = self
         upcomingDateDetailContentView.dateTimeLineCollectionView.dataSource = self
     }

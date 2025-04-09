@@ -225,7 +225,11 @@ private extension AddCourseFirstViewController {
         alertVC.delegate = self
         addCourseFirstView.addFirstView.dateNameTextField.resignFirstResponder()
         DispatchQueue.main.async {
-            self.alertVC.presentBottomSheet(in: self)
+            self.alertVC.presentBottomSheet(
+                self.alertVC.bottomSheetView,
+                self.alertVC.dimmedView,
+                in: self
+            )
         }
     }
     
@@ -236,7 +240,11 @@ private extension AddCourseFirstViewController {
         alertVC.delegate = self
         addCourseFirstView.addFirstView.dateNameTextField.resignFirstResponder()
         DispatchQueue.main.async {
-            self.alertVC.presentBottomSheet(in: self)
+            self.alertVC.presentBottomSheet(
+                self.alertVC.bottomSheetView,
+                self.alertVC.dimmedView,
+                in: self
+            )
         }
     }
     
@@ -310,7 +318,11 @@ private extension AddCourseFirstViewController {
         locationFilterVC.isAddType = true
         locationFilterVC.delegate = self
         DispatchQueue.main.async {
-            self.locationFilterVC.presentBottomSheet(in: self)
+            self.locationFilterVC.presentBottomSheet(
+                self.locationFilterVC.locationFilterView,
+                self.locationFilterVC.dimmedView,
+                in: self
+            )
         }
     }
     
@@ -485,7 +497,7 @@ extension AddCourseFirstViewController: ImagePickerDelegate {
 extension AddCourseFirstViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
-        alertVC.dismissBottomSheet()
+        alertVC.dismissBottomSheet(alertVC.bottomSheetView, alertVC.dimmedView)
         updateTextField()
     }
     

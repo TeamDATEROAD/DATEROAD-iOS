@@ -18,6 +18,17 @@ final class CustomEmptyView: BaseView {
     
     let titleLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold18_gray300))
     
+    var height: CGFloat
+    
+    init(height: CGFloat = ScreenUtils.height * 394 / 812) {
+        self.height = height
+        
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Methods
     
@@ -28,7 +39,7 @@ final class CustomEmptyView: BaseView {
     override func setLayout() {
         imageView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(ScreenUtils.height * 394 / 812)
+            $0.height.equalTo(height)
         }
         
         titleLabel.snp.makeConstraints {

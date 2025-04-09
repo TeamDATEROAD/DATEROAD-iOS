@@ -37,4 +37,6 @@ final class NetworkService {
     
     let usePointService: UsePointService = UsePointService()
     
+    let searchPlaceService: SearchPlaceService = SearchPlaceService()
+    
 }

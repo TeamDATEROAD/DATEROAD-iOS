@@ -62,7 +62,7 @@ final class DRTextField: UITextField {
             let iconView = UIImageView(image: icon)
             iconView.tintColor = UIColor.gray200
             iconView.contentMode = .scaleAspectFit
-            
+            iconView.isUserInteractionEnabled = true
             rightView = iconView
             rightViewMode = .always
         }

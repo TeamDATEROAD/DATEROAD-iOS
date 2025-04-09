@@ -27,4 +27,8 @@ enum HeaderType {
                 "Authorization" : token]
     }
     
+    static func hearderWithRestAPIKey(key: String) -> [String: String] {
+        return ["Authorization" : "KakaoAK " + key]
+    }
+    
 }

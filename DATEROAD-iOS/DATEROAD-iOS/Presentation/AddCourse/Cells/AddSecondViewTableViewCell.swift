@@ -80,8 +80,7 @@ extension AddSecondViewCollectionViewCell {
     func configure(model: AddCoursePlaceModel) {
         timelineView.do {
             $0.locationLabel.text = model.placeTitle
-            // TODO: - 주소 수정, abbreviatedString 사용
-            $0.addressLabel.text = "서울특별시 데로로로 데로로로 데로로로로".abbreviatedString(20)
+            $0.addressLabel.text = model.address.abbreviatedString(20)
             $0.timeLabel.text = model.timeRequire
         }
     }

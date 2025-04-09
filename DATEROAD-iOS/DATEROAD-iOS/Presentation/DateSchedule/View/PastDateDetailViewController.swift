@@ -116,7 +116,11 @@ extension PastDateDetailViewController {
         bottomSheetVC.delegate = self
         
         DispatchQueue.main.async {
-            self.bottomSheetVC.presentBottomSheet(in: self)
+            self.bottomSheetVC.presentBottomSheet(
+                self.bottomSheetVC.bottomSheetView,
+                self.bottomSheetVC.dimmedView,
+                in: self
+            )
         }
     }
     
@@ -141,7 +145,7 @@ extension PastDateDetailViewController: DRCustomAlertDelegate {
 extension PastDateDetailViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
-        self.bottomSheetVC.dismissBottomSheet()
+        self.bottomSheetVC.dismissBottomSheet(bottomSheetVC.bottomSheetView, bottomSheetVC.dimmedView)
     }
 
 //    func didTapFirstLabel() {
@@ -235,9 +239,7 @@ extension PastDateDetailViewController {
     
     private func setButton() {
         pastDateDetailContentView.kakaoShareButton.isHidden = true
-        
-        // TODO: - 코스 공유 버튼 확정 시 courseShareButton.isHidden = false로 변경
-        pastDateDetailContentView.courseShareButton.isHidden = true
+        pastDateDetailContentView.courseShareButton.isHidden = false
         
         pastDateDetailContentView.courseShareButton.addTarget(self, action: #selector(tapShareCourse), for: .touchUpInside)
     }

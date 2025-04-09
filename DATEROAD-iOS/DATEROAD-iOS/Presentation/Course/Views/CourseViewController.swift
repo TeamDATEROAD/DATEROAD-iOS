@@ -208,7 +208,11 @@ extension CourseViewController: CourseFilterViewDelegate {
     func didTapLocationFilter() {
         locationFilterVC.delegate = self
         DispatchQueue.main.async {
-            self.locationFilterVC.presentBottomSheet(in: self)
+            self.locationFilterVC.presentBottomSheet(
+                self.locationFilterVC.locationFilterView,
+                self.locationFilterVC.dimmedView,
+                in: self
+            )
         }
     }
     

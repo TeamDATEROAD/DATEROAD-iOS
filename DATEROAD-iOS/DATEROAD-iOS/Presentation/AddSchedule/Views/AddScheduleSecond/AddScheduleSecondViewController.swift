@@ -14,6 +14,8 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
     
     // MARK: - UI Properties
     
+    private lazy var searchPlaceVC: SearchPlaceViewController = SearchPlaceViewController(SearchPlaceViewModel())
+
     private var addScheduleSecondView = AddScheduleSecondView()
     
     private let viewModel: AddScheduleViewModel
@@ -46,7 +48,6 @@ final class AddScheduleSecondViewController: BaseNavBarViewController {
         setStyle()
         setTitleLabelStyle(title: StringLiterals.AddCourseOrSchedule.addScheduleTitle, alignment: .center)
         setLeftBackButton()
-        setAddTarget()
         setDelegate()
         registerCell()
         bindViewModel()
@@ -102,6 +103,8 @@ private extension AddScheduleSecondViewController {
         }
         
         addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField.delegate = self
+        
+        addScheduleSecondView.delegate = self
     }
     
     func bindViewModel() {
@@ -174,19 +177,19 @@ private extension AddScheduleSecondViewController {
             self.addScheduleSecondView.addPlaceCollectionView.reloadData()
         }
         
-        self.viewModel.outputIstValidateRegisterBtn.bind { [weak self] isValid in
+        viewModel.outputIstValidateRegisterBtn.bind { [weak self] isValid in
             self?.addScheduleSecondView.changeNextBtnState(flag: isValid ?? false)
         }
-    }
-    
-    func setAddTarget() {
-        addScheduleSecondView.editButton.addTarget(self, action: #selector(toggleEditMode), for: .touchUpInside)
         
-        addScheduleSecondView.inAddScheduleSecondView.addPlaceButton.addTarget(self, action: #selector(tapAddPlaceBtn), for: .touchUpInside)
+        searchPlaceVC.viewModel.selectedPlaceData.bind { [weak self] place in
+            guard let place else { return }
+            self?.addScheduleSecondView.inAddScheduleSecondView.updateDatePlace(text: place.name)
+            self?.addScheduleSecondView.inAddScheduleSecondView.timeRequireButton.isEnabled = true
+            print("선택된 장소: \(place.name), \(place.address)")
+            self?.viewModel.outputAddress.value = place.address
+            self?.viewModel.outputDatePlace.value = place.name
+        }
         
-        addScheduleSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
-        
-        addScheduleSecondView.inAddScheduleSecondView.timeRequireButton.addTarget(self, action: #selector(didTapTimeRequireButton), for: .touchUpInside)
     }
     
     func checkAddPlaceBtnState() {
@@ -199,6 +202,70 @@ private extension AddScheduleSecondViewController {
         let tabbarVC = TabBarController()
         tabbarVC.selectedIndex = 2
         navigationController?.popToPreviousViewController(ofType: AddScheduleFirstViewController.self, defaultViewController: tabbarVC)
+    }
+    
+}
+
+
+// MARK: - AddCourseDelegate Methods
+
+extension AddScheduleSecondViewController: AddCourseDelegate {
+ 
+    // '편집' 버튼 관련
+    func didTapEditButton() {
+        print(#function)
+        viewModel.isEditMode.toggle()
+        let collectionView = addScheduleSecondView.addPlaceCollectionView
+        
+        let flag = viewModel.isEditMode
+        print("현재 editButton editBtnEnableState.value 값 ::: \(flag)")
+        
+        collectionView.visibleCells.forEach { cell in
+            if let customCell = cell as? AddSecondViewCollectionViewCell {
+                customCell.updateEditMode(flag: flag)
+                customCell.moveAbleButton.removeTarget(nil, action: nil, for: .allEvents)
+                if flag {
+                    customCell.moveAbleButton.addTarget(self, action: #selector(removeCell(sender:)), for: .touchUpInside)
+                } else {
+                    customCell.moveAbleButton.addTarget(self, action: #selector(moveCell(sender:)), for: .touchUpInside)
+                }
+            }
+        }
+        addScheduleSecondView.updateEditBtnText(flag: flag)
+        
+        DispatchQueue.main.async {
+            collectionView.reloadData()
+        }
+    }
+
+    // '장소 등록 +' 버튼 관련
+    func didTapAddPlaceBtn() {
+        print(#function)
+        viewModel.inputValidateAddPlcae.value = true
+    }
+    
+    // '완료' 버튼 관련
+    func didTapNextBtn() {
+        addScheduleSecondView.nextBtn.isUserInteractionEnabled = false
+        viewModel.inputPreparePostSchedule.value = true
+    }
+    
+    // '소요시간' 관련
+    func didTapTimeRequireButton() {
+        print(#function)
+        let alertVC = AddScheduleBottomSheetViewController(viewModel: viewModel)
+        alertVC.addSheetView = AddScheduleBottomSheetView(isCustomPicker: true)
+        
+        self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
+        addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField.resignFirstResponder()
+        
+        DispatchQueue.main.async {
+            alertVC.presentBottomSheet(
+                alertVC.addSheetView,
+                alertVC.dimmedView,
+                in: self
+            )
+        }
     }
     
 }
@@ -235,63 +302,6 @@ private extension AddScheduleSecondViewController {
         self.present(customAlertVC, animated: false)
     }
     
-    
-    // MARK: - @objc Methods
-    
-    /// '완료' 버튼 관련
-    @objc
-    func didTapNextBtn() {
-        addScheduleSecondView.nextBtn.isUserInteractionEnabled = false
-        viewModel.inputPreparePostSchedule.value = true
-    }
-    
-    /// '소요시간' 관련
-    @objc
-    func didTapTimeRequireButton() {
-        let alertVC = AddScheduleBottomSheetViewController(viewModel: viewModel)
-        alertVC.addSheetView = AddScheduleBottomSheetView(isCustomPicker: true)
-        
-        self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
-        addScheduleSecondView.inAddScheduleSecondView.datePlaceTextField.resignFirstResponder()
-        
-        DispatchQueue.main.async {
-            alertVC.presentBottomSheet(in: self)
-        }
-    }
-    
-    /// '장소 등록 +' 버튼 관련
-    @objc
-    func tapAddPlaceBtn() {
-        viewModel.inputValidateAddPlcae.value = true
-    }
-    
-    /// '편집' 버튼 관련
-    @objc
-    func toggleEditMode() {
-        viewModel.isEditMode.toggle()
-        let collectionView = addScheduleSecondView.addPlaceCollectionView
-        
-        let flag = viewModel.isEditMode
-        print("현재 editButton editBtnEnableState.value 값 ::: \(flag)")
-        
-        collectionView.visibleCells.forEach { cell in
-            if let customCell = cell as? AddSecondViewCollectionViewCell {
-                customCell.updateEditMode(flag: flag)
-                customCell.moveAbleButton.removeTarget(nil, action: nil, for: .allEvents)
-                if flag {
-                    customCell.moveAbleButton.addTarget(self, action: #selector(removeCell(sender:)), for: .touchUpInside)
-                } else {
-                    customCell.moveAbleButton.addTarget(self, action: #selector(moveCell(sender:)), for: .touchUpInside)
-                }
-            }
-        }
-        addScheduleSecondView.updateEditBtnText(flag: flag)
-        
-        DispatchQueue.main.async {
-            collectionView.reloadData()
-        }
-    }
-    
     /// 장소 리스트 'X' 버튼 관련: list에 있는 장소 삭제
     @objc
     func removeCell(sender: UIButton) {
@@ -324,19 +334,14 @@ private extension AddScheduleSecondViewController {
 
 extension AddScheduleSecondViewController: UITextFieldDelegate {
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        let trimmedText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        
-        viewModel.inputDatePlace.value = trimmedText
+        print("didTapDatePlaceTextField")
+        searchPlaceVC.presentBottomSheet(
+            searchPlaceVC.searchPlaceView,
+            searchPlaceVC.dimmedView,
+            in: self
+        )
+        return false
     }
     
 }

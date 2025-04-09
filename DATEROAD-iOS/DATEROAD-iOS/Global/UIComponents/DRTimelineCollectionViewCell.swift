@@ -69,7 +69,7 @@ extension DRTimelineCollectionViewCell {
         timelineView.do {
             $0.locationLabel.text = timelineData.title
             // TODO: 주소, abbreviatedString 메소드 사용
-            $0.addressLabel.text = "서울특별시 데로로로로 데로로로로 데로 20자시작".abbreviatedString(20)
+            $0.addressLabel.text = "아직 못 불러옴".abbreviatedString(20)
             $0.timeLabel.text = "\(timelineData.duration)시간"
         }
     }
