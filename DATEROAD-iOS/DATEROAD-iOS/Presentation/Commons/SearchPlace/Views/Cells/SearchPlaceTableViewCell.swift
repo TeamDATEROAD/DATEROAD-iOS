@@ -14,14 +14,12 @@ final class SearchPlaceTableViewCell: BaseTableViewCell {
     private let placeNameLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi15_black), alignment: .left)
 
     private let placeAddressLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_gray300), alignment: .left)
-
-    private let divider: UIView = UIView()
     
     
     // MARK: - Life Cycle
     
     override func setHierarchy() {
-        self.addSubviews(placeNameLabel, placeAddressLabel, divider)
+        self.addSubviews(placeNameLabel, placeAddressLabel)
     }
     
     override func setLayout() {
@@ -36,16 +34,6 @@ final class SearchPlaceTableViewCell: BaseTableViewCell {
             $0.horizontalEdges.equalToSuperview().inset(25)
             $0.height.equalTo(27)
         }
-        
-//        divider.snp.makeConstraints {
-//            $0.horizontalEdges.bottom.equalToSuperview()
-//            $0.height.equalTo(1)
-//        }
-        
-    }
-    
-    override func setStyle() {
-        divider.backgroundColor = UIColor.gray100
     }
     
 }
