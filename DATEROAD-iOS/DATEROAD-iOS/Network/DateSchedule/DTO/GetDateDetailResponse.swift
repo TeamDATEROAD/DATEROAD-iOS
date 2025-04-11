@@ -44,6 +44,8 @@ struct Place: Codable {
     
     let sequence: Int
     
+    let address: String?
+    
 }
 
 
