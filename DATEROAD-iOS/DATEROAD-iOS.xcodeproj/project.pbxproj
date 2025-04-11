@@ -100,6 +100,7 @@
 		747819432C3ADFCE0040D5E7 /* NavViewedCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747819422C3ADFCE0040D5E7 /* NavViewedCourseViewController.swift */; };
 		7479E4BE2DA0BB9D009AEB2E /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 7479E4BD2DA0BB9D009AEB2E /* GoogleMobileAds */; };
 		7479E4C02DA0BBBB009AEB2E /* GoogleAdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7479E4BF2DA0BBB4009AEB2E /* GoogleAdsManager.swift */; };
+		7479E4C42DA5047A009AEB2E /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7479E4C32DA50474009AEB2E /* UIViewController+.swift */; };
 		749CFD3D2D910081008B47A2 /* DRTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CFD3C2D910071008B47A2 /* DRTimelineView.swift */; };
 		749CFD3F2D9116EF008B47A2 /* DateCardType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CFD3E2D9116E9008B47A2 /* DateCardType.swift */; };
 		74A70BFA2C329A9600855E61 /* SUIT-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF82C329A6900855E61 /* SUIT-SemiBold.otf */; };
@@ -400,6 +401,7 @@
 		7478193F2C3AB7E10040D5E7 /* MyCourseListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseListViewModel.swift; sourceTree = "<group>"; };
 		747819422C3ADFCE0040D5E7 /* NavViewedCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavViewedCourseViewController.swift; sourceTree = "<group>"; };
 		7479E4BF2DA0BBB4009AEB2E /* GoogleAdsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdsManager.swift; sourceTree = "<group>"; };
+		7479E4C32DA50474009AEB2E /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		749CFD3C2D910071008B47A2 /* DRTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRTimelineView.swift; sourceTree = "<group>"; };
 		749CFD3E2D9116E9008B47A2 /* DateCardType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCardType.swift; sourceTree = "<group>"; };
 		74A70BF22C329A5B00855E61 /* SUIT-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-ExtraBold.otf"; sourceTree = "<group>"; };
@@ -1374,6 +1376,7 @@
 		CA3D0D162C29AA5E00735097 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				7479E4C32DA50474009AEB2E /* UIViewController+.swift */,
 				CA3D0D172C29AA7A00735097 /* UITextField+.swift */,
 				CA3D0D192C29AAAC00735097 /* UIView+.swift */,
 				CA3D0D1B2C29AACD00735097 /* UIStackView+.swift */,
@@ -2245,6 +2248,7 @@
 				9E63BB202C35CF7200D5ED5B /* AddCourseFirstViewController.swift in Sources */,
 				9E443A4C2C37ACEF00C1F92C /* AddCourseFirstView.swift in Sources */,
 				CA68976F2CD4ECDC005315B1 /* MyCourseItemSkeletonView.swift in Sources */,
+				7479E4C42DA5047A009AEB2E /* UIViewController+.swift in Sources */,
 				0DC9BF072C47F56900A817A8 /* CourseDetailTargetType.swift in Sources */,
 				9E590B402C39375000039690 /* AddSheetView.swift in Sources */,
 				CA6897612CD0C5DD005315B1 /* MainSkeletonView.swift in Sources */,

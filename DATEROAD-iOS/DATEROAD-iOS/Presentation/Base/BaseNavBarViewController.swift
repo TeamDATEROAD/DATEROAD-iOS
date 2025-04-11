@@ -225,15 +225,6 @@ extension BaseNavBarViewController {
         lottieView.removeFromSuperview()
     }
     
-    func presentAlertVC(title: String, message: String? = nil) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: StringLiterals.Alert.confirm, style: .cancel) { _ in
-            self.navigationController?.popViewController(animated: false)
-        }
-        alert.addAction(alertAction)
-        self.present(alert, animated: true)
-    }
-    
     @objc
     private func dismissKeyboard() {
         view.endEditing(true)
