@@ -7,6 +7,14 @@
 
 import UIKit
 
+protocol PointDetailDelegate: AnyObject {
+    
+    func goToPointShortageVC()
+    
+    func didChangeValue(segment: UISegmentedControl)
+    
+}
+
 final class PointDetailView: BaseView {
     
     // MARK: - UI Properties
@@ -34,8 +42,19 @@ final class PointDetailView: BaseView {
     
     private let segmentBackgroundImage = UIImage()
     
+    weak var delegate: PointDetailDelegate?
     
     // MARK: - LifeCycle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setAddTarget()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func setHierarchy() {
         self.addSubviews(userNameLabel,
@@ -139,6 +158,28 @@ final class PointDetailView: BaseView {
             $0.setEmptyView(emptyImage: UIImage(resource: .emptyUsedPoint),
                             emptyTitle: StringLiterals.EmptyView.emptyUsedPoint)
         }
+    }
+    
+    private func setAddTarget() {
+        pointAddButton.addTarget(self, action: #selector(goToPointShortageVC), for: .touchUpInside)
+        segmentControl.addTarget(self, action: #selector(didChangeValue(segment:)), for: .valueChanged)
+    }
+    
+}
+
+
+// MARK: - @objc Methods
+
+extension PointDetailView {
+    
+    @objc
+    func goToPointShortageVC() {
+        delegate?.goToPointShortageVC()
+    }
+    
+    @objc
+    func didChangeValue(segment: UISegmentedControl) {
+        delegate?.didChangeValue(segment: segment)
     }
     
 }

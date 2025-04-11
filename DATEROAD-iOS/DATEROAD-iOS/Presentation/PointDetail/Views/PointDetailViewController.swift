@@ -47,7 +47,6 @@ class PointDetailViewController: BaseNavBarViewController {
         setProfile(userName: pointViewModel.userName, totalPoint: pointViewModel.totalPoint.value ?? 0)
         registerCell()
         setDelegate()
-        setAddTarget()
         bindViewModel()
     }
     
@@ -157,12 +156,7 @@ extension PointDetailViewController {
         pointDetailView.userNameLabel.text = "\(userName) 님의 포인트"
         pointDetailView.totalPointLabel.text = "\(totalPoint) P"
     }
-    
-    private func setAddTarget() {
-        pointDetailView.pointAddButton.addTarget(self, action: #selector(goToPointShortageVC), for: .touchUpInside)
-        pointDetailView.segmentControl.addTarget(self, action: #selector(didChangeValue(segment:)), for: .valueChanged)
-    }
-    
+ 
 }
 
 
@@ -208,12 +202,6 @@ private extension PointDetailViewController {
         }
     }
     
-    @objc
-    func didChangeValue(segment: UISegmentedControl) {
-        pointViewModel.changeSegment(segmentIndex: pointDetailView.segmentControl.selectedSegmentIndex)
-        changeSelectedSegmentLayout(isEarnedPointHidden: pointViewModel.isEarnedPointHidden.value)
-    }
-    
 }
 
 
@@ -226,6 +214,7 @@ private extension PointDetailViewController {
     }
     
     func setDelegate() {
+        pointDetailView.delegate = self
         pointDetailView.pointCollectionView.delegate = self
         pointDetailView.pointCollectionView.dataSource = self
     }
@@ -271,8 +260,7 @@ extension PointDetailViewController: DRCustomAlertDelegate {}
 
 extension PointDetailViewController: GoogleAdsPresentable {
     
-    @objc
-    func goToPointShortageVC() {
+    func showPointShortageVC() {
         let pointShortageVC = PointShortageViewController()
         pointShortageVC.modalPresentationStyle = .overFullScreen
         
@@ -293,4 +281,20 @@ extension PointDetailViewController: GoogleAdsPresentable {
         self.present(pointShortageVC, animated: false)
     }
         
+}
+
+
+// MARK: - PointDetailDelegate
+
+extension PointDetailViewController: PointDetailDelegate {
+
+    func goToPointShortageVC() {
+        showPointShortageVC()
+    }
+    
+    func didChangeValue(segment: UISegmentedControl) {
+        pointViewModel.changeSegment(segmentIndex: pointDetailView.segmentControl.selectedSegmentIndex)
+        changeSelectedSegmentLayout(isEarnedPointHidden: pointViewModel.isEarnedPointHidden.value)
+    }
+    
 }
