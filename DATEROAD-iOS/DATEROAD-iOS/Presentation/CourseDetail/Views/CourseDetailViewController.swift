@@ -39,7 +39,7 @@ final class CourseDetailViewController: BaseViewController {
     
     private let courseDetailViewModel: CourseDetailViewModel
     
-    private var pointViewModel: PointViewModel = PointViewModel(userName: "", totalPoint: 0)
+    var pointViewModel: PointViewModel = PointViewModel(userName: "", totalPoint: 0)
     
     private let collectionViewUtils = CollectionViewUtils()
     
@@ -281,7 +281,7 @@ extension CourseDetailViewController: DRCustomAlertDelegate {
                 self.courseDetailViewModel.isAccess.value = true
                 dismiss(animated: false)
             } else {
-                // 🥐
+                // 🥐 포인트 부족
                 showPointShortageSheet()
             }
         }
@@ -334,60 +334,6 @@ extension CourseDetailViewController {
                            description: StringLiterals.CourseDetail.freeViewDescription,
                            action: .checkCourse,
                            buttonText: StringLiterals.CourseDetail.check)
-    }
-    
-    //포인트가 부족할 때 🥐
-    func showPointShortageSheet(){
-        let pointShortageVC = PointShortageViewController()
-        pointShortageVC.modalPresentationStyle = .overFullScreen
-        pointShortageVC.onAdvertisementDismiss = { [weak self] in
-            guard let self = self else { return }
-            GoogleAdsManager.shared.showRewardedAd(from: self) { [weak self] success, error in
-                if !success {
-                    if let error = error as? NSError {
-                        // TODO: - 이 분기처리를 GoogleAdsManager에서 하는 게 나을 것 같은데, VC를 띄우는 일이라 고민
-                        switch error.code {
-                        case 1:
-                            /// 5개 제한 알럿
-                            let customAlertVC = DRCustomAlertViewController(
-                                rightActionType: RightButtonType.none,
-                                alertTextType: .hasDecription,
-                                titleText: StringLiterals.Alert.adLimitTitle,
-                                descriptionText: StringLiterals.Alert.adLimitMessage,
-                                longButton: DRTextButton(title: StringLiterals.Alert.iChecked, buttonName: .bold_purple_10)
-                            )
-                            customAlertVC.delegate = self
-                            customAlertVC.modalPresentationStyle = .overFullScreen
-                            self?.present(customAlertVC, animated: false)
-                        case 2:
-                            // 🥐 TODO: - !!광고 보는 도중 네트워크 끄고 끝난 뒤 다시 키면 앱 백그라운드에서 제거할 때까지 계속 네트워크 실패 뜸 (네트워크 성공이어도)!!
-                            self?.presentAlertVC(title: StringLiterals.Alert.adFailTitle,
-                                                 message: StringLiterals.Alert.adFailNetworkMessage)
-                        case 18:
-                            /// 광고를 너무 빨리 요청한 경우
-                            self?.presentAlertVC(title: StringLiterals.Alert.adFailTitle,
-                                                 message: StringLiterals.Alert.adFailWaitMessage)
-                        default:
-                            self?.presentAlertVC(title: StringLiterals.Alert.adFailTitle)
-                        }
-                        print("🥐", error.code)
-                    } else {
-                        self?.presentAlertVC(title: StringLiterals.Alert.adFailTitle)
-                    }
-                } else {
-                    self?.pointViewModel.postPoint()
-                }
-            }
-        }
-        pointShortageVC.onAddCourseDismiss = { [weak self] in
-            guard let self = self else { return }
-            let addCourseFirstVC = AddCourseFirstViewController(
-                viewModel: AddCourseViewModel(),
-                viewPath: StringLiterals.Amplitude.ViewPath.pointShortage
-            )
-            self.navigationController?.pushViewController(addCourseFirstVC, animated: false)
-        }
-        self.present(pointShortageVC, animated: false)
     }
     
     //바텀 시트에서 신고하기 클릭시 팝업창
@@ -711,4 +657,29 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
 }
 
 
+// MARK: - GoogleAdsHandler
 
+extension CourseDetailViewController: GoogleAdsPresentable {
+ 
+    func showPointShortageSheet() {
+        let pointShortageVC = PointShortageViewController()
+        pointShortageVC.modalPresentationStyle = .overFullScreen
+        
+        pointShortageVC.onAdvertisementDismiss = { [weak self] in
+            guard let self = self else { return }
+            self.showRewardedAd()
+        }
+        
+        pointShortageVC.onAddCourseDismiss = { [weak self] in
+            guard let self = self else { return }
+            let addCourseFirstVC = AddCourseFirstViewController(
+                viewModel: AddCourseViewModel(),
+                viewPath: StringLiterals.Amplitude.ViewPath.pointShortage
+            )
+            self.navigationController?.pushViewController(addCourseFirstVC, animated: false)
+        }
+        
+        self.present(pointShortageVC, animated: false)
+    }
+        
+}
