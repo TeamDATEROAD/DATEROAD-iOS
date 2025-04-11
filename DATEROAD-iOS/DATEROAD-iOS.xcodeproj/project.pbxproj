@@ -102,6 +102,7 @@
 		7479E4C02DA0BBBB009AEB2E /* GoogleAdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7479E4BF2DA0BBB4009AEB2E /* GoogleAdsManager.swift */; };
 		7479E4C22DA50034009AEB2E /* GoogleAdsErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7479E4C12DA5002A009AEB2E /* GoogleAdsErrorType.swift */; };
 		7479E4C42DA5047A009AEB2E /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7479E4C32DA50474009AEB2E /* UIViewController+.swift */; };
+		7479E4C62DA508D0009AEB2E /* GoogleAdsPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7479E4C52DA508CA009AEB2E /* GoogleAdsPresentable.swift */; };
 		749CFD3D2D910081008B47A2 /* DRTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CFD3C2D910071008B47A2 /* DRTimelineView.swift */; };
 		749CFD3F2D9116EF008B47A2 /* DateCardType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CFD3E2D9116E9008B47A2 /* DateCardType.swift */; };
 		74A70BFA2C329A9600855E61 /* SUIT-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74A70BF82C329A6900855E61 /* SUIT-SemiBold.otf */; };
@@ -404,6 +405,7 @@
 		7479E4BF2DA0BBB4009AEB2E /* GoogleAdsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdsManager.swift; sourceTree = "<group>"; };
 		7479E4C12DA5002A009AEB2E /* GoogleAdsErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdsErrorType.swift; sourceTree = "<group>"; };
 		7479E4C32DA50474009AEB2E /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
+		7479E4C52DA508CA009AEB2E /* GoogleAdsPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdsPresentable.swift; sourceTree = "<group>"; };
 		749CFD3C2D910071008B47A2 /* DRTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRTimelineView.swift; sourceTree = "<group>"; };
 		749CFD3E2D9116E9008B47A2 /* DateCardType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCardType.swift; sourceTree = "<group>"; };
 		74A70BF22C329A5B00855E61 /* SUIT-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-ExtraBold.otf"; sourceTree = "<group>"; };
@@ -1505,6 +1507,7 @@
 		CA4EF3DD2C347B3F003B02B6 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				7479E4C52DA508CA009AEB2E /* GoogleAdsPresentable.swift */,
 				CA4EF3DE2C347B4E003B02B6 /* DRButtonType.swift */,
 				CA78FE482C3866FC001B1403 /* DRErrorType.swift */,
 				CAC80FE22C3EC06200658EA6 /* MainSectionLayout.swift */,
@@ -2129,6 +2132,7 @@
 				0DDC2B492C49439600AC554D /* UsePointTargetType.swift in Sources */,
 				CA0A96432C2C60E800F39EBE /* LoginModel.swift in Sources */,
 				742547152C4885CF0075DD81 /* DeleteDateScheduleResponse.swift in Sources */,
+				7479E4C62DA508D0009AEB2E /* GoogleAdsPresentable.swift in Sources */,
 				CA4EF3B82C328542003B02B6 /* LoginView.swift in Sources */,
 				CA4EF3DA2C34791F003B02B6 /* OnboardingCollectionViewCell.swift in Sources */,
 				CABDCE6E2C47D6E600631FB3 /* AuthTargetType.swift in Sources */,
