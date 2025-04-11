@@ -100,6 +100,7 @@
 		747819432C3ADFCE0040D5E7 /* NavViewedCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747819422C3ADFCE0040D5E7 /* NavViewedCourseViewController.swift */; };
 		7479E4BE2DA0BB9D009AEB2E /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 7479E4BD2DA0BB9D009AEB2E /* GoogleMobileAds */; };
 		7479E4C02DA0BBBB009AEB2E /* GoogleAdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7479E4BF2DA0BBB4009AEB2E /* GoogleAdsManager.swift */; };
+		7479E4C22DA50034009AEB2E /* GoogleAdsErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7479E4C12DA5002A009AEB2E /* GoogleAdsErrorType.swift */; };
 		7479E4C42DA5047A009AEB2E /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7479E4C32DA50474009AEB2E /* UIViewController+.swift */; };
 		749CFD3D2D910081008B47A2 /* DRTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CFD3C2D910071008B47A2 /* DRTimelineView.swift */; };
 		749CFD3F2D9116EF008B47A2 /* DateCardType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CFD3E2D9116E9008B47A2 /* DateCardType.swift */; };
@@ -401,6 +402,7 @@
 		7478193F2C3AB7E10040D5E7 /* MyCourseListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCourseListViewModel.swift; sourceTree = "<group>"; };
 		747819422C3ADFCE0040D5E7 /* NavViewedCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavViewedCourseViewController.swift; sourceTree = "<group>"; };
 		7479E4BF2DA0BBB4009AEB2E /* GoogleAdsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdsManager.swift; sourceTree = "<group>"; };
+		7479E4C12DA5002A009AEB2E /* GoogleAdsErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdsErrorType.swift; sourceTree = "<group>"; };
 		7479E4C32DA50474009AEB2E /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		749CFD3C2D910071008B47A2 /* DRTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRTimelineView.swift; sourceTree = "<group>"; };
 		749CFD3E2D9116E9008B47A2 /* DateCardType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCardType.swift; sourceTree = "<group>"; };
@@ -1410,6 +1412,7 @@
 		CA4EF3BE2C3285AD003B02B6 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
+				7479E4C12DA5002A009AEB2E /* GoogleAdsErrorType.swift */,
 				74DB61242D94282700B78362 /* TimelineType.swift */,
 				CA172F3D2D89438C0097FF98 /* TextLabelType.swift */,
 				CAE4C8C12D82C179001FE299 /* ImageButtonType.swift */,
@@ -2033,6 +2036,7 @@
 				0D0DA3D72C3AF2DE004210EE /* UIFont+.swift in Sources */,
 				742840102C3EC87300B21AA7 /* AlertType.swift in Sources */,
 				747819402C3AB7E10040D5E7 /* MyCourseListViewModel.swift in Sources */,
+				7479E4C22DA50034009AEB2E /* GoogleAdsErrorType.swift in Sources */,
 				CA4EF3B42C3284BB003B02B6 /* BaseView.swift in Sources */,
 				CABDCE752C47FAFD00631FB3 /* PostSignUpResponse.swift in Sources */,
 				0DDFEE132C3C7FC5008C6022 /* CityLabelCollectionViewCell.swift in Sources */,
