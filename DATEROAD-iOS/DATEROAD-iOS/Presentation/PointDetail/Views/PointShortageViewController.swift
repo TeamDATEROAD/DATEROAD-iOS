@@ -86,7 +86,7 @@ final class PointShortageViewController: BaseViewController {
             $0.backgroundColor = UIColor(resource: .drWhite)
         }
         
-        xButton.addTarget(self, action: #selector(dismissSelf), for: .touchUpInside)
+        xButton.addTarget(self, action: #selector(xButtonTapped), for: .touchUpInside)
         
         advertisePointShortageView.do {
             $0.isUserInteractionEnabled = true
@@ -105,16 +105,19 @@ extension PointShortageViewController {
     
     @objc
     func advertisePointShortageViewTapped() {
+        AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.clickAd)
         self.dismiss(animated: false, completion: self.onAdvertisementDismiss)
     }
     
     @objc
     func addCoursePointShortageViewTapped() {
+        AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.clickAddSchedule)
         self.dismiss(animated: false, completion: self.onAddCourseDismiss)
     }
     
     @objc
-    func dismissSelf() {
+    func xButtonTapped() {
+        AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.clickCollectPointClose)
         self.dismiss(animated: false)
     }
     

@@ -37,6 +37,7 @@ class PointDetailViewController: BaseNavBarViewController {
         self.tabBarController?.tabBar.isHidden = true
         self.pointViewModel.setPointDetailLoading()
         self.pointViewModel.getPointDetail(nowEarnedPointHidden: false)
+        AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewPointDetail)
     }
     
     override func viewDidLoad() {

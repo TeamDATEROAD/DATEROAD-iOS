@@ -617,6 +617,14 @@ enum StringLiterals {
             
             static let clickCourseLikes = "click_course_likes"
             
+            static let viewPointDetail = "view_point"
+            
+            static let clickAd = "click_ad"
+            
+            static let clickCourse = "click_course"
+            
+            static let clickCollectPointClose = "click_collect_point_close"
+            
         }
         
         enum Property {
@@ -711,8 +719,7 @@ enum StringLiterals {
             
             static let courseDetail = "코스 상세"
             
-            // 🥐 기획한테 무러봄
-            static let pointShortage = "포인트 부족"
+            static let pointShortage = "광고 시청"
             
         }
         
