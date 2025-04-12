@@ -427,6 +427,16 @@ enum StringLiterals {
 
         static let serverError = "서버에 문제가 발생했습니다."
         
+        static let adLimitTitle = "광고는 하루 5회까지만 시청할 수 있어요"
+        
+        static let adLimitMessage = "광고 시청 한도는 매일 자정에 초기화돼요"
+        
+        static let adFailTitle = "광고 표시 실패"
+        
+        static let adFailNetworkMessage = "잠시 후 다시 시도하세요"
+        
+        static let adFailWaitMessage = "네트워크 연결 확인 후 다시 시도하세요"
+
     }
     
     enum Course {
@@ -468,6 +478,18 @@ enum StringLiterals {
         static let usedDetail = "사용 내역"
         
         static let title = "포인트 내역"
+        
+        static let collectPoint = "포인트 모으러 가기"
+        
+        static let noPoint = "포인트가 부족해요!"
+        
+        static let advertiseTitle = "광고 시청하기"
+        
+        static let advertiseDescription = "짧은 광고 보고 바로 50P 획득하기"
+        
+        static let addCourseTitle = "코스 등록하기"
+        
+        static let addCourseDescription = "나만의 코스 등록하고 100P 획득하기"
         
     }
     
@@ -597,6 +619,14 @@ enum StringLiterals {
             
             static let clickCourseLikes = "click_course_likes"
             
+            static let viewPointDetail = "view_point"
+            
+            static let clickAd = "click_ad"
+            
+            static let clickCourse = "click_course"
+            
+            static let clickCollectPointClose = "click_collect_point_close"
+            
         }
         
         enum Property {
@@ -690,6 +720,8 @@ enum StringLiterals {
             static let viewedCourse = "내가 열람한 코스"
             
             static let courseDetail = "코스 상세"
+            
+            static let pointShortage = "광고 시청"
             
         }
                 

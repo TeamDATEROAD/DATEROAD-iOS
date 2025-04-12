@@ -39,6 +39,8 @@ final class CourseDetailViewController: BaseViewController {
     
     private let courseDetailViewModel: CourseDetailViewModel
     
+    var pointViewModel: PointViewModel = PointViewModel(userName: "", totalPoint: 0)
+    
     private let collectionViewUtils = CollectionViewUtils()
     
     private var currentPage: Int = 0
@@ -279,7 +281,8 @@ extension CourseDetailViewController: DRCustomAlertDelegate {
                 self.courseDetailViewModel.isAccess.value = true
                 dismiss(animated: false)
             } else {
-                showPointAlert()
+                // 🥐 포인트 부족
+                showPointShortageSheet()
             }
         }
         setNavBarVisibility()
@@ -331,14 +334,6 @@ extension CourseDetailViewController {
                            description: StringLiterals.CourseDetail.freeViewDescription,
                            action: .checkCourse,
                            buttonText: StringLiterals.CourseDetail.check)
-    }
-    
-    //포인트가 부족할 때
-    func showPointAlert(){
-        presentCustomAlert(title: StringLiterals.CourseDetail.insufficientPointsTitle,
-                           description: StringLiterals.CourseDetail.insufficientPointsDescription,
-                           action: .addCourse,
-                           buttonText: StringLiterals.CourseDetail.addCourse)
     }
     
     //바텀 시트에서 신고하기 클릭시 팝업창
@@ -666,4 +661,29 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
 }
 
 
+// MARK: - GoogleAdsHandler
 
+extension CourseDetailViewController: GoogleAdsPresentable {
+ 
+    func showPointShortageSheet() {
+        let pointShortageVC = PointShortageViewController()
+        pointShortageVC.modalPresentationStyle = .overFullScreen
+        
+        pointShortageVC.onAdvertisementDismiss = { [weak self] in
+            guard let self = self else { return }
+            self.showRewardedAd()
+        }
+        
+        pointShortageVC.onAddCourseDismiss = { [weak self] in
+            guard let self = self else { return }
+            let addCourseFirstVC = AddCourseFirstViewController(
+                viewModel: AddCourseViewModel(),
+                viewPath: StringLiterals.Amplitude.ViewPath.pointShortage
+            )
+            self.navigationController?.pushViewController(addCourseFirstVC, animated: false)
+        }
+        
+        self.present(pointShortageVC, animated: false)
+    }
+        
+}

@@ -66,11 +66,13 @@ final class DRCustomAlertView: BaseView {
         titleLabel.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
             $0.top.equalToSuperview().inset(ScreenUtils.height * 23 / 812)
+            $0.height.equalTo(24)
         }
         
         descriptionLabel.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
-            $0.top.equalToSuperview().inset(ScreenUtils.height * 52 / 812)
+            $0.top.equalTo(titleLabel.snp.bottom).inset(5)
+            $0.height.equalTo(18)
         }
         
         longButton?.snp.makeConstraints {

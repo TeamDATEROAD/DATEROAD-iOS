@@ -25,6 +25,10 @@
 	<string>$(KAKAO_REST_API_KEY)</string>
 	<key>KAKAO_SEARCH_PLACE_BASE_URL</key>
 	<string>$(KAKAO_SEARCH_PLACE_BASE_URL)</string>
+	<key>GADApplicationIdentifier</key>
+	<string>${GAD_APPLICATION_IDENTIFIER}</string>
+	<key>GAD_AD_UNIT_ID</key>
+	<string>${GAD_AD_UNIT_ID}</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakaokompassauth</string>

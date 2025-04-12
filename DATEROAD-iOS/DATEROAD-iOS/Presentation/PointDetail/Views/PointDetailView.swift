@@ -7,15 +7,23 @@
 
 import UIKit
 
+protocol PointDetailDelegate: AnyObject {
+    
+    func goToPointShortageVC()
+    
+    func didChangeValue(segment: UISegmentedControl)
+    
+}
+
 final class PointDetailView: BaseView {
     
     // MARK: - UI Properties
     
-    private let pointView = UIView()
+    var userNameLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold13_gray400), alignment: .left)
     
-    var userNameLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.systemMed13_white), alignment: .left)
+    var totalPointLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.extra24_black), alignment: .left)
     
-    var totalPointLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.extra24_white), alignment: .left)
+    let pointAddButton: DRTextButton = DRTextButton(title: StringLiterals.PointDetail.collectPoint, buttonName: .bold_purple_14)
     
     var segmentControl = UISegmentedControl(items: [StringLiterals.PointDetail.gainedDetail, StringLiterals.PointDetail.usedDetail])
     
@@ -34,43 +42,55 @@ final class PointDetailView: BaseView {
     
     private let segmentBackgroundImage = UIImage()
     
+    weak var delegate: PointDetailDelegate?
     
     // MARK: - LifeCycle
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setAddTarget()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func setHierarchy() {
-        self.addSubviews(pointView,
+        self.addSubviews(userNameLabel,
+                         totalPointLabel,
+                         pointAddButton,
                          segmentControl,
                          segmentControlUnderLineView,
                          selectedSegmentUnderLineView,
                          pointCollectionView,
                          emptyUsedPointView,
                          emptyGainedPointView)
-        
-        self.pointView.addSubviews(userNameLabel, totalPointLabel)
     }
     
     override func setLayout() {
-        pointView.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(20)
-            $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(90)
-        }
-        
         userNameLabel.snp.makeConstraints{
-            $0.top.leading.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().offset(14 * ScreenUtils.height / 812)
+            $0.leading.equalToSuperview().inset(16 * ScreenUtils.width / 375)
             $0.height.equalTo(18)
         }
         
         totalPointLabel.snp.makeConstraints{
-            $0.top.equalToSuperview().inset(45)
-            $0.leading.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().inset(42 * ScreenUtils.height / 812)
+            $0.leading.equalToSuperview().inset(16 * ScreenUtils.width / 375)
             $0.height.equalTo(31)
         }
         
+        pointAddButton.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(93 * ScreenUtils.height / 812)
+            $0.horizontalEdges.equalToSuperview().inset(16 * ScreenUtils.width / 375)
+            $0.height.equalTo(54 * ScreenUtils.height / 812)
+        }
+        
         segmentControl.snp.makeConstraints{
-            $0.top.equalTo(pointView.snp.bottom).offset(21)
+            $0.top.equalToSuperview().offset(167 * ScreenUtils.height / 812)
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(54)
+            $0.height.equalTo(54 * ScreenUtils.height / 812)
         }
         
         segmentControlUnderLineView.snp.makeConstraints{
@@ -89,7 +109,7 @@ final class PointDetailView: BaseView {
         pointCollectionView.snp.makeConstraints{
             $0.top.equalTo(segmentControl.snp.bottom)
             $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(34)
+            $0.bottom.equalToSuperview().inset(34 * ScreenUtils.height / 812)
         }
         
         emptyGainedPointView.snp.makeConstraints {
@@ -106,11 +126,6 @@ final class PointDetailView: BaseView {
     }
     
     override func setStyle() {
-        pointView.do {
-            $0.backgroundColor = UIColor(resource: .purple600)
-            $0.roundCorners(cornerRadius: 14)
-        }
-        
         segmentControl.do {
             $0.selectedSegmentIndex = 0
             $0.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.suit(.body_bold_17), NSAttributedString.Key.foregroundColor: UIColor(resource: .gray300)], for: .normal)
@@ -143,6 +158,28 @@ final class PointDetailView: BaseView {
             $0.setEmptyView(emptyImage: UIImage(resource: .emptyUsedPoint),
                             emptyTitle: StringLiterals.EmptyView.emptyUsedPoint)
         }
+    }
+    
+    private func setAddTarget() {
+        pointAddButton.addTarget(self, action: #selector(goToPointShortageVC), for: .touchUpInside)
+        segmentControl.addTarget(self, action: #selector(didChangeValue(segment:)), for: .valueChanged)
+    }
+    
+}
+
+
+// MARK: - @objc Methods
+
+extension PointDetailView {
+    
+    @objc
+    func goToPointShortageVC() {
+        delegate?.goToPointShortageVC()
+    }
+    
+    @objc
+    func didChangeValue(segment: UISegmentedControl) {
+        delegate?.didChangeValue(segment: segment)
     }
     
 }

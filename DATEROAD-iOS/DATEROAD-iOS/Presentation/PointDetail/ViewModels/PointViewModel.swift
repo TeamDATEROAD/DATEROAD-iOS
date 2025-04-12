@@ -15,7 +15,7 @@ final class PointViewModel: Serviceable {
     
     var userName: String
     
-    var totalPoint: Int
+    var totalPoint: ObservablePattern<Int> = ObservablePattern(nil)
     
     let pointDetailService = PointDetailService()
     
@@ -31,13 +31,17 @@ final class PointViewModel: Serviceable {
     
     var onReissueSuccess: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    var onLoading: ObservablePattern<Bool> = ObservablePattern(nil)
+    var onGetPointDetailLoading: ObservablePattern<Bool> = ObservablePattern(nil)
     
-    var onFailNetwork: ObservablePattern<Bool> = ObservablePattern(nil)
+    var onGetPointDetailFailNetwork: ObservablePattern<Bool> = ObservablePattern(nil)
+    
+    var isSuccessPostPoint: ObservablePattern<Bool> = ObservablePattern(false)
+    
+    var onPostPointFailNetwork: ObservablePattern<Bool> = ObservablePattern(nil)
     
     init (userName: String, totalPoint: Int) {
         self.userName = userName
-        self.totalPoint = totalPoint
+        self.totalPoint.value = totalPoint
     }
     
     func changeSegment(segmentIndex: Int) {
@@ -55,7 +59,7 @@ final class PointViewModel: Serviceable {
     
     func getPointDetail(nowEarnedPointHidden: Bool) {
         self.isSuccessGetPointInfo.value = false
-        self.onFailNetwork.value = false
+        self.onGetPointDetailFailNetwork.value = false
         self.setPointDetailLoading()
         
         NetworkService.shared.pointDetailService.getPointDetail() { response in
@@ -90,7 +94,7 @@ final class PointViewModel: Serviceable {
                     self.onReissueSuccess.value = isSuccess
                 }
             default:
-                self.onFailNetwork.value = true
+                self.onGetPointDetailFailNetwork.value = true
                 return
             }
         }
@@ -98,7 +102,26 @@ final class PointViewModel: Serviceable {
     
     func setPointDetailLoading() {
         guard let isSuccessGetPointInfo = self.isSuccessGetPointInfo.value else { return }
-        self.onLoading.value = !isSuccessGetPointInfo
+        self.onGetPointDetailLoading.value = !isSuccessGetPointInfo
     }
     
+    func postPoint() {
+        self.isSuccessPostPoint.value = false
+        self.onPostPointFailNetwork.value = false
+
+        NetworkService.shared.pointDetailService.postPoint { response in
+            switch response {
+            case .success:
+                self.isSuccessPostPoint.value = true
+                self.totalPoint.value! += 50
+            case .reIssueJWT:
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
+            default:
+                self.onPostPointFailNetwork.value = true
+                return
+            }
+        }
+    }
 }

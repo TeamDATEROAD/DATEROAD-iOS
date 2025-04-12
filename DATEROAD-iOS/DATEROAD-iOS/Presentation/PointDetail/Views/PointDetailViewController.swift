@@ -18,7 +18,7 @@ class PointDetailViewController: BaseNavBarViewController {
     
     // MARK: - Properties
     
-    private var pointViewModel: PointViewModel
+    var pointViewModel: PointViewModel
     
     
     // MARK: - LifeCycle
@@ -37,6 +37,7 @@ class PointDetailViewController: BaseNavBarViewController {
         self.tabBarController?.tabBar.isHidden = true
         self.pointViewModel.setPointDetailLoading()
         self.pointViewModel.getPointDetail(nowEarnedPointHidden: false)
+        AmplitudeManager.shared.trackEvent(StringLiterals.Amplitude.EventName.viewPointDetail)
     }
     
     override func viewDidLoad() {
@@ -44,10 +45,9 @@ class PointDetailViewController: BaseNavBarViewController {
         
         setLeftBackButton()
         setTitleLabelStyle(title: StringLiterals.PointDetail.title, alignment: .center)
-        setProfile(userName: pointViewModel.userName, totalPoint: pointViewModel.totalPoint)
+        setProfile(userName: pointViewModel.userName, totalPoint: pointViewModel.totalPoint.value ?? 0)
         registerCell()
         setDelegate()
-        setAddTarget()
         bindViewModel()
     }
     
@@ -74,6 +74,11 @@ class PointDetailViewController: BaseNavBarViewController {
 extension PointDetailViewController {
     
     func bindViewModel() {
+        self.pointViewModel.totalPoint.bind { [weak self] totalPoint in
+            guard let self, let totalPoint else { return }
+            pointDetailView.totalPointLabel.text = "\(totalPoint) P"
+        }
+        
         self.pointViewModel.updateGainedPointData.bind { [weak self] flag in
             guard let flag else { return }
             if flag {
@@ -94,20 +99,20 @@ extension PointDetailViewController {
             }
         }
         
-        self.pointViewModel.onFailNetwork.bind { [weak self] onFailure in
+        self.pointViewModel.onGetPointDetailFailNetwork.bind { [weak self] onFailure in
             guard let onFailure else { return }
             if onFailure {
                 let errorVC = DRErrorViewController()
                 errorVC.onDismiss = {
-                    self?.pointViewModel.onFailNetwork.value = false
-                    self?.pointViewModel.onLoading.value = false
+                    self?.pointViewModel.onGetPointDetailFailNetwork.value = false
+                    self?.pointViewModel.onGetPointDetailLoading.value = false
                 }
                 self?.navigationController?.pushViewController(errorVC, animated: false)
             }
         }
         
-        self.pointViewModel.onLoading.bind { [weak self] onLoading in
-            guard let onLoading, let onFailNetwork = self?.pointViewModel.onFailNetwork.value else { return }
+        self.pointViewModel.onGetPointDetailLoading.bind { [weak self] onLoading in
+            guard let onLoading, let onFailNetwork = self?.pointViewModel.onGetPointDetailFailNetwork.value else { return }
             if !onFailNetwork {
                 if onLoading {
                     self?.showLoadingView(type: StringLiterals.PointDetail.title)
@@ -120,22 +125,39 @@ extension PointDetailViewController {
                     self?.hideLoadingView()
                 }
             }
+            self?.pointViewModel.onGetPointDetailLoading.value = nil
         }
         
         self.pointViewModel.isSuccessGetPointInfo.bind { [weak self] _ in
             self?.pointViewModel.setPointDetailLoading()
         }
+        
+        self.pointViewModel.isSuccessPostPoint.bind { [weak self] isSuccess in
+            guard let isSuccess = isSuccess else { return }
+            if isSuccess {
+                self?.pointViewModel.getPointDetail(nowEarnedPointHidden: false)
+            }
+        }
+        
+        self.pointViewModel.onPostPointFailNetwork.bind { [weak self] onFailure in
+            guard let onFailure else { return }
+            if onFailure {
+                let errorVC = DRErrorViewController()
+                errorVC.onDismiss = {
+                    GoogleAdsManager.shared.loadRewardedAd()
+                    self?.pointViewModel.onPostPointFailNetwork.value = false
+                }
+                self?.navigationController?.pushViewController(errorVC, animated: false)
+            }
+        }
+        
     }
     
     func setProfile(userName: String, totalPoint: Int) {
         pointDetailView.userNameLabel.text = "\(userName) 님의 포인트"
         pointDetailView.totalPointLabel.text = "\(totalPoint) P"
     }
-    
-    private func setAddTarget() {
-        pointDetailView.segmentControl.addTarget(self, action: #selector(didChangeValue(segment:)), for: .valueChanged)
-    }
-    
+ 
 }
 
 
@@ -181,12 +203,6 @@ private extension PointDetailViewController {
         }
     }
     
-    @objc
-    func didChangeValue(segment: UISegmentedControl) {
-        pointViewModel.changeSegment(segmentIndex: pointDetailView.segmentControl.selectedSegmentIndex)
-        changeSelectedSegmentLayout(isEarnedPointHidden: pointViewModel.isEarnedPointHidden.value)
-    }
-    
 }
 
 
@@ -199,6 +215,7 @@ private extension PointDetailViewController {
     }
     
     func setDelegate() {
+        pointDetailView.delegate = self
         pointDetailView.pointCollectionView.delegate = self
         pointDetailView.pointCollectionView.dataSource = self
     }
@@ -230,6 +247,55 @@ extension PointDetailViewController : UICollectionViewDataSource {
         let data = pointViewModel.nowPointData.value?[indexPath.item] ?? PointDetailModel(sign: "", point: 0, description: "", createdAt: "")
         cell.dataBind(data, indexPath.item)
         return cell
+    }
+    
+}
+
+
+// MARK: - DRCustomAlert
+
+extension PointDetailViewController: DRCustomAlertDelegate {}
+
+
+// MARK: - GoogleAdsHandler
+
+extension PointDetailViewController: GoogleAdsPresentable {
+    
+    func showPointShortageVC() {
+        let pointShortageVC = PointShortageViewController()
+        pointShortageVC.modalPresentationStyle = .overFullScreen
+        
+        pointShortageVC.onAdvertisementDismiss = { [weak self] in
+            guard let self = self else { return }
+            self.showRewardedAd()
+        }
+        
+        pointShortageVC.onAddCourseDismiss = { [weak self] in
+            guard let self = self else { return }
+            let addCourseFirstVC = AddCourseFirstViewController(
+                viewModel: AddCourseViewModel(),
+                viewPath: StringLiterals.Amplitude.ViewPath.pointShortage
+            )
+            self.navigationController?.pushViewController(addCourseFirstVC, animated: false)
+        }
+        
+        self.present(pointShortageVC, animated: false)
+    }
+        
+}
+
+
+// MARK: - PointDetailDelegate
+
+extension PointDetailViewController: PointDetailDelegate {
+
+    func goToPointShortageVC() {
+        showPointShortageVC()
+    }
+    
+    func didChangeValue(segment: UISegmentedControl) {
+        pointViewModel.changeSegment(segmentIndex: pointDetailView.segmentControl.selectedSegmentIndex)
+        changeSelectedSegmentLayout(isEarnedPointHidden: pointViewModel.isEarnedPointHidden.value)
     }
     
 }
