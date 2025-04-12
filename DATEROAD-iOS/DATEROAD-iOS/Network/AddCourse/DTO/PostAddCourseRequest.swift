@@ -23,6 +23,8 @@ struct PostAddCourse: Codable {
     
     let cost: Int
     
+    let thumbnailIndex: Int
+    
     enum CodingKeys: String, CodingKey {
         
         case title
@@ -39,6 +41,8 @@ struct PostAddCourse: Codable {
         
         case cost
         
+        case thumbnailIndex
+        
     }
     
     func toDictionary() -> [String: Any] {
@@ -49,7 +53,8 @@ struct PostAddCourse: Codable {
             "country": self.country,
             "city": self.city,
             "description": self.description,
-            "cost": self.cost
+            "cost": self.cost,
+            "thumbnailIndex": self.thumbnailIndex
         ]
     }
     
@@ -82,12 +87,14 @@ struct PostAddCoursePlace {
     
     let title: String
     
+    let address: String
+    
     let duration: Float
     
     let sequence: Int
     
     func toDictionary() -> [String: Any] {
-        return ["title": title, "duration": duration, "sequence": sequence]
+        return ["title": title, "address": address, "duration": duration, "sequence": sequence]
     }
     
 }

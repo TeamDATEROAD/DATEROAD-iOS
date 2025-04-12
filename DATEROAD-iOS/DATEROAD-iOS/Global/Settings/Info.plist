@@ -21,6 +21,10 @@
 	<string>$(KAKAO_APPSTORE)</string>
 	<key>KAKAO_NATIVE_APP_KEY</key>
 	<string>${KAKAO_NATIVE_APP_KEY}</string>
+	<key>KAKAO_REST_API_KEY</key>
+	<string>$(KAKAO_REST_API_KEY)</string>
+	<key>KAKAO_SEARCH_PLACE_BASE_URL</key>
+	<string>$(KAKAO_SEARCH_PLACE_BASE_URL)</string>
 	<key>GADApplicationIdentifier</key>
 	<string>${GAD_APPLICATION_IDENTIFIER}</string>
 	<key>GAD_AD_UNIT_ID</key>

@@ -69,13 +69,21 @@ struct MainContentsModel: Equatable {
 
 struct TimelineModel: Equatable {
     
+    let address: String
+    
     let sequence: Int
     
     let title: String
     
     let duration: String
     
-    init(sequence: Int, title: String, duration: String) {
+    init(
+        address: String,
+        sequence: Int,
+        title: String,
+        duration: String
+    ) {
+        self.address = address
         self.sequence = sequence
         self.title = title
         self.duration = duration

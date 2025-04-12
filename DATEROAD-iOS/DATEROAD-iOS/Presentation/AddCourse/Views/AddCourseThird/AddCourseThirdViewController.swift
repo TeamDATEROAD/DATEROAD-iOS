@@ -345,7 +345,9 @@ extension AddCourseThirdViewController: UICollectionViewDataSource {
         ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
         
         cell.updateImageCellUI(isImageEmpty: false, vcCnt: 2)
-        cell.configurePickedImage(pickedImage: viewModel.pickedImageArr[indexPath.item])
+        
+        let isThumbnail = viewModel.thumbnailImageIndex == indexPath.row
+        cell.configurePickedImage(pickedImage: viewModel.pickedImageArr[indexPath.item], isThumbnail: isThumbnail)
         cell.prepare(image: viewModel.pickedImageArr[indexPath.item])
         
         return cell

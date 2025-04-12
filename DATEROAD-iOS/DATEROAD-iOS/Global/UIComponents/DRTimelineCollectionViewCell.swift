@@ -22,6 +22,7 @@ final class DRTimelineCollectionViewCell: BaseCollectionViewCell {
     
     var type: TimelineType
     
+    
     // MARK: - LifeCycle
     
     override init(frame: CGRect) {
@@ -65,11 +66,11 @@ final class DRTimelineCollectionViewCell: BaseCollectionViewCell {
 extension DRTimelineCollectionViewCell {
     
     func dataBind(_ timelineData: TimelineModel) {
-        self.sequenceLabel.text = self.type == .course ? "\(timelineData.sequence)" : "\(timelineData.sequence+1)"
+        // TODO: '가깔나는 영종도 데이트 코스' 만 타임라인 인덱스가 0부터 오고 나머지는 다 1부터 와서 +1 안해도 될 것 같음 
+        self.sequenceLabel.text = self.type == .course ? "\(timelineData.sequence + 1)" : "\(timelineData.sequence + 1)"
         timelineView.do {
             $0.locationLabel.text = timelineData.title
-            // TODO: 주소, abbreviatedString 메소드 사용
-            $0.addressLabel.text = "서울특별시 데로로로로 데로로로로 데로 20자시작".abbreviatedString(20)
+            $0.addressLabel.text = timelineData.address.abbreviatedString(20)
             $0.timeLabel.text = "\(timelineData.duration)시간"
         }
     }

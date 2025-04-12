@@ -11,10 +11,13 @@ struct AddCoursePlaceModel: Equatable {
     
     let placeTitle: String
     
+    let address: String
+    
     let timeRequire: String
     
-    init(placeTitle: String, timeRequire: String) {
+    init(placeTitle: String, address: String, timeRequire: String) {
         self.placeTitle = placeTitle
+        self.address = address
         self.timeRequire = timeRequire
     }
     

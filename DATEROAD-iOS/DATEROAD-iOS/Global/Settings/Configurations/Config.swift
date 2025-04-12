@@ -13,6 +13,10 @@ enum Config {
         
         enum Plist {
             
+            static let kakaoSearchPlaceBaseURL = "KAKAO_SEARCH_PLACE_BASE_URL"
+            
+            static let kakaoRestAPIKey = "KAKAO_REST_API_KEY"
+            
             static let kakaoNativeAppKey = "KAKAO_NATIVE_APP_KEY"
             
             static let baseURL = "BASE_URL"
@@ -40,6 +44,20 @@ enum Config {
 
 
 extension Config {
+
+    static let kakaoSearchPlaceBaseURL: String = {
+        guard let key = Config.infoDictionary[Keys.Plist.kakaoSearchPlaceBaseURL] as? String else {
+            fatalError("KAKAO_SEARCH_PLACE_BASE_URL is not set in plist for this configuration")
+        }
+        return key
+    }()
+    
+    static let kakaoRestAPIKey: String = {
+        guard let key = Config.infoDictionary[Keys.Plist.kakaoRestAPIKey] as? String else {
+            fatalError("KAKAO_REST_API_KEY is not set in plist for this configuration")
+        }
+        return key
+    }()
     
     static let kakaoNativeAppKey: String = {
         guard let key = Config.infoDictionary[Keys.Plist.kakaoNativeAppKey] as? String else {

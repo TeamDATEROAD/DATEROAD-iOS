@@ -41,8 +41,20 @@ final class AddScheduleSecondView: BaseView {
     
     private let warningType: DRErrorType = Warning()
     
+    weak var delegate: AddCourseDelegate?
+
     
-    // MARK: - Methods
+    // MARK: - Life Cycles
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setAddTarget()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func setHierarchy() {
         self.addSubviews(inAddScheduleSecondView,
@@ -104,6 +116,16 @@ final class AddScheduleSecondView: BaseView {
 
 extension AddScheduleSecondView {
     
+    func setAddTarget() {
+        editButton.addTarget(self, action: #selector(didTapEditButton), for: .touchUpInside)
+        
+        inAddScheduleSecondView.addPlaceButton.addTarget(self, action: #selector(didTapAddPlaceBtn), for: .touchUpInside)
+        
+        inAddScheduleSecondView.timeRequireButton.addTarget(self, action: #selector(didTapTimeRequireButton), for: .touchUpInside)
+        
+        nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
+    }
+    
     /// editMode 활성화라면
     func updateEditBtnText(flag: Bool) {
         let text = flag ? StringLiterals.AddCourseOrSchedule.AddSecondView.done : StringLiterals.AddCourseOrSchedule.AddSecondView.edit
@@ -118,6 +140,33 @@ extension AddScheduleSecondView {
     func changeNextBtnState(flag: Bool) {
         let state: TextButtonType = flag ? .bold_purple_14 : .bold_gray200_14
         nextBtn.setButtonStyle(state, isEnabled: flag)
+    }
+    
+}
+
+
+// MARK: - @objc Methods
+
+extension AddScheduleSecondView {
+    
+    @objc
+    func didTapEditButton() {
+        delegate?.didTapEditButton()
+    }
+    
+    @objc
+    func didTapAddPlaceBtn() {
+        delegate?.didTapAddPlaceBtn()
+    }
+    
+    @objc
+    func didTapNextBtn() {
+        delegate?.didTapNextBtn()
+    }
+    
+    @objc
+    func didTapTimeRequireButton() {
+        delegate?.didTapTimeRequireButton()
     }
     
 }

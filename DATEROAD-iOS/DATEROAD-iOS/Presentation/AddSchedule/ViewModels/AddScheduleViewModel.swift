@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class AddScheduleViewModel: Serviceable {
+final class AddScheduleViewModel: Serviceable, TimeRequireViewModel {
     
     let viewPath: String
     
@@ -68,8 +68,13 @@ final class AddScheduleViewModel: Serviceable {
     let inputDatePlace: ObservablePattern<String> = ObservablePattern("")
     let outputDatePlace: ObservablePattern<String> = ObservablePattern("")
     
-    let outputTimeRequire: ObservablePattern<String> = ObservablePattern("")
+    //주소 관련 프로퍼티
+    //TODO: inputAddress.value에 address 값을 추가하시면 추후 outputAddress.value로 활용 가능합니다!
+    let inputAddress: ObservablePattern<String> = ObservablePattern("")
+    let outputAddress: ObservablePattern<String> = ObservablePattern("")
+    
     let inputUpdateTimeRequire: ObservablePattern<String> = ObservablePattern("")
+    let outputTimeRequire: ObservablePattern<String> = ObservablePattern("")
     
     let inputCheckEditBtnState: ObservablePattern<Bool> = ObservablePattern(nil)
     let outputEditBtnEnableState: ObservablePattern<Bool> = ObservablePattern(false)
@@ -160,17 +165,29 @@ final class AddScheduleViewModel: Serviceable {
             }
         }
         
+        inputAddress.lazyBind { [weak self] text in
+            guard let self, let text else {return}
+            if !text.isEmpty {
+                //TODO: 나중에 앰플 추가되면 여기에 true, 하단 else에 false
+                outputAddress.value = text
+            } else {
+                //
+            }
+        }
+        
         inputValidateAddPlcae.lazyBind { [weak self] _ in
             guard let self else {return}
             let datePlace = outputDatePlace.value ?? ""
+            let address = outputAddress.value ?? ""
             let timeRequire = outputTimeRequire.value ?? ""
-            tapAddBtn(datePlace: datePlace, timeRequire: timeRequire)
+            tapAddBtn(datePlace: datePlace, address: address, timeRequire: timeRequire)
         }
         
         inputValidateRegisterBtn.lazyBind { [weak self] _ in
             self?.isSourceMoreThanOne()
         }
         
+        //TODO: '일정 등록' 불러오기 기능 중 사용되는 TimeLineModel에 변경된 DTO에 맞춰 address 추가하여 pastDatePlaces로 불어온 이후 tapAddBtn() 메서드에 매개변수로 보내줘야함
         inputPrepareBroughtData.lazyBind { [weak self] _ in
             guard let self else {return}
             switch isBroughtData {
@@ -179,9 +196,9 @@ final class AddScheduleViewModel: Serviceable {
                     if let doubleValue = Double(String(i.duration)) {
                         let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
                         String(Int(doubleValue)) : String(doubleValue)
-                        tapAddBtn(datePlace: i.title, timeRequire: "\(text) 시간")
+                        tapAddBtn(datePlace: i.title, address: "주소넣어주기", timeRequire: "\(text) 시간")
                     } else {
-                        tapAddBtn(datePlace: i.title, timeRequire: "\(String(i.duration)) 시간")
+                        tapAddBtn(datePlace: i.title, address: "주소넣어주기", timeRequire: "\(String(i.duration)) 시간")
                     }
                 }
                 pastDatePlaces.removeAll()
@@ -346,14 +363,16 @@ extension AddScheduleViewModel {
     
     func isAbleAddBtn() -> Bool {
         return !(outputDatePlace.value?.isEmpty ?? true)
+        && !(outputAddress.value?.isEmpty ?? true)
         && !(outputTimeRequire.value?.isEmpty ?? true)
     }
     
-    private func tapAddBtn(datePlace: String, timeRequire: String) {
-        dataSourceOfAddPlaceCollectionView.value?.append(AddCoursePlaceModel(placeTitle: datePlace, timeRequire: timeRequire))
+    private func tapAddBtn(datePlace: String, address: String, timeRequire: String) {
+        dataSourceOfAddPlaceCollectionView.value?.append(AddCoursePlaceModel(placeTitle: datePlace, address: address, timeRequire: timeRequire))
     
         //등록 마쳤으니 각 값들 초기화
         self.outputDatePlace.value = ""
+        self.outputAddress.value = ""
         self.outputTimeRequire.value = ""
         
         self.addScheduleAmplitude.dateDetailLocation = false
@@ -377,7 +396,7 @@ extension AddScheduleViewModel {
         
         for (index, model) in models.enumerated() {
             if let duration = extractDuration(from: model.timeRequire) {
-                let place = PostAddSchedulePlace(title: model.placeTitle, duration: duration, sequence: index)
+                let place = PostAddSchedulePlace(title: model.placeTitle, address: model.address, duration: duration, sequence: index)
                 places.append(place)
                 print("👍 place added: \(place)")
             } else {

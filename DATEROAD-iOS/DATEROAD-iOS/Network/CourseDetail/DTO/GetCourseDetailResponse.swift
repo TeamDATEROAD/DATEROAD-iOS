@@ -73,6 +73,8 @@ struct GetCourseDetailPlace: Codable {
     
     let duration: Float
     
+    let address: String?
+    
 }
 
 

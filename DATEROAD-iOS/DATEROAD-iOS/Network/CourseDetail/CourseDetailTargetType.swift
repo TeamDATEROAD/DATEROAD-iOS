@@ -22,13 +22,21 @@ enum CourseDetailTargetType {
 extension CourseDetailTargetType: BaseTargetType {
     
     var utilPath: String {
-        return "api/v1/"
+        switch self {
+        case .getCourseDetailInfo(let courseId):
+            return "api/v2/"
+            
+        case .deleteCourse, .getBannerDetail:
+            return "api/v1/"
+        }
+        
     }
     
     var method: Moya.Method {
         switch self {
         case .getCourseDetailInfo, .getBannerDetail:
             return .get
+            
         case .deleteCourse:
             return .delete
         }
@@ -38,18 +46,17 @@ extension CourseDetailTargetType: BaseTargetType {
         switch self {
         case .getCourseDetailInfo(let courseId):
             return utilPath+"courses/\(courseId)"
+            
         case .deleteCourse(let courseId):
             return utilPath+"courses/\(courseId)"
+            
         case .getBannerDetail(let advertismentId):
             return utilPath + "advertisements/\(advertismentId)"
         }
     }
     
     var parameter: [String : Any]? {
-        switch self {
-        default:
-                .none
-        }
+        return .none
     }
     
     var task: Task {

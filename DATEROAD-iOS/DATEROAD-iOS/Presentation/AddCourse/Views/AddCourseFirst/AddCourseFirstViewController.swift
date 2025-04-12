@@ -225,7 +225,11 @@ private extension AddCourseFirstViewController {
         alertVC.delegate = self
         addCourseFirstView.addFirstView.dateNameTextField.resignFirstResponder()
         DispatchQueue.main.async {
-            self.alertVC.presentBottomSheet(in: self)
+            self.alertVC.presentBottomSheet(
+                self.alertVC.bottomSheetView,
+                self.alertVC.dimmedView,
+                in: self
+            )
         }
     }
     
@@ -236,7 +240,11 @@ private extension AddCourseFirstViewController {
         alertVC.delegate = self
         addCourseFirstView.addFirstView.dateNameTextField.resignFirstResponder()
         DispatchQueue.main.async {
-            self.alertVC.presentBottomSheet(in: self)
+            self.alertVC.presentBottomSheet(
+                self.alertVC.bottomSheetView,
+                self.alertVC.dimmedView,
+                in: self
+            )
         }
     }
     
@@ -310,7 +318,11 @@ private extension AddCourseFirstViewController {
         locationFilterVC.isAddType = true
         locationFilterVC.delegate = self
         DispatchQueue.main.async {
-            self.locationFilterVC.presentBottomSheet(in: self)
+            self.locationFilterVC.presentBottomSheet(
+                self.locationFilterVC.locationFilterView,
+                self.locationFilterVC.dimmedView,
+                in: self
+            )
         }
     }
     
@@ -366,6 +378,14 @@ extension AddCourseFirstViewController: UICollectionViewDelegate {
             let isImageEmpty = (viewModel.pickedImageArr.count<1) ? true : false
             if isImageEmpty  && collectionView == addCourseFirstView.collectionView {
                 imagePickerViewController.presentPicker(from: self)
+            } else {
+                let beforeThumbnailIndex = viewModel.thumbnailImageIndex
+                viewModel.thumbnailImageIndex = indexPath.row
+                let indexPaths = [IndexPath(item: beforeThumbnailIndex, section: 0),
+                                  IndexPath(item: indexPath.row, section: 0)]
+                collectionView.performBatchUpdates {
+                    collectionView.reloadItems(at: indexPaths)
+                }
             }
         }
     }
@@ -403,8 +423,8 @@ extension AddCourseFirstViewController: UICollectionViewDataSource {
             if imageIsNotEmpty {
                 self.addCourseFirstView.updateImageCellUI(isEmpty: !imageIsNotEmpty, ImageDataCount: cnt)
                 
-                cell.configurePickedImage(
-                    pickedImage: viewModel.pickedImageArr[indexPath.row])
+                let isThumbnail = viewModel.thumbnailImageIndex == indexPath.row
+                cell.configurePickedImage(pickedImage: viewModel.pickedImageArr[indexPath.row], isThumbnail: isThumbnail)
                 cell.prepare(image: viewModel.pickedImageArr[indexPath.row])
                 cell.deleteImageBtn.tag = indexPath.row
                 
@@ -477,7 +497,7 @@ extension AddCourseFirstViewController: ImagePickerDelegate {
 extension AddCourseFirstViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
-        alertVC.dismissBottomSheet()
+        alertVC.dismissBottomSheet(alertVC.bottomSheetView, alertVC.dimmedView)
         updateTextField()
     }
     

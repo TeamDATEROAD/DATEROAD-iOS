@@ -7,11 +7,13 @@ final class AddCourseSecondViewController: BaseNavBarViewController {
     
     // MARK: - UI Properties
     
+    private lazy var searchPlaceVC: SearchPlaceViewController = SearchPlaceViewController(SearchPlaceViewModel())
+
     private var addCourseSecondView = AddCourseSecondView()
     
     private let viewModel: AddCourseViewModel
     
-    private var alertVC: AddSheetViewController?
+    private var alertVC: AddScheduleBottomSheetViewController?
     
     
     // MARK: - Initializer
@@ -37,7 +39,6 @@ final class AddCourseSecondViewController: BaseNavBarViewController {
         setStyle()
         setTitleLabelStyle(title: StringLiterals.AddCourseOrSchedule.addCourseTitle, alignment: .center)
         setLeftBackButton()
-        setAddTarget()
         setDelegate()
         registerCell()
         bindViewModel()
@@ -52,6 +53,7 @@ final class AddCourseSecondViewController: BaseNavBarViewController {
         super.setHierarchy()
         
         self.view.addSubview(contentView)
+        
         contentView.addSubview(addCourseSecondView)
     }
     
@@ -103,20 +105,23 @@ private extension AddCourseSecondViewController {
             $0.dataSource = self
         }
         
+        addCourseSecondView.delegate = self
+        
         addCourseSecondView.addSecondView.datePlaceTextField.delegate = self
     }
     
     //TODO: - 추후 데이트코스 공유 코스 등록 기능 살아날 시 수정해야함.
     // isBroughtData 변수 생성하여 AddSchedule과 동일하게 수행하도록 수정
+    // 위 TODO 만족 시 수정
     func pastDateBindViewModel() {
         if viewModel.pastDatePlaces.count > 0  {
             for i in viewModel.pastDatePlaces {
                 if let doubleValue = Double(String(i.duration)) {
                     let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
                     String(Int(doubleValue)) : String(doubleValue)
-                    viewModel.tapAddBtn(datePlace: i.title, timeRequire: "\(text) 시간")
+                    viewModel.tapAddBtn(datePlace: i.title, dateAddress: "추후 수정", timeRequire: "\(text) 시간")
                 } else {
-                    viewModel.tapAddBtn(datePlace: i.title, timeRequire: "\(String(i.duration)) 시간")
+                    viewModel.tapAddBtn(datePlace: i.title, dateAddress: "추후 수정", timeRequire: "\(String(i.duration)) 시간")
                 }
             }
         }
@@ -130,6 +135,7 @@ private extension AddCourseSecondViewController {
             self?.addCourseSecondView.editBtnState(isAble: date)
         }
         
+        //place 등록 시, address 역시 등록되기에 address는 생략
         viewModel.datePlace.bind { [weak self] date in
             guard let text = date else { return }
             self?.addCourseSecondView.addSecondView.updateDatePlace(text: text)
@@ -167,44 +173,20 @@ private extension AddCourseSecondViewController {
             self?.addCourseSecondView.addSecondView.changeNextBtnState(flag: date ?? false)
         }
         
-    }
-    
-    func setAddTarget() {
-        addCourseSecondView.editButton.addTarget(self, action: #selector(toggleEditMode), for: .touchUpInside)
-        addCourseSecondView.addSecondView.addPlaceButton.addTarget(self, action: #selector(tapAddPlaceBtn), for: .touchUpInside)
-        addCourseSecondView.addSecondView.nextBtn.addTarget(self, action: #selector(didTapNextBtn), for: .touchUpInside)
-        addCourseSecondView.addSecondView.timeRequireButton.addTarget(self, action: #selector(didTapTimeRequireButton), for: .touchUpInside)
+        searchPlaceVC.viewModel.selectedPlaceData.bind { [weak self] place in
+            guard let place else { return }
+            self?.addCourseSecondView.addSecondView.updateDatePlace(text: place.name)
+            self?.addCourseSecondView.addSecondView.timeRequireButton.isEnabled = true
+            print("코스 등록 선택된 장소: \(place.name), \(place.address)")
+            self?.viewModel.address.value = place.address
+            self?.viewModel.datePlace.value = place.name
+        }
+        
     }
     
     
     // MARK: - @objc Methods
-    
-    @objc
-    func didTapTimeRequireButton(_ textField: UITextField) {
-        let alertVC = AddSheetViewController(viewModel: viewModel)
-        alertVC.addSheetView = AddSheetView(isCustomPicker: true)
-        
-        self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
-        addCourseSecondView.addSecondView.datePlaceTextField.resignFirstResponder()
-        
-        DispatchQueue.main.async {
-            alertVC.presentBottomSheet(in: self)
-        }
-    }
-    
-    @objc
-    func tapAddPlaceBtn() {
-        viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")
-    }
-    
-    @objc
-    func didTapNextBtn() {
-        print("지금 장소 등록된 값 : ", viewModel.addPlaceCollectionViewDataSource)
-        
-        let thirdVC = AddCourseThirdViewController(viewModel: self.viewModel)
-        navigationController?.pushViewController(thirdVC, animated: false)
-    }
-    
+
     @objc
     func removeCell(sender: UIButton) {
         guard let cell = sender.superview?.superview as? AddSecondViewCollectionViewCell,
@@ -229,8 +211,24 @@ private extension AddCourseSecondViewController {
         // Move cell logic here
     }
     
+}
+
+extension AddCourseSecondViewController {
+    
     @objc
-    func toggleEditMode() {
+    override func backButtonTapped() {
+        viewModel.course2BackAmplitude()
+        super.backButtonTapped()
+    }
+    
+}
+
+
+// MARK: - AddCourseDelegate Methods
+
+extension AddCourseSecondViewController: AddCourseDelegate {
+ 
+    func didTapEditButton() {
         print("EditButton 눌림")
         viewModel.isEditMode.toggle()
         let collectionView = addCourseSecondView.addPlaceCollectionView
@@ -257,14 +255,32 @@ private extension AddCourseSecondViewController {
         }
     }
     
-}
-
-extension AddCourseSecondViewController {
+    func didTapAddPlaceBtn() {
+        viewModel.tapAddBtn(datePlace: viewModel.datePlace.value ?? "", dateAddress: viewModel.address.value ?? "", timeRequire: viewModel.timeRequire.value ?? "")
+    }
     
-    @objc
-    override func backButtonTapped() {
-        viewModel.course2BackAmplitude()
-        super.backButtonTapped()
+    func didTapNextBtn() {
+        print("지금 장소 등록된 값 : ", viewModel.addPlaceCollectionViewDataSource)
+        
+        let thirdVC = AddCourseThirdViewController(viewModel: self.viewModel)
+        navigationController?.pushViewController(thirdVC, animated: false)
+    }
+
+    func didTapTimeRequireButton() {
+        print(#function)
+        let alertVC = AddScheduleBottomSheetViewController(viewModel: viewModel)
+        alertVC.addSheetView = AddScheduleBottomSheetView(isCustomPicker: true)
+        
+        self.alertVC = alertVC // alertVC를 인스턴스 변수에 저장
+        addCourseSecondView.addSecondView.datePlaceTextField.resignFirstResponder()
+        
+        DispatchQueue.main.async {
+            alertVC.presentBottomSheet(
+                alertVC.addSheetView,
+                alertVC.dimmedView,
+                in: self
+            )
+        }
     }
     
 }
@@ -274,25 +290,14 @@ extension AddCourseSecondViewController {
 
 extension AddCourseSecondViewController: UITextFieldDelegate {
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        let trimmedText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        if let text = trimmedText, !text.isEmpty {
-            viewModel.datePlace.value = text
-            print(text)
-        } else {
-            viewModel.datePlace.value = ""
-            print("공란")
-        }
+        print("didTapDatePlaceTextField")
+        searchPlaceVC.presentBottomSheet(
+            searchPlaceVC.searchPlaceView,
+            searchPlaceVC.dimmedView,
+            in: self
+        )
+        return false
     }
     
 }
@@ -331,7 +336,9 @@ extension AddCourseSecondViewController: UICollectionViewDataSource {
             ) as? AddCourseImageCollectionViewCell else { return UICollectionViewCell() }
             
             cell.updateImageCellUI(isImageEmpty: false, vcCnt: 2)
-            cell.configurePickedImage(pickedImage: viewModel.pickedImageArr[indexPath.item])
+            
+            let isThumbnail = viewModel.thumbnailImageIndex == indexPath.row
+            cell.configurePickedImage(pickedImage: viewModel.pickedImageArr[indexPath.item], isThumbnail: isThumbnail)
             cell.prepare(image: viewModel.pickedImageArr[indexPath.item])
             
             return cell
@@ -361,6 +368,18 @@ extension AddCourseSecondViewController: UICollectionViewDataSource {
 
 extension AddCourseSecondViewController: UICollectionViewDropDelegate {
     
+    //드래그 cell Preview
+    func collectionView(_ collectionView: UICollectionView,
+                        dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters? {
+        print(#function)
+        let parameters = UIDragPreviewParameters()
+        parameters.visiblePath = UIBezierPath(roundedRect: collectionView.cellForItem(at: indexPath)?.bounds ?? .zero,
+                                              cornerRadius: 14) // 원하는 cornerRadius 적용
+        parameters.backgroundColor = .clear
+        return parameters
+    }
+    
+    //들고있던 cell을 이동시켜 cell의 index가 바뀌었을 때 동작
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
         if collectionView != addCourseSecondView.collectionView {
             var destinationIndexPath: IndexPath
@@ -388,19 +407,20 @@ extension AddCourseSecondViewController: UICollectionViewDropDelegate {
     
     private func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView) {
         if collectionView != addCourseSecondView.collectionView {
+            
             if let item = coordinator.items.first, let sourceIndexPath = item.sourceIndexPath {
-                collectionView.performBatchUpdates({
-                    let temp = viewModel.addPlaceCollectionViewDataSource[sourceIndexPath.item]
-                    viewModel.addPlaceCollectionViewDataSource.remove(at: sourceIndexPath.item)
-                    viewModel.addPlaceCollectionViewDataSource.insert(temp, at: destinationIndexPath.item)
-                    collectionView.deleteItems(at: [sourceIndexPath])
-                    collectionView.insertItems(at: [destinationIndexPath])
-                }) { done in
-                    //
+                var body = viewModel.addPlaceCollectionViewDataSource
+                
+                let movedItem = body.remove(at: sourceIndexPath.item)
+                body.insert(movedItem, at: destinationIndexPath.item)
+                viewModel.addPlaceCollectionViewDataSource = body
+                
+                collectionView.performBatchUpdates {
+                    collectionView.moveItem(at: sourceIndexPath, to: destinationIndexPath)
                 }
+                
                 coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
             }
-            viewModel.updatePlaceCollectionView()
         }
     }
     

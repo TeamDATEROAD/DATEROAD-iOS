@@ -254,7 +254,11 @@ private extension EditProfileViewController {
     func presentEditBottomSheet() {
         alertVC.delegate = self
         DispatchQueue.main.async {
-            self.alertVC.presentBottomSheet(in: self)
+            self.alertVC.presentBottomSheet(
+                self.alertVC.bottomSheetView,
+                self.alertVC.dimmedView,
+                in: self
+            )
         }
     }
     
@@ -293,14 +297,14 @@ private extension EditProfileViewController {
     }
     
     func deletePhoto() {
-        alertVC.dismissBottomSheet()
+        alertVC.dismissBottomSheet(alertVC.bottomSheetView, alertVC.dimmedView)
         profileView.updateProfileImage(image: UIImage(resource: .emptyProfileImg))
         profileViewModel.profileImage.value = UIImage(resource: .emptyProfileImg)
         self.profileViewModel.isUpdateProfileImage.value = true
     }
     
     func registerPhoto() {
-        alertVC.dismissBottomSheet() { [weak self] in
+        alertVC.dismissBottomSheet(alertVC.bottomSheetView, alertVC.dimmedView) { [weak self] in
             guard let self else { return }
             self.imagePickerViewController.presentPicker(from: self)
         }
@@ -417,7 +421,7 @@ extension EditProfileViewController: UITextFieldDelegate {
 extension EditProfileViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
-        alertVC.dismissBottomSheet()
+        alertVC.dismissBottomSheet(alertVC.bottomSheetView, alertVC.dimmedView)
     }
     
     func didTapFirstLabel() {

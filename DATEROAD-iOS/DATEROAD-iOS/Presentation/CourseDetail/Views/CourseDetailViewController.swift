@@ -385,7 +385,7 @@ extension CourseDetailViewController {
 extension CourseDetailViewController: DRBottomSheetDelegate {
     
     func didTapBottomButton() {
-        bottomSheetVC.dismissBottomSheet()
+        bottomSheetVC.dismissBottomSheet(bottomSheetVC.bottomSheetView, bottomSheetVC.dimmedView)
     }
     
 }
@@ -405,7 +405,11 @@ extension CourseDetailViewController: StickyHeaderNavBarViewDelegate {
         deleteCourseSettingView.optionButton.setTitle(courseDetailViewModel.isCourseMine.value == true ? StringLiterals.CourseDetail.deleteCourse : StringLiterals.CourseDetail.delclareCourse, for: .normal)
 
         DispatchQueue.main.async {
-            self.bottomSheetVC.presentBottomSheet(in: self)
+            self.bottomSheetVC.presentBottomSheet(
+                self.bottomSheetVC.bottomSheetView,
+                self.bottomSheetVC.dimmedView,
+                in: self
+            )
         }
     }
     
