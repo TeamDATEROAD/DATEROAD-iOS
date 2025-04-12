@@ -22,13 +22,20 @@ enum DateScheduleTargetType {
 extension DateScheduleTargetType: BaseTargetType {
     
     var utilPath: String {
-        return "api/v1/"
+        switch self {
+        case .getDateSchedule, .deleteDateSchedule:
+            return "api/v1/"
+            
+        case .getDateDetail:
+            return "api/v2/"
+        }
     }
     
     var method: Moya.Method {
         switch self {
         case .getDateSchedule, .getDateDetail:
             return .get
+            
         case .deleteDateSchedule:
             return .delete
         }
@@ -38,8 +45,10 @@ extension DateScheduleTargetType: BaseTargetType {
         switch self {
         case .getDateSchedule:
             return utilPath + "dates"
+            
         case .getDateDetail(let dateID):
             return utilPath + "dates/\(dateID)"
+        
         case .deleteDateSchedule(let dateID):
             return utilPath + "dates/\(dateID)"
         }
@@ -49,8 +58,10 @@ extension DateScheduleTargetType: BaseTargetType {
         switch self {
         case .getDateSchedule(let time):
             return ["time" : time]
+        
         case .getDateDetail(let dateID):
             return ["dateId" : dateID]
+        
         case .deleteDateSchedule(let dateID):
             return ["dateId" : dateID]
         }

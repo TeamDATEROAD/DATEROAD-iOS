@@ -73,17 +73,24 @@ extension DateDetailViewModel {
                 }
                 
                 let datePlaceInfo: [TimelineModel] = data.places.map { place in
-                    TimelineModel(sequence: place.sequence, title: place.title, duration: (place.duration).formatFloatTime())
+                    TimelineModel(
+                        address: place.address ?? "",
+                        sequence: place.sequence,
+                        title: place.title,
+                        duration: (place.duration).formatFloatTime()
+                    )
                 }
                 
-                let newDateDetailData = DateDetailModel(dateID: data.dateID,
-                                                        title: data.title,
-                                                        startAt: data.startAt,
-                                                        city: data.city,
-                                                        tags: tagsInfo,
-                                                        date: data.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "",
-                                                        places: datePlaceInfo,
-                                                        dDay: data.dDay)
+                let newDateDetailData = DateDetailModel(
+                    dateID: data.dateID,
+                    title: data.title,
+                    startAt: data.startAt,
+                    city: data.city,
+                    tags: tagsInfo,
+                    date: data.date.formatDateFromString(inputFormat: "yyyy.MM.dd", outputFormat: "yyyy년 M월 d일") ?? "",
+                    places: datePlaceInfo,
+                    dDay: data.dDay
+                )
                 
                 // 기존 데이터와 비교 이후 동작
                 if self.currentDateDetailData != newDateDetailData {
