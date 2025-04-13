@@ -66,8 +66,7 @@ final class DRTimelineCollectionViewCell: BaseCollectionViewCell {
 extension DRTimelineCollectionViewCell {
     
     func dataBind(_ timelineData: TimelineModel) {
-        // TODO: '가깔나는 영종도 데이트 코스' 만 타임라인 인덱스가 0부터 오고 나머지는 다 1부터 와서 +1 안해도 될 것 같음 
-        self.sequenceLabel.text = self.type == .course ? "\(timelineData.sequence + 1)" : "\(timelineData.sequence + 1)"
+        self.sequenceLabel.text = "\(timelineData.sequence)"
         timelineView.do {
             $0.locationLabel.text = timelineData.title
             $0.addressLabel.text = timelineData.address.abbreviatedString(20)
