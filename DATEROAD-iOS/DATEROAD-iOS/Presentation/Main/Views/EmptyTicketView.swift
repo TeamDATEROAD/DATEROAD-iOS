@@ -14,12 +14,13 @@ final class EmptyTicketView: BaseView {
     private let ticketImage: UIImageView = UIImageView()
     
     private let emptyDateLabel: DRTextLabel = DRTextLabel(
+        title: StringLiterals.Main.emptyDateTitle,
         textLabelType: .clear(.systemBold20_white),
         alignment: .left,
         numberOfLines: 1
     )
     
-    private let goToRegisterLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med15_purple400))
+    private let goToRegisterLabel: DRTextLabel = DRTextLabel(title: StringLiterals.Main.emptyDateSub, textLabelType: .clear(.med15_purple400))
     
     let moveButton: DRImageButton = DRImageButton(image: UIImage(resource: .icPlus), buttonName: .clear_mediumPurple_0)
     
