@@ -74,6 +74,7 @@ final class PointViewModel: Serviceable {
                                      description: $0.description,
                                      createdAt: $0.createdAt)
                 }
+                self.totalPoint.value = data.totalPoint
                 
                 // 포인트 획득내역 기존 데이터와 비교
                 if self.gainedPointData.value != newGainedPointInfo {
@@ -113,7 +114,6 @@ final class PointViewModel: Serviceable {
             switch response {
             case .success:
                 self.isSuccessPostPoint.value = true
-                self.totalPoint.value! += 50
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
