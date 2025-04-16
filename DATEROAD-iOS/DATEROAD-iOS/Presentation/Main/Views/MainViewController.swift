@@ -27,13 +27,7 @@ final class MainViewController: BaseViewController {
     private lazy var userName = mainViewModel.mainUserData.value?.name
     
     private lazy var point = mainViewModel.mainUserData.value?.point
-    
-    private var totalCells: Int = 4 // 셀의 총 개수
-    
-    private var loadedCells: Int = 0 // 로딩이 완료된 셀 개수
-    
-    private var initial: Bool = false
-    
+        
     private var loaded: Bool = false
     
     
@@ -62,13 +56,11 @@ final class MainViewController: BaseViewController {
     
     override func viewIsAppearing(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
-        self.loadedCells = 0
         self.mainViewModel.fetchSectionData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.stopBannerAutoScroll()
-        self.initial = false
     }
     
     override func setHierarchy() {
