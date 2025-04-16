@@ -291,9 +291,10 @@ extension AddCourseThirdViewController: UITextViewDelegate {
 
 extension AddCourseThirdViewController: UITextFieldDelegate {
     
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
         textField.font = UIFont.suit(.body_med_13)
-        return true
+        let money = textField.text?.filter { $0.isNumber }
+        viewModel.priceText.value = Int(money ?? "0")
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -318,9 +319,9 @@ extension AddCourseThirdViewController: UITextFieldDelegate {
             }
             self.view.layoutIfNeeded() // 레이아웃 즉시 갱신
         }
-        // textField 값이 변경된 경우 ',' 제거한 값으로 처리
-        let money = textField.text?.filter { $0.isNumber }
-        viewModel.priceText.value = Int(money ?? "0")
+//        // textField 값이 변경된 경우 ',' 제거한 값으로 처리
+//        let money = textField.text?.filter { $0.isNumber }
+//        viewModel.priceText.value = Int(money ?? "0")
     }
     
 }
