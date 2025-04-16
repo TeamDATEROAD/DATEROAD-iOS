@@ -130,6 +130,7 @@ extension AddScheduleBottomSheetView {
         if isDatePicker {
             datePicker.datePickerMode = .date
         } else {
+            datePicker.minuteInterval = 5
             datePicker.datePickerMode = .time
         }
     }
