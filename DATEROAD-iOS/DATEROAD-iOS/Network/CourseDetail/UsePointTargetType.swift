@@ -43,7 +43,7 @@ extension UsePointTargetType: BaseTargetType {
     }
     
     var headers: [String : String]? {
-        let token = UserDefaults.standard.string(forKey: StringLiterals.Network.accessToken) ?? ""
+        let token = UserDefaultsManager.shared.accessToken
         let headers = HeaderType.headerWithAcceptToken(token: token)
         return headers
     }

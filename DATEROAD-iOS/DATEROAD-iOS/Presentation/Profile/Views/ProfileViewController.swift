@@ -177,8 +177,7 @@ private extension ProfileViewController {
         
         self.profileViewModel.onSuccessRegister = { [weak self] isSuccess in
             if isSuccess {
-                guard let userId = UserDefaults.standard.string(forKey: StringLiterals.Network.userID) else { return }
-                AmplitudeManager.shared.setUserId(userId)
+                AmplitudeManager.shared.setUserId(String(UserDefaultsManager.shared.userID))
                 
                 let mainVC = TabBarController()
                 self?.navigationController?.pushViewController(mainVC, animated: false)

@@ -194,17 +194,16 @@ private extension MyPageViewController {
 extension MyPageViewController {
     
     func pushToPointDetailVC() {
-        self.navigationController?.pushViewController(PointDetailViewController(pointViewModel: PointViewModel(userName: myPageViewModel.userInfoData.value?.nickname ?? "-", totalPoint: myPageViewModel.userInfoData.value?.point ?? 10)), animated: false)
+        self.navigationController?.pushViewController(PointDetailViewController(pointViewModel: PointViewModel(userName: UserDefaultsManager.shared.userName, totalPoint: UserDefaultsManager.shared.userPoint)), animated: false)
     }
     
     func pushToProfileVC() {
         if let userInfoData = self.myPageViewModel.userInfoData.value {
-            let nickname = userInfoData.nickname
             let tags = userInfoData.tagList
             
             let profile = ProfileModel(
                 profileImage: self.myPageView.userInfoView.profileImageView.image,
-                nickname: nickname,
+                nickname: UserDefaultsManager.shared.userName,
                 tags: tags
             )
             let profileVC = EditProfileViewController(profileViewModel: ProfileViewModel(profileData: profile))

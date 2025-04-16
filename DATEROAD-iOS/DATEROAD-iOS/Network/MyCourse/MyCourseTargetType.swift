@@ -41,7 +41,7 @@ extension MyCourseTargetType: BaseTargetType {
     }
     
     var headers: [String : String]? {
-        let token = UserDefaults.standard.string(forKey: StringLiterals.Network.accessToken) ?? ""
+        let token = UserDefaultsManager.shared.accessToken
         let headers = HeaderType.headerWithToken(token: "Bearer " + token)
         return headers
     }

@@ -116,10 +116,12 @@ extension MainHeaderView {
             self.backgroundView.clipsToBounds = true
             self.backgroundView.roundCorners(cornerRadius: 20, maskedCorners: [.layerMaxXMinYCorner, .layerMinXMinYCorner])
             titleLabel.setProperties(nickname + StringLiterals.Main.hotDateTitle, .clear(.systemBold24_black), .left, 2)
-            titleLabel.setAttributedText(fullText: nickname + StringLiterals.Main.hotDateTitle,
-                                     pointText: nickname+"님,",
-                                     pointColor: UIColor(resource: .purple600),
-                                     lineHeight: 1.04)
+            titleLabel.setAttributedText(
+                fullText: nickname + StringLiterals.Main.hotDateTitle,
+                pointText: nickname+"님,",
+                pointColor: UIColor(resource: .purple600),
+                lineHeight: 1.04
+            )
             subLabel.text = StringLiterals.Main.hotDateSub
         } else {
             self.backgroundView.clipsToBounds = false

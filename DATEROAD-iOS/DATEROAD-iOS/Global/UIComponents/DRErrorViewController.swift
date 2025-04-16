@@ -104,9 +104,7 @@ extension DRErrorViewController {
     @objc
     override func backButtonTapped() {
         if self.type == StringLiterals.Common.main {
-            for key in UserDefaults.standard.dictionaryRepresentation().keys {
-                UserDefaults.standard.removeObject(forKey: key.description)
-            }
+            UserDefaultsManager.shared.clearAllData()
             navigationController?.popToRootViewController(animated: false)
         } else {
             navigationController?.popViewController(animated: false)

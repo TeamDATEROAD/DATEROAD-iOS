@@ -23,11 +23,7 @@ final class MainViewController: BaseViewController {
     // MARK: - Properties
     
     private var mainViewModel: MainViewModel
-    
-    private lazy var userName = mainViewModel.mainUserData.value?.name
-    
-    private lazy var point = mainViewModel.mainUserData.value?.point
-        
+            
     private var loaded: Bool = false
     
     
@@ -174,8 +170,10 @@ extension MainViewController {
         switch index {
         case 0:
             targetIndexPath = IndexPath(item: 5, section: 2)
+            
         case 6:
             targetIndexPath = IndexPath(item: 1, section: 2)
+            
         default:
             return
         }
@@ -198,8 +196,7 @@ extension MainViewController {
     }
     
     func pushToPointDetailVC() {
-        guard let userName = self.userName, let totalPoint = self.point else { return }
-        let pointDetailVC = PointDetailViewController(pointViewModel: PointViewModel(userName: userName, totalPoint: totalPoint))
+        let pointDetailVC = PointDetailViewController(pointViewModel: PointViewModel(userName: UserDefaultsManager.shared.userName, totalPoint: UserDefaultsManager.shared.userPoint))
         self.navigationController?.pushViewController(pointDetailVC, animated: false)
     }
     
@@ -207,6 +204,7 @@ extension MainViewController {
         switch gestureRecognizer.state {
         case .began, .changed, .ended:
             stopBannerAutoScroll()
+            
         default:
             startAutoScrollTimer()
         }
@@ -317,7 +315,7 @@ extension MainViewController: UICollectionViewDataSource {
                 return header
                 
             case .hotDateCourse:
-                header.bindTitle(section: .hotDateCourse, nickname: mainViewModel.nickname.value)
+                header.bindTitle(section: .hotDateCourse, nickname: UserDefaultsManager.shared.userName)
                 
             case .newDateCourse:
                 header.bindTitle(section: .newDateCourse, nickname: nil)
