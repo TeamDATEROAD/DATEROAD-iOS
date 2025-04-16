@@ -21,9 +21,7 @@ final class ViewedCourseViewController: BaseViewController {
     // MARK: - Properties
     
     private let viewedCourseViewModel: MyCourseListViewModel
-    
-    private let userName: String = UserDefaults.standard.string(forKey: StringLiterals.Network.userName) ?? ""
-    
+        
     private var loaded: Bool = false
     
     
@@ -80,24 +78,22 @@ final class ViewedCourseViewController: BaseViewController {
 private extension ViewedCourseViewController {
     
     func setEmptyView() {
-        guard let name = UserDefaults.standard.string(forKey: StringLiterals.Network.userName),
-              let viewedCourseCount = self.viewedCourseViewModel.viewedCourseData.value?.count,
-              let updateData = viewedCourseViewModel.viewedCoursesModelIsUpdate.value
-        else { return }
+        guard let viewedCourseCount = self.viewedCourseViewModel.viewedCourseData.value?.count else { return }
 
         let isEmpty = (viewedCourseCount == 0)
         viewedCourseView.setEmptyView(isEmpty)
         
         if isEmpty {
             DispatchQueue.main.async {
-                self.viewedCourseView.updateEmptyTopLabel(name)
+                self.viewedCourseView.updateEmptyTopLabel(UserDefaultsManager.shared.userName)
             }
         } else {
-            if updateData {
-                DispatchQueue.main.async {
-                    self.viewedCourseView.updateTopLabel(name, viewedCourseCount, String(viewedCourseCount))
-                }
-                self.viewedCourseViewModel.viewedCoursesModelIsUpdate.value = false
+            DispatchQueue.main.async {
+                self.viewedCourseView.updateTopLabel(
+                    UserDefaultsManager.shared.userName,
+                    viewedCourseCount,
+                    String(viewedCourseCount)
+                )
             }
         }
     }

@@ -14,9 +14,7 @@ final class MyCourseListViewModel: Serviceable {
     var broughtViewedCoursesModel = BroughtViewedCoursesManager.shared.broughtViewedCoursesModel
     
     var myRegisterCoursesModel = MyRegisterCoursesManager.shared.myRegisterCoursesModel
-    
-    var viewedCoursesModelIsUpdate: ObservablePattern<Bool> = ObservablePattern(false)
-    
+        
     var broughtViewedCoursesModelIsUpdate: ObservablePattern<Bool> = ObservablePattern(nil)
     
     var myRegisterCoursesModelIsUpdate: ObservablePattern<Bool> = ObservablePattern(nil)
@@ -58,26 +56,32 @@ final class MyCourseListViewModel: Serviceable {
         NetworkService.shared.myCourseService.getViewedCourse() { response in
             switch response {
             case .success(let data):
-                let viewedCourseInfo = data.courses.map { MyCourseModel(courseId: $0.courseID,
-                                                                        thumbnail: $0.thumbnail,
-                                                                        title: $0.title,
-                                                                        city: $0.city,
-                                                                        cost: $0.cost.priceRangeTag(),
-                                                                        duration: ($0.duration).formatFloatTime(),
-                                                                        like: $0.like) }
+                let viewedCourseInfo = data.courses.map {
+                    MyCourseModel(
+                        courseId: $0.courseID,
+                        thumbnail: $0.thumbnail,
+                        title: $0.title,
+                        city: $0.city,
+                        cost: $0.cost.priceRangeTag(),
+                        duration: ($0.duration).formatFloatTime(),
+                        like: $0.like
+                    )
+                }
+                
                 AmplitudeManager.shared.setUserProperty(userProperties: [StringLiterals.Amplitude.UserProperty.userPurchaseCount: viewedCourseInfo.count])
                 
                 if self.viewedCoursesModel != viewedCourseInfo {
                     self.viewedCourseData.value = viewedCourseInfo
                     self.viewedCoursesModel = viewedCourseInfo
-                    self.viewedCoursesModelIsUpdate.value = true
                 }
                 
                 self.isSuccessGetViewedCourseInfo.value = true
+                
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
+                
             default:
                 self.onViewedCourseFailNetwork.value = true //TODO: - 확인
                 return
@@ -98,13 +102,17 @@ final class MyCourseListViewModel: Serviceable {
         NetworkService.shared.myCourseService.getViewedCourse() { response in
             switch response {
             case .success(let data):
-                let viewedCourseInfo = data.courses.map { MyCourseModel(courseId: $0.courseID,
-                                                                        thumbnail: $0.thumbnail,
-                                                                        title: $0.title,
-                                                                        city: $0.city,
-                                                                        cost: $0.cost.priceRangeTag(),
-                                                                        duration: ($0.duration).formatFloatTime(),
-                                                                        like: $0.like) }
+                let viewedCourseInfo = data.courses.map {
+                    MyCourseModel(
+                        courseId: $0.courseID,
+                        thumbnail: $0.thumbnail,
+                        title: $0.title,
+                        city: $0.city,
+                        cost: $0.cost.priceRangeTag(),
+                        duration: ($0.duration).formatFloatTime(),
+                        like: $0.like
+                    )
+                }
                 
                 if self.broughtViewedCoursesModel != viewedCourseInfo {
                     self.viewedCourseData.value = viewedCourseInfo
@@ -113,10 +121,12 @@ final class MyCourseListViewModel: Serviceable {
                 }
                 
                 self.isSuccessGetNavViewedCourseInfo.value = true
+                
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
+                
             default:
                 self.onNavViewedCourseFailNetwork.value = true //TODO: - 확인
                 return
