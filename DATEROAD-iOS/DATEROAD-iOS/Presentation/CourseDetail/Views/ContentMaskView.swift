@@ -21,7 +21,7 @@ final class ContentMaskView: UICollectionReusableView {
     
     private let pointImageView = UIImageView(image: .imgPreview)
     
-    private let subTitleLabel: DRTextLabel = DRTextLabel(title: "50P로 코스를 확인해보세요!", textLabelType: .clear(.semi15_black))
+    private let subTitleLabel: DRTextLabel = DRTextLabel(title: "50P로 코스를 확인해보세요!", textLabelType: .clear(.semi15_purple600))
     
     let readCourseButton = DRTextButton(title: StringLiterals.CourseDetail.viewCoursewithPoint, buttonName: .bold_purple_14)
     
