@@ -634,6 +634,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
                 let haveFree = courseDetailViewModel.haveFreeCount.value ?? false
                 let count = courseDetailViewModel.conditionalData.value?.free ?? 0
                 view.updateReadCourseButton(haveFree: haveFree, count: count)
+                view.updateSubtitleText(haveFree)
             }
         }
     }

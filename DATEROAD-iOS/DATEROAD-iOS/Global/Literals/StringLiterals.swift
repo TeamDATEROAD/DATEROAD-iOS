@@ -131,7 +131,10 @@ enum StringLiterals {
         
         static let usedFreeView = "무료 열람 기회 사용"
         
+        static let useFreeChanceToViewCourse = "무료 열람 기회로 코스를 확인해보세요!"
+        
         static let usePointToViewCourse = "50P로 코스를 확인해보세요!"
+
     }
     
     enum Profile {

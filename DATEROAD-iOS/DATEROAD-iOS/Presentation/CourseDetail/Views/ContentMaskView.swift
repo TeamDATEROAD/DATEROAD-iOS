@@ -113,4 +113,8 @@ extension ContentMaskView {
         readCourseButton.setTitle(haveFree ? "무료 열람 기회 쓰기(\(count)/3)" : StringLiterals.CourseDetail.viewCoursewithPoint, for: .normal)
     }
     
+    func updateSubtitleText(_ haveFree: Bool) {
+        subTitleLabel.updateTextColor(haveFree ? StringLiterals.CourseDetail.useFreeChanceToViewCourse : StringLiterals.CourseDetail.usePointToViewCourse, .purple600)
+    }
+    
 }
