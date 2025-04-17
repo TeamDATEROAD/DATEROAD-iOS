@@ -73,26 +73,6 @@ struct DisabledButton: DRButtonType {
     
 }
 
-struct KakaoLoginButton: DRButtonType {
-    
-    var bgColor: UIColor = UIColor(resource: .kakaoBg)
-    
-    var fontColor: UIColor = UIColor(resource: .drBlack).withAlphaComponent(0.85)
-    
-    var font: UIFont = UIFont.systemFont(ofSize: 15, weight: .semibold)
-    
-}
-
-struct AppleLoginButton: DRButtonType {
-    
-    var bgColor: UIColor = UIColor(resource: .drBlack)
-    
-    var fontColor: UIColor = UIColor(resource: .drWhite)
-    
-    var font: UIFont = UIFont.suit(.body_bold_15)
-    
-}
-
 struct UnselectedButton: DRButtonType {
     
     var bgColor: UIColor = UIColor(resource: .gray100)

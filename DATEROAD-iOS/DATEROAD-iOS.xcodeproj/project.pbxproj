@@ -320,6 +320,7 @@
 		CAE890A62C8ADE9000834A9E /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = CAE890A52C8ADE9000834A9E /* Lottie */; };
 		CAE890A82C8ADF0A00834A9E /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = CAE890A72C8ADF0A00834A9E /* loading.json */; };
 		CAE8C1992C45920E00F153B3 /* GetMainUserProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE8C1982C45920E00F153B3 /* GetMainUserProfileResponse.swift */; };
+		CAEAA5542DB0E4FC00007CF2 /* AppleSDGothicNeoSB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CAEAA5532DB0E4FC00007CF2 /* AppleSDGothicNeoSB.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -627,6 +628,7 @@
 		CAE8C1982C45920E00F153B3 /* GetMainUserProfileResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMainUserProfileResponse.swift; sourceTree = "<group>"; };
 		CAE8C19C2C45962B00F153B3 /* GetBannerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetBannerResponse.swift; sourceTree = "<group>"; };
 		CAE8C19E2C459AC500F153B3 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		CAEAA5532DB0E4FC00007CF2 /* AppleSDGothicNeoSB.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeoSB.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1006,6 +1008,7 @@
 				74A70BF62C329A6400855E61 /* SUIT-Medium.otf */,
 				74A70BF22C329A5B00855E61 /* SUIT-ExtraBold.otf */,
 				74BC16652C329A110084E832 /* SUIT-Bold.otf */,
+				CAEAA5532DB0E4FC00007CF2 /* AppleSDGothicNeoSB.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -2070,6 +2073,7 @@
 				CA524C922CDA0CDC001792C9 /* clearLoading.json in Resources */,
 				74A70BFA2C329A9600855E61 /* SUIT-SemiBold.otf in Resources */,
 				CA3D0CE42C29A2F500735097 /* Assets.xcassets in Resources */,
+				CAEAA5542DB0E4FC00007CF2 /* AppleSDGothicNeoSB.ttf in Resources */,
 				CA3D0CE72C29A2F500735097 /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
