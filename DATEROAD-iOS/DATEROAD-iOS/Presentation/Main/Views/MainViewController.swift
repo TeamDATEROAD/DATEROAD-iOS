@@ -70,12 +70,12 @@ final class MainViewController: BaseViewController {
         
         mainView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(view.frame.height * 0.1)
+            $0.bottom.equalToSuperview().inset(view.frame.height * 0.13)
         }
         
         mainSkeletonView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(view.frame.height * 0.1)
+            $0.bottom.equalToSuperview().inset(view.frame.height * 0.11)
         }
     }
     
