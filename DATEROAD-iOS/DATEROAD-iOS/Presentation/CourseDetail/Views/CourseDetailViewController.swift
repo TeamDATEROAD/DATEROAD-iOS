@@ -512,14 +512,19 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         switch sectionType {
         case .imageCarousel:
             return configureImageCarouselCell(collectionView, indexPath: indexPath, isAccess: isAccess)
+            
         case .titleInfo:
             return configureTitleInfoCell(collectionView, indexPath: indexPath)
+        
         case .mainContents:
             return configureMainContentsCell(collectionView, indexPath: indexPath, isAccess: isAccess)
+        
         case .timelineInfo:
             return configureTimelineInfoCell(collectionView, indexPath: indexPath)
+        
         case .coastInfo:
             return configureCoastInfoCell(collectionView, indexPath: indexPath)
+        
         case .tagInfo:
             return configureTagInfoCell(collectionView, indexPath: indexPath)
         }
@@ -592,6 +597,7 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             
         case ContentMaskView.elementKinds:
             return configureContentMaskView(collectionView, indexPath: indexPath, isAccess: isAccess)
+            
         case InfoHeaderView.elementKinds:
             return configureInfoHeaderView(collectionView, indexPath: indexPath)
             
@@ -644,8 +650,10 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
             switch courseDetailViewModel.fetchSection(at: indexPath.section) {
             case .coastInfo:
                 view.bindTitle(headerTitle: StringLiterals.CourseDetail.coastInfoLabel)
+                
             case .tagInfo:
                 view.bindTitle(headerTitle: StringLiterals.CourseDetail.tagInfoLabel)
+                
             default:
                 break
             }

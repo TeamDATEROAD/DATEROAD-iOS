@@ -119,4 +119,6 @@ struct NewDateLayout: MainSectionLayout {
     
     var scrollDirection: UICollectionLayoutSectionOrthogonalScrollingBehavior = .none
     
+    var sectionContentInset: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0)
+    
 }
