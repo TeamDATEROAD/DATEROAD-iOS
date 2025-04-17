@@ -65,7 +65,7 @@ final class ContentMaskView: UICollectionReusableView {
         }
         
         pointImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(72)
+            $0.top.equalToSuperview().inset(85)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(134)
             $0.height.equalTo(100)
@@ -82,7 +82,7 @@ final class ContentMaskView: UICollectionReusableView {
         }
         
         readCourseButton.snp.makeConstraints {
-            $0.bottom.equalTo(gradientView).inset(32)
+            $0.top.equalTo(subTitleLabel.snp.bottom).offset(25)
             $0.horizontalEdges.equalToSuperview().inset(60)
             $0.height.equalTo(54)
         }
