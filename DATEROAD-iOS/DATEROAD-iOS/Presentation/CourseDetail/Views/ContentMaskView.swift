@@ -89,14 +89,14 @@ final class ContentMaskView: UICollectionReusableView {
     }
     
     func setStyle() {        
-        gradient.locations = [0, 1]
+        gradient.locations = [0, 0.18]
         gradient.frame = gradientView.bounds
         gradient.colors = [
-            UIColor(resource: .drWhite).withAlphaComponent(0.3).cgColor,
-            UIColor(resource: .drWhite).withAlphaComponent(0.7).cgColor
+            UIColor(resource: .drWhite).withAlphaComponent(0.0).cgColor,
+            UIColor(resource: .drWhite).withAlphaComponent(1.0).cgColor
         ]
         gradient.startPoint = CGPoint(x: 0.5, y: 0)
-        gradient.endPoint = CGPoint(x: 0.5, y: 0.03)
+        gradient.endPoint = CGPoint(x: 0.5, y: 1)
         gradientView.layer.insertSublayer(gradient, at: 0)
     }
     
