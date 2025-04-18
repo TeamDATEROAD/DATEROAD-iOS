@@ -43,7 +43,7 @@ final class CustomEmptyView: BaseView {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(imageView.snp.bottom)
+            $0.top.equalTo(imageView.snp.bottom).offset(-40)
             $0.horizontalEdges.equalToSuperview()
         }
     }
@@ -52,6 +52,8 @@ final class CustomEmptyView: BaseView {
         imageView.do {
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFit
+            $0.layer.borderColor = UIColor.red.cgColor
+            $0.layer.borderWidth = 1
         }
     }
     
