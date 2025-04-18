@@ -25,7 +25,7 @@ class BaseNavBarViewController: UIViewController {
     
     private var rightButton = UIButton()
     
-    var titleLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold20_black), hidden: true)
+    var titleLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.bold18_black), hidden: true)
     
     private let backgroundView: UIView = UIView()
     
