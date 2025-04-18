@@ -45,7 +45,7 @@ final class DateDetailContentView: BaseView {
     
     var kakaoShareButton = UIButton()
     
-    var courseShareButton = DRTextButton(title: StringLiterals.DateSchedule.courseShare, buttonName: .bold_purple_25)
+    var courseShareButton = UIButton()
     
     static var dateTimeLineCollectionViewLayout = UICollectionViewFlowLayout()
     
@@ -145,7 +145,8 @@ final class DateDetailContentView: BaseView {
         
         kakaoShareButton.snp.makeConstraints {
             //            $0.centerX.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview().inset(78)
+//            $0.horizontalEdges.equalToSuperview().inset(78)
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.width / 375 * 73)
             $0.height.equalTo(ScreenUtils.width * 0.1386667)
             $0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.04802956)
         }
@@ -197,6 +198,21 @@ final class DateDetailContentView: BaseView {
             config.baseForegroundColor = UIColor(resource: .drWhite)
             config.cornerStyle = .capsule
             config.imagePadding = 12
+            config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = UIFont.suit(.body_bold_15)
+                return outgoing
+            }
+            $0.configuration = config
+        }
+        
+        courseShareButton.do {
+            $0.isHidden = true
+            var config = UIButton.Configuration.plain()
+            config.title = StringLiterals.DateSchedule.courseShare
+            config.background.backgroundColor = UIColor(resource: .purple600)
+            config.baseForegroundColor = UIColor(resource: .drWhite)
+            config.cornerStyle = .capsule
             config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
                 var outgoing = incoming
                 outgoing.font = UIFont.suit(.body_bold_15)
