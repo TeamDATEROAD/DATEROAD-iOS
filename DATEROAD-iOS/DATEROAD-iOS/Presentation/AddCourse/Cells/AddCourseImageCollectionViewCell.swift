@@ -110,7 +110,10 @@ final class AddCourseImageCollectionViewCell: BaseCollectionViewCell {
             $0.layer.borderWidth = 2
         }
         
-        thumbnailTagView.backgroundColor = UIColor(resource: .purple600)
+        thumbnailTagView.do {
+            $0.backgroundColor = UIColor(resource: .purple600)
+            $0.layer.cornerRadius = 4
+        }
         
         emptyView.do {
             $0.backgroundColor = .gray100
