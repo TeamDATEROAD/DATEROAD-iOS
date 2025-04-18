@@ -194,7 +194,7 @@ private extension AddCourseThirdViewController {
     func successDone() {
         let customAlertVC = DRCustomAlertViewController(
             rightActionType: .none,
-            alertTextType: .hasDecription,
+            alertTextType: .noDescription,
             titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertTitleLabel,
             descriptionText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertSubTitleLabel,
             longButton: DRTextButton(title: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton, buttonName: .bold_purple_10)
