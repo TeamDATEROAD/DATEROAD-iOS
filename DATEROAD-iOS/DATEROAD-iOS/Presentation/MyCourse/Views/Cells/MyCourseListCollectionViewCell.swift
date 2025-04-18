@@ -23,11 +23,7 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
     
     private var locationLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.med13_gray300), alignment: .left)
     
-    private var titleLabel: DRTextLabel = DRTextLabel(
-        textLabelType: .clear(.systemBold15_black),
-        alignment: .left,
-        numberOfLines: 2
-    )
+    private var titleTextView = UITextView()
     
     private var expenseButton = UIButton()
     
@@ -58,7 +54,7 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
         // 셀이 재사용될 때 이미지나 데이터를 초기화합니다.
         thumbnailImageView.image = nil
         locationLabel.text = nil
-        titleLabel.text = nil
+        titleTextView.text = nil
         heartButton.titleLabel?.text = nil
         expenseButton.titleLabel?.text = nil
         timeButton.titleLabel?.text = nil
@@ -70,7 +66,7 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
                          infoView)
         
         infoView.addSubviews(locationLabel,
-                             titleLabel,
+                             titleTextView,
                              expenseButton,
                              timeButton)
     }
@@ -100,7 +96,7 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
             $0.height.equalTo(18)
         }
         
-        titleLabel.snp.makeConstraints {
+        titleTextView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
             $0.top.equalTo(locationLabel.snp.bottom).offset(5)
             $0.height.equalTo(42)
@@ -108,13 +104,13 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
         
         expenseButton.snp.makeConstraints {
             $0.leading.equalToSuperview()
-            $0.top.equalTo(titleLabel.snp.bottom).offset(10)
+            $0.top.equalTo(titleTextView.snp.bottom).offset(10)
             $0.height.equalTo(26)
         }
         
         timeButton.snp.makeConstraints {
             $0.leading.equalTo(expenseButton.snp.trailing).offset(6)
-            $0.top.equalTo(titleLabel.snp.bottom).offset(10)
+            $0.top.equalTo(titleTextView.snp.bottom).offset(10)
             $0.height.equalTo(26)
         }
     }
@@ -138,6 +134,15 @@ final class MyCourseListCollectionViewCell: BaseCollectionViewCell {
             $0.titleEdgeInsets = UIEdgeInsets(top: 2, left: 2.5, bottom: 2, right: -2.5)
             $0.setImage(UIImage(resource: .heartIcon), for: .normal)
             $0.imageView?.contentMode = .scaleAspectFit
+        }
+        
+        titleTextView.do {
+            $0.isEditable = false
+            $0.isScrollEnabled = false
+            $0.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            $0.textContainer.lineFragmentPadding = 0
+            $0.textAlignment = .left
+            $0.font = .systemFont(ofSize: 15, weight: .bold)
         }
         
         expenseButton.do {
@@ -174,7 +179,7 @@ extension MyCourseListCollectionViewCell {
         self.courseID = viewedCourseData.courseId
         self.heartButton.setTitle("\(viewedCourseData.like)", for: .normal)
         self.locationLabel.text = viewedCourseData.city
-        self.titleLabel.text = viewedCourseData.title
+        self.titleTextView.text = viewedCourseData.title
         self.expenseButton.setTitle(viewedCourseData.cost, for: .normal)
         self.timeButton.setTitle(viewedCourseData.duration + "시간", for: .normal)
         self.viewedCourseItemRow = viewedCourseItemRow
