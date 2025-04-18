@@ -52,8 +52,6 @@ final class CustomEmptyView: BaseView {
         imageView.do {
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFit
-            $0.layer.borderColor = UIColor.red.cgColor
-            $0.layer.borderWidth = 1
         }
     }
     
