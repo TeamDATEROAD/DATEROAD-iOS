@@ -140,7 +140,7 @@ struct DateScheduleTagButton: DRButtonType {
     
     var fontColor: UIColor = UIColor(resource: .drBlack)
     
-    var font: UIFont = UIFont.suit(.body_semi_15)
+    var font: UIFont = UIFont.suit(.body_med_13)
     
     var cornerRadius: CGFloat = 15
     
@@ -164,7 +164,7 @@ struct PastDateScheduleTagButton: DRButtonType {
     
     var fontColor: UIColor = UIColor(resource: .drBlack)
     
-    var font: UIFont = UIFont.suit(.body_semi_13)
+    var font: UIFont = UIFont.suit(.body_med_13)
     
     var cornerRadius: CGFloat = 14
     
