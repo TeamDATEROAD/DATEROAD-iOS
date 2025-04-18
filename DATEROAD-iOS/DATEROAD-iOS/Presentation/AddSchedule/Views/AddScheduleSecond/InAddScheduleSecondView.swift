@@ -15,7 +15,7 @@ final class InAddScheduleSecondView: BaseView {
     // MARK: - UI Properties
     
     private let contentTitleLabel: DRTextLabel = DRTextLabel(
-        title: StringLiterals.AddCourseOrSchedule.AddSecondView.contentTitleLabelOfCourse,
+        title: StringLiterals.AddCourseOrSchedule.AddSecondView.contentTitleLabelOfSchedul,
         textLabelType: .clear(.bold17_black),
         alignment: .left
     )
