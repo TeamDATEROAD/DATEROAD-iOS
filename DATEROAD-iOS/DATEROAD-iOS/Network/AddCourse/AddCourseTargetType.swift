@@ -60,7 +60,7 @@ extension AddCourseTargetType: BaseTargetType {
             
             // Add images
             for (index, image) in images.enumerated() {
-                if let imageData = image.jpegData(compressionQuality: 0.8) {
+                if let imageData = image.jpegData(compressionQuality: 0.6) {
                     formData.append(MultipartFormData(provider: .data(imageData), name: "images", fileName: "image\(index).jpg", mimeType: "image/jpeg"))
                 }
             }
