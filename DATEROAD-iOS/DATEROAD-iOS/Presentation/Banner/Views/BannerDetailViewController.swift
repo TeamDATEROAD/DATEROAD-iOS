@@ -17,9 +17,7 @@ final class BannerDetailViewController: BaseViewController {
     private let bannerDetailView: BannerDetailView = BannerDetailView()
     
     private let errorView: DRErrorViewController = DRErrorViewController()
-    
-    private var deleteCourseSettingView = DeleteCourseSettingView()
-    
+        
     private let bannerDetailSkeletonView: BannerDetailSkeletonView = BannerDetailSkeletonView()
     
     
