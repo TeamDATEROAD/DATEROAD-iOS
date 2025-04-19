@@ -196,9 +196,9 @@ final class AddScheduleViewModel: Serviceable, TimeRequireViewModel {
                     if let doubleValue = Double(String(i.duration)) {
                         let text = doubleValue.truncatingRemainder(dividingBy: 1) == 0 ?
                         String(Int(doubleValue)) : String(doubleValue)
-                        tapAddBtn(datePlace: i.title, address: "주소넣어주기", timeRequire: "\(text) 시간")
+                        tapAddBtn(datePlace: i.title, address: i.address, timeRequire: "\(text) 시간")
                     } else {
-                        tapAddBtn(datePlace: i.title, address: "주소넣어주기", timeRequire: "\(String(i.duration)) 시간")
+                        tapAddBtn(datePlace: i.title, address: i.address, timeRequire: "\(String(i.duration)) 시간")
                     }
                 }
                 pastDatePlaces.removeAll()

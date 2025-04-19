@@ -16,9 +16,9 @@ final class DateDetailContentView: BaseView {
     private var dateLabel: DRTextLabel = DRTextLabel(textLabelType: .clear(.semi15_black))
     
     var dDayLabel: DRTextLabel = DRTextLabel(textLabelType: .background(.bold11_white, .purple600_10), hidden: true)
-
+    
     // TODO: - UILabel로 변경
-        
+    
     private var firstTagButton = UIButton()
     
     private var secondTagButton = UIButton()
@@ -45,7 +45,7 @@ final class DateDetailContentView: BaseView {
     
     var kakaoShareButton = UIButton()
     
-    var courseShareButton = DRTextButton(title: StringLiterals.DateSchedule.courseShare, buttonName: .bold_purple_25)
+    var courseShareButton = UIButton()
     
     static var dateTimeLineCollectionViewLayout = UICollectionViewFlowLayout()
     
@@ -144,7 +144,7 @@ final class DateDetailContentView: BaseView {
         }
         
         kakaoShareButton.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.width / 375 * 73)
             $0.height.equalTo(ScreenUtils.width * 0.1386667)
             $0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.04802956)
         }
@@ -161,52 +161,24 @@ final class DateDetailContentView: BaseView {
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
         }
-                
+        
         dDayLabel.setPadding(top: 2, left: 10, bottom: 2, right: 10)
         
-        firstTagButton.do {
-            $0.setButtonStatus(buttonType: tagButtonType)
-            $0.titleLabel?.lineBreakMode = .byClipping
-            $0.titleLabel?.adjustsFontSizeToFitWidth = true
-            $0.titleLabel?.minimumScaleFactor = 0.5
-            $0.titleLabel?.numberOfLines = 1
-            $0.titleLabel?.textAlignment = .center
-            $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
-            $0.isEnabled = false
-            $0.adjustsImageWhenDisabled = false
+        [firstTagButton, secondTagButton, thirdTagButton].forEach { i in
+            i.do {
+                $0.setButtonStatus(buttonType: tagButtonType)
+            }
         }
         
-        secondTagButton.do {
-            $0.isHidden = true
-            $0.titleLabel?.lineBreakMode = .byClipping
-            $0.titleLabel?.adjustsFontSizeToFitWidth = true
-            $0.titleLabel?.minimumScaleFactor = 0.5
-            $0.titleLabel?.numberOfLines = 1
-            $0.titleLabel?.textAlignment = .center
-            $0.setButtonStatus(buttonType: tagButtonType)
-            $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
-            $0.isEnabled = false
-            $0.adjustsImageWhenDisabled = false
-        }
-        
-        thirdTagButton.do {
-            $0.isHidden = true
-            $0.titleLabel?.lineBreakMode = .byClipping
-            $0.titleLabel?.adjustsFontSizeToFitWidth = true
-            $0.titleLabel?.minimumScaleFactor = 0.5
-            $0.titleLabel?.numberOfLines = 1
-            $0.titleLabel?.textAlignment = .center
-            $0.setButtonStatus(buttonType: tagButtonType)
-            $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
-            $0.isEnabled = false
-            $0.adjustsImageWhenDisabled = false
+        [secondTagButton, thirdTagButton].forEach { i in
+            i.isHidden = true
         }
         
         dateDetailView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.roundCorners(cornerRadius: 20, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
         }
-                
+        
         dateTimeLineCollectionView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.isPagingEnabled = false
@@ -219,17 +191,36 @@ final class DateDetailContentView: BaseView {
         
         kakaoShareButton.do {
             $0.isHidden = true
-            $0.backgroundColor = UIColor(resource: .purple600)
-            $0.setImage(UIImage(resource: .kakaoShare), for: .normal)
-            $0.setTitle(StringLiterals.DateSchedule.kakaoShare, for: .normal)
-            $0.setTitleColor(UIColor(resource: .drWhite), for: .normal)
-            $0.titleLabel?.font = UIFont.suit(.body_bold_15)
-            $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
-            $0.imageEdgeInsets = UIEdgeInsets(top: 14, left: -6, bottom: 14, right: 6)
-            $0.titleEdgeInsets = UIEdgeInsets(top: 15.5, left: 6, bottom: 15.5, right: -6)
-            $0.roundedButton(cornerRadius: 25, maskedCorners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
+            var config = UIButton.Configuration.plain()
+            config.image = UIImage(resource: .kakaoShare)
+            config.title = StringLiterals.DateSchedule.kakaoShare
+            config.background.backgroundColor = UIColor(resource: .purple600)
+            config.baseForegroundColor = UIColor(resource: .drWhite)
+            config.cornerStyle = .capsule
+            config.imagePadding = 12
+            config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = UIFont.suit(.body_bold_15)
+                return outgoing
+            }
+            $0.configuration = config
         }
-                
+        
+        courseShareButton.do {
+            $0.isHidden = true
+            var config = UIButton.Configuration.plain()
+            config.title = StringLiterals.DateSchedule.courseShare
+            config.background.backgroundColor = UIColor(resource: .purple600)
+            config.baseForegroundColor = UIColor(resource: .drWhite)
+            config.cornerStyle = .capsule
+            config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = UIFont.suit(.body_bold_15)
+                return outgoing
+            }
+            $0.configuration = config
+        }
+        
         DateDetailContentView.dateTimeLineCollectionViewLayout.do {
             $0.scrollDirection = .vertical
             $0.minimumLineSpacing = 12
@@ -278,8 +269,19 @@ extension DateDetailContentView {
     func updateTagButton(title: String, button: UIButton) {
         guard let tendencyTag = TendencyTag.getTag(byEnglish: title) else { return }
         button.do {
-            $0.setImage(tendencyTag.tag.tagIcon, for: .normal)
-            $0.setTitle(" \(tendencyTag.tag.tagTitle)", for: .normal)
+            var config = UIButton.Configuration.plain()
+            config.image = tendencyTag.tag.tagIcon
+            config.title = " \(tendencyTag.tag.tagTitle)"
+            config.titleLineBreakMode = .byClipping
+            config.titleAlignment = .center
+            config.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 10, bottom: 4, trailing: 10)
+            config.baseForegroundColor = .drBlack
+            config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = UIFont.suit(.body_med_13)
+                return outgoing
+            }
+            $0.configuration = config
         }
     }
     

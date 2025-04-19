@@ -15,7 +15,7 @@ final class PointShortageViewController: BaseViewController {
     
     private let bottomSheetView: UIView = UIView()
     
-    private let noPointLabel: DRTextLabel = DRTextLabel(title: StringLiterals.PointDetail.noPoint, textLabelType: .clear(.bold17_black))
+    private let noPointLabel: DRTextLabel = DRTextLabel(title: StringLiterals.PointDetail.collectPoint, textLabelType: .clear(.bold17_black))
     
     private let xButton: DRImageButton = DRImageButton(image: UIImage(resource: .btnClose), buttonName: .clear_clear_0)
     

@@ -41,12 +41,11 @@ enum DRTextFieldType: Equatable {
             case .datePlace:
                 return .basic(placeholder: StringLiterals.AddCourseOrSchedule.AddSecondView.datePlacePlaceHolder,
                               cornerRadius: 14,
-                              font: UIFont.systemFont(ofSize: 13, weight: .semibold))
-                //TODO: 추후 장소 api 붙이면 이상한 글자 입력될 일 없으니 suit font 적용하기
+                              font: UIFont.suit(.body_semi_13))
             case .totalPrice:
                 return .basic(placeholder: StringLiterals.AddCourseOrSchedule.AddThirdView.priceTextFieldPlaceHolder,
                               cornerRadius: 14,
-                              font: .suit(.body_med_13))
+                              font: UIFont.suit(.body_semi_13))
             }
         case .profile:
             return .rightTextButton(placeholder: StringLiterals.Profile.nicknamePlaceholder,

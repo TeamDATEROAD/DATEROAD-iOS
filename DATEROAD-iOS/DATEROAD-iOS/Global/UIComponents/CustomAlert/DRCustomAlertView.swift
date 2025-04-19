@@ -71,7 +71,7 @@ final class DRCustomAlertView: BaseView {
         
         descriptionLabel.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
-            $0.top.equalTo(titleLabel.snp.bottom).inset(5)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(5)
             $0.height.equalTo(18)
         }
         
