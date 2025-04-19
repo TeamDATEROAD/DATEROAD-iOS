@@ -209,7 +209,7 @@ enum StringLiterals {
             
             static let contentTitleLabelOfCourse = "어떤 코스로 이동하셨나요?"
             
-            static let contentTitleLabelOfSchedul = "어떤 코스를 계획하셨나요?"
+            static let contentTitleLabelOfSchedule = "어떤 코스를 계획하셨나요?"
             
             static let subTitleLabel = "장소와 소요시간을 입력하여 코스를 추가해 주세요"
             

@@ -144,8 +144,6 @@ final class DateDetailContentView: BaseView {
         }
         
         kakaoShareButton.snp.makeConstraints {
-            //            $0.centerX.equalToSuperview()
-//            $0.horizontalEdges.equalToSuperview().inset(78)
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.width / 375 * 73)
             $0.height.equalTo(ScreenUtils.width * 0.1386667)
             $0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.04802956)
@@ -171,8 +169,10 @@ final class DateDetailContentView: BaseView {
                 $0.setButtonStatus(buttonType: tagButtonType)
             }
         }
-        secondTagButton.isHidden = true
-        thirdTagButton.isHidden = true
+        
+        [secondTagButton, thirdTagButton].forEach { i in
+            i.isHidden = true
+        }
         
         dateDetailView.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
