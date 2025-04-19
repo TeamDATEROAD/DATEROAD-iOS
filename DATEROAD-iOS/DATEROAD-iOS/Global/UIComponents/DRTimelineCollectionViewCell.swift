@@ -65,8 +65,8 @@ final class DRTimelineCollectionViewCell: BaseCollectionViewCell {
 
 extension DRTimelineCollectionViewCell {
     
-    func dataBind(_ timelineData: TimelineModel) {
-        self.sequenceLabel.text = "\(timelineData.sequence)"
+    func dataBind(_ timelineData: TimelineModel, isCourseDetail: Bool = false) {
+        self.sequenceLabel.text = isCourseDetail ? "\(timelineData.sequence)" : "\(timelineData.sequence + 1)"
         timelineView.do {
             $0.locationLabel.text = timelineData.title
             $0.addressLabel.text = timelineData.address.abbreviatedString(20)

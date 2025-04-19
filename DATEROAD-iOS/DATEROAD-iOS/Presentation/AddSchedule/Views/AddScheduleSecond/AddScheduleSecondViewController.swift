@@ -294,7 +294,7 @@ private extension AddScheduleSecondViewController {
     // 등록 완료 alertVC도 blurView 페이드인 적용 미정
     func successDone() {
         let customAlertVC = DRCustomAlertViewController(rightActionType: .none,
-                                                        alertTextType: .hasDecription,
+                                                        alertTextType: .noDescription,
                                                         titleText: StringLiterals.AddCourseOrSchedule.AddCourseAlert.alertScheduelTitleLabel,
                                                         longButton: DRTextButton(title: StringLiterals.AddCourseOrSchedule.AddCourseAlert.doneButton, buttonName: .bold_purple_10))
         customAlertVC.delegate = self

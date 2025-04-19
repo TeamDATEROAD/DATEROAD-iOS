@@ -82,7 +82,7 @@ final class ContentMaskView: UICollectionReusableView {
         }
         
         readCourseButton.snp.makeConstraints {
-            $0.top.equalTo(subTitleLabel.snp.bottom).offset(25)
+            $0.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).inset(4)
             $0.horizontalEdges.equalToSuperview().inset(60)
             $0.height.equalTo(54)
         }

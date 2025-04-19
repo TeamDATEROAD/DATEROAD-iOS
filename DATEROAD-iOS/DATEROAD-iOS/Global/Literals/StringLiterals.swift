@@ -179,7 +179,7 @@ enum StringLiterals {
         
         static let addCourseTitle = "코스 등록하기"
         
-        static let addScheduleTitle = "일정 등록하기"
+        static let addScheduleTitle = "일정 계획하기"
         
         enum AddFirstView {
             
@@ -192,6 +192,8 @@ enum StringLiterals {
             static let dateStartTimeLabel = "데이트 시작 시간을 선택해 주세요 (필수)"
             
             static let tagTitle = "데이트코스와 어울리는 태그를 선택해 주세요 (0/3)"
+            
+            static let tagTitleOnSchedule = "예정된 데이트와 어울리는 태그를 선택해주세요 (0/3)"
             
             static let datePlaceLabel = "데이트 지역을 선택해 주세요 (필수)"
             
@@ -211,7 +213,7 @@ enum StringLiterals {
             
             static let contentTitleLabelOfCourse = "어떤 코스로 이동하셨나요?"
             
-            static let contentTitleLabelOfSchedul = "어떤 코스로 이동하시나요?"
+            static let contentTitleLabelOfSchedule = "어떤 코스를 계획하셨나요?"
             
             static let subTitleLabel = "장소와 소요시간을 입력하여 코스를 추가해 주세요"
             

@@ -559,7 +559,11 @@ extension CourseDetailViewController: UICollectionViewDelegate, UICollectionView
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DRTimelineCollectionViewCell.cellIdentifier, for: indexPath) as? DRTimelineCollectionViewCell else {
             return UICollectionViewCell() }
         cell.type = .course
-        cell.dataBind(data)
+        if courseDetailViewModel.titleHeaderData.value?.title == "기깔나는 영종도 데이트 코스" {
+            cell.dataBind(data)
+        } else {
+            cell.dataBind(data, isCourseDetail: true)
+        }
         return cell
     }
     

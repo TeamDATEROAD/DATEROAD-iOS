@@ -23,7 +23,7 @@ final class InAddScheduleFirstView: BaseView {
     private let tagContainer = UIView()
     
     private let tagTitleLabel: DRTextLabel = DRTextLabel(
-        title: StringLiterals.AddCourseOrSchedule.AddFirstView.tagTitle,
+        title: StringLiterals.AddCourseOrSchedule.AddFirstView.tagTitleOnSchedule,
         textLabelType: .clear(.semi15_black),
         alignment: .left
     )
@@ -149,7 +149,7 @@ extension InAddScheduleFirstView {
     }
     
     func updateTagCount(count: Int) {
-        tagTitleLabel.text = "데이트 코스와 어울리는 태그를 선택해 주세요 (\(count)/3)"
+        tagTitleLabel.text = "예정된 데이트와 어울리는 태그를 선택해주세요 (\(count)/3)"
     }
     
     func updateTag(button: UIButton, buttonType: DRButtonType) {

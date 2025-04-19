@@ -86,7 +86,7 @@ final class AddCourseSecondView: BaseView {
         
         editButton.snp.makeConstraints {
             $0.top.equalTo(addSecondView.separatorLine.snp.bottom).offset(10)
-            $0.trailing.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(ScreenUtils.width * 16/375)
             $0.width.equalTo(59)
             $0.height.equalTo(30)
         }
