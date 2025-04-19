@@ -73,7 +73,7 @@ final class NewDateCourseCell: BaseCollectionViewCell {
     
     override func setLayout() {
         courseImage.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.verticalEdges.equalToSuperview().inset(10)
             $0.leading.equalToSuperview().inset(16)
             $0.size.equalTo(120)
         }

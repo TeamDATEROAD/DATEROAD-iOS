@@ -168,27 +168,33 @@ extension ProfileViewModel {
     
     func postSignUp() {
         self.onLoading.value = true
-        let socialType = UserDefaults.standard.bool(forKey: StringLiterals.Network.socialType)
         
         guard let name = self.nickname.value else { return }
         self.checkDefaultImage()
-        let requestBody = PostSignUpRequest(userSignUpReq: UserSignUpReq(name: name, platform: socialType ? SocialType.KAKAO.rawValue : SocialType.APPLE.rawValue),
-                                            image: self.profileImage.value,
-                                            tag: self.selectedTagData)
+        let requestBody = PostSignUpRequest(
+            userSignUpReq: UserSignUpReq(name: name, platform: UserDefaultsManager.shared.platform),
+            image: self.profileImage.value,
+            tag: self.selectedTagData
+        )
         
         NetworkService.shared.authService.postSignUp(requestBody: requestBody) { response in
             switch response {
             case .success(let data):
-                UserDefaults.standard.setValue(data.userID, forKey: StringLiterals.Network.userID)
-                UserDefaults.standard.setValue(data.accessToken, forKey: StringLiterals.Network.accessToken)
-                UserDefaults.standard.setValue(data.refreshToken, forKey: StringLiterals.Network.refreshToken)
+                UserDefaultsManager.shared.updateTokens(
+                    data.userID,
+                    data.accessToken,
+                    data.refreshToken
+                )
+                
                 self.onSuccessRegister?(true)
                 self.onLoading.value = false
+                
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.type.value = NetworkType.postSignUp
                     self.onReissueSuccess.value = isSuccess
                 }
+                
             default:
                 print("Failed to fetch post signup")
                 self.onSuccessRegister?(false)
@@ -237,18 +243,22 @@ extension ProfileViewModel {
     func patchEditProfile() {
         self.onEditProfileLoading.value = true
         self.onFailNetwork.value = false
+        
         guard let name = self.nickname.value else { return }
         checkDefaultImage()
-        let requestBody = PatchEditProfileRequest(name: name,
-                                                  tags: self.selectedTagData,
-                                                  image: self.profileImage.value,
-                                                  isDefaultImage: self.isDefaultImage)
+        let requestBody = PatchEditProfileRequest(
+            name: name,
+            tags: self.selectedTagData,
+            image: self.profileImage.value,
+            isDefaultImage: self.isDefaultImage
+        )
         
         NetworkService.shared.userService.patchEditProfile(requestBody: requestBody) { response in
             switch response {
             case .success(_):
                 self.onSuccessEdit?(true)
                 self.onEditProfileLoading.value = false
+                UserDefaultsManager.shared.userName = name
                 
             case .reIssueJWT:
                 self.patchReissue { isSuccess in

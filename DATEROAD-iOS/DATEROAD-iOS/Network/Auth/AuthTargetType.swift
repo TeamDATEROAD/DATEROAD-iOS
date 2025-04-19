@@ -113,21 +113,25 @@ extension AuthTargetType: BaseTargetType {
     var headers: [String : String]? {
         switch self {
         case .postSignUp:
-            let token = UserDefaults.standard.string(forKey: StringLiterals.Network.token) ?? ""
+            let token = UserDefaultsManager.shared.socialToken
             let headers = HeaderType.headerWithMultiPart(token: token)
             return headers
+            
         case .deleteLogout, .deleteWithdrawal:
-            let token = UserDefaults.standard.string(forKey: StringLiterals.Network.accessToken) ?? ""
+            let token = UserDefaultsManager.shared.accessToken
             let headers = HeaderType.headerWithToken(token: "Bearer " + token)
             return headers
+            
         case .postSignIn:
-            let token = UserDefaults.standard.string(forKey: StringLiterals.Network.token) ?? ""
+            let token = UserDefaultsManager.shared.socialToken
             let headers = HeaderType.headerWithToken(token: token)
             return headers
+            
         case .patchReissue:
-            let token = UserDefaults.standard.string(forKey: StringLiterals.Network.refreshToken) ?? ""
+            let token = UserDefaultsManager.shared.refreshToken
             let headers = HeaderType.headerWithToken(token: token)
             return headers
+            
         default:
             let headers = HeaderType.basic
             return headers

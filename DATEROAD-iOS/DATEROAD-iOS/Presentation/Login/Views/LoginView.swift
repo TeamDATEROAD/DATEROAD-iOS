@@ -23,11 +23,13 @@ final class LoginView: BaseView {
     
     private let logoImageView: UIImageView = UIImageView()
     
-    let kakaoLoginButton: UIButton = UIButton()
+    private let kakaoLoginButton: DRTextButton = DRTextButton(title: StringLiterals.Login.kakaoLoginLabel, buttonName: .semi_yellow_14)
     
-    let appleLoginButton: DRTextButton = DRTextButton(title: StringLiterals.Login.appleLoginLabel, buttonName: .bold_black_14)
+    private let kakaoLogo: UIImageView = UIImageView()
     
-    let privacyPolicyButton: DRTextButton = DRTextButton(title: StringLiterals.Login.privacyPolicyLabel, buttonName: .med_purple_0)
+    private let appleLoginButton: DRTextButton = DRTextButton(title: StringLiterals.Login.appleLoginLabel, buttonName: .bold_black_14)
+    
+    private let privacyPolicyButton: DRTextButton = DRTextButton(title: StringLiterals.Login.privacyPolicyLabel, buttonName: .med_purple_0)
     
     
     // MARK: - Properties
@@ -54,6 +56,8 @@ final class LoginView: BaseView {
             appleLoginButton,
             privacyPolicyButton
         )
+        
+        kakaoLoginButton.addSubview(kakaoLogo)
     }
     
     override func setLayout() {
@@ -67,6 +71,11 @@ final class LoginView: BaseView {
             $0.bottom.equalTo(appleLoginButton.snp.top).offset(-16)
             $0.width.equalToSuperview().inset(38)
             $0.height.equalTo(45)
+        }
+        
+        kakaoLogo.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().inset(14)
         }
         
         appleLoginButton.snp.makeConstraints {
@@ -90,18 +99,7 @@ final class LoginView: BaseView {
             $0.contentMode = .scaleAspectFit
         }
         
-        kakaoLoginButton.do {
-            $0.setButtonStatus(buttonType: KakaoLoginButton())
-            $0.setImage(UIImage(resource: .kakaoLogo), for: .normal)
-            $0.setTitle(StringLiterals.Login.kakaoLoginLabel, for: .normal)
-            $0.setTitleColor(UIColor(resource: .drBlack).withAlphaComponent(0.85), for: .highlighted)
-            $0.contentHorizontalAlignment = .leading
-            
-            var config = UIButton.Configuration.plain()
-            config.imagePadding = ScreenUtils.width / 375 * 86
-            config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 14, bottom: 0, trailing: 0)
-            $0.configuration = config
-        }
+        kakaoLogo.image = UIImage(resource: .kakaoLogo)
         
         privacyPolicyButton.setUnderline()
     }
@@ -115,9 +113,7 @@ extension LoginView {
     
     func setAddTarget() {
         kakaoLoginButton.addTarget(self, action: #selector(didTapKakaoLoginButton), for: .touchUpInside)
-        
         appleLoginButton.addTarget(self, action: #selector(didTapAppleLoginButton), for: .touchUpInside)
-        
         privacyPolicyButton.addTarget(self, action: #selector(didTapPrivacyPolicyButton), for: .touchUpInside)
     }
     

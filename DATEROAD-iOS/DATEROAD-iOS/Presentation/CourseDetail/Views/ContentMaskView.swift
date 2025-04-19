@@ -21,7 +21,7 @@ final class ContentMaskView: UICollectionReusableView {
     
     private let pointImageView = UIImageView(image: .imgPreview)
     
-    private let subTitleLabel: DRTextLabel = DRTextLabel(title: "50P로 코스를 확인해보세요!", textLabelType: .clear(.semi15_black))
+    private let subTitleLabel: DRTextLabel = DRTextLabel(title: "50P로 코스를 확인해보세요!", textLabelType: .clear(.semi15_purple600))
     
     let readCourseButton = DRTextButton(title: StringLiterals.CourseDetail.viewCoursewithPoint, buttonName: .bold_purple_14)
     
@@ -65,7 +65,7 @@ final class ContentMaskView: UICollectionReusableView {
         }
         
         pointImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(72)
+            $0.top.equalToSuperview().inset(85)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(134)
             $0.height.equalTo(100)
@@ -89,14 +89,14 @@ final class ContentMaskView: UICollectionReusableView {
     }
     
     func setStyle() {        
-        gradient.locations = [0, 1]
+        gradient.locations = [0, 0.18]
         gradient.frame = gradientView.bounds
         gradient.colors = [
-            UIColor(resource: .drWhite).withAlphaComponent(0.3).cgColor,
-            UIColor(resource: .drWhite).withAlphaComponent(0.7).cgColor
+            UIColor(resource: .drWhite).withAlphaComponent(0.0).cgColor,
+            UIColor(resource: .drWhite).withAlphaComponent(1.0).cgColor
         ]
         gradient.startPoint = CGPoint(x: 0.5, y: 0)
-        gradient.endPoint = CGPoint(x: 0.5, y: 0.03)
+        gradient.endPoint = CGPoint(x: 0.5, y: 1)
         gradientView.layer.insertSublayer(gradient, at: 0)
     }
     
@@ -111,6 +111,10 @@ extension ContentMaskView {
     
     func updateReadCourseButton(haveFree: Bool, count: Int) {
         readCourseButton.setTitle(haveFree ? "무료 열람 기회 쓰기(\(count)/3)" : StringLiterals.CourseDetail.viewCoursewithPoint, for: .normal)
+    }
+    
+    func updateSubtitleText(_ haveFree: Bool) {
+        subTitleLabel.updateTextColor(haveFree ? StringLiterals.CourseDetail.useFreeChanceToViewCourse : StringLiterals.CourseDetail.usePointToViewCourse, .purple600)
     }
     
 }

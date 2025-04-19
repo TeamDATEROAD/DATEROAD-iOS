@@ -15,6 +15,7 @@ enum TextButtonType {
          bold_black_14
     
     case semi_purple_10,
+         semi_yellow_14,
          semi_gray200_16,
          semi_gray100_14, semi_gray100_14_black, semi_gray100_10,
          semi_white_0
@@ -43,6 +44,9 @@ enum TextButtonType {
         case .bold_black_14:
             return UIColor(resource: .drBlack)
             
+        case .semi_yellow_14:
+            return UIColor(resource: .kakaoBg)
+            
         case .clear:
             return UIColor.clear
             
@@ -53,6 +57,9 @@ enum TextButtonType {
         switch self {
         case .bold_gray100_14, .semi_gray100_14_black:
             return UIColor(resource: .drBlack)
+            
+        case .semi_yellow_14:
+            return UIColor(resource: .drBlack).withAlphaComponent(0.85)
             
         case .bold_purple_25, .bold_purple_14, .bold_purple_29, .bold_purple_10, .med_purple_15, .med_purple_10, .semi_purple_10, .bold_black_14:
             return UIColor(resource: .drWhite)
@@ -89,7 +96,7 @@ enum TextButtonType {
         case .med_purple_15, .med_gray100_15:
             return 15
             
-        case .semi_white_0, .bold_purple_14, .bold_gray200_14, .bold_gray100_14, .semi_gray100_14, .bold_black_14, .semi_gray100_14_black:
+        case .semi_white_0, .bold_purple_14, .bold_gray200_14, .bold_gray100_14, .semi_gray100_14, .bold_black_14, .semi_gray100_14_black, .semi_yellow_14:
             return 14
 
         case .bold_purple_10, .bold_gray100_10, .med_gray200_10, .med_purple_10, .med_gray100_10, .semi_purple_10, .semi_gray100_10, .med_gray400_13:
@@ -119,6 +126,9 @@ enum TextButtonType {
             
         case .semi_white_0, .semi_purple_10, .semi_gray100_10, .semi_gray200_16:
             return UIFont.suit(.body_semi_15)
+            
+        case .semi_yellow_14:
+            return UIFont.suit(.apple_semi_15)
             
         case .semi_gray100_14, .semi_gray100_14_black:
             return UIFont.suit(.body_semi_13)

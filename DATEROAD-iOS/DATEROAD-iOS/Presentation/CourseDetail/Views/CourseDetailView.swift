@@ -75,72 +75,154 @@ final class CourseDetailView: BaseView {
 extension CourseDetailView {
     
     func createCompositioinalLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout { section, _ -> NSCollectionLayoutSection? in
+        return UICollectionViewCompositionalLayout {
+            section,
+            _ -> NSCollectionLayoutSection? in
             
             switch self.courseDetailSection[section]  {
             case .imageCarousel:
-                return self.layoutFactory.createLayout(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1), itemHeight: .fractionalHeight(1), orthogonalBehavior: .groupPaging, supplementaryItems: [self.makeGradientView(), self.makeBottomPageControllView()], itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 23, trailing: 0))
+                return self.layoutFactory.createLayout(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .fractionalWidth(1),
+                    itemHeight: .fractionalHeight(1),
+                    orthogonalBehavior: .groupPaging,
+                    supplementaryItems: [self.makeGradientView(), self.makeBottomPageControllView()],
+                    itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 23, trailing: 0)
+                )
+                
             case .titleInfo:
-                return self.layoutFactory.createLayout(widthDimension: .fractionalWidth(1), heightDimension: .estimated(160), itemHeight: .estimated(160),supplementaryItems: [self.makeInfoBarView(), self.makeVisitDateView()], itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+                return self.layoutFactory.createLayout(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .estimated(160),
+                    itemHeight: .estimated(160),
+                    supplementaryItems: [self.makeInfoBarView(), self.makeVisitDateView()],
+                    itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+                )
+                
             case .mainContents:
-                return self.layoutFactory.createLayout(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50), itemHeight: .estimated(50), supplementaryItems: !self.isAccess ? [self.makeContentMaskView()] : nil, itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+                return self.layoutFactory.createLayout(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .estimated(50),
+                    itemHeight: .estimated(60),
+                    supplementaryItems: !self.isAccess ? [self.makeContentMaskView()] : nil,
+                    itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+                )
+                
             case .timelineInfo:
-                let layout = self.layoutFactory.createLayout(widthDimension: .fractionalWidth(1), heightDimension: .estimated(88), itemHeight: .estimated(76), supplementaryItems: [self.makeTimelineHeaderView()], sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 32, trailing: 0), itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+                let layout = self.layoutFactory.createLayout(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .estimated(88),
+                    itemHeight: .estimated(76),
+                    supplementaryItems: [self.makeTimelineHeaderView()],
+                    sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 32, trailing: 0),
+                    itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+                )
                 layout.interGroupSpacing = 12
                 return layout
+                
             case .coastInfo:
-                return self.layoutFactory.createLayout(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50), itemHeight: .fractionalHeight(1), supplementaryItems: [self.makeHeaderView()], sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0), itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+                return self.layoutFactory.createLayout(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(50),
+                    itemHeight: .fractionalHeight(1),
+                    supplementaryItems: [self.makeHeaderView()],
+                    sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0),
+                    itemInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+                )
+                
             case .tagInfo:
-                return self.layoutFactory.createLayout(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30), itemWidth: .estimated(100), itemHeight: .fractionalHeight(1), supplementaryItems: [self.makeHeaderView()], sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 153, trailing: 0), groupInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16), interItemSpacing: .fixed(7))
+                return self.layoutFactory.createLayout(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(30),
+                    itemWidth: .estimated(100),
+                    itemHeight: .fractionalHeight(1),
+                    supplementaryItems: [self.makeHeaderView()],
+                    sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 153, trailing: 0),
+                    groupInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16),
+                    interItemSpacing: .fixed(7)
+                )
             }
         }
     }
     
     func makeGradientView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let gradientSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(104))
-        let gradient = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: gradientSize, elementKind: GradientView.elementKinds, alignment: .top, absoluteOffset: CGPoint(x: 0, y: 104))
+        let gradient = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: gradientSize,
+            elementKind: GradientView.elementKinds,
+            alignment: .top,
+            absoluteOffset: CGPoint(x: 0, y: 104)
+        )
         
         return gradient
     }
     
     func makeTimelineHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(60))
-        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: TimelineHeaderView.elementKinds, alignment: .top)
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: TimelineHeaderView.elementKinds,
+            alignment: .top
+        )
         header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 12, trailing: 16)
         return header
     }
     
     func makeHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(37))
-        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: InfoHeaderView.elementKinds, alignment: .top)
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: InfoHeaderView.elementKinds,
+            alignment: .top
+        )
         header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 12, trailing: 16)
         return header
     }
     
     func makeBottomPageControllView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(22))
-        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: BottomPageControllView.elementKinds, alignment: .bottom, absoluteOffset: CGPoint(x: 0, y: -55))
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: footerSize,
+            elementKind: BottomPageControllView.elementKinds,
+            alignment: .bottom,
+            absoluteOffset: CGPoint(x: 0, y: -55)
+        )
         footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
         return footer
     }
     
     func makeVisitDateView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let dateSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(21))
-        let date = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: dateSize, elementKind: VisitDateView.elementKinds, alignment: .top, absoluteOffset: CGPoint(x: 0, y: -14))
+        let date = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: dateSize,
+            elementKind: VisitDateView.elementKinds,
+            alignment: .top,
+            absoluteOffset: CGPoint(x: 0, y: -14)
+        )
         date.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
         return date
     }
     
     func makeInfoBarView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(36))
-        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: InfoBarView.elementKinds, alignment: .bottom, absoluteOffset: CGPoint(x: 0, y: 20))
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: footerSize,
+            elementKind: InfoBarView.elementKinds,
+            alignment: .bottom,
+            absoluteOffset: CGPoint(x: 0, y: 20)
+        )
         footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
         return footer
     }
     
     func makeContentMaskView() -> NSCollectionLayoutBoundarySupplementaryItem {
-        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(360))
-        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: ContentMaskView.elementKinds, alignment: .bottom, absoluteOffset: CGPoint(x: 0, y: -50))
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(367))
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: footerSize,
+            elementKind: ContentMaskView.elementKinds,
+            alignment: .bottom,
+            absoluteOffset: CGPoint(x: 0, y: -75)
+        )
         footer.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         return footer
     }

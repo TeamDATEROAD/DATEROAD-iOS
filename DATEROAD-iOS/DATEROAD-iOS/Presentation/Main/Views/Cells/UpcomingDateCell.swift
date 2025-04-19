@@ -46,16 +46,18 @@ final class UpcomingDateCell: BaseCollectionViewCell {
     override func prepareForReuse() {
         self.profileImage.image = nil
         self.pointLabel.text = nil
-        self.profileImage.backgroundColor = .clear // 배경색 초기화
+        self.profileImage.backgroundColor = UIColor(resource: .purple500) // 배경색 초기화
         self.profileImage.clipsToBounds = true
     }
     
     override func setHierarchy() {
-        self.addSubviews(logoImage,
-                         pointLabel,
-                         profileImage,
-                         dateTicketView,
-                         emptyTicketView)
+        self.addSubviews(
+            logoImage,
+            pointLabel,
+            profileImage,
+            dateTicketView,
+            emptyTicketView
+        )
     }
     
     override func setLayout() {
@@ -140,6 +142,12 @@ extension UpcomingDateCell {
         guard let point = mainUserData?.point else { return }
         pointLabel.text = "\(point) P"
         
+        profileImage.do {
+            $0.clipsToBounds = true
+            $0.layer.cornerRadius = $0.frame.size.width / 2
+            $0.backgroundColor = UIColor(resource: .purple500)
+        }
+        
         guard let imageUrl = mainUserData?.imageUrl else {
             self.profileImage.image = UIImage(resource: .emptyProfileImg)
             return
@@ -149,12 +157,13 @@ extension UpcomingDateCell {
         self.profileImage.kf.setImage(with: url, options: [.transition(.none),
                                                            .cacheOriginalImage,
                                                            .keepCurrentImageWhileLoading])
-        profileImage.do {
-            $0.clipsToBounds = true
-            $0.layer.cornerRadius = $0.frame.size.width / 2
-            $0.backgroundColor = .clear
-        }
     }
+    
+}
+
+// MARK: - @objc Methods
+
+extension UpcomingDateCell {
     
     @objc
     func didTapMoveButton() {

@@ -38,7 +38,8 @@ final class BannerCell: BaseCollectionViewCell {
     override func setLayout() {
         bannerImage.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.verticalEdges.equalToSuperview().inset(30)
+            $0.top.equalToSuperview().inset(30)
+            $0.bottom.equalToSuperview().inset(14)
         }
     }
     

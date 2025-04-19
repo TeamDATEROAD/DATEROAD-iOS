@@ -39,9 +39,7 @@ final class ViewedCourseView: BaseView {
     // MARK: - Properties
     
     weak var delegate: ViewedCourseDelegate?
-    
-    private let userName: String = UserDefaults.standard.string(forKey: StringLiterals.Network.userName) ?? ""
-    
+        
     private var loaded: Bool = false
     
     
@@ -135,10 +133,14 @@ extension ViewedCourseView {
         addCourseView.isHidden = isEmpty
     }
     
-    func updateTopLabel(_ username: String, _ courseCount: Int, _ pointText: String) {
+    func updateTopLabel(
+        _ username: String,
+        _ courseCount: Int,
+        _ pointText: String
+    ) {
         viewedCourseListView.myCourseListCollectionView.reloadData()
         topLabel.setAttributedText(
-            fullText: "\(userName)님이 지금까지\n열람한 데이트 코스\n\(String(courseCount))개",
+            fullText: "\(username)님이 지금까지\n열람한 데이트 코스\n\(String(courseCount))개",
             pointText: "\(pointText)",
             pointColor: UIColor(resource: .purple500),
             lineHeight: 1

@@ -23,17 +23,7 @@ final class MainViewController: BaseViewController {
     // MARK: - Properties
     
     private var mainViewModel: MainViewModel
-    
-    private lazy var userName = mainViewModel.mainUserData.value?.name
-    
-    private lazy var point = mainViewModel.mainUserData.value?.point
-    
-    private var totalCells: Int = 4 // 셀의 총 개수
-    
-    private var loadedCells: Int = 0 // 로딩이 완료된 셀 개수
-    
-    private var initial: Bool = false
-    
+            
     private var loaded: Bool = false
     
     
@@ -62,13 +52,11 @@ final class MainViewController: BaseViewController {
     
     override func viewIsAppearing(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
-        self.loadedCells = 0
         self.mainViewModel.fetchSectionData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.stopBannerAutoScroll()
-        self.initial = false
     }
     
     override func setHierarchy() {
@@ -82,12 +70,12 @@ final class MainViewController: BaseViewController {
         
         mainView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(view.frame.height * 0.1)
+            $0.bottom.equalToSuperview().inset(view.frame.height * 0.11)
         }
         
         mainSkeletonView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(view.frame.height * 0.1)
+            $0.bottom.equalToSuperview().inset(view.frame.height * 0.11)
         }
     }
     
@@ -182,8 +170,10 @@ extension MainViewController {
         switch index {
         case 0:
             targetIndexPath = IndexPath(item: 5, section: 2)
+            
         case 6:
             targetIndexPath = IndexPath(item: 1, section: 2)
+            
         default:
             return
         }
@@ -206,8 +196,7 @@ extension MainViewController {
     }
     
     func pushToPointDetailVC() {
-        guard let userName = self.userName, let totalPoint = self.point else { return }
-        let pointDetailVC = PointDetailViewController(pointViewModel: PointViewModel(userName: userName, totalPoint: totalPoint))
+        let pointDetailVC = PointDetailViewController(pointViewModel: PointViewModel(userName: UserDefaultsManager.shared.userName, totalPoint: UserDefaultsManager.shared.userPoint))
         self.navigationController?.pushViewController(pointDetailVC, animated: false)
     }
     
@@ -215,6 +204,7 @@ extension MainViewController {
         switch gestureRecognizer.state {
         case .began, .changed, .ended:
             stopBannerAutoScroll()
+            
         default:
             startAutoScrollTimer()
         }
@@ -325,7 +315,7 @@ extension MainViewController: UICollectionViewDataSource {
                 return header
                 
             case .hotDateCourse:
-                header.bindTitle(section: .hotDateCourse, nickname: mainViewModel.nickname.value)
+                header.bindTitle(section: .hotDateCourse, nickname: UserDefaultsManager.shared.userName)
                 
             case .newDateCourse:
                 header.bindTitle(section: .newDateCourse, nickname: nil)

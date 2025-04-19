@@ -97,7 +97,7 @@ struct HotDateLayout: MainSectionLayout {
 
 struct BannerDateLayout: MainSectionLayout {
     
-    var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .absolute(ScreenUtils.width), heightDimension: .absolute(192))
+    var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .absolute(ScreenUtils.width), heightDimension: .absolute(176))
     
     var elementKind: String? = BannerIndexFooterView.elementKinds
     
@@ -105,7 +105,7 @@ struct BannerDateLayout: MainSectionLayout {
     
     var supplemetaryItemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(20))
     
-    var absoluteOffset: CGPoint = CGPoint(x: -16, y: -55)
+    var absoluteOffset: CGPoint = CGPoint(x: -16, y: -40)
     
 }
 
@@ -118,5 +118,7 @@ struct NewDateLayout: MainSectionLayout {
     var supplemetaryItemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(80))
     
     var scrollDirection: UICollectionLayoutSectionOrthogonalScrollingBehavior = .none
+    
+    var sectionContentInset: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0)
     
 }

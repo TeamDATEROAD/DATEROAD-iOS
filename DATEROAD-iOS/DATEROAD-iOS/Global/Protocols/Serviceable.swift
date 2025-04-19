@@ -19,16 +19,16 @@ extension Serviceable {
         NetworkService.shared.authService.patchReissue() { response in
             switch response {
             case .success(let data):
-                UserDefaults.standard.setValue(data.accessToken, forKey: StringLiterals.Network.accessToken)
-                UserDefaults.standard.setValue(data.refreshToken, forKey: StringLiterals.Network.refreshToken)
-                UserDefaults.standard.setValue(data.userID, forKey: StringLiterals.Network.userID)
+                UserDefaultsManager.shared.updateTokens(
+                    data.userID,
+                    data.accessToken,
+                    data.refreshToken
+                )
                 completion(true)
                 
             default:
                 print("Failed to fetch patch reissue")
-                for key in UserDefaults.standard.dictionaryRepresentation().keys {
-                    UserDefaults.standard.removeObject(forKey: key.description)
-                }
+                UserDefaultsManager.shared.clearAllData()
                 completion(false)
             }
         }

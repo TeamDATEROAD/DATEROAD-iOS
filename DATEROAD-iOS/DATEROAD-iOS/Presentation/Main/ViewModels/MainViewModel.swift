@@ -10,9 +10,7 @@ import Foundation
 final class MainViewModel: Serviceable {
     
     var currentIndex: ObservablePattern<IndexPath> = ObservablePattern(IndexPath(item: 0, section: 2))
-    
-    var nickname: ObservablePattern<String> = ObservablePattern(nil)
-    
+        
     var upcomingData: ObservablePattern<UpcomingDateModel> = ObservablePattern(nil)
     
     var mainUserData: ObservablePattern<MainUserModel> = ObservablePattern(nil)
@@ -69,20 +67,24 @@ extension MainViewModel {
             case .success(let data):
                 if self.mainUserData.value != MainUserModel(name: data.name, point: data.point, imageUrl: data.image) {
                     self.mainUserData.value = MainUserModel(name: data.name, point: data.point, imageUrl: data.image)
-                    self.nickname.value = data.name
                     self.updateSectionIndex.value = 0
+                    self.updateSectionIndex.value = 1
                 }
-                UserDefaults.standard.setValue(data.name, forKey: StringLiterals.Network.userName)
-                UserDefaults.standard.setValue(data.point, forKey: StringLiterals.Network.userPoint)
+                
+                UserDefaultsManager.shared.userName = data.name
+                UserDefaultsManager.shared.userPoint = data.point
+                
                 AmplitudeManager.shared.setUserProperty(userProperties: [
                     StringLiterals.Amplitude.UserProperty.userName:  data.name,
                     StringLiterals.Amplitude.UserProperty.userPoint:  data.point])
                 
                 self.totalFetchCount += 1
+                
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
+                
             default:
                 print("Failed to fetch user profile")
                 self.onFailNetwork.value = true
@@ -99,13 +101,17 @@ extension MainViewModel {
         NetworkService.shared.mainService.getFilteredDateCourse(sortBy: sortBy) { response in
             switch response {
             case .success(let data):
-                dateData = data.courses.map { DateCourseModel(courseId: $0.courseID,
-                                                              thumbnail: $0.thumbnail,
-                                                              title: $0.title,
-                                                              city: $0.city,
-                                                              like: $0.like,
-                                                              cost: $0.cost,
-                                                              duration: $0.duration.formatFloatTime()) }
+                dateData = data.courses.map {
+                    DateCourseModel(
+                        courseId: $0.courseID,
+                        thumbnail: $0.thumbnail,
+                        title: $0.title,
+                        city: $0.city,
+                        like: $0.like,
+                        cost: $0.cost,
+                        duration: $0.duration.formatFloatTime()
+                    )
+                }
                 
                 self.courseListId += sortBy == StringLiterals.Main.popular ? StringLiterals.Main.hot : StringLiterals.Main.new
                 self.courseListTitle += sortBy == StringLiterals.Main.popular ? StringLiterals.Main.hot : StringLiterals.Main.new

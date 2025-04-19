@@ -36,8 +36,7 @@ final class MyPageViewModel: Serviceable {
 extension MyPageViewModel {
     
     func checkSocialLogin() {
-        let socialType = UserDefaults.standard.bool(forKey: StringLiterals.Network.socialType)
-        isAppleLogin = !socialType
+        isAppleLogin = UserDefaultsManager.shared.platform == SocialType.APPLE.rawValue
     }
     
     func deleteLogout() {
@@ -46,9 +45,7 @@ extension MyPageViewModel {
         NetworkService.shared.authService.deleteLogout() { response in
             switch response {
             case .success(_):
-                for key in UserDefaults.standard.dictionaryRepresentation().keys {
-                    UserDefaults.standard.removeObject(forKey: key.description)
-                }
+                UserDefaultsManager.shared.clearAllData()
                 self.onSuccessLogout.value = true
                 self.onAuthLoading.value = false
             case .reIssueJWT:
@@ -67,19 +64,15 @@ extension MyPageViewModel {
     func deleteWithdrawal() {
         self.onAuthLoading.value = true
         self.onFailNetwork.value = false
-        let socialType = UserDefaults.standard.bool(forKey: StringLiterals.Network.socialType)
+        
+        let platform = UserDefaultsManager.shared.platform
         var authCode: String?
-        if socialType {
-            authCode = nil
-        } else {
-            authCode = UserDefaults.standard.string(forKey: StringLiterals.Network.authCode)
-        }
+        authCode = platform == SocialType.KAKAO.rawValue ? nil : UserDefaultsManager.shared.authCode
+
         NetworkService.shared.authService.deleteWithdrawal(requestBody: DeleteWithdrawalRequest(authCode: authCode)) { response in
             switch response {
             case .success(_):
-                for key in UserDefaults.standard.dictionaryRepresentation().keys {
-                    UserDefaults.standard.removeObject(forKey: key.description)
-                }
+                UserDefaultsManager.shared.clearAllData()
                 self.onSuccessWithdrawal.value = true
                 self.onAuthLoading.value = false
             case .reIssueJWT:
@@ -119,13 +112,18 @@ extension MyPageViewModel {
                     self.tagData = data.tags
                     self.updateData.value = true
                 }
+                UserDefaultsManager.shared.userName = data.name
+                UserDefaultsManager.shared.userPoint = data.point
                 self.onSuccessGetUserProfile.value = true
+                
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
+                
             case .serverErr:
                 self.onFailNetwork.value = true
+                
             default:
                 print("Failed to fetch getUserProfile")
                 self.onSuccessGetUserProfile.value = false
