@@ -13,6 +13,8 @@ struct GetPointDetailResponse: Codable {
     
     let gained, used: Points
     
+    let totalPoint: Int
+    
 }
 
 

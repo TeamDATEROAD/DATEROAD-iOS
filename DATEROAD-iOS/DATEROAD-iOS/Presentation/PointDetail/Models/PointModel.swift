@@ -28,9 +28,14 @@ struct PointModel {
     
     let used: [PointDetailModel]
     
-    init(gained: [PointDetailModel], used: [PointDetailModel]) {
+    let totalPoint: Int
+    
+    init(gained: [PointDetailModel],
+         used: [PointDetailModel],
+         totalPoint: Int) {
         self.gained = gained
         self.used = used
+        self.totalPoint = totalPoint
     }
     
 }
