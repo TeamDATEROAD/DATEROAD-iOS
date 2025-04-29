@@ -40,9 +40,15 @@ final class SearchPlaceTableViewCell: BaseTableViewCell {
 
 extension SearchPlaceTableViewCell {
     
-    func bindData(_ data: SearchPlaceModel?) {
+    func bindData(_ inputText: String, _ data: SearchPlaceModel?) {
         guard let searchPlaceData = data else { return }
-        placeNameLabel.text = searchPlaceData.name
+        placeNameLabel.updateTextColor(searchPlaceData.name, .drBlack)
+        let attributedString = NSMutableAttributedString(string: searchPlaceData.name)
+        let range = (searchPlaceData.name as NSString).range(of: inputText, options: .caseInsensitive)
+        if range.location != NSNotFound {
+            attributedString.addAttribute(.foregroundColor, value: UIColor(resource: .purple600), range: range)
+        }
+        placeNameLabel.attributedText = attributedString
         placeAddressLabel.text = searchPlaceData.address
     }
 

@@ -52,10 +52,12 @@ final class PointSystemView: BaseView {
     }
     
     override func setStyle() {
-        mainLabel.setAttributedText(fullText: StringLiterals.Onboarding.firstMainInfoLabel,
-                                 pointText: StringLiterals.Onboarding.firstMainPoint,
-                                 pointColor: UIColor(resource: .purple600),
-                                 lineHeight: 1.04)
+        mainLabel.setAttributedText(
+            fullText: StringLiterals.Onboarding.firstMainInfoLabel,
+            pointText: StringLiterals.Onboarding.firstMainPoint,
+            pointColor: UIColor(resource: .purple600),
+            lineHeight: 1.04
+        )
         
         pointSystemCollectionView.do {
             let layout = UICollectionViewFlowLayout()

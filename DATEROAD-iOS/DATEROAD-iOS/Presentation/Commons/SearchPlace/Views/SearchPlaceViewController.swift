@@ -168,7 +168,7 @@ extension SearchPlaceViewController: UITableViewDataSource {
         else { return UITableViewCell() }
         
         guard let filteredSearchPlaceData = viewModel.filteredSearchPlaceData.value else { return UITableViewCell() }
-        cell.bindData(filteredSearchPlaceData[indexPath.item])
+        cell.bindData(searchPlaceView.searchPlaceTextField.text ?? "", filteredSearchPlaceData[indexPath.item])
         
         return cell
     }
