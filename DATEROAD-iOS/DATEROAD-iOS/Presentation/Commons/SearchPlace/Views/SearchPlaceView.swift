@@ -9,6 +9,8 @@ import UIKit
 
 protocol SearchPlaceDelegate: AnyObject {
     
+    func didTapBackground()
+    
     func didTapCloseButton()
     
     func didTapClearButton()
@@ -133,6 +135,9 @@ private extension SearchPlaceView {
     }
     
     func setAddTarget() {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapBackground))
+        self.addGestureRecognizer(gesture)
+        
         closeButton.addTarget(self, action: #selector(didTapCloseButton), for: .touchUpInside)
         
         if let button = searchPlaceTextField.rightView {
@@ -151,6 +156,11 @@ private extension SearchPlaceView {
 
 private extension SearchPlaceView {
 
+    @objc
+    func didTapBackground() {
+        delegate?.didTapBackground()
+    }
+    
     @objc
     func didTapCloseButton() {
         delegate?.didTapCloseButton()

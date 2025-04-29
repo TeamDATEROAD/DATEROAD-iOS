@@ -58,6 +58,7 @@ final class SearchPlaceViewController: BaseViewController {
     override func setStyle() {
         self.view.backgroundColor = UIColor.clear
     }
+    
 }
 
 
@@ -132,6 +133,10 @@ extension SearchPlaceViewController: DimmedViewDelegate {
 // MARK: - SearchPlaceView Delegates
 
 extension SearchPlaceViewController: SearchPlaceDelegate {
+    
+    func didTapBackground() {
+        self.view.endEditing(true)
+    }
     
     func didTapCloseButton() {
         dismissVC()
