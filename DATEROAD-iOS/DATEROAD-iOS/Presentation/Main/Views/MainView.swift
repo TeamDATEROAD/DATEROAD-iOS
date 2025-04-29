@@ -21,7 +21,7 @@ final class MainView: BaseView {
     
     lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.makeCompositionalLayout())
     
-    let floatingButton: DRImageButton = DRImageButton(image: UIImage(resource: .floatingBtn), buttonName: .deepPurple_white_25)
+    let floatingButton: DRImageButton = DRImageButton(image: UIImage(resource: .floatingBtn), buttonName: .clear_white_25)
     
     
     // MARK: - Properties
