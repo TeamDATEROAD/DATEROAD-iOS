@@ -14,8 +14,7 @@ protocol MainServiceProtocol {
     func getMainUserProfile(
         completion: @escaping (NetworkResult<GetMainUserProfileResponse>) -> ())
     
-    func getFilteredDateCourse(sortBy: String,
-                               completion: @escaping (NetworkResult<GetFilteredDateCourseResponse>) -> ())
+    func getFilteredDateCourse(sortBy: String, completion: @escaping (NetworkResult<GetFilteredDateCourseResponse>) -> ())
     
     func getBanner(
         completion: @escaping (NetworkResult<GetBannerResponse>) -> ())
@@ -34,6 +33,7 @@ final class MainService: BaseService, MainServiceProtocol {
             case .success(let response):
                 let networkResult: NetworkResult<GetMainUserProfileResponse> = self.judgeStatus(statusCode: response.statusCode, data: response.data)
                 completion(networkResult)
+                
             case .failure(let err):
                 print(err)
             }
@@ -45,6 +45,7 @@ final class MainService: BaseService, MainServiceProtocol {
             switch result {
             case .success(let response):
                 let networkResult: NetworkResult<GetFilteredDateCourseResponse> = self.judgeStatus(statusCode: response.statusCode, data: response.data)
+                
                 completion(networkResult)
             case .failure(let err):
                 print(err)
@@ -58,6 +59,7 @@ final class MainService: BaseService, MainServiceProtocol {
             case .success(let response):
                 let networkResult: NetworkResult<GetBannerResponse> = self.judgeStatus(statusCode: response.statusCode, data: response.data)
                 completion(networkResult)
+                
             case .failure(let err):
                 print(err)
             }
