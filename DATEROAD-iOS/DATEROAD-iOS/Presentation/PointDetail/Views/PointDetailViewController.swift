@@ -135,6 +135,7 @@ extension PointDetailViewController {
         self.pointViewModel.isSuccessPostPoint.bind { [weak self] isSuccess in
             guard let isSuccess = isSuccess else { return }
             if isSuccess {
+                self?.pointViewModel.getUserProfile()
                 self?.pointViewModel.getPointDetail(nowEarnedPointHidden: false)
             }
         }

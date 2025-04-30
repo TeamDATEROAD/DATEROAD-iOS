@@ -39,6 +39,7 @@ final class PointViewModel: Serviceable {
     
     var onPostPointFailNetwork: ObservablePattern<Bool> = ObservablePattern(nil)
     
+    
     init (userName: String, totalPoint: Int) {
         self.userName = userName
         self.totalPoint.value = totalPoint
@@ -66,16 +67,22 @@ final class PointViewModel: Serviceable {
             switch response {
             case .success(let data):
                 let newGainedPointInfo = data.gained.points.map {
-                    PointDetailModel(sign: "+", point: $0.point, description: $0.description, createdAt: $0.createdAt)
+                    PointDetailModel(
+                        sign: "+",
+                        point: $0.point,
+                        description: $0.description,
+                        createdAt: $0.createdAt
+                    )
                 }
                 let newUsedPointInfo = data.used.points.map {
-                    PointDetailModel(sign: "-",
-                                     point: $0.point,
-                                     description: $0.description,
-                                     createdAt: $0.createdAt)
+                    PointDetailModel(
+                        sign: "-",
+                        point: $0.point,
+                        description: $0.description,
+                        createdAt: $0.createdAt
+                    )
                 }
-                self.totalPoint.value = data.totalPoint
-                
+
                 // 포인트 획득내역 기존 데이터와 비교
                 if self.gainedPointData.value != newGainedPointInfo {
                     self.gainedPointData.value = newGainedPointInfo
@@ -101,6 +108,26 @@ final class PointViewModel: Serviceable {
         }
     }
     
+    func getUserProfile() {
+        NetworkService.shared.mainService.getMainUserProfile() { response in
+            switch response {
+            case .success(let data):
+                UserDefaultsManager.shared.userName = data.name
+                UserDefaultsManager.shared.userPoint = data.point
+                self.totalPoint.value = data.point
+                
+            case .reIssueJWT:
+                self.patchReissue { isSuccess in
+                    self.onReissueSuccess.value = isSuccess
+                }
+                
+            default:
+                print("Failed to fetch user profile")
+                return
+            }
+        }
+    }
+    
     func setPointDetailLoading() {
         guard let isSuccessGetPointInfo = self.isSuccessGetPointInfo.value else { return }
         self.onGetPointDetailLoading.value = !isSuccessGetPointInfo
@@ -114,10 +141,12 @@ final class PointViewModel: Serviceable {
             switch response {
             case .success:
                 self.isSuccessPostPoint.value = true
+                
             case .reIssueJWT:
                 self.patchReissue { isSuccess in
                     self.onReissueSuccess.value = isSuccess
                 }
+                
             default:
                 self.onPostPointFailNetwork.value = true
                 return
