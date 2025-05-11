@@ -41,11 +41,13 @@ final class CourseSkeletonView: BaseView {
         firstStackView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(20)
             $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(230)
         }
         
         secondStackView.snp.makeConstraints {
             $0.top.equalTo(firstStackView.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(230)
         }
         
         thirdStackView.snp.makeConstraints {
@@ -63,7 +65,6 @@ final class CourseSkeletonView: BaseView {
         ].forEach { course in
             course.snp.makeConstraints {
                 $0.width.equalTo((ScreenUtils.width - 48) / 2)
-                $0.height.equalTo(226)
             }
         }
     }

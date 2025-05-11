@@ -81,7 +81,7 @@ final class PointShortageView: BaseView {
         rightArrowImageView.do {
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFit
-            $0.image = UIImage(resource: .icRightarrowPurple)
+            $0.image = UIImage(resource: .icRightarrowGray)
         }
     }
     

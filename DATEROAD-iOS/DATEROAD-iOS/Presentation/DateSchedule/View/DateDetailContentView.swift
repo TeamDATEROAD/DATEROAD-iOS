@@ -61,17 +61,19 @@ final class DateDetailContentView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(ribbonImageView,
-                         dateLabel,
-                         dDayLabel,
-                         firstTagButton,
-                         secondTagButton,
-                         thirdTagButton,
-                         locationLabel,
-                         titleLabel,
-                         dateDetailView,
-                         kakaoShareButton,
-                         courseShareButton)
+        self.addSubviews(
+            ribbonImageView,
+            dateLabel,
+            dDayLabel,
+            firstTagButton,
+            secondTagButton,
+            thirdTagButton,
+            locationLabel,
+            titleLabel,
+            dateDetailView,
+            kakaoShareButton,
+            courseShareButton
+        )
         
         dateDetailView.addSubviews(dateStartTimeLabel, dateTimeLineCollectionView)
     }
@@ -144,14 +146,16 @@ final class DateDetailContentView: BaseView {
         }
         
         kakaoShareButton.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.width / 375 * 73)
-            $0.height.equalTo(ScreenUtils.width * 0.1386667)
+            $0.width.equalTo(219)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(52)
             $0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.04802956)
         }
         
         courseShareButton.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.width / 375 * 73)
-            $0.height.equalTo(ScreenUtils.width * 0.1386667)
+            $0.width.equalTo(229)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(52)
             $0.bottom.equalToSuperview().inset(ScreenUtils.height * 0.04802956)
         }
     }
@@ -165,9 +169,7 @@ final class DateDetailContentView: BaseView {
         dDayLabel.setPadding(top: 2, left: 10, bottom: 2, right: 10)
         
         [firstTagButton, secondTagButton, thirdTagButton].forEach { i in
-            i.do {
-                $0.setButtonStatus(buttonType: tagButtonType)
-            }
+            i.setButtonStatus(buttonType: tagButtonType)
         }
         
         [secondTagButton, thirdTagButton].forEach { i in
@@ -192,6 +194,7 @@ final class DateDetailContentView: BaseView {
         kakaoShareButton.do {
             $0.isHidden = true
             var config = UIButton.Configuration.plain()
+            config.contentInsets = NSDirectionalEdgeInsets(top: 15.5, leading: 24, bottom: 15.5, trailing: 24)
             config.image = UIImage(resource: .kakaoShare)
             config.title = StringLiterals.DateSchedule.kakaoShare
             config.background.backgroundColor = UIColor(resource: .purple600)

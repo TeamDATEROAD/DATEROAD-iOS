@@ -27,6 +27,7 @@ extension PointDetailTargetType: BaseTargetType {
         switch self {
         case .getPointDetail:
             return .get
+            
         case .postPoint:
             return .post
         }

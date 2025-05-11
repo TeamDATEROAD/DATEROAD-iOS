@@ -9,6 +9,8 @@ import UIKit
 
 protocol SearchPlaceDelegate: AnyObject {
     
+    func didTapBackground()
+    
     func didTapCloseButton()
     
     func didTapClearButton()
@@ -88,13 +90,13 @@ final class SearchPlaceView: BaseView {
             $0.top.equalTo(searchPlaceTextField.snp.bottom).offset(10)
             $0.horizontalEdges.bottom.equalToSuperview()
         }
+        
     }
     
     override func setStyle() {
         self.do {
             $0.backgroundColor = UIColor(resource: .drWhite)
             $0.roundCorners(cornerRadius: 16, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
-        
         }
         
         placeTableView.do {
@@ -151,6 +153,11 @@ private extension SearchPlaceView {
 
 private extension SearchPlaceView {
 
+    @objc
+    func didTapBackground() {
+        delegate?.didTapBackground()
+    }
+    
     @objc
     func didTapCloseButton() {
         delegate?.didTapCloseButton()

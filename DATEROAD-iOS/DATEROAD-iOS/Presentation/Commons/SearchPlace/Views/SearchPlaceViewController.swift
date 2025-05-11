@@ -58,6 +58,7 @@ final class SearchPlaceViewController: BaseViewController {
     override func setStyle() {
         self.view.backgroundColor = UIColor.clear
     }
+    
 }
 
 
@@ -133,6 +134,10 @@ extension SearchPlaceViewController: DimmedViewDelegate {
 
 extension SearchPlaceViewController: SearchPlaceDelegate {
     
+    func didTapBackground() {
+        self.view.endEditing(true)
+    }
+    
     func didTapCloseButton() {
         dismissVC()
     }
@@ -163,7 +168,7 @@ extension SearchPlaceViewController: UITableViewDataSource {
         else { return UITableViewCell() }
         
         guard let filteredSearchPlaceData = viewModel.filteredSearchPlaceData.value else { return UITableViewCell() }
-        cell.bindData(filteredSearchPlaceData[indexPath.item])
+        cell.bindData(searchPlaceView.searchPlaceTextField.text ?? "", filteredSearchPlaceData[indexPath.item])
         
         return cell
     }

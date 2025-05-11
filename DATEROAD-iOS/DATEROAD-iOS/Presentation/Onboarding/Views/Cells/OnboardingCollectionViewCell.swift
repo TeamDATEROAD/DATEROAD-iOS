@@ -69,10 +69,12 @@ final class OnboardingCollectionViewCell: BaseCollectionViewCell {
         self.backgroundImage.image = data.bgIMG
         
         for index in 0..<data.pointText.count {
-            self.mainInfoLabel.setAttributedText(fullText: data.mainInfo,
-                                                 pointText: data.pointText[index],
-                                                 pointColor: UIColor(resource: .purple600),
-                                                 lineHeight: 1.04)
+            self.mainInfoLabel.setAttributedText(
+                fullText: data.mainInfo,
+                pointText: data.pointText[index],
+                pointColor: UIColor(resource: .purple600),
+                lineHeight: 1.04
+            )
         }
         
         self.subInfoLabel.text = data.subInfo

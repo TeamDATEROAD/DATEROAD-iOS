@@ -25,12 +25,14 @@ final class CourseItemSkeletonView: BaseView {
     
     
     override func setHierarchy() {
-        self.addSubviews(thumnailImgageView,
-                         locationLabel,
-                         primaryTitleLabel,
-                         secondaryTitleLabel,
-                         costLabel,
-                         timeLabel)
+        self.addSubviews(
+            thumnailImgageView,
+            locationLabel,
+            primaryTitleLabel,
+            secondaryTitleLabel,
+            costLabel,
+            timeLabel
+        )
     }
     
     override func setLayout() {
@@ -79,7 +81,7 @@ final class CourseItemSkeletonView: BaseView {
         
         [locationLabel,
          primaryTitleLabel,
-        secondaryTitleLabel].forEach {
+         secondaryTitleLabel].forEach {
             $0.setSkeletonLabel(radius: 6)
         }
         
